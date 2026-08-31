@@ -1,114 +1,141 @@
-Received: from mout-p-102.mailbox.org (mout-p-102.mailbox.org [80.241.56.152])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f174.google.com (mail-pl1-f174.google.com [209.85.214.174])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B003546EC60;
-	Mon, 31 Aug 2026 15:26:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.152
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788190018; cv=none; b=kJRjSSsqltLovjogzvNJCsyUb27/cezTaeSKpi/0uY/Q1RVdigoh8Tfv5M3KapCp+Bd7krWnf3ImURZVTIittKG4tV9ZiCYWcnilQdNM6MDDJy1T/tJCI+j5G5Hiqsm7SC2IxZyL1RUBMNjfTUg3jClgXagm5u/2FT1SBptP/cc=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788190018; c=relaxed/simple;
-	bh=I4KTVzy5BoD1GTAnVFgm6RMU2oj6vNB9P8NUMJXws04=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=fZYWJri488thxLBQyKqPOFOf/PRsRaVt3FtVmJnoPeJL8OmH/834NoArk1SywuXHaYKv4rB94tVc70ObviLPjgb+5uphv1laDqxYbkieGhY71LzVNTfL6NyvLcNkFlekUKY/Z9NZOYZiVMwqFP/M/WDKHDsv3gobJMZY/BbUA1Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org; spf=pass smtp.mailfrom=mailbox.org; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=HLrWa9uu; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=pI48Ma05; arc=none smtp.client-ip=80.241.56.152
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mailbox.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C132549DB8A
+	for <workflows@vger.kernel.org>; Mon, 31 Aug 2026 16:33:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.214.174
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1788193983; cv=pass; b=a5ygvhsTMMaLyHYfSCN0m5c3E7NaB2CTVCJMSZI1c5CnVQF8eBBGA3E8rU4EZLaXZNJVyBec7aKHbHj2DlodixU4RTSgsHlBaThDmmlUQx518XO+I4xcPpUUl6csd4tnGvtHCLLMfsnn/GEupq0lgZ17t8xgorPLCk29OxP8mtc=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1788193983; c=relaxed/simple;
+	bh=WAb2HioeKt8yQ4+e2mWpoQ1jc7oIFNQVMnrcZ1VNVk8=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=f/CAcnW9ceMApQDT2W3nBAdbr2c/zpiia6q74hO/VUBRRMLNts97W1e4u6LOVDVmH+bTmxfxUdE0fvCFdUNSOOHGx/NMvv8VZGgJP0ZKXoslVI246jhI/ZioYbW+F/FzTrz4s1A5WELxwVT558+kduyvpPCcyVreQQpXDQ+gI9I=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=refBrwGZ; arc=pass smtp.client-ip=209.85.214.174
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="HLrWa9uu";
-	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="pI48Ma05"
-Received: from smtp102.mailbox.org (smtp102.mailbox.org [10.196.197.102])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange x25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mout-p-102.mailbox.org (Postfix) with ESMTPS id 4hYXsV3g3QzKv7l;
-	Mon, 31 Aug 2026 17:26:54 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
-	t=1788190014;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=XjlD3nYpD275LVKpnpFS3J736ATFvCpGmeyYsaWdxxE=;
-	b=HLrWa9uuM5g5Lut5br4Mx732+XiZbfOPFWiU4/NoxPRg/0ltn8gbgGk1eHUj81D45AyTrJ
-	gjRYeOY1hg6MyCCHKKKU38EtBYjumfkhBD7gXFjNi5/x/Cgmn9ZUZ+4r46G/ss95sahZiH
-	NkV1RPSbVHCwNiJtW8RLHvSPLj40DhPJD91O4MogstwBo7gfZ8oFCiOsoHlY4HZVrWmZMn
-	qR6rzEv2ud++vhkSdu+bz5iEP3ctfj6QHz4iotjuRII76seIj11QX7FBjXD5V5omtEec2U
-	ZE5yrAnFqa3qt4Se2E9TN7PhGJcqve+O2uObIUC1FXzIewIrzoOkQMwGjUIZIQ==
-From: Manuel Ebner <manuelebnerli@mailbox.org>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
-	t=1788190013;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=XjlD3nYpD275LVKpnpFS3J736ATFvCpGmeyYsaWdxxE=;
-	b=pI48Ma0536VA5EDX7/WdEEnwJXbJG5lFSgqwe5gi2ADpVsPQr/1lGK+en8rE0Pc8WsD1TT
-	+dawiLJgZV32nd7N2D++waAe1udjMfa6X3BvujcIuazgS1AtNjY+wHW0GfvwSky9QhbO5s
-	i/ud3krYtwVbsQxsD/QsmHunpN7qFn1ulS4NUmIu1+pYZ0I0T+uZkFaxnflPpCOJvr4ypl
-	ApaoeU65Ay/Je+enGsY/GFJgWrFn7GhZApgr18UVtO6MKk9vnJN2smXvJYzcoE5MCpqSTl
-	jaiAu0npDFkT4dYlwc9C+AS18ln3cYdwBGx+ZZv65R+uklPm8o3Fnn/scxdsaQ==
-To: Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>
-Cc: Manuel Ebner <manuelebnerli@mailbox.org>,
-	Randy Dunlap <rdunlap@infradead.org>,
-	workflows@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH 1/4] Docs: changes.rst: Refine language
-Date: Mon, 31 Aug 2026 17:26:07 +0200
-Message-ID: <20260831152607.639027-2-manuelebnerli@mailbox.org>
-In-Reply-To: <20260831151605.638172-2-manuelebnerli@mailbox.org>
-References: <20260831151605.638172-2-manuelebnerli@mailbox.org>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="refBrwGZ"
+Received: by mail-pl1-f174.google.com with SMTP id d9443c01a7336-2d900ac39ffso1984895ad.1
+        for <workflows@vger.kernel.org>; Mon, 31 Aug 2026 09:33:01 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1788193981; cv=none;
+        d=google.com; s=arc-20260327;
+        b=K8AxdKUwxdbeyLA8t2M8jodfcqjKBw9GYyax0V1PdBP5ieC7QOxL2ravivQpYux9Hr
+         NHkrgzLtLKusFN2ZQ0n/wGvKwWE7mdlNkgAhSMRDUsPlZQuof1mVW+lbgYl8zyu1bcAD
+         Ceosd0tXJcHbv1tm0Fz88k6pW8E/E17qKHUIikNjALJs3exERtS5LUm2nXadQCRK0Dnu
+         G6xFFL1l1WmElRWRdtr1E6KQ42cdoHtFwKYJUMZPc9KAM6lANmd0exVsoqrDRRgVCrNZ
+         2YIiXmg5kSRb9reJ7H6u7CtuRRrpaIbZ9BO5pFC6r3bXowmN3IPTesNvmV2XH8P3VQxB
+         H6Dw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=OJzwv1wFVi53NEXZo+hKmNYNH3NbrWf4sdQ3Ijd6Mi0=;
+        fh=A57g/e0iYC4t4GbNQYk2PHPtX/01ikvKDOqGdsbjFKw=;
+        b=QRc6mJsEhAfGkmfwVGtdlbt18sjJQSglIA5n6sFAemnRAPPbu7mrONJvuFRpOXHizi
+         t7piqNIpEsg+8/aG6DQoDEtJaJgfLKnPmbprH4PpxcHthHTvW5j4KIFbmp62j9A/M8gd
+         BJjrZkA8UfQZE/NHCmVl+1O8kiQW/8rcjm+6mDs4IKk8SQOgkVxjcn7+i1/jWjy2FOEm
+         h/cFgdsKrLWj17moRWMD+eI7VT50Yb60d0IMydgpzOx2Wk69HLSDZIkDpSeWkxBGaOmb
+         //sdqQCKDbmScUmNqTY89jGmk9lrEdz76pbUDl7MS9ePsAsuxi/kCB0xPPNGYEP0YWth
+         SRCw==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1788193981; x=1788798781; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=OJzwv1wFVi53NEXZo+hKmNYNH3NbrWf4sdQ3Ijd6Mi0=;
+        b=refBrwGZujpvTpihy/NZH9EfEJJVQmjGZhkmcPyHkrJnQJ4uxgMRAQ9qdfAmyXc03L
+         LstKISwlWnno/B83pwbIRnUCpigRdbTki/T8o4RL0DdE1mBNwkYNrwXIWkrQZ+S9+hCB
+         UNdkFis7VHdX0p4bOSIFoIhPK0E8qrTrv30nvRPTzN1A4fJSUlvLDQzUWVojRbyj4oV1
+         Mste31TatK15L0BlxNuCEGPhA8sNxxbmaTrjPTdJBAMEKpm1ncqMeMjRg8oCVYtHZrC6
+         qGn/Zx3v/TECkieM3oZCrNErFrlwDqzajUw7EmZPLT4TMWHiJYlTF69pnx9q6XmOqawM
+         Zn2g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1788193981; x=1788798781;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=OJzwv1wFVi53NEXZo+hKmNYNH3NbrWf4sdQ3Ijd6Mi0=;
+        b=H/hyDIWtjPiieQeI6ghIC0+eNAHukxk0r0cV1lkkjp4+ilAZpdYOS+IVNn0w4gIIU6
+         jAzTbcCYxRze12u+AqC8Ho54PRdkY/KfvOgsVKO1CTDrT83i9xexq6B+aiqMB+8ZZiLz
+         ov9FR1oj0y/3rYrhDNUbSWtYVZ3pvlhuXYdfquyHMZRa7/0NxjQq8Rl2pMCPHVKnylOY
+         ymBUoSD5T0eTTp4pPDysJHrM3TWajB6C5uBvout8eeszi8T4wmXphlrqVX6ZO6hmC2Vw
+         8eIypKUzRo/bQjYo/q+v0NMFUVUpd4eBYIXCO4g3j3oM4i1AH0HWlS8e50X3g8uw7Lc5
+         aNkw==
+X-Forwarded-Encrypted: i=1; AKwUvBzgUaJeQ4d/8xiPa9TM9FPj7uJkH2ZPRa+fjENPiXuD19+nbSG4kia62cpkxesLk9YnWPk4bMy2ZDs=@vger.kernel.org
+X-Gm-Message-State: AFuF++mFR7dKbAAKD0eQ4+qUNGqv2SZwGEgkQK7n8z2/9/rqsdmCTQGY
+	FN9B450qJYaPxWJKSHHjMKMCtO0/eqvXPfX+Idrbzu+ECZzE9DmTC+UgNyWf/v4GLS+TcS5a2PN
+	fx5guqHfNDLUdnOFHSc6CJdm/1ZMovwo=
+X-Gm-Gg: AYBFou0P7068/6vS7Qj5yTwVWHFzXZJEJRqo3I5rkjh2qQ21EmuUBWkGo+nsBcHl6rt
+	O54IYYlD0uUegdoUbLgWJFz/AudCicOY4wPwjMZU4Czh2Rt3EcgcSinjJZ8k84o2D2Quiu2DhOK
+	YzUTvLVO1h0s8ql0y9P52bDIcs9U5Eljs81WZBYdKsDKD7HYJLq1b/vi0dAlGUW96ebQee0OhiA
+	lBBqCIUE/WCchSAZnTynWtsHnAUzVyAhM0qgnvp1olTKmKAqnlXzNqB6nS8LAXFa14fdwG4B3Ej
+	Nv0bc9PBQDORwYPxf9H+io3eJ55Xb6FYOLl701XHKGIaqJ+mrXR6hXyfE7gma026chwMH6WnlQb
+	WzdQeYOZ9X7WQ8lBCP/3WUZbdCX0gZChNSXQLsb8CmUUd4YkPQSuIeStAvbgK
+X-Received: by 2002:a17:902:c94e:b0:2ca:de3:15eb with SMTP id
+ d9443c01a7336-2d74ce5e476mr224272585ad.0.1788193980913; Mon, 31 Aug 2026
+ 09:33:00 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-MBO-RS-META: ndiae5ccdzxeb91pdt1bsgum1fkr4yxy
-X-MBO-RS-ID: 51b028c4878022b02cd
+References: <20260831151605.638172-2-manuelebnerli@mailbox.org> <20260831152523.638881-1-manuelebnerli@mailbox.org>
+In-Reply-To: <20260831152523.638881-1-manuelebnerli@mailbox.org>
+From: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
+Date: Mon, 31 Aug 2026 18:32:46 +0200
+X-Gm-Features: AcwNN1WxT2qUEpoESa1nnOxcvqd-4guXTylAIIzIEvrVEhydUWRkwim0NkJ623s
+Message-ID: <CANiq72=TYcLdj0t2DbboS31L4BNrSg-0bRmHZe4SDnbRLeoy9g@mail.gmail.com>
+Subject: Re: [PATCH] v2 Docs: changes.rst: introduce optional column
+To: Manuel Ebner <manuelebnerli@mailbox.org>
+Cc: Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
+	Miguel Ojeda <ojeda@kernel.org>, Boqun Feng <boqun@kernel.org>, Gary Guo <gary@garyguo.net>, 
+	=?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
+	Benno Lossin <lossin@kernel.org>, Andreas Hindborg <a.hindborg@kernel.org>, 
+	Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>, 
+	Danilo Krummrich <dakr@kernel.org>, Daniel Almeida <daniel.almeida@collabora.com>, 
+	Tamir Duberstein <tamird@kernel.org>, Alexandre Courbot <acourbot@nvidia.com>, 
+	=?UTF-8?Q?Onur_=C3=96zkan?= <work@onurozkan.dev>, 
+	Nathan Chancellor <nathan@kernel.org>, Nick Desaulniers <nick.desaulniers+lkml@gmail.com>, 
+	Bill Wendling <morbo@google.com>, Justin Stitt <justinstitt@google.com>, workflows@vger.kernel.org, 
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	rust-for-linux@vger.kernel.org, llvm@lists.linux.dev, 
+	Guillaume Tucker <gtucker@gtucker.io>, Nicolas Schier <nsc@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-This document grew over the years and isn't limited to compilling or running
-the kernel anymore.
+On Mon, Aug 31, 2026 at 5:25=E2=80=AFPM Manuel Ebner <manuelebnerli@mailbox=
+.org> wrote:
+>
+> +bindgen                0.71.1           generate Rust bindings
 
-compile -> interact
-levels -> versions
-run the current kernel version -> change code, compile, install and boot the current kernel version.
-ip-route2 -> iproute2
+Should this simply say `CONFIG_RUST=3Dy` too?
 
-Signed-off-by: Manuel Ebner <manuelebnerli@mailbox.org>
-Acked-by: Randy Dunlap <rdunlap@infradead.org>
----
-I messed the order up.
----
- Documentation/process/changes.rst | 9 +++++----
- 1 file changed, 5 insertions(+), 4 deletions(-)
+> +Clang/LLVM             17.0.1           alternative to GNU C (gcc)
 
-diff --git a/Documentation/process/changes.rst b/Documentation/process/changes.rst
-index 1ca8c5f73ad0..fb5ef7d743ba 100644
---- a/Documentation/process/changes.rst
-+++ b/Documentation/process/changes.rst
-@@ -1,13 +1,14 @@
- .. _changes:
- 
--Minimal requirements to compile the Kernel
--++++++++++++++++++++++++++++++++++++++++++
-+Minimal requirements to interact with the Kernel
-+++++++++++++++++++++++++++++++++++++++++++++++++
- 
- Intro
- =====
- 
--This document is designed to provide a list of the minimum levels of
--software necessary to run the current kernel version.
-+This document is designed to provide a list of the minimum versions of
-+software necessary to change code, compile, install and boot the current
-+kernel version.
- 
- This document is originally based on my "Changes" file for 2.0.x kernels
- and therefore owes credit to the same people as that file (Jared Mauch,
--- 
-2.54.0
+Should we add an equivalent one to GNU C?
 
+> +gtags (optional)       6.6.5
+
+It seems the patch missed this one?
+
+> +Sphinx\ [#f1]_         3.4.3
+
+Should the footnote be moved into the new column?
+
+> xfsprogs               2.6.0
+
+Is this always required? There may be others that are actually optional too=
+.
+
+Cc'ing Guillaume and Nicolas -- we were discussing Python in this thread:
+
+  https://lore.kernel.org/all/apG3hwaPA8f7SJeI@levanger/
+
+Thanks!
+
+Cheers,
+Miguel
