@@ -1,83 +1,119 @@
-Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DB36139D6DA;
-	Mon, 31 Aug 2026 21:42:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 87C5546A5F2
+	for <workflows@vger.kernel.org>; Tue,  1 Sep 2026 07:31:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788212581; cv=none; b=svOe1+TcOHA75jWN/jKDYMVI50Lv2JWD26UYrdHDm1CU014mQk9nBf/2sZcyKNYvIvKF8mmg3NKN/sKgNcID+xViD9KHqowRl66zObZmkpRyPUGSjxdapb/QxBMmaGfPHXYO18VjkXIQyyQjkzoe4p0FvYYxNDipoyF6b69tCOw=
+	t=1788247904; cv=none; b=RiWQJeWQEfuqQMV/7sXzMexvbLs8BSIujToYnAH8R1ssFRBWoi9PnMl6MKmHpQIHGTq5J3pdV19u89gtBN9F9uZF0LLAnBW1I8OeIlZTY39OkbgmD3d+5ALf+9r/pxXCyjW2l6GDhQH/piqPMh03qB+M8EaEOp79jt2In07Zu8U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788212581; c=relaxed/simple;
-	bh=junU1NXa65WYgAd0yhVrFqA2wEWWdwszY/WGgB/unLs=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=Y7H2hDog9dcAs+fsNOJVt5KW6VGQG6AXt9VKfGXW3BK2XfMlMDQ7b2Rt+z4UKFA2RrW18wH2wkXdspNEANbhLFE1Kewb5DHCToMI1KLwOJULVnOYihQtV8rFtZNjW45t3aksdHM+AQKtfhnerOm5Xj98rGDrCkNB5KLoJg1j8j0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=Mv8E17vu; arc=none smtp.client-ip=45.79.88.28
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
+	s=arc-20240116; t=1788247904; c=relaxed/simple;
+	bh=zGhJ9HaYyZ7K+ijAn1Ufy6dOppFjBPbx8iBoOPASPKI=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=t2R8ygKUEjaPBieHI+27+mDn4b+UBwTjWYd7lfvdjpKfrH0XEQIC4qn1Ned3kg+ekD1YzxnEY91ynNbSGLM07xCEvlAu5Bsesq8OIslHWOnQ2NvyVsUvGpf7MUD4mhxX8/jTubnRjcAUbMW/32o1xiiHaIWmHJOo4t/EQcQebAA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=GEpYwIvE; dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b=uAWSDE9g; arc=none smtp.client-ip=170.10.133.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="Mv8E17vu"
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net DDEDC408DB
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-	t=1788212579; bh=S+yL+5uqwMnCZKuz4QGgRrFXlTFKve9EFRhcn0UbdvU=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=Mv8E17vuSG81IwIF6bHbU2oL4w1RcEeM1g8BXCBjiUOVndMLlWryc79WNDr7uMu1d
-	 Me3waFnxk7893xaaTHQ9te+nCUis1SAbRCWYJB2ZTf/Ybn69rIIDLvbZx/Gf7xpFHZ
-	 hDBTXz4fbY85Ynyn2wPT9u6wSGE0I7OBZqaIk8/gKiIDTaHowjRL2lBl9qm03/hoJ8
-	 TvOcbI0xV4Khtj8h8U/8dwmSVqnbImGj6k4lW1Rj8czBy3lRzzO8bRBd72qAQShr5D
-	 R0ugNZEdzHwsIyDE8TR0a2YQer01GZo0g2QwjrGJ5E+v2ruF7/Xf6D5DG1aoc+6+HB
-	 nan0Q78e1JHAw==
-Received: from localhost (unknown [IPv6:2601:280:4600:814::1fe])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (prime256v1) server-signature ECDSA (prime256v1) server-digest SHA256)
-	(No client certificate requested)
-	by ms.lwn.net (Postfix) with ESMTPSA id DDEDC408DB;
-	Mon, 31 Aug 2026 21:42:58 +0000 (UTC)
-From: Jonathan Corbet <corbet@lwn.net>
-To: Nguyen Duc Thinh <ducthinh100812@gmail.com>
-Cc: Weijie Yuan <wy@wyuan.org>, Shuah Khan <skhan@linuxfoundation.org>,
- Randy Dunlap <rdunlap@infradead.org>, workflows@vger.kernel.org,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, Nguyen Duc Thinh
- <ducthinh100812@gmail.com>
-Subject: Re: [PATCH v3] Documentation: process: Capitalize Git, Quilt, and
- Mercurial consistently
-In-Reply-To: <20260824133826.13934-1-ducthinh100812@gmail.com>
-References: <20260824133826.13934-1-ducthinh100812@gmail.com>
-Date: Mon, 31 Aug 2026 15:42:58 -0600
-Message-ID: <871pbege59.fsf@trenco.lwn.net>
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="GEpYwIvE";
+	dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b="uAWSDE9g"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1788247901;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=996Do7cli1wrzMhcoRVI4Dpnoxul8kFICpQpjRm0D38=;
+	b=GEpYwIvElGF+f+N9NVUWm6FOuLJ9wCQYOnM2LCBJJXhVU1gVQwpZF6zuDeE0Tih9mbZv56
+	MWLyf5LQluJoLgWzitEzg3mmwt7T8ZnViKDS11m3HFqORDuqQtdQzk+mgsgngG8VQtuks+
+	P1dZy7h2vQmgVNlaLQyOp+GFkqjylUE=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-618-sAQ9a5zXM5SW9Zl-gCZRdQ-1; Tue, 01 Sept 2026 03:31:39 -0400
+X-MC-Unique: sAQ9a5zXM5SW9Zl-gCZRdQ-1
+X-Mimecast-MFC-AGG-ID: sAQ9a5zXM5SW9Zl-gCZRdQ_1788247898
+Received: by mail-wm1-f70.google.com with SMTP id 5b1f17b1804b1-4955fd77c18so23857735e9.2
+        for <workflows@vger.kernel.org>; Tue, 01 Sep 2026 00:31:39 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=redhat.com; s=google; t=1788247898; x=1788852698; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:in-reply-to:content-language
+         :from:references:cc:to:subject:user-agent:mime-version:date
+         :message-id:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=996Do7cli1wrzMhcoRVI4Dpnoxul8kFICpQpjRm0D38=;
+        b=uAWSDE9gTZaCtnNjCrRa0Cp47o69hAPjgpwpRhd8C2/bR+KAgqqz7raR/BZM7Jbsyv
+         BWtFfQC5338IXnkaEic7YAJzCm82mqAlnpiBIQ//c6jR+Uh1JilL08lYdWmN5ZDitxsI
+         AmaLSgRSGnzvub/8fDyf4Px/Z/bYEKZrNzKlWEckYOMh60C3/Y5Go6jMUxGml1pC1ryY
+         lTydfSpNi+A/P264j2WdTIptcgLHVTyzLPCbV+/WeBfTGH2BNdMj+Rrx+fZ8ZZ/eC8E/
+         154YD0uuMjrCy2ZuX17aNQ0Ga4YCgnfJ9e5qssVfeYxknrmnTrETQdcKM21EdMJW2X74
+         OYIw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1788247898; x=1788852698;
+        h=content-transfer-encoding:content-type:in-reply-to:content-language
+         :from:references:cc:to:subject:user-agent:mime-version:date
+         :message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=996Do7cli1wrzMhcoRVI4Dpnoxul8kFICpQpjRm0D38=;
+        b=UTO6BwKR6icdwOI9z/85mTi96nzkVhOnoaGxwTsLg10TUrgCYsjAZ9PJOa3jWiUg4t
+         1scl30582EJLaRXD4YVceCaDn2tvjbKjfmXEoF286TkrCf5KdnH/vUiSrWirdF1ZNg+H
+         dMbyJE/Ihn7Jr7jjApNx2dKUD5Iplp0OX+Q0+hUw90i+aDdQFCT2e7yBAZbC6cgwC3CO
+         bQHSI0xJ/FstqKSKaW64GRoKeMPbIT+L3B924Tub6Q1reWUiQEgHJE0B00xXh4o1100s
+         zP1wjd/2VfwqoywGSbu6Q3+Z481cHJsBAFdB1qZ++HslhVhWFIwnHxMe8kGjBVQtgwLJ
+         XlVw==
+X-Forwarded-Encrypted: i=1; AHgh+RqJNuuFEaHIsExKyeRfEPMcVeItbZMNHIUCobuadNkumXewXWQ+y20J/LD3cYHxnNyskZQtH+3o6S0=@vger.kernel.org
+X-Gm-Message-State: AFuF++kE/3ZRWDGdvOk8Ca5L58jmFEuAAT+Rl+5A8bk1p2c7d3nroq+3
+	6A81TFsu236v/OIv1tt7L5OtaWL+mn8QK/aWu7DDCArNmmW9gSBAFhauFdgsqRtHxlzn0b6gBk5
+	9WVFtnh/APSgUodsXEHKyrB6JTiumzVcpDEkeeTEIf9vPQUjo0RcJwr5/lKlvPQ==
+X-Gm-Gg: AR+sD13tl3MusNtonGegj7DCHo5bHJiK1h564VE/zPSY8rZj3HFvmljVp0yeW0CP7U/
+	OYezyYaBtN6kUMzzHIpGSFafTvn/lj5a5YdOerISvkrf3piTC+hdehPjqPd6hvwIG0XzZjddztU
+	Synw3ivmBPGwBPh4UMxaepy9TBTU36XKu14AwgqU2/oHq7OLLWct9RtzQLUj9OaAnXUkYzw02fJ
+	w32HMJnuLaYQRNuB7WJfmwkrJ0RSuU5CwpVbuuI8kTr5cXvKLVDPpbLfyHOHjmgKTeoc9bBm+Mj
+	SO0hSej1fsVPXLVyXaoM1GMFRZkCDVNXA84mg+ZszvUhOWgfyqn0yh1NxoSVAHBZqPXAlmfoBxq
+	LFywTrQH+FyjIhlc4LBmMXKds9xGjZz1l79AQq5Fi/kMwMkcnEtlmt3rndkm2eOaYbHigRMK5+A
+	==
+X-Received: by 2002:a05:600c:a114:b0:49b:9438:7785 with SMTP id 5b1f17b1804b1-49cdc429f02mr92591615e9.4.1788247892937;
+        Tue, 01 Sep 2026 00:31:32 -0700 (PDT)
+X-Received: by 2002:a05:600c:a114:b0:49b:9438:7785 with SMTP id 5b1f17b1804b1-49cdc429f02mr92579265e9.4.1788247886584;
+        Tue, 01 Sep 2026 00:31:26 -0700 (PDT)
+Received: from [192.168.188.103] (ip245-45-231-195.pool-bba.aruba.it. [195.231.45.245])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-49cdce10f08sm49011395e9.7.2026.09.01.00.31.25
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 01 Sep 2026 00:31:25 -0700 (PDT)
+Message-ID: <3b647dc9-6653-4a75-b0f9-d934337ac2ef@redhat.com>
+Date: Tue, 1 Sep 2026 09:31:24 +0200
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
+User-Agent: Mozilla Thunderbird
+Subject: Re: [ANNOUNCE] A Syzbot-style Platform for Verifying and Fixing
+ LLM-reported Bugs
+To: Guenter Roeck <linux@roeck-us.net>, Yuan Tan <yuantan098@gmail.com>,
+ netdev@vger.kernel.org, netfilter-devel@vger.kernel.org
+Cc: linux-kernel@vger.kernel.org, workflows@vger.kernel.org,
+ frankw@nebusec.ai, jhs@mojatatu.com, ksummit@lists.linux.dev,
+ kuba@kernel.org, kerneljasonxing@gmail.com, roman.gushchin@linux.dev,
+ jgg@nvidia.com, mchehab+huawei@kernel.org, torvalds@linux-foundation.org,
+ ben.copeland@linaro.org, gregkh@linuxfoundation.org
+References: <20260830115546.3942129-1-yuantan098@gmail.com>
+ <98d4603b-0559-46ea-8b76-1f0245b3b266@roeck-us.net>
+From: Paolo Abeni <pabeni@redhat.com>
+Content-Language: en-US
+In-Reply-To: <98d4603b-0559-46ea-8b76-1f0245b3b266@roeck-us.net>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-Nguyen Duc Thinh <ducthinh100812@gmail.com> writes:
+On 8/31/26 9:08 PM, Guenter Roeck wrote:
+> On 8/30/26 04:55, Yuan Tan wrote:
+>> LLM-powered tools such as Sashiko and Claskiko produce a significant number
+> 
+> Is "Claskiko" misspelled ? I don't find a reference to it.
+Clashiko is the "informal" name for the sashiko instance running on the
+networking subsystem CI. Since it's ongoing under constant improvements
+and changes due to a lot of effort from Jakub, there is no formal
+documentation on it.
 
-> Update various process documentation files to properly capitalize "Git",
-> "Quilt", and "Mercurial" as proper nouns when referring to the source
-> management tools themselves.
->
-> Instances explicitly referring to literal command-line invocations
-> (such as "git log" or "git bisect") have been left lowercase.
->
-> Signed-off-by: Nguyen Duc Thinh <ducthinh100812@gmail.com>
-> ---
-> v3:
->   - Fixed the un-staged git commit state; the 'git switch' changes are now officially gone from the diff.
->   - Disclosure regarding tools: I DID NOT USE ANY KIND OF AI AS AN ASSISTANT IN THIS CONTRIBUTION, the mistake occured because I don't frequently use Git to send patches, I use it to open pull requests so sometimes it feels unfamiliar to migrate.
->   - Is there any mistakes that I'm still having in this patch because everyone make mistakes.
->
->  Documentation/process/1.Intro.rst             |  2 +-
->  Documentation/process/2.Process.rst           | 18 ++++-----
->  Documentation/process/3.Early-stage.rst       |  2 +-
->  Documentation/process/5.Posting.rst           | 10 ++---
->  Documentation/process/7.AdvancedTopics.rst    | 36 +++++++++---------
->  Documentation/process/backporting.rst         | 18 ++++-----
->  .../process/embargoed-hardware-issues.rst     |  2 +-
->  .../process/maintainer-pgp-guide.rst          | 38 +++++++++----------
->  8 files changed, 63 insertions(+), 63 deletions(-)
+/P
 
-Applied, thanks.
-
-jon
