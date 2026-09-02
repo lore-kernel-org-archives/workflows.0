@@ -1,148 +1,139 @@
-Received: from mail-pl1-f177.google.com (mail-pl1-f177.google.com [209.85.214.177])
+Received: from mail-pg1-f170.google.com (mail-pg1-f170.google.com [209.85.215.170])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4BC22390991
-	for <workflows@vger.kernel.org>; Tue,  1 Sep 2026 10:03:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.214.177
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788257015; cv=pass; b=bcYI13azvCX4a229sSPxMlVHKqlKE8u3/vRyYiJ/WioApPXaRXKMOqv8Bcce7o9TvyUabLqwXi1DOdUxKUfJAo2+FprkIORlW+wd2GOq/LR8zMTc83RFdwFcxcIEC33t0CyDvM+FuUvyoUNNpRfRDyG05CPWMx4pElgnOagFwV4=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788257015; c=relaxed/simple;
-	bh=dtC2b9rE2+PvqyfvIQpFBFFgI4ZlT+seDQ76UBcyXhk=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=R1FeLG0ukfAtwQKbaDNKzj75K9mZqvEnqUldEjfCHuOArknWC1A3W8hfVxLzE5+JPlygcFtobeWOInaqq9RGATM9RxTpW1pZ9maCZAM48GU9rw1SE3sjwD3K6okfwVe+dwHesn9bx7YYX5U+b385DO+DdrOmr2/1cVm4peCEAbw=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=m2rRfVrQ; arc=pass smtp.client-ip=209.85.214.177
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 623D7317163
+	for <workflows@vger.kernel.org>; Wed,  2 Sep 2026 08:35:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.170
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1788338152; cv=none; b=Vyb+FnLcZNlDdc+/Cbp7Rm8zdk5OG9NbNT9vbbVFpzqbaG3hwVCgwLIlzST3RgJSRA4FdHC64jBda5m96C0eUjCZpNySnWbnsWRcruXElmhyDtscr1wldT3apCnCodQ6SsVIWnzXm+tbrrc5nX5mDzNlVaQ2OqkbfZHaNNJKpFg=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1788338152; c=relaxed/simple;
+	bh=cUyU1xZiJ0lyFGAbiURDU4c+zI0gtGyVdTmVuLB5xTA=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=VbEEqJyBXO8xjuM+DR/d4iAUhfrEIj0T/eGrT3pZp1niJ5Dunm/A6yqzMEYUQl9e21LieDbP+sn1O+1UTDJ00AU38ip6ahaCACVapx5lGP4JiOwGRbuWcoV4kX16XRidpZW+LkyaSDNb8lz2XalKzYZl4EPIjM/UtkSx6sUgBLM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=UuAG+HEi; arc=none smtp.client-ip=209.85.215.170
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="m2rRfVrQ"
-Received: by mail-pl1-f177.google.com with SMTP id d9443c01a7336-2d5862bc921so10386175ad.1
-        for <workflows@vger.kernel.org>; Tue, 01 Sep 2026 03:03:33 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1788257012; cv=none;
-        d=google.com; s=arc-20260327;
-        b=iPTHdLk2Ut/0dc+FJmltCtQqtBIR9LAB4G7pedU9YpMkXeTJNtNjqolERJZb9SRJ2x
-         Q1DmQZtnK8ru0pGZksVqB/MCnVnSIC3WKajBRxkNHl5klemDBHL0Id+IoWE2u8DvAHpx
-         xFKgKrT17UfXQWQZSDQdhjhDsk7GLrIuyyPMXYkDIgKpdamV67V1VOMAHONS0aVxoIZ5
-         4zwMt7PbtC6XFq1H6zy+CRtYm5x19apOS5bYM5pmaF+2Fn4vJeZPU1dyjoF+JFd75Y4W
-         6JcfJuMjv8woIE2xrP2dXbSVLGQn+hymjFeBGspSu1oZrmNY3XEIu+hSRvrNKWGyYJAz
-         KrMw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=bmZDR4ZqqsB4rIh7Kzatyaogr6ocdpUcdSx+7fuMEz4=;
-        fh=wtLw8rTTMMNzKo+7XS5K7L5n666qhRIGgIwdhQB4JgE=;
-        b=Vd8fwwhVHxwSrHZ2Z6dTGQuh3X7vEheY/kAsxFPR+KBN1ubKrgDi4Bm2FmqaJGlO7q
-         ql9JkSb4oyJAuhpiK7dirR5yiK6S+4HUlc7wL69Q+rZCvzeXM0Whd67c5Rs9DAz082dz
-         bUmX/QkBVvWPxU8jZsZ891Y6GTCZyN301dq3XcAVlKsZ8m0E9kdtMa+bJfHGqzmgv+gb
-         CQh8gCpVmirSeFK/xsIHCRzBB2IBjLXpn0SMn78IiGa/MuXEwM2xK1/us+vSqIk87ygI
-         4NyvEG2881+WadZeOlWQdu6g7ItWXY8mLsXIZYlL1K61fEtKp6DajfEAyFNXbYlxSTQQ
-         oLtQ==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="UuAG+HEi"
+Received: by mail-pg1-f170.google.com with SMTP id 41be03b00d2f7-c9b373d5af0so644942a12.2
+        for <workflows@vger.kernel.org>; Wed, 02 Sep 2026 01:35:51 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1788257012; x=1788861812; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=bmZDR4ZqqsB4rIh7Kzatyaogr6ocdpUcdSx+7fuMEz4=;
-        b=m2rRfVrQUF+pl/kSam6VyJuJMlKFCpKV113UKvrgRdbCvB+LA8c1VZE60GMGuqVK0d
-         Iynnc2jkGkjmV+FADIvZDGIfWpB1e2SqBZEG8A0/PyhgPZ7CUF7+rNci/JpNI/hH9xUX
-         ItKTfLWTFEF3CZmK6D6Eb3GH1L2nz/f0j8MtgnYnwFlS9yOvj4Kfd4kDh+IDsJ9IQG9a
-         iD4E76b+B1l0G2UyVgguZLJCQ5WwLFaMlhwHwhbBfdWXGKQrtiDudtCOIRET4udMU+Fz
-         zIkZS8Vw9HuFOiDEgzzDYq3/UiIFvnq4clS3Yg8ljZgZBq3W4grGnoJZbsSpslzK4Yvg
-         rPjQ==
+        d=gmail.com; s=20251104; t=1788338151; x=1788942951; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=7gfmhiuO6IGjOBYoQD0jOEFYQeE/ZkYP8CJmLAFzuAc=;
+        b=UuAG+HEic/O1XGewbmK9wcZ+Mv2oPEN9ibEvPB3A+dCUkiDVfipeDc+LI3zWyGE/pm
+         h0CO85tfbA9ULm1FfyvNElbIV1WGyBnVoA3Sd5UtAtJ4J2xW1rN8BUd6NT5bHetiijLy
+         m+jJtkBIyejTenYG06IezThYcHllQ5RINyybt35bs1Ftmn6MRdFANNu/0KVZox9jmHhE
+         D7FLxIpt2hh0RSes7e7pjT73MGZ7o/p31fQSSYC3m326yX97ZvWHURyUoM9Mf2mNM7bZ
+         pikperU71uFti9zhtxmFqG5UPkTfagxYUE2goVQQkzPcHQTz5SNvdy1d+iMcr5JJYzz7
+         HzTg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1788257012; x=1788861812;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=bmZDR4ZqqsB4rIh7Kzatyaogr6ocdpUcdSx+7fuMEz4=;
-        b=IGheTdb8wiRyZpqCCMajTVAWFsGFk362cL3lF2oQJzgKh/Zulgz3lquWzmHSHcGgIm
-         sRKnhxawW08eu2Mggc0Ou6pkhd+LHqQlsNqFUgWsH6X+yuq6+3/p6D/hQ5bEjfjSjZ2n
-         Yb0x4NJo/w/ODQmwEBiC4OsH7Njc2sOpUT7Gou260MUacKU+eA017H0STu/jGPkFoi05
-         lPIO+4EuuEnTqmizSQA6s+kZs2vkbO6phb3d0T6p3Ysk7K+OJ/mU5g6rKAMFrEFq9L7y
-         kk+ih18y4Yq57W4zUQoOiSyL5EMFX4bjimR+9VL8SmKGhIgcsmzxZlJfrcbsHqe++438
-         l6Jw==
-X-Forwarded-Encrypted: i=1; AKwUvBw5cRkar1MSbuZxSTvxSZa1gr6W9bnHoHF0wyx1kw13yFyaG6kSYZvskdcBm3aKGh7MhcjqX91uYIY=@vger.kernel.org
-X-Gm-Message-State: AFuF++la94tgAFfULQ8JLEM3mtcqEpnP6cpFk6S3kfmC8ajVDHY/nFF5
-	Wd4+hnYLA1s/fPAKFef2Ovp3SbbxB9ZkpZ3iGL3nxW/R19Zd2M2CodsnMr73q4H6Df8u+ona56P
-	C/y8LoHizK8wcONTWDdpXKFVJtc90Xr0=
-X-Gm-Gg: AR+sD13F3m9xyUeQlu6GrVnHCueWZQ3OSdsyikBR6dJr5wW9QIp/69jsl1KJabXNQzd
-	uY85u0gWvx2kwYHO5peFacfH2Lu1TZEDp6WX2PqRkDCweniznxEzOmQ/VuZ3n16FUxBbtxOGqZf
-	BD6cjhYSevL387y0CCOtkZ7DiSk4HXzHtm+SXM4pewqtZMzjTrk8YChi/fUEKaQ2bsw5Z/wMyok
-	l32wGwefd3mzpYxsU85GkyvwTnF7iZ1r+FopE/XuucZySsK8/UfR81msiBIQwP6Pe8enlQ5rb/X
-	UyF/kw+K9EcbBKZTZQuy+JFsy8dzdlRWpeqDg87HfES1UEjLYmZNI8RLnvdtTGYoIDd4zIKFROg
-	w+d2CCMCPkR0TJtP1/SIAN8Y+Syu6sXSjOH1tTioVeW474hZqRqYDkv+JOM+D
-X-Received: by 2002:a17:902:d2c7:b0:2c9:ed4a:c3a4 with SMTP id
- d9443c01a7336-2d74ce38075mr274123155ad.0.1788257012245; Tue, 01 Sep 2026
- 03:03:32 -0700 (PDT)
+        d=1e100.net; s=20251104; t=1788338151; x=1788942951;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=7gfmhiuO6IGjOBYoQD0jOEFYQeE/ZkYP8CJmLAFzuAc=;
+        b=ch3S34Hcwztf///FpiHL/BPD8USIAxb9TXavbxMBKIsulhAGBB4x7ZPGYhMtXOpbfH
+         QPlTK9piuzC8JMWuWCJ9ahu3MdNc2m2+hLZaA10XhM/URbSO0qvtZ5LXLhFO/fmCFyIe
+         4KobfPaTGR1WqJ+CCmRRzg8NjLNdd7Y/FaWykVM8l1LOd/Wgu/1L4+cL631Eae3w9Ns2
+         ClQT7KQfx3KeOt6/ff3Euk7cCAV3PRM6CGfFhgWNdS+Z2jMdyiHJNEcuoXPtlJ+EPDKC
+         hBSNdkPndSiWqW3RpJYMFyNUwo9umy1lLh7/EYcEQaHierNNPKPo3lpfLpx3lT1yHkAc
+         YoGQ==
+X-Forwarded-Encrypted: i=1; AKwUvBw4xMx5f/l4u2nDNRCVywm79OJV4giO5LcnZy/SI189ZS12hWNbfz3XHMOMZ6xLi2WmfMICgQxA8To=@vger.kernel.org
+X-Gm-Message-State: AFuF++mC3evwR1nxOsPHgm7vb7+efKbiP4SWmCTorgMg4C+zIB+Ecu8W
+	GgFexOPr+efeFvIIzEJwQ5lEsuQf+1LtQJOiDfc/TTFA+Pf5Oj498uAD
+X-Gm-Gg: AYBFou1A0tinqA7Q8Pf4LC4LDpVpmhzioP74WhM+AUlDOGy3pmZNhZqoeEF4LDBH7Kd
+	fk3i7PtByyOxNXJbV2hNqxMTcJIzRyelSUXyUXyPJ5A7EoNIjI9Gn6GnUvhhCRSn5fJ5Y8MZZMI
+	oW+mFuo1aEHNbXsmhvkiuebymUgUTkpXusE/ZofpoMdavQfAfJVoZKiKuJ6sKemDYvOHHUvGZL7
+	ESEN9ynun445kR+QwvDk/XsIOCE8y6P2515yws89qW73xdc2u399uGD4X/WsCIudwWO71l/jhLk
+	ZwRHJwJXyEoGuZ81+KjNM0VIlHOAbOrPAC4DxrHTQGq9tZvIB6tsTobl0b45Ou2C2e02lyPXUFd
+	I/RmCfNJwJPaIZUrqyU34QyVw4zp93YVdiCvbnUxNtvrTq/3jeoUJUJLbccKqD4K5cbY2wsmTZN
+	UyJyHtfY+m4e8+i+gzcjf2x4AlEgsWZGQS2EuGx8+/Qq1kvwbfj0vBN+o6Kd6BiaNyFohNwsebc
+	y4k/ur2E7HM+DshmyI=
+X-Received: by 2002:a17:90b:3b52:b0:396:d28e:bd8 with SMTP id 98e67ed59e1d1-39aedf61001mr4041158a91.3.1788338150515;
+        Wed, 02 Sep 2026 01:35:50 -0700 (PDT)
+Received: from localhost.localdomain ([222.254.211.218])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3990d7ba9d5sm11384800a91.13.2026.09.02.01.35.47
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 02 Sep 2026 01:35:50 -0700 (PDT)
+From: Nguyen Duc Thinh <ducthinh100812@gmail.com>
+To: Jonathan Corbet <corbet@lwn.net>
+Cc: Weijie Yuan <wy@wyuan.org>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Randy Dunlap <rdunlap@infradead.org>,
+	workflows@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Nguyen Duc Thinh <ducthinh100812@gmail.com>
+Subject: [PATCH 0/5] Documentation: process: Clean up grammar, tone, 
+Date: Wed,  2 Sep 2026 15:35:40 +0700
+Message-ID: <20260902083541.15555-1-ducthinh100812@gmail.com>
+X-Mailer: git-send-email 2.50.1
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260831151605.638172-2-manuelebnerli@mailbox.org>
-In-Reply-To: <20260831151605.638172-2-manuelebnerli@mailbox.org>
-From: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-Date: Tue, 1 Sep 2026 12:03:18 +0200
-X-Gm-Features: AcwNN1VbNKqeV_yey9Jhr55AwO_DusZQ-wcQLGmrDCepzJ3Tk4JUYrXX-Z1lHAo
-Message-ID: <CANiq72m0xHD1YTADnmQ-fqMPSNHrMGwfPBbT7V4crBgu7B_ecg@mail.gmail.com>
-Subject: Re: [PATCH 0/4 v2] Docs: changes.rst: rework
-To: Manuel Ebner <manuelebnerli@mailbox.org>
-Cc: Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
-	Federico Vaga <federico.vaga@vaga.pv.it>, Akira Yokosawa <akiyks@gmail.com>, 
-	Daniel Pereira <danielmaraboo@gmail.com>, Carlos Bilbao <carlos.bilbao@kernel.org>, 
-	Avadhut Naik <avadhut.naik@amd.com>, Alex Shi <alexs@kernel.org>, 
-	Yanteng Si <si.yanteng@linux.dev>, Dongliang Mu <dzm91@hust.edu.cn>, 
-	Hu Haowen <2023002089@link.tyut.edu.cn>, Alexei Starovoitov <ast@kernel.org>, 
-	Daniel Borkmann <daniel@iogearbox.net>, Andrii Nakryiko <andrii@kernel.org>, 
-	Eduard Zingerman <eddyz87@gmail.com>, Kumar Kartikeya Dwivedi <memxor@gmail.com>, 
-	Martin KaFai Lau <martin.lau@linux.dev>, Song Liu <song@kernel.org>, 
-	Yonghong Song <yonghong.song@linux.dev>, Jiri Olsa <jolsa@kernel.org>, 
-	Emil Tsalapatis <emil@etsalapatis.com>, Miguel Ojeda <ojeda@kernel.org>, Boqun Feng <boqun@kernel.org>, 
-	Gary Guo <gary@garyguo.net>, =?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
-	Benno Lossin <lossin@kernel.org>, Andreas Hindborg <a.hindborg@kernel.org>, 
-	Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>, 
-	Danilo Krummrich <dakr@kernel.org>, Daniel Almeida <daniel.almeida@collabora.com>, 
-	Tamir Duberstein <tamird@kernel.org>, Alexandre Courbot <acourbot@nvidia.com>, 
-	=?UTF-8?Q?Onur_=C3=96zkan?= <work@onurozkan.dev>, 
-	Nathan Chancellor <nathan@kernel.org>, Nick Desaulniers <nick.desaulniers+lkml@gmail.com>, 
-	Bill Wendling <morbo@google.com>, Justin Stitt <justinstitt@google.com>, workflows@vger.kernel.org, 
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	rust-for-linux@vger.kernel.org, llvm@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-On Mon, Aug 31, 2026 at 5:17=E2=80=AFPM Manuel Ebner <manuelebnerli@mailbox=
-.org> wrote:
->
-> ->[v2]
-> Ditch the name change [PATCH 1/5 v1]
-> Add Acked-by: Randy Dunlap to [PATCH 1/4 v2], [PATCH 2/4 v2]
-> Add genisoimage, mtools and syslinux to list [PATCH 2/4 v2]
-> Ditch footnotes in favor of a column [PATCH 4/4 v2]
->
-> [v1]
->  https://lore.kernel.org/all/20260812120805.1631430-3-manuelebnerli@mailb=
-ox.org/
+This patch series performs a thorough pass across several files 
+in the Linux kernel process documentation directory. The primary focus
+is to improve readability and maintain a professional tone throughout 
+the guides for a global developer audience.
 
-In my usual go-through-the-ML exercise, I noticed that the subjects of
-these emails look a bit strange: one is missing the version, the
-version is at the end, and they seem to be out of order:
+Core changes include:
+- Expanding conversational contractions (e.g., "don't" to "do not").
+- Rectifying minor punctuation oversights and grammatical typos.
+- Standardizing terminology formatting to elevate professional voice.
 
-  https://lore.kernel.org/all/20260831151605.638172-2-manuelebnerli@mailbox=
-.org/
+Extra notes:
+- I originally intended to send a 12-patch series to cover the whole
+  directory, but decided to scale it back to these 5 high-quality
+  patches to ensure thorough accuracy and a manageable review cycle.
+  
+  Also I want to know the current progress of the patch titled 
+  "Capitalize Git, Quilt, and Mercurial consistently".
 
-I would suggest using `-vN` in `git-format-patch` or `b4` to handle
-this instead.
+  And I would like to thank everyone for welcoming me to the community
+  and I hope everyone can forgive me for my mistakes in the past, 
+  present, and in the future.
 
-In addition, if the changes on a given version are local to each
-patch, you may add them per patch instead, after the `---` line, if
-that makes it easier to track.
+Nguyen Duc Thinh (5):
+  Documentation: process: Clean up grammar, tone, and contractions in
+    core files
+  Documentation: process: Clean up grammar and tone in next guide files
+  Documentation: process: Refine language, tone, and grammar in
+    subsequent files
+  Documentation: process: Refine language, tone, and grammar in
+    subsequent files
+  Documentation: process: Clean up grammar and tone across multiple
+    files
 
-I hope that helps.
+ Documentation/process/1.Intro.rst             | 18 ++---
+ Documentation/process/2.Process.rst           | 22 +++---
+ Documentation/process/3.Early-stage.rst       | 14 ++--
+ Documentation/process/4.Coding.rst            | 48 ++++++-------
+ Documentation/process/5.Posting.rst           | 34 +++++-----
+ Documentation/process/6.Followthrough.rst     | 16 ++---
+ Documentation/process/7.AdvancedTopics.rst    | 32 ++++-----
+ Documentation/process/8.Conclusion.rst        |  4 +-
+ Documentation/process/applying-patches.rst    | 20 +++---
+ Documentation/process/backporting.rst         | 68 +++++++++----------
+ Documentation/process/botching-up-ioctls.rst  | 54 +++++++--------
+ Documentation/process/changes.rst             | 20 +++---
+ .../code-of-conduct-interpretation.rst        | 14 ++--
+ Documentation/process/code-of-conduct.rst     |  2 +-
+ Documentation/process/coding-assistants.rst   | 12 ++--
+ Documentation/process/conclave.rst            |  6 +-
+ .../process/contribution-maturity-model.rst   |  4 +-
+ Documentation/process/cve.rst                 |  8 +--
+ Documentation/process/deprecated.rst          | 14 ++--
+ Documentation/process/development-process.rst |  6 +-
+ Documentation/process/email-clients.rst       | 32 ++++-----
+ 21 files changed, 224 insertions(+), 224 deletions(-)
 
-Cheers,
-Miguel
+-- 
+2.50.1 (Apple Git-155)
+
