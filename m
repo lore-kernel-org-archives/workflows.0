@@ -1,64 +1,62 @@
-Received: from mail-pj1-f43.google.com (mail-pj1-f43.google.com [209.85.216.43])
+Received: from mail-pf1-f169.google.com (mail-pf1-f169.google.com [209.85.210.169])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0ED033A1A38
-	for <workflows@vger.kernel.org>; Wed,  2 Sep 2026 08:36:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 969B93A1A54
+	for <workflows@vger.kernel.org>; Wed,  2 Sep 2026 08:43:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.169
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788338175; cv=none; b=j43UCNM2OUR2u9j1DEl2uPA1nekevOXoHCuEB8nsSQnEavTz4s3XhBMdiCKSWl6e6gTipr/dEHWf6588PffGKkspzRLsdqo4aoV/mSEhsV9UCb7GrTgEOx9txB2S3Y38LxxKWsRvHp7XSK8ZPmwdnh+CnZfRsZ9H4XkwIzkwozo=
+	t=1788338616; cv=none; b=jgstWr1YMYEkri1Otv9655JA59FaGDOQb4gIsFHbM3yXLb56J/KwN/MD52BpPa+2O3UviiHUCq/hbSMw0xshenaBkupgUCr5oos9BMo8YsptTihIDopU8mX+yorJJH/V3Xv0bcIKp6byUMySJjoVNm1SuSrAHthcp4wbD5xY2P4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788338175; c=relaxed/simple;
-	bh=00P2PiMq9RqwuIKIa9zt4wVWfztmJMqD6ZSPvVqsw4E=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=mclyv7YYd2TYuNQTqnRcwReQHca1Ct2TrGpiWwvynhWdLDQVfpya+VTGPfYE3xp1Qq7UyTRfL4GoaYvYVCWei0iupl4YYKx02pNL5tS8kzJZvJTxjkkYMrq1+8qAzuA7V4eB4Aa8+Y39IVB0HQ6Cm4bxuyZnhlXQ1kxgYEaGJ3U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=WrvX3KQZ; arc=none smtp.client-ip=209.85.216.43
+	s=arc-20240116; t=1788338616; c=relaxed/simple;
+	bh=pmBICbqDZ5ndY8g5s8sjBS+yRkZNsDVHROMv+bbKOrE=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=PKSJEZGEoJ+OLgsyQFehec0DGyIEC67KNOj4ZJ5MW1dRGjNvNcA9w8vORxNsUbe5yL85EFH7Srr+A5xYZAMIYmDxn10aCWwpX0bEF5vK7Zr7Q+MianS1EEi4bnrpXXdDBN9yo23kjxKgF+YOg+P3NtfUcMrFzQc3t2trQrZ/KvQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=lvnUj/Oe; arc=none smtp.client-ip=209.85.210.169
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="WrvX3KQZ"
-Received: by mail-pj1-f43.google.com with SMTP id 98e67ed59e1d1-3965d3d9ab8so711962a91.3
-        for <workflows@vger.kernel.org>; Wed, 02 Sep 2026 01:36:11 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="lvnUj/Oe"
+Received: by mail-pf1-f169.google.com with SMTP id d2e1a72fcca58-84864086bfeso665327b3a.1
+        for <workflows@vger.kernel.org>; Wed, 02 Sep 2026 01:43:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1788338171; x=1788942971; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=lEDK+6s8EUU2Oy7vTke/AIdPRfzFNyY3UuiurUasEcA=;
-        b=WrvX3KQZB/klyn5I3CZQzFkDinow/y4sjS926a/bxAXk+7JaeG8ZGZJu6rqh1jHDkU
-         giF33dT9Y5E8jFj7f49Z9dtcc3hVYXkXWib7MxGM64v8c+Jv9f6VFn/SR+hm43F1up5N
-         Ta5I6xTcO0etrdRJeQFRjXOK6mm8sI/F3Mq2i1QQzn03NcyVGuf5fcn01MoLEu60EBdr
-         Q6yINbQIjTvia0PvwWXt2EEQIIBzejaGv1Ar/q5Wns0MfuS0oSI3qc1sDKwHHxPncq6K
-         54xwLLIeQstqyWrWkgWWstjC0EBpdLvh0/8yCyHTnFe3zcjXjTgBp7d8GCzOyXf+ED/P
-         L3pQ==
+        d=gmail.com; s=20251104; t=1788338614; x=1788943414; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=s+QMrkcuBf0aVbydtE8xfe+6EmPlSZfZnXnx55x6XxQ=;
+        b=lvnUj/OeVHOOL+g1gnnOMPVDPmhQiacAjY657eXCmgPJqZfPXwaTAnWr6TqpwSwJ3b
+         EqhG8EvavPPlM8iI64a5PMDck+1ycXv8H5pIEezhGMZ/QbbdrjFfUF+61PtFqYPLjHXW
+         09lIyG6iFfROsaXUQMywprtRV6MRK3qV8Sv+Pt/GH/4GOWCPR6XmfiKBwCRv6mmyT8U7
+         7mCB8KHacfkH5kW6DNp4gCwuNxZctSuGFsFd5WxVR7eqiB3WF+3Y5TbQV6BQjH+C2w9r
+         kI/VA5FvUObpORokiO+Sg2wFOAflys8dJmaCMg1O0tTAEmvx/QBIuesehBgFfNS1k4H+
+         rFRA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1788338171; x=1788942971;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=lEDK+6s8EUU2Oy7vTke/AIdPRfzFNyY3UuiurUasEcA=;
-        b=W/AwP0eZjoVCwlFBIjQf1Hlulk5jAYoBdavfjgDRCb2P5ukBV5wprcRAeCkvRYbhCJ
-         ssiNs28K4LD4qYqER8lUb0fuoAtwqrU/jP0/78FszeTjzhwkBgaqXQi8inDYj7xVLfVH
-         bYg5VC41ocGUlZ4SKv2+dz/jzyTpdTJNtYp36M51O2TsqQoEUXTWtv/wDN95Ywt0lzqy
-         5VolQMqp2FOenwtZZlOzn+NHdNLWIpsZ/d+OF3h9yGG/qXolBBxjPBTNBBjp74xEPmDg
-         wjRysayq1HmAo5+S59T+eVwZ4DmA0xO7Mf8k26rPksT+ielKhl+W+g4/NiXet702FuAI
-         qqRg==
-X-Forwarded-Encrypted: i=1; AKwUvBx6LBL1my6tKeKae9TqWQhozMeCRSFroasnZS5TxzJXT5M+1S1NWNVCuM9qGTrozGvIENCaIO4LecI=@vger.kernel.org
-X-Gm-Message-State: AFuF++mkzaaF6SecLSBnmbFhOZisDJrwD2IfyWhQQWYcU7QD3IqVIYVg
-	2ppX1jUeE62GUo65HtVxj9/7AzuR4Yfjjt/U30dRfJzXpRCwytItEfa7
-X-Gm-Gg: AYBFou2Un62r7uC83ykrNmXnQNkT2xXHNLj4FSxtfq8SD70dF0kAqwaZ3vsWr60UN8r
-	pny8u7Ny4GTWJUXHeLGHZ8z/ODaXv9OW/Msjab7AL4zxIFvzP/Chh0eDXYJVgtwA0P5DO7KQXri
-	DS44++oIcIoVUqonWZYQFkpVtCxRg+ts1CAvE7b5ZYUXBdeTEQetEYbZVr/ZSKhf8qaf0DW+oB4
-	2IGRMzaGcp2cpIJt7sJmSqtwQIZjPxx5wkDes/BDoBQ5Dr7wknMvdsO2HUEkwazzd6y8zrFhi5i
-	tH8UBZLRohzyuhVe0xREda2bI5HELkD6ViBc5hOnhJIX4E+vtmo3L5c10n752Ct4i8WftoPCY9K
-	W7nurEfsaiMswajsecbgpm78zjSiOmZh0S+XaKWxKJbDw2QY86UyNytpHu9XmjVHazugRO5N0Xs
-	BluIufYcMOWzIxhH9ijS5Xa0cERoLSIx4kOYpn3UNNjvx4/Qa3t8VufCPJmJr5R3jyUwRPUpLYy
-	HShiHt5vMB3hf608aI=
-X-Received: by 2002:a17:90b:17cd:b0:398:9beb:5c19 with SMTP id 98e67ed59e1d1-39aee178f15mr3548010a91.20.1788338170920;
-        Wed, 02 Sep 2026 01:36:10 -0700 (PDT)
+        d=1e100.net; s=20251104; t=1788338614; x=1788943414;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=s+QMrkcuBf0aVbydtE8xfe+6EmPlSZfZnXnx55x6XxQ=;
+        b=DOKHrqlGu4+Eu2oPfXeXiWu+TmtqDE8SdtGLEqbamiwExdNma0sbgjRZaxyul2NLBH
+         e4rNuoxGtB0GuYhxP+YzGg7VhwYvoQdgg0sry+9BXsSL9SlOGWSHBxau7RhqCOszEnlf
+         lLXRnWHQdcFoN0bTS+iLGJDUXvZ32MjYOEaWfGKHOgBgPn3wbOws4pssbX/6qLdq9riP
+         8sKNO0dVib7HVok99IzluWHYfqNGdLMN3gx4QqK2XTvlEivPyBwkMflbD5XkLAiLa7a2
+         SiWbWpOwQLGl6iHC+MV1k9u3/jt6bopYKjx21N8Lo8N0l9K9iA3Cc7iUGsclZiFjGObj
+         wqvQ==
+X-Forwarded-Encrypted: i=1; AKwUvBwo0YbACDzmALtyJCNZUgfaILtFzqlMbcAPFQWithQScPD2e/JKZphc4SutGR0FkSJ72fJnSSGh5Ow=@vger.kernel.org
+X-Gm-Message-State: AFuF++m9PmUVdyZm0utXR7l6TMVnTCISNHhPxpteBiAaPi0Sn3zu3BMu
+	NlfT24vTLqAk58i4YkXsa/rCCyJU+vpSVAc5YDk2Gm7Xq2IHOPt7vsTT
+X-Gm-Gg: AYBFou0Ol+AEEtduAzw0ZtqUybxj02EbLWptaXg3ZVJkVQjn5bd1fjozS9CwtqXFRkt
+	4gOzt2xeFYwgAFgDyYCzqdzFfA/ahsNA4x62Ed5c6RLpG08jvEC7cbsEeLQR7EhCtDoR8gvCoTK
+	S/2IezQ4l84Vv5+qYtlk8r+kjSbvccEX1ePKAF8wxYHYGfWB2YpH0uv2VPR2xYUBG0f9uHntYIH
+	hZ6e2Z32HB9Nk6z0u0UTAkgm4coLtMykKxssA3O7ejYPg8DebEgQXBvzZsk5t9iZCT/ab4tVp5t
+	b0d2xTBR9Sev2QF3Ubgjw1xNoTrj6PBRzTGodGE1uMjDV+9bYgCyI7PI48a8jZsrkot1XqA0xjU
+	5rDWJilX5r7Vz5J0iakNnWzi2TPQtKHQbxAhvrkso7o/GfIghQIJ1K6ithJDSFFm21UUzh50odW
+	W8MiGJCHYXe2PUspjmbi2kXRDNQD1wZuA9a6b8xXfe+ISJBlWT61JDJykw4qzn21RFZ7MRb0zFf
+	aLLe47HJZY6t47tQlUWlHWnXjE6vA==
+X-Received: by 2002:a05:6a00:10d5:b0:852:38ff:b4b6 with SMTP id d2e1a72fcca58-85ed3f6cd26mr4920805b3a.17.1788338613613;
+        Wed, 02 Sep 2026 01:43:33 -0700 (PDT)
 Received: from localhost.localdomain ([222.254.211.218])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3990d7ba9d5sm11384800a91.13.2026.09.02.01.36.07
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-85dc07157e0sm997498b3a.43.2026.09.02.01.43.30
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 02 Sep 2026 01:36:10 -0700 (PDT)
+        Wed, 02 Sep 2026 01:43:33 -0700 (PDT)
 From: Nguyen Duc Thinh <ducthinh100812@gmail.com>
 To: Jonathan Corbet <corbet@lwn.net>
 Cc: Weijie Yuan <wy@wyuan.org>,
@@ -68,12 +66,10 @@ Cc: Weijie Yuan <wy@wyuan.org>,
 	linux-doc@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
 	Nguyen Duc Thinh <ducthinh100812@gmail.com>
-Subject: [PATCH 1/5] Documentation: process: Clean up grammar, tone, and contractions in core files
-Date: Wed,  2 Sep 2026 15:35:41 +0700
-Message-ID: <20260902083541.15555-2-ducthinh100812@gmail.com>
+Subject: [PATCH v2 0/5] Documentation: process: Clean up grammar, tone, 
+Date: Wed,  2 Sep 2026 15:43:24 +0700
+Message-ID: <20260902084324.16498-1-ducthinh100812@gmail.com>
 X-Mailer: git-send-email 2.50.1
-In-Reply-To: <20260902083541.15555-1-ducthinh100812@gmail.com>
-References: <20260902083541.15555-1-ducthinh100812@gmail.com>
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
@@ -82,221 +78,68 @@ List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Update three process documentation files to improve text consistency and
-professional tone. Expand informal contractions like "don't" to "do
-not", resolve minor punctuation errors, and refine the voice for better
-readability.
+This patch series performs a thorough pass across several files 
+in the Linux kernel process documentation directory. The primary focus
+is to improve readability and maintain a professional tone throughout 
+the guides for a global developer audience.
 
-Signed-off-by: Nguyen Duc Thinh <ducthinh100812@gmail.com>
----
- Documentation/process/1.Intro.rst         | 18 +++++++++---------
- Documentation/process/3.Early-stage.rst   | 14 +++++++-------
- Documentation/process/6.Followthrough.rst | 16 ++++++++--------
- 3 files changed, 24 insertions(+), 24 deletions(-)
+Core changes include:
+- Expanding conversational contractions (e.g., "don't" to "do not").
+- Rectifying minor punctuation oversights and grammatical typos.
+- Standardizing terminology formatting to elevate professional voice.
 
-diff --git a/Documentation/process/1.Intro.rst b/Documentation/process/1.Intro.rst
-index 847fbe76b6a44..0c95239eadda8 100644
---- a/Documentation/process/1.Intro.rst
-+++ b/Documentation/process/1.Intro.rst
-@@ -24,7 +24,7 @@ initial exercise.
- :ref:`development_early_stage` covers early-stage project planning, with an
- emphasis on involving the development community as soon as possible.
+Extra notes:
+- I originally intended to send a 12-patch series to cover the whole
+  directory, but decided to scale it back to these 5 high-quality
+  patches to ensure thorough accuracy and a manageable review cycle.
+  
+  Also I want to know the current progress of the patch titled 
+  "Capitalize Git, Quilt, and Mercurial consistently".
 
--:ref:`development_coding` is about the coding process; several pitfalls which
-+:ref:`development_coding` is about the coding process; several pitfalls that
- have been encountered by other developers are discussed.  Some requirements for
- patches are covered, and there is an introduction to some of the tools
- which can help to ensure that kernel patches are correct.
-@@ -53,7 +53,7 @@ What this document is about
- The Linux kernel, at over 8 million lines of code and well over 1000
- contributors to each release, is one of the largest and most active free
- software projects in existence.  Since its humble beginning in 1991, this
--kernel has evolved into a best-of-breed operating system component which
-+kernel has evolved into a best-of-breed operating system component that
- runs on pocket-sized digital music players, desktop PCs, the largest
- supercomputers in existence, and all types of systems in between.  It is a
- robust, efficient, and scalable solution for almost any situation.
-@@ -84,7 +84,7 @@ difficulties when trying to do kernel work.  The kernel community has
- evolved its own distinct ways of operating which allow it to function
- smoothly (and produce a high-quality product) in an environment where
- thousands of lines of code are being changed every day.  So it is not
--surprising that Linux kernel development process differs greatly from
-+surprising that the Linux kernel development process differs greatly from
- proprietary development methods.
+  And I would like to thank everyone for welcoming me to the community
+  and I hope everyone can forgive me for my mistakes in the past, 
+  present, and in the future.
 
- The kernel's development process may come across as strange and
-@@ -95,8 +95,8 @@ have a frustrating experience in store.  The development community, while
- being helpful to those who are trying to learn, has little time for those
- who will not listen or who do not care about the development process.
+v2:
+  - Resending the complete 5-patch series together as a single cohesive 
+    thread. (Apologies, the v1 submission suffered a terminal wildcard 
+    argument error that accidentally truncated the transmission 
+    after 1/5).
 
--It is hoped that those who read this document will be able to avoid that
--frustrating experience.  There is a lot of material here, but the effort
-+Those who read this document should be able to avoid that frustrating
-+experience.  There is a lot of material here, but the effort
- involved in reading it will be repaid in short order.  The development
- community is always in need of developers who will help to make the kernel
- better; the following text should help you - or those who work for you -
-@@ -145,7 +145,7 @@ discussed in greater detail later in this document.  Consider:
-   out-of-tree code requires significant amounts of work just to keep that
-   code working.
+Nguyen Duc Thinh (5):
+  Documentation: process: Clean up grammar, tone, and contractions in
+    core files
+  Documentation: process: Clean up grammar and tone in next guide files
+  Documentation: process: Refine language, tone, and grammar in
+    subsequent files
+  Documentation: process: Refine language, tone, and grammar in
+    subsequent files
+  Documentation: process: Clean up grammar and tone across multiple
+    files
 
--  Code which is in the mainline, instead, does not require this work as the
-+  By contrast, code in the mainline does not require this work as the
-   result of a simple rule requiring any developer who makes an API change
-   to also fix any code that breaks as the result of that change.  So code
-   which has been merged into the mainline has significantly lower
-@@ -176,7 +176,7 @@ discussed in greater detail later in this document.  Consider:
-   out of tree indefinitely, or (2) abandoning your code and migrating your
-   users over to the in-tree version.
+ Documentation/process/1.Intro.rst             | 18 ++---
+ Documentation/process/2.Process.rst           | 22 +++---
+ Documentation/process/3.Early-stage.rst       | 14 ++--
+ Documentation/process/4.Coding.rst            | 48 ++++++-------
+ Documentation/process/5.Posting.rst           | 34 +++++-----
+ Documentation/process/6.Followthrough.rst     | 16 ++---
+ Documentation/process/7.AdvancedTopics.rst    | 32 ++++-----
+ Documentation/process/8.Conclusion.rst        |  4 +-
+ Documentation/process/applying-patches.rst    | 20 +++---
+ Documentation/process/backporting.rst         | 68 +++++++++----------
+ Documentation/process/botching-up-ioctls.rst  | 54 +++++++--------
+ Documentation/process/changes.rst             | 20 +++---
+ .../code-of-conduct-interpretation.rst        | 14 ++--
+ Documentation/process/code-of-conduct.rst     |  2 +-
+ Documentation/process/coding-assistants.rst   | 12 ++--
+ Documentation/process/conclave.rst            |  6 +-
+ .../process/contribution-maturity-model.rst   |  4 +-
+ Documentation/process/cve.rst                 |  8 +--
+ Documentation/process/deprecated.rst          | 14 ++--
+ Documentation/process/development-process.rst |  6 +-
+ Documentation/process/email-clients.rst       | 32 ++++-----
+ 21 files changed, 224 insertions(+), 224 deletions(-)
 
--- Contribution of code is the fundamental action which makes the whole
-+- Contribution of code is the fundamental action that makes the whole
-   process work.  By contributing your code you can add new functionality to
-   the kernel and provide capabilities and examples which are of use to
-   other kernel developers.  If you have developed code for Linux (or are
-@@ -194,7 +194,7 @@ include:
-   are cloudy at best; quite a few kernel copyright holders believe that
-   most binary-only modules are derived products of the kernel and that, as
-   a result, their distribution is a violation of the GNU General Public
--  License (about which more will be said below).  Your author is not a
-+  License (about which more will be said below).  The author is not a
-   lawyer, and nothing in this document can possibly be considered to be
-   legal advice.  The true legal status of closed-source modules can only be
-   determined by the courts.  But the uncertainty which haunts those modules
-@@ -233,7 +233,7 @@ Licensing
- Code is contributed to the Linux kernel under a number of licenses, but all
- code must be compatible with version 2 of the GNU General Public License
- (GPLv2), which is the license covering the kernel distribution as a whole.
--In practice, that means that all code contributions are covered either by
-+In practice, this means all code contributions are covered either by
- GPLv2 (with, optionally, language allowing distribution under later
- versions of the GPL) or the three-clause BSD license.  Any contributions
- which are not covered by a compatible license will not be accepted into the
-diff --git a/Documentation/process/3.Early-stage.rst b/Documentation/process/3.Early-stage.rst
-index 87fa7875e3369..06f9adcd1f833 100644
---- a/Documentation/process/3.Early-stage.rst
-+++ b/Documentation/process/3.Early-stage.rst
-@@ -58,7 +58,7 @@ creation of a body of code.
- So, when contemplating a kernel development project, one should obtain
- answers to a short set of questions:
-
-- - What, exactly, is the problem which needs to be solved?
-+ - What, exactly, is the problem that needs to be solved?
-
-  - Who are the users affected by this problem?  Which use cases should the
-    solution address?
-@@ -75,7 +75,7 @@ When planning a kernel development project, it makes great sense to hold
- discussions with the community before launching into implementation.  Early
- communication can save time and trouble in a number of ways:
-
-- - It may well be that the problem is addressed by the kernel in ways which
-+ - It may well be that the problem is addressed by the kernel in ways that
-    you have not understood.  The Linux kernel is large and has a number of
-    features and capabilities which are not immediately obvious.  Not all
-    kernel capabilities are documented as well as one might like, and it is
-@@ -136,7 +136,7 @@ relevant subsystem and the environment may be more supportive.
- Finding maintainers can be a bit harder.  Again, the MAINTAINERS file is
- the place to start.  That file tends to not always be up to date, though,
- and not all subsystems are represented there.  The person listed in the
--MAINTAINERS file may, in fact, not be the person who is actually acting in
-+MAINTAINERS file may not, in fact, be the person who is actually acting in
- that role currently.  So, when there is doubt about who to contact, a
- useful trick is to use Git (and "git log" in particular) to see who is
- currently active within the subsystem of interest.  Look at who is writing
-@@ -168,12 +168,12 @@ When to post?
- -------------
-
- If possible, posting your plans during the early stages can only be
--helpful.  Describe the problem being solved and any plans that have been
--made on how the implementation will be done.  Any information you can
-+helpful.  Describe the problem being solved and how you plan to
-+implement the solution. Any information you can
- provide can help the development community provide useful input on the
- project.
-
--One discouraging thing which can happen at this stage is not a hostile
-+One discouraging thing that can happen at this stage is not a hostile
- reaction, but, instead, little or no reaction at all.  The sad truth of the
- matter is (1) kernel developers tend to be busy, (2) there is no shortage
- of people with grand plans and little code (or even prospect of code) to
-@@ -217,7 +217,7 @@ a non-disclosure agreement.  The Linux Foundation operates an NDA program
- designed to help with this sort of situation; more information can be found
- at:
-
--    https://www.linuxfoundation.org/nda/
-+    https://www.linuxfoundation.org/legal/nda/
-
- This kind of review is often enough to avoid serious problems later on
- without requiring public disclosure of the project.
-diff --git a/Documentation/process/6.Followthrough.rst b/Documentation/process/6.Followthrough.rst
-index 66fa400c6d940..ba145b705df02 100644
---- a/Documentation/process/6.Followthrough.rst
-+++ b/Documentation/process/6.Followthrough.rst
-@@ -10,7 +10,7 @@ developers can make is to conclude that their work is now done.  In truth,
- posting patches indicates a transition into the next stage of the process,
- with, possibly, quite a bit of work yet to be done.
-
--It is a rare patch which is so good at its first posting that there is no
-+It is a rare patch that is so good at its first posting that there is no
- room for improvement.  The kernel development process recognizes this fact,
- and, as a result, is heavily oriented toward the improvement of posted
- code.  You, as the author of that code, will be expected to work with the
-@@ -60,8 +60,8 @@ mind:
-
- What all of this comes down to is that, when reviewers send you comments,
- you need to pay attention to the technical observations that they are
--making.  Do not let their form of expression or your own pride keep that
--from happening.  When you get review comments on a patch, take the time to
-+making.  Do not let their tone or your own pride prevent that.
-+When you get review comments on a patch, take the time to
- understand what the reviewer is trying to say.  If possible, fix the things
- that the reviewer is asking you to fix.  And respond back to the reviewer:
- thank them, and describe how you will answer their questions.
-@@ -96,7 +96,7 @@ through list archives to familiarize themselves with what was said last
- time; if you help them get a running start, they will be in a better mood
- when they revisit your code.
-
--What if you've tried to do everything right and things still aren't going
-+What if you've tried to do everything right and things still are not going
- anywhere?  Most technical disagreements can be resolved through discussion,
- but there are times when somebody simply has to make a decision.  If you
- honestly believe that this decision is going against you wrongly, you can
-@@ -128,7 +128,7 @@ Inclusion into a subsystem tree can bring a higher level of visibility to a
- patch.  Now other developers working with that tree will get the patch by
- default.  Subsystem trees typically feed linux-next as well, making their
- contents visible to the development community as a whole.  At this point,
--there's a good chance that you will get more comments from a new set of
-+there is a good chance that you will get more comments from a new set of
- reviewers; these comments need to be answered as in the previous round.
-
- What may also happen at this point, depending on the nature of your patch,
-@@ -142,7 +142,7 @@ blessings: before the advent of the linux-next tree, these conflicts often
- only turned up during the merge window and had to be addressed in a hurry.
- Now they can be resolved at leisure, before the merge window opens.
-
--Some day, if all goes well, you'll log on and see that your patch has been
-+Someday, if all goes well, you will log on and see that your patch has been
- merged into the mainline kernel.  Congratulations!  Once the celebration is
- complete (and you have added yourself to the MAINTAINERS file), though, it
- is worth remembering an important little fact: the job still is not done.
-@@ -174,7 +174,7 @@ After any regressions have been dealt with, there may be other, ordinary
- bugs to deal with.  The stabilization period is your best opportunity to
- fix these bugs and ensure that your code's debut in a mainline kernel
- release is as solid as possible.  So, please, answer bug reports, and fix
--the problems if at all possible.  That's what the stabilization period is
-+the problems if at all possible.  That is what the stabilization period is
- for; you can start creating cool new patches once any problems with the old
- ones have been taken care of.
-
-@@ -208,7 +208,7 @@ far.  If you are seen as needlessly blocking good work, those patches will
- eventually flow around you and get into the mainline anyway.  In the Linux
- kernel, nobody has absolute veto power over any code.  Except maybe Linus.
-
--On very rare occasion, you may see something completely different: another
-+On very rare occasions, you may see something completely different: another
- developer posts a different solution to your problem.  At that point,
- chances are that one of the two patches will not be merged, and "mine was
- here first" is not considered to be a compelling technical argument.  If
---
+-- 
 2.50.1 (Apple Git-155)
 
