@@ -1,92 +1,74 @@
-Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 712404FB9B8;
-	Thu,  3 Sep 2026 17:39:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 38C183C3F6B;
+	Thu,  3 Sep 2026 20:27:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788457185; cv=none; b=qeYidaJqS5Ogt16xVyYWt0KrTgUnnDfKJPAKcBfsBO2b8zEUg8wFv012DCKdWlvG4BKf/V4MdDz6VdYaqmSk/M0Ji1L1Z3fuXyqBk1S/N70r3amYJa+eeuAVpzVD+p7fjDDdGfR/DQ28F7EX3LL2mvSh02+ooD2I/dSdFJ9j7N0=
+	t=1788467244; cv=none; b=Rj2jEUTVW64vPx5M05PHY5fVGvxTjL9H+FYD5YdCIsefcOQ9PEj/r6wiAcfeykl6so8UV9lPoTVnjPCsJJ6FBLGqCnX8xf0Ql9NFa/bvyOxh7QDqiIbkW17I5K525SmS4z1CM7aRtKjjZNRC11ctFEL9w+Cjk8IxNmEwxcRTRsg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788457185; c=relaxed/simple;
-	bh=es0hrt9bc5pQGcJPW7NL36Y4Jj6+ora9XSzl5f3ltaU=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=bqSafUbtWQ2L1a3q2kDxrho1celAYxwHzDoBBCc5n/A9+Iyg5bIiy5A6zjJ+SUph3HRaLedb0mmLYZSHxKV+MtzvP9s6zY87Vzfw6C0zjUEPesar0QiW5iQRMn6mQA2O4bMiwdmMuhX7cNDHFBtvKAJFMveQIEU8pPufxj8N36w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=r/O5W8Zg; arc=none smtp.client-ip=45.79.88.28
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
+	s=arc-20240116; t=1788467244; c=relaxed/simple;
+	bh=l91/UGkIDrl42dnGZ8e+BDegYiQ2Y+Zc+gpuFCj9TVE=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=b8UkrJB8d9K2hhdQHxKigWIezRZb3VKRDQXuyJlNr06jIr5edUoHqDanpFJgdobIBImxQgmXSUjzvW6Ne3hwTSVqnqHhq+9OCwJB2ik650DLOzOjalZUjfrkcKZjJtlIsL5dd1hTkr3TihkZdLcNm4G7d7+jufPFFHPNDMYj0D8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=UEOKV5xL; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="r/O5W8Zg"
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 723C3408D3
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-	t=1788457183; bh=id5q1lvxHv2zUL6v/tyJdo/32FcmQhWa7pQiBwU1Nec=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=r/O5W8Zg0qi9yR580IA30GBEboiJZqljDt370YEQXaYrouaMlNqe4/2sx9e5Pr7zF
-	 Lp85GvQzvQ5FdfeKzWY+XxbSTYb/3Wlhc8jnk3k8cDgq3yAeYr6RLR38UHLGNXfTh5
-	 pQhAtCAKZfiQuwaEtyCFL0Ug3tOTcvV+Ew5QeyDDc4jzlUPyRMRsEXOyC2XexsIxxU
-	 aq8gW9HdsdxMyzWFkfNaIBwBI/itEJZuETA4Rkj3LYSe/B4AGalpjHm5lw/dwjnVEf
-	 UMfzjCq/Voa9EHnUACl6iTEUvDwxztFd/UGachcqFxVaOzZUZVop43hINKxD37DR1V
-	 XM7e8uJHMpA5A==
-Received: from localhost (unknown [IPv6:2601:280:4600:814::1fe])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (prime256v1) server-signature ECDSA (prime256v1) server-digest SHA256)
-	(No client certificate requested)
-	by ms.lwn.net (Postfix) with ESMTPSA id 723C3408D3;
-	Thu,  3 Sep 2026 17:39:43 +0000 (UTC)
-From: Jonathan Corbet <corbet@lwn.net>
-To: Weijie Yuan <wy@wyuan.org>, Laurent Pinchart
- <laurent.pinchart@ideasonboard.com>
-Cc: Nguyen Duc Thinh <ducthinh100812@gmail.com>, Shuah Khan
- <skhan@linuxfoundation.org>, Randy Dunlap <rdunlap@infradead.org>,
- workflows@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 0/5] Documentation: process: Clean up grammar, tone,
-In-Reply-To: <apmtwqxrkg8pN0aL@wyuan.org>
-References: <20260902084430.17248-1-ducthinh100812@gmail.com>
- <aploLWg-i315frp5@wyuan.org>
- <20260903125454.GA541154@killaraus.ideasonboard.com>
- <apmtwqxrkg8pN0aL@wyuan.org>
-Date: Thu, 03 Sep 2026 11:39:42 -0600
-Message-ID: <87jyp25j4x.fsf@trenco.lwn.net>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="UEOKV5xL"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6C6571F000E9;
+	Thu,  3 Sep 2026 20:27:03 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1788467225;
+	bh=elkp0fXEfvHG6ANCalHkLSTiGly333WXYxFdC6tJUZg=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=UEOKV5xL2pQxlkjJ1XVy7dMHYWTQqpMC63KRwDOArms6ZDlYnhluOig5OX27kLFPV
+	 0B4mLTol/O9bYfPMciSNSfxJy8nc1tpWePKtvbI7WaPKsVZYjXrYDK1D6j/Hq8vUze
+	 k6F8kZyhE7jrM+vVLxGsqy3vmWkbYMsyiL5gY/qUhgm6zt4FBBUv5Xc3c5XtIGz7Oc
+	 J756KeB4ZdWJUuo10pBpcGt5lv5tosWkL6OuxngnDtMmGrsIwKwrR2+hfQai6fGgK+
+	 9Zl5vBTazLyddJLAE9DCDia5KNbHPpyAoJLLwErRoaQjRJMlApJO5OvQqDoaSWfPNK
+	 pFhHfK2hr7zCw==
+Date: Thu, 3 Sep 2026 13:27:00 -0700
+From: Nathan Chancellor <nathan@kernel.org>
+To: Guillaume Tucker <gtucker@gtucker.io>
+Cc: Jonathan Corbet <corbet@lwn.net>, Miguel Ojeda <ojeda@kernel.org>,
+	Nicolas Schier <nsc@kernel.org>, linux-doc@vger.kernel.org,
+	workflows@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-kbuild@vger.kernel.org,
+	automated-testing@lists.yoctoproject.org,
+	"kernelci@lists.linux.dev" <kernelci@lists.linux.dev>,
+	Nick Desaulniers <ndesaulniers@google.com>,
+	Onur =?iso-8859-1?Q?=D6zkan?= <work@onurozkan.dev>
+Subject: Re: [PATCH 1/2] scripts: add TOML config to container tool
+Message-ID: <20260903202700.GA3790602@ax162>
+References: <7d8ba914cd174d716340bb2b88723bef0f330627.1787565460.git.gtucker@gtucker.io>
+ <apG3hwaPA8f7SJeI@levanger>
+ <b45e7864-928c-4b3c-aa62-64f4f63d85c7@gtucker.io>
+ <ed43b869-6fd4-4b00-8fd2-e9dd9aaf3349@gtucker.io>
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <ed43b869-6fd4-4b00-8fd2-e9dd9aaf3349@gtucker.io>
 
-Weijie Yuan <wy@wyuan.org> writes:
+On Wed, Sep 02, 2026 at 12:26:29PM +0200, Guillaume Tucker wrote:
+> So to recap, here's what I would suggest:
+> 
+> * keep Python 3.10 for this series, continue discussion about minimum
+>   and optional version numbers tree-wide in other threads
+> 
+> * drop registry config file option in v4 then add it in a follow-up
+>   series along with image name validation and parsing using regex
+> 
+> * leave TypeError exceptions as-is in this series, improve user
+>   experience and error handling altogether in another follow-up
 
-> On Thu, Sep 03, 2026 at 03:54:54PM +0300, Laurent Pinchart wrote:
->> > On Wed, Sep 02, 2026 at 03:43:58PM +0700, Nguyen Duc Thinh wrote:
->> > > This patch series performs a thorough pass across several files 
->> > > in the Linux kernel process documentation directory. The primary focus
->> > > is to improve readability and maintain a professional tone throughout 
->> > > the guides for a global developer audience.
->> > > 
->> > > Core changes include:
->> > > - Expanding conversational contractions (e.g., "don't" to "do not").
->> > 
->> > Is this necessary? I'm not sure.
->> 
->> It seems a bit pointless to me. Contractions will creep back in as
->> patches are merged. We would need e documentation editor in charge of
->> ensuring a consistent style, and I think the documentation maintainers
->> have far better things to do.
->
-> Agreed. I think contractions are fine as they are. (?) And I do not see
-> a need to expand them.
->
->> > > - Rectifying minor punctuation oversights and grammatical typos.
->> > > - Standardizing terminology formatting to elevate professional voice.
->
-> For these two points, it's a little bit painful to find other types of
-> modifications among numerous "which/that". ;-)
+Sure, I think this sounds fine. I tend to ignore existing issue comments
+from Sashiko when it comes to accepting a series, I would always prefer
+them to be handled in a separate series.
 
-I have to agree with all of that; I don't see merging this series as it
-is now.  We have so many documentation problems, and this sort of churn
-just does not address any of them.
-
-Thanks,
-
-jon
+-- 
+Cheers,
+Nathan
