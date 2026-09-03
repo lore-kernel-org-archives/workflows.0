@@ -1,136 +1,103 @@
-Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mta1.migadu.com (out-87.mta1.migadu.com [95.215.58.87])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B634A4EC659;
-	Thu,  3 Sep 2026 16:33:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BE9D74F4745
+	for <workflows@vger.kernel.org>; Thu,  3 Sep 2026 16:57:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.87
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788453230; cv=none; b=NS3ALhR+vst1X6YtfV28q7LUTcLh3Zm2d2qjSg9iahM1SoK1FOJviBKOnQkrAfZWIs0pmu9XZ/6UXjCFBYm5U68HeWXnXGcT694cPFSV7H8yhDWBHusIkilCwK9On/+fATRfWiGTCGrh90FqLPSWeyC8VlSeE6zXRejAwxzNqi4=
+	t=1788454666; cv=none; b=Bitm2DInyr1SuOYHfV2WykqTi+B1dwaRbq+JpZDtOWm3Gi+m/FgfQRAzxhWseYo/hTB123wXe1mz3FxR7BQYsh/QYrb1fz6MU2tQSENu1ZXkZ2FaeEp9C6xjkTMWF6fPsyv7P1XUo8pSzLQK33YX9sYn1rVdXzBLqeYdeTkAIUs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788453230; c=relaxed/simple;
-	bh=4vALeppUB6b+IJEWEdpE0sKGSOqHZR1+kVSi++luN+k=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=aDq+hMLEpptR4/cnqPrwzX3Nj019Yy3U1utEGKbHGAxow3xJ5ZKkrqxswIvUwVto73obzXqVSrxAWjozK87eJX3ON2QQjYNFs/wNz4LI1aYGIcb4TDE/OPDTuXnM1569ilDMkYp7bgRG/b36iakE/yyj71BbRMxOf6AqLYy7PM8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=pass smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=uBRU+c4/; arc=none smtp.client-ip=198.137.202.133
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=infradead.org
+	s=arc-20240116; t=1788454666; c=relaxed/simple;
+	bh=yrTVed2V76HIXyGCXgr8lE+QFhABBpHQFtBkdMn89t4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=DGb3/I5QWuIDvHQc9at3jwcYbo5ffPyc59TE09cfA4gdEAuzRdid3A1jkP20KarCaKDlaGgebz0pAoke7HV1m18PmQqsRZVxiP2ntptM9qC4JCnV7bGzPbfC67N+87e7gc8OklATOw9iYWgDhFI+7KvuNSbH1RpsBVevk0uUoCM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=wyuan.org; spf=pass smtp.mailfrom=wyuan.org; dkim=pass (2048-bit key) header.d=wyuan.org header.i=@wyuan.org header.b=iVI4RRp/; arc=none smtp.client-ip=95.215.58.87
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=wyuan.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=wyuan.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="uBRU+c4/"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
-	bh=BvmPIK9NpaBNLg9nUaIuSfLLYPm2dUGyP0JB65LG+70=; b=uBRU+c4/TDmoX3LEiQ1DvMkI64
-	HVVmmzmRDO1ZT0FnKn87SiqnaieUa8/89FseGbCG+izj9hU2w6jIw0lKuzxh+9A4OiWzCPGu9DlA/
-	sck0QMVjJHh7uk6LJoL6q+bLYmmRXDsIcjlygc3tBAg190czzkjHcrbYpObkri7jTJ9vXwONXr77C
-	/DVPIjUKazfZvhUGgBRjp4idWUlNUtwi4dj9gW6dOn5J4/rgDKxQpx5JdLYq9DsxA/p6yeEY20MXh
-	kXfo4SHjubiqyvQ1KOlAT3kvgp+uWVsN/SesaSTSs3D0YgdyXLOO5cjV2lMrmuBT04Ac5h/M+4QCy
-	mG5RTFWQ==;
-Received: from [50.53.43.113] (helo=[192.168.254.34])
-	by bombadil.infradead.org with esmtpsa (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1x2ANn-00000000BCS-0of6;
-	Thu, 03 Sep 2026 16:33:47 +0000
-Message-ID: <5efba8f3-ffb0-4e1e-8057-6946e1e96db8@infradead.org>
-Date: Thu, 3 Sep 2026 09:33:46 -0700
+	dkim=pass (2048-bit key) header.d=wyuan.org header.i=@wyuan.org header.b="iVI4RRp/"
+X-Envelope-To: workflows@vger.kernel.org
+DKIM-Signature: a=rsa-sha256; bh=yrTVed2V76HIXyGCXgr8lE+QFhABBpHQFtBkdMn89t4=;
+ c=simple/simple; d=wyuan.org;
+ h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
+ t=1788454662; v=1; x=1789059462;
+ b=iVI4RRp/CXlFGFI/bOh+HorKVGdLzDjGJSZ/XMzbxIM318zzqnsyuekAc9zHyYLdZ82+YLhp
+ q0Enp9KwRAb0eA3oj9yaN2UrmqDX1IVn3GjMYCv+tUlXCfWYSo9x9zIJewaX1HtobNI8+GuehwL
+ OYHmdqOQzOslcYAf1xBkUNHkjYN0lJMq0bC77jm+vz3ummNJnYSMvhZU47+Os98EVicA3juTdpc
+ HH/Zet1IQLYBzqanxD/bLy57CvxQmdvobqol3+zB0dbWEN+wTkUFCluExyD8r5RdgFx4AAFvSE7
+ 7NAFRArlK7u4ekk3rCtZ69s8sSnsoFnkiPgbeu6FDmStw==
+X-Envelope-To: workflows@vger.kernel.org
+Received: by smtp.migadu.com with ESMTPS id c26a59a5668ff9b5;
+	Thu, 03 Sep 2026 16:57:32 +0000
+X-Mizu-Trace-ID: c26a59a5668ff9b5
+X-Migadu-Flow: FLOW_OUT
+Date: Fri, 4 Sep 2026 00:55:55 +0800
+From: Weijie Yuan <wy@wyuan.org>
+To: Randy Dunlap <rdunlap@infradead.org>
+Cc: Nguyen Duc Thinh <ducthinh100812@gmail.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>, workflows@vger.kernel.org,
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2 0/5] Documentation: process: Clean up grammar, tone,
+Message-ID: <apmmmz0Xo6fXgFiV@wyuan.org>
+References: <20260902084430.17248-1-ducthinh100812@gmail.com>
+ <aploLWg-i315frp5@wyuan.org>
+ <5efba8f3-ffb0-4e1e-8057-6946e1e96db8@infradead.org>
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 0/5] Documentation: process: Clean up grammar, tone,
-To: Weijie Yuan <wy@wyuan.org>, Nguyen Duc Thinh <ducthinh100812@gmail.com>
-Cc: Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
- workflows@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org
-References: <20260902084430.17248-1-ducthinh100812@gmail.com>
- <aploLWg-i315frp5@wyuan.org>
-Content-Language: en-US
-From: Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <aploLWg-i315frp5@wyuan.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <5efba8f3-ffb0-4e1e-8057-6946e1e96db8@infradead.org>
 
+On Thu, Sep 03, 2026 at 09:33:46AM -0700, Randy Dunlap wrote:
+> >> Nguyen Duc Thinh (5):
+> >>   Documentation: process: Clean up grammar, tone, and contractions in
+> >>     core files
+> >>   Documentation: process: Clean up grammar and tone in next guide files
+> >>   Documentation: process: Refine language, tone, and grammar in
+> >>     subsequent files
+> >>   Documentation: process: Refine language, tone, and grammar in
+> >>     subsequent files
+> >>   Documentation: process: Clean up grammar and tone across multiple
+> >>     files
+> > 
+> > Output of 'b4 shazam':
+> > 
+> > ...
+> > Applying: Documentation: process: Clean up grammar, tone, and contractions in core files
+> > Applying: Documentation: process: Clean up grammar and tone in next guide files
+> > Applying: Documentation: process: Refine language, tone, and grammar in subsequent files
+> > Applying: Documentation: process: Refine language, tone, and grammar in subsequent files
+> > Applying: Documentation: process: Clean up grammar and tone across multiple files
+> > /home/user/Projects/linux/.git/rebase-apply/patch:72: trailing whitespace.
+> >   License (about which more will be said below).  The author is not a
+> > warning: 1 line adds whitespace errors.
+> > /home/user/Projects/linux/.git/rebase-apply/patch:244: trailing whitespace.
+> > Which is nice, since there is no more insanity in the form of fake-generic
+> > warning: 1 line adds whitespace errors.
+> > /home/user/Projects/linux/.git/rebase-apply/patch:261: trailing whitespace.
+> >    rare cases, an AI assistant capable of finding a bug is capable of fixing it.
+> > /home/user/Projects/linux/.git/rebase-apply/patch:262: trailing whitespace.
+> >    Fixes written within the same session used to identify the bug will
+> > /home/user/Projects/linux/.git/rebase-apply/patch:263: trailing whitespace.
+> >    generally lead to better and more accurate fixes as the LLM's reasoning
+> > /home/user/Projects/linux/.git/rebase-apply/patch:282: trailing whitespace.
+> > - Within two weeks, a representative of this group will communicate the
+> > warning: 4 lines add whitespace errors.
+> > 
+> > Should we handle with whitespace?
+> 
+> No, the trailing whitespace should be fixed (i.e., deleted)
+> and then resend the patches.
 
+Right, I was actually trying to gently point out that the trailing
+whitespace should be fixed. ;-)
 
-On 9/3/26 5:29 AM, Weijie Yuan wrote:
-> Thanks for Cc'ing me.
-> 
-> On Wed, Sep 02, 2026 at 03:43:58PM +0700, Nguyen Duc Thinh wrote:
->> This patch series performs a thorough pass across several files 
->> in the Linux kernel process documentation directory. The primary focus
->> is to improve readability and maintain a professional tone throughout 
->> the guides for a global developer audience.
->>
->> Core changes include:
->> - Expanding conversational contractions (e.g., "don't" to "do not").
-> 
-> Is this necessary? I'm not sure.
-> 
->> - Rectifying minor punctuation oversights and grammatical typos.
->> - Standardizing terminology formatting to elevate professional voice.
->>
->> Extra notes:
->> - I originally intended to send a 12-patch series to cover the whole
->>   directory, but decided to scale it back to these 5 high-quality
->>   patches to ensure thorough accuracy and a manageable review cycle.
->>   
->>   Also I want to know the current progress of the patch titled 
->>   "Capitalize Git, Quilt, and Mercurial consistently".
-> 
-> It has been applied:
-> 
-> https://git.kernel.org/pub/scm/linux/kernel/git/docs/linux.git/commit/?id=4a0be1a25d98672391e8ad2a0802f08609397274
-> 
->> v2:
->>   - Resending the complete 5-patch series together as a single cohesive 
->>     thread. (Apologies, the v1 submission suffered a terminal wildcard 
->>     argument error that accidentally truncated the transmission 
->>     after 1/5).
-> 
-> A better practice is to name it [PATCH v1 RESEND], I guess?
-> 
->> Nguyen Duc Thinh (5):
->>   Documentation: process: Clean up grammar, tone, and contractions in
->>     core files
->>   Documentation: process: Clean up grammar and tone in next guide files
->>   Documentation: process: Refine language, tone, and grammar in
->>     subsequent files
->>   Documentation: process: Refine language, tone, and grammar in
->>     subsequent files
->>   Documentation: process: Clean up grammar and tone across multiple
->>     files
-> 
-> Output of 'b4 shazam':
-> 
-> ...
-> Applying: Documentation: process: Clean up grammar, tone, and contractions in core files
-> Applying: Documentation: process: Clean up grammar and tone in next guide files
-> Applying: Documentation: process: Refine language, tone, and grammar in subsequent files
-> Applying: Documentation: process: Refine language, tone, and grammar in subsequent files
-> Applying: Documentation: process: Clean up grammar and tone across multiple files
-> /home/user/Projects/linux/.git/rebase-apply/patch:72: trailing whitespace.
->   License (about which more will be said below).  The author is not a
-> warning: 1 line adds whitespace errors.
-> /home/user/Projects/linux/.git/rebase-apply/patch:244: trailing whitespace.
-> Which is nice, since there is no more insanity in the form of fake-generic
-> warning: 1 line adds whitespace errors.
-> /home/user/Projects/linux/.git/rebase-apply/patch:261: trailing whitespace.
->    rare cases, an AI assistant capable of finding a bug is capable of fixing it.
-> /home/user/Projects/linux/.git/rebase-apply/patch:262: trailing whitespace.
->    Fixes written within the same session used to identify the bug will
-> /home/user/Projects/linux/.git/rebase-apply/patch:263: trailing whitespace.
->    generally lead to better and more accurate fixes as the LLM's reasoning
-> /home/user/Projects/linux/.git/rebase-apply/patch:282: trailing whitespace.
-> - Within two weeks, a representative of this group will communicate the
-> warning: 4 lines add whitespace errors.
-> 
-> Should we handle with whitespace?
+This should be caught easily by checkpatch.pl, or simply by running
+b4 prep --check, I guess. Better run it before sending out next time.
 
-No, the trailing whitespace should be fixed (i.e., deleted)
-and then resend the patches.
-
--- 
-~Randy
-
+Thanks.
