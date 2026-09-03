@@ -1,99 +1,136 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 46F043254AE;
-	Thu,  3 Sep 2026 15:30:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B634A4EC659;
+	Thu,  3 Sep 2026 16:33:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788449439; cv=none; b=FySF8gxDbRWORA9GQdYNPCBC5EGDf57QK+opOkB1Ang8g3eXjWsKsAFTPtpS3pS53+dkctiE59izAVoMNv11F+wcFQ/x2IPTKGlSmzLj4lcBnYmiroXVH+YH10aO4+G7C5+tx9wrs0tTMxl5aa3fhyLmQ0teYvG5dDt+pfjweBU=
+	t=1788453230; cv=none; b=NS3ALhR+vst1X6YtfV28q7LUTcLh3Zm2d2qjSg9iahM1SoK1FOJviBKOnQkrAfZWIs0pmu9XZ/6UXjCFBYm5U68HeWXnXGcT694cPFSV7H8yhDWBHusIkilCwK9On/+fATRfWiGTCGrh90FqLPSWeyC8VlSeE6zXRejAwxzNqi4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788449439; c=relaxed/simple;
-	bh=BA4H61lpz6nFag17hxqCNMJXbpLrSo/paYU7SFaVE1I=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=CyduPtTkUOBhaNCxHTfdBwCPhQhvDEq7T+QfLaeYhFR0DwvmPjpqexWISMGAi4hU0/t1DgAQiWnXVb5c3OUtxp+SPXMXC8IzfVwbKs80efz+J4S6HQfIpGfmMw+nbRG/2j35+W4oQqKRbCn/5rnRbNgBpzUi8a1a9SkLCPN68GU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=gQOIpJ/c; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1788453230; c=relaxed/simple;
+	bh=4vALeppUB6b+IJEWEdpE0sKGSOqHZR1+kVSi++luN+k=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=aDq+hMLEpptR4/cnqPrwzX3Nj019Yy3U1utEGKbHGAxow3xJ5ZKkrqxswIvUwVto73obzXqVSrxAWjozK87eJX3ON2QQjYNFs/wNz4LI1aYGIcb4TDE/OPDTuXnM1569ilDMkYp7bgRG/b36iakE/yyj71BbRMxOf6AqLYy7PM8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=pass smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=uBRU+c4/; arc=none smtp.client-ip=198.137.202.133
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="gQOIpJ/c"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1401C1F00A3A;
-	Thu,  3 Sep 2026 15:30:38 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1788449438;
-	bh=R648ZI74sZFQouKv2MQWcoWwcBh7a9P4pnvTLHKWOto=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References;
-	b=gQOIpJ/cMg0VZuRR54cY7vSJdBz3iqV0LRWr3BI4dE/X03BCOGaCSpIyrIwreShlm
-	 EBJBcHdoNux1xPak7tG/k8lqwVEaZvddwpIuq9yl8uc9ghAhhYysziILev8w/9OVnS
-	 quECwaOw8sg091j6j2QCG3enJKolCNb4nDW0tr+OaB9wOQNbr/v53XdKZfdVXQkCL3
-	 VbV38/3q6O6Cf7tNcEgLESi4Q+m8n4zI1mK91YEICFOX4mdJS0OzVQY4C9UFF1uIPv
-	 O9EW44325i9D3F2sFsbG2xrCHxv/KfnYaj9a4kPftP+wGURiKttbr8tiGOp4H8SCJM
-	 VG3HIzgJe+dBw==
-Received: from localhost ([::1])
-	by mail.kernel.org with esmtp (Exim 4.99.5)
-	(envelope-from <mchehab+huawei@kernel.org>)
-	id 1x29Od-00000002Fzl-2PQ6;
-	Thu, 03 Sep 2026 17:30:35 +0200
-Date: Thu, 3 Sep 2026 17:30:34 +0200
-From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To: Manuel Ebner <manuelebnerli@mailbox.org>
-Cc: Jonathan Corbet <corbet@lwn.net>, Weijie Yuan <wy@wyuan.org>, Mauro
- Carvalho Chehab <mchehab@kernel.org>, Shuah Khan 
- <skhan@linuxfoundation.org>, "open list:DOCUMENTATION PROCESS" 
- <workflows@vger.kernel.org>, "open list:DOCUMENTATION" 
- <linux-doc@vger.kernel.org>, open list <linux-kernel@vger.kernel.org>
-Subject: Re: [Issue] sphinx: incorrect high-lighting
-Message-ID: <20260903173034.46b50b59@localhost>
-In-Reply-To: <f0ccda934d2747f7d39d5c263116ec046c7450e2.camel@mailbox.org>
-References: <bba57d51c72d9387ccef2b5979fa618e980c3ebf.camel@mailbox.org>
-	<aosYfdfH6Z7ai5M2@wyuan.org>
-	<c7a3db22f56c598ef35676288d10303af21098bf.camel@mailbox.org>
-	<87mrub1wfv.fsf@trenco.lwn.net>
-	<f0ccda934d2747f7d39d5c263116ec046c7450e2.camel@mailbox.org>
-X-Mailer: Claws Mail 4.4.0 (GTK 3.24.52; x86_64-redhat-linux-gnu)
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="uBRU+c4/"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
+	bh=BvmPIK9NpaBNLg9nUaIuSfLLYPm2dUGyP0JB65LG+70=; b=uBRU+c4/TDmoX3LEiQ1DvMkI64
+	HVVmmzmRDO1ZT0FnKn87SiqnaieUa8/89FseGbCG+izj9hU2w6jIw0lKuzxh+9A4OiWzCPGu9DlA/
+	sck0QMVjJHh7uk6LJoL6q+bLYmmRXDsIcjlygc3tBAg190czzkjHcrbYpObkri7jTJ9vXwONXr77C
+	/DVPIjUKazfZvhUGgBRjp4idWUlNUtwi4dj9gW6dOn5J4/rgDKxQpx5JdLYq9DsxA/p6yeEY20MXh
+	kXfo4SHjubiqyvQ1KOlAT3kvgp+uWVsN/SesaSTSs3D0YgdyXLOO5cjV2lMrmuBT04Ac5h/M+4QCy
+	mG5RTFWQ==;
+Received: from [50.53.43.113] (helo=[192.168.254.34])
+	by bombadil.infradead.org with esmtpsa (Exim 4.99.1 #2 (Red Hat Linux))
+	id 1x2ANn-00000000BCS-0of6;
+	Thu, 03 Sep 2026 16:33:47 +0000
+Message-ID: <5efba8f3-ffb0-4e1e-8057-6946e1e96db8@infradead.org>
+Date: Thu, 3 Sep 2026 09:33:46 -0700
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 0/5] Documentation: process: Clean up grammar, tone,
+To: Weijie Yuan <wy@wyuan.org>, Nguyen Duc Thinh <ducthinh100812@gmail.com>
+Cc: Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
+ workflows@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+References: <20260902084430.17248-1-ducthinh100812@gmail.com>
+ <aploLWg-i315frp5@wyuan.org>
+Content-Language: en-US
+From: Randy Dunlap <rdunlap@infradead.org>
+In-Reply-To: <aploLWg-i315frp5@wyuan.org>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 7bit
 
-On Sun, 30 Aug 2026 09:13:31 +0200
-Manuel Ebner <manuelebnerli@mailbox.org> wrote:
 
-> On Mon, 2026-08-24 at 07:26 -0600, Jonathan Corbet wrote:
-> > Manuel Ebner <manuelebnerli@mailbox.org> writes:
-> >  =20
-> > > It would be this list:
-> > > Skipidentifiers =3D [ 'and', 'are', 'as', 'containing', 'element', 'i=
-n',
-> > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 'including', 'is', 'name', 'n=
-eeds', 'of', 'or',=C2=A0 'page',
-> > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 'pages', 'passed', 'randomiza=
-tion', 'request', 'that',
-> > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 'to', 'where', 'which', 'whos=
-e', 'will' ] =20
-> >=20
-> > So this is an error-prone game of whac-a-mole...as Randy pointed out,
-> > "struct page" is a rather important one in the kernel.
-> >=20
-> > I can apply your updated version of this as a short-term fix, I guess,
-> > but a better solution is probably to only apply markup to "struct foo"
-> > if we have documentation for that type.=C2=A0 I can look into that late=
-r. =20
 
-There is actually a way to do that. See
-Documentation/sphinx/kernel_include.py the code related to this:
+On 9/3/26 5:29 AM, Weijie Yuan wrote:
+> Thanks for Cc'ing me.
+> 
+> On Wed, Sep 02, 2026 at 03:43:58PM +0700, Nguyen Duc Thinh wrote:
+>> This patch series performs a thorough pass across several files 
+>> in the Linux kernel process documentation directory. The primary focus
+>> is to improve readability and maintain a professional tone throughout 
+>> the guides for a global developer audience.
+>>
+>> Core changes include:
+>> - Expanding conversational contractions (e.g., "don't" to "do not").
+> 
+> Is this necessary? I'm not sure.
+> 
+>> - Rectifying minor punctuation oversights and grammatical typos.
+>> - Standardizing terminology formatting to elevate professional voice.
+>>
+>> Extra notes:
+>> - I originally intended to send a 12-patch series to cover the whole
+>>   directory, but decided to scale it back to these 5 high-quality
+>>   patches to ensure thorough accuracy and a manageable review cycle.
+>>   
+>>   Also I want to know the current progress of the patch titled 
+>>   "Capitalize Git, Quilt, and Mercurial consistently".
+> 
+> It has been applied:
+> 
+> https://git.kernel.org/pub/scm/linux/kernel/git/docs/linux.git/commit/?id=4a0be1a25d98672391e8ad2a0802f08609397274
+> 
+>> v2:
+>>   - Resending the complete 5-patch series together as a single cohesive 
+>>     thread. (Apologies, the v1 submission suffered a terminal wildcard 
+>>     argument error that accidentally truncated the transmission 
+>>     after 1/5).
+> 
+> A better practice is to name it [PATCH v1 RESEND], I guess?
+> 
+>> Nguyen Duc Thinh (5):
+>>   Documentation: process: Clean up grammar, tone, and contractions in
+>>     core files
+>>   Documentation: process: Clean up grammar and tone in next guide files
+>>   Documentation: process: Refine language, tone, and grammar in
+>>     subsequent files
+>>   Documentation: process: Refine language, tone, and grammar in
+>>     subsequent files
+>>   Documentation: process: Clean up grammar and tone across multiple
+>>     files
+> 
+> Output of 'b4 shazam':
+> 
+> ...
+> Applying: Documentation: process: Clean up grammar, tone, and contractions in core files
+> Applying: Documentation: process: Clean up grammar and tone in next guide files
+> Applying: Documentation: process: Refine language, tone, and grammar in subsequent files
+> Applying: Documentation: process: Refine language, tone, and grammar in subsequent files
+> Applying: Documentation: process: Clean up grammar and tone across multiple files
+> /home/user/Projects/linux/.git/rebase-apply/patch:72: trailing whitespace.
+>   License (about which more will be said below).  The author is not a
+> warning: 1 line adds whitespace errors.
+> /home/user/Projects/linux/.git/rebase-apply/patch:244: trailing whitespace.
+> Which is nice, since there is no more insanity in the form of fake-generic
+> warning: 1 line adds whitespace errors.
+> /home/user/Projects/linux/.git/rebase-apply/patch:261: trailing whitespace.
+>    rare cases, an AI assistant capable of finding a bug is capable of fixing it.
+> /home/user/Projects/linux/.git/rebase-apply/patch:262: trailing whitespace.
+>    Fixes written within the same session used to identify the bug will
+> /home/user/Projects/linux/.git/rebase-apply/patch:263: trailing whitespace.
+>    generally lead to better and more accurate fixes as the LLM's reasoning
+> /home/user/Projects/linux/.git/rebase-apply/patch:282: trailing whitespace.
+> - Within two weeks, a representative of this group will communicate the
+> warning: 4 lines add whitespace errors.
+> 
+> Should we handle with whitespace?
 
-    app.connect("missing-reference", check_missing_refs)
+No, the trailing whitespace should be fixed (i.e., deleted)
+and then resend the patches.
 
-One option would be to re-convert such missing references back into
-a normal "struct foo" if the reference was not found.
+-- 
+~Randy
 
-Not sure, however, how much this would affect Sphinx build time.
-
---=20
-Thanks,
-Mauro
