@@ -1,301 +1,243 @@
-Received: from mail-pg1-f172.google.com (mail-pg1-f172.google.com [209.85.215.172])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mail.avm.de (mail.avm.de [212.42.244.119])
+	(using TLSv1.2 with cipher DHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5C79C3EC6B0
-	for <workflows@vger.kernel.org>; Fri,  4 Sep 2026 06:51:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.172
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3FEBD3BB13B;
+	Fri,  4 Sep 2026 16:11:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.42.244.119
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788504708; cv=none; b=QCXuBe+/Zn2yicnSvKMOOe01iBbgqb9laCkZV0TAG2Ahr83f3+UkNwiRwhKMJGoTwHOhPx70MZzOIvj3VaoQSuMiNSGC7h3t8XCHleGXMjrBz2t6/ZTftJ58eQWG9tHQxDBW/Yw3TX8UImKbHVG9PPY/NylJVpkiQ0S0QfvNzLw=
+	t=1788538278; cv=none; b=H4eLdiB+lj2SrKZE70k9pmLr0k4kKilg3tt/x3z7ilX+nciKCkx6IduhONZesw0P/ZQ3jOMRHsNA/gClRW+pikv9Om2ep5d++Mw7TJquESSI3ZzYENaYo9nYznBuXWwDLKQdijAfHEnTpyuRvbFv9HqDZZ5+hhF9GhYnGfDm4M8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788504708; c=relaxed/simple;
-	bh=oyqJZbXNlDevLR8Z5mJBsgSPmH6VQ+/8O5cMCu096tM=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=E9SiCkQ1sBJxDISMRBeCp0uxuQNqvIThvzj5FnxJWlbeVap5tzXIDWlA00kTivotcOLBko6EVgkwrQOWxkuvG1ewsWvedbn3lP+hCR5wIfJ6efuXgHZn3tzsA8n/kkEsoQ+LHp2RQckXnpyXnuDoUyh577kSSoFMsfG5ZLT4brE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=nebusec.ai; spf=pass smtp.mailfrom=nebusec.ai; dkim=pass (2048-bit key) header.d=nebusec.ai header.i=@nebusec.ai header.b=qFoDmZpV; arc=none smtp.client-ip=209.85.215.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=nebusec.ai
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nebusec.ai
+	s=arc-20240116; t=1788538278; c=relaxed/simple;
+	bh=nnYs7e/Qa7TDSZX25IfmO66KGD1Y+331y3LUTS2+Uf8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=pjp4+94RTHvdWmaCPqpj4Q6pCgXNrfa8/rTNbneeBm5nLNgvRhArSpIKBTyumCcUdHuWZtbbAcNSyyY1jG9xDBKfl0HdogNDl/ZiD1S4vv2Wj37qMBg8Nv8m3O+t8qdytqgEulhxVwcLXBb2JFVQ5fRk5BmaMfQNAk2okzlf9J4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=fritz.com; spf=pass smtp.mailfrom=fritz.com; dkim=pass (2048-bit key) header.d=fritz.com header.i=@fritz.com header.b=iwDQcXKk; arc=none smtp.client-ip=212.42.244.119
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=fritz.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=fritz.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=nebusec.ai header.i=@nebusec.ai header.b="qFoDmZpV"
-Received: by mail-pg1-f172.google.com with SMTP id 41be03b00d2f7-cc1b838f9b6so870549a12.3
-        for <workflows@vger.kernel.org>; Thu, 03 Sep 2026 23:51:46 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=nebusec.ai; s=google; t=1788504705; x=1789109505; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=b6hpLljP9SdtNHrhq7gNNxoYeFIHd2MdFkQZBmDruA8=;
-        b=qFoDmZpVRIazDnJ+s+E0E40r8w0wLYbMO6UR0K+4Gq/DdIRyDIzqFl6gtSTWJF/Jzr
-         ijSTyIU9G5qwfxZjvU0PlTm++Rl006wOoTpG6bHZ0zwlNVqoso3I4W5vVS4T5OFcC0nW
-         C64U+hjqjoYSFtRWJZr3Cp3zNBNW6dttCWsmr7hdLOp6iJfoPZLlPA9Q55j1Kcvkxm4g
-         MamO4VVkdSsIvafS5d8nU1wc5ZN4gviYrrAdhsRey3h/YjiGdcjXREAl3ag6x+TyJ7FT
-         IhmQdBHOONFqtuNTA+B4wllcITyInUt5ImoNiuOC7IXQt9n0kzB20AVCwQAjaIl4/bWQ
-         BMdw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1788504705; x=1789109505;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=b6hpLljP9SdtNHrhq7gNNxoYeFIHd2MdFkQZBmDruA8=;
-        b=XSnN6CuEC2Lkqwxdnrwz/GxNUUH42o3WoD8hruCAeKMbwCf2mq1g1pfbpq8Py6hR6Z
-         uMgvAc3Ji4aEgrY3sihcx6sZZoL1cmNqeSjT2QKYxc4UoXq89MOdwSuKWRBdNZjA54WQ
-         3bZJ+77kyD8N8vR7e1nCm+yyjbwwuuYWrASS6ZCOlQljOLKUobeqI57kDHsb+o1JpeDQ
-         Bm5OCpaKVHDPcmuj1oAVI76bbi5leRcIuxJPrZ8OXQNvnKZaPwgGwAHWlgkQmm4y9Tdz
-         cgISngxWJPf164vYQPQuMihBuMek3SIs7ri3nJJSd9W8lCKhUjGijBFXkMWUyOnaEcHz
-         dBnQ==
-X-Forwarded-Encrypted: i=1; AKwUvBxO9wAwb2yErS7hRrZYczDP58ufbL6L8Hk1navOVCYYE99ZcESlvyAj21srzPoKvnszZVZGMGNeJTo=@vger.kernel.org
-X-Gm-Message-State: AFuF++k0H0wi6EKcfzrMlSBvGFy3Ndci18LLVAiFeGdCydav3P2eKrpo
-	hT9VsqBL8sT2vUX2LQdxWM1wL37ax0y/5HFx34O1cHW1r209wKPR1nYa8VE+4cLbub6/
-X-Gm-Gg: AYBFou3SxnQyP7mCv/7KH3DRVbYKh08y+NCPJuomFupvB5IeRHQY8nCpmD7MGLLu0vs
-	Bjx2IkNuMeoxIf/jKJFmEc/ND3UL5PNR8F0hENN7z3mhf9q/8nCgSNkQyFYKgF7GjWeKOOJQLws
-	ioaak6qiAAr6G5VWnmcDmP86C954EC6cOXLcmFxy46SaeSzhGEaBGRnU7U3rOeGvgUe1DvxP9WL
-	iS8e6plx5BKw7Y8lOIhBwmHKdayqBJrKExIwFK5VJ9rNh65l3KYzmyeuRrMv3ymyp9Dlqmrir3f
-	9GO8FtHOWdTSMJUoF+mdl4SuWMT2UTL+l8CLc6KZ4ipYBxuL9+eGHY7bKaYydueSTpkAzoqx76a
-	MHFzoPPyhShPKPbmtZRR2ylXsByi4vEVogr9lj2Jkc28dXABUmVOgg7FePzxXoflpZ/0SKpMXYO
-	Ssxohej1FZuMMWDFcF47mrIrycIXZBJ2QmSTnHAo03D7bSIsKFi8i6fYrZIV55XO2y5VhbYKTkZ
-	GWp7lSvxXqIwufMOJigOi9rVJlHhNsDHrYVqp4vxw==
-X-Received: by 2002:a05:6a20:158d:b0:3da:34a7:6444 with SMTP id adf61e73a8af0-3da3a15ac1cmr5550804637.26.1788504705322;
-        Thu, 03 Sep 2026 23:51:45 -0700 (PDT)
-Received: from [192.168.4.59] (c-73-93-246-205.hsd1.ca.comcast.net. [73.93.246.205])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-3339aa37dbdsm3862921eec.11.2026.09.03.23.51.43
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 03 Sep 2026 23:51:44 -0700 (PDT)
-Message-ID: <2a994f26-1eb8-40c4-84ca-c48a52c065d5@nebusec.ai>
-Date: Thu, 3 Sep 2026 23:51:42 -0700
+	dkim=pass (2048-bit key) header.d=fritz.com header.i=@fritz.com header.b="iwDQcXKk"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=fritz.com; s=mail;
+	t=1788538264; bh=nnYs7e/Qa7TDSZX25IfmO66KGD1Y+331y3LUTS2+Uf8=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=iwDQcXKkIzBA62Kc3FhTrk8ibEggseUPiDD43/WYiDcK8AwUiq0ioXSUG7YR3c2CP
+	 eu2B/uxRQk7Tlvz7YnF6wo6X8uiqkE8ZOPNlHINKHdgcdJY007eUMBn5a8zzK178nL
+	 DbE7D5FuOIdb0xIpNJYs4NFsQV6UQEe50HqTl9ZFH8MBdh8JbeDjx1csW5w4MpzDVh
+	 +OTenYd9j+iKOaQssLW/G1NVq/0kl92MXnrZyDmm+oixae9njnC2AhoPuhMhiGahLP
+	 oni3hOVQYtbMq1jOSroMH31TZgGn+NGv/t9Jt4qI0dU5ym58oLk2CxkOzizJxf2Pyv
+	 4b/cuy25tl8AA==
+Received: from [212.42.244.78] (helo=mail.avm.de)
+	by mail.avm.de with ESMTP (eXpurgate 4.57.1)
+	(envelope-from <n.schier@fritz.com>)
+	id 6a9aed98-c6f5-7f0000032729-7f00000184b0-1
+	for <multiple-recipients>; Fri, 04 Sep 2026 18:11:04 +0200
+Received: from mail-auth.fritz.com (unknown [212.42.244.78])
+	by mail.avm.de (Postfix) with ESMTPS;
+	Fri,  4 Sep 2026 18:11:04 +0200 (CEST)
+Date: Fri, 4 Sep 2026 18:11:03 +0200
+From: Nicolas Schier <n.schier@fritz.com>
+To: Manuel Ebner <manuelebnerli@mailbox.org>
+Cc: Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Miguel Ojeda <ojeda@kernel.org>, Boqun Feng <boqun@kernel.org>,
+	Gary Guo <gary@garyguo.net>,
+	=?utf-8?B?QmrDtnJu?= Roy Baron <bjorn3_gh@protonmail.com>,
+	Benno Lossin <lossin@kernel.org>,
+	Andreas Hindborg <a.hindborg@kernel.org>,
+	Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>,
+	Danilo Krummrich <dakr@kernel.org>,
+	Daniel Almeida <daniel.almeida@collabora.com>,
+	Tamir Duberstein <tamird@kernel.org>,
+	Alexandre Courbot <acourbot@nvidia.com>,
+	Onur =?utf-8?B?w5Z6a2Fu?= <work@onurozkan.dev>,
+	Nathan Chancellor <nathan@kernel.org>,
+	Nick Desaulniers <nick.desaulniers+lkml@gmail.com>,
+	Bill Wendling <morbo@google.com>,
+	Justin Stitt <justinstitt@google.com>, workflows@vger.kernel.org,
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+	rust-for-linux@vger.kernel.org, llvm@lists.linux.dev
+Subject: Re: [PATCH] v2 Docs: changes.rst: introduce optional column
+Message-ID: <20260904-stirring-zircon-frog-ea6949@l-nschier-aarch64>
+References: <20260831151605.638172-2-manuelebnerli@mailbox.org>
+ <20260831152523.638881-1-manuelebnerli@mailbox.org>
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [ANNOUNCE] A Syzbot-style Platform for Verifying and Fixing
- LLM-reported Bugs
-To: netdev@vger.kernel.org, netfilter-devel@vger.kernel.org
-Cc: linux-kernel@vger.kernel.org, workflows@vger.kernel.org,
- frankw@nebusec.ai, jhs@mojatatu.com, ksummit@lists.linux.dev,
- kuba@kernel.org, pabeni@redhat.com, kerneljasonxing@gmail.com,
- roman.gushchin@linux.dev, jgg@nvidia.com, mchehab+huawei@kernel.org,
- torvalds@linux-foundation.org, ben.copeland@linaro.org,
- gregkh@linuxfoundation.org, yuantan098@gmail.com
-References: <20260830115546.3942129-1-yuantan098@gmail.com>
-Content-Language: en-US
-From: Yuan Tan <yuant@nebusec.ai>
-In-Reply-To: <20260830115546.3942129-1-yuantan098@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature"; boundary="3LI1LwzTwlfX5+ls"
+Content-Disposition: inline
+In-Reply-To: <20260831152523.638881-1-manuelebnerli@mailbox.org>
+Organization: FRITZ! Technology GmbH
+x-ms-reactions: disallow
+X-purgate-ID: 149429::1788538264-00C33ADA-3F2AC763/0/0
+X-purgate-type: clean
+X-purgate-size: 7767
+X-Notice: Whitelisted
+X-purgate: This mail is considered clean (visit https://www.eleven.de for further information)
+X-purgate: clean
+X-pfmilter: host: postfix-mx-02  mail-id: 65769A026E  external: no
 
 
-On 8/30/26 04:55, Yuan Tan wrote:
-> Hi all,
->
-> A month ago, I posted an RFC[1] to the mailing list proposing an automated
-> platform that validates AI-reported bugs and prepares draft fixes, and
-> later discussed the idea at the Netdev conference. After further
-> development, it is finally ready.
->
-> While preparing to send this email, I noticed that Roman has since started
-> a related discussion:
-> [MAINTAINERS SUMMIT] The place of AI code review in the Linux Kernel process
->
-> It turns out this platform already addresses several of the needs raised
-> there.
->
-> The platform is available at:
-> https://bugtracker.nebusec.ai
->
-> It is currently hosted under my company's domain for convenience. I would
-> prefer to move it to a neutral, community-oriented domain once the project
-> name is settled.
-> Access is currently restricted to maintainers whose email addresses are
-> listed in the Linux kernel MAINTAINERS file.
-> For now, only bug reports from the net subsystem have been fully imported
-> and processed.
->
-> -------------------------------------------------------------------------
->
-> LLM-powered tools such as Sashiko and Claskiko produce a significant number
-> of false positives. Pre-existing bugs uncovered by these tools are also not
-> collected in one place and they remain scattered across individual review
-> reports.
->
-> To address this, like syzbot for fuzzer-found bugs, this platform provides
-> an **automated** tracking layer for AI-reported bugs, but goes further by
-> generating PoCs, running them in QEMU to produce crash logs, triaging
-> severity, and drafting patches. This requires no extra effort from
-> maintainers; instead, it may helps them understand and fix these bugs more
-> efficiently.
->
->
-> The platform offers the following capabilities:
->
-> 1. Collect and Deduplicate
->
-> The platform ingests bug reports from multiple sources, including Sashiko,
-> Claskiko, and others. It deduplicates them and monitors mailing lists and
-> git history to track whether they have been fixed.
->
-> It also provides visibility into the Sashiko/Claskiko ingestion queue, so
-> users can see which reports are waiting to be collected and processed.
->
->
-> 2. Verify by generating PoC and running it in QEMU
->
-> An agent attempts to generate a proof-of-concept for each bug to determine
-> whether it is a false positive. According to paper Patch-to-PoC[2] and
-> follow-up research, GPT-5.4 achieves up to a 95% success rate in generating
-> PoCs for genuinely exploitable bugs.
->
-> This makes PoC generation a strong signal: if a bug has no PoC, it is very
-> likely a false positive. And even in cases where a real bug is missed, the
-> difficulty of generating a PoC suggests it is unlikely to be practically
-> exploitable.
->
->
-> 3. Draft Patch
->
-> The platform produces a draft patch to give maintainers a starting point
-> and suggested fix direction. These still require human review. Patches can
-> be downloaded via b4 am.
->
-> These patches are not sent to mailing lists to avoid adding AI-generated
-> noise.
->
->
-> 4. Triage
->
-> Based on the PoC, the agent evaluates the conditions required to trigger
-> the bug, for example, whether it requires a namespace, root privileges, or
-> can be triggered by an unprivileged user.
->
-> Bugs that require root are generally less important, while those reachable
-> by unprivileged users are more likely to have real security impact.
->
-> If a bug can be triggered from namespace, it is still worth
-> paying attention to.
-> In particular, a bug should not be considered root-only merely because
-> triggering it requires CAP_NET_ADMIN in a network namespace. On systems
-> that allow unprivileged user namespaces, an ordinary user may be able to
-> create a user namespace, create a network namespace owned by it, and obtain
-> capabilities such as CAP_NET_ADMIN with respect to that namespace. Such
-> bugs may therefore still be reachable by an otherwise unprivileged local
-> user.
->
-> For example, this configuration has historically been available by default
-> on distributions such as Ubuntu 22.04 LTS and earlier.
->
-> Jamal previously offered some suggestions on this severity classification
-> scheme which I have not yet had time to implement; that will come in a
-> future update.
->
->
-> 5. Chat with agent
->
-> Each bug page includes a chat interface for discussing the bug and its fix
-> with the agent.
->
->
->
-> Based on earlier feedback, the system is not fully public. Only email
-> addresses listed in the MAINTAINERS file are eligible to register, to
-> prevent bugs with potential security impact from being exposed publicly.
->
-> Jason’s idea of delegating fixes could also be implemented on this
-> platform. This is essentially what my volunteer bug-fixing team and I have
-> been doing over the past six months: anyone interested can pick up an issue
-> and try to fix it. 
-> Each subsystem’s maintainers could choose whether to make its issues
-> public. Making them public would also let potential reporters check whether
-> an issue is already known before submitting a new report.
->
-> Bugs are also categorized by subsystem, so after logging in, maintainers
-> see only the bugs relevant to the modules they maintain.
->
->
-> Welcome any suggestions:)  I will continue maintaining this system and
-> adding more features, not only out of personal interest, but also our
-> bug-fixing volunteer team is using it too.
->
-> We periodically burn tokens and run state-of-the-art models against the
-> full kernel source code, with the goal of finding security vulnerabilities
-> before attackers do. While I am not an expert in the net subsystem and
-> cannot review patches myself at this time, I still hope this platform can
-> be of help to the community.
->
-> If this system proves genuinely useful, I am happy to transfer project
-> ownership to the Linux Foundation or another neutral host.
->
-> Going forward, the platform will expose a public API so that other bug
-> finding research teams can submit their findings here for centralized
-> processing. We also plan to ingest syzbot-found bugs to provide them with
-> the same triage workflow.
->
-> P.S. I have been struggling to come up with a good name for this platform. A
-> few candidates I am considering are Palomar, Tengu, FixArc, and Ephemeris.
-> If anyone has a preference or a better suggestion, I would love to hear it.
->
->
-> Current Limitations
->
-> - For a tracked bug, the system currently only knows that a fix exists; it
-> does not yet distinguish between a patch that has been posted to the
-> mailing list and one that has already been merged.
->
-> - PoC generation and false-positive verification are not yet supported for
-> driver-related bugs.
->
-> - Unable to scrape Sashiko/Clashiko review reports that are still under embargo.
->
-> - Only net subsystem bugs from Sashiko and Claskiko have been imported with
-> a fully automated fix-detection pipeline so far. Bugs from other subsystems
-> are shown but may already be fixed. If other subsystem maintainers are
-> interested, I will prioritize adding support.
->
->
-> [1] https://lore.kernel.org/all/20260708092247.4188498-1-yuantan098@gmail.com/
-> [2] Juefei Pu, Xingyu Li, Zhengchuan Liang, et al. "Patch-to-PoC: A
-> Systematic Study of Agentic LLM Systems for Linux Kernel N-Day
-> Reproduction." arXiv:2602.07287, 2026. https://arxiv.org/abs/2602.07287
->
->
-> Thanks,
-> Yuan
->
+--3LI1LwzTwlfX5+ls
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-A couple of updates since my last email:
+On Mon, Aug 31, 2026 at 05:25:22PM +0200, Manuel Ebner wrote:
+> The optional tag isn't obvious nor defined. Therefore replace with column.
 
-Previously, the bug list was not automatically filtered based on the
-maintainer’s subsystems in the MAINTAINERS file after login. This has
-now been fixed.
+Why do you throw away the 'Command to check the version' column?  At=20
+work, we have a script that uses these commands to check the actual=20
+tooling versions.
 
-Also, a quick update for netdev:
+If there is a reason for change, please document it in the commit=20
+message.
 
-We recently ran exploitability analysis on several hundred bugs and
-imported the results into the tracker, so you can now directly see which
-bugs appear to have higher security impact.
+>=20
+> Signed-off-by: Manuel Ebner <manuelebnerli@mailbox.org>
+> ---
+>  Documentation/process/changes.rst | 84 +++++++++++++++----------------
+>  1 file changed, 42 insertions(+), 42 deletions(-)
+>=20
+> diff --git a/Documentation/process/changes.rst b/Documentation/process/ch=
+anges.rst
+> index b3fa980b63e3..905ac0f6cdc5 100644
+> --- a/Documentation/process/changes.rst
+> +++ b/Documentation/process/changes.rst
+> @@ -29,49 +29,49 @@ systems; obviously, if you don't have any PC Card har=
+dware, for example,
+>  you probably do not need to concern yourself with pcmciautils.
+> =20
+>  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D =3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D
+> -        Program        Minimal version       Command to check the version
+> +        Program        Minimal version  Required for=20
 
-We identified 55 bugs that can be used for local privilege escalation.
-The good news is that 46 of them have already been fixed, while 9 are
-still unfixed. Fortunately, 8 of those 9 require |CONFIG_USER_NS=y| to
-be exploitable.
+Do you want to align the column headers to the left or center them?
 
-I’m especially proud that students on my team contributed 34 of the
-patches for those fixes, and I’m very grateful to the maintainers for
-all the reviews and guidance. Once we finish the patches we’re currently
-looking at, we’ll start working on these newly identified
-privilege-escalation bugs.
+>  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D =3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D
+> -bash                   4.2              bash --version
+> -bc                     1.06.95          bc --version
+> -bindgen (optional)     0.71.1           bindgen --version
+> -binutils               2.30             ld -v
+> -bison                  2.0              bison --version
+> -btrfs-progs            0.18             btrfs --version
+> -Clang/LLVM (optional)  17.0.1           clang --version
+> -e2fsprogs              1.41.4           e2fsck -V
+> -flex                   2.5.35           flex --version
+> -gdb                    7.2              gdb --version
+> -genisoimage            1.1.11           genisoimage --version
+> -GNU awk (optional)     5.1.0            gawk --version
+> -GNU C                  8.1              gcc --version
+> -GNU make               4.0              make --version
+> -GNU tar                1.28             tar --version
+> -GRUB                   0.93             grub --version || grub-install -=
+-version
+> -gtags (optional)       6.6.5            gtags --version
+> -iproute2               6.14.0           ip -V
+> -iptables               1.4.2            iptables -V
+> -jfsutils               1.1.3            fsck.jfs -V
+> -kmod                   13               kmod -V
+> -liblzma                5.8.1            lzma -V
+> -lzop                   1.04             lzop -V
+> -mcelog                 0.6              mcelog --version
+> -mkimage (optional)     2017.01          mkimage --version
+> -mtools                 4.0.49           mtools -V
+> -nfs-utils              1.0.5            showmount --version
+> -openssl & libcrypto    1.0.0            openssl version
+> -pahole                 1.26             pahole --version
+> -pcmciautils            004              pccardctl -V
+> -PPP                    2.4.0            pppd --version
+> -procps                 3.2.0            ps --version
+> -Python                 3.9.x            python3 --version
+> -quota-tools            3.09             quota -V
+> -Rust (optional)        1.85.0           rustc --version
+> -Sphinx\ [#f1]_         3.4.3            sphinx-build --version
+> -squashfs-tools         4.0              mksquashfs -version
+> -syslinux               6.04             syslinux --version
+> -udev                   081              udevadm --version
+> -util-linux             2.10o            mount --version
+> -xfsprogs               2.6.0            xfs_db -V
+> +bash                   4.2             =20
+> +bc                     1.06.95         =20
+> +bindgen                0.71.1           generate Rust bindings
+> +binutils               2.30            =20
+> +bison                  2.0             =20
+> +btrfs-progs            0.18            =20
+> +Clang/LLVM             17.0.1           alternative to GNU C (gcc)
+> +e2fsprogs              1.41.4           ext4
+> +flex                   2.5.35          =20
+> +gdb                    7.2             =20
+> +genisoimage            1.1.11          =20
+> +GNU awk                5.1.0            objtool
+> +GNU C                  8.1             =20
+> +GNU make               4.0             =20
+> +GNU tar                1.28            =20
+> +GRUB                   0.93            =20
+> +gtags (optional)       6.6.5           =20
+> +iproute2               6.14.0          =20
+> +iptables               1.4.2           =20
+> +jfsutils               1.1.3           =20
+> +kmod                   13              =20
+> +liblzma                5.8.1           =20
+> +lzop                   1.04            =20
+> +mcelog                 0.6             =20
+> +mkimage                2017.01          ARCH=3Darc, arm, or powerpc
+> +mtools                 4.0.49          =20
+> +nfs-utils              1.0.5           =20
+> +openssl & libcrypto    1.0.0           =20
+> +pahole                 1.26            =20
+> +pcmciautils            004             =20
+> +PPP                    2.4.0           =20
+> +procps                 3.2.0           =20
+> +Python                 3.9.x           =20
+> +quota-tools            3.09            =20
+> +Rust                   1.85.0           CONFIG_RUST=3Dy
+> +Sphinx\ [#f1]_         3.4.3           =20
+> +squashfs-tools         4.0             =20
+> +syslinux               6.04            =20
+> +udev                   081             =20
+> +util-linux             2.10o           =20
+> +xfsprogs               2.6.0           =20
+>  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D =3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D
+> =20
+>  .. [#f1] Sphinx is needed only to build the Kernel documentation
 
-The exploitability analysis still has to be run manually and is not yet
-integrated into the system. Once the full pipeline is integrated, it
-should make it much easier to see which bugs pose a greater security risk.
+I kind of like the "Required for" column w/ naming=20
+concrete Kconfig symbols or envs like ARCH.  I think it would be good to=20
+get this a bit more complete, where possible.
 
-So although the LLM has found a large number of bugs, only a very small
-fraction of them appear to be usable for local privilege escalation.
+Kind regards,
+Nicolas
 
-If any maintainers outside netdev are interested in using the tracker,
-just let me know. I can prioritize importing the fixed bugs and Sashiko
-findings for those subsystems first. Cleaning and importing the data
-takes some time.
+--3LI1LwzTwlfX5+ls
+Content-Type: application/pgp-signature; name="signature.asc"
 
+-----BEGIN PGP SIGNATURE-----
 
+iQIzBAABCAAdFiEEDv+Fiet06YHnC6RpiMa8nIiabbgFAmqa7ZAACgkQiMa8nIia
+bbhLsxAAhafUzIFNr+ETq/XHjzw3SB44iaAWSzBjCmdDYU/w20d/EBrWySxiS27A
+4IY8XpSGUVdGbmgY1vC3PDVyLZ9xwMpYv65wkevFZM9D5FzJla9K9Mh5W6B6dUhy
+VNSFqfZ1vDHxRGW25ArjF5jwWFlGzHbbaMWtXuTDFSKPKB6o899aTU9TgY8G/G0p
+1R0YFo8Ldlv1bRw3MQyPbgL64TntjXxBrylKkmLa9rg9Qz34B9PzsR2O7QWvIN1w
+GCm5SewGQ7If43ELa9+p29RGH7ZivMod9IDdlTbAqQM73rdFVj/84vC/udWGCWrF
+k+HM/ml1LtxlgkDMschDnyb6+r+NVAPGeq+N5qmwPZyiLNkPWNoDa5gKhdSfriXA
+305AzMpiS7R1Q4IKYFz/VG9GLE7tnzCkIjzK13BYpqs5a+MCpvtx6CmDNywZxMkv
+2mw8XSM/nFBROLXwIFAlSb8KIC9336efMjzuBXR8QiuVuoajeaBWhfLDWBPKKPLZ
+OkxMiZ+bDjllesbpwEZWaMechDA926OXKK24zfZRLpp6IVJtz+WOrb0aHMY6KnCa
+PQIEDflE3sfS8E8tscPvKsYoIkJt5F+UqYa8IVJTUVgNkZcwZhd74vJd1/FVcCWJ
+jPYC4hteW1DkD3HX5TMBvaoFhTvnGGqVe//L4aJ4W0RJxOuf1Nw=
+=ALpV
+-----END PGP SIGNATURE-----
+
+--3LI1LwzTwlfX5+ls--
