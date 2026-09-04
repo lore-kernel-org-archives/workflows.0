@@ -1,161 +1,182 @@
-Received: from mail.avm.de (mail.avm.de [212.42.244.120])
-	(using TLSv1.2 with cipher DHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mout-p-102.mailbox.org (mout-p-102.mailbox.org [80.241.56.152])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CEBC0501F27;
-	Fri,  4 Sep 2026 16:35:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.42.244.120
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A3169472F72;
+	Fri,  4 Sep 2026 17:03:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.152
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788539707; cv=none; b=PlHJ9l5uGpDCKqnYmsbh0LK/B3K6iMzXFYw8ogzKlKwc75ARyG5I+5hLweXDA2BQFNvtUxVR9Y2Y6kV5y1qrvAR5v+Wbh4pBAJA60PKtEZ0fnIEANzpvaVwQK4SST3fkrKZtLglxvoY6rZfOaPw/8j0GW74fj8G4VLOQn6w2G9g=
+	t=1788541394; cv=none; b=JImVG6lcKbfbzW4I/+j2+tBKZo6ot5p+H1IOGinl721M15YGTWFCgAzIz6MP0+0I+FMeKMYuYWEC5t+apgdoI4AyTotkUSu4YGCl7credUkU8Rtx3CjPYRlorAech0G/uMCBr94vU75y3DmLk71iQPOtZoOdcNFDU+mwEzPxoYM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788539707; c=relaxed/simple;
-	bh=Yrj+hpeTd851TNoAZJLqC56O4lZrGFKD+S3XWoI7bxI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=rronJ2Qev/v1T9ZTITVig12UwDYMewYbf84ocQz5RxGTA2CIkO73b9+Q9CQr6bg58t+DiyXJxlG4Ahk3o+qauov5+FYfuBhKkY6s7IXZCSaR5dr8QiNf/nzOQ40Kb+Z8d7JVQsdzWY3iFvdRBPjqed0JGE8Wa2ikkji/TGupX/4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=fritz.com; spf=pass smtp.mailfrom=fritz.com; dkim=pass (2048-bit key) header.d=fritz.com header.i=@fritz.com header.b=qy02yK3V; arc=none smtp.client-ip=212.42.244.120
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=fritz.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=fritz.com
+	s=arc-20240116; t=1788541394; c=relaxed/simple;
+	bh=ecK2wmAuZck7TyMU7udH9uLRTjXBYq7BHeTCuCIQLpU=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=RvFcEkNDOTrpHnYjFVuXqmbkZryrg9MvdcCl4rR2qnpRM9dSAaC4Zrv7ljuStvGvonEEfVUeVnLQjoX3/aRaG4r1c3KMh7ePrBjqox0kY///o71E+IJ8Br01T94oWNmvDUaSp3Jq/WDhdjdjMo2dStYbyCBSgKHQB9Kpbgqh6EA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org; spf=pass smtp.mailfrom=mailbox.org; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=bhotPMVd; arc=none smtp.client-ip=80.241.56.152
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mailbox.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=fritz.com header.i=@fritz.com header.b="qy02yK3V"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=fritz.com; s=mail;
-	t=1788539385; bh=Yrj+hpeTd851TNoAZJLqC56O4lZrGFKD+S3XWoI7bxI=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=qy02yK3VaN3DXRWeuWB1i9SbMdt7n2HiqKGhH7TS0aLkplN3ZkNRNfbf9E0hNXS4B
-	 WO3Si7A/BtWdvjs2Soc3wzHp+XNhLZq2AxLIABJPrLqdCZBu8z9BxnPvt6zCQWZ92S
-	 rsY7wwyuq+Mem0MdsCxlDWdQN6vdu++OopISjUPfZ5nJMNdgpOkgGzDfyuzbET2igF
-	 jAndKqyvHpKf2Plcw/aKwIJ1oDoCS1O/8XsNZDz8Onc4gsYwQbsyswTaKeNZ2FmuQY
-	 d+81bs0OcKPn5DjEi38M2NqwUVveAWjw2c9yeINeYuCP1xRpGRs7QHzesDYv+s86oW
-	 Qqp33mVvPuAFg==
-Received: from [2001:bf0:244:244::78] (helo=mail.avm.de)
-	by mail.avm.de with ESMTP (eXpurgate 4.57.1)
-	(envelope-from <n.schier@fritz.com>)
-	id 6a9af1f8-2a57-7f0000032729-7f000001a072-1
-	for <multiple-recipients>; Fri, 04 Sep 2026 18:29:44 +0200
-Received: from mail-auth.fritz.com (unknown [IPv6:2001:bf0:244:244::78])
-	by mail.avm.de (Postfix) with ESMTPS;
-	Fri,  4 Sep 2026 18:29:44 +0200 (CEST)
-Date: Fri, 4 Sep 2026 18:29:45 +0200
-From: Nicolas Schier <n.schier@fritz.com>
-To: Guillaume Tucker <gtucker@gtucker.io>
-Cc: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>,
-	Nathan Chancellor <nathan@kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Onur =?utf-8?B?w5Z6a2Fu?= <work@onurozkan.dev>,
-	Nick Desaulniers <ndesaulniers@google.com>,
-	Miguel Ojeda <ojeda@kernel.org>, linux-doc@vger.kernel.org,
-	workflows@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-kbuild@vger.kernel.org,
-	automated-testing@lists.yoctoproject.org,
-	"kernelci lists.linux.dev" <kernelci@lists.linux.dev>
-Subject: Re: [PATCH 1/2] scripts: add TOML config to container tool
-Message-ID: <20260904-demonic-calm-swift-e7acae@l-nschier-aarch64>
-References: <7d8ba914cd174d716340bb2b88723bef0f330627.1787565460.git.gtucker@gtucker.io>
- <apG3hwaPA8f7SJeI@levanger>
- <b45e7864-928c-4b3c-aa62-64f4f63d85c7@gtucker.io>
- <CANiq72k6T9Y_Vubih6pFMQBxju2xQq0VQkCXT1WL0qSyCXKxyA@mail.gmail.com>
- <faa022bc-bda5-47ee-9984-4e8ff067c6e1@gtucker.io>
+	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="bhotPMVd"
+Received: from smtp1.mailbox.org (smtp1.mailbox.org [10.196.197.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange x25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mout-p-102.mailbox.org (Postfix) with ESMTPS id 4hc2pZ3Y6qzKvyN;
+	Fri, 04 Sep 2026 19:03:02 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
+	t=1788541382;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=2bdiMxP0fkSWQuv353d3PCw4VyXVaYVxJwgR/0Ra358=;
+	b=bhotPMVdCjL8jTLdwYiuKc1uhLsDGe9Hhly+guT2Wxb7v2RWN6pEl8uv51R5QmR6Yknpei
+	xTU4Gf0omSEe5W4CjMbcbKby93Ci32d1/ZU/QOxdkwSPjfWPnW4CxKvbc8roxRe3BikdCt
+	AEYCA8OMQQfIosr9jL/Cy9H5t8IzMoakiBTJ2/Uu1JbI48lFXS9TOCyNf+kVb7rDFGcgcj
+	3zvQBcJlmIFUsD3E+mgqqH01QnFTHWFpAAT5l2nb18cYn6SXNRz8XAKZyHimtJVfJQNixH
+	l2E4q0+i0gH50jWdsofRy+7KBt4/dkAA0HzMWqsTe2t3dlVHTy9uslVKX/vo+A==
+Message-ID: <a2066238d2be3cfd36cd6ea3a7bf11206cb0a02a.camel@mailbox.org>
+Subject: Re: [PATCH] v2 Docs: changes.rst: introduce optional column
+From: Manuel Ebner <manuelebnerli@mailbox.org>
+To: Nicolas Schier <n.schier@fritz.com>
+Cc: Jonathan Corbet <corbet@lwn.net>, Shuah Khan
+ <skhan@linuxfoundation.org>,  Miguel Ojeda <ojeda@kernel.org>, Boqun Feng
+ <boqun@kernel.org>, Gary Guo <gary@garyguo.net>,  =?ISO-8859-1?Q?Bj=F6rn?=
+ Roy Baron	 <bjorn3_gh@protonmail.com>, Benno Lossin <lossin@kernel.org>,
+ Andreas Hindborg	 <a.hindborg@kernel.org>, Alice Ryhl
+ <aliceryhl@google.com>, Trevor Gross	 <tmgross@umich.edu>, Danilo Krummrich
+ <dakr@kernel.org>, Daniel Almeida	 <daniel.almeida@collabora.com>, Tamir
+ Duberstein <tamird@kernel.org>,  Alexandre Courbot <acourbot@nvidia.com>,
+ Onur =?ISO-8859-1?Q?=D6zkan?= <work@onurozkan.dev>, Nathan Chancellor	
+ <nathan@kernel.org>, Nick Desaulniers <nick.desaulniers+lkml@gmail.com>, 
+ Bill Wendling <morbo@google.com>, Justin Stitt <justinstitt@google.com>,
+ workflows@vger.kernel.org, 	linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, 	rust-for-linux@vger.kernel.org,
+ llvm@lists.linux.dev
+Date: Fri, 04 Sep 2026 19:02:52 +0200
+In-Reply-To: <20260904-stirring-zircon-frog-ea6949@l-nschier-aarch64>
+References: <20260831151605.638172-2-manuelebnerli@mailbox.org>
+	 <20260831152523.638881-1-manuelebnerli@mailbox.org>
+	 <20260904-stirring-zircon-frog-ea6949@l-nschier-aarch64>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="IPfAD79JDW7zfCpg"
-Content-Disposition: inline
-In-Reply-To: <faa022bc-bda5-47ee-9984-4e8ff067c6e1@gtucker.io>
-Organization: FRITZ! Technology GmbH
-x-ms-reactions: disallow
-X-purgate-ID: 149429::1788539384-60CA570C-3578E9C3/0/0
-X-purgate-type: clean
-X-purgate-size: 3674
-X-purgate: This mail is considered clean (visit https://www.eleven.de for further information)
-X-purgate: clean
-X-pfmilter: host: postfix-mx-01  mail-id: ED0A3A00CB  external: no
+X-MBO-RS-META: 37xjqxrzxx17uwir6atstjf7jz7irh98
+X-MBO-RS-ID: 59b361a7e629ce93864
 
-
---IPfAD79JDW7zfCpg
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-On Sat, Aug 29, 2026 at 10:56:47AM +0200, Guillaume Tucker wrote:
-> Hi Miguel,
+On Fri, 2026-09-04 at 18:11 +0200, Nicolas Schier wrote:
+> On Mon, Aug 31, 2026 at 05:25:22PM +0200, Manuel Ebner wrote:
+> > The optional tag isn't obvious nor defined. Therefore replace with colu=
+mn.
 >=20
-> On 28/08/2026 7:35 pm, Miguel Ojeda wrote:
-> > On Fri, Aug 28, 2026 at 7:25=E2=80=AFPM Guillaume Tucker <gtucker@gtuck=
-er.io> wrote:
-> > >=20
-> > > It states Python 3.9 which was already older than the 3.10 minimum
-> > > set when the container tool was merged.  Also my understanding is
-> > > that it's not a hard requirement for all the kernel tools, only for
-> > > building and producing a functioning kernel.  If I misunderstood this
+> Why do you throw away the 'Command to check the version' column?=C2=A0=C2=
+=A0
+
+I would do this to get some space for the optional column and have
+the version commands in ./scrips/ver_linux . See below.
+
+> At=20
+> work, we have a script that uses these commands to check the actual=20
+> tooling versions.
+
+Well, I don't want to break that.
+
+> If there is a reason for change, please document it in the commit=20
+> message.
+
+Will do.
+
+> > Signed-off-by: Manuel Ebner <manuelebnerli@mailbox.org>
+> > ---
+> > =C2=A0Documentation/process/changes.rst | 84 +++++++++++++++-----------=
+-----
+> > =C2=A01 file changed, 42 insertions(+), 42 deletions(-)
 > >=20
-> > I didn't check at the moment, but at least back when the "(optional)"
-> > tag was removed, it was only required for certain configurations from
-> > what I understand (I am not sure why the tag was removed).
-> >=20
-> > In any case, it is nice if we could just say that it is required -- it
-> > is quite useful to have around, especially due to its standard
-> > library.
+> > diff --git a/Documentation/process/changes.rst b/Documentation/process/=
+changes.rst
+> > index b3fa980b63e3..905ac0f6cdc5 100644
+> > --- a/Documentation/process/changes.rst
+> > +++ b/Documentation/process/changes.rst
+> > @@ -29,49 +29,49 @@ systems; obviously, if you don't have any PC Card h=
+ardware, for example,
+> > =C2=A0you probably do not need to concern yourself with pcmciautils.
+> > =C2=A0
+> > =C2=A0=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=C2=A0 =3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> > -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 Program=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0 Minimal version=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0 Command to check the version
+> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 Program=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0 Minimal version=C2=A0 Required for=20
 >=20
-> OK so I'll leave this part as-is for now unless someone makes a
-> strong case for downgrading to v3.9, thanks for confirming.
+> Do you want to align the column headers to the left or center them?
+
+I should have done this the proper way but i didn't.
+
+> > =C2=A0=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=C2=A0 =3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> > -bash=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 4.2=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 bash --version
+> > ...
+> > +bash=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 4.2=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=20
+> > ...
+> > =C2=A0=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=C2=A0 =3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> > =C2=A0
+> > =C2=A0.. [#f1] Sphinx is needed only to build the Kernel documentation
 >=20
-> > And regarding the minimum version, it would be nice to eventually have
-> > a single minimum for all Python scripts, no? Debian oldstable is
-> > already at 3.11, so I think we could perhaps bump the minimum already.
-> > And Debian stable is 3.13, which from your list would be enough for
-> > everything on your list, right? So we could perhaps set that as the
-> > actual minimum for everything in the future.
->=20
-> I was wondering about this too, especially since v3.10 is soon going
-> to reach end-of-life which means no more security patches.  In
-> principle newer, version should be backwards compatible so if we just
-> bumped the minimum to v3.13 older scripts that were written for v3.9
-> should still work - but it'd be nice to have a way to test that.
->=20
-> Well that's beyond this series anyway, maybe something for KernelCI?
+> I kind of like the "Required for" column w/ naming=20
+> concrete Kconfig symbols or envs like ARCH.=C2=A0=C2=A0
 
-If I filtered the repology data correctly, bumping the minimum Python=20
-version to v3.11 would be problematic for these (major) distributions:
+Thanks, do you prefer your scripts working or the required for column? Mayb=
+e there
+is space for both, when 'program' and 'Minimal version' get squished.
+Would one of those arrangements not break your scripts?
 
-  * Alpine Linux 3.17
-  * CentOS 8
-  * Debian 11
-  * Devuan 4.0
-  * OpenMandriva Cooker
-  * OpenMandriva Rolling
-  * Slackware 15.0
-  * Ubuntu 20.04
+>  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D =3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D
+>          Program        Minimal version    Required for        Version Co=
+mmand
+>  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D =3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D
 
-With the end of security support for Python 3.10, I think that is=20
-acceptable for a minimum version bump.
+OR
+>  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D =3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D
+>          Program        Minimal version      Version Command        Requi=
+red for
+>  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D =3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D
 
-Bumping the minimum version of a tool used in scattered places in the=20
-tree to a version that is just 3-4 years old should not be done too=20
-careless, but I think for Python, I'd second bumping to v3.11.
+> I think it would be good to=20
+> get this a bit more complete, where possible.
 
-Kind regards,
-Nicolas
+I have only little clue about tooling, versions or Kconfig so I'll need som=
+e help with that.
 
---IPfAD79JDW7zfCpg
-Content-Type: application/pgp-signature; name="signature.asc"
+Thanks
+ Manuel=20
 
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCAAdFiEEDv+Fiet06YHnC6RpiMa8nIiabbgFAmqa8fMACgkQiMa8nIia
-bbixyRAAok+TmXbbb6xM1TJU3hJRO9fTlkGyhWWM5VdTj80zDQhhN7hL1K/jlGN8
-Hd+zemhopY2iCVibgd5TQHPv8p46VLkRMqhJjiHDkCVujI+5o1MoWOQB9JvMyD5F
-AE+kGLQUFIOc4mThtasjotQtE4Ky8+HFTyrVtPZHMJ+y8Skcy8EUnd+UI3hhS7sN
-awX0EIePfaIBLx3SZolvKfjYh+ZZLBvjSEnz79yFgfp/8WHsb11mHY1cTViBdQoe
-J9aM/b8fXjE39CxoaXZuc9jeNaTSe4YHe+uUvU9lvEuzO9dzb5o6s7jmTZjNbCXu
-IlFux9HAIKBLX+/Qs4aBU5hddUDnEml3jpjEtdmSz6cTzGMGjnyOslK0m3pWPbuw
-EKQrExRUSBctGzngeX3emFHl5RqVvn6v+OXV4TfutZz0GWYANaAOnbE9HyFNCubi
-VcXiA5m0+ZDZrcG+GVeEblyMIJIuwBSjmBubfMHhbsUbUhX/MIdLtxtmrllcAiFu
-KXznxCMezZRgySeQQXih1PMlKJCLG7hjA45Eax/vWPLNqXELMxUAva/H07JakPZx
-CTHpFfxmz5YK1RLub8aUXJ1mUiM+BO72B3egt45KhWIZ6VHkaFwBYOySJcUVAoO/
-MamfX/AX9544UeOipU45hsG+kwkviQwJvUsrLOXyU1MSsglAajM=
-=AVIV
------END PGP SIGNATURE-----
-
---IPfAD79JDW7zfCpg--
+> Kind regards,
+> Nicolas
