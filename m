@@ -1,182 +1,105 @@
-Received: from mout-p-102.mailbox.org (mout-p-102.mailbox.org [80.241.56.152])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail.avm.de (mail.avm.de [212.42.244.120])
+	(using TLSv1.2 with cipher DHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A3169472F72;
-	Fri,  4 Sep 2026 17:03:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.152
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 97CAC4A3859;
+	Fri,  4 Sep 2026 19:19:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.42.244.120
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788541394; cv=none; b=JImVG6lcKbfbzW4I/+j2+tBKZo6ot5p+H1IOGinl721M15YGTWFCgAzIz6MP0+0I+FMeKMYuYWEC5t+apgdoI4AyTotkUSu4YGCl7credUkU8Rtx3CjPYRlorAech0G/uMCBr94vU75y3DmLk71iQPOtZoOdcNFDU+mwEzPxoYM=
+	t=1788549593; cv=none; b=LWt3rDmS9SgDiUOJC9MRaF2Sr4mR8mO65plrMdY4lstNLSln6WaIMkQ520/3NeFFC3Q+0DYUjSpEAbZjpKclfCsrzp5+0rwiQiKfGPkeyuA+FiCdoKepHBlRpzR7N9e3Kau2OrRPNvd/sHLH1BaqcJFaJtS36aDGG24ggLvwogQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788541394; c=relaxed/simple;
-	bh=ecK2wmAuZck7TyMU7udH9uLRTjXBYq7BHeTCuCIQLpU=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=RvFcEkNDOTrpHnYjFVuXqmbkZryrg9MvdcCl4rR2qnpRM9dSAaC4Zrv7ljuStvGvonEEfVUeVnLQjoX3/aRaG4r1c3KMh7ePrBjqox0kY///o71E+IJ8Br01T94oWNmvDUaSp3Jq/WDhdjdjMo2dStYbyCBSgKHQB9Kpbgqh6EA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org; spf=pass smtp.mailfrom=mailbox.org; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=bhotPMVd; arc=none smtp.client-ip=80.241.56.152
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mailbox.org
+	s=arc-20240116; t=1788549593; c=relaxed/simple;
+	bh=mz5R28uNnIWFGlQsYQ78S1ocY+93UGGXn1Zf85uYZ0w=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=o+Yd+igS6xnIejvRgVp2wrupbDlG9vH+IGNIEFdg5fTkcX/5PdHimaBooKepA5ILKW7T0lzAQhPUui2dmiJZA5Jdhu/OuMOOjwwZme/1pR/GMtX6kk3cH+5J4tYg0XeZVUW+c/IT7S4X+dmjd3w8fWPrKw0hZS72oaHWJ2Wr3k8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=fritz.com; spf=pass smtp.mailfrom=fritz.com; dkim=pass (2048-bit key) header.d=fritz.com header.i=@fritz.com header.b=OrhVzU61; arc=none smtp.client-ip=212.42.244.120
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=fritz.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=fritz.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="bhotPMVd"
-Received: from smtp1.mailbox.org (smtp1.mailbox.org [10.196.197.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange x25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mout-p-102.mailbox.org (Postfix) with ESMTPS id 4hc2pZ3Y6qzKvyN;
-	Fri, 04 Sep 2026 19:03:02 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
-	t=1788541382;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=2bdiMxP0fkSWQuv353d3PCw4VyXVaYVxJwgR/0Ra358=;
-	b=bhotPMVdCjL8jTLdwYiuKc1uhLsDGe9Hhly+guT2Wxb7v2RWN6pEl8uv51R5QmR6Yknpei
-	xTU4Gf0omSEe5W4CjMbcbKby93Ci32d1/ZU/QOxdkwSPjfWPnW4CxKvbc8roxRe3BikdCt
-	AEYCA8OMQQfIosr9jL/Cy9H5t8IzMoakiBTJ2/Uu1JbI48lFXS9TOCyNf+kVb7rDFGcgcj
-	3zvQBcJlmIFUsD3E+mgqqH01QnFTHWFpAAT5l2nb18cYn6SXNRz8XAKZyHimtJVfJQNixH
-	l2E4q0+i0gH50jWdsofRy+7KBt4/dkAA0HzMWqsTe2t3dlVHTy9uslVKX/vo+A==
-Message-ID: <a2066238d2be3cfd36cd6ea3a7bf11206cb0a02a.camel@mailbox.org>
-Subject: Re: [PATCH] v2 Docs: changes.rst: introduce optional column
-From: Manuel Ebner <manuelebnerli@mailbox.org>
-To: Nicolas Schier <n.schier@fritz.com>
-Cc: Jonathan Corbet <corbet@lwn.net>, Shuah Khan
- <skhan@linuxfoundation.org>,  Miguel Ojeda <ojeda@kernel.org>, Boqun Feng
- <boqun@kernel.org>, Gary Guo <gary@garyguo.net>,  =?ISO-8859-1?Q?Bj=F6rn?=
- Roy Baron	 <bjorn3_gh@protonmail.com>, Benno Lossin <lossin@kernel.org>,
- Andreas Hindborg	 <a.hindborg@kernel.org>, Alice Ryhl
- <aliceryhl@google.com>, Trevor Gross	 <tmgross@umich.edu>, Danilo Krummrich
- <dakr@kernel.org>, Daniel Almeida	 <daniel.almeida@collabora.com>, Tamir
- Duberstein <tamird@kernel.org>,  Alexandre Courbot <acourbot@nvidia.com>,
- Onur =?ISO-8859-1?Q?=D6zkan?= <work@onurozkan.dev>, Nathan Chancellor	
- <nathan@kernel.org>, Nick Desaulniers <nick.desaulniers+lkml@gmail.com>, 
- Bill Wendling <morbo@google.com>, Justin Stitt <justinstitt@google.com>,
- workflows@vger.kernel.org, 	linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, 	rust-for-linux@vger.kernel.org,
- llvm@lists.linux.dev
-Date: Fri, 04 Sep 2026 19:02:52 +0200
-In-Reply-To: <20260904-stirring-zircon-frog-ea6949@l-nschier-aarch64>
-References: <20260831151605.638172-2-manuelebnerli@mailbox.org>
-	 <20260831152523.638881-1-manuelebnerli@mailbox.org>
-	 <20260904-stirring-zircon-frog-ea6949@l-nschier-aarch64>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+	dkim=pass (2048-bit key) header.d=fritz.com header.i=@fritz.com header.b="OrhVzU61"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=fritz.com; s=mail;
+	t=1788549584; bh=mz5R28uNnIWFGlQsYQ78S1ocY+93UGGXn1Zf85uYZ0w=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=OrhVzU61wsW6eMAkF14seAFAlX4NikPMwrFwzp7/q0aif/EZDVKOrXEfUPhTsDyFa
+	 +kdKop9hprtpetO43lY1TQCro5xyBNTx1CPJwt2VVY51DtjoVwpjdAaFz3UFiDFhXg
+	 ZwcTgAzXkCpzq+e9pz2d+YVTEWDmT0iQIPrKZkNtbg0VAjfWCG/vr8ofzbxDI1kEDK
+	 5mtL8VYKJc+PFLsa8GYN2NEy5pGZIz5PmSnqNQWYYNzntFw6Q4+RCs8BRWr1+r9Ra6
+	 q7GD9s/xUtLRfir4jtghM4atsKzj20phfgbSzcs+mDGDttoJMbocjvqbBxIsGdu9yp
+	 zXvF7ZBxpkGUQ==
+Received: from [2001:bf0:244:244::78] (helo=mail.avm.de)
+	by mail.avm.de with ESMTP (eXpurgate 4.57.1)
+	(envelope-from <n.schier@fritz.com>)
+	id 6a9b19d0-2a57-7f0000032729-7f000001b004-1
+	for <multiple-recipients>; Fri, 04 Sep 2026 21:19:44 +0200
+Received: from mail-auth.fritz.com (unknown [IPv6:2001:bf0:244:244::78])
+	by mail.avm.de (Postfix) with ESMTPS;
+	Fri,  4 Sep 2026 21:19:44 +0200 (CEST)
+Date: Fri, 4 Sep 2026 21:19:43 +0200
+From: Nicolas Schier <n.schier@fritz.com>
+To: Guillaume Tucker <gtucker@gtucker.io>
+Cc: Nathan Chancellor <nathan@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+	Onur =?utf-8?B?w5Z6a2Fu?= <work@onurozkan.dev>,
+	Nick Desaulniers <ndesaulniers@google.com>,
+	Miguel Ojeda <ojeda@kernel.org>, linux-doc@vger.kernel.org,
+	workflows@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-kbuild@vger.kernel.org, kernelci@lists.linux.dev,
+	automated-testing@lists.yoctoproject.org
+Subject: Re: [PATCH RESEND v3 1/3] scripts: add TOML config to container tool
+Message-ID: <20260904-invaluable-nifty-salmon-cf7767@l-nschier-aarch64>
+References: <0a88d9d0ebd73a9f6e72399f93705ebc7b49ae9c.1788341513.git.gtucker@gtucker.io>
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MBO-RS-META: 37xjqxrzxx17uwir6atstjf7jz7irh98
-X-MBO-RS-ID: 59b361a7e629ce93864
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <0a88d9d0ebd73a9f6e72399f93705ebc7b49ae9c.1788341513.git.gtucker@gtucker.io>
+Organization: FRITZ! Technology GmbH
+x-ms-reactions: disallow
+X-purgate-ID: 149429::1788549584-FABC270C-BB7A4DCA/0/0
+X-purgate-type: clean
+X-purgate-size: 1513
+X-purgate: This mail is considered clean (visit https://www.eleven.de for further information)
+X-purgate: clean
+X-pfmilter: host: postfix-mx-01  mail-id: 6291CA0385  external: no
 
-On Fri, 2026-09-04 at 18:11 +0200, Nicolas Schier wrote:
-> On Mon, Aug 31, 2026 at 05:25:22PM +0200, Manuel Ebner wrote:
-> > The optional tag isn't obvious nor defined. Therefore replace with colu=
-mn.
+On Wed, Sep 02, 2026 at 11:33:00AM +0200, Guillaume Tucker wrote:
+> Add support for a TOML configuration file to the scripts/container
+> tool.  This improves user experience by not having to keep passing the
+> same command line options all the time or overly relying on built-in
+> default values.  Include the concept of 'profiles' with different
+> named sections in the file to cover various use cases.
 >=20
-> Why do you throw away the 'Command to check the version' column?=C2=A0=C2=
-=A0
-
-I would do this to get some space for the optional column and have
-the version commands in ./scrips/ver_linux . See below.
-
-> At=20
-> work, we have a script that uses these commands to check the actual=20
-> tooling versions.
-
-Well, I don't want to break that.
-
-> If there is a reason for change, please document it in the commit=20
-> message.
-
-Will do.
-
-> > Signed-off-by: Manuel Ebner <manuelebnerli@mailbox.org>
-> > ---
-> > =C2=A0Documentation/process/changes.rst | 84 +++++++++++++++-----------=
------
-> > =C2=A01 file changed, 42 insertions(+), 42 deletions(-)
-> >=20
-> > diff --git a/Documentation/process/changes.rst b/Documentation/process/=
-changes.rst
-> > index b3fa980b63e3..905ac0f6cdc5 100644
-> > --- a/Documentation/process/changes.rst
-> > +++ b/Documentation/process/changes.rst
-> > @@ -29,49 +29,49 @@ systems; obviously, if you don't have any PC Card h=
-ardware, for example,
-> > =C2=A0you probably do not need to concern yourself with pcmciautils.
-> > =C2=A0
-> > =C2=A0=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=C2=A0 =3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> > -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 Program=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0 Minimal version=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0 Command to check the version
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 Program=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0 Minimal version=C2=A0 Required for=20
+> Command line options take precedence over the config file, and values
+> defined in profile sections take precedence over the default one.
 >=20
-> Do you want to align the column headers to the left or center them?
-
-I should have done this the proper way but i didn't.
-
-> > =C2=A0=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=C2=A0 =3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> > -bash=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 4.2=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 bash --version
-> > ...
-> > +bash=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 4.2=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=20
-> > ...
-> > =C2=A0=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=C2=A0 =3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> > =C2=A0
-> > =C2=A0.. [#f1] Sphinx is needed only to build the Kernel documentation
+> Add a -c option to override the location of the .container.toml config
+> file which should otherwise be located in the current working
+> directory.  If not found, the file is silently ignored as it is not
+> strictly required unless the -c option is used.
 >=20
-> I kind of like the "Required for" column w/ naming=20
-> concrete Kconfig symbols or envs like ARCH.=C2=A0=C2=A0
+> Add a -p option to choose a particular profile section in the config
+> file rather than the default.
+>=20
+> Signed-off-by: Guillaume Tucker <gtucker@gtucker.io>
+> ---
+>=20
+> Notes:
+>     Changes in v2:
+>     - fix uid / gid handling when set to 0 (root)
+>    =20
+>     Changes in v3:
+>     - fix logic when loading config profiles using None
+>     - fix typo with missing whitespace in help message
+>     - clarify how UID gets used as default value for GID
+>=20
+>  scripts/container | 89 ++++++++++++++++++++++++++++++++++++++++-------
+>  1 file changed, 77 insertions(+), 12 deletions(-)
+>=20
 
-Thanks, do you prefer your scripts working or the required for column? Mayb=
-e there
-is space for both, when 'program' and 'Minimal version' get squished.
-Would one of those arrangements not break your scripts?
+Acked-by: Nicolas Schier <n.schier@fritz.com>
 
->  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D =3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D
->          Program        Minimal version    Required for        Version Co=
-mmand
->  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D =3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D
-
-OR
->  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D =3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D
->          Program        Minimal version      Version Command        Requi=
-red for
->  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D =3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D
-
-> I think it would be good to=20
-> get this a bit more complete, where possible.
-
-I have only little clue about tooling, versions or Kconfig so I'll need som=
-e help with that.
-
-Thanks
- Manuel=20
-
-> Kind regards,
-> Nicolas
+--=20
+Nicolas
