@@ -1,64 +1,58 @@
-Received: from mail.avm.de (mail.avm.de [212.42.244.119])
+Received: from mail.avm.de (mail.avm.de [212.42.244.120])
 	(using TLSv1.2 with cipher DHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3FEBD3BB13B;
-	Fri,  4 Sep 2026 16:11:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.42.244.119
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CEBC0501F27;
+	Fri,  4 Sep 2026 16:35:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.42.244.120
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788538278; cv=none; b=H4eLdiB+lj2SrKZE70k9pmLr0k4kKilg3tt/x3z7ilX+nciKCkx6IduhONZesw0P/ZQ3jOMRHsNA/gClRW+pikv9Om2ep5d++Mw7TJquESSI3ZzYENaYo9nYznBuXWwDLKQdijAfHEnTpyuRvbFv9HqDZZ5+hhF9GhYnGfDm4M8=
+	t=1788539707; cv=none; b=PlHJ9l5uGpDCKqnYmsbh0LK/B3K6iMzXFYw8ogzKlKwc75ARyG5I+5hLweXDA2BQFNvtUxVR9Y2Y6kV5y1qrvAR5v+Wbh4pBAJA60PKtEZ0fnIEANzpvaVwQK4SST3fkrKZtLglxvoY6rZfOaPw/8j0GW74fj8G4VLOQn6w2G9g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788538278; c=relaxed/simple;
-	bh=nnYs7e/Qa7TDSZX25IfmO66KGD1Y+331y3LUTS2+Uf8=;
+	s=arc-20240116; t=1788539707; c=relaxed/simple;
+	bh=Yrj+hpeTd851TNoAZJLqC56O4lZrGFKD+S3XWoI7bxI=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=pjp4+94RTHvdWmaCPqpj4Q6pCgXNrfa8/rTNbneeBm5nLNgvRhArSpIKBTyumCcUdHuWZtbbAcNSyyY1jG9xDBKfl0HdogNDl/ZiD1S4vv2Wj37qMBg8Nv8m3O+t8qdytqgEulhxVwcLXBb2JFVQ5fRk5BmaMfQNAk2okzlf9J4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=fritz.com; spf=pass smtp.mailfrom=fritz.com; dkim=pass (2048-bit key) header.d=fritz.com header.i=@fritz.com header.b=iwDQcXKk; arc=none smtp.client-ip=212.42.244.119
+	 Content-Type:Content-Disposition:In-Reply-To; b=rronJ2Qev/v1T9ZTITVig12UwDYMewYbf84ocQz5RxGTA2CIkO73b9+Q9CQr6bg58t+DiyXJxlG4Ahk3o+qauov5+FYfuBhKkY6s7IXZCSaR5dr8QiNf/nzOQ40Kb+Z8d7JVQsdzWY3iFvdRBPjqed0JGE8Wa2ikkji/TGupX/4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=fritz.com; spf=pass smtp.mailfrom=fritz.com; dkim=pass (2048-bit key) header.d=fritz.com header.i=@fritz.com header.b=qy02yK3V; arc=none smtp.client-ip=212.42.244.120
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=fritz.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=fritz.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=fritz.com header.i=@fritz.com header.b="iwDQcXKk"
+	dkim=pass (2048-bit key) header.d=fritz.com header.i=@fritz.com header.b="qy02yK3V"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=fritz.com; s=mail;
-	t=1788538264; bh=nnYs7e/Qa7TDSZX25IfmO66KGD1Y+331y3LUTS2+Uf8=;
+	t=1788539385; bh=Yrj+hpeTd851TNoAZJLqC56O4lZrGFKD+S3XWoI7bxI=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=iwDQcXKkIzBA62Kc3FhTrk8ibEggseUPiDD43/WYiDcK8AwUiq0ioXSUG7YR3c2CP
-	 eu2B/uxRQk7Tlvz7YnF6wo6X8uiqkE8ZOPNlHINKHdgcdJY007eUMBn5a8zzK178nL
-	 DbE7D5FuOIdb0xIpNJYs4NFsQV6UQEe50HqTl9ZFH8MBdh8JbeDjx1csW5w4MpzDVh
-	 +OTenYd9j+iKOaQssLW/G1NVq/0kl92MXnrZyDmm+oixae9njnC2AhoPuhMhiGahLP
-	 oni3hOVQYtbMq1jOSroMH31TZgGn+NGv/t9Jt4qI0dU5ym58oLk2CxkOzizJxf2Pyv
-	 4b/cuy25tl8AA==
-Received: from [212.42.244.78] (helo=mail.avm.de)
+	b=qy02yK3VaN3DXRWeuWB1i9SbMdt7n2HiqKGhH7TS0aLkplN3ZkNRNfbf9E0hNXS4B
+	 WO3Si7A/BtWdvjs2Soc3wzHp+XNhLZq2AxLIABJPrLqdCZBu8z9BxnPvt6zCQWZ92S
+	 rsY7wwyuq+Mem0MdsCxlDWdQN6vdu++OopISjUPfZ5nJMNdgpOkgGzDfyuzbET2igF
+	 jAndKqyvHpKf2Plcw/aKwIJ1oDoCS1O/8XsNZDz8Onc4gsYwQbsyswTaKeNZ2FmuQY
+	 d+81bs0OcKPn5DjEi38M2NqwUVveAWjw2c9yeINeYuCP1xRpGRs7QHzesDYv+s86oW
+	 Qqp33mVvPuAFg==
+Received: from [2001:bf0:244:244::78] (helo=mail.avm.de)
 	by mail.avm.de with ESMTP (eXpurgate 4.57.1)
 	(envelope-from <n.schier@fritz.com>)
-	id 6a9aed98-c6f5-7f0000032729-7f00000184b0-1
-	for <multiple-recipients>; Fri, 04 Sep 2026 18:11:04 +0200
-Received: from mail-auth.fritz.com (unknown [212.42.244.78])
+	id 6a9af1f8-2a57-7f0000032729-7f000001a072-1
+	for <multiple-recipients>; Fri, 04 Sep 2026 18:29:44 +0200
+Received: from mail-auth.fritz.com (unknown [IPv6:2001:bf0:244:244::78])
 	by mail.avm.de (Postfix) with ESMTPS;
-	Fri,  4 Sep 2026 18:11:04 +0200 (CEST)
-Date: Fri, 4 Sep 2026 18:11:03 +0200
+	Fri,  4 Sep 2026 18:29:44 +0200 (CEST)
+Date: Fri, 4 Sep 2026 18:29:45 +0200
 From: Nicolas Schier <n.schier@fritz.com>
-To: Manuel Ebner <manuelebnerli@mailbox.org>
-Cc: Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Miguel Ojeda <ojeda@kernel.org>, Boqun Feng <boqun@kernel.org>,
-	Gary Guo <gary@garyguo.net>,
-	=?utf-8?B?QmrDtnJu?= Roy Baron <bjorn3_gh@protonmail.com>,
-	Benno Lossin <lossin@kernel.org>,
-	Andreas Hindborg <a.hindborg@kernel.org>,
-	Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>,
-	Danilo Krummrich <dakr@kernel.org>,
-	Daniel Almeida <daniel.almeida@collabora.com>,
-	Tamir Duberstein <tamird@kernel.org>,
-	Alexandre Courbot <acourbot@nvidia.com>,
-	Onur =?utf-8?B?w5Z6a2Fu?= <work@onurozkan.dev>,
+To: Guillaume Tucker <gtucker@gtucker.io>
+Cc: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>,
 	Nathan Chancellor <nathan@kernel.org>,
-	Nick Desaulniers <nick.desaulniers+lkml@gmail.com>,
-	Bill Wendling <morbo@google.com>,
-	Justin Stitt <justinstitt@google.com>, workflows@vger.kernel.org,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-	rust-for-linux@vger.kernel.org, llvm@lists.linux.dev
-Subject: Re: [PATCH] v2 Docs: changes.rst: introduce optional column
-Message-ID: <20260904-stirring-zircon-frog-ea6949@l-nschier-aarch64>
-References: <20260831151605.638172-2-manuelebnerli@mailbox.org>
- <20260831152523.638881-1-manuelebnerli@mailbox.org>
+	Jonathan Corbet <corbet@lwn.net>,
+	Onur =?utf-8?B?w5Z6a2Fu?= <work@onurozkan.dev>,
+	Nick Desaulniers <ndesaulniers@google.com>,
+	Miguel Ojeda <ojeda@kernel.org>, linux-doc@vger.kernel.org,
+	workflows@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-kbuild@vger.kernel.org,
+	automated-testing@lists.yoctoproject.org,
+	"kernelci lists.linux.dev" <kernelci@lists.linux.dev>
+Subject: Re: [PATCH 1/2] scripts: add TOML config to container tool
+Message-ID: <20260904-demonic-calm-swift-e7acae@l-nschier-aarch64>
+References: <7d8ba914cd174d716340bb2b88723bef0f330627.1787565460.git.gtucker@gtucker.io>
+ <apG3hwaPA8f7SJeI@levanger>
+ <b45e7864-928c-4b3c-aa62-64f4f63d85c7@gtucker.io>
+ <CANiq72k6T9Y_Vubih6pFMQBxju2xQq0VQkCXT1WL0qSyCXKxyA@mail.gmail.com>
+ <faa022bc-bda5-47ee-9984-4e8ff067c6e1@gtucker.io>
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
@@ -66,178 +60,102 @@ List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="3LI1LwzTwlfX5+ls"
+	protocol="application/pgp-signature"; boundary="IPfAD79JDW7zfCpg"
 Content-Disposition: inline
-In-Reply-To: <20260831152523.638881-1-manuelebnerli@mailbox.org>
+In-Reply-To: <faa022bc-bda5-47ee-9984-4e8ff067c6e1@gtucker.io>
 Organization: FRITZ! Technology GmbH
 x-ms-reactions: disallow
-X-purgate-ID: 149429::1788538264-00C33ADA-3F2AC763/0/0
+X-purgate-ID: 149429::1788539384-60CA570C-3578E9C3/0/0
 X-purgate-type: clean
-X-purgate-size: 7767
-X-Notice: Whitelisted
+X-purgate-size: 3674
 X-purgate: This mail is considered clean (visit https://www.eleven.de for further information)
 X-purgate: clean
-X-pfmilter: host: postfix-mx-02  mail-id: 65769A026E  external: no
+X-pfmilter: host: postfix-mx-01  mail-id: ED0A3A00CB  external: no
 
 
---3LI1LwzTwlfX5+ls
+--IPfAD79JDW7zfCpg
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Mon, Aug 31, 2026 at 05:25:22PM +0200, Manuel Ebner wrote:
-> The optional tag isn't obvious nor defined. Therefore replace with column.
-
-Why do you throw away the 'Command to check the version' column?  At=20
-work, we have a script that uses these commands to check the actual=20
-tooling versions.
-
-If there is a reason for change, please document it in the commit=20
-message.
-
+On Sat, Aug 29, 2026 at 10:56:47AM +0200, Guillaume Tucker wrote:
+> Hi Miguel,
 >=20
-> Signed-off-by: Manuel Ebner <manuelebnerli@mailbox.org>
-> ---
->  Documentation/process/changes.rst | 84 +++++++++++++++----------------
->  1 file changed, 42 insertions(+), 42 deletions(-)
+> On 28/08/2026 7:35 pm, Miguel Ojeda wrote:
+> > On Fri, Aug 28, 2026 at 7:25=E2=80=AFPM Guillaume Tucker <gtucker@gtuck=
+er.io> wrote:
+> > >=20
+> > > It states Python 3.9 which was already older than the 3.10 minimum
+> > > set when the container tool was merged.  Also my understanding is
+> > > that it's not a hard requirement for all the kernel tools, only for
+> > > building and producing a functioning kernel.  If I misunderstood this
+> >=20
+> > I didn't check at the moment, but at least back when the "(optional)"
+> > tag was removed, it was only required for certain configurations from
+> > what I understand (I am not sure why the tag was removed).
+> >=20
+> > In any case, it is nice if we could just say that it is required -- it
+> > is quite useful to have around, especially due to its standard
+> > library.
 >=20
-> diff --git a/Documentation/process/changes.rst b/Documentation/process/ch=
-anges.rst
-> index b3fa980b63e3..905ac0f6cdc5 100644
-> --- a/Documentation/process/changes.rst
-> +++ b/Documentation/process/changes.rst
-> @@ -29,49 +29,49 @@ systems; obviously, if you don't have any PC Card har=
-dware, for example,
->  you probably do not need to concern yourself with pcmciautils.
-> =20
->  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D =3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D
-> -        Program        Minimal version       Command to check the version
-> +        Program        Minimal version  Required for=20
+> OK so I'll leave this part as-is for now unless someone makes a
+> strong case for downgrading to v3.9, thanks for confirming.
+>=20
+> > And regarding the minimum version, it would be nice to eventually have
+> > a single minimum for all Python scripts, no? Debian oldstable is
+> > already at 3.11, so I think we could perhaps bump the minimum already.
+> > And Debian stable is 3.13, which from your list would be enough for
+> > everything on your list, right? So we could perhaps set that as the
+> > actual minimum for everything in the future.
+>=20
+> I was wondering about this too, especially since v3.10 is soon going
+> to reach end-of-life which means no more security patches.  In
+> principle newer, version should be backwards compatible so if we just
+> bumped the minimum to v3.13 older scripts that were written for v3.9
+> should still work - but it'd be nice to have a way to test that.
+>=20
+> Well that's beyond this series anyway, maybe something for KernelCI?
 
-Do you want to align the column headers to the left or center them?
+If I filtered the repology data correctly, bumping the minimum Python=20
+version to v3.11 would be problematic for these (major) distributions:
 
->  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D =3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D
-> -bash                   4.2              bash --version
-> -bc                     1.06.95          bc --version
-> -bindgen (optional)     0.71.1           bindgen --version
-> -binutils               2.30             ld -v
-> -bison                  2.0              bison --version
-> -btrfs-progs            0.18             btrfs --version
-> -Clang/LLVM (optional)  17.0.1           clang --version
-> -e2fsprogs              1.41.4           e2fsck -V
-> -flex                   2.5.35           flex --version
-> -gdb                    7.2              gdb --version
-> -genisoimage            1.1.11           genisoimage --version
-> -GNU awk (optional)     5.1.0            gawk --version
-> -GNU C                  8.1              gcc --version
-> -GNU make               4.0              make --version
-> -GNU tar                1.28             tar --version
-> -GRUB                   0.93             grub --version || grub-install -=
--version
-> -gtags (optional)       6.6.5            gtags --version
-> -iproute2               6.14.0           ip -V
-> -iptables               1.4.2            iptables -V
-> -jfsutils               1.1.3            fsck.jfs -V
-> -kmod                   13               kmod -V
-> -liblzma                5.8.1            lzma -V
-> -lzop                   1.04             lzop -V
-> -mcelog                 0.6              mcelog --version
-> -mkimage (optional)     2017.01          mkimage --version
-> -mtools                 4.0.49           mtools -V
-> -nfs-utils              1.0.5            showmount --version
-> -openssl & libcrypto    1.0.0            openssl version
-> -pahole                 1.26             pahole --version
-> -pcmciautils            004              pccardctl -V
-> -PPP                    2.4.0            pppd --version
-> -procps                 3.2.0            ps --version
-> -Python                 3.9.x            python3 --version
-> -quota-tools            3.09             quota -V
-> -Rust (optional)        1.85.0           rustc --version
-> -Sphinx\ [#f1]_         3.4.3            sphinx-build --version
-> -squashfs-tools         4.0              mksquashfs -version
-> -syslinux               6.04             syslinux --version
-> -udev                   081              udevadm --version
-> -util-linux             2.10o            mount --version
-> -xfsprogs               2.6.0            xfs_db -V
-> +bash                   4.2             =20
-> +bc                     1.06.95         =20
-> +bindgen                0.71.1           generate Rust bindings
-> +binutils               2.30            =20
-> +bison                  2.0             =20
-> +btrfs-progs            0.18            =20
-> +Clang/LLVM             17.0.1           alternative to GNU C (gcc)
-> +e2fsprogs              1.41.4           ext4
-> +flex                   2.5.35          =20
-> +gdb                    7.2             =20
-> +genisoimage            1.1.11          =20
-> +GNU awk                5.1.0            objtool
-> +GNU C                  8.1             =20
-> +GNU make               4.0             =20
-> +GNU tar                1.28            =20
-> +GRUB                   0.93            =20
-> +gtags (optional)       6.6.5           =20
-> +iproute2               6.14.0          =20
-> +iptables               1.4.2           =20
-> +jfsutils               1.1.3           =20
-> +kmod                   13              =20
-> +liblzma                5.8.1           =20
-> +lzop                   1.04            =20
-> +mcelog                 0.6             =20
-> +mkimage                2017.01          ARCH=3Darc, arm, or powerpc
-> +mtools                 4.0.49          =20
-> +nfs-utils              1.0.5           =20
-> +openssl & libcrypto    1.0.0           =20
-> +pahole                 1.26            =20
-> +pcmciautils            004             =20
-> +PPP                    2.4.0           =20
-> +procps                 3.2.0           =20
-> +Python                 3.9.x           =20
-> +quota-tools            3.09            =20
-> +Rust                   1.85.0           CONFIG_RUST=3Dy
-> +Sphinx\ [#f1]_         3.4.3           =20
-> +squashfs-tools         4.0             =20
-> +syslinux               6.04            =20
-> +udev                   081             =20
-> +util-linux             2.10o           =20
-> +xfsprogs               2.6.0           =20
->  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D =3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D
-> =20
->  .. [#f1] Sphinx is needed only to build the Kernel documentation
+  * Alpine Linux 3.17
+  * CentOS 8
+  * Debian 11
+  * Devuan 4.0
+  * OpenMandriva Cooker
+  * OpenMandriva Rolling
+  * Slackware 15.0
+  * Ubuntu 20.04
 
-I kind of like the "Required for" column w/ naming=20
-concrete Kconfig symbols or envs like ARCH.  I think it would be good to=20
-get this a bit more complete, where possible.
+With the end of security support for Python 3.10, I think that is=20
+acceptable for a minimum version bump.
+
+Bumping the minimum version of a tool used in scattered places in the=20
+tree to a version that is just 3-4 years old should not be done too=20
+careless, but I think for Python, I'd second bumping to v3.11.
 
 Kind regards,
 Nicolas
 
---3LI1LwzTwlfX5+ls
+--IPfAD79JDW7zfCpg
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAABCAAdFiEEDv+Fiet06YHnC6RpiMa8nIiabbgFAmqa7ZAACgkQiMa8nIia
-bbhLsxAAhafUzIFNr+ETq/XHjzw3SB44iaAWSzBjCmdDYU/w20d/EBrWySxiS27A
-4IY8XpSGUVdGbmgY1vC3PDVyLZ9xwMpYv65wkevFZM9D5FzJla9K9Mh5W6B6dUhy
-VNSFqfZ1vDHxRGW25ArjF5jwWFlGzHbbaMWtXuTDFSKPKB6o899aTU9TgY8G/G0p
-1R0YFo8Ldlv1bRw3MQyPbgL64TntjXxBrylKkmLa9rg9Qz34B9PzsR2O7QWvIN1w
-GCm5SewGQ7If43ELa9+p29RGH7ZivMod9IDdlTbAqQM73rdFVj/84vC/udWGCWrF
-k+HM/ml1LtxlgkDMschDnyb6+r+NVAPGeq+N5qmwPZyiLNkPWNoDa5gKhdSfriXA
-305AzMpiS7R1Q4IKYFz/VG9GLE7tnzCkIjzK13BYpqs5a+MCpvtx6CmDNywZxMkv
-2mw8XSM/nFBROLXwIFAlSb8KIC9336efMjzuBXR8QiuVuoajeaBWhfLDWBPKKPLZ
-OkxMiZ+bDjllesbpwEZWaMechDA926OXKK24zfZRLpp6IVJtz+WOrb0aHMY6KnCa
-PQIEDflE3sfS8E8tscPvKsYoIkJt5F+UqYa8IVJTUVgNkZcwZhd74vJd1/FVcCWJ
-jPYC4hteW1DkD3HX5TMBvaoFhTvnGGqVe//L4aJ4W0RJxOuf1Nw=
-=ALpV
+iQIzBAABCAAdFiEEDv+Fiet06YHnC6RpiMa8nIiabbgFAmqa8fMACgkQiMa8nIia
+bbixyRAAok+TmXbbb6xM1TJU3hJRO9fTlkGyhWWM5VdTj80zDQhhN7hL1K/jlGN8
+Hd+zemhopY2iCVibgd5TQHPv8p46VLkRMqhJjiHDkCVujI+5o1MoWOQB9JvMyD5F
+AE+kGLQUFIOc4mThtasjotQtE4Ky8+HFTyrVtPZHMJ+y8Skcy8EUnd+UI3hhS7sN
+awX0EIePfaIBLx3SZolvKfjYh+ZZLBvjSEnz79yFgfp/8WHsb11mHY1cTViBdQoe
+J9aM/b8fXjE39CxoaXZuc9jeNaTSe4YHe+uUvU9lvEuzO9dzb5o6s7jmTZjNbCXu
+IlFux9HAIKBLX+/Qs4aBU5hddUDnEml3jpjEtdmSz6cTzGMGjnyOslK0m3pWPbuw
+EKQrExRUSBctGzngeX3emFHl5RqVvn6v+OXV4TfutZz0GWYANaAOnbE9HyFNCubi
+VcXiA5m0+ZDZrcG+GVeEblyMIJIuwBSjmBubfMHhbsUbUhX/MIdLtxtmrllcAiFu
+KXznxCMezZRgySeQQXih1PMlKJCLG7hjA45Eax/vWPLNqXELMxUAva/H07JakPZx
+CTHpFfxmz5YK1RLub8aUXJ1mUiM+BO72B3egt45KhWIZ6VHkaFwBYOySJcUVAoO/
+MamfX/AX9544UeOipU45hsG+kwkviQwJvUsrLOXyU1MSsglAajM=
+=AVIV
 -----END PGP SIGNATURE-----
 
---3LI1LwzTwlfX5+ls--
+--IPfAD79JDW7zfCpg--
