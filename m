@@ -1,105 +1,117 @@
-Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
+Received: from mout-p-103.mailbox.org (mout-p-103.mailbox.org [80.241.56.161])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B981A358D00;
-	Sat,  5 Sep 2026 02:58:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4F24C30F958;
+	Sat,  5 Sep 2026 06:00:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.161
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788577101; cv=none; b=sD2OBkd4jkTkFkYT+Yi0S3WYrkfLIGFxhdqcJbkyspUcttu7wMrZA2wejzN7ZoCRu0Fy1Pvxu83oUjzJYOncPxMUfsK/fFZkIB3bEPMghr6b569eD/oK6dpGxk2IRIK4dZSjEUAF0wIE6b7SuFlwv5kusGceHYSXW5H+pO9nvrs=
+	t=1788588046; cv=none; b=l44WtorZVSoSeABpk+/r1RSt29vBo9x20+49OoiZ4n5rPwcLGVbmHiVpxvCKVc8DSA4hkoudksFcry1+cQU+a0+GEF42qOKYx+Us3ZOGv2IrqXmXStLi836ARpYESQNmaLg9AONA+VKc/UBDf+wwGfMWPfhcq5BjhGW83JOVXi8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788577101; c=relaxed/simple;
-	bh=c/ZRYHFwwl7P9ymT0f1zQ+VSU7PAgEnEte10astEePE=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=arIgCmkjKVawRx8PvgfqbMklvVjosHHt3o8+IT2UUGikWtnS0n7U/Tr5Y0lpg42qBaKWQODT5ZNwa76P1oMq5bJzCTkogPEhWjya0MtTV3QHb61PNopiqlh30BFeiKGZvU/ta8fgTj2DcfnnpbKAIH3kKEX77iDRMP81yaYZGRQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=pass smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=r0GTWO4b; arc=none smtp.client-ip=198.137.202.133
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=infradead.org
+	s=arc-20240116; t=1788588046; c=relaxed/simple;
+	bh=/dJRWWb8db67iq2SnnIKwB1lk8MdJKR6GYcPD3bzXFk=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=A5c7jvjRHKnL4uUtHfHXmHXve7NMMFzt/ARRgTuJmuWvEvvM4uxFfFEkkHzjCf39qR/VLLX9jdCkWSEMEEimBp24lYKwuwzwGzzb+TGbgfnf/IO4+LZNq/OpB78biifuM5l7DxAnkAeNJ8gdgbrrA6TYe/KSiy12U5ezza+KttM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org; spf=pass smtp.mailfrom=mailbox.org; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=btmPRJgp; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=j2HoN+lC; arc=none smtp.client-ip=80.241.56.161
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mailbox.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="r0GTWO4b"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
-	bh=JRuv1iNzwrkzYPanlW1KF3I/WUjJp6LiVqQvqYh8crA=; b=r0GTWO4bt/7blNhWIfG/B131zR
-	t4Ws19Qith2ad1L5E/CM5hcTqV1nEVVTkwiculx9GeyTS5AU1K9viG5x1Dj8w3eu2T41D9iLJ/EaX
-	CNmWWdiSZeMF8FS3Qn5kVteDPUnq+eKdUbWTOddhSkzLZa3Kxr61WNUk0PdPAlwtc/PZ+TDNGH158
-	MQwzNhSUxWBLkDCvF+e198+rvgv9AoenzsDiijXe/S9anz2mzng5HB/zcGu3F7D0ZPvRT+Yno14TI
-	HG175qtSkTS/Mgrh3LO43dU4ULWIdyvVTcsEcwxAZMAAMBy4nU2Etcj/g6ylhGjXidB9as2lNAkM4
-	trQAN9Zw==;
-Received: from [50.53.43.113] (helo=[192.168.254.34])
-	by bombadil.infradead.org with esmtpsa (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1x2gbe-00000003cUV-1RtA;
-	Sat, 05 Sep 2026 02:58:14 +0000
-Message-ID: <0bff3cf5-0d85-4ebb-9fdb-7fb5d12faf49@infradead.org>
-Date: Fri, 4 Sep 2026 19:58:13 -0700
+	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="btmPRJgp";
+	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="j2HoN+lC"
+Received: from smtp202.mailbox.org (smtp202.mailbox.org [IPv6:2001:67c:2050:b231:465::202])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange x25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mout-p-103.mailbox.org (Postfix) with ESMTPS id 4hcN3m1tBTzKnbK;
+	Sat, 05 Sep 2026 08:00:36 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
+	t=1788588036;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=Pk5D4LfjBqeX1JlhrezgLD05ZGpvRe5c68x4fIoZg4c=;
+	b=btmPRJgppsIqLxz/6fPcvgN+UEXyMIsdy72eaGzlnEEE9kH6vKJT0xAYDfRcCemrz6+nXc
+	3uYsgfpHqHAbyTD+iSkhq0dNIkDRzzNtI61M60ew4rD8tT7p6OzjwSdYg/zUytu/H56u6w
+	fDs8YyUPsSi0J7JcBL7Y6fCRdQQGW19YSucWIpZTCZwPI0EDfN6ghdXgzodG+qVYyiv9sB
+	JEvv9e3Ey9MKjFNvb2HElSELir3NPiDGzjZZHmw9mJ2/H3F1iUiWJcGABeUt1CGjPmk63K
+	gaLkY8e6iRcfeGJ3ovxkC+hvCewdF/f0+Sh+uTc83sXXlMqi6apKLt4ljpAjDg==
+Authentication-Results: outgoing_mbo_mout;
+	dkim=pass header.d=mailbox.org header.s=mail20150812 header.b=j2HoN+lC;
+	spf=pass (outgoing_mbo_mout: domain of manuelebnerli@mailbox.org designates 2001:67c:2050:b231:465::202 as permitted sender) smtp.mailfrom=manuelebnerli@mailbox.org
+From: Manuel Ebner <manuelebnerli@mailbox.org>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
+	t=1788588033;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=Pk5D4LfjBqeX1JlhrezgLD05ZGpvRe5c68x4fIoZg4c=;
+	b=j2HoN+lC3OOKRRziaquN/IGy2lYFLHjm4g8/ZlA7rHbD/6PKEMKBv15qjI5sr+2EA/g4tm
+	OvefcW3Mkc3g8YxHbnKfkEcsTRrOCID8EQFcGsbH1SuGe58KwZ9qk+xoFUpMYZw6scmdwj
+	lhe+WZ7eQHo0nnhdoY+ECsBlDrD0h+xObbq12c4390QUfhtjvKh3sc1JaSzLMN+CBIle+5
+	K13tmxX6FK446bATG77TKPoQdI+3DJza5A4RY42dAMjlwNUCdYKs8YG3a3D0zIfaeS/Xz8
+	8eHWnmi8x5CTTlm+4Ma5nF1JwpICg/hmYX9/siKt8vkDIU4jnNqhzYHrpxzpxA==
+To: Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>
+Cc: Manuel Ebner <manuelebnerli@mailbox.org>,
+	Randy Dunlap <rdunlap@infradead.org>,
+	workflows@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH v3] Docs: changes.rst: Refine language
+Date: Sat,  5 Sep 2026 07:56:55 +0200
+Message-ID: <20260905055655.789265-2-manuelebnerli@mailbox.org>
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] docs: KUnit: Fix cross-compiler prefix examples
-To: Karl Mehltretter <kmehltretter@gmail.com>,
- Brendan Higgins <brendan.higgins@linux.dev>
-Cc: David Gow <david@davidgow.net>, Rae Moar <raemoar63@gmail.com>,
- Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
- Tim Bird <tim.bird@sony.com>, Harinder Singh <sharinder@google.com>,
- =?UTF-8?Q?Ma=C3=ADra_Canal?= <mairacanal@riseup.net>,
- Daniel Latypov <dlatypov@google.com>, linux-kselftest@vger.kernel.org,
- kunit-dev@googlegroups.com, workflows@vger.kernel.org,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20260905025126.83693-1-kmehltretter@gmail.com>
-Content-Language: en-US
-From: Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <20260905025126.83693-1-kmehltretter@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+X-MBO-RS-ID: 0b92f568e4e78984649
+X-MBO-RS-META: tcbxsmkxtmbcs4amuj7s9xybaukdddrj
+X-Rspamd-Queue-Id: 4hcN3m1tBTzKnbK
 
+This document grew over the years and isn't limited to compilling or
+running the kernel anymore. Update the heading and intro accordingly.
 
+Signed-off-by: Manuel Ebner <manuelebnerli@mailbox.org>
+Acked-by: Randy Dunlap <rdunlap@infradead.org>
+---
+[v3]
+ - improved commit message
+ - removed other patches from this series, they are due later.
 
-On 9/4/26 7:51 PM, Karl Mehltretter wrote:
-> The GNU target-tuple prefixes shown in the CROSS_COMPILE examples are
-> missing their trailing dash.
-> 
-> Fixes: 46201d47d6c4 ("Documentation: kunit: Reorganize documentation related to running tests")
-> Fixes: 957063874c76 ("Documentation: kunit: Add CLI args for kunit_tool")
-> Assisted-by: LLM
-> Signed-off-by: Karl Mehltretter <kmehltretter@gmail.com>
+[v2]
+ - no change to this patch
+ https://lore.kernel.org/all/20260831152607.639027-2-manuelebnerli@mailbox.org/
 
-Reviewed-by: Randy Dunlap <rdunlap@infradead.org>
-Thanks.
+[v1]
+ https://lore.kernel.org/all/20260812121945.1635085-2-manuelebnerli@mailbox.org/
+---
+ Documentation/process/changes.rst | 9 +++++----
+ 1 file changed, 5 insertions(+), 4 deletions(-)
 
-> ---
->  Documentation/dev-tools/kunit/run_wrapper.rst | 6 +++---
->  1 file changed, 3 insertions(+), 3 deletions(-)
-> 
-> diff --git a/Documentation/dev-tools/kunit/run_wrapper.rst b/Documentation/dev-tools/kunit/run_wrapper.rst
-> index cecc110a3399f..9221acddf3fa8 100644
-> --- a/Documentation/dev-tools/kunit/run_wrapper.rst
-> +++ b/Documentation/dev-tools/kunit/run_wrapper.rst
-> @@ -189,10 +189,10 @@ via UML. To run tests on qemu, by default it requires two flags:
->    Kbuild. As a reminder, this will be the prefix for the toolchain
->    binaries such as GCC. For example:
->  
-> -  - ``sparc64-linux-gnu`` if we have the sparc toolchain installed on
-> +  - ``sparc64-linux-gnu-`` if we have the sparc toolchain installed on
->      our system.
->  
-> -  - ``$HOME/toolchains/microblaze/gcc-9.2.0-nolibc/microblaze-linux/bin/microblaze-linux``
-> +  - ``$HOME/toolchains/microblaze/gcc-9.2.0-nolibc/microblaze-linux/bin/microblaze-linux-``
->      if we have downloaded the microblaze toolchain from the 0-day
->      website to a directory in our home directory called toolchains.
->  
-> @@ -293,7 +293,7 @@ command line arguments:
->    - ``sparc64-linux-gnu-`` if we have the sparc toolchain installed on
->      our system.
->  
-> -  - ``$HOME/toolchains/microblaze/gcc-9.2.0-nolibc/microblaze-linux/bin/microblaze-linux``
-> +  - ``$HOME/toolchains/microblaze/gcc-9.2.0-nolibc/microblaze-linux/bin/microblaze-linux-``
->      if we have downloaded the microblaze toolchain from the 0-day
->      website to a specified path in our home directory called toolchains.
->  
-
+diff --git a/Documentation/process/changes.rst b/Documentation/process/changes.rst
+index 0aa232b11..eb339eb8c 100644
+--- a/Documentation/process/changes.rst
++++ b/Documentation/process/changes.rst
+@@ -1,13 +1,14 @@
+ .. _changes:
+ 
+-Minimal requirements to compile the Kernel
+-++++++++++++++++++++++++++++++++++++++++++
++Minimal requirements to interact with the Kernel
++++++++++++++++++++++++++++++++++++++++++++++++++
+ 
+ Intro
+ =====
+ 
+-This document is designed to provide a list of the minimum levels of
+-software necessary to run the current kernel version.
++This document is designed to provide a list of the minimum versions of
++software necessary to change code, compile, install and boot the current
++kernel version.
+ 
+ This document is originally based on my "Changes" file for 2.0.x kernels
+ and therefore owes credit to the same people as that file (Jared Mauch,
 -- 
-~Randy
+2.54.0
+
