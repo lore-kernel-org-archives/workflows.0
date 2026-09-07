@@ -1,117 +1,112 @@
-Received: from mout-p-103.mailbox.org (mout-p-103.mailbox.org [80.241.56.161])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail.avm.de (mail.avm.de [212.42.244.120])
+	(using TLSv1.2 with cipher DHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4F24C30F958;
-	Sat,  5 Sep 2026 06:00:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.161
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 56A7B43C7A4;
+	Mon,  7 Sep 2026 09:05:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.42.244.120
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788588046; cv=none; b=l44WtorZVSoSeABpk+/r1RSt29vBo9x20+49OoiZ4n5rPwcLGVbmHiVpxvCKVc8DSA4hkoudksFcry1+cQU+a0+GEF42qOKYx+Us3ZOGv2IrqXmXStLi836ARpYESQNmaLg9AONA+VKc/UBDf+wwGfMWPfhcq5BjhGW83JOVXi8=
+	t=1788771940; cv=none; b=c/RWvzVw8wLOf7zqDRk4XFZ9+4LgKRkgvKlCqWYmmoUGrpAMddCK16nZNPu75Rwf6vzTBOyor1odTnqIM51rgGDXJf/CBZELCs1+jnTNiY8l2K8pnAEMJtg5OUEXz3m0DwRhiC6PWMRnRoQ3WBPoXA0zcstRgpAAjvvYTqzPLto=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788588046; c=relaxed/simple;
-	bh=/dJRWWb8db67iq2SnnIKwB1lk8MdJKR6GYcPD3bzXFk=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=A5c7jvjRHKnL4uUtHfHXmHXve7NMMFzt/ARRgTuJmuWvEvvM4uxFfFEkkHzjCf39qR/VLLX9jdCkWSEMEEimBp24lYKwuwzwGzzb+TGbgfnf/IO4+LZNq/OpB78biifuM5l7DxAnkAeNJ8gdgbrrA6TYe/KSiy12U5ezza+KttM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org; spf=pass smtp.mailfrom=mailbox.org; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=btmPRJgp; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=j2HoN+lC; arc=none smtp.client-ip=80.241.56.161
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mailbox.org
+	s=arc-20240116; t=1788771940; c=relaxed/simple;
+	bh=Fzi5ANYeX9FFNpk/BMwZy3bmirTTtD4/9jhTXqNFNqw=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=jcvE2ZXu63fKtvAu10Q2Diud+YocRMd0fcwO5VpdyBYQUjivwfyJf+3gXNd9KOr71A3kiKwf907j23zXA9bBkadHnwIH37M7K/7G6mtkQE2V2g4K8rmevngYDw6YTkmlk0PTc9T60A81GYqjfbQTKpnT3PDlNb3yc/Jk4ZdaRq0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=fritz.com; spf=pass smtp.mailfrom=fritz.com; dkim=pass (2048-bit key) header.d=fritz.com header.i=@fritz.com header.b=D1IGK4Dd; arc=none smtp.client-ip=212.42.244.120
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=fritz.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=fritz.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="btmPRJgp";
-	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="j2HoN+lC"
-Received: from smtp202.mailbox.org (smtp202.mailbox.org [IPv6:2001:67c:2050:b231:465::202])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange x25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mout-p-103.mailbox.org (Postfix) with ESMTPS id 4hcN3m1tBTzKnbK;
-	Sat, 05 Sep 2026 08:00:36 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
-	t=1788588036;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=Pk5D4LfjBqeX1JlhrezgLD05ZGpvRe5c68x4fIoZg4c=;
-	b=btmPRJgppsIqLxz/6fPcvgN+UEXyMIsdy72eaGzlnEEE9kH6vKJT0xAYDfRcCemrz6+nXc
-	3uYsgfpHqHAbyTD+iSkhq0dNIkDRzzNtI61M60ew4rD8tT7p6OzjwSdYg/zUytu/H56u6w
-	fDs8YyUPsSi0J7JcBL7Y6fCRdQQGW19YSucWIpZTCZwPI0EDfN6ghdXgzodG+qVYyiv9sB
-	JEvv9e3Ey9MKjFNvb2HElSELir3NPiDGzjZZHmw9mJ2/H3F1iUiWJcGABeUt1CGjPmk63K
-	gaLkY8e6iRcfeGJ3ovxkC+hvCewdF/f0+Sh+uTc83sXXlMqi6apKLt4ljpAjDg==
-Authentication-Results: outgoing_mbo_mout;
-	dkim=pass header.d=mailbox.org header.s=mail20150812 header.b=j2HoN+lC;
-	spf=pass (outgoing_mbo_mout: domain of manuelebnerli@mailbox.org designates 2001:67c:2050:b231:465::202 as permitted sender) smtp.mailfrom=manuelebnerli@mailbox.org
-From: Manuel Ebner <manuelebnerli@mailbox.org>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
-	t=1788588033;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=Pk5D4LfjBqeX1JlhrezgLD05ZGpvRe5c68x4fIoZg4c=;
-	b=j2HoN+lC3OOKRRziaquN/IGy2lYFLHjm4g8/ZlA7rHbD/6PKEMKBv15qjI5sr+2EA/g4tm
-	OvefcW3Mkc3g8YxHbnKfkEcsTRrOCID8EQFcGsbH1SuGe58KwZ9qk+xoFUpMYZw6scmdwj
-	lhe+WZ7eQHo0nnhdoY+ECsBlDrD0h+xObbq12c4390QUfhtjvKh3sc1JaSzLMN+CBIle+5
-	K13tmxX6FK446bATG77TKPoQdI+3DJza5A4RY42dAMjlwNUCdYKs8YG3a3D0zIfaeS/Xz8
-	8eHWnmi8x5CTTlm+4Ma5nF1JwpICg/hmYX9/siKt8vkDIU4jnNqhzYHrpxzpxA==
-To: Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>
-Cc: Manuel Ebner <manuelebnerli@mailbox.org>,
-	Randy Dunlap <rdunlap@infradead.org>,
-	workflows@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH v3] Docs: changes.rst: Refine language
-Date: Sat,  5 Sep 2026 07:56:55 +0200
-Message-ID: <20260905055655.789265-2-manuelebnerli@mailbox.org>
+	dkim=pass (2048-bit key) header.d=fritz.com header.i=@fritz.com header.b="D1IGK4Dd"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=fritz.com; s=mail;
+	t=1788771934; bh=Fzi5ANYeX9FFNpk/BMwZy3bmirTTtD4/9jhTXqNFNqw=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=D1IGK4DdjPiIcOQhah2F496yr+e6KgZeQER0ZyjN0mJW+c6gxu7OF5tEwTH+BNlw+
+	 WeOoJUNfneXs2Izp8tI1oHX5ot4WZKwwIb4tQcfIxge2Rg1TAyj5U4k5uhB+d9M0X3
+	 kQws6lUSCCYohvWRnaNsF7oI3jUM2Xd+mJO27NCdz25jNVFnZwmcFIf6EI478Q0c90
+	 xRee8vGARZdyi6BTsE1rVqRF9VPmfinNAfVTcQElSi4VAUpKBDrUX2FzeaPKTsBbn3
+	 qCTxrojpqjDia6BPB5WohYivBzspYi4UcEm3vlKxN2jGXAVZU27KrYJU6PIFCzRcSn
+	 HEW+kdFeiNkiw==
+Received: from [2001:bf0:244:244::78] (helo=mail.avm.de)
+	by mail.avm.de with ESMTP (eXpurgate 4.57.1)
+	(envelope-from <n.schier@fritz.com>)
+	id 6a9e7e5e-0472-7f0000032729-7f000001b990-1
+	for <multiple-recipients>; Mon, 07 Sep 2026 11:05:34 +0200
+Received: from mail-auth.fritz.com (unknown [IPv6:2001:bf0:244:244::78])
+	by mail.avm.de (Postfix) with ESMTPS;
+	Mon,  7 Sep 2026 11:05:34 +0200 (CEST)
+Date: Mon, 7 Sep 2026 11:05:34 +0200
+From: Nicolas Schier <n.schier@fritz.com>
+To: Manuel Ebner <manuelebnerli@mailbox.org>
+Cc: Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Miguel Ojeda <ojeda@kernel.org>, Boqun Feng <boqun@kernel.org>,
+	Gary Guo <gary@garyguo.net>,
+	=?utf-8?B?QmrDtnJu?= Roy Baron <bjorn3_gh@protonmail.com>,
+	Benno Lossin <lossin@kernel.org>,
+	Andreas Hindborg <a.hindborg@kernel.org>,
+	Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>,
+	Danilo Krummrich <dakr@kernel.org>,
+	Daniel Almeida <daniel.almeida@collabora.com>,
+	Tamir Duberstein <tamird@kernel.org>,
+	Alexandre Courbot <acourbot@nvidia.com>,
+	Onur =?utf-8?B?w5Z6a2Fu?= <work@onurozkan.dev>,
+	Nathan Chancellor <nathan@kernel.org>,
+	Nick Desaulniers <nick.desaulniers+lkml@gmail.com>,
+	Bill Wendling <morbo@google.com>,
+	Justin Stitt <justinstitt@google.com>, workflows@vger.kernel.org,
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+	rust-for-linux@vger.kernel.org, llvm@lists.linux.dev
+Subject: Re: [PATCH] v2 Docs: changes.rst: introduce optional column
+Message-ID: <20260907-classy-crafty-clam-a9c0b7@l-nschier-aarch64>
+References: <20260831151605.638172-2-manuelebnerli@mailbox.org>
+ <20260831152523.638881-1-manuelebnerli@mailbox.org>
+ <20260904-stirring-zircon-frog-ea6949@l-nschier-aarch64>
+ <a2066238d2be3cfd36cd6ea3a7bf11206cb0a02a.camel@mailbox.org>
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-X-MBO-RS-ID: 0b92f568e4e78984649
-X-MBO-RS-META: tcbxsmkxtmbcs4amuj7s9xybaukdddrj
-X-Rspamd-Queue-Id: 4hcN3m1tBTzKnbK
+In-Reply-To: <a2066238d2be3cfd36cd6ea3a7bf11206cb0a02a.camel@mailbox.org>
+Organization: FRITZ! Technology GmbH
+x-ms-reactions: disallow
+X-purgate-ID: 149429::1788771934-5759895E-5B3E56C7/0/0
+X-purgate-type: clean
+X-purgate-size: 1088
+X-purgate: This mail is considered clean (visit https://www.eleven.de for further information)
+X-purgate: clean
+X-pfmilter: host: postfix-mx-01  mail-id: AB326A0161  external: no
 
-This document grew over the years and isn't limited to compilling or
-running the kernel anymore. Update the heading and intro accordingly.
+On Fri, Sep 04, 2026 at 07:02:52PM +0200, Manuel Ebner wrote:
+> On Fri, 2026-09-04 at 18:11 +0200, Nicolas Schier wrote:
+> > On Mon, Aug 31, 2026 at 05:25:22PM +0200, Manuel Ebner wrote:
+> > > The optional tag isn't obvious nor defined. Therefore replace with column.
+> > 
+> > Why do you throw away the 'Command to check the version' column?  
+> 
+> I would do this to get some space for the optional column and have
+> the version commands in ./scrips/ver_linux . See below.
+> 
+> > At 
+> > work, we have a script that uses these commands to check the actual 
+> > tooling versions.
+> 
+> Well, I don't want to break that.
+> 
+> > If there is a reason for change, please document it in the commit 
+> > message.
+> 
+> Will do.
 
-Signed-off-by: Manuel Ebner <manuelebnerli@mailbox.org>
-Acked-by: Randy Dunlap <rdunlap@infradead.org>
----
-[v3]
- - improved commit message
- - removed other patches from this series, they are due later.
+oh, I'm sorry.  I wasn't aware of scripts/ver_linux at all.  A good 
+reason for removing the 'Command to check the version' column is the 
+redundancy with scripts/ver_linux as having these infos in two places 
+will almost always lead to inconsistencies.
 
-[v2]
- - no change to this patch
- https://lore.kernel.org/all/20260831152607.639027-2-manuelebnerli@mailbox.org/
+Please, break my script and keep on removing the column.
 
-[v1]
- https://lore.kernel.org/all/20260812121945.1635085-2-manuelebnerli@mailbox.org/
----
- Documentation/process/changes.rst | 9 +++++----
- 1 file changed, 5 insertions(+), 4 deletions(-)
-
-diff --git a/Documentation/process/changes.rst b/Documentation/process/changes.rst
-index 0aa232b11..eb339eb8c 100644
---- a/Documentation/process/changes.rst
-+++ b/Documentation/process/changes.rst
-@@ -1,13 +1,14 @@
- .. _changes:
- 
--Minimal requirements to compile the Kernel
--++++++++++++++++++++++++++++++++++++++++++
-+Minimal requirements to interact with the Kernel
-+++++++++++++++++++++++++++++++++++++++++++++++++
- 
- Intro
- =====
- 
--This document is designed to provide a list of the minimum levels of
--software necessary to run the current kernel version.
-+This document is designed to provide a list of the minimum versions of
-+software necessary to change code, compile, install and boot the current
-+kernel version.
- 
- This document is originally based on my "Changes" file for 2.0.x kernels
- and therefore owes credit to the same people as that file (Jared Mauch,
--- 
-2.54.0
-
+Kind regards,
+Nicolas
