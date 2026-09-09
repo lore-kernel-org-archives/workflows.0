@@ -1,60 +1,45 @@
-Received: from mout-p-201.mailbox.org (mout-p-201.mailbox.org [80.241.56.171])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 898565678FC;
-	Wed,  9 Sep 2026 14:15:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8D2E158039F;
+	Wed,  9 Sep 2026 14:25:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788963312; cv=none; b=HRx73hhFLPoxv5GIfD1JvtYF3FBq6asEj6kF7oQP8TMiGEjA4bFkg86ZUS46foN0CAd0lw52NR0cTU9waVvPAHq4fYV/VzgVKA2Hq/IaLqoWcrOKvjrl4qYkvMXeksCMxUS1S+GuoYWiXgT85p4N1P3ATyYtq/pCggOnJjg8N1E=
+	t=1788963935; cv=none; b=bKlc/QWnHDGKQRmQ2+4rp6GCv0xtYpoDBmlztm/b0hEg52crQsCd+EbKsD4J5g9VHa5aLfVl7B/04NQ6EBzaYDwzMrgZTetFjmUaA9kkuzlnssZI0XkgXKe7gVAoYAzLCRMEh/flHn4gcjcPQdeiuS2k3f29zKBJnQv4NLIM9FM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788963312; c=relaxed/simple;
-	bh=qLidu9+tvo2aLuRdzpmx7JzB21xwTaNQV4UaGLTMvXQ=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Gg+yuaxXQzjFYSV89ZUzI1VeBF8cxK/+a92UUsQXxtepY35y3hGSnQuORaUaoD7rwM1V+EHTWgCGVxLKTAza5BhljnGEDIBrXDvF8lfMFkeyDICgTplVvNDzqj+ii3V8vMleOhzz+pgQ5R83hm5cLQ5PB7VOWvSmq7tx5DVdV9A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org; spf=pass smtp.mailfrom=mailbox.org; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=JJHZp7MN; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=ruGXWRah; arc=none smtp.client-ip=80.241.56.171
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mailbox.org
+	s=arc-20240116; t=1788963935; c=relaxed/simple;
+	bh=rBZt1kcTWqud5G60iKIYthZutkovA2XYZTTu3Ksanq4=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=Y2WNkQ1ReFSpbI0lbrHUxRQxDi44NT8RHU5D0h1fgFnNX1N0hlHF91kInx7aUha6ww6QX2XDfDIcRTzw67JawGd8iklKhezKpxr87sYTzJ+YLobbq1POr40C1jeYo9s76pcx0c0RT9ri+DWdhjmH7PQUijTvO59te4SNvnxd+yM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=kbcrOtTE; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="JJHZp7MN";
-	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="ruGXWRah"
-Received: from smtp102.mailbox.org (smtp102.mailbox.org [10.196.197.102])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange x25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mout-p-201.mailbox.org (Postfix) with ESMTPS id 4hg2rX3nKczMlHT;
-	Wed, 09 Sep 2026 16:15:08 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
-	t=1788963308;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=N2W999bKnCOzRTmwBAY8qmUKZ1hTQOjdGb2422aSQXU=;
-	b=JJHZp7MN5O2vkb6Pyc9rvKRO4J+SoEd6FP/iPtMxrGydL+UNbJmFNE4QoctBd1ORr9WVKf
-	1Di2c+4IZwoRCrdempi5JCkQjmqndo+kddouSAbUeTr59fp5BOMVWkrYc+CbPbnzG+Ootf
-	wE6sBjzpyPiNA/iiyedjfQxQ9KR9xqQXkaKVCZJLrh6hSoUzvfskpAzfTCGHxIgNZvzE23
-	InwyFVtsaw/7qwAyG7+JTqGkuQIGdpODxXiVMHupxyRF6KXBvRBeGR6+ZYQORST1cpJdRs
-	56OOVPNyE9GeWyyqRz0MfrjdCd6HIWGKE81tKeAwgNDr1U0Dm5JPv4EiPCfSsg==
-From: Manuel Ebner <manuelebnerli@mailbox.org>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
-	t=1788963306;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=N2W999bKnCOzRTmwBAY8qmUKZ1hTQOjdGb2422aSQXU=;
-	b=ruGXWRahAFFWALWGYobdNs6dc5/coFHa/50tbLBQykFxRTCqopnFYqomtonSzKoDW9z3JX
-	2BloDjQMut36D1YekUJ8Pc9BqKV8t0nO5NnZXPfDBJp9n/i5qifGq6HZrLNj3hR3xQykq4
-	cKkbebMqANqnClnpulvb4p/SJvXQN8T1TRcAcRof3/LAIghwDIszeEAkUS1Xr224cYUwH/
-	x60PrSFqKmK+YAKgvZZ4NcWzNySjqW4ZvnrXlrv84scSdginQIeHtpVPIWyhEozllqkE3/
-	GN9hcpMHBkaKcm73Q57uP1/2Li8SyZwQ9O96k4DYrdHNhvC3ICV4J4HYVy/Ceg==
-To: Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>
-Cc: Manuel Ebner <manuelebnerli@mailbox.org>,
-	SJ Park <sj@kernel.org>,
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="kbcrOtTE"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 373781F00A3A;
+	Wed,  9 Sep 2026 14:25:34 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1788963934;
+	bh=9BjUIMuOmTXn4FT73d2dfN12CB9siZd6b49LISnNZwI=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References;
+	b=kbcrOtTEfhgfmf4FvameQQUlruCeG9b+WfEVETtI9TCFkH5wQk9lHdZglvqFKQVzM
+	 WEzo9shRQUMBi+XTuRoqfZFZ7CZ0/ca42WR0/ukOWoTpjjvma0yejn0dcKE4xH4qpS
+	 z1eelBJJ6uWCxbItaCIixAXIlY3gYZwaKdqrlJxyAGIrcE00V90SBPj/ebOFAa1MX6
+	 nMcn6VkDcb2phk9aEWisCixx734Loz0XK0dFcay+pvctKq50WI32EZkMGgcxolYIPx
+	 emOPJYUy/lF6TxvaiJLgFRTjljuA8kPDnRxg/B+rTUPWe46x8TWWhfX6v6TnbU+5eb
+	 RU+05Qe93k+7Q==
+From: SJ Park <sj@kernel.org>
+To: Manuel Ebner <manuelebnerli@mailbox.org>
+Cc: SJ Park <sj@kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>,
 	workflows@vger.kernel.org,
 	linux-doc@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH] Documentation: deprecated.rst: add to syntax highlighting
-Date: Wed,  9 Sep 2026 16:12:54 +0200
-Message-ID: <20260909141255.1367539-2-manuelebnerli@mailbox.org>
+Subject: Re: [PATCH] Documentation: deprecated.rst: add to syntax highlighting
+Date: Wed,  9 Sep 2026 07:25:26 -0700
+Message-ID: <20260909142527.106469-1-sj@kernel.org>
+X-Mailer: git-send-email 2.47.3
+In-Reply-To: <20260909141255.1367539-2-manuelebnerli@mailbox.org>
+References: 
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
@@ -62,33 +47,44 @@ List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-MBO-RS-META: roewc885im3yhw6r1ed98nzfn1iuoamt
-X-MBO-RS-ID: 66f7fa071db24387d5a
 
-Mark key words 'gfp' and 'GFP_KERNEL' for syntax-highlighting.
+On Wed,  9 Sep 2026 16:12:54 +0200 Manuel Ebner <manuelebnerli@mailbox.org> wrote:
 
-Suggested-by: SJ Park <sj@kernel.org>
-Signed-off-by: Manuel Ebner <manuelebnerli@mailbox.org>
----
-Suggestion:
- https://lore.kernel.org/all/20260430010332.114100-1-sj@kernel.org/
----
- Documentation/process/deprecated.rst | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+> Mark key words 'gfp' and 'GFP_KERNEL' for syntax-highlighting.
+> 
+> Suggested-by: SJ Park <sj@kernel.org>
+> Signed-off-by: Manuel Ebner <manuelebnerli@mailbox.org>
+> ---
+> Suggestion:
+>  https://lore.kernel.org/all/20260430010332.114100-1-sj@kernel.org/
+> ---
+>  Documentation/process/deprecated.rst | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/Documentation/process/deprecated.rst b/Documentation/process/deprecated.rst
+> index 22a5e62c9..4d4d29b97 100644
+> --- a/Documentation/process/deprecated.rst
+> +++ b/Documentation/process/deprecated.rst
+> @@ -404,7 +404,7 @@ become, respectively::
+>  	ptr = kmalloc_flex(*ptr, flex_member, count [, gfp] );
+>  	__auto_type ptr = kmalloc_obj(struct foo [, gfp] );
+>  
+> -The argument gfp is optional, the default value is GFP_KERNEL.
+> +The argument `gfp` is optional, the default value is `GFP_KERNEL`.
+>  If `ptr->flex_member` is annotated with __counted_by(), the allocation
+>  will automatically fail if `count` is larger than the maximum
+>  representable value that can be stored in the counter member associated
 
-diff --git a/Documentation/process/deprecated.rst b/Documentation/process/deprecated.rst
-index 22a5e62c9..4d4d29b97 100644
---- a/Documentation/process/deprecated.rst
-+++ b/Documentation/process/deprecated.rst
-@@ -404,7 +404,7 @@ become, respectively::
- 	ptr = kmalloc_flex(*ptr, flex_member, count [, gfp] );
- 	__auto_type ptr = kmalloc_obj(struct foo [, gfp] );
- 
--The argument gfp is optional, the default value is GFP_KERNEL.
-+The argument `gfp` is optional, the default value is `GFP_KERNEL`.
- If `ptr->flex_member` is annotated with __counted_by(), the allocation
- will automatically fail if `count` is larger than the maximum
- representable value that can be stored in the counter member associated
--- 
-2.54.0
+I suggested the change to only 'gfp' and 'GFP_KERNEL' because those are what
+newly added by your patch.  Because this is a separate patch, what about
+scoping for larger area?
 
+I wouldn't request you to update whole inconsistencies in this doc.  Making
+only the paragraph more consistent looks making sense to me.  So, how about
+doing same to "__counted_by()", too, as it is also in the same paragraph?
+
+
+Thanks,
+SJ
+
+[...]
