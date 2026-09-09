@@ -1,58 +1,105 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E79FA55C1C9;
-	Wed,  9 Sep 2026 16:14:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 74D88314A98;
+	Wed,  9 Sep 2026 17:00:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788970466; cv=none; b=EPjPJoHdV1mYtAscvnOienzDLnuT1+HRyuwcmnpV3GvTVKFGXxy9K2BHoAuRsSYNLT1Q49K9f1joRTaM0XKyu3T0Y/wbzCCFVp1C9BSVgvKnYrtFxfLhI2b0l++5prgLGWiiP3TqWteql5x4J5s0VNRKTVX2HSs/imSbCKWrbOI=
+	t=1788973256; cv=none; b=Kt8jhdR4MGYyU/zX/kzQUig5f/o60jLbDp2dPpK9LbMrYdW41RdbdHeaPwsCy1yNlU/YWp8VTR5KnWufm+rhgnLVzcyj31ru22xZEOKxGicwHt4ODXAnCb/a7V6EzBR65/fVs8sBGo4hIfqaIdl4os/keZRp125SPVeSH+ZvkL0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788970466; c=relaxed/simple;
-	bh=CjK29dOxbvlUPL97yDdDfIcDClJ9Ztk1CkqZPS92lHM=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Z+xqGzB6GAUskFGFXgt2WD0SjwEh2K4JerVopf7gEeck/LD7BO1U1WqEZG5xfgIt4kDJQPGkQOHgQl5G6TDzWz4SC/vJN1qdomt+p8w+0J+OEEDE/YgdX2wDKyx0BVyMv3J/Y+IwLBESr5U2p9HLmW9i3bI4MQK8ouSt3Z73lH0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=FDR853AH; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1788973256; c=relaxed/simple;
+	bh=Y/UIq031XmUZ5ZfP5/0PQAgB9eZRuRYbgPHSxMOJLfI=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=D7bnA2wlTy19MnO8XHhBNNSBM7S8fVsLNNbi1Da3SO7SS4JgELCFxptaCccx/GMYzIf7ber8YyN3qxZ7FF/N8iPKEvyNnXT5ozlCtKEj68eYAchM/gU83ownEksFwPYCbOkQBruVL9JgbWUF5ll8WoVaKaffGeCbjq7xI8CqXNo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=I9BP+1Vz; arc=none smtp.client-ip=198.175.65.15
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="FDR853AH"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5694F1F00893;
-	Wed,  9 Sep 2026 16:14:25 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1788970465;
-	bh=QhnM1pk1BSw0WnwgL1MI74wdI1unkTvHxP68nkCaJVs=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=FDR853AHtRy9UwMqL9g5nGlnA+AivbVqQi5x4xHdQRVJ9b6fjUk81bfppYJkpzfzy
-	 UfSwSHgbZTS3j1AS7odxDmGa9cMTxFXCMm5DgPVyMd2NxX0Qm/xVzxwTcHIA1uXnWp
-	 gwCPRzu+Qa4F7WpD1VWo9hCBXDO2Tb2U8PSdLzANQ/l3exA9giNNDbche99ECL4nyB
-	 UoTy6UbBz54VWkNJQqFvK9UJGuEZCTDff3tEH4T1IzQoympt4oebuV5WDCgGsPIwEk
-	 MN8kFl1jsmoxUOz6Dfs9px08+HySKl4vebZLWZCcApOPw6uHtJEXYbEOhwHJjdHAQe
-	 zn7fKC70dEDew==
-Date: Wed, 9 Sep 2026 09:14:25 -0700
-From: Kees Cook <kees@kernel.org>
-To: SJ Park <sj@kernel.org>
-Cc: Manuel Ebner <manuelebnerli@mailbox.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>, workflows@vger.kernel.org,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="I9BP+1Vz"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1788973254; x=1820509254;
+  h=from:to:cc:subject:in-reply-to:references:date:
+   message-id:mime-version;
+  bh=Y/UIq031XmUZ5ZfP5/0PQAgB9eZRuRYbgPHSxMOJLfI=;
+  b=I9BP+1VzkOM8xYnLnJKE8e3n+XlufuFpbjh/GLnucoXyE05rlXm0lPLW
+   zDeR0NqRkQAc8XiLEmY+kk6vNKCd6mgT3T/0pgonu/ZedFfwtppuRTSt6
+   jIPWZhY2/XJ1oo4xEYqoUbOaJy0Sk8EW3uFPmwflPjSQXF84tpayVriKt
+   4MMC1IvBBkf1qk8f8qUa3AtSj0JnRgAvDT4lb8f64DVz0dMkZsjZxFxSN
+   5TwlF7ImBeJ6pe2z/2HSLHTTXQ+npAmU+TLjhEOu4vSeZPU+p8qq2hS9O
+   OATZRgVufUXqvctFf0VQ7RU1EQv44gyGsJQcT8POAnwSTp0ujoBUw4Zyf
+   w==;
+X-CSE-ConnectionGUID: ouCzSsBvQa+HVMgenRaDuA==
+X-CSE-MsgGUID: obuP5LFPRsmt0Mo+8EEoPQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11900"; a="93098618"
+X-IronPort-AV: E=Sophos;i="6.25,270,1779174000"; 
+   d="scan'208";a="93098618"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Sep 2026 10:00:53 -0700
+X-CSE-ConnectionGUID: fkKchdwgRxWLRLcc7uJdtQ==
+X-CSE-MsgGUID: 8ab9o6KmRpC8CTAQmm6hOA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.25,270,1779174000"; 
+   d="scan'208";a="267084887"
+Received: from fpallare-mobl4.ger.corp.intel.com (HELO localhost) ([10.245.245.20])
+  by fmviesa006-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Sep 2026 10:00:50 -0700
+From: Jani Nikula <jani.nikula@intel.com>
+To: Manuel Ebner <manuelebnerli@mailbox.org>, Jonathan Corbet
+ <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>
+Cc: Manuel Ebner <manuelebnerli@mailbox.org>, SJ Park <sj@kernel.org>,
+ workflows@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org
 Subject: Re: [PATCH] Documentation: deprecated.rst: add to syntax highlighting
-Message-ID: <202609090913.DA27C376@keescook>
+In-Reply-To: <20260909141255.1367539-2-manuelebnerli@mailbox.org>
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park,
+ 6 krs Bertel Jungin Aukio 5, 02600 Espoo, Finland
 References: <20260909141255.1367539-2-manuelebnerli@mailbox.org>
- <20260909142527.106469-1-sj@kernel.org>
+Date: Wed, 09 Sep 2026 20:00:47 +0300
+Message-ID: <d35909dea037d1ac5c6a919bf1a7d53d8d5fddb4@intel.com>
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260909142527.106469-1-sj@kernel.org>
+Content-Type: text/plain
 
-On Wed, Sep 09, 2026 at 07:25:26AM -0700, SJ Park wrote:
-> only the paragraph more consistent looks making sense to me.  So, how about
-> doing same to "__counted_by()", too, as it is also in the same paragraph?
+On Wed, 09 Sep 2026, Manuel Ebner <manuelebnerli@mailbox.org> wrote:
+> Mark key words 'gfp' and 'GFP_KERNEL' for syntax-highlighting.
+>
+> Suggested-by: SJ Park <sj@kernel.org>
+> Signed-off-by: Manuel Ebner <manuelebnerli@mailbox.org>
+> ---
+> Suggestion:
+>  https://lore.kernel.org/all/20260430010332.114100-1-sj@kernel.org/
+> ---
+>  Documentation/process/deprecated.rst | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/Documentation/process/deprecated.rst b/Documentation/process/deprecated.rst
+> index 22a5e62c9..4d4d29b97 100644
+> --- a/Documentation/process/deprecated.rst
+> +++ b/Documentation/process/deprecated.rst
+> @@ -404,7 +404,7 @@ become, respectively::
+>  	ptr = kmalloc_flex(*ptr, flex_member, count [, gfp] );
+>  	__auto_type ptr = kmalloc_obj(struct foo [, gfp] );
+>  
+> -The argument gfp is optional, the default value is GFP_KERNEL.
+> +The argument `gfp` is optional, the default value is `GFP_KERNEL`.
+>  If `ptr->flex_member` is annotated with __counted_by(), the allocation
+>  will automatically fail if `count` is larger than the maximum
+>  representable value that can be stored in the counter member associated
 
-I think that'll get auto-marked by our tooling already because of the
-trailing "()".
+Single backquotes in rst mean "interpreted text" [1], not markdown style
+code.
+
+
+BR,
+Jani.
+
+
+[1] https://docutils.sourceforge.io/docs/ref/rst/roles.html
+
 
 -- 
-Kees Cook
+Jani Nikula, Intel
