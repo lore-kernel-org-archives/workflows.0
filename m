@@ -1,45 +1,48 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from sender-op-o11.zoho.com.au (sender-op-o11.zoho.com.au [103.138.129.1])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8D2E158039F;
-	Wed,  9 Sep 2026 14:25:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788963935; cv=none; b=bKlc/QWnHDGKQRmQ2+4rp6GCv0xtYpoDBmlztm/b0hEg52crQsCd+EbKsD4J5g9VHa5aLfVl7B/04NQ6EBzaYDwzMrgZTetFjmUaA9kkuzlnssZI0XkgXKe7gVAoYAzLCRMEh/flHn4gcjcPQdeiuS2k3f29zKBJnQv4NLIM9FM=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788963935; c=relaxed/simple;
-	bh=rBZt1kcTWqud5G60iKIYthZutkovA2XYZTTu3Ksanq4=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=Y2WNkQ1ReFSpbI0lbrHUxRQxDi44NT8RHU5D0h1fgFnNX1N0hlHF91kInx7aUha6ww6QX2XDfDIcRTzw67JawGd8iklKhezKpxr87sYTzJ+YLobbq1POr40C1jeYo9s76pcx0c0RT9ri+DWdhjmH7PQUijTvO59te4SNvnxd+yM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=kbcrOtTE; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8735C47DFBD;
+	Wed,  9 Sep 2026 14:42:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=103.138.129.1
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1788964966; cv=pass; b=XLSnIIIiS6MBAHOf/YnQRkVDEl7KX59uf9diUqFSr79gUDTU7GrHJE2ydHwMS79wkZmi/v8P+75owRr31RDDJyb9MZfYDWbedG0Yi+Mr8coJ5Nwj7xTKUGeFryHVNIrc3QRer5kC3WQhPn0X+xZDaBbjNLJrPW3233NdsNNSRZg=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1788964966; c=relaxed/simple;
+	bh=xX3MS2hFLnLzrbqpKEGCXF6NiBKGvB8xeKt3qODVK0I=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=HhChX+0duqnJwAXMapp9wjP5nMnOm0/p41pjbj7t/nYQMOxY9fwHbC8aNy/WAcyOvZ7J7zCkCZc3nZZWDLN0dymer/zv3CivV0M7Ej0VPl4HNsd+9945APS1WGQEfVDrRsU4UCY6qOdvxfIWXffUXv5Wy72fLDETiGbao24eJdA=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=scstudios.tech; spf=pass smtp.mailfrom=scstudios.tech; dkim=pass (1024-bit key) header.d=scstudios.tech header.i=@scstudios.tech header.b=NPUaq6KP; arc=pass smtp.client-ip=103.138.129.1
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=scstudios.tech
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=scstudios.tech
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="kbcrOtTE"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 373781F00A3A;
-	Wed,  9 Sep 2026 14:25:34 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1788963934;
-	bh=9BjUIMuOmTXn4FT73d2dfN12CB9siZd6b49LISnNZwI=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=kbcrOtTEfhgfmf4FvameQQUlruCeG9b+WfEVETtI9TCFkH5wQk9lHdZglvqFKQVzM
-	 WEzo9shRQUMBi+XTuRoqfZFZ7CZ0/ca42WR0/ukOWoTpjjvma0yejn0dcKE4xH4qpS
-	 z1eelBJJ6uWCxbItaCIixAXIlY3gYZwaKdqrlJxyAGIrcE00V90SBPj/ebOFAa1MX6
-	 nMcn6VkDcb2phk9aEWisCixx734Loz0XK0dFcay+pvctKq50WI32EZkMGgcxolYIPx
-	 emOPJYUy/lF6TxvaiJLgFRTjljuA8kPDnRxg/B+rTUPWe46x8TWWhfX6v6TnbU+5eb
-	 RU+05Qe93k+7Q==
-From: SJ Park <sj@kernel.org>
-To: Manuel Ebner <manuelebnerli@mailbox.org>
-Cc: SJ Park <sj@kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
+	dkim=pass (1024-bit key) header.d=scstudios.tech header.i=@scstudios.tech header.b="NPUaq6KP"
+ARC-Seal: i=1; a=rsa-sha256; t=1788964899; cv=none; 
+	d=zohomail.com.au; s=zohoarc; 
+	b=HTNWwnBL9lOEczlqwZpZ/LGNV3/Hvg1rSRGFVjRg4XACYO1SM5eoJjmw4i4jPSxXpBY7riFaYcqxf96IkjDhdRKw3F5UXw86OUaM3MyJDq+Q8jbc2WikY7siRla4wGtnsFrVueE6btjSL2qFNvFxXJKRnQEN2yG67WBtfz9AseM=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com.au; s=zohoarc; 
+	t=1788964899; h=Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:MIME-Version:Message-ID:Subject:Subject:To:To:Message-Id:Reply-To; 
+	bh=zD28XhKg0xRAFAYdyTHDmq6D+C7Hst1WBfaQKtFpJ/8=; 
+	b=ioTQBDwFzTdCY4xbtnZtLZ7jjbVIfBm7kmwi/56zcREBoHxgLp5ikpBgocNPGTiNPY7VNFmzin5uROuxdeDTvmM5TrwbTPUq6dBMF+HdEe+mrbgGlsROWO8c52uuUoW8hlwVPYfjUWTtMF3q2Z+o3TeOlLT5HYuwQGJUu9da8cE=
+ARC-Authentication-Results: i=1; mx.zohomail.com.au;
+	dkim=pass  header.i=scstudios.tech;
+	spf=pass  smtp.mailfrom=ruben@scstudios.tech;
+	dmarc=pass header.from=<ruben@scstudios.tech>
+DKIM-Signature: a=rsa-sha256; b=NPUaq6KPuaNFML49GMBxM/sRUtCvmGIPyrLZo7sGmqxcwYOczYXe4l3ItSm55g9YiMDd/y18rpWQGs75oCpcBEdU6+MTq8wvAZP3ScpTuRmly3LcLZNaINMRQmY8qqj7HpfZ7VHCjzjUOhtvoBUojZEFogH1DdMAy3oop3dATYY=; c=relaxed/relaxed; s=zmail; d=scstudios.tech; v=1; bh=zD28XhKg0xRAFAYdyTHDmq6D+C7Hst1WBfaQKtFpJ/8=; h=Content-Description:Content-ID:Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:List-Subscribe:List-Post:List-Owner:List-Id:List-Archive:List-Help:List-Unsubscribe:MIME-Version:Message-ID:Resent-Sender:Resent-Cc:Resent-Date:Resent-To:Reply-To:Resent-Message-ID:Resent-From:Sender:Subject:To:Feedback-ID:Date:From:Message-Id:Reply-To:Subject:To:Cc;
+Received: by mx.zoho.com.au with SMTPS id 1788964897675430.9683353963428;
+	Thu, 10 Sep 2026 00:41:37 +1000 (AEST)
+From: Ruben Sutton <ruben@scstudios.tech>
+To: Jonathan Corbet <corbet@lwn.net>,
+	linux-doc@vger.kernel.org
+Cc: Shuah Khan <skhan@linuxfoundation.org>,
+	Randy Dunlap <rdunlap@infradead.org>,
+	Thorsten Leemhuis <linux@leemhuis.info>,
 	workflows@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] Documentation: deprecated.rst: add to syntax highlighting
-Date: Wed,  9 Sep 2026 07:25:26 -0700
-Message-ID: <20260909142527.106469-1-sj@kernel.org>
-X-Mailer: git-send-email 2.47.3
-In-Reply-To: <20260909141255.1367539-2-manuelebnerli@mailbox.org>
-References: 
+	linux-kernel@vger.kernel.org,
+	regressions@lists.linux.dev,
+	Ruben Sutton <ruben@scstudios.tech>
+Subject: [PATCH] docs: process: use gender-neutral pronouns
+Date: Thu, 10 Sep 2026 00:41:00 +1000
+Message-ID: <20260909144100.78177-1-ruben@scstudios.tech>
+X-Mailer: git-send-email 2.54.0
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
@@ -47,44 +50,106 @@ List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+X-ZohoMailClient: External
 
-On Wed,  9 Sep 2026 16:12:54 +0200 Manuel Ebner <manuelebnerli@mailbox.org> wrote:
+Several process documents use gendered pronouns when referring
+generically to developers and maintainers. Use singular they instead,
+making the language inclusive without changing its meaning.
 
-> Mark key words 'gfp' and 'GFP_KERNEL' for syntax-highlighting.
-> 
-> Suggested-by: SJ Park <sj@kernel.org>
-> Signed-off-by: Manuel Ebner <manuelebnerli@mailbox.org>
-> ---
-> Suggestion:
->  https://lore.kernel.org/all/20260430010332.114100-1-sj@kernel.org/
-> ---
->  Documentation/process/deprecated.rst | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/Documentation/process/deprecated.rst b/Documentation/process/deprecated.rst
-> index 22a5e62c9..4d4d29b97 100644
-> --- a/Documentation/process/deprecated.rst
-> +++ b/Documentation/process/deprecated.rst
-> @@ -404,7 +404,7 @@ become, respectively::
->  	ptr = kmalloc_flex(*ptr, flex_member, count [, gfp] );
->  	__auto_type ptr = kmalloc_obj(struct foo [, gfp] );
->  
-> -The argument gfp is optional, the default value is GFP_KERNEL.
-> +The argument `gfp` is optional, the default value is `GFP_KERNEL`.
->  If `ptr->flex_member` is annotated with __counted_by(), the allocation
->  will automatically fail if `count` is larger than the maximum
->  representable value that can be stored in the counter member associated
+Leave pronouns referring to named people and text in attributed
+quotations unchanged.
 
-I suggested the change to only 'gfp' and 'GFP_KERNEL' because those are what
-newly added by your patch.  Because this is a separate patch, what about
-scoping for larger area?
+Assisted-by: LLM
+Signed-off-by: Ruben Sutton <ruben@scstudios.tech>
+---
+ Documentation/process/2.Process.rst            | 2 +-
+ Documentation/process/5.Posting.rst            | 2 +-
+ Documentation/process/6.Followthrough.rst      | 2 +-
+ Documentation/process/handling-regressions.rst | 2 +-
+ Documentation/process/howto.rst                | 2 +-
+ Documentation/process/submitting-patches.rst   | 2 +-
+ 6 files changed, 6 insertions(+), 6 deletions(-)
 
-I wouldn't request you to update whole inconsistencies in this doc.  Making
-only the paragraph more consistent looks making sense to me.  So, how about
-doing same to "__counted_by()", too, as it is also in the same paragraph?
+diff --git a/Documentation/process/2.Process.rst b/Documentation/process/2.Process.rst
+index 77f3f80e7c..75b5c236d8 100644
+--- a/Documentation/process/2.Process.rst
++++ b/Documentation/process/2.Process.rst
+@@ -227,7 +227,7 @@ tree, usually (but certainly not always) using the git source management
+ tool.  Tools like git (and related tools like quilt or mercurial) allow
+ maintainers to track a list of patches, including authorship information
+ and other metadata.  At any given time, the maintainer can identify which
+-patches in his or her repository are not found in the mainline.
++patches in their repository are not found in the mainline.
+ 
+ When the merge window opens, top-level maintainers will ask Linus to "pull"
+ the patches they have selected for merging from their repositories.  If
+diff --git a/Documentation/process/5.Posting.rst b/Documentation/process/5.Posting.rst
+index 07d7dbed13..6e61204403 100644
+--- a/Documentation/process/5.Posting.rst
++++ b/Documentation/process/5.Posting.rst
+@@ -233,7 +233,7 @@ the patch. Each of these uses this format::
+ 
+ The tags in common use are:
+ 
+- - Signed-off-by: this is a developer's certification that he or she has
++ - Signed-off-by: this is a developer's certification that they have
+    the right to submit the patch for inclusion into the kernel.  It is an
+    agreement to the Developer's Certificate of Origin, the full text of
+    which can be found in :ref:`Documentation/process/submitting-patches.rst <submittingpatches>`
+diff --git a/Documentation/process/6.Followthrough.rst b/Documentation/process/6.Followthrough.rst
+index 66fa400c6d..ebb0e4cc95 100644
+--- a/Documentation/process/6.Followthrough.rst
++++ b/Documentation/process/6.Followthrough.rst
+@@ -114,7 +114,7 @@ What happens next
+ If a patch is considered to be a good thing to add to the kernel, and once
+ most of the review issues have been resolved, the next step is usually
+ entry into a subsystem maintainer's tree.  How that works varies from one
+-subsystem to the next; each maintainer has his or her own way of doing
++subsystem to the next; each maintainer has their own way of doing
+ things.  In particular, there may be more than one tree - one, perhaps,
+ dedicated to patches planned for the next merge window, and another for
+ longer-term work.
+diff --git a/Documentation/process/handling-regressions.rst b/Documentation/process/handling-regressions.rst
+index c71b5d403f..6958a2a8b0 100644
+--- a/Documentation/process/handling-regressions.rst
++++ b/Documentation/process/handling-regressions.rst
+@@ -283,7 +283,7 @@ sure your patch description makes this aspect obvious. Once the change is
+ merged, tell the Linux kernel's regression tracker and the regressions mailing
+ list about the risk, so everyone has the change on the radar in case reports
+ trickle in. Depending on the risk, you also might want to ask the subsystem
+-maintainer to mention the issue in his mainline pull request.
++maintainer to mention the issue in their mainline pull request.
+ 
+ What else is there to known about regressions?
+ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+diff --git a/Documentation/process/howto.rst b/Documentation/process/howto.rst
+index 9438e03d6f..8c60138d03 100644
+--- a/Documentation/process/howto.rst
++++ b/Documentation/process/howto.rst
+@@ -305,7 +305,7 @@ The maintainers of the various kernel subsystems --- and also many
+ kernel subsystem developers --- expose their current state of
+ development in source repositories.  That way, others can see what is
+ happening in the different areas of the kernel.  In areas where
+-development is rapid, a developer may be asked to base his submissions
++development is rapid, a developer may be asked to base their submissions
+ onto such a subsystem kernel tree so that conflicts between the
+ submission and other already ongoing work are avoided.
+ 
+diff --git a/Documentation/process/submitting-patches.rst b/Documentation/process/submitting-patches.rst
+index 7ae79452e1..4c28a239e8 100644
+--- a/Documentation/process/submitting-patches.rst
++++ b/Documentation/process/submitting-patches.rst
+@@ -456,7 +456,7 @@ When to use Acked-by:, Cc:, and Co-developed-by:
+ ------------------------------------------------
+ 
+ The Signed-off-by: tag indicates that the signer was involved in the
+-development of the patch, or that he/she was in the patch's delivery path.
++development of the patch, or that they were in the patch's delivery path.
+ 
+ If a person was not directly involved in the preparation or handling of a
+ patch but wishes to signify and record their approval of it then they can
 
+base-commit: 893e11787f78e43b534e252249ac3fff4d1333f8
+-- 
+2.54.0 (Apple Git-157)
 
-Thanks,
-SJ
-
-[...]
