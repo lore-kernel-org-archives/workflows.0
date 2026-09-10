@@ -1,88 +1,67 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D15C03B1ED0;
-	Wed,  9 Sep 2026 18:47:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B64AF196C7C;
+	Thu, 10 Sep 2026 00:09:14 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788979656; cv=none; b=r2ogf2pKav/TRto2PPZX5Yr3LdNWKvIRns6hMvpmZlyNT2HLht71nYsVALC5PFWpPMT9g1RW+i91oZ80BNq+GmXxbb+ry2P7AGD+rovXauHW+eaV0nvJlWpGi9MwfBLMPhqXTxd2nkzYoBdKJHZVTUzrzpZfCjCn/FsXmu55E5E=
+	t=1788998955; cv=none; b=ICEi/RRpZLlbfzMW/o1OmdnKxWOwJKq1VVPjjMimyluvknAngOfZZ5fxKmMWmpB3UZJx7sMRjfdyHZS9gkCbh841R/BvDKmoiqMzkxR1b1AeXPsoaPx6EdDiMQOhs0BhNx77a1PqRfspRROyMWCiOOIvk8XVkE+/kj0MocMe4rE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788979656; c=relaxed/simple;
-	bh=sL3B7wZjGBX9YpvcTWSBIBSgWNdiji5vX7p8DXbv3hA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=G8Xk1RTP8YUuUHA0H/bvDbr94nIRIqse6tpNGvIR2zFXMkyJPkmPHnVIiujQefQMaOnfCaQ2wAPrBzdsse9rTFT+bdJLwlxe7tjDbbhC2RnBwLu8XE/Uqy6x/mm2b34bWYfBoiwSJlBw2lYcxp3O0WJxkgDvPQKky+SYLWxAvSk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ofsZyvnW; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1788998955; c=relaxed/simple;
+	bh=I+o7AjrM2xCZCj4IATGwYo7nvYWn6lHg1A/HevpjRvg=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=ftRgntBO3nGmOf4c7MX6IrWkEfvOQS9WGpo/m9ocEpR4bDZRqD4HeQj0zUPEUBrS0q3rUOqWiiZXlfP9TfqVx4T5WHx/qTuHTpOmasyE9ahavPJY6GI49RJoXyc9vyB+RoCqt5BxSfYb6Dx4F+BXrHcR5SVBg3goZzCOJ8VorrE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Ce52o/UL; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ofsZyvnW"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 92FDB1F000FF;
-	Wed,  9 Sep 2026 18:47:34 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Ce52o/UL"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id BDC0A1F000FF;
+	Thu, 10 Sep 2026 00:09:13 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1788979654;
-	bh=LNmsyxAoQC/kdl71kAyyiQ/6erPFpnJPO1ZIQdzCFIg=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=ofsZyvnW7+YUVEMh2Foj+pkLLQJL/6I/2nW60lQ1oQHipnkqkGLMtzA3zNBHwyPIs
-	 sMU6F5AVkj4FApxxg525JukuiJVHQxuYOdFB87MIZhu9usxYPAsoelHoiUZvytFPu4
-	 +S+PzrKGT9LLH/RGBF2BtqlQHmxo9XoVfjvM4YNO6H/SwRLTqIslswChMtUkzNnfAE
-	 65iEZlUZ6knFCFM09eyvVwfLa8xU/Q9b7P2/nkoE9iO6vVRhdjp5IivocvqxzgovSy
-	 ac9hMprGRSEJ8udGMvDxtYKWgRCg0eUhYjKZ9q5binRe/XUTBzW40z50yAG2WMNUP0
-	 7L4extHN+zV8A==
-Date: Wed, 9 Sep 2026 11:47:34 -0700
-From: Kees Cook <kees@kernel.org>
-To: Jonathan Corbet <corbet@lwn.net>
-Cc: Ruben Sutton <ruben@scstudios.tech>, linux-doc@vger.kernel.org,
+	s=k20260515; t=1788998954;
+	bh=9OxXbnwyAxlPwzEZL8hT+2QRRpJ+yNE0N5kJQ96FvbA=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References;
+	b=Ce52o/ULhA8/ETXjLVGjMsoWueKje8Qh7pVk9fQLe7QshPIECkKEEd8lzzZ29xnvf
+	 3gI8/H+xBUvNvkNlfG0SqINF0CTsMpG488nRolvrRZb95RzilhECa/6SjS+6SxX4S7
+	 iKBtWYe/jTfnhsM26WupMaV6n803IpJGDrJWfZwc07uqZMn3vuMc8mvpSxYIaxVwNU
+	 O/N+So9thv+2HOsZ/DdDqWvuvZpZIu0RrV3lUdaMoH7SDLNjwHXnkjPvPWnD5qfhHU
+	 82FcN5PaKxkwuWHgUYcbDHSTj+ZbxXxJvD0cdTR5rxe4HMkeL/HELnYwteScfxvl10
+	 0TrL6T3qB4uow==
+From: SJ Park <sj@kernel.org>
+To: Kees Cook <kees@kernel.org>
+Cc: SJ Park <sj@kernel.org>,
+	Manuel Ebner <manuelebnerli@mailbox.org>,
+	Jonathan Corbet <corbet@lwn.net>,
 	Shuah Khan <skhan@linuxfoundation.org>,
-	Randy Dunlap <rdunlap@infradead.org>,
-	Thorsten Leemhuis <linux@leemhuis.info>, workflows@vger.kernel.org,
-	linux-kernel@vger.kernel.org, regressions@lists.linux.dev
-Subject: Re: [PATCH] docs: process: use gender-neutral pronouns
-Message-ID: <202609091143.0B34CB0E1@keescook>
-References: <20260909144100.78177-1-ruben@scstudios.tech>
- <87pkymlao3.fsf@trenco.lwn.net>
+	workflows@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] Documentation: deprecated.rst: add to syntax highlighting
+Date: Wed,  9 Sep 2026 17:09:05 -0700
+Message-ID: <20260910000906.109828-1-sj@kernel.org>
+X-Mailer: git-send-email 2.47.3
+In-Reply-To: <202609090913.DA27C376@keescook>
+References: 
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <87pkymlao3.fsf@trenco.lwn.net>
+Content-Transfer-Encoding: 8bit
 
-On Wed, Sep 09, 2026 at 09:14:04AM -0600, Jonathan Corbet wrote:
-> Ruben Sutton <ruben@scstudios.tech> writes:
-> 
-> > Several process documents use gendered pronouns when referring
-> > generically to developers and maintainers. Use singular they instead,
-> > making the language inclusive without changing its meaning.
-> >
-> > Leave pronouns referring to named people and text in attributed
-> > quotations unchanged.
-> >
-> > Assisted-by: LLM
-> > Signed-off-by: Ruben Sutton <ruben@scstudios.tech>
-> > ---
-> >  Documentation/process/2.Process.rst            | 2 +-
-> >  Documentation/process/5.Posting.rst            | 2 +-
-> >  Documentation/process/6.Followthrough.rst      | 2 +-
-> >  Documentation/process/handling-regressions.rst | 2 +-
-> >  Documentation/process/howto.rst                | 2 +-
-> >  Documentation/process/submitting-patches.rst   | 2 +-
-> >  6 files changed, 6 insertions(+), 6 deletions(-)
-> 
-> Ouch.
-> 
-> I have no objection in principle to this change, but if we try to clean
-> up the whole kernel in this way we're going to have a *lot* of churn
-> and, undoubtedly, some unpleasant discussions at some point.
-> 
-> I'm tempted to raise this question at the maintainers summit to see if I
-> can get some sort of project-wide policy laid out.
+On Wed, 9 Sep 2026 09:14:25 -0700 Kees Cook <kees@kernel.org> wrote:
 
-FWIW, I'd agree "indefinite they" (or "singular they") is the right
-language here: "his or her" is both annoying to read (too many words)
-and non-inclusive. Using "their" solves both.
+> On Wed, Sep 09, 2026 at 07:25:26AM -0700, SJ Park wrote:
+> > only the paragraph more consistent looks making sense to me.  So, how about
+> > doing same to "__counted_by()", too, as it is also in the same paragraph?
+> 
+> I think that'll get auto-marked by our tooling already because of the
+> trailing "()".
 
--Kees
+You're right, thank you Kees!
 
--- 
-Kees Cook
+
+Thanks,
+SJ
+
+[...]
