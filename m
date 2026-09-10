@@ -1,99 +1,89 @@
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 956243FE367;
-	Thu, 10 Sep 2026 09:50:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 29DDC4908A6
+	for <workflows@vger.kernel.org>; Thu, 10 Sep 2026 13:59:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789033807; cv=none; b=ePk1/Y+9IbO3zD1kJnrd5qRTgLlHRWF0seddN1Q1yL6DtXYD1XSCVBBOLQXzbxTndFJek4dE6vPx/KgpiUTDDgJfGTs7Zp5Or5+w4eRoOnuJzCcWYyRKkoCclTvxm92NT24A7s1atx+MG62XTBzCOMnVyv6kVuBGO3uEVFbikYg=
+	t=1789048774; cv=none; b=b0X2UbFqIjb28b+c//iVxAwUC3YWK5t3PG5kXAtKoo/rPT9zTizrr0FBpJ3iHUJkaa10dhCr5dYgrYMnsYlEwGZ3bvmF3JDHf5dJ1s/EEuHiGk7GLDPl1ZA7Um6nETqVVcoOdqRXk1bWdMsCzDEO4AJrvGC1K9f+bdhAg1+kvB8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789033807; c=relaxed/simple;
-	bh=Lm1iDn1MpImB0Z6Zn3rV0unyaPyNmR3nCxRWSJRkZT0=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Tpm0y6YQhdGy+0+87g1l8Y0v9hZaIcVw9AGN23vhr5uXmIjKpSQ6vbzlAzPCXHlnO2byuacpjpJoOL7dp6SN9eFwJ127vOlsk2DTXqmtSvZrfy0hShD9hfEPAVo1Da3hfmMaRmhF0bgnF+EVKqqJhGfdl5yYEaiNB3+nDV9ffVY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=cGCQsyJb; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+	s=arc-20240116; t=1789048774; c=relaxed/simple;
+	bh=Y6jWV6ZpYD55iJx0rXT/G22pEri5CwgcxUksOlBcAeI=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=n6JvXTFMy5Ko5CmnagfbZeA9IP0nRVMcU2lrOc/Nd8L5NE6JVJksMOcw2iK9lYKXwXtXDQka+qO+p7qg2NkFcGUuamgUT3u4gb9FsTMsa7WaisMHFbLS00IFJP6OvusvcgCIh0wdrmY/2qRe4E2+gNZnwjEkduxhj1PUgGaaRfE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=EzH8PsKt; arc=none smtp.client-ip=170.10.133.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="cGCQsyJb"
-Received: from killaraus.ideasonboard.com (2001-14ba-70f3-e800--a06.rev.dnainternet.fi [IPv6:2001:14ba:70f3:e800::a06])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 02F9F447;
-	Thu, 10 Sep 2026 11:48:22 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1789033703;
-	bh=Lm1iDn1MpImB0Z6Zn3rV0unyaPyNmR3nCxRWSJRkZT0=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=cGCQsyJbAP2bXayNbuaQcVxLQP8U/QrZy6zehkn9bzrvreS3Cv+Ni6FePcNLGXwu7
-	 FNzq5zJGumyL4EcU6J/PZVB0CJbi/L0IIHcZRwiu3DUmOw6e/p1PeM6+oM+MissSVk
-	 uX2bwj1E6uvOeR00xun8/VE7mqEeOqq7K4srKUOk=
-Date: Thu, 10 Sep 2026 12:49:58 +0300
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Thorsten Leemhuis <linux@leemhuis.info>
-Cc: Kees Cook <kees@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
-	Ruben Sutton <ruben@scstudios.tech>, linux-doc@vger.kernel.org,
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="EzH8PsKt"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1789048771;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=1GxlXop5BNMoKQi4jo+ZeUE7mc82UQ20F3V6hMG+loI=;
+	b=EzH8PsKtPE3XZUBrDhxq8xmdSWOjJHG2Yr9MCtjoPbOY7aphuOkckuPPVziICm8sptfL/g
+	iM5CpRkI3F4SIWe7TfNMUnKNOhtHbtQ6DnNB9uxfuP4qkLrqxEdZHrQvMJqrGq/+VX/pZv
+	iEzma3YYtGWRwCa3GiTJ2Hsb94ezOHc=
+Received: from mx-prod-mc-01.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-208-dGqvfRB9OYy5zpPFlfNstA-1; Thu,
+ 10 Sep 2026 09:59:26 -0400
+X-MC-Unique: dGqvfRB9OYy5zpPFlfNstA-1
+X-Mimecast-MFC-AGG-ID: dGqvfRB9OYy5zpPFlfNstA_1789048764
+Received: from mx-prod-int-10.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-10.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.95])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mx-prod-mc-01.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 3E64319540D4;
+	Thu, 10 Sep 2026 13:59:24 +0000 (UTC)
+Received: from thuth-p1g4.redhat.corp (headnet03.pony-001.prod.iad2.dc.redhat.com [10.2.32.114])
+	by mx-prod-int-10.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id 870D346E;
+	Thu, 10 Sep 2026 13:59:20 +0000 (UTC)
+From: Thomas Huth <thuth@redhat.com>
+To: Brendan Higgins <brendan.higgins@linux.dev>,
+	David Gow <david@davidgow.net>,
+	linux-doc@vger.kernel.org
+Cc: linux-kernel@vger.kernel.org,
+	Rae Moar <raemoar63@gmail.com>,
+	Jonathan Corbet <corbet@lwn.net>,
 	Shuah Khan <skhan@linuxfoundation.org>,
-	Randy Dunlap <rdunlap@infradead.org>, workflows@vger.kernel.org,
-	linux-kernel@vger.kernel.org, regressions@lists.linux.dev
-Subject: Re: [PATCH] docs: process: use gender-neutral pronouns
-Message-ID: <20260910094958.GI1892234@killaraus.ideasonboard.com>
-References: <20260909144100.78177-1-ruben@scstudios.tech>
- <87pkymlao3.fsf@trenco.lwn.net>
- <202609091143.0B34CB0E1@keescook>
- <6e4cb304-fc9c-4cd8-bd6d-2d0dd635f3cf@leemhuis.info>
+	Randy Dunlap <rdunlap@infradead.org>,
+	linux-kselftest@vger.kernel.org,
+	kunit-dev@googlegroups.com,
+	workflows@vger.kernel.org
+Subject: [PATCH] Documentation: kunit: Fix bad debugfs path
+Date: Thu, 10 Sep 2026 15:59:19 +0200
+Message-ID: <20260910135919.435500-1-thuth@redhat.com>
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <6e4cb304-fc9c-4cd8-bd6d-2d0dd635f3cf@leemhuis.info>
+Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 3.6 on 10.30.177.95
 
-On Thu, Sep 10, 2026 at 08:59:04AM +0200, Thorsten Leemhuis wrote:
-> On 9/9/26 20:47, Kees Cook wrote:
-> > On Wed, Sep 09, 2026 at 09:14:04AM -0600, Jonathan Corbet wrote:
-> >> Ruben Sutton writes:
-> >>
-> >>> Several process documents use gendered pronouns when referring
-> >>> generically to developers and maintainers. Use singular they instead,
-> >>> making the language inclusive without changing its meaning.
-> >>>
-> >>> Leave pronouns referring to named people and text in attributed
-> >>> quotations unchanged.
-> >>
-> >> Ouch.
-> >>
-> >> I have no objection in principle to this change, but if we try to clean
-> >> up the whole kernel in this way we're going to have a *lot* of churn
-> >> and, undoubtedly, some unpleasant discussions at some point.
-> >>
-> >> I'm tempted to raise this question at the maintainers summit to see if I
-> >> can get some sort of project-wide policy laid out.
-> > 
-> > FWIW, I'd agree "indefinite they" (or "singular they") is the right
-> > language here: "his or her" is both annoying to read (too many words)
-> > and non-inclusive. Using "their" solves both.
-> I do, too.
-> 
-> But all this makes me wonder: In case we decide to go down that route,
-> how do we prevent gendered pronouns from accidentally sneaking back in,
-> for example, through subsystems that change their docs directly? Do we
-> maybe have something already somewhere that watches changes to
-> Documentation/ where we could plug in a test script that yells if it
-> detects this in next? And yes, obviously someone would then also need to
-> write such a script.
+The path of debugfs is /sys/kernel/debug/ and not /sys/kernel/debugfs/.
 
-This appears to me as similar to the words we decided to ban in commit
-a5f526ecb075 ("CodingStyle: Inclusive Terminology"). As far as I'm
-aware, there's no tooling to enforce this, we instead rely on reviewers
-(and authors in the first place of course) knowing the rules. The
-inclusive terminology discussion that occurred back then made the news,
-helping us to raise awareness of the rules. For gender-neutral pronouns
-we may need to communicate a bit more proactively towards at least
-subsystem maintainers.
+Signed-off-by: Thomas Huth <thuth@redhat.com>
+---
+ Documentation/dev-tools/kunit/run_manual.rst | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
+diff --git a/Documentation/dev-tools/kunit/run_manual.rst b/Documentation/dev-tools/kunit/run_manual.rst
+index 98e8d5b288085..59c3313a6d15c 100644
+--- a/Documentation/dev-tools/kunit/run_manual.rst
++++ b/Documentation/dev-tools/kunit/run_manual.rst
+@@ -87,7 +87,7 @@ the ``/sys/kernel/debug/kunit/<test_suite>/run`` file:
+ 
+ .. code-block :: bash
+ 
+-	echo "any string" > /sys/kernel/debugfs/kunit/<test_suite>/run
++	echo "any string" > /sys/kernel/debug/kunit/<test_suite>/run
+ 
+ As a result, the test suite runs and the results are printed to the kernel
+ log.
 -- 
-Regards,
+2.55.0
 
-Laurent Pinchart
