@@ -1,51 +1,45 @@
-Received: from stravinsky.debian.org (stravinsky.debian.org [82.195.75.108])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4440E22538F;
-	Fri, 18 Sep 2026 10:20:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=82.195.75.108
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C6020348C5D;
+	Fri, 18 Sep 2026 21:48:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789726861; cv=none; b=YYby3KJi91v+wRadkS4TWIUmuv88F3jA1qVBMwh/EVlgc9pq2qY6iPdPmBWRMEfPnA+CO6nhVL7LHPfCnzW3sX2GrjAniTSfkQZ0E5GLtyUfqKG3caEfR6JcbWoe+hMrdrCKk5pb31GDi6cgH15tQxQ+/GYSSibvyVkHoczN3Do=
+	t=1789768091; cv=none; b=ZVZzWRG5+p4yD6XjpY9bjwCtajNgWxm2pttJpIvAvUo9o8AE1VoENTLzZQR2zyKcNFrv+1MjJTi1GjlI25aU8psR48okQ/MY2FMtTaHwDtzE+7yvviL800g11Qt0u3hNzXl4W0Ohv/19SJ+cLTyO/fcgIrJkqdZvkBpho3UYxBk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789726861; c=relaxed/simple;
-	bh=BAVjxI/sPlbNfC2L8bo/HavZU0mb4/zUP+cUEWUy5LM=;
+	s=arc-20240116; t=1789768091; c=relaxed/simple;
+	bh=O2hlwkAufNrMR+uFIlmrSAkYpcLS6FYqXxT24W1gzcs=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=d1iYnfVLz7mXkMUApQFBiXizE8KyC7sPTVQ4szLPjwcoNRtzS+ED/o6+Czy2IDkXLOu5Y5k0C1LNQodxBwE33d+nM2Ww0fOGc+1odH9z5nTABmzb0AhL0UmsQMOag6hsg9K44sy3JFAAFTHb1MXru1hQLHuTWQrlFec9l/Qoqko=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=debian.org; spf=pass smtp.mailfrom=debian.org; dkim=pass (2048-bit key) header.d=debian.org header.i=@debian.org header.b=oOO60XwY; arc=none smtp.client-ip=82.195.75.108
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=debian.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=debian.org
+	 Content-Type:Content-Disposition:In-Reply-To; b=n6Gpy4i/+OzROHtoVpHnOgV0UNnnKog/w6A7P5pCQ2Mpa2wbDe2HlLGU5G5tgkDEVJ5QQccnEOGrMMoE7WEKI8IoXaaEcM12+r32vwZ58LU/BJRVb2KhmS5tx5JCF3o2MeEc5eHPxbfQtc+H2rsXES5cy8+lSW11AzEko9jnIcI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=n/u4V9d4; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=debian.org header.i=@debian.org header.b="oOO60XwY"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=debian.org;
-	s=smtpauto.stravinsky; h=X-Debian-User:In-Reply-To:Content-Type:MIME-Version:
-	References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description;
-	bh=/ZQNv34Ek5Ax6QYdQ7WcoxvzXPWjuzfsPGdEUkXflEs=; b=oOO60XwY8ERyAwZK1S5h0ToTPQ
-	OWwppHptar6tur502/2Wg9/RCn2+pTXEtbIxFfHSEZlVoELlME73jhYQbNgjqZXZLZlskIwr4BRLo
-	4KhTvT+ONt5E5DYomWH9sCloKyIcNdSH+jcmjU8hT4oxN+3cPP3FToHvfwgCedBhWkNh93FuDuebg
-	LSCa4XpTARiqYS5ebFHkY+qrfq04Jev8uQkMm22bxOdXL6rKAblbLD/pGi5gzHlrNVhf8kjDvSZ2a
-	DiR2HyXULTC0Etm/1SxcycLYuX1tHXwQnnjP8oldLyI2EF+MMok6nX92fsb8cD8KxXPWvDBGHbwPS
-	JquZVzOw==;
-Received: from authenticated-user
-	by stravinsky.debian.org with esmtpsa (TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256)
-	(Exim 4.96)
-	(envelope-from <leitao@debian.org>)
-	id 1x7Vi1-006eOU-1G;
-	Fri, 18 Sep 2026 10:20:45 +0000
-Date: Fri, 18 Sep 2026 03:20:39 -0700
-From: Breno Leitao <leitao@debian.org>
-To: Catalin Marinas <catalin.marinas@arm.com>
-Cc: Andrew Morton <akpm@linux-foundation.org>, 
-	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
-	Randy Dunlap <rdunlap@infradead.org>, workflows@vger.kernel.org, linux-doc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-mm@kvack.org, kernel-team@meta.com
-Subject: Re: [PATCH 3/3] mm: kmemleak: raise min_unref_scans to 3 for verbose
- auto-scan
-Message-ID: <aq0PcQ-S5i8CWqr1@gmail.com>
-References: <20260917-b4-kmemleak-doc-v1-0-84fde6d1f749@debian.org>
- <20260917-b4-kmemleak-doc-v1-3-84fde6d1f749@debian.org>
- <20260917150443.a872ea0fd692503c53b2b773@linux-foundation.org>
- <aq0ChSUFw2n6lXIQ@arm.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="n/u4V9d4"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E24FC1F000FF;
+	Fri, 18 Sep 2026 21:48:06 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1789768089;
+	bh=Yd9AmOgN/Q25cum2jEcCgRSfXf6tk/+UUdM0ddYKZT4=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=n/u4V9d41fCbxrKHbJcFkaCej72wTGtwCsP+FFelG4SvHzdPTSFMe7uQoZNpsqbnJ
+	 VtEf8qPnBU1zNLj7VkIfSoj4AbFjnkHgLBn4eMptjiG2LCftGVlo09DMBJ290glWQC
+	 uhh3MQf6MIL9CFMa+Z5Gpy0DS3GdR2jvNdcKJLMvTWjbY2X4tr7O7/cb/oxW/TGGl+
+	 Rzdqu317bhJ05nGzdY3JcTyZm6FN3FeEXgQ5Mey1keyY7jzbwST/qPLbn0YmyYCq8f
+	 aeJcw3RtulfpKJY9GsoNj4J0HMbU48yINYR2HvD8CU3J2gazYJrJGeoTdLC4gL0Cf1
+	 xb93S3J7ZP2wA==
+Date: Fri, 18 Sep 2026 14:48:04 -0700
+From: Nathan Chancellor <nathan@kernel.org>
+To: Guillaume Tucker <gtucker@gtucker.io>
+Cc: Nicolas Schier <nsc@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+	Miguel Ojeda <ojeda@kernel.org>,
+	Onur =?iso-8859-1?Q?=D6zkan?= <work@onurozkan.dev>,
+	Nick Desaulniers <ndesaulniers@google.com>,
+	linux-doc@vger.kernel.org, workflows@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-kbuild@vger.kernel.org,
+	kernelci@lists.linux.dev, automated-testing@lists.yoctoproject.org
+Subject: Re: [PATCH v4 1/3] scripts: add TOML config to container tool
+Message-ID: <20260918214804.GA1849926@ax162>
+References: <68b14a76a4cb2e6437c869bab948983a98acffbd.1788779245.git.gtucker@gtucker.io>
+ <03e8513a-3480-42a5-9d1b-fad6c36ed07a@gtucker.io>
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
@@ -54,50 +48,57 @@ List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <aq0ChSUFw2n6lXIQ@arm.com>
-X-Debian-User: leitao
+In-Reply-To: <03e8513a-3480-42a5-9d1b-fad6c36ed07a@gtucker.io>
 
-On Fri, Sep 18, 2026 at 10:21:09AM +0100, Catalin Marinas wrote:
-> On Thu, Sep 17, 2026 at 03:04:43PM -0700, Andrew Morton wrote:
-> > On Thu, 17 Sep 2026 06:47:37 -0700 Breno Leitao <leitao@debian.org> wrote:
-> >
-> > > CONFIG_DEBUG_KMEMLEAK_VERBOSE sends every report to the console, so a
-> > > transient false positive there is broadcast to whatever collects the
-> > > kernel log rather than sitting in the debugfs file until someone looks.
-> > > That asymmetry justifies being more conservative than the general case.
-> > >
-> > > Require one more consecutive unreferenced scan before reporting. The
-> > > only cost is that a genuine leak is reported one scan interval later
-> > > (600s by default); the value stays writable at run time through the
-> > > module parameter.
-> > >
-> > > Kernels without CONFIG_DEBUG_KMEMLEAK_VERBOSE keep reporting on the
-> > > first unreferenced scan.
-> > >
-> > > I've been running constant upstream kernel with
-> > > CONFIG_DEBUG_KMEMLEAK_VERBOSE set, and I am still seeing some rare false
-> > > positive, that goes away with min_unref_scans=3, so, making it the
-> > > default based on my heuristic.
-> >
-> > I'm guessing going from 2 to 3 reduces the false-positive reporting
-> > rate, but they're still possible.
-> >
-> > It all sounds rather rubbery.  Why do these false positives occur,
-> > anyway?  Are we papering over a fundamental problem by filtering out
-> > its user-visible effects?
->
-> The fundamental problem is that we can't do a stop-machine for the
-> kmemleak scanning. When scanning takes tens of seconds, pointers may
-> move around memory or registers on other CPUs, so kmemleak could miss
-> them. It's all probabilistic, hoping that we won't hit the same object
-> two or three times in a row, 10min apart (for lack of better ideas). We
-> have other heuristics like checksumming but they don't seem to be
-> sufficient when testing on a large scale.
+Hi Guillaume,
 
-In fact, in my investigation there's only a single use case where I
-actually see this false positive, which go away with this new approch.
+On Fri, Sep 18, 2026 at 12:04:09PM +0200, Guillaume Tucker wrote:
+> On 07/09/2026 13:10, Guillaume Tucker wrote:
+> > Add support for a TOML configuration file to the scripts/container
+> > tool.  This improves user experience by not having to keep passing the
+> > same command line options all the time or overly relying on built-in
+> > default values.  Include the concept of 'profiles' with different
+> > named sections in the file to cover various use cases.
+> > 
+> > Command line options take precedence over the config file, and values
+> > defined in profile sections take precedence over the default one.
+> > 
+> > Add a -c option to override the location of the .container.toml config
+> > file which should otherwise be located in the current working
+> > directory.  If not found, the file is silently ignored as it is not
+> > strictly required unless the -c option is used.
+> > 
+> > Add a -p option to choose a particular profile section in the config
+> > file rather than the default.
+> > 
+> > Signed-off-by: Guillaume Tucker <gtucker@gtucker.io>
+> > Acked-by: Nicolas Schier <n.schier@fritz.com>
+> > ---
+> > 
+> > Notes:
+> >     Changes in v2:
+> >     - fix uid / gid handling when set to 0 (root)
+> >     
+> >     Changes in v3:
+> >     - fix logic when loading config profiles using None
+> >     - fix typo with missing whitespace in help message
+> >     - clarify how UID gets used as default value for GID
+> >     
+> >     Changes in v4:
+> >     - drop registry option from TOML config
+> > 
+> >  scripts/container | 86 ++++++++++++++++++++++++++++++++++++++++-------
+> >  1 file changed, 74 insertions(+), 12 deletions(-)
+> Thanks for the reviews so far.
+> 
+> Do you guys need anything else regarding this series?
+> 
+> There's no rush of course and we're all busy, just making sure I
+> didn't miss anything.
 
-And I have a very solidy test setup where linux-next is deployed daily
-and run for 24 hours, until the next kernel replaces it. This is on real
-hardware with some basic workloads, so, in fact the false positive
-(given the design above) is quite low.
+No, my apologies for not responding to this sooner. I plan to take a
+look soon, I just keep getting preeempted by other stuff.
+
+-- 
+Cheers,
+Nathan
