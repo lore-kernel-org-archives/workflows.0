@@ -1,128 +1,112 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AE352253B58;
-	Thu, 24 Sep 2026 08:24:44 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A2CEF3002CF;
+	Thu, 24 Sep 2026 13:49:51 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790238285; cv=none; b=p94fbcqzHuiudYf1jGIgOr29blsLux1RENTkP5s6PEzDIH8V+PPk9P6wqBQJn70BOuxfUDp77e4KfXP5kMaes5Rd7QM/3cNi9VOA+amJ+OrWB+A8PTbbLUQP3fYVbeIZ+XGAXX9EnII2sJT0rStehfHlHu0+qTy50l2eAugfyR4=
+	t=1790257793; cv=none; b=pQ2zK4/yqH+YtMeAfRmgdgqwdlj+CUWLCIXYs/Ykc9gwHVy0ETHVgOqkp8m43P4jNSkgbjaU+4lHLn3+20YNfkAzYjfGjjMyVTDq560sX9XOQtcqWgvmYyXO7U23vNYU+dao4FxqYJbKhNkBeIluZ3LioQeoPNDLa/oX/hEGZ8Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790238285; c=relaxed/simple;
-	bh=qH/xoIQQTjhDSiZhLliQjwC+Qf7DIwFZJQ4us8xPFLs=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=VD5GSbYYnCuJC+HiWVUe+vMtzd5T7vOaYfa9kfTe2007ZUA7qb51ENgJwlv8Ueec9Euh6jROLRGVNjWmpftH60VkBke0DNMXazYyt49kdStvsP4Bh7cKSNKykymt03MEqbkU9ep8NDNdUH5V0xOs08/CLPvGYUfXfwuEEQKPxhI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=hzWmfzKK; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1790257793; c=relaxed/simple;
+	bh=L9jdbxdU+cyqjS7Mqp7UTFMeO1hjaIxFFAPQ2lSOcN0=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=TWEqa3KVLvE4WfL98RtrmEGuCJfpu5UKu0T2/3ZQtK25zywQ/rdKy3LmVpMszr6uI+4s2q+N4/EtfkKPKTlux4OM2JoxK5aNppCXeNl6iNLUe2JqiNysRPC/q6VY9Bb55UoLPMpuPetwolXx9GxI8fqGnGWJov2aRbSGnJVsiO8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=NcKgNXn1; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="hzWmfzKK"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 41AA61F000FF;
-	Thu, 24 Sep 2026 08:24:42 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="NcKgNXn1"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 030921F000FF;
+	Thu, 24 Sep 2026 13:49:49 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1790238284;
-	bh=H6tVKrw4vxknpsCfaS2E4oakwh3qbNJjyw35eI3TWIc=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To;
-	b=hzWmfzKKA3g7QupfnK6ZXnZ8fF2lZmD4DkqCumCqrtgN93b7O+7bJmvVJ1wgkpYnD
-	 JngGUo5JcR8XUqFasFfWGuKlyVPrp4/EEgIbQq/P0Rjcamg+xUTt/cH84ulyAf2FWA
-	 Jn/VnSq1myqFWD0scz6TZNRuDqQtlBJ26+5xrUTfo7fIFZ8h8KXU6W5Y6D9OVk3nRX
-	 YbvbF+9ERz/iDuTXVHdzKAQbzRYnPsMccVdi9XhiCsbxa3DoIb76y+sHqlpXYmeGYy
-	 nuGjLdFvXLSiwS9cOskArOuBZj110IiIXsVSikwXW6yGYoPCx5gvK1fgMC2uHd4zw7
-	 GRdxs8Hm8d1Pw==
-Message-ID: <4ef027ea-13b1-475b-ae31-7d8ca18fcecc@kernel.org>
-Date: Thu, 24 Sep 2026 10:24:40 +0200
+	s=k20260515; t=1790257790;
+	bh=MRnlUR5F46eq+JtF4GuViCy6aj2enWdJaZfKwgd5wDU=;
+	h=From:To:Cc:Subject:Date;
+	b=NcKgNXn12fAyh58PAEOoF4nU2B3Qc6gjCpEnrm2ufiafSg0Gc01P8/4kZWZ1PKZky
+	 QQug8twn+tYXz7NtRKKhUFLobu2aRq90ooLcxgnkJYOnFpwZXmzje+GS8A6oAnN2K9
+	 wWyfmCd3CHm1NfPeq1UU+9S96MCsaipV14BnEGd6n+9SrN3VRNTVAsJThKL7Iv/rV6
+	 L4qCJkV1Nu0qOVWmIjH/ijwpgN4POay/JYx7EOX8e1PhsL4/lsTRNSFS7q3rIqmRQh
+	 S3GoCaHa8pSWziBAtMlEJKVpPmofDaA7Ya2hfm4w/TnQlCd9pE/zjvt0XG8M/na/Ao
+	 AOiu5ySnsWjeg==
+From: Sasha Levin <sashal@kernel.org>
+To: corbet@lwn.net
+Cc: workflows@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	skhan@linuxfoundation.org,
+	rdunlap@infradead.org,
+	linux-kernel@vger.kernel.org,
+	Sasha Levin <sashal@kernel.org>
+Subject: [PATCH] docs: add AGENTS.md as a symlink to README
+Date: Thu, 24 Sep 2026 09:49:45 -0400
+Message-ID: <20260924134945.3095661-1-sashal@kernel.org>
+X-Mailer: git-send-email 2.53.0
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 2/2] docs: submitting-patches: mention the branch in T:
- entries
-To: Matthias Goergens <matthias.goergens@gmail.com>,
- Jonathan Corbet <corbet@lwn.net>
-Cc: Shuah Khan <skhan@linuxfoundation.org>,
- Randy Dunlap <rdunlap@infradead.org>, Theodore Ts'o <tytso@mit.edu>,
- workflows@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org
-References: <64b0be79c535bb9545f9f81a5044146a8726c761.1790220653.git.matthias.goergens@gmail.com>
- <e592d82c3a9fed3300488fa65380ab055852c984.1790220653.git.matthias.goergens@gmail.com>
-From: Krzysztof Kozlowski <krzk@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=krzk@kernel.org; keydata=
- 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
-In-Reply-To: <e592d82c3a9fed3300488fa65380ab055852c984.1790220653.git.matthias.goergens@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On 24/09/2026 05:35, Matthias Goergens wrote:
-> A git T: entry in MAINTAINERS may name a branch after the repository
-> URL, and where it does, that branch rather than the repository's HEAD
-> is the one to prepare patches against.  Say so where contributors are
-> sent to the T: entry.
-> 
-> Suggested-by: Theodore Ts'o <tytso@mit.edu>
-> Link: https://lore.kernel.org/all/arSMwd1bGO1vrif-@mit.edu/
-> Signed-off-by: Matthias Goergens <matthias.goergens@gmail.com>
-> ---
->  Documentation/process/submitting-patches.rst | 5 +++--
->  1 file changed, 3 insertions(+), 2 deletions(-)
-> 
-> diff --git a/Documentation/process/submitting-patches.rst b/Documentation/process/submitting-patches.rst
-> index 7ae79452e1b4..2936388dcaee 100644
-> --- a/Documentation/process/submitting-patches.rst
-> +++ b/Documentation/process/submitting-patches.rst
-> @@ -37,8 +37,9 @@ which can be grabbed with::
->  Note, however, that you may not want to develop against the mainline tree
->  directly.  Most subsystem maintainers run their own trees and want to see
->  patches prepared against those trees.  See the **T:** entry for the subsystem
-> -in the MAINTAINERS file to find that tree, or simply ask the maintainer if
-> -the tree is not listed there.
-> +in the MAINTAINERS file to find that tree, and the branch to work against if
-> +the entry names one, or simply ask the maintainer if the tree is not listed
-> +there.
+Most coding agents have standardized on AGENTS.md as the file they load
+automatically from the root of a repository. README already tells AI
+tools to read and follow Documentation/process/coding-assistants.rst,
+but that only helps if the agent decides to read README before acting,
+which in practice it often doesn't.
 
-Honestly this should be squashed with previous. It is one logical change
-- amend format of T: entry and update the docs which reference that T:.
+Add a top-level AGENTS.md symlink to README, so agents load it on their
+own and follow its pointer to the AI guidelines. This keeps a single
+entry point for every reader, and avoids adding a separate copy of the
+policy that could drift from the RST.
 
-Best regards,
-Krzysztof
+As an example, two different agents were asked to "create a new commit
+renaming the release (in the Makefile) to AI Test".
+
+Without AGENTS.md, the first agent added a Signed-off-by for the user on
+its own. It should never have done that: only the human submitter can
+certify the Developer Certificate of Origin, after reviewing the change.
+It also used its own attribution tag instead of Assisted-by:
+
+> Makefile: rename release to AI Test
+>
+> Co-Authored-By: <model name> <noreply@...>
+> Signed-off-by: Sasha Levin <sashal@kernel.org>
+
+The second agent added no attribution at all:
+
+> Rename release to AI Test
+
+With AGENTS.md in place, neither agent added a Signed-off-by, and both
+used the Assisted-by tag. README itself mentions neither tag, so both
+agents followed its pointer to coding-assistants.rst:
+
+> Makefile: rename release to "AI Test"
+>
+> Change the release name from "Baby Opossum Posse" to "AI Test".
+>
+> Assisted-by: LLM
+
+> Makefile: rename release to AI Test
+>
+> Assisted-by: LLM
+
+Both agents also followed the kernel's general guidelines more closely.
+The second agent's subject gained the "subsystem: summary phrase" form
+that submitting-patches.rst asks for, instead of a bare "Rename release
+to AI Test", and the first agent added a body describing the change.
+
+Assisted-by: LLM
+Signed-off-by: Sasha Levin <sashal@kernel.org>
+---
+ AGENTS.md | 1 +
+ 1 file changed, 1 insertion(+)
+ create mode 120000 AGENTS.md
+
+diff --git a/AGENTS.md b/AGENTS.md
+new file mode 120000
+index 0000000000000..100b93820ade4
+--- /dev/null
++++ b/AGENTS.md
+@@ -0,0 +1 @@
++README
+\ No newline at end of file
+-- 
+2.53.0
+
