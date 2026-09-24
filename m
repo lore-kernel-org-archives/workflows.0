@@ -1,112 +1,74 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from outgoing.mit.edu (outgoing-auth-1.mit.edu [18.9.28.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A2CEF3002CF;
-	Thu, 24 Sep 2026 13:49:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2F0863CA49D
+	for <workflows@vger.kernel.org>; Thu, 24 Sep 2026 14:32:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=18.9.28.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790257793; cv=none; b=pQ2zK4/yqH+YtMeAfRmgdgqwdlj+CUWLCIXYs/Ykc9gwHVy0ETHVgOqkp8m43P4jNSkgbjaU+4lHLn3+20YNfkAzYjfGjjMyVTDq560sX9XOQtcqWgvmYyXO7U23vNYU+dao4FxqYJbKhNkBeIluZ3LioQeoPNDLa/oX/hEGZ8Y=
+	t=1790260351; cv=none; b=MyKViTDfdvJ3Uz99g20umZAQfoyHKX+68+2IN5MvCgLqtuwkb6bbGjmjqH5R/x76X8LdHruP6gpmQxF7nKsumfMgze4+5I2CjBj+OksAm85ptb7sSJUY6eVYTpImNZd5mpxJIOJimk6wO1ATFOw3PEgz7PsNj+mpFlKHT0zyPew=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790257793; c=relaxed/simple;
-	bh=L9jdbxdU+cyqjS7Mqp7UTFMeO1hjaIxFFAPQ2lSOcN0=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=TWEqa3KVLvE4WfL98RtrmEGuCJfpu5UKu0T2/3ZQtK25zywQ/rdKy3LmVpMszr6uI+4s2q+N4/EtfkKPKTlux4OM2JoxK5aNppCXeNl6iNLUe2JqiNysRPC/q6VY9Bb55UoLPMpuPetwolXx9GxI8fqGnGWJov2aRbSGnJVsiO8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=NcKgNXn1; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1790260351; c=relaxed/simple;
+	bh=PqLStjrYy2mdoMAqGUCxTiw3sN/NUMC1nV+1l8Ds8Rc=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Q5bn6KwTuGhdlRBjQcd9qaztbNDjHct5+YMHY4XjXrrKdKC1puhQmQIqD/DpKDWnbU0je4ZwcfIyM9+Ez0ndFkkwQ9+t8gsQXPy3ah4+wrkETE+WuPFMYVI+ixIJf8FO5C8Gnp8Hg+ZrgaVeQ97i2ww/cVg3llV+8qTWX9vldpM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=mit.edu; spf=pass smtp.mailfrom=mit.edu; dkim=pass (2048-bit key) header.d=mit.edu header.i=@mit.edu header.b=RuIVPY3D; arc=none smtp.client-ip=18.9.28.11
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=mit.edu
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mit.edu
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="NcKgNXn1"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 030921F000FF;
-	Thu, 24 Sep 2026 13:49:49 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1790257790;
-	bh=MRnlUR5F46eq+JtF4GuViCy6aj2enWdJaZfKwgd5wDU=;
-	h=From:To:Cc:Subject:Date;
-	b=NcKgNXn12fAyh58PAEOoF4nU2B3Qc6gjCpEnrm2ufiafSg0Gc01P8/4kZWZ1PKZky
-	 QQug8twn+tYXz7NtRKKhUFLobu2aRq90ooLcxgnkJYOnFpwZXmzje+GS8A6oAnN2K9
-	 wWyfmCd3CHm1NfPeq1UU+9S96MCsaipV14BnEGd6n+9SrN3VRNTVAsJThKL7Iv/rV6
-	 L4qCJkV1Nu0qOVWmIjH/ijwpgN4POay/JYx7EOX8e1PhsL4/lsTRNSFS7q3rIqmRQh
-	 S3GoCaHa8pSWziBAtMlEJKVpPmofDaA7Ya2hfm4w/TnQlCd9pE/zjvt0XG8M/na/Ao
-	 AOiu5ySnsWjeg==
-From: Sasha Levin <sashal@kernel.org>
-To: corbet@lwn.net
-Cc: workflows@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	skhan@linuxfoundation.org,
-	rdunlap@infradead.org,
-	linux-kernel@vger.kernel.org,
-	Sasha Levin <sashal@kernel.org>
-Subject: [PATCH] docs: add AGENTS.md as a symlink to README
-Date: Thu, 24 Sep 2026 09:49:45 -0400
-Message-ID: <20260924134945.3095661-1-sashal@kernel.org>
-X-Mailer: git-send-email 2.53.0
+	dkim=pass (2048-bit key) header.d=mit.edu header.i=@mit.edu header.b="RuIVPY3D"
+Received: from macsyma.thunk.org (pool-108-26-156-67.bstnma.fios.verizon.net [108.26.156.67])
+	(authenticated bits=0)
+        (User authenticated as tytso@ATHENA.MIT.EDU)
+	by outgoing.mit.edu (8.14.7/8.12.4) with ESMTP id 68OEW7pc021026
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Thu, 24 Sep 2026 10:32:09 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mit.edu; s=outgoing;
+	t=1790260331; bh=ImkhVgU7zqWDU5YMRKnMxraEsKongRHo5Ff2LLGNEZs=;
+	h=Date:From:Subject:Message-ID:MIME-Version:Content-Type;
+	b=RuIVPY3DlI7KmHfUpX/7LBojRsOH9Kf9Uak8nIwJPLG/PU3HkiScyULEoRbDYiQ1n
+	 fewyJuN5+u1AgxPONGWfzZioKmn1E9t5NSssOwxg8S7+BjGoyivGuyxjOdBM3afzSt
+	 NUcJ7TW3aclr6IsH0mOv4+B4mNAl/mvCWFKugjF0gndEXIdQ3RFA+qAEvlWXepR1db
+	 a+aV+w0wHHROMeRuJA9FtUT1oAPEGVTShqZ7X5x1wF1w6KvXMR/sU5EfdSc7uSVHS+
+	 5whutVy4+CdBUQ0o/p3U/g2kjGB0O363CsDaCOOXac/rcA/U27QM5U+10Jihm4bshY
+	 62A8dZ1CoE/8w==
+Received: by macsyma.thunk.org (Postfix, from userid 15806)
+	id 477841CED30D; Thu, 24 Sep 2026 10:31:07 -0400 (EDT)
+Date: Thu, 24 Sep 2026 10:31:07 -0400
+From: "Theodore Tso" <tytso@mit.edu>
+To: Sasha Levin <sashal@kernel.org>
+Cc: corbet@lwn.net, workflows@vger.kernel.org, linux-doc@vger.kernel.org,
+        skhan@linuxfoundation.org, rdunlap@infradead.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] docs: add AGENTS.md as a symlink to README
+Message-ID: <arUzB37qmq1WREh_@mit.edu>
+References: <20260924134945.3095661-1-sashal@kernel.org>
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260924134945.3095661-1-sashal@kernel.org>
 
-Most coding agents have standardized on AGENTS.md as the file they load
-automatically from the root of a repository. README already tells AI
-tools to read and follow Documentation/process/coding-assistants.rst,
-but that only helps if the agent decides to read README before acting,
-which in practice it often doesn't.
+On Thu, Sep 24, 2026 at 09:49:45AM -0500, Sasha Levin wrote:
+> Most coding agents have standardized on AGENTS.md as the file they load
+> automatically from the root of a repository. README already tells AI
+> tools to read and follow Documentation/process/coding-assistants.rst,
+> but that only helps if the agent decides to read README before acting,
+> which in practice it often doesn't.
+> 
+> Add a top-level AGENTS.md symlink to README, so agents load it on their
+> own and follow its pointer to the AI guidelines. This keeps a single
+> entry point for every reader, and avoids adding a separate copy of the
+> policy that could drift from the RST.
 
-Add a top-level AGENTS.md symlink to README, so agents load it on their
-own and follow its pointer to the AI guidelines. This keeps a single
-entry point for every reader, and avoids adding a separate copy of the
-policy that could drift from the RST.
+There's a lot of stuff in README that isn't going to be useful for to
+an AI agent.  This will resullt in an increased amount of token
+consumption, that could impact people's token budgets.  Prehaps it
+would be a bit more efficient if we explicitly ask the agent to read
+and follow certain process files, including coding-assistants.rst; if
+they are preparing a patch, to consult submitting-patches.rst, etc?
 
-As an example, two different agents were asked to "create a new commit
-renaming the release (in the Makefile) to AI Test".
-
-Without AGENTS.md, the first agent added a Signed-off-by for the user on
-its own. It should never have done that: only the human submitter can
-certify the Developer Certificate of Origin, after reviewing the change.
-It also used its own attribution tag instead of Assisted-by:
-
-> Makefile: rename release to AI Test
->
-> Co-Authored-By: <model name> <noreply@...>
-> Signed-off-by: Sasha Levin <sashal@kernel.org>
-
-The second agent added no attribution at all:
-
-> Rename release to AI Test
-
-With AGENTS.md in place, neither agent added a Signed-off-by, and both
-used the Assisted-by tag. README itself mentions neither tag, so both
-agents followed its pointer to coding-assistants.rst:
-
-> Makefile: rename release to "AI Test"
->
-> Change the release name from "Baby Opossum Posse" to "AI Test".
->
-> Assisted-by: LLM
-
-> Makefile: rename release to AI Test
->
-> Assisted-by: LLM
-
-Both agents also followed the kernel's general guidelines more closely.
-The second agent's subject gained the "subsystem: summary phrase" form
-that submitting-patches.rst asks for, instead of a bare "Rename release
-to AI Test", and the first agent added a body describing the change.
-
-Assisted-by: LLM
-Signed-off-by: Sasha Levin <sashal@kernel.org>
----
- AGENTS.md | 1 +
- 1 file changed, 1 insertion(+)
- create mode 120000 AGENTS.md
-
-diff --git a/AGENTS.md b/AGENTS.md
-new file mode 120000
-index 0000000000000..100b93820ade4
---- /dev/null
-+++ b/AGENTS.md
-@@ -0,0 +1 @@
-+README
-\ No newline at end of file
--- 
-2.53.0
-
+     	 	     	       	       - Ted
