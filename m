@@ -1,180 +1,128 @@
-Received: from mail-pj2-f13.google.com (mail-pj2-f13.google.com [74.125.227.141])
+Received: from mail-pz2-f12.google.com (mail-pz2-f12.google.com [74.125.228.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2694A517BAA
-	for <workflows@vger.kernel.org>; Mon, 21 Sep 2026 22:02:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.227.141
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8437F3A9636
+	for <workflows@vger.kernel.org>; Thu, 24 Sep 2026 03:35:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.228.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790028182; cv=none; b=Ocp/0uOctFAeNrN8w4f8VB+a9UmNo2y8mor6+YUzI5bNchG/w0YC7C50rGobQ1I6RKqsFrSvyp/jHYCv/CMJx0inOw+HhHw+cgz7FKfyrXJN5YAYd7MtiJ0THUBD8dpc4d9rYkbTqFkI4n8cHDjol1lUmqSEjx3k+H/1Gh5ssaE=
+	t=1790220935; cv=none; b=indLvk9s4QNcq993xDfCsYtYrATaxeYtlho0urYH958G/cURmwu0t0r8+SutnjZBRwmhudy8yb3lqdEOdo8IG+gKH/kAn53r2F7Vo9fZYxitX9vNkQ6RmooDzOU08WH7SbFegh3CmoLciDJOYiF0EakD8y6LxD+zFDRRsjhJBIc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790028182; c=relaxed/simple;
-	bh=shG8KXW4PQjczsVN5thTIyvI36GIUWB78/X5RvdZElY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=XHizFjcoRDDVhnBjdbUvWGnyqAY9bJeXXqglBUHmOFfiJRJxM/fMbBrI9L4S9Z/xIF/4ar+/xFZ3h+yGxyJ4ZQJmMoaEx2x/tphofc+1cISzYNLEIqyBfCzR63XHt5NF/B8EkhP/KycYmjDXL8AYxH/oYPXajPiWL1BzIbYvSWw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=AzUpolXx; arc=none smtp.client-ip=74.125.227.141
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
+	s=arc-20240116; t=1790220935; c=relaxed/simple;
+	bh=T6xOaLYc0B9aKjO9KCpz3nX86evUAWutyIxXLLWE2vg=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=VqrOomhKCpBv3V7ynLMt104NoWAvyl4KF3AM44FTwQbtg5sUjO6y+lYo44C7oHZzWKfk5KfWICTLCvt5mIhHOxUCkt6iiEL5552G1w4YJhCiXV2uJ8J2pml7Rj5BLyDFU1eJgk3XkWOP20TnDVHNT/FEEXsHR6DtI1ZbzQC6cxA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=BOQaJ5Ol; arc=none smtp.client-ip=74.125.228.12
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="AzUpolXx"
-Received: by mail-pj2-f13.google.com with SMTP id 98e67ed59e1d1-396ccb652d7so3173921a91.0
-        for <workflows@vger.kernel.org>; Mon, 21 Sep 2026 15:02:59 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="BOQaJ5Ol"
+Received: by mail-pz2-f12.google.com with SMTP id 41be03b00d2f7-cc1cea50db3so764070a12.1
+        for <workflows@vger.kernel.org>; Wed, 23 Sep 2026 20:35:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1790028179; x=1790632979; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:sender:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=gepwJu0inr/K6hhzbtKFbBFZxbpwwX/vIYPNA2EMfyU=;
-        b=AzUpolXxYTy/mYtWta5mmdbInYgJMkhVRaaeUincGOvqguBo9gQRymZCcRjNcp++nH
-         M2h7V5XCHi9ygoVTK8rpHpZkpkGT/K6BXFG+KwLMUfa43uAFeqeQav5jk08d/6Hlv1Uw
-         SDG6cmgGAKOc0B3oeOy1doxP2siKL05vhZxY6m7qm0kckAqKYlJU2lcxJoDfWlVhKOT8
-         PCILkHggG5clmMaHDrL3KkGkzO7OUt1Q0wQlvgU+Mnqj0xo2VtTLKaAtmwJA2Yh9m7fA
-         alYpvngcCoJf+MBQkLlLN7mU68rc2RMwc7UfW+v07yBr9xtRkCWxBCK10nkg4Theha2d
-         3Frw==
+        d=gmail.com; s=20251104; t=1790220934; x=1790825734; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=OaUbgPXJZf/ktE8BVYwWTpClwzmCb4EAHd75bRpHj1U=;
+        b=BOQaJ5Ol2IWJUoK0u8ymDAit8apyzDdaUG/QJrdV06xJaYnfGvl2Da+6o62wEqt39i
+         2BldXzB3A7yw7bOy7f8QJEvRiK/XqVmeDMPxPxSe/lS3LgaVbC1K28ZiUEl5uO29QUmL
+         h5DfJytaPxd1QYF0RidprCyneejattwxH/u7gILJ1mhST/8BC0jlljVahyzq0IRYiu8F
+         kd9vRuHy1MtZDFHppHCXdikGIi7wLAcvdi43oq4NXUfLRI9mXTYlgukv2O7rC0ST9ua4
+         GGVu4eSihsj8/3PFH5ef8JPXT42/4arGadwKuet3I2CFdf2WI1eUSTuBIvWhTD0MWfLk
+         8Neg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1790028179; x=1790632979;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:sender:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=gepwJu0inr/K6hhzbtKFbBFZxbpwwX/vIYPNA2EMfyU=;
-        b=di9jHHxP+aj8d5DGbvHMpTYe6s968alNfVGPf31nfdB22t9hZtEWy7t5eTws+GrI2Y
-         98EQRhdZsO6+heHtrOq9+76DkqDBPCyTHhZ4aU1AfGAmD+uuiBOY4rkutL0ScPyKWgl9
-         ZPrhuKimAeKiDWGrsiIx8FdSojz3YIgaH39B4nkeYlvQqDAYzzFoaMitYxA1Ov4IhCyB
-         qFnpQz1VpuV3FtOtmSQBvYcYlDnindxDZQlTYs5aK9Ubbbhg31NIq0aoVTpoydCfRy9N
-         tHBabuXgsD4/j0j8OUf0C6m4HyuNp19NgTBW6HKZSwuxfw80L9hPyLW0fgN8baiSkKgQ
-         HGNA==
-X-Gm-Message-State: AFuF++mBkRZSUDaKCsoHIeK4c3mDh4sq3hG7MAUagCPG2tGaBFZVKJaR
-	wL7ME6G7aajHb6ywMtB1MZccEmKp8A1qAyFYXGHHTH51Rrxq0RKn/jgv
-X-Gm-Gg: AYBFou0ovMVcgjdujnMn7N9fmmGtcik3DFRKRb2xEvYijAlmuoYlA9hbpMMrwZowmtg
-	hWnC8XzQ3uenReyCO4XjvJGjbZUjUYNM+H+7DuqCU4RXiuche7Kd9n9UcD7eayYkAjW/27Csknm
-	WZCJEn1/0VjJFSHz6FqNRbJO2ivWaovxUSmZDiSXcMSwPZt4kRqI3zI27DVX3RkQwO09CPdrI/e
-	aaS89mfch29vpkiNc7wBxmhDfkQtRrlOTICoJP2D6wiKRuezbVpEpc84mBw65ffJi0TSzCiUjPH
-	HBhjyrNyVZJ1X3wh4Ae71B61Qwdd+5EMC/v5BzO9VLvWzNKNmKn5Y1h2IlK624vTKJhHPmjRPKW
-	m5dGEDTtBIRugYQIfeKWfZIi0p7yLR1+l3FJN5/EjblSIA+C5yhAlBf+HN4b6/1UgDwYxpm3fyV
-	6yl6IHfKfsB0jxJzuqxvLhA2gGLt3EIT8Ux62PIrI2dKCZznFdjXrw6Ota74RoaUftxvro2eki+
-	VUiWN4md4vd
-X-Received: by 2002:a17:90b:224c:b0:39e:4c7f:7304 with SMTP id 98e67ed59e1d1-39e5504bf2dmr17605477a91.27.1790028179281;
-        Mon, 21 Sep 2026 15:02:59 -0700 (PDT)
-Received: from server.roeck-us.net ([2600:1700:e321:62f0:da43:aeff:fecc:bfd5])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3a069a0c7aesm664323a91.16.2026.09.21.15.02.58
+        d=1e100.net; s=20260707; t=1790220934; x=1790825734;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=OaUbgPXJZf/ktE8BVYwWTpClwzmCb4EAHd75bRpHj1U=;
+        b=glCTIfFk/bJmiaPwY1in3tk9EGYDkqPJ7uv82RT2QSRztH6Z46HpD6BHKtAkcJOKLf
+         UmJWhcPBq+Xgma65weXEcbCTZo/HntEID4jHdQg7wrTaWRdodmCZHzyM4KxJdFZhjCaS
+         k922UNa3xLUZb7L+v9kSnxKvzyuLjnaoKLwdNQdKlYeK+IP7Jk1oeg7LxBd8lDH50ZS+
+         tuVqNFtxMXOu0oGkl77pf6L2FR6Vdi237hVFeo4sQUOYcX1ONOQZ+Mte0UUnfQqKHSMv
+         /bb1hUZKTwdjBOX8Ez68IAjzAwpXyCqsts0i7eSwd6Yod6kQ5kkMmx8AXNZD8SfwGgCv
+         lZUQ==
+X-Forwarded-Encrypted: i=1; AKwUvBxNpKBCEPPlpm0yEnP0+E3O3J1a+lcTHriDZqJIzzLQKPdw04nrn2RGdtg6ESXOzy+cjEx9SmkaUyc=@vger.kernel.org
+X-Gm-Message-State: AFuF++nvqLgbBPJrAtHk1fKzo8ekXNvGJOEU+5vdFR7KFNfxlHcRgvHo
+	8KIrg2l9++yD8PhKJjW7lixml4QSziQXMJC+oV+lbDKU6f801u++oaNZ
+X-Gm-Gg: AYBFou1nz+4NPYCDt6KwnXTs1YhglwLXEPWsnVzDJwP6luVW1k+07WLrqyufMnQSL7A
+	cFPNcSxIWhppsQazFqo/UeS3NBTfCtw0KTCg2Al3yKH3b6vFTg5lylQnUuHzDh4dC50SHI7YDI9
+	IH+89KU7tw8C7aqHVxlghTI53K+WhgjIrHTrX9NbWO05t0XNuJA51xr2pVawTg7vPQ/4hqiiUP4
+	+7EqkadtcLjMWquhftL860zfyVO8fkp63qiADsdColDTT3NZPEXg6wBWcBQrFq/dspUYI5LEjli
+	qM6DFEe//daj5kDytDPtK8bQu2vGtGrZ+bZNhyz6Y8NEZJWTRO4+hQJ39dQd9TmsFW3HtnHglig
+	M7V0/CGVsSzKYsFbwP9wr8d0F30HaHgyjFbfTdIn0Gzmxbiyj6GEKu6K8cIL5x6GQm9anBcNnvS
+	+9zw7ZQTKaxuksvdCAwzWa00iXEpzrvRPGXJbNyHlMaJDbjWtu+QQI/cMHBLEObJ+a6Zgp4JfPK
+	LYdaoQMlFwuRKC+zUmNgP4FvAx5Fb3OO6Pptq/zNMvLzrTdqQhDUK5nN/90C+q2f5139YeVtrE9
+	/5y0P3S0FQ0/L6BCkwG4cc6/7hhfx5GIDKsfnsTCtJcoqUAHhx6L4PxTlG/6Y/o2UR86Fw==
+X-Received: by 2002:a17:90b:3c05:b0:39e:1ff0:331b with SMTP id 98e67ed59e1d1-3a098ad9d1bmr996674a91.2.1790220933719;
+        Wed, 23 Sep 2026 20:35:33 -0700 (PDT)
+Received: from spider.bream-herring.ts.net ([103.6.151.236])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3a097663e1dsm2158159a91.7.2026.09.23.20.35.31
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 21 Sep 2026 15:02:58 -0700 (PDT)
-Sender: Guenter Roeck <groeck7@gmail.com>
-Date: Mon, 21 Sep 2026 15:02:57 -0700
-From: Guenter Roeck <linux@roeck-us.net>
-To: Semyon Fedyukovich <yohimik@gmail.com>
-Cc: workflows@vger.kernel.org, torvalds@linux-foundation.org
-Subject: Re: kerneltests.org master run: 23 slot-hours, 3h52 wall; questions
-Message-ID: <ef72b5e7-0d59-4d27-a7d9-ce0c1f15374f@roeck-us.net>
-References: <CAO1xQyW+_R4LQkmA73WHPGi+FHF2zC+urRKaMFU9LhdgA1fYmQ@mail.gmail.com>
+        Wed, 23 Sep 2026 20:35:33 -0700 (PDT)
+From: Matthias Goergens <matthias.goergens@gmail.com>
+To: Jonathan Corbet <corbet@lwn.net>
+Cc: Shuah Khan <skhan@linuxfoundation.org>,
+	Randy Dunlap <rdunlap@infradead.org>,
+	Theodore Ts'o <tytso@mit.edu>,
+	workflows@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH 1/2] MAINTAINERS: document the branch in git T: entries
+Date: Thu, 24 Sep 2026 11:35:28 +0800
+Message-ID: <64b0be79c535bb9545f9f81a5044146a8726c761.1790220653.git.matthias.goergens@gmail.com>
+X-Mailer: git-send-email 2.55.0
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAO1xQyW+_R4LQkmA73WHPGi+FHF2zC+urRKaMFU9LhdgA1fYmQ@mail.gmail.com>
+Content-Transfer-Encoding: 8bit
 
-Hi,
+T: entries have named a branch after the repository URL since commit
+a1aa5a770dc3 ("MAINTAINERS: update hwmon subsystem git trees"), and
+109 of the 846 git T: lines do so today.  Commit 083bf9c56d06
+("get_maintainer: add more --self-test options") taught
+get_maintainer.pl to parse that optional branch and check it with git
+ls-remote.  The preamble, however, still describes T: as it did after
+commit 50306fb5398f ("[PATCH] Clarify T: field in MAINTAINERS"), as
+"tree type and location", and does not mention the branch.
 
-On Mon, Sep 21, 2026 at 11:22:06PM +0400, Semyon Fedyukovich wrote:
-> Hi Guenter,
-> 
-> I read the public build pages of your master run for v7.3-rc4 to see
-> how long a full build/boot pass takes and what bounds it. I would like
-> to check my reading with you before I do anything with it.
-> 
-> What I read: 57 builders on 6 machines, 158 builds plus 608 qemu
-> boots (about 696k KUnit passes). The buildcommand steps sum to 23.0
-> hours; the run took 3h52 from first start to last end. Each machine
-> ran at most two builders at once, so the farm has 12 slots, yet on
-> average 5.9 steps were in flight (peak 10). Busy time per machine
-> ranged from 138 min (jupiter) to 231 min (mars). The longest groups:
-> powerpc 80 min, x86_64 80, qemu-arm-v7 78, arm 77, i386 and xtensa
-> about 61 each with a single build reported.
-> 
-> Replaying those step durations as independent tasks:
-> 
->   one slot                                1379 min
->   your run (12 slots, pinned builders)     232 min   5.9x
->   12 slots, any task on any free slot      118 min  11.7x
->   24 slots, same groups                     80 min  17.2x
->   24 slots, one task per config             61 min  22.5x
+Documentation/process/submitting-patches.rst sends contributors to the
+T: entry to find the tree to prepare patches against.  When
+development happens on a branch other than the repository's HEAD, a
+branch-less entry points them at the wrong tree; on 2026-09-24, 173 of
+the 273 repositories named without a branch had a HEAD that mainline
+already contained.
 
-That is pure theory: The machines do not have an endless amount of
-CPU capacity. Builds don't get faster by adding more builds (or
-slots, as you call it) to a machine. "mars" is still "only" a
-system with an AMD Ryzen 9 5900X CPU. The systems are for all
-practical purposes fully or almost fully utilized with two parallel
-builds or three parallel qemu emulation runs.
+Document the existing practice and say when to name a branch.
 
->   more slots                                no gain (longest build)
-> 
-> So with the hardware you have, free placement alone would roughly
-> halve the run; doubling the hardware gets it to 60-80 minutes.
-> 
-> Three things I cannot tell from the pages:
-> 1. Do step times include waiting inside the scripts? i386 and xtensa
->    both land just over an hour, which looks like a cap or a lock.
-> 2. Is the builder-to-machine pinning deliberate (toolchains, machine
->    speed, qemu versions)? If so the 118 figure is not reachable.
-> 3. The run started at 00:00 your time, about ten hours after the tag.
->    If that schedule is deliberate, faster compute may not matter to
->    you at all.
-> 
-> Why I ask: I maintain dispat (https://github.com/yohimik/dispat), a
-> release tool whose next version places build and test tasks on worker
-> machines over plain git: no daemon, signed task branches, and build
-> outputs verified by digest before a dependent task may use them. Your
-> matrix is the cleanest real workload I know for it. Nothing of mine
-> has run against the kernel yet. If a shorter turnaround is useful to
-> you, I would prototype it on my own hardware with your public
-> linux-build-test scripts and send you measured numbers, not
-> projections. If the limit is people reading results rather than
-> machines, tell me and I will drop it.
-> 
+Suggested-by: Theodore Ts'o <tytso@mit.edu>
+Link: https://lore.kernel.org/all/arSMwd1bGO1vrif-@mit.edu/
+Signed-off-by: Matthias Goergens <matthias.goergens@gmail.com>
+---
+Ted, as I said in my reply on the ext4 patch
+(https://lore.kernel.org/all/20260924033200.3615554-1-matthias.goergens@gmail.com/),
+I'm sending only a few of the per-tree T: patches for now, and would
+value your view before sending the rest.
 
-Let's see ... first of all, as you noted, pretty much everything is public
-at github.com:groeck/linux-build-test.git. I had not updated the repository
-for a while, but I did that now, so it is current. You should be able
-to find answers for most if not all your questions in there and in the
-buildbot code.
+ MAINTAINERS | 2 ++
+ 1 file changed, 2 insertions(+)
 
-There are no intentional "pinned builders". The system uses an older
-version of buildbot which has its limitations. Maybe the configuration
-is less than perfect, but either case "pinning" is not intentional.
-There are some restrictions - for example, a single machine can
-only test a single qemu architecture at any given time because there
-is only a single checked out qemu tree per build machine. That should
-only affect bulk stable release builds, though. I suspect that the
-buildbot algorithm selecting the next build is less than perfect,
-but I never spent time trying to track it down.
+diff --git a/MAINTAINERS b/MAINTAINERS
+index cc3cae2e378b..6edc17d66b44 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -30,6 +30,8 @@ Descriptions of section entries and preferred order
+        See Documentation/maintainer/maintainer-entry-profile.rst for details.
+ 	T: *SCM* tree type and location.
+ 	   Type is one of: git, hg, quilt, stgit, topgit
++	   A git entry may name a branch after the URL; name one when
++	   development does not happen on the repository's HEAD.
+ 	F: *Files* and directories wildcard patterns.
+ 	   A trailing slash includes all files and subdirectory files.
+ 	   F:	drivers/net/	all files in and below drivers/net
 
-Either case, I never spent time trying to update the system to a more
-recent version of buildbot, simply because its architecture was changed
-completely, with limited guidance how to convert older configurations
-to new ones. I am not sure I understand what you are suggesting here.
-Replace buildbot with your system ? I don't immediately see how that
-could work because result analysis is deeply built into the system
-(see schedulers.py and shellcommands.py in the code). I most definitely
-don't have the time to update that or I would have converted it to a
-more recent version of buildbot or to something else a long time ago.
-Feel free to try, though - I am not married to buildbot and I'd be happy
-to replace it.
+base-commit: 40288c9206c17eb66a603262e06a58d300d0f279
+-- 
+2.55.0
 
-Build time start and coverage is limited to start at midnight due to the
-nowadays outrageous electricity cost in California. The build systems
-consumes ~300-400W of electricity while idle and up to 1.6kW of electricity
-while active. I used to run the system more actively, but at 1.6kW it
-consumes more than 1,000kW of energy per month if running all the time.
-Imagine how much that would cost me when paying $.36 ker kwH at night
-and $.59 in the late afternoon for electricity, even more so when adding
-AC cost into the picture. We do now have a fancy new solar system which
-covers most of our electricity cost, but running the builders more actively
-would immediate get us back into the world of outrageous electricity
-prices.
-
-Hope that helps,
-Guenter
