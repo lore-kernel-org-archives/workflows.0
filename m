@@ -1,72 +1,52 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E52FE4AA570;
-	Fri, 25 Sep 2026 14:32:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A3F8C3AFD02;
+	Fri, 25 Sep 2026 20:49:35 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790346747; cv=none; b=P4XH5Spta/ZaN1R1TtF7h/OrzLQvnIVTW4IBsyrbxA+D9oTdJLrU7gTMJBAIUUP4x01bjqVD9IEk4wE9FgXLG0upFkOB6y8YmCqhIrRcp7JkZm1rTUG5nRyNLrGTU0dJJof4zLKNccQzlu9BcE31tzEMWYIHtyOinZxWmMLehic=
+	t=1790369376; cv=none; b=mu3J5+erXjCIdfiOgatkTlvifYcclZhkguJuJpP+kxjF26vo6nzzvUeK+t+Z903xRTuH/RayMy3ZX9ddZxvha+qhRi97NeGEpZwVvd1Wal1p0J6Kydvxtl1szkbwHsMxekoQ50mbGvJlmwnmgsJRXCVgTbj1PbPVBJXyzNVF2aE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790346747; c=relaxed/simple;
-	bh=v3FMi+b02XWIBXh6jqZOCKAJ2nGcSKxqBKDRbeNTS78=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=GKVDSNpHtSFogkdZzP4e/Evnj1c3SiV5cSpCoX12byZnafpZob2CcqWflctvokWw1hOhl4PhzkZszc8ti6xoxFlr0FenivxuOuFurcZpiMr+FIvesgEie+7wejJPDKO9c5eui4CdipK6hGHMO99YHzrlJUpuxwNFALIr7l4/pjg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=M7g+X+Rq; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1790369376; c=relaxed/simple;
+	bh=4KK3xmmHWpEI9jMvazPQexOjcLXettTimiSjPCeXIMg=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=udeUH5k+NdO0+YhmZ0pI5Y6/APLEfNSleQU0dc4XSkC44I9bL1t5kdzDz2sk2NKqG8VTZBQrzgBWgJd0PkTGu3w1FarWy0iYWX3Hv9Rs8qU974y3NaMBW0d9djQh4l+zrFWNwG++fZJs+OUcCt3ZdLKAqE8QyWFtDixoJGcNrrI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Amk8NJgg; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="M7g+X+Rq"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CFBF81F000FF;
-	Fri, 25 Sep 2026 14:32:17 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Amk8NJgg"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 299D41F000FF;
+	Fri, 25 Sep 2026 20:49:35 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1790346737;
-	bh=1LuBgTKNWvS+QpmulpULDhVXBuxZOuSCaodcWO3gbCg=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References;
-	b=M7g+X+Rqm2ljyT5+jHrvNiAITCyvqpPwp9i9+iEP7YA20KZkG9s1nIxYYYB1pg5hP
-	 cuOj/+xtqABBcjkUaG1P/jnw/WiizKEmfqSBzKytDHXNJdq/Gsb6cc8Z6dTDaA9dR3
-	 3PSZZE11QU7gZgXcrkWl+OhHpASoaVqBgqpkmSvAC9PjZih40gdrrQoNA1Eb2bV23q
-	 tGLOJVsBM4OiwkwYw/Xa4I07zEX8TyrHOzeHIkVRAh4eiwdoIF/PpBf0lFHQPGTjrY
-	 gfPKtAcNLsPDiATU9gSVqoJu+RsgQua18i+xvZd0D2USu8PB6AaOp4QZI1ykG77oib
-	 Rni96voLQ7Y9g==
-Received: from sofa.misterjones.org ([185.219.108.64] helo=lobster-girl.misterjones.org)
-	by disco-boy.misterjones.org with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.98.2)
-	(envelope-from <maz@kernel.org>)
-	id 1xA6yF-0000000DTr4-17km;
-	Fri, 25 Sep 2026 14:32:15 +0000
-Date: Fri, 25 Sep 2026 15:35:20 +0100
-Message-ID: <874ifd4cwn.wl-maz@kernel.org>
-From: Marc Zyngier <maz@kernel.org>
+	s=k20260515; t=1790369375;
+	bh=bvChTGi1l6CAYkQeNOpF1SLZ0wxlUUnNso5jxBJ2DLE=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=Amk8NJggTrHsAeagb6ErN1oMg8l6KFTZlDPvUBj3v43a9mrkfOecYnXP90EbQkW6/
+	 GzYH36JG+jGweFL2BY6kVGu07pjDWdPU2J8s2fFItWcNPtLb9Z7133N4Q9DKTlAYk5
+	 Paht7pVi5Cf38thfo2CwhrLnhjLFsnykfM9RICkTA/ACQMGkViL9KftwCSP5kbT+mx
+	 90DfD0JinyB7AJdxROQ/hj2ESA1NwWbMIMApGZsOlmlRY7tTLrfpJXwpjLLPTX356w
+	 +Cla4TkRsJOVroNtp56v52AdASamP4owWK8zMOF+gnVYIyFSyderad4EgyCHAf63V3
+	 HnM9Ci8KewAMQ==
+Date: Fri, 25 Sep 2026 13:49:33 -0700
+From: Eric Biggers <ebiggers@kernel.org>
 To: Matthias Goergens <matthias.goergens@gmail.com>
-Cc: corbet@lwn.net,
-	skhan@linuxfoundation.org,
-	rdunlap@infradead.org,
-	tytso@mit.edu,
-	krzk@kernel.org,
-	cassel@kernel.org,
-	ebiggers@kernel.org,
-	workflows@vger.kernel.org,
-	linux-doc@vger.kernel.org,
+Cc: corbet@lwn.net, skhan@linuxfoundation.org, rdunlap@infradead.org,
+	tytso@mit.edu, krzk@kernel.org, maz@kernel.org, cassel@kernel.org,
+	workflows@vger.kernel.org, linux-doc@vger.kernel.org,
 	linux-kernel@vger.kernel.org
 Subject: Re: [PATCH v2] MAINTAINERS: document the branch in git T: entries
-In-Reply-To: <20260925120047.1093617-1-matthias.goergens@gmail.com>
+Message-ID: <20260925204933.GE5511@quark>
 References: <20260925120047.1093617-1-matthias.goergens@gmail.com>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) SEMI-EPG/1.14.7 (Harue)
- FLIM-LB/1.14.9 (=?UTF-8?B?R29qxY0=?=) APEL-LB/10.8 EasyPG/1.0.0 Emacs/30.1
- (aarch64-unknown-linux-gnu) MULE/6.0 (HANACHIRUSATO)
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-X-SA-Exim-Connect-IP: 185.219.108.64
-X-SA-Exim-Rcpt-To: matthias.goergens@gmail.com, corbet@lwn.net, skhan@linuxfoundation.org, rdunlap@infradead.org, tytso@mit.edu, krzk@kernel.org, cassel@kernel.org, ebiggers@kernel.org, workflows@vger.kernel.org, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-X-SA-Exim-Mail-From: maz@kernel.org
-X-SA-Exim-Scanned: No (on disco-boy.misterjones.org); SAEximRunCond expanded to false
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260925120047.1093617-1-matthias.goergens@gmail.com>
 
-On Fri, 25 Sep 2026 13:00:47 +0100,
-Matthias Goergens <matthias.goergens@gmail.com> wrote:
-> 
+On Fri, Sep 25, 2026 at 08:00:47PM +0800, Matthias Goergens wrote:
 > A git T: entry can name a branch after the repository URL.  The first
 > to do so, commit a1aa5a770dc3 ("MAINTAINERS: update hwmon subsystem
 > git trees"), added two T: lines for one repository, one per branch.
@@ -91,9 +71,19 @@ Matthias Goergens <matthias.goergens@gmail.com> wrote:
 > Link: https://lore.kernel.org/all/arSMwd1bGO1vrif-@mit.edu/
 > Signed-off-by: Matthias Goergens <matthias.goergens@gmail.com>
 
-Acked-by: Marc Zyngier <maz@kernel.org>
+Reviewed-by: Eric Biggers <ebiggers@kernel.org>
 
-	M.
+>  	T: *SCM* tree type and location.
+>  	   Type is one of: git, hg, quilt, stgit, topgit
+> +	   A git entry may name a branch after the URL, and an entry may
+> +	   have several T: lines, for example one per branch.  What each
+> +	   branch is for, and what to base patches on, differs between
+> +	   subsystems: see the P: profile, if there is one, or ask the
+> +	   maintainer.
 
--- 
-Jazz isn't dead. It just smells funny.
+I would hope that the convention of one branch for the next release and
+one branch for the current release is common enough that it could be
+documented as the usual convention here.  But maybe there are too many
+odd subsystems that do something different.
+
+- Eric
