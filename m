@@ -1,73 +1,107 @@
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F3033369203;
-	Fri, 25 Sep 2026 07:19:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7F63F36E489;
+	Fri, 25 Sep 2026 09:05:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790320747; cv=none; b=JJAh3Fxn2lIVaad2XbfrorFaycgjBEbBUSYjbc9d9ge5fv9R3jGja5F2TlhuY5IbEc8t2zJs/E9VVgNg7WqbA+LcRUbfv5j7oWGdaO6IPmOaKXFYsFnj6N/+nn+fZ+TH1izYvcGdB56cdNzOQ0xl6syKcNNWQ547hrRZTFmkQLQ=
+	t=1790327106; cv=none; b=Kf50F55D+akTwjDAlBFJasIZRHFybGQzxwtK6SWlRF0NGkU0kx0j7wuxsMrkuJEKFYr90eGuFQJrS/TxtxRzDo0nsOO8wC9gPa6LB52vP64fD36dhhO1fSKBOf6clrOCpPpgKDO6UdgY3skwW6phBegZAOsVzRYQ94n/vQhKfcc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790320747; c=relaxed/simple;
-	bh=hyCIdzMe5cFRUeQbDr1a500AVEKKbWIWBG+sczLDz1Y=;
+	s=arc-20240116; t=1790327106; c=relaxed/simple;
+	bh=c6llWUny0E66kPyHL/7p+1jeHNfgYEjMQRzHkRwU/gU=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=TtTTUwOIZweTYUK7nX2wXrvfFm09u1xERwae2/XGPg2WzITLV2VtYMPW4BT9txuQjxtayHkkgs93x09b5WxR2Pn+0qRA4vx7/xHqszAy5IdLLz6Blv98CPSGvQi91ALIw3XFL1Wvr7ciOONUfZsf5uYbz6wMCdBxSmBxevgVTKs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=o3DX3Pp+; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=fqIh75WBLDZmvLC8/mj9uPRpf2YtF9t4c463aeiG+eXOs0I7PNREjPj35u4qZbtBp8xP2QQMRHUpkGPSNWxc8PuolppHHe2Uy6XoFutjftlztLFxwLXR0aDpkeVWAwjMz5vrRhNOlQrH3CK0msHn3xUwafbl+rsCqoNc9HVKVX0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=mZddo08k; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="o3DX3Pp+"
-Received: from killaraus.ideasonboard.com (2001-14ba-70f3-e800--a06.rev.dnainternet.fi [IPv6:2001:14ba:70f3:e800::a06])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id C14D5C1;
-	Fri, 25 Sep 2026 09:17:08 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1790320628;
-	bh=hyCIdzMe5cFRUeQbDr1a500AVEKKbWIWBG+sczLDz1Y=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=o3DX3Pp+ZE8i3nhJ/qjMTkDL5xKpNn4X8+XqX1z8IF20J6O5cu/XJArHFAWn2oqul
-	 MzPXAKptWZqMrXYInqOp423Yqo1UaAaalDLatqotjT854NmFxLJJEk2XTdfXVSyQoF
-	 EdP+TDmykA3e7LIfLTcpmNoDKSACiWrE5NXJSf98=
-Date: Fri, 25 Sep 2026 10:18:56 +0300
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Kees Cook <kees@kernel.org>
-Cc: Sasha Levin <sashal@kernel.org>, corbet@lwn.net,
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="mZddo08k"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 503711F000FF;
+	Fri, 25 Sep 2026 09:05:03 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1790327105;
+	bh=4Ka6LcgqGURGXrWdrDOmkfnOgfMTXwW+K1BRk0D+ckA=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=mZddo08kjQ+SgHLQAxgFdL1h1WEoLYF7zKL0jS2/STRNoUxVXwfQ2NvvNMlKRKh2k
+	 6zlWGwSRhfS1e7m3sm4mqXOjkdr1UPr9WXi1l3sCNgYq0XoKPaEgzZbHNi5iP1bgeM
+	 d0edYwKQwj8FetdYpxNWBE5zdJcqG/k0p9EH4mFn0/kyrDFPrASLSt/EaZe7QomXNi
+	 /98E8GqMn8EvPfzPpmdf3vrMjD/lTgrEuwyBvLcTEFryWfLhdE2ehIz535Aw2x8xs7
+	 x1ZMN08u1RXxCovC414aGazppMXTZFxAToMvTwiKIC8cL5n8X5Z9sB0DRtTa+zL9kr
+	 AJybpvZA1UTaA==
+Date: Fri, 25 Sep 2026 11:05:00 +0200
+From: Niklas Cassel <cassel@kernel.org>
+To: Krzysztof Kozlowski <krzk@kernel.org>
+Cc: Matthias Goergens <matthias.goergens@gmail.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Randy Dunlap <rdunlap@infradead.org>, Theodore Ts'o <tytso@mit.edu>,
 	workflows@vger.kernel.org, linux-doc@vger.kernel.org,
-	skhan@linuxfoundation.org, rdunlap@infradead.org,
 	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] docs: add AGENTS.md as a symlink to README
-Message-ID: <20260925071856.GH135998@killaraus.ideasonboard.com>
-References: <20260924134945.3095661-1-sashal@kernel.org>
- <202609241709.8B710211@keescook>
+Subject: Re: [PATCH 1/2] MAINTAINERS: document the branch in git T: entries
+Message-ID: <arY5PNvhEdyx1W4u@ryzen>
+References: <64b0be79c535bb9545f9f81a5044146a8726c761.1790220653.git.matthias.goergens@gmail.com>
+ <2c05bf39-7e04-4cc7-9926-3cbf673865b5@kernel.org>
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <202609241709.8B710211@keescook>
+In-Reply-To: <2c05bf39-7e04-4cc7-9926-3cbf673865b5@kernel.org>
 
-On Thu, Sep 24, 2026 at 05:12:15PM -0700, Kees Cook wrote:
-> On Thu, Sep 24, 2026 at 09:49:45AM -0400, Sasha Levin wrote:
-> > Add a top-level AGENTS.md symlink to README, so agents load it on their
-> > own and follow its pointer to the AI guidelines. This keeps a single
-> > entry point for every reader, and avoids adding a separate copy of the
-> > policy that could drift from the RST.
-> 
-> Yeah, I think this is fine. I don't want a separate file just for
-> Agents: we intentionally designed the README to work for them. That
-> there are Agents missing it is sad, but okay. And the Agents are already
-> trained to deal with for-human docs, so that it adds more tokens
-> shouldn't matter here since it's tiny. (If it reads the contribution
-> docs before every patch creation that seems like a good thing?)
-> 
-> Acked-by: Kees Cook <kees@kernel.org>
+Hello Matthias,
 
-It won't come as a surprise, but I want to voice opposition to
-encouraging users to use AI agents for kernel development. This patch
-does so, so NAK.
+On Thu, Sep 24, 2026 at 10:22:32AM +0200, Krzysztof Kozlowski wrote:
+> > @@ -30,6 +30,8 @@ Descriptions of section entries and preferred order
+> >         See Documentation/maintainer/maintainer-entry-profile.rst for details.
+> >  	T: *SCM* tree type and location.
+> >  	   Type is one of: git, hg, quilt, stgit, topgit
+> > +	   A git entry may name a branch after the URL; name one when
+> > +	   development does not happen on the repository's HEAD.
 
--- 
-Regards,
+I like the idea of what you are working on.
 
-Laurent Pinchart
+But one thing crossed my mind.
+
+If we look in:
+https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git/tree/Next/Trees
+
+You will see that for most trees, e.g. ext4.git, the same tree is specified
+twice:
+https://git.kernel.org/pub/scm/linux/kernel/git/tytso/ext4.git#fixes
+https://git.kernel.org/pub/scm/linux/kernel/git/tytso/ext4.git#dev
+
+That is because the most logical thing is to use the same tree, but obviously
+you need different branches, if it is new development or a fix.
+
+
+memblock even specify multiple entries in MAINTAINERS:
+https://github.com/torvalds/linux/blob/v7.3-rc4/MAINTAINERS#L17035-L17036
+
+memblock seems to be unique here though, and I don't like the idea of having
+multiple T: entries for each branch in the same tree.
+
+Possibly we could allow multiple branches to be specified after the tree,
+but I'm not sure if that is a good idea.
+
+A fix is usually merged within a week, so a developer should not really
+need to think about "fixes" branch. They should just base it on latest
+SHA1 in Linus's tree.
+
+
+> What contributors need is the branch feeding next, because this is the
+> base for them.
+
+I think you are right.
+
+Possibly the documentation should be updated to differentiate the "strictly
+a fix / regression in recent release" case versus "new development" case...
+but such documentation is hard to write in a generic way. (Not all fixes
+might be so important that they deserve to be queued for -fixes.)
+
+But we should probably try to add something to submitting-patches doc which
+makes this distinction a bit clearer for a beginner.
+
+
+Kind regards,
+Niklas
