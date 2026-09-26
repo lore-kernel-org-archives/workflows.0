@@ -1,41 +1,45 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mta0.migadu.com (out-40.mta0.migadu.com [91.218.175.40])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A3F8C3AFD02;
-	Fri, 25 Sep 2026 20:49:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 86AFF318EE7
+	for <workflows@vger.kernel.org>; Sat, 26 Sep 2026 06:46:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.40
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790369376; cv=none; b=mu3J5+erXjCIdfiOgatkTlvifYcclZhkguJuJpP+kxjF26vo6nzzvUeK+t+Z903xRTuH/RayMy3ZX9ddZxvha+qhRi97NeGEpZwVvd1Wal1p0J6Kydvxtl1szkbwHsMxekoQ50mbGvJlmwnmgsJRXCVgTbj1PbPVBJXyzNVF2aE=
+	t=1790405164; cv=none; b=SzU4E4pWAAcjnBrisIG/xBo3IvWhdJhAARBWVuvnIRmL4gPzFA/6X0YYeJD/vDzJZPBRcJa/mMxYDKRxCbgPcqsVokH47jp9DqgR1cMQjKKJcwIAgm0fAk11jtleqms2A1I8gkDFrpmkzLcAyint0I85RhdD8M0xYe0UvPcVl14=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790369376; c=relaxed/simple;
-	bh=4KK3xmmHWpEI9jMvazPQexOjcLXettTimiSjPCeXIMg=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=udeUH5k+NdO0+YhmZ0pI5Y6/APLEfNSleQU0dc4XSkC44I9bL1t5kdzDz2sk2NKqG8VTZBQrzgBWgJd0PkTGu3w1FarWy0iYWX3Hv9Rs8qU974y3NaMBW0d9djQh4l+zrFWNwG++fZJs+OUcCt3ZdLKAqE8QyWFtDixoJGcNrrI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Amk8NJgg; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1790405164; c=relaxed/simple;
+	bh=osZJUQiF3KkacBcGS34QyS4YOkYrOMsnl2xCEEHffCo=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=Z1tvWe6eda4SYVH4/ZPjXjO4RGw42tGMO+96ILbZ6l0vk7ze7hPs9ReI5gYHFtQqqTgT3hfG6wIU36YmHgAolSjSuGjy8vU6oG9afngKeF99gP9HYr4j8Djw/KMtKQyvd7wmeQWkCMlPFft9KjxFpSAbSyJHY/yIm9RiL/YzQnI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=wyuan.org; spf=pass smtp.mailfrom=wyuan.org; dkim=pass (2048-bit key) header.d=wyuan.org header.i=@wyuan.org header.b=Qo8qFbt6; arc=none smtp.client-ip=91.218.175.40
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=wyuan.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=wyuan.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Amk8NJgg"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 299D41F000FF;
-	Fri, 25 Sep 2026 20:49:35 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1790369375;
-	bh=bvChTGi1l6CAYkQeNOpF1SLZ0wxlUUnNso5jxBJ2DLE=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=Amk8NJggTrHsAeagb6ErN1oMg8l6KFTZlDPvUBj3v43a9mrkfOecYnXP90EbQkW6/
-	 GzYH36JG+jGweFL2BY6kVGu07pjDWdPU2J8s2fFItWcNPtLb9Z7133N4Q9DKTlAYk5
-	 Paht7pVi5Cf38thfo2CwhrLnhjLFsnykfM9RICkTA/ACQMGkViL9KftwCSP5kbT+mx
-	 90DfD0JinyB7AJdxROQ/hj2ESA1NwWbMIMApGZsOlmlRY7tTLrfpJXwpjLLPTX356w
-	 +Cla4TkRsJOVroNtp56v52AdASamP4owWK8zMOF+gnVYIyFSyderad4EgyCHAf63V3
-	 HnM9Ci8KewAMQ==
-Date: Fri, 25 Sep 2026 13:49:33 -0700
-From: Eric Biggers <ebiggers@kernel.org>
-To: Matthias Goergens <matthias.goergens@gmail.com>
-Cc: corbet@lwn.net, skhan@linuxfoundation.org, rdunlap@infradead.org,
-	tytso@mit.edu, krzk@kernel.org, maz@kernel.org, cassel@kernel.org,
-	workflows@vger.kernel.org, linux-doc@vger.kernel.org,
+	dkim=pass (2048-bit key) header.d=wyuan.org header.i=@wyuan.org header.b="Qo8qFbt6"
+X-Envelope-To: workflows@vger.kernel.org
+DKIM-Signature: a=rsa-sha256; bh=osZJUQiF3KkacBcGS34QyS4YOkYrOMsnl2xCEEHffCo=;
+ c=simple/simple; d=wyuan.org;
+ h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
+ t=1790405159; v=1; x=1791009959;
+ b=Qo8qFbt68RywaqQ/OqiT9TwG/zTzaVMKYjl96HpL815lx1B7tBI+Lw97j4Lx3579H3JIs3/v
+ 2SuaSlcx5JE9hy/Mo4XngHbCT7TZ9ueUB1DX4ASPa0r9NjLYqtSjzqD5GR9DhA+hY+yeoXxuC94
+ 3iyMBJhLKIt0F8DTWbvqr4XJ68DKBNneoy358jNQcKEcrh9VMWNPXYZrFUvlDtVvvDn7ovavI2+
+ R8fg+ldMHvfNQMZQ5ebI1nPy5nhGg/1TXdzzlxgg61OqqS0Pl+8GkYxg2Lr1oI0jKQr5/yuFg0A
+ VtUOvPdWf9UrSPk63KVzgi5ZbVN9jRcBNkkad1wlDhSPw==
+X-Envelope-To: workflows@vger.kernel.org
+Received: by smtp.migadu.com with ESMTPS id c70aecb6a245a95a;
+	Sat, 26 Sep 2026 06:45:49 +0000
+X-Mizu-Trace-ID: c70aecb6a245a95a
+X-Migadu-Flow: FLOW_OUT
+Date: Sat, 26 Sep 2026 14:45:45 +0800
+From: Weijie Yuan <kernel@wyuan.org>
+To: Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Randy Dunlap <rdunlap@infradead.org>
+Cc: workflows@vger.kernel.org, linux-doc@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2] MAINTAINERS: document the branch in git T: entries
-Message-ID: <20260925204933.GE5511@quark>
-References: <20260925120047.1093617-1-matthias.goergens@gmail.com>
+Subject: [PATCH] docs: submitting-patches: use git switch to create branches
+Message-ID: <ardqGdjnd7kC1B-E@wyuan.org>
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
@@ -44,46 +48,41 @@ List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260925120047.1093617-1-matthias.goergens@gmail.com>
 
-On Fri, Sep 25, 2026 at 08:00:47PM +0800, Matthias Goergens wrote:
-> A git T: entry can name a branch after the repository URL.  The first
-> to do so, commit a1aa5a770dc3 ("MAINTAINERS: update hwmon subsystem
-> git trees"), added two T: lines for one repository, one per branch.
-> Today 109 of the 846 git T: lines name a branch, and ten entries list
-> one repository more than once with different branches.  Commit
-> 083bf9c56d06 ("get_maintainer: add more --self-test options") taught
-> get_maintainer.pl to check the branch with git ls-remote.  Neither the
-> MAINTAINERS preamble nor submitting-patches.rst mentions any of this.
-> 
-> Document the syntax only.  What a named branch is for varies: many
-> entries name the branch linux-next merges, others a fixes or topic
-> branch, and some subsystems want patches based on a mainline tag rather
-> than on any branch of their tree.  maintainer-entry-profile.rst already
-> asks a profile to say which branches go into linux-next and which one
-> contributors should submit against, so point there.
-> 
-> In submitting-patches.rst, say that fixes for the current release cycle
-> and new development usually start from different places, and where to
-> find out which.
-> 
-> Suggested-by: Theodore Ts'o <tytso@mit.edu>
-> Link: https://lore.kernel.org/all/arSMwd1bGO1vrif-@mit.edu/
-> Signed-off-by: Matthias Goergens <matthias.goergens@gmail.com>
+From: Weijie Yuan <wy@wyuan.org>
 
-Reviewed-by: Eric Biggers <ebiggers@kernel.org>
+Git has been promoting "git switch" since git.git commit 328c6cb853d7
+(doc: promote "git switch"), and the command is no longer experimental
+as of Git 2.51.0.
 
->  	T: *SCM* tree type and location.
->  	   Type is one of: git, hg, quilt, stgit, topgit
-> +	   A git entry may name a branch after the URL, and an entry may
-> +	   have several T: lines, for example one per branch.  What each
-> +	   branch is for, and what to base patches on, differs between
-> +	   subsystems: see the P: profile, if there is one, or ask the
-> +	   maintainer.
+Suggested-by: Nguyen Duc Thinh <ducthinh100812@gmail.com>
+Signed-off-by: Weijie Yuan <wy@wyuan.org>
+---
+ Documentation/process/submitting-patches.rst | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-I would hope that the convention of one branch for the next release and
-one branch for the current release is common enough that it could be
-documented as the usual convention here.  But maybe there are too many
-odd subsystems that do something different.
+diff --git a/Documentation/process/submitting-patches.rst b/Documentation/process/submitting-patches.rst
+index 4c28a239e8cb..63a5550bd490 100644
+--- a/Documentation/process/submitting-patches.rst
++++ b/Documentation/process/submitting-patches.rst
+@@ -866,7 +866,7 @@ automatically include the base tree information in your submission by
+ using the ``--base`` flag. The easiest and most convenient way to use
+ this option is with topical branches::
+ 
+-    $ git checkout -t -b my-topical-branch master
++    $ git switch -t -c my-topical-branch master
+     Branch 'my-topical-branch' set up to track local branch 'master'.
+     Switched to a new branch 'my-topical-branch'
+ 
+@@ -882,7 +882,7 @@ notice that it will have the ``base-commit:`` trailer at the very
+ bottom, which provides the reviewer and the CI tools enough information
+ to properly perform ``git am`` without worrying about conflicts::
+ 
+-    $ git checkout -b patch-review [base-commit-id]
++    $ git switch -c patch-review [base-commit-id]
+     Switched to a new branch 'patch-review'
+     $ git am patches.mbox
+     Applying: First Commit
+-- 
+2.55.0.1055.g20c0e7c0fb.dirty
 
-- Eric
