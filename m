@@ -1,135 +1,269 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from relay13.grserver.gr (relay13.grserver.gr [178.156.171.147])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DDC722AF00;
-	Sun, 27 Sep 2026 01:13:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7C6C73B4E87
+	for <workflows@vger.kernel.org>; Sun, 27 Sep 2026 02:42:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=178.156.171.147
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790471606; cv=none; b=PS9C3YB4gje1izVLpy9jov5WZDFuTZQUZg8p1829L93MIrS3PrIB7nxExyAxF0JhwrlDFz3HwlgvTleGCHjA53ZzxJDGAAV3RlJpgUDb/Zesu1Q7D6GXU3foODhW0hflR6vq3yGdSLLCwP5b3EgFhJim/kHhzKvkmeo1+sxdJ/Q=
+	t=1790476946; cv=none; b=WYMX5mpmOfAGKJJDNcEauCtYJktoVRXx0zLr+RoC8ZyT3zZRd8NLVv++0+oDuacPZNmE9nMvuShCQ3pS+oFAUpUrfKaDgWusBEmt3T/fgn7cQpXXIpHXm3lj1weW7KJ6cb6nzBMgXK0g3skuyUXKWinFQ1UNB/k/C1+YC3QQZTk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790471606; c=relaxed/simple;
-	bh=LhbT1u6bt5c64FMxcf1q/vAN2f64Gv1HxhFxf6T9SuU=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Igu6I/tsSZsWjzWHDQVonQ/O8ntBnMMsSA5GrXKoG/DinFdsU5fj/SZJSfy7ZJO8q6xMNoAgOywuhZyQLkfF5hc3wRnxJsP+VzBvOAp1ALEUvXXPdoTmhIWcNVFo1wjm3rh1wKd1zZapwYtm9+UpVphr5tjxD78naQE3cIBuVmk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=g2V/wHGl; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1790476946; c=relaxed/simple;
+	bh=CwNv3PDCpSo/2PKr8cuJGpWe7BPaOvLrDZKrCkc++FU=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=Cj7tJfnHhfCif6aF5kNse3WZ5Sl6fApv4ow1k07xADDLb42Dz0SgIj/q1EJiRIzIdlukPWaqGFSB5ixLruMQ/3amUwiVNVBK5A6Xc2qN9qeLF0to/KHHIXbMhNqObbfdceTpdSrSfh0vdqFTsVx0lHYGOwhlBv8ydbsZo9EX3ZA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=antheas.dev; spf=pass smtp.mailfrom=antheas.dev; dkim=pass (2048-bit key) header.d=antheas.dev header.i=@antheas.dev header.b=YtXfxHdj; arc=none smtp.client-ip=178.156.171.147
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=antheas.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=antheas.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="g2V/wHGl"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 215D71F000FF;
-	Sun, 27 Sep 2026 01:13:24 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1790471604;
-	bh=sz0mKDv766sz3dqn6sz5UmjEeYOx+tbMFYwvUYW26t8=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=g2V/wHGlVQGw4PkED6b3jTzCgfnEwtumIhmnwTYeSfpALaz6FlD7e4AvkenmwXbpH
-	 jkA6k2/12/b8K9V2OgFhuWlSbD07HWPcPXBUOoWT4rNXzgeikYOEmGvUO91VA17hNK
-	 LSl1lSfncHZHhIfMiaIKClJlJ2vYF0a4owg4lO5gH90r+WBg+Q5tUDNc+VjmylX9O/
-	 L8h3udTSIckmVbaIAyrgpLTe3iDmnQCPgmdd6C9FRSEINoi6xzQwA2v02kjf9x+zGs
-	 dIdsKOc8ghTInUzI0HRNvBal74FocSrf6U7nzJ0W1pxfvrWKosU2ERDLKwMKth4pxC
-	 xXo4GZjiNZzYg==
-Date: Sat, 26 Sep 2026 21:13:22 -0400
-From: Sasha Levin <sashal@kernel.org>
-To: Antheas Kapenekakis <lkml@antheas.dev>
-Cc: corbet@lwn.net, workflows@vger.kernel.org, linux-doc@vger.kernel.org,
-	skhan@linuxfoundation.org, rdunlap@infradead.org,
-	linux-kernel@vger.kernel.org, "kees@kernel.org" <kees@kernel.org>
-Subject: Re: [PATCH] docs: add AGENTS.md as a symlink to README
-Message-ID: <arhtsrVb82vr6U-p@laps>
-References: <20260924134945.3095661-1-sashal@kernel.org>
- <CAGwozwG0F88Ah8AEYf2u2BM-4bP+QnZe5p1qTFb4_H5acvaFkA@mail.gmail.com>
- <arfpV7IXRAHREMzO@laps>
- <CAGwozwHY7FsYQZaNf22S-nWGPkc4qekk3H=Hno5a0d0iWVtSJw@mail.gmail.com>
+	dkim=pass (2048-bit key) header.d=antheas.dev header.i=@antheas.dev header.b="YtXfxHdj"
+Received: from relay13 (localhost [127.0.0.1])
+	by relay13.grserver.gr (Proxmox) with ESMTP id D2E805E6D2
+	for <workflows@vger.kernel.org>; Sun, 27 Sep 2026 05:42:21 +0300 (EEST)
+Received: from linux3247.grserver.gr (linux3247.grserver.gr [213.158.90.240])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by relay13.grserver.gr (Proxmox) with ESMTPS id 83B665E5AE
+	for <workflows@vger.kernel.org>; Sun, 27 Sep 2026 05:42:20 +0300 (EEST)
+Received: from mail-pz2-f38.google.com (mail-pz2-f38.google.com [74.125.228.38])
+	by linux3247.grserver.gr (Postfix) with ESMTPSA id 64B671FFAB2
+	for <workflows@vger.kernel.org>; Sun, 27 Sep 2026 05:42:19 +0300 (EEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=antheas.dev;
+	s=default; t=1790476939;
+	bh=CwNv3PDCpSo/2PKr8cuJGpWe7BPaOvLrDZKrCkc++FU=;
+	h=Received:From:Subject:To;
+	b=YtXfxHdjE9AFwB3eixtfvXTXr9QTMTIEPsYlvBg00e7o7yXUXyXO2S2Aj5H7UkwBl
+	 5UwdskHis9w+3Lc7phJRF8RUIHGrYgyb4p5ZMnDncxxbxUMzTxV3PWtcFJuXwAcCU7
+	 MCnE9wrec5AHrY3PsL0R/38erArjIvPoW4BE1dK5gynFoz49pelqiBp//3GjM+gGvq
+	 i4nvo5HUw57roWSy6u9uj70zLP66jy/fMCuUPES1lXOB3k4OyVJh53viwpDNBJ8Uyp
+	 Zu+PvEHwiQqFUKd7gZdOwJVh4NmrHNGTQxCMwVOaDpRDaMQvtoAvD5KytlBxUGML95
+	 ja74amBJOqRFw==
+Authentication-Results: linux3247.grserver.gr;
+        spf=pass (sender IP is 74.125.228.38) smtp.mailfrom=lkml@antheas.dev smtp.helo=mail-pz2-f38.google.com
+Received-SPF: pass (linux3247.grserver.gr: connection is authenticated)
+Received: by mail-pz2-f38.google.com with SMTP id
+ d2e1a72fcca58-8814e797a5bso290890b3a.0
+        for <workflows@vger.kernel.org>; Sat, 26 Sep 2026 19:42:19 -0700 (PDT)
+X-Forwarded-Encrypted: i=1;
+ AKwUvBzBRnv8weia5ZIz9vygseMSA6tqhgoDTDqYCUKnozEyzjr3uOcRLUsAIzBrTQUIkypvTLaynsYSuiU=@vger.kernel.org
+X-Gm-Message-State: AFuF++nZ0uZgAeCdDYpOBx6b8yExdkGCbK/Us8OdtKOFaccsMBiL5ilC
+	adaNUvclBgVgHhlikbU//D/REzgarjGgwaobjFpVP97BJZZ5BHFQql+bS8tCQKyWVeU6ySZyhHI
+	wfjS0LQ+UqGou7JadCzlsImIKdcHScp0=
+X-Received: by 2002:a05:6a00:1954:b0:880:fe7b:bc55 with SMTP id
+ d2e1a72fcca58-880fe7c018emr2997244b3a.56.1790476937863; Sat, 26 Sep 2026
+ 19:42:17 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii; format=flowed
-Content-Disposition: inline
-In-Reply-To: <CAGwozwHY7FsYQZaNf22S-nWGPkc4qekk3H=Hno5a0d0iWVtSJw@mail.gmail.com>
+References: <20260924134945.3095661-1-sashal@kernel.org>
+ <CAGwozwG0F88Ah8AEYf2u2BM-4bP+QnZe5p1qTFb4_H5acvaFkA@mail.gmail.com>
+ <arfpV7IXRAHREMzO@laps>
+ <CAGwozwHY7FsYQZaNf22S-nWGPkc4qekk3H=Hno5a0d0iWVtSJw@mail.gmail.com>
+ <arhtsrVb82vr6U-p@laps>
+In-Reply-To: <arhtsrVb82vr6U-p@laps>
+From: Antheas Kapenekakis <lkml@antheas.dev>
+Date: Sun, 27 Sep 2026 04:42:06 +0200
+X-Gmail-Original-Message-ID: 
+ <CAGwozwE5pJaW14ePjeUQ_w=i1W-Kg=QQOzLY_33qV0W-Urmgjw@mail.gmail.com>
+X-Gm-Features: AclHuK_psYyUaNN45oZJW2syw4hvksOfPWRWLYazFH1JdDm07FTCr7i1M_cdNyw
+Message-ID: 
+ <CAGwozwE5pJaW14ePjeUQ_w=i1W-Kg=QQOzLY_33qV0W-Urmgjw@mail.gmail.com>
+Subject: Re: [PATCH] docs: add AGENTS.md as a symlink to README
+To: Sasha Levin <sashal@kernel.org>
+Cc: corbet@lwn.net, workflows@vger.kernel.org, linux-doc@vger.kernel.org,
+	skhan@linuxfoundation.org, rdunlap@infradead.org,
+	linux-kernel@vger.kernel.org, "kees@kernel.org" <kees@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+X-PPP-Message-ID: 
+ <179047693961.1894486.11725491683670869979@linux3247.grserver.gr>
+X-PPP-Vhost: antheas.dev
+X-Virus-Scanned: clamav-milter 1.4.6 at linux3247.grserver.gr
+X-Virus-Status: Clean
 
-On Sat, Sep 26, 2026 at 07:54:27PM +0200, Antheas Kapenekakis wrote:
->> It didn't in my tests either. With AGENTS.md pointing at README, one agent read
->> only coding-assistants.rst, and the other read that plus generated-content.rst,
->> which coding-assistants.rst references. Neither opened any of README's other
->> pointers.
+On Sun, 27 Sept 2026 at 03:13, Sasha Levin <sashal@kernel.org> wrote:
 >
->They usually read it when they need to. I find it is 60% of the time.
->Of course, this does not compensate for behavior that should always
->apply. Sol 6 also has the annoying habit of modifying readmes
->randomly.
-
-Agreed, and the rules in coding-assistants.rst are the part that should
-always apply.
-
->> >agents.md file before every message. Unsure if it still does, I do not
->> >use Claude. agent.md files should be specifically designed for agents
->> >and handwritten. Moreover, they usually need to be tuned for the model
->> >generation in general, if not the provider and model specifically.
->> >Which brings us to 2.
->>
->> The rules README points to (DCO, Assisted-by, patch format) are the same for
->> every model. Personal and model-specific tuning belongs in a personal file.
->> Your sample shows why the shared part should come from the tree: it asks the
->> agent to add your Signed-off-by, which coding-assistants.rst says an agent must
->> never do.
+> On Sat, Sep 26, 2026 at 07:54:27PM +0200, Antheas Kapenekakis wrote:
+> >> It didn't in my tests either. With AGENTS.md pointing at README, one agent read
+> >> only coding-assistants.rst, and the other read that plus generated-content.rst,
+> >> which coding-assistants.rst references. Neither opened any of README's other
+> >> pointers.
+> >
+> >They usually read it when they need to. I find it is 60% of the time.
+> >Of course, this does not compensate for behavior that should always
+> >apply. Sol 6 also has the annoying habit of modifying readmes
+> >randomly.
 >
->You are correct. Agents are tools. All of their outputs are the
->responsibility of their users. They cannot apply DCO.
+> Agreed, and the rules in coding-assistants.rst are the part that should
+> always apply.
 >
->For me, I make sure to review copyright and test my kernel patches
->before sending them or pushing them to a remote. So my agent should
->add my sb and the assisted tag otherwise the patches need unnecessary
->cleanup. This is my personal preference. The mainline branch should
->not poison my agent's context or provide conflicting instructions.
+> >> >agents.md file before every message. Unsure if it still does, I do not
+> >> >use Claude. agent.md files should be specifically designed for agents
+> >> >and handwritten. Moreover, they usually need to be tuned for the model
+> >> >generation in general, if not the provider and model specifically.
+> >> >Which brings us to 2.
+> >>
+> >> The rules README points to (DCO, Assisted-by, patch format) are the same for
+> >> every model. Personal and model-specific tuning belongs in a personal file.
+> >> Your sample shows why the shared part should come from the tree: it asks the
+> >> agent to add your Signed-off-by, which coding-assistants.rst says an agent must
+> >> never do.
+> >
+> >You are correct. Agents are tools. All of their outputs are the
+> >responsibility of their users. They cannot apply DCO.
+> >
+> >For me, I make sure to review copyright and test my kernel patches
+> >before sending them or pushing them to a remote. So my agent should
+> >add my sb and the assisted tag otherwise the patches need unnecessary
+> >cleanup. This is my personal preference. The mainline branch should
+> >not poison my agent's context or provide conflicting instructions.
+>
+> Your issue is with coding-assistants.rst, which says agents must not add
+> Signed-off-by. AGENTS.md only makes agents see it.
 
-Your issue is with coding-assistants.rst, which says agents must not add
-Signed-off-by. AGENTS.md only makes agents see it.
+I do not have a problem with coding-assistants.rst staying as it is
+now. But it does not make for a good agents.md file. And neither does
+the readme.
 
-[ ... ]
+If the user asks an agent how should I use LLM assistance when
+contributing to the kernel, then the agent will find this file
+correctly and explain the basics to the user. So it works as it is
+supposed to already.
 
->But as far as I know personal snippets are meant to be additive. I do
->not think there is a widespread override for agents.md for the default
->one. Codex seems to have one but there is only one google result on
->it.
+> [ ... ]
+>
+> >But as far as I know personal snippets are meant to be additive. I do
+> >not think there is a widespread override for agents.md for the default
+> >one. Codex seems to have one but there is only one google result on
+> >it.
+>
+> Codex reads AGENTS.override.md in place of AGENTS.md. Claude Code doesn't load
+> AGENTS.md at all when a CLAUDE.md exists, and Gemini reads GEMINI.md unless
+> configured otherwise.
+>
+> The agents are designed exactly for this model: the upstream project has it's
+> own AGENT.md which is relevant for the upstream side of things. Downstream is
+> able to modify it as needed, either by carrying an out of tree patch, an
+> override file, or whatever else works for downstream.
+>
+> >A large generic readme that offshoots to 30 other readmes is not an
+> >appropriate agents.md file.
+> >Documentation/process/coding-assistants.rst would be a better start
+> >for a symlink but even that is not particularly lean and would likely
+> >degrade modern agents. It still contains offshoots to 4 different
+>
+> Changes to coding-assistants.rst itself are fair game as separate patches. This
+> one only gets agents to load what we already ask them to follow. There's no
+> substance here - we're just making dumb machines behave better.
+>
+> >readmes, and the "Procedure for finding and fixing bugs" would degrade
+> >most modern models. They are already RL'd to do what they are asked,
+> >and conflicting instructions could lead them to e.g., commit when not
+> >asked to. For example consider:
+>
+> [ snip ]
+>
+> I get that you have concerns with those docs, so feel free to propose patches
+> for these.
+>
+> I do not thing we need a seperate machine-only readable set of docs. If these
+> "agents" can't do better parsing those docs, then we shouldn't bend over and
+> write them their own versions. I'm okay with doing better at pointing to those
+> docs ("RTFM!"), but I don't think that a fork of the docs is sensible.
+>
+> If you disagree, feel free to propose changes to coding-assistants.rst, as this
+> is really a doc that gets read mostly by machines.
 
-Codex reads AGENTS.override.md in place of AGENTS.md. Claude Code doesn't load
-AGENTS.md at all when a CLAUDE.md exists, and Gemini reads GEMINI.md unless
-configured otherwise.
+I do not disagree or proposed something different. Agents can read
+docs just fine (rst, html, they can even read assembly code assembled
+just fine), and the existing kernel docs are fine for that. But they
+should only read them when they want to or when they are asked to. I
+did not propose rewriting the docs for agents.
 
-The agents are designed exactly for this model: the upstream project has it's
-own AGENT.md which is relevant for the upstream side of things. Downstream is
-able to modify it as needed, either by carrying an out of tree patch, an
-override file, or whatever else works for downstream.
+I think there might be a misunderstanding with what an agents.md file
+is meant to do. It is meant to be a small file that lists a few
+notable things agents should know about a project. For example, see
+[1][2] I made recently while working on two projects. Most projects
+are limited in scope, and most teams use the same LLM agents more or
+less, so it is easy to make a universal agents.md file that is then
+extended lightly (but mostly not) by individual members.
 
->A large generic readme that offshoots to 30 other readmes is not an
->appropriate agents.md file.
->Documentation/process/coding-assistants.rst would be a better start
->for a symlink but even that is not particularly lean and would likely
->degrade modern agents. It still contains offshoots to 4 different
+For the kernel, this is harder to do because how people use the kernel
+varies a lot. Therefore, people should make their own agents.md file.
+Just like we make our own deployment scripts, our own debugging
+scripts, our own patch preparation tools, and set up our own email
+client with custom routing rules (which takes multiple weeks to get
+right, far more than typing out a 50 line md file). Why should the
+kernel make an exception here and say no, this is the agents.md file
+you get and if you don't like it, go figure out how to override it
+with your harness? If the kernel should provide documentation relating
+to how to make an agents.md file with example snippets, this is ok,
+and mirrors how other components such as checkpatch.pl are provided.
 
-Changes to coding-assistants.rst itself are fair game as separate patches. This
-one only gets agents to load what we already ask them to follow. There's no
-substance here - we're just making dumb machines behave better.
+An agents.md file is essentially the list of 5-10 things you do not
+want to have to re-explain to the agent every time. That's it.
 
->readmes, and the "Procedure for finding and fixing bugs" would degrade
->most modern models. They are already RL'd to do what they are asked,
->and conflicting instructions could lead them to e.g., commit when not
->asked to. For example consider:
+Yes last year, RAG, context optimization, memory techniques etc etc
+were all the rage, but after the labs started RLing the agents
+aggressively and doing scaled rollouts in VMs all of that has gone
+away. Agents are now designed to discover a codebase in 10-30 seconds
+fresh in every chat, without advanced memory management, do what was
+asked, test it, lint it, and deliver a result.
 
-[ snip ]
+And modern agents will also write kernel code and compile it and use
+checkpatch and deploy it and write synthetic throwaway tests and
+enable debug fs and sync a partial module so they do not have to
+reboot a device and read /dev/mem directly while creating a kernel
+module without being asked to or with a special AGENTS.md file.
 
-I get that you have concerns with those docs, so feel free to propose patches
-for these.
+Yesterday/today, I made a USB C controller driver [3] for example and
+it works... Then a Zotac Zone user appeared so I wrote a hwmon driver
+[4] in 5 minutes while the other agents were proding the battery and
+type c of the samsung device (yes, there is also a battery driver).
+And the thing with [4] if you look at it is... it is clean in an
+upstreamable state and only took 4 back and forths... 1 month ago, I
+was annoyed I could not use my 8bitdo controller outside so I just
+ported the SDL protocol from SDL to the kernel enabling IMU and back
+buttons outside of it and Steam [6]. Again 20 minutes. Of course, DCO
+needs care with both [4] and [5], so you see for example [5] says
+"GPL-2.0-only AND Zlib" because it is a mechanic (LLM) conversion from
+SDL and [4] clearly lists and credits the source on the preamble but
+sheds copyright because only registers were referenced. An agent.md
+can't fix that. I had to write those comments and specify those.
 
-I do not thing we need a seperate machine-only readable set of docs. If these
-"agents" can't do better parsing those docs, then we shouldn't bend over and
-write them their own versions. I'm okay with doing better at pointing to those
-docs ("RTFM!"), but I don't think that a fork of the docs is sensible.
+But in those, I did not use an agents.md file at all. Therefore, to
+come back to the original discussion, what is the point of creating a
+shared agents.md file? Is it to help experienced kernel developers?
+Because it won't because they do not need one. And if they do, they
+can spend an hour and write one with their particulars. If it is to
+help new contributors, that's fair, but without an optional agents.md
+standard, how do you prevent getting in experienced kernel developer's
+way? And also, how does that agents.md file help those new
+contributors? Because omitting sign-offs is not helpful, they will
+need to add one even if they do not understand what it is, and the
+problem is they do not understand what it is and telling the agent to
+skip it does not solve that.
 
-If you disagree, feel free to propose changes to coding-assistants.rst, as this
-is really a doc that gets read mostly by machines.
+As I said, both [4] and [5] are derivatives and needed special care in
+the copyright and top text. If I was not careful and added my sign-off
+without the preambles, it would be a copyright
+violation/misattribution. But I had to add that myself, the agent did
+not do it, and me adding my sign-off manually after that would fix
+nothing.
 
--- 
-Thanks,
-Sasha
+Best,
+Antheas
+
+[1] https://github.com/anatase-org/anatase/blob/master/AGENTS.md
+[2] https://github.com/anatase-org/spaces/blob/master/AGENTS.md
+[3] https://github.com/anatase-org/patchwork/blob/42a339c18111b17bb58ca28cd72fb3eca21cf2ec/drivers/usb/typec/samsung-emuec.c
+[4] https://github.com/anatase-org/patchwork/blob/5f66acf71de3dd59d0b7504a3168d1dde44c5064/drivers/hwmon/zotac-zone-ec.c
+[5] https://github.com/anatase-org/patchwork/blob/04d0b68af73d5e801c97c272ebbbcf5e7ebd9e3a/drivers/hid/hid-8bitdo.c
+
+> --
+> Thanks,
+> Sasha
+>
+
