@@ -1,102 +1,105 @@
-Received: from mout-p-102.mailbox.org (mout-p-102.mailbox.org [80.241.56.152])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2CF053822B5;
-	Sun, 27 Sep 2026 10:04:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.152
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 73DE13DEAC4;
+	Sun, 27 Sep 2026 14:06:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790503489; cv=none; b=KZY1P74i4BPDynX9fRJLLKOA8/jK2ks+iL/W593Y2q9Ql5KTx9xxkjp0AqE3ebpkFJzBy/CMgz1BYvjJ+ZL3ZsGVs43CHFIby2lHdDmxpAVLXimxhzSnftTz+pO0ReJsVenOlIN+JzvL91pan4Q5VRC2X/rr80bTW76uNxXAaAk=
+	t=1790517963; cv=none; b=FP9dA6KES7vKO09/8xquK4T1qowvLvBOARTu6sMANO7LpWNMayhQyug5ls3i1AksZU/paoxHYylmSWRkOoVEVigTaLy8ADZG+H3zLCCWosv6lGm4yiif5O06Jm6qRj0ZPieuu2ftD/FY1PSvMqfwN//SsBaSAGE1DE0k1IcpkEg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790503489; c=relaxed/simple;
-	bh=90xiEUN5KxiDaoM/U66Fsk+6l5IYVxSniyU3Z6JsKjQ=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=KgMQSO9OX5c1hMjaIfGewWo2o6ltp2TQHCGvzbyJtVKZNMH5c5BwqtSAJBwuH2tkig3EHdg83JF7oLLB9ce7sExP9lYffd5dJOgfX7HC0JnxlUvH64ZSb9fGAsyYcDs869JTxNbJpeNG8JBCFt4tgLobtlBxOo04Tan/W6Ea0pI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org; spf=pass smtp.mailfrom=mailbox.org; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=FNe1PY63; arc=none smtp.client-ip=80.241.56.152
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mailbox.org
+	s=arc-20240116; t=1790517963; c=relaxed/simple;
+	bh=FzoPRIQ2bsgwhyZ6+iLyjv38pc8wdBTIp/IPwRQi0j0=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=qNKsUGK7f3wa/vy0SRSkvj5o5jlET4d2gFhaMMCTj6hQ0Zh7mm6WNvoMX/2+ysekUywXYnYfU8zcjYD30Gw+4aBdWUx2z57b2indqyFGT4zfo5D2EGx8xYmzEp7JteTDaG2UIZN9RCeCOlZjHcl81K9JAiE3zJ797s9QPgEJX2A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=BnK4Jz6d; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="FNe1PY63"
-Received: from smtp202.mailbox.org (smtp202.mailbox.org [IPv6:2001:67c:2050:b231:465::202])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519MLKEM768 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mout-p-102.mailbox.org (Postfix) with ESMTPS id 4ht0FF5bG3zKmTP;
-	Sun, 27 Sep 2026 11:56:01 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
-	t=1790502961;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=f1pVNscHFIFNHSERIixqOv7sH99O3Iy1QxsB/idegdQ=;
-	b=FNe1PY63MqXFR4UUUL2nvMy1pTF7T6lkhahv8vAs5e+Ldyo+ixaw5v0a2yjxHV7XuD430n
-	VDqN9ux3lt649BNAsnN54m6idRr+a9erYyc1v9dMTSvTrES6WGtDnyaUgc2ZwRf75tp8Uu
-	nKD8DIkSUx4nZqFepE2bBIdFlbO7UhuQk1pm/GWbm1pw4Eegpo9HRXCBAa8fhkyHB31DZe
-	h/KJl9xar6j+dTn12i83LDw0rcV4lt2k8ZT81Z1o7bKdWZbRXbDrxRZVIAh2QJFnOyWDrN
-	l1cc7Wpmzo263X5ZsBFboCsFwvxiifME4xyHPtFC0CACCk69Np3661ZSYq1onw==
-From: Manuel Ebner <manuelebnerli@mailbox.org>
-To: Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Randy Dunlap <rdunlap@infradead.org>
-Cc: Manuel Ebner <manuelebnerli@mailbox.org>,
-	workflows@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH v3 RESEND] Docs: changes.rst: Refine language
-Date: Sun, 27 Sep 2026 11:53:18 +0200
-Message-ID: <20260927095318.1077890-2-manuelebnerli@mailbox.org>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="BnK4Jz6d"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B5E321F000FF;
+	Sun, 27 Sep 2026 14:06:01 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1790517962;
+	bh=NGmRCTwRhwtPsEvY/v+B8O9tn8Kg3UF9HZ4VG5lIE2w=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=BnK4Jz6dzwmcKtatVXPj4n3BERjgnJAdi5Vu5F1BhxZZFwqYFSPTI8LK7arY7acpr
+	 nBgBIJW4swgWksr00I211gawvhr7iCvyvnjmHwDVaQ7tJIXx83HxIIhP/SIhQo1fiX
+	 NJkkqfv4BlWCarO2i2Ky4DQI8MnwxczrDjZ5jOio/4JtFyLiBfbfQHfqOhXqJ2iTzx
+	 7cgNv3UnPfd/XatrVj84mzIZX7tVU1BzzURpl5UQUvAlUSJC3xLcSW2F/hdPbuEU+9
+	 8n0qwbhLOv0VlAxDyjqRYoyyGfAS9mLqq8PxdAQ67rhQlxC61PlRSj4maBb+8y+UPn
+	 7J0bPx8+CD1KA==
+Date: Sun, 27 Sep 2026 10:06:00 -0400
+From: Sasha Levin <sashal@kernel.org>
+To: Antheas Kapenekakis <lkml@antheas.dev>
+Cc: corbet@lwn.net, workflows@vger.kernel.org, linux-doc@vger.kernel.org,
+	skhan@linuxfoundation.org, rdunlap@infradead.org,
+	linux-kernel@vger.kernel.org, "kees@kernel.org" <kees@kernel.org>
+Subject: Re: [PATCH] docs: add AGENTS.md as a symlink to README
+Message-ID: <arkiyMt2NIydrPhE@laps>
+References: <20260924134945.3095661-1-sashal@kernel.org>
+ <CAGwozwG0F88Ah8AEYf2u2BM-4bP+QnZe5p1qTFb4_H5acvaFkA@mail.gmail.com>
+ <arfpV7IXRAHREMzO@laps>
+ <CAGwozwHY7FsYQZaNf22S-nWGPkc4qekk3H=Hno5a0d0iWVtSJw@mail.gmail.com>
+ <arhtsrVb82vr6U-p@laps>
+ <CAGwozwE5pJaW14ePjeUQ_w=i1W-Kg=QQOzLY_33qV0W-Urmgjw@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-MBO-RS-META: 7b195pnibdcfoxxtxzfdyodxwazuqtys
-X-MBO-RS-ID: 626fd30a7934801542a
+Content-Type: text/plain; charset=us-ascii; format=flowed
+Content-Disposition: inline
+In-Reply-To: <CAGwozwE5pJaW14ePjeUQ_w=i1W-Kg=QQOzLY_33qV0W-Urmgjw@mail.gmail.com>
 
-This document grew over the years and isn't limited to compilling or
-running the kernel anymore. Update the heading and intro accordingly.
+On Sun, Sep 27, 2026 at 04:42:06AM +0200, Antheas Kapenekakis wrote:
+>I do not have a problem with coding-assistants.rst staying as it is
+>now. But it does not make for a good agents.md file. And neither does
+>the readme.
 
-Signed-off-by: Manuel Ebner <manuelebnerli@mailbox.org>
-Acked-by: Randy Dunlap <rdunlap@infradead.org>
----
-[v3]
- - improved commit message
- - removed other patches from this series, they are due later.
-   [original SEND] https://lore.kernel.org/all/20260905055655.789265-2-manuelebnerli@mailbox.org/
+What makes one good? In my tests this one did its job: both agents
+followed the kernel's rules, for about 1.3k to 2.4k tokens. If you have
+a case where it makes an agent do worse, I'd like to see it.
 
-[v2]
- - no change to this patch
- https://lore.kernel.org/all/20260831152607.639027-2-manuelebnerli@mailbox.org/
+>I think there might be a misunderstanding with what an agents.md file
+>is meant to do. It is meant to be a small file that lists a few
+>notable things agents should know about a project.
 
-[v1]
- https://lore.kernel.org/all/20260812121945.1635085-2-manuelebnerli@mailbox.org/
----
- Documentation/process/changes.rst | 9 +++++----
- 1 file changed, 5 insertions(+), 4 deletions(-)
+The spec at agents.md doesn't say that. It has no required fields or
+length, and says anything you'd tell a new teammate belongs there.
+OpenAI's own AGENTS.md in the Codex repo is 320 lines, about four times
+the size of README.
 
-diff --git a/Documentation/process/changes.rst b/Documentation/process/changes.rst
-index 0aa232b11..eb339eb8c 100644
---- a/Documentation/process/changes.rst
-+++ b/Documentation/process/changes.rst
-@@ -1,13 +1,14 @@
- .. _changes:
- 
--Minimal requirements to compile the Kernel
--++++++++++++++++++++++++++++++++++++++++++
-+Minimal requirements to interact with the Kernel
-+++++++++++++++++++++++++++++++++++++++++++++++++
- 
- Intro
- =====
- 
--This document is designed to provide a list of the minimum levels of
--software necessary to run the current kernel version.
-+This document is designed to provide a list of the minimum versions of
-+software necessary to change code, compile, install and boot the current
-+kernel version.
- 
- This document is originally based on my "Changes" file for 2.0.x kernels
- and therefore owes credit to the same people as that file (Jared Mauch,
+>Why should the kernel make an exception here and say no, this is the
+>agents.md file you get
+
+It's a default for people who haven't written their own, the same as
+.clang-format, .cocciconfig, or .pylintrc. Anyone with their own file can still
+use that instead, and the spec says "explicit user chat prompts override
+everything".
+
+>what is the point of creating a
+>shared agents.md file? Is it to help experienced kernel developers?
+
+Yes, and everyone else too. README is an index, so it helps the agent
+figure out where to find things, whether that's an experienced
+developer working in a subsystem or someone asking how some part of the
+kernel works.
+
+It also covers the patches maintainers get from people who never write
+their own. In my tests, two current agents without AGENTS.md got the
+basics wrong: one added my Signed-off-by itself, the other added no
+attribution. With it, both got it right.
+
+>Because omitting sign-offs is not helpful, they will need to add one
+>even if they do not understand what it is
+
+If someone adds their sign-off without understanding what it certifies,
+that's on them. We can't have agents add it for them just because some
+people would ignore its meaning anyway.
+
+If you think a hand-written AGENTS.md would do better, feel free to
+write one and propose it. For now, this one seems to be working just
+fine.
+
 -- 
-2.54.0
-
+Thanks,
+Sasha
