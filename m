@@ -1,220 +1,163 @@
-Received: from relay15.grserver.gr (relay15.grserver.gr [46.62.234.254])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp.forwardemail.net (smtp.forwardemail.net [121.127.44.66])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E6F3B277007
-	for <workflows@vger.kernel.org>; Tue, 29 Sep 2026 16:10:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=46.62.234.254
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CD1CC50B8CB
+	for <workflows@vger.kernel.org>; Tue, 29 Sep 2026 16:35:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=121.127.44.66
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790698262; cv=none; b=MvIe7wnGj9L9R8D/n9IU84q6qAYxssOVYjhnabCvBk6V+QMfbfQCuBUNxkMLEyH8SErxqAJgBQ5qZ3Hw609rPW0UsAdfiQDScLhSmk2i/b0nGwHng33k2H8dKGuEOosAYYpwllND8zAaedtrdTljNMwZA+cbY0gfvdUu2xD/ulY=
+	t=1790699720; cv=none; b=AvoPn5V7wqMdictrqtBfvDbTyHWRWcs4mK/AgdAa+Wge8haOsZvvFYvQyIBW02vYZXDcITfvKD1DJmYfxOrmFXTTbYf8evN854rG5ZM+13UXR0/cuVKAB2Y7/gE7ZYX70E/enMpoPEv5kCGvYPnIcB9+jBLF13Xu1MXl1HEbB88=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790698262; c=relaxed/simple;
-	bh=4/8kHB6VsjavORXhGuMhJ8YPGNbzfwgAiBkRL5UB/Rc=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=rzGdNeObgfPj3jDuD4JMRVU4vhUUshTdofORv/Ezow9ZaKXS1IvHugTiyrHCy3I8GFRR+J5hxTPaFH7V6bsStYAUl8i524uZRAD0Rm8WDdtD0eXDVxwW8JcgtYCzbBJe8tvYAz9Fl7FPzAh+3UuhOXdGXHE7C7hgr805az07YRs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=antheas.dev; spf=pass smtp.mailfrom=antheas.dev; dkim=pass (2048-bit key) header.d=antheas.dev header.i=@antheas.dev header.b=a7eEIUCQ; arc=none smtp.client-ip=46.62.234.254
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=antheas.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=antheas.dev
+	s=arc-20240116; t=1790699720; c=relaxed/simple;
+	bh=/h4oyFpdb/42oaB+VKIalhMWr9p37jtmBtfmqH685lU=;
+	h=Mime-Version:Content-Type:Date:Message-Id:Subject:From:To:Cc:
+	 References:In-Reply-To; b=pDNlPTQj3SB8yHkTVgu7dDLYQIyIw8ADO9yCdcq/DgicPfrltnvE1Z9zzlaUW1I+ZfGK0QIZ8OghmL7vKkP7TFTOWOaUw+8yaVG5W1z69qQh35r66vhVU5hqStEyFoS8wSj9zz8AU/x4ZdpUxWpoplClGHT2nctCDUyn+jPS/DQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ubuntu.com; spf=pass smtp.mailfrom=fe-bounces.ubuntu.com; dkim=pass (2048-bit key) header.d=ubuntu.com header.i=@ubuntu.com header.b=D2Fse7Kw; arc=none smtp.client-ip=121.127.44.66
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ubuntu.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=fe-bounces.ubuntu.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=antheas.dev header.i=@antheas.dev header.b="a7eEIUCQ"
-Received: from relay15 (localhost [127.0.0.1])
-	by relay15.grserver.gr (Proxmox) with ESMTP id DADEF3EAB7
-	for <workflows@vger.kernel.org>; Tue, 29 Sep 2026 16:10:57 +0000 (UTC)
-Received: from linux3247.grserver.gr (linux3247.grserver.gr [213.158.90.240])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by relay15.grserver.gr (Proxmox) with ESMTPS id DD6543FEFD
-	for <workflows@vger.kernel.org>; Tue, 29 Sep 2026 16:10:56 +0000 (UTC)
-Received: from mail-pz2-f12.google.com (mail-pz2-f12.google.com [74.125.228.12])
-	by linux3247.grserver.gr (Postfix) with ESMTPSA id 216B1200551
-	for <workflows@vger.kernel.org>; Tue, 29 Sep 2026 19:10:56 +0300 (EEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=antheas.dev;
-	s=default; t=1790698256;
-	bh=q0EcYz+7oTChYGDHXMJMrvAXrlczc7nJkQML343vYQk=;
-	h=Received:From:Subject:To;
-	b=a7eEIUCQHJkqxyzqWbFJLI7obEe5jDKWzAbsF/MP62jJ1hENOdSN0u6tzc7XxMZEX
-	 a5aMGa2MrkyfK7g+LMAmZNsLUj/hoGmiwDgRO34SmhzMtqkymiKzGWeAD+5w0h0nal
-	 y9ab9LGU/BFhUedDFpsKBTZpRjeKBZ5T0JMs79UA0Th8IqOluUb0DxIxlSNTHE2dc9
-	 DLy+hj//AqXGbcQchRbPvIpJLBVdli0prISFWTJ4xQYffePIGpjGw7Gd0ow1BtlZpL
-	 zrQmQfvmL06wHW5dr2qptGxz8N7qjhZYGONxNRhHoxeWav79CEiX712Q6hFaNY/1z+
-	 7L9FXkWSq6QSw==
-Authentication-Results: linux3247.grserver.gr;
-        spf=pass (sender IP is 74.125.228.12) smtp.mailfrom=lkml@antheas.dev smtp.helo=mail-pz2-f12.google.com
-Received-SPF: pass (linux3247.grserver.gr: connection is authenticated)
-Received: by mail-pz2-f12.google.com with SMTP id
- 41be03b00d2f7-cc4d04d740cso1670048a12.0
-        for <workflows@vger.kernel.org>; Tue, 29 Sep 2026 09:10:56 -0700 (PDT)
-X-Forwarded-Encrypted: i=1;
- AKwUvByt5OToZYNVayWmR2x2TpmZqO0axntNevy/zsZplAhkfZQ/orbYqaBbFwHxwva+vJ+aUokWb21fzcc=@vger.kernel.org
-X-Gm-Message-State: AFq9FYIhyYWcmXyEn7ITVLqAPdI3sQYSgLBiG3+9gEd63y2PwZxyTYdG
-	fMlKdYwvJOo7td9xkegD7cb5EI+ffo9u2PKkm510/f02QTUatnti1PhiHCmQJbh6RQWOqYARDfO
-	UBLGGjktmTo/Vya5enRiViiNs9KhaMnU=
-X-Received: by 2002:a17:90b:498c:b0:3a0:903b:f253 with SMTP id
- 98e67ed59e1d1-3a09875d77cmr13557009a91.18.1790698254854; Tue, 29 Sep 2026
- 09:10:54 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=ubuntu.com header.i=@ubuntu.com header.b="D2Fse7Kw"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ubuntu.com;
+ h=In-Reply-To: References: Cc: To: From: Subject: Message-Id: Date:
+ Content-Type: Content-Transfer-Encoding: Mime-Version; q=dns/txt;
+ s=fe-953a8a3ca9; t=1790699712;
+ bh=EF61LIjtkYvJgIxFOWJVrSB6cIgCGKPgebbZQSvs8RM=;
+ b=D2Fse7KwHFmeqrTsFpLqd6C5cV+hZkrvmAymngILSfnGw8DdLePKJ6/aLuJcg0sC7k0IwFzqg
+ HZfsIuZGLOTnGgx9g2XUt7sR0Zl3V97cN/EO6pDSJMnHMg6RihXlpaKvNgMNxehvRqxHnTN+lsE
+ Tb+Yd5k+GadqMMxZQSDPrJhZG0110kSJ9ik6W7JASkRKXdEv6HdZx9Ds39FNm/K6wb0yzxzW4/n
+ wHk7zSsWDcuLFMPqcoIrhZLEfJFAQXulF0/DUn01F/P+EtuJ95c7aGxMECxI3rFlN6w+zeeL4Gp
+ Nlab1YpmlhdPvVGEsO8jUZ/X7Khf4CgM85Uuq7dsPHqw==
+X-Forward-Email-ID: 6abbe8bbc06199c2ee5e36a7
+X-Forward-Email-Sender: rfc822; jpeisach@ubuntu.com, smtp.forwardemail.net,
+ 121.127.44.66
+X-Forward-Email-Version: 2.16.5
+X-Forward-Email-Website: https://forwardemail.net
+X-Complaints-To: abuse@forwardemail.net
+X-Report-Abuse: abuse@forwardemail.net
+X-Report-Abuse-To: abuse@forwardemail.net
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-References: <20260924134945.3095661-1-sashal@kernel.org>
- <CAGwozwG0F88Ah8AEYf2u2BM-4bP+QnZe5p1qTFb4_H5acvaFkA@mail.gmail.com>
- <arfpV7IXRAHREMzO@laps>
- <CAGwozwHY7FsYQZaNf22S-nWGPkc4qekk3H=Hno5a0d0iWVtSJw@mail.gmail.com>
- <arhtsrVb82vr6U-p@laps>
- <CAGwozwE5pJaW14ePjeUQ_w=i1W-Kg=QQOzLY_33qV0W-Urmgjw@mail.gmail.com>
- <arkiyMt2NIydrPhE@laps>
- <CAGwozwGc62HAJnLeYL+jq_PnJq1LsV3Ex9LtQTE1pX3144MdtA@mail.gmail.com>
- <arvFBqreU0qahkXx@laps>
- <CAGwozwEfN7cUZm8usUsSR2bu23ux57QCPxyXJRfwv0tU34gEkQ@mail.gmail.com>
-In-Reply-To: 
- <CAGwozwEfN7cUZm8usUsSR2bu23ux57QCPxyXJRfwv0tU34gEkQ@mail.gmail.com>
-From: Antheas Kapenekakis <lkml@antheas.dev>
-Date: Tue, 29 Sep 2026 18:10:42 +0200
-X-Gmail-Original-Message-ID: 
- <CAGwozwHOttyNkC=sdVFCZYKZzhSE=cmUMgNd7cukpEE-WXm9Vw@mail.gmail.com>
-X-Gm-Features: AclHuK-cO7DTMRVZGm19HLnVLPRtH-na_m7RlUN11kaLgDUCAfSjBFWHmzRQ578
-Message-ID: 
- <CAGwozwHOttyNkC=sdVFCZYKZzhSE=cmUMgNd7cukpEE-WXm9Vw@mail.gmail.com>
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8; format=Flowed
+Date: Tue, 29 Sep 2026 12:35:06 -0400
+Message-Id: <DLRY2GFBXTLS.1492NTGXSAPGB@ubuntu.com>
 Subject: Re: [PATCH] docs: add AGENTS.md as a symlink to README
-To: Sasha Levin <sashal@kernel.org>
-Cc: corbet@lwn.net, workflows@vger.kernel.org, linux-doc@vger.kernel.org,
-	skhan@linuxfoundation.org, rdunlap@infradead.org,
-	linux-kernel@vger.kernel.org, "kees@kernel.org" <kees@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-X-PPP-Message-ID: 
- <179069825631.2834478.8168229461271019133@linux3247.grserver.gr>
-X-PPP-Vhost: antheas.dev
-X-Virus-Scanned: clamav-milter 1.4.6 at linux3247.grserver.gr
-X-Virus-Status: Clean
+From: "Joshua Peisach" <jpeisach@ubuntu.com>
+To: "Sasha Levin" <sashal@kernel.org>, <corbet@lwn.net>
+Cc: <workflows@vger.kernel.org>, <linux-doc@vger.kernel.org>,
+ <skhan@linuxfoundation.org>, <rdunlap@infradead.org>,
+ <linux-kernel@vger.kernel.org>
+X-Mailer: aerc 0.21.0
+References: <20260924134945.3095661-1-sashal@kernel.org>
+In-Reply-To: <20260924134945.3095661-1-sashal@kernel.org>
 
-On Tue, 29 Sept 2026 at 17:02, Antheas Kapenekakis <lkml@antheas.dev> wrote:
+On Thu Sep 24, 2026 at 9:49 AM EDT, Sasha Levin wrote:
+> Most coding agents have standardized on AGENTS.md as the file they load
+> automatically from the root of a repository. README already tells AI
+> tools to read and follow Documentation/process/coding-assistants.rst,
+> but that only helps if the agent decides to read README before acting,
+> which in practice it often doesn't.
 >
-> On Tue, 29 Sept 2026 at 16:02, Sasha Levin <sashal@kernel.org> wrote:
-> >
-> > On Sun, Sep 27, 2026 at 05:24:46PM +0200, Antheas Kapenekakis wrote:
-> > >On Sun, 27 Sept 2026 at 16:06, Sasha Levin <sashal@kernel.org> wrote:
-> > >> If someone adds their sign-off without understanding what it certifies,
-> > >> that's on them. We can't have agents add it for them just because some
-> > >> people would ignore its meaning anyway.
-> > >
-> > >I didn't say we should make the agent add it. I said if someone wants
-> > >to do it it is up to them. Not you, not the mainline kernel config,
-> > >not this patch. And disabling it does nothing because the user does
-> > >not understand what a sign off is anyway and will add it later or
-> > >submit without it. In which case you get broken patches anyway and you
-> > >solved nothing.
-> >
-> > Again, that's on the user. Your argument is saying that we should just drop
-> > this whole DCO nonsense because no one understands it anyway.
-> >
-> > We can't stop enforcing things just because users don't bother reading the
-> > docs.
+> Add a top-level AGENTS.md symlink to README, so agents load it on their
+> own and follow its pointer to the AI guidelines. This keeps a single
+> entry point for every reader, and avoids adding a separate copy of the
+> policy that could drift from the RST.
 >
-> If it is up to the user, then this patch is not needed. If it is not
-> and the kernel should make LLMs prompt the user to do a better job
-> with DCO, then this patch does not provide a solution.
+> As an example, two different agents were asked to "create a new commit
+> renaming the release (in the Makefile) to AI Test".
 >
-> I never said anything about enforcement and this patch is not about
-> enforcement anyway.
+> Without AGENTS.md, the first agent added a Signed-off-by for the user on
+> its own. It should never have done that: only the human submitter can
+> certify the Developer Certificate of Origin, after reviewing the change.
+> It also used its own attribution tag instead of Assisted-by:
 >
-> > Nothing is stopping you from changing this behavior to your liking either, but
-> > at that point it makes you a downstream consumer on the kernel, so you get to
-> > carry that delta.
+>> Makefile: rename release to AI Test
+>>
+>> Co-Authored-By: <model name> <noreply@...>
+>> Signed-off-by: Sasha Levin <sashal@kernel.org>
 >
-> I am aware. The issue of switching to a mainline tree for upstreaming
-> remains. Your symlink would come back. What is the solution for this?
+> The second agent added no attribution at all:
 >
-> > >> If you think a hand-written AGENTS.md would do better, feel free to
-> > >> write one and propose it. For now, this one seems to be working just
-> > >> fine.
-> > >
-> > >No, I am fine with one not existing and it would be my preference
-> > >actually. Ideally it would be added to .gitignore as well.
-> > >
-> > >That just does not address your need of steering novel contributor
-> > >plus LLM, which I tried to help with. But if you do not want to put
-> > >more effort than a symlink then not breaking our workflows is more
-> > >important so this patch should not merge.
-> >
-> > All I care about is having all these "agents" follow the rules and guidelines
-> > that the kernel community set around LLM contributions. I'm not trying to
-> > improve the quality or make it more efficient. This patch is purely about
-> > having the majority of LLM agents follow our rules out of the box.
-> >
-> > If you want to spend a few months trying to massage an AGENTS.md to the liking
-> > of your LLMs-of-choice, then go at it.
+>> Rename release to AI Test
 >
-> In doing so, you should consider the environmental impact and cost
-> this symlink will have by providing an unoptimized indexing blob to
-> LLMs which will also prompt additional tool calls. Then, the headaches
-> it will cause kernel developers that do know what a DCO is or want to
-> have a custom agents.md file, specifically the git errors that will be
-> caused when upstreaming as the agents.md file will be dirty.
+> With AGENTS.md in place, neither agent added a Signed-off-by, and both
+> used the Assisted-by tag. README itself mentions neither tag, so both
+> agents followed its pointer to coding-assistants.rst:
 >
-> I get what you are trying to do. But you need to address the
-> underlying issues here. You can't just handwave them.
+>> Makefile: rename release to "AI Test"
+>>
+>> Change the release name from "Baby Opossum Posse" to "AI Test".
+>>
+>> Assisted-by: LLM
 >
-> Contributing to the kernel has never been "out of the box" and the
-> kernel is not set up for that in multiple ways. If you want there to
-> be an exception for LLMs such that they do a decent job at it by
-> default, if anything to prevent a flood of patches with obvious
-> defects, then I would agree with that goal.
+>> Makefile: rename release to AI Test
+>>
+>> Assisted-by: LLM
 >
-> But in that case, you need to make sure that people that know how to
-> use LLMs and know what a DCO is are not negatively affected. No, it is
-> not ok to append 2k tokens to everyone's context or 2-3 more toolcalls
-> for every agent thread. It is also not ok to have to do gymnastics to
-> remove the symlink when switching to a clean tree for upstreaming.
+> Both agents also followed the kernel's general guidelines more closely.
+> The second agent's subject gained the "subsystem: summary phrase" form
+> that submitting-patches.rst asks for, instead of a bare "Rename release
+> to AI Test", and the first agent added a body describing the change.
 >
-> And even for novel contributors this is not ok. I am blessed to have
-> the disposable income to pay 100$ per month to access LLM services.
-> Even so, I have to make every % of usage count. Novel contributors are
-> not. They are typically using free services, 10-20$ plans, or local
-> models.  Those models are disproportionately affected by a poor
-> agents.md file and so is their usage.
->
-> I would like to see these issues resolved prior to the kernel
-> providing an agents.md file or similar (if it should do so) and this
-> is a very fair ask. I do not believe I am unreasonable.
->
-> Also, the above is a prerequisite for adding a default agents.md file
-> and does not pertain to its contents. That is a separate discussion
-> altogether.
+> Assisted-by: LLM
+How do you need an LLM to assist you with making a symlink?
 
-I think I thought of a solution that does have precedent.
+Okay, all the other conversation aside. When I see an AGENT.md file in
+a code repository, I see:
 
-The kernel forces you to have a local version file, otherwise it adds
-a .test wart. At least on Fedora. So there is precedent for requiring
-the user to create a file to disable some default behavior.
+- This project likely accepts LLM code (which is true for Linux)
+- There is a file that provides a cute little "all you need to know
+about this" file for our matrix multiplication machines
+- There could be parts of code that are entirely LLM-written. (may or
+may not be true here?)
 
-Similarly, you swap this series into a two parter.
+I think the existence of said file can also imply to someone who is
+meat proxying "here's your AGENTS file, go wild!".
 
-The first patch gitignores agents.md.
+I don't see how the addition of this file is worth it, aside from
+helping LLMs, in which the users of the LLM should be directing the
+agent to the proper documentation anyway. That ensures that you have
+a human directing the agent.
 
-The second patch adds a phony rule to the makefile that symlinks
-agents.md to the coding assistants rst or similar if it does not
-exist. People that do not want that, like me, touch that file. Not to
-the current readme, please. Be reasonable. Yes the coding assistants
-rst file is not ideal either but that can be fixed later.
+Honestly this looks a lot like, "we have our altar to our LLM
+overlords". The kernel existed without LLMs for years. We don't need
+a file to make LLMs happy and then have LLM companies say "we are so
+important we made a major project that runs most of the world's tech
+infrastructure have to provide us guidelines!" - which I guess we
+already have.
 
-If it is done like this, I do not have a problem with it.
+Anyway.
 
-To prevent regressions down the line if a template agents.md file
-should exist but an existing agents.md symlink was provided, you can
-symlink AGENTS.md to Documentation/process/AGENTS.md which is itself a
-symlink to ./coding-assistants.rst and committed as part of that
-patch.
+Don't we want humans to read the documentation before contributing?
 
-Best,
-Antheas
+I feel like this will just lead to more people going "Agent. Read
+AGENT.md. Find bug. Hiyah!" and then meat proxying patches without
+generally learning or being helpful.
 
-> Best,
-> Antheas
+This is an opportunity of a sanity test for humans to know what they
+are doing before just throwing stuff at the LLM. Why are we throwing
+that out?
+
+And if the argument is "but tokens!", then won't it also take some
+tokens for the agent to process "oh this file is a symlink"?
+
+I find it hard to take this suggestion seriously.
+
+> Signed-off-by: Sasha Levin <sashal@kernel.org>
+> ---
+>  AGENTS.md | 1 +
+>  1 file changed, 1 insertion(+)
+>  create mode 120000 AGENTS.md
 >
-> > --
-> > Thanks,
-> > Sasha
-> >
+> diff --git a/AGENTS.md b/AGENTS.md
+> new file mode 120000
+> index 0000000000000..100b93820ade4
+> --- /dev/null
+> +++ b/AGENTS.md
+> @@ -0,0 +1 @@
+> +README
+> \ No newline at end of file
 
