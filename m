@@ -1,163 +1,128 @@
-Received: from smtp.forwardemail.net (smtp.forwardemail.net [121.127.44.66])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CD1CC50B8CB
-	for <workflows@vger.kernel.org>; Tue, 29 Sep 2026 16:35:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=121.127.44.66
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 286E7377A93;
+	Wed, 30 Sep 2026 16:31:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790699720; cv=none; b=AvoPn5V7wqMdictrqtBfvDbTyHWRWcs4mK/AgdAa+Wge8haOsZvvFYvQyIBW02vYZXDcITfvKD1DJmYfxOrmFXTTbYf8evN854rG5ZM+13UXR0/cuVKAB2Y7/gE7ZYX70E/enMpoPEv5kCGvYPnIcB9+jBLF13Xu1MXl1HEbB88=
+	t=1790785872; cv=none; b=tHZMVbeRP6UsEJLy6rUzJ14tVnRtgxMG3OYbicOC5g0AN0c6ILmx6cxaNUXCKse5Hbl3p3qmVnDcgl2JYA2GSs8QULytGFhVwbI1fjkcCRdCc/Ivgw5qe9M+Nsl7pnY9Sm897QSrRDyKnjtXCYxScmgA7OpuNlgK/0UQ2eux4ZA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790699720; c=relaxed/simple;
-	bh=/h4oyFpdb/42oaB+VKIalhMWr9p37jtmBtfmqH685lU=;
-	h=Mime-Version:Content-Type:Date:Message-Id:Subject:From:To:Cc:
-	 References:In-Reply-To; b=pDNlPTQj3SB8yHkTVgu7dDLYQIyIw8ADO9yCdcq/DgicPfrltnvE1Z9zzlaUW1I+ZfGK0QIZ8OghmL7vKkP7TFTOWOaUw+8yaVG5W1z69qQh35r66vhVU5hqStEyFoS8wSj9zz8AU/x4ZdpUxWpoplClGHT2nctCDUyn+jPS/DQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ubuntu.com; spf=pass smtp.mailfrom=fe-bounces.ubuntu.com; dkim=pass (2048-bit key) header.d=ubuntu.com header.i=@ubuntu.com header.b=D2Fse7Kw; arc=none smtp.client-ip=121.127.44.66
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ubuntu.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=fe-bounces.ubuntu.com
+	s=arc-20240116; t=1790785872; c=relaxed/simple;
+	bh=T8ngMtD2Q/0/C5W6RZ3E3tTlmJyKjjSGhGG0Zr4ZYj0=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=e0696/0Pro1Ql/21dmfOc99mKI69rrC7IoRPIh9EpXAXQ5NlsqILObcpCDlsCIjrvDCFBw68ZUyF9vADlqN/DkeN7IDfuasCIvxqx8+y4me/SkFO5dqh/4irDh1sB1IQNJJibaEcO1Qurlr/SnAzcys6DZmSTBzJaFkpR1u1QYg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=IAufROK5; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ubuntu.com header.i=@ubuntu.com header.b="D2Fse7Kw"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ubuntu.com;
- h=In-Reply-To: References: Cc: To: From: Subject: Message-Id: Date:
- Content-Type: Content-Transfer-Encoding: Mime-Version; q=dns/txt;
- s=fe-953a8a3ca9; t=1790699712;
- bh=EF61LIjtkYvJgIxFOWJVrSB6cIgCGKPgebbZQSvs8RM=;
- b=D2Fse7KwHFmeqrTsFpLqd6C5cV+hZkrvmAymngILSfnGw8DdLePKJ6/aLuJcg0sC7k0IwFzqg
- HZfsIuZGLOTnGgx9g2XUt7sR0Zl3V97cN/EO6pDSJMnHMg6RihXlpaKvNgMNxehvRqxHnTN+lsE
- Tb+Yd5k+GadqMMxZQSDPrJhZG0110kSJ9ik6W7JASkRKXdEv6HdZx9Ds39FNm/K6wb0yzxzW4/n
- wHk7zSsWDcuLFMPqcoIrhZLEfJFAQXulF0/DUn01F/P+EtuJ95c7aGxMECxI3rFlN6w+zeeL4Gp
- Nlab1YpmlhdPvVGEsO8jUZ/X7Khf4CgM85Uuq7dsPHqw==
-X-Forward-Email-ID: 6abbe8bbc06199c2ee5e36a7
-X-Forward-Email-Sender: rfc822; jpeisach@ubuntu.com, smtp.forwardemail.net,
- 121.127.44.66
-X-Forward-Email-Version: 2.16.5
-X-Forward-Email-Website: https://forwardemail.net
-X-Complaints-To: abuse@forwardemail.net
-X-Report-Abuse: abuse@forwardemail.net
-X-Report-Abuse-To: abuse@forwardemail.net
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="IAufROK5"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 954BC1F00893;
+	Wed, 30 Sep 2026 16:31:10 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1790785871;
+	bh=Mhemw9BPGGwVKj8BY7jenoIshl3l/7nNZdMqDjpL/d0=;
+	h=From:To:Cc:Subject:Date;
+	b=IAufROK5Rg1RXdTxcNyGQHwdkp3g5q9z4DcOWrEpfIBC23O3E0s41x3gsNTsVm7kC
+	 Ik1ml+xfX2yebaapimkPuxvZBD+g2UrfBIEfCoqU/LxqR8kMBYX8YXcmS4RtAZ+NeK
+	 uHq4XT9PCg8XopJIxpPYeF7hEZd5UpUnAuUc0/PWwjOuwLJd7CEcXyLfT6vsr0rhe4
+	 CarYZ49kZOGgHPaUHY0aubgVjJfP2c44sXnT5xNqVkagts3RcZnrCMBOjONoJPGmzO
+	 5APY5Pf7MMM8I1KvRdscDvd1kYKqqMsMpGEBYF1VChw+V8BrIfxNFYaOjlk5vfjteL
+	 eLw6mEHEb9OzA==
+From: Jakub Kicinski <kuba@kernel.org>
+To: davem@davemloft.net
+Cc: netdev@vger.kernel.org,
+	edumazet@google.com,
+	pabeni@redhat.com,
+	andrew+netdev@lunn.ch,
+	horms@kernel.org,
+	Jakub Kicinski <kuba@kernel.org>,
+	Nicolai Buchwitz <nb@tipi-net.de>,
+	corbet@lwn.net,
+	skhan@linuxfoundation.org,
+	rdunlap@infradead.org,
+	workflows@vger.kernel.org,
+	linux-doc@vger.kernel.org
+Subject: [PATCH net-next v2] docs: netdev: additional info requirements for bug fixes
+Date: Wed, 30 Sep 2026 09:31:09 -0700
+Message-ID: <20260930163109.3910509-1-kuba@kernel.org>
+X-Mailer: git-send-email 2.55.0
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8; format=Flowed
-Date: Tue, 29 Sep 2026 12:35:06 -0400
-Message-Id: <DLRY2GFBXTLS.1492NTGXSAPGB@ubuntu.com>
-Subject: Re: [PATCH] docs: add AGENTS.md as a symlink to README
-From: "Joshua Peisach" <jpeisach@ubuntu.com>
-To: "Sasha Levin" <sashal@kernel.org>, <corbet@lwn.net>
-Cc: <workflows@vger.kernel.org>, <linux-doc@vger.kernel.org>,
- <skhan@linuxfoundation.org>, <rdunlap@infradead.org>,
- <linux-kernel@vger.kernel.org>
-X-Mailer: aerc 0.21.0
-References: <20260924134945.3095661-1-sashal@kernel.org>
-In-Reply-To: <20260924134945.3095661-1-sashal@kernel.org>
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
-On Thu Sep 24, 2026 at 9:49 AM EDT, Sasha Levin wrote:
-> Most coding agents have standardized on AGENTS.md as the file they load
-> automatically from the root of a repository. README already tells AI
-> tools to read and follow Documentation/process/coding-assistants.rst,
-> but that only helps if the agent decides to read README before acting,
-> which in practice it often doesn't.
->
-> Add a top-level AGENTS.md symlink to README, so agents load it on their
-> own and follow its pointer to the AI guidelines. This keeps a single
-> entry point for every reader, and avoids adding a separate copy of the
-> policy that could drift from the RST.
->
-> As an example, two different agents were asked to "create a new commit
-> renaming the release (in the Makefile) to AI Test".
->
-> Without AGENTS.md, the first agent added a Signed-off-by for the user on
-> its own. It should never have done that: only the human submitter can
-> certify the Developer Certificate of Origin, after reviewing the change.
-> It also used its own attribution tag instead of Assisted-by:
->
->> Makefile: rename release to AI Test
->>
->> Co-Authored-By: <model name> <noreply@...>
->> Signed-off-by: Sasha Levin <sashal@kernel.org>
->
-> The second agent added no attribution at all:
->
->> Rename release to AI Test
->
-> With AGENTS.md in place, neither agent added a Signed-off-by, and both
-> used the Assisted-by tag. README itself mentions neither tag, so both
-> agents followed its pointer to coding-assistants.rst:
->
->> Makefile: rename release to "AI Test"
->>
->> Change the release name from "Baby Opossum Posse" to "AI Test".
->>
->> Assisted-by: LLM
->
->> Makefile: rename release to AI Test
->>
->> Assisted-by: LLM
->
-> Both agents also followed the kernel's general guidelines more closely.
-> The second agent's subject gained the "subsystem: summary phrase" form
-> that submitting-patches.rst asks for, instead of a bare "Rename release
-> to AI Test", and the first agent added a body describing the change.
->
-> Assisted-by: LLM
-How do you need an LLM to assist you with making a symlink?
+Knowing how AI-generated patches were tested would be a great help
+when reviewing them. Explicitly ask people to describe the discovery
+and validation process they followed.
 
-Okay, all the other conversation aside. When I see an AGENT.md file in
-a code repository, I see:
+I posted this as an RFC a while back and there were some concerns
+from developers that it would gum up the process. With Linus's
+recent complaints about the size of our PRs, we really need
+this information. I launched an AI bot which complains if
+people don't explain how bugs were discovered and tested
+(look for netdev-bot+sinfo@kernel.org, s=series info).
+We need to document this requirement.
 
-- This project likely accepts LLM code (which is true for Linux)
-- There is a file that provides a cute little "all you need to know
-about this" file for our matrix multiplication machines
-- There could be parts of code that are entirely LLM-written. (may or
-may not be true here?)
+Reviewed-by: Nicolai Buchwitz <nb@tipi-net.de>
+Signed-off-by: Jakub Kicinski <kuba@kernel.org>
+---
+v2:
+ - pure rewording, no real change
+v1: https://lore.kernel.org/20260928184904.2496960-1-kuba@kernel.org
+rfc: https://lore.kernel.org/20260727204724.2787038-1-kuba@kernel.org
+---
+CC: corbet@lwn.net
+CC: skhan@linuxfoundation.org
+CC: rdunlap@infradead.org
+CC: workflows@vger.kernel.org
+CC: linux-doc@vger.kernel.org
+---
+ Documentation/process/maintainer-netdev.rst | 32 +++++++++++++++++++++
+ 1 file changed, 32 insertions(+)
 
-I think the existence of said file can also imply to someone who is
-meat proxying "here's your AGENTS file, go wild!".
-
-I don't see how the addition of this file is worth it, aside from
-helping LLMs, in which the users of the LLM should be directing the
-agent to the proper documentation anyway. That ensures that you have
-a human directing the agent.
-
-Honestly this looks a lot like, "we have our altar to our LLM
-overlords". The kernel existed without LLMs for years. We don't need
-a file to make LLMs happy and then have LLM companies say "we are so
-important we made a major project that runs most of the world's tech
-infrastructure have to provide us guidelines!" - which I guess we
-already have.
-
-Anyway.
-
-Don't we want humans to read the documentation before contributing?
-
-I feel like this will just lead to more people going "Agent. Read
-AGENT.md. Find bug. Hiyah!" and then meat proxying patches without
-generally learning or being helpful.
-
-This is an opportunity of a sanity test for humans to know what they
-are doing before just throwing stuff at the LLM. Why are we throwing
-that out?
-
-And if the argument is "but tokens!", then won't it also take some
-tokens for the agent to process "oh this file is a symlink"?
-
-I find it hard to take this suggestion seriously.
-
-> Signed-off-by: Sasha Levin <sashal@kernel.org>
-> ---
->  AGENTS.md | 1 +
->  1 file changed, 1 insertion(+)
->  create mode 120000 AGENTS.md
->
-> diff --git a/AGENTS.md b/AGENTS.md
-> new file mode 120000
-> index 0000000000000..100b93820ade4
-> --- /dev/null
-> +++ b/AGENTS.md
-> @@ -0,0 +1 @@
-> +README
-> \ No newline at end of file
+diff --git a/Documentation/process/maintainer-netdev.rst b/Documentation/process/maintainer-netdev.rst
+index 1739d9f856c3..df220a965438 100644
+--- a/Documentation/process/maintainer-netdev.rst
++++ b/Documentation/process/maintainer-netdev.rst
+@@ -283,6 +283,38 @@ as a patch to the list with a commit message explaining the technical
+ problems with the reverted commit. Reverts should be used as a last resort,
+ when original change is completely wrong; incremental fixes are preferred.
+ 
++Bug fixes
++~~~~~~~~~
++
++All bug fixes must state how the issue was discovered and validated,
++and how the fix was tested. This should be done in plain English, not with
++special tags or annotations. That said, the information does not have to be
++provided if the existing trailers imply it (e.g. ``Reported-by: syzbot...``
++implies the discovery method and validation).
++
++Example statements describing discovery:
++
++ - discovered by a non-AI static analysis tool
++ - discovered by an AI code review agent
++ - discovered by manual code inspection
++ - triggered during code development
++ - triggered in CI testing
++ - observed on a machine in real use
++
++If the discovery method does not imply the issue was triggered, the commit
++message should describe the validation, i.e. how the bug was confirmed
++to be real. The commit message must disclose whether reproducing the issue
++required modifying the kernel (e.g. inserting a delay to widen a race, or
++writing a loadable module to issue the right sequence of calls) or using error
++injection. The reproduction steps should be included in the commit message
++if they are short (roughly 10 lines or fewer); longer reproducers can be posted
++online with a link included.
++
++The testing statement should explain whether the fix was tested against the
++reproducer and against kernel selftests. If the bug is in a hardware driver,
++the testing statement must include information about the HW on which the
++fix was tested.
++
+ Stable tree
+ ~~~~~~~~~~~
+ 
+-- 
+2.55.0
 
