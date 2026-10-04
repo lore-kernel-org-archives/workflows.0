@@ -1,87 +1,68 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A968F38D3F2;
-	Fri,  2 Oct 2026 20:19:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 58DED7262E;
+	Sun,  4 Oct 2026 17:25:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790972371; cv=none; b=h59pVCiWppYa5qOyd/7CXYRI5F+fW9fCq0z2UN3nRMzwaTSUsOVGYNIjIYshdPesAd0Dy6lJ8pad93E0vsy2oUFUKKUxDXeu4dDwNd7l2oHW0uDQa8wOyENzmYCQ6AsLGpl76WTXT6+Ka5mknjpsIDFJxwdiqang61Sbot5tuU4=
+	t=1791134740; cv=none; b=QfDS+ktxg2txUZTAiMUgB2xw6DTSsuRiGSqFwabWMOE+XYmhWTl8Iq8+OrU839Z2ClXvHbFD8lps7h5y2/Rgrg8B+hkM4AqCITx2fXcDOz9+eCz1ZkcYrQ3uWaKTuJk86lijX7CxbES+l6TqW0qUscYWRSxmfvBkz79L0JU4iRQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790972371; c=relaxed/simple;
-	bh=g7rNGrAsJTDEdwMsuYjMkXPPCcqnVd2UiKhkVDSqirU=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=S2c9c6buDFYDuniqSyvBvCsjjoQ4AoHOffA4Ve1jLzBbyPyhlyt6MYFMTIDQoe1yyQfFxD+ocOxsMpxtFPW7v76yImlF3lh93/q72Ciq+R/lXTAMhXzo/H1pSEWbiIDVBTxc9Xrs578D8igzvjudN+q01ztcACtWWKN/C4877MM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=JYk8EPBl; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1791134740; c=relaxed/simple;
+	bh=jKpbFnjBBfl/A7a1XTqbDuzK3rscrbhWmlp4Ppr2BYc=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=Tq4AfAAbGCUVio0pAvb+FR5Mmy+GajSDzF+wJNV0Ov08g92siIG4B/Rs4oXj31RKdpZEHzN5lTG+w/nYJQMqqtFwDGyFRFL70Z3NxuT6Elj/4h5a67rH+qD0/ndmUCIq0CvkUnYXUx4lRskA8Wap3UOO4Tq+IMq05uKuCqqg5+A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=NWzkxz2U; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="JYk8EPBl"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0BC901F000FF;
-	Fri,  2 Oct 2026 20:19:27 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1790972370;
-	bh=35Xwv7BZPQnyggW6757ajRfm/1WQTpJh9WES/GErkaQ=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date;
-	b=JYk8EPBldEOXI6qCse7WgDnOcWaiHkC+OzSw9IrDScSJAFXMW2GvUyLPcobuNcDEt
-	 8/fFPTEJMlE+iaYuUbJpy03BJVCGeZ0CLyeAdD+ZEBrCZa/3jrjmaHpMBmK61eoKGZ
-	 9Yen3IxTbD4AgJ+he8Qwtz81bgXucGy9nd43hOAPRHhRmLo82B3jic1y4/GpLrStBG
-	 UJcpc72AX5BS87vml9qQyyk4N8uSHb8obei5DxvsZkQjAR8DWKpvyaUjUCYnxIaf/g
-	 XNd0Cp5Do9EiGXM5R5r6GiscukcOqAZovp73u6e2SqGe7uqocPH4bbROCjpZjA8J5L
-	 blKrTHZ0d2fFQ==
-From: Nathan Chancellor <nathan@kernel.org>
-To: Nicolas Schier <nsc@kernel.org>, Jonathan Corbet <corbet@lwn.net>, 
- Miguel Ojeda <ojeda@kernel.org>, Guillaume Tucker <gtucker@gtucker.io>
-Cc: =?utf-8?q?Onur_=C3=96zkan?= <work@onurozkan.dev>, 
- Nick Desaulniers <ndesaulniers@google.com>, linux-doc@vger.kernel.org, 
- workflows@vger.kernel.org, linux-kernel@vger.kernel.org, 
- linux-kbuild@vger.kernel.org, kernelci@lists.linux.dev, 
- automated-testing@lists.yoctoproject.org
-In-Reply-To: <68b14a76a4cb2e6437c869bab948983a98acffbd.1788779245.git.gtucker@gtucker.io>
-References: <68b14a76a4cb2e6437c869bab948983a98acffbd.1788779245.git.gtucker@gtucker.io>
-Subject: Re: [PATCH v4 1/3] scripts: add TOML config to container tool
-Message-Id: <179097236327.311770.8165714745450922135.b4-ty@b4>
-Date: Fri, 02 Oct 2026 22:19:23 +0200
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="NWzkxz2U"
+Received: from killaraus.ideasonboard.com (dynamic-2a00-1028-8389-0276-8139-a635-2d39-b80f.ipv6.o2.cz [IPv6:2a00:1028:8389:276:8139:a635:2d39:b80f])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 473C582A;
+	Sun,  4 Oct 2026 19:23:40 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1791134620;
+	bh=jKpbFnjBBfl/A7a1XTqbDuzK3rscrbhWmlp4Ppr2BYc=;
+	h=Date:From:To:Cc:Subject:From;
+	b=NWzkxz2UowVyirxx30d7wM4JeHpVKJxCjo5O0P6Ljm81/qkigj59G2YywMICN3Gnp
+	 RxhvFJdWHUEcoOn8ZiU1zWbdXTcjflFDRSivWVFUYw7YbP59jPlAV+c0YrOyFY0koE
+	 Kqaq4sijPcVPvj1+Wr17iSMIhiuhaiqxIwBFFHE4=
+Date: Sun, 4 Oct 2026 19:25:33 +0200
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: workflows@vger.kernel.org
+Cc: linux-kernel@vger.kernel.org
+Subject: Hallway BoF at LPC about
+Message-ID: <20261004172533.GA533673@killaraus.ideasonboard.com>
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.17-dev
-X-Developer-Signature: v=1; a=openpgp-sha256; l=955; i=nathan@kernel.org;
- h=from:subject:message-id; bh=g7rNGrAsJTDEdwMsuYjMkXPPCcqnVd2UiKhkVDSqirU=;
- b=owGbwMvMwCUmm602sfCA1DTG02pJDFkHBM8+UN0mk+5qd2OSp13u/vh+Jf94eU7HDzPFgs59S
- birfOh1RykLgxgXg6yYIkv1Y9XjhoZzzjLeODUJZg4rE8gQBi5OAZgIRwHDf/f5HsobIk5OiJFc
- v6n623blss9/ndmltgodTDW6Ocf5+n6Gv7I9uyb9YWPc8q1Y8/u6+K/57ssvP2OSNo3KY1ObKVo
- cyAsA
-X-Developer-Key: i=nathan@kernel.org; a=openpgp;
- fpr=2437CB76E544CB6AB3D9DFD399739260CB6CB716
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 
-On Mon, 07 Sep 2026 13:10:04 +0200, Guillaume Tucker wrote:
-> scripts: add TOML config to container tool
+Hello,
 
-Applied to
+In preparation for the maintainer summit, I have issued a call for
+opinions regarding usage of generative AI for kernel development ([1]).
+Multiple people expressed an interest in discussing this topic face to
+face in Prague during LPC (you are all BCC'ed to this e-mail).
 
-  https://git.kernel.org/pub/scm/linux/kernel/git/kbuild/linux.git kbuild-next-unstable
+As this topic is orthogonal to most of the discussions that will take
+place at LPC, I don't expect to find a time that will suit everybody. I
+will try to organize multiple "hallway BoFs" to give as many people as
+possible a chance to join. If you would like to participate in the first
+one, look for me during the Monday morning break at 11:30 in the foyer
+in front of the Club A room. We may continue the discussion into the
+next slot, possibling grabbing a BoF room if available.
 
-Thanks!
+I will relay this annoucement on Mastodon and in the LPC Hallway Track
+matrix room. Please keep an eye on the matrix room on Monday morning, I
+will post updates there in case last minute changes are required.
 
-[1/3] scripts: add TOML config to container tool
-      https://git.kernel.org/kbuild/c/69cb84e259b16
-[2/3] Documentation: dev-tools: update container.rst with config file
-      https://git.kernel.org/kbuild/c/56a124338eab9
-[3/3] Documentation: dev-tools: refer to user ID rather than id
-      https://git.kernel.org/kbuild/c/fd1ef9b669e96
+[1] https://floss.social/@pinchartl/117320477532952626
 
-Please look out for regression or issue reports or other follow up
-comments, as they may result in the patch/series getting dropped or
-reverted. Patches applied to an "unstable" branch are accepted pending
-wider testing in -next and any post-commit review; they will generally
-be moved to the main branch in a week if no issues are found.
-
-Best regards,
 -- 
-Cheers,
-Nathan
+Regards,
 
-
+Laurent Pinchart
