@@ -1,75 +1,77 @@
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E1FB6471CF2;
-	Sun,  4 Oct 2026 17:33:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9A79445D188;
+	Wed,  7 Oct 2026 08:52:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791135216; cv=none; b=YF2v76Y6YdL36FhinEjardFc87b7rbgukUnkNZ2XzMzVf4FwJg+fx9THyu/fyY557L/rMK70Ug4MLmZQkpdrz0rXJ8xsWZ4sbNCjKia8thmajEb7fYSyF5Ki0wp9/lHzeGMqF9I/P7Y2erRAgu5EfdUuInc2dEL9t3nH6l4nRkY=
+	t=1791363130; cv=none; b=O+EWduRoDtbkavMYJhL2vyts4Ou2bqkoCKwgSyBWPoVF0ol9UW1HGEB5JL1HTBYmZkCPXvOc2WR5fZBwegk2xT3tvO6Fy8vdvRWgvjq9D0MSurlSIju/AqFd+h97rmkBOVcC2nplXernwr3TjNZPMOrqVNUAM4/2hG68DKCGy7A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791135216; c=relaxed/simple;
-	bh=OAza5qqvLnX1YZlIrWAP0SwiY6qke1NjderQpmqNGsM=;
+	s=arc-20240116; t=1791363130; c=relaxed/simple;
+	bh=qfKx8kVgUoZSdHy+qHZUw0wNX3pyueJqPOUZRCeJy58=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=agfDXixXQ054lCWb/Ktil13Is63tz/pfgFm6HqoJP+Lv2Uz96U2xPoeGo+rBk7aTI5BP+sOOmd0eUDqUfuy8s0UXsiQggv/bRxGDX/L+qzn5xZT9B2NxljXKVK6WYO4rYZyi8iiFdbTtr4PGjFQvMIZuWqiOjQynJe/iD0CFgis=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=E1k7p7T9; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=sjjlZdORE1NyI2x1h0hW1Te6lkxYhGCw8svtf6cNLqogIUwndkEcumeM9Jncrpq7z9X1ilEhnmmevtFDMjLWYdICPD4Z03CMMPRnuHVwNgRpqDztyVAL48F8/b8awL84RzJc5iw1hScRqeCPquaLABlnaXLv/02g3wqdepv3t4c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=My4a+2Jv; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="E1k7p7T9"
-Received: from killaraus.ideasonboard.com (dynamic-2a00-1028-8389-0276-8139-a635-2d39-b80f.ipv6.o2.cz [IPv6:2a00:1028:8389:276:8139:a635:2d39:b80f])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id F26D582A;
-	Sun,  4 Oct 2026 19:31:34 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1791135095;
-	bh=OAza5qqvLnX1YZlIrWAP0SwiY6qke1NjderQpmqNGsM=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=E1k7p7T98Qj8StwiBIrODijPvUexOKhXyrEC0OqNIXjs46fX+777HqkZofpXien2U
-	 b+mVMc/TW7ibtct/zraBttMUMt+XFu6SgMzGUJXsEkd0jt4IAXUnKtM8HHMlXeTeMh
-	 TsKkdSf8dNcd9gvXhjmVYWvnM1uBpcTBguT4Fcs4=
-Date: Sun, 4 Oct 2026 19:33:28 +0200
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: workflows@vger.kernel.org
-Cc: linux-kernel@vger.kernel.org
-Subject: Re: Hallway BoF at LPC about generative AI for kernel development
-Message-ID: <20261004173328.GB533673@killaraus.ideasonboard.com>
-References: <20261004172533.GA533673@killaraus.ideasonboard.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="My4a+2Jv"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 81E9F1F0089B;
+	Wed,  7 Oct 2026 08:52:08 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1791363129;
+	bh=2IzwT/l0Lzn0mFWdIM+oQZhTsq5+DhNcbTaJhC3I8TY=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=My4a+2JvUPoDyESLa0Os6NTAJXhnmqhg1DoX8qYsCq2NSE8YP5bfXRSG3SK0U+RPA
+	 6D94l2quta4uz20fCy1en6a5lHyZq1AxTEldMhB9HeODOjti1wo9XRQdLROLvSR2RU
+	 9+LJ2Ti193QxpGrCUAT/5SdfEHHdeDFSB5wactNKVYoILGZZDZ5QY2vXOZS6zVNGv/
+	 CdeoBR6Sm6jmtrj12CV0Z7m3e78Kjo2DLNi1INdYqi939Ssbma3cl0EZtwr1/NqNbI
+	 nFUgXAq3bVatbnAP8pdlkrpbpBmmu2sFmPaKgv8x+SUKwotZX+XImUeCrl8sFx+nIj
+	 JRjgL7pLaoRwA==
+Date: Wed, 7 Oct 2026 04:52:05 -0400
+From: Sasha Levin <sashal@kernel.org>
+To: Antheas Kapenekakis <lkml@antheas.dev>
+Cc: corbet@lwn.net, workflows@vger.kernel.org, linux-doc@vger.kernel.org,
+	skhan@linuxfoundation.org, rdunlap@infradead.org,
+	linux-kernel@vger.kernel.org, "kees@kernel.org" <kees@kernel.org>
+Subject: Re: [PATCH] docs: add AGENTS.md as a symlink to README
+Message-ID: <asYINZIUxBL8I4n9@laps>
+References: <CAGwozwG0F88Ah8AEYf2u2BM-4bP+QnZe5p1qTFb4_H5acvaFkA@mail.gmail.com>
+ <arfpV7IXRAHREMzO@laps>
+ <CAGwozwHY7FsYQZaNf22S-nWGPkc4qekk3H=Hno5a0d0iWVtSJw@mail.gmail.com>
+ <arhtsrVb82vr6U-p@laps>
+ <CAGwozwE5pJaW14ePjeUQ_w=i1W-Kg=QQOzLY_33qV0W-Urmgjw@mail.gmail.com>
+ <arkiyMt2NIydrPhE@laps>
+ <CAGwozwGc62HAJnLeYL+jq_PnJq1LsV3Ex9LtQTE1pX3144MdtA@mail.gmail.com>
+ <arvFBqreU0qahkXx@laps>
+ <CAGwozwEfN7cUZm8usUsSR2bu23ux57QCPxyXJRfwv0tU34gEkQ@mail.gmail.com>
+ <CAGwozwHOttyNkC=sdVFCZYKZzhSE=cmUMgNd7cukpEE-WXm9Vw@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii; format=flowed
 Content-Disposition: inline
-In-Reply-To: <20261004172533.GA533673@killaraus.ideasonboard.com>
+In-Reply-To: <CAGwozwHOttyNkC=sdVFCZYKZzhSE=cmUMgNd7cukpEE-WXm9Vw@mail.gmail.com>
 
-And of course the subject line should have read "Hallway BoF at LPC
-about generative AI for kernel development". I need to learn to
-proof-read the subject too.
+On Tue, Sep 29, 2026 at 06:10:42PM +0200, Antheas Kapenekakis wrote:
+>The kernel forces you to have a local version file, otherwise it adds
+>a .test wart. At least on Fedora. So there is precedent for requiring
+>the user to create a file to disable some default behavior.
+>
+>Similarly, you swap this series into a two parter.
+>
+>The first patch gitignores agents.md.
+>
+>The second patch adds a phony rule to the makefile that symlinks
+>agents.md to the coding assistants rst or similar if it does not
+>exist. People that do not want that, like me, touch that file. Not to
+>the current readme, please. Be reasonable. Yes the coding assistants
+>rst file is not ideal either but that can be fixed later.
 
-On Sun, Oct 04, 2026 at 07:25:35PM +0200, Laurent Pinchart wrote:
-> Hello,
-> 
-> In preparation for the maintainer summit, I have issued a call for
-> opinions regarding usage of generative AI for kernel development ([1]).
-> Multiple people expressed an interest in discussing this topic face to
-> face in Prague during LPC (you are all BCC'ed to this e-mail).
-> 
-> As this topic is orthogonal to most of the discussions that will take
-> place at LPC, I don't expect to find a time that will suit everybody. I
-> will try to organize multiple "hallway BoFs" to give as many people as
-> possible a chance to join. If you would like to participate in the first
-> one, look for me during the Monday morning break at 11:30 in the foyer
-> in front of the Club A room. We may continue the discussion into the
-> next slot, possibling grabbing a BoF room if available.
-> 
-> I will relay this annoucement on Mastodon and in the LPC Hallway Track
-> matrix room. Please keep an eye on the matrix room on Monday morning, I
-> will post updates there in case last minute changes are required.
-> 
-> [1] https://floss.social/@pinchartl/117320477532952626
+But then you would need to run make to "generate" the symlink, which would not
+normally happen.
 
 -- 
-Regards,
-
-Laurent Pinchart
+Thanks,
+Sasha
