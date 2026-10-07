@@ -1,135 +1,210 @@
-Received: from relay15.grserver.gr (relay15.grserver.gr [46.62.234.254])
+Received: from mout-p-103.mailbox.org (mout-p-103.mailbox.org [80.241.56.161])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D9F5049892D
-	for <workflows@vger.kernel.org>; Wed,  7 Oct 2026 10:57:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=46.62.234.254
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B874839E6FD;
+	Wed,  7 Oct 2026 16:38:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.161
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791370708; cv=none; b=t8q9ZICc/pItRxeXzVFRGmI0+UCaK/WCGppB/qkYmT4PU8J4zDDTj+u184FUnuqIssntnECVTn6/g1zDCekQvw/ZkXajN/JiQAE0nhMJwsJfPRIZzyDLrP5sx7o6TMd8nWIE5WJCPKDt29WJJulRGnvKsqjYR8eNo08K6grZrKI=
+	t=1791391103; cv=none; b=ZVczPKHW5bsnlK+dbkjxlfTbddkijAtRrWOvqag5uu1qLPaNuGExY1vrva7QrNf+6CULEOpWPXjAXQ4IrNeiW+DqLJ5HFU0zPGUDz+LKvbEXBSTVC0qnd745//u4E7BxGEH3yqJvGg+d1AlQ7kgzNXIcuu2yI9EqaoIcQgcwVKw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791370708; c=relaxed/simple;
-	bh=LWqH4rnKhkaeqZsMRrWYyA8Vi+baDRXZJhcaHBpXDjY=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=RZb+UyJ65PEDJKj3hVBDpOtiKIqdHZ4RG5D+bl5vj5rNUvz/lvdqmRVLitlS55lB+YNdXcBNLZt+gHIzrUBGZdXkxT3hMriw+6DZpVPpcS2eq+DJPTlAD+/4diBbyeeSiW1jgpAoJSvTebQpA3Br3vm1K+mpCf5yISUDG9vzywQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=antheas.dev; spf=pass smtp.mailfrom=antheas.dev; dkim=pass (2048-bit key) header.d=antheas.dev header.i=@antheas.dev header.b=AViQCZEd; arc=none smtp.client-ip=46.62.234.254
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=antheas.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=antheas.dev
+	s=arc-20240116; t=1791391103; c=relaxed/simple;
+	bh=rt+DI0Zaj7t1gLzFkXpDITiac40k4MGIO8meOBYmFCU=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=FkP7yUos9Fhl6rmiMQMHaAu9wUfnZqHJuKYFkZUbOE2liiYghr9Wki0SIwx0jqQCJFUMwdjivS8uOzCMQGm7q4ct/XmJKkZftYRB4hkqPNMY3Kn4rMmsJu2PEEz0LjY1iqBBgUfDrEiLkCTT2xUNL1U5GUcLUyvm/e0ji6o3DGo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org; spf=pass smtp.mailfrom=mailbox.org; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=UkFfAXte; arc=none smtp.client-ip=80.241.56.161
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mailbox.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=antheas.dev header.i=@antheas.dev header.b="AViQCZEd"
-Received: from relay15 (localhost [127.0.0.1])
-	by relay15.grserver.gr (Proxmox) with ESMTP id 7F3983ED47
-	for <workflows@vger.kernel.org>; Wed,  7 Oct 2026 10:57:49 +0000 (UTC)
-Received: from linux3247.grserver.gr (linux3247.grserver.gr [213.158.90.240])
+	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="UkFfAXte"
+Received: from smtp2.mailbox.org (smtp2.mailbox.org [IPv6:2001:67c:2050:b231:465::2])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	 key-exchange X25519MLKEM768 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by relay15.grserver.gr (Proxmox) with ESMTPS id C63553ED67
-	for <workflows@vger.kernel.org>; Wed,  7 Oct 2026 10:57:48 +0000 (UTC)
-Received: from mail-pl1-f177.google.com (mail-pl1-f177.google.com [209.85.214.177])
-	by linux3247.grserver.gr (Postfix) with ESMTPSA id D545A202BC2
-	for <workflows@vger.kernel.org>; Wed,  7 Oct 2026 13:57:47 +0300 (EEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=antheas.dev;
-	s=default; t=1791370668;
-	bh=ddvlJM2l+2DMR1hq6/JuDx9Ck+W72pk1Eaag+1Bwh1A=;
-	h=Received:From:Subject:To;
-	b=AViQCZEdEZTIINX1A7NnN5t8fRhc1dtU+m1lDYlKSie3al91u1j1vuoEUtZKyI3Vw
-	 9upCh17+8Anm3t8rH4eVaiLJfEkAoay/1wbtcbn9khizWS9awhwjDs/sEmik1p6h3h
-	 wbVDOohibD0oVTd1M/6nONLug5aFCP81xbCQcdX8Qj80hgnqH0X0NFsvybNZG/Vf5m
-	 aY8ei6Zzt+89cAAvPWFsKuURlwW6zfy5TXP2lsvV/IUveWPtu5IpSyRWdvJotTA6P4
-	 ChNwUz8w/Mrm4Aq2It4IuN6zcqYEk5fOMowz/WJk/pEKRta95aF39IRzmCFV49GMe+
-	 SS4Mvm9CkqWwg==
-Authentication-Results: linux3247.grserver.gr;
-        spf=pass (sender IP is 209.85.214.177) smtp.mailfrom=lkml@antheas.dev smtp.helo=mail-pl1-f177.google.com
-Received-SPF: pass (linux3247.grserver.gr: connection is authenticated)
-Received: by mail-pl1-f177.google.com with SMTP id
- d9443c01a7336-2e4af975346so22826015ad.0
-        for <workflows@vger.kernel.org>; Wed, 07 Oct 2026 03:57:47 -0700 (PDT)
-X-Forwarded-Encrypted: i=1;
- AKwUvByAcxX0pMc3c8M01EJmA/TzhbQYnH4iVFSyRuPQyfRgpU+E8my9g2eLginKx9E8fq6LBYfGfCC95iw=@vger.kernel.org
-X-Gm-Message-State: AFq9FYIQS61PAgoBY0J4ZoWor4gWB779BZjcLgZLVdwHGDSXMLDdw6d8
-	j+6ZepPiWUKG8lCedolzcLSIK3O0H7QvFN2eBQDKnvX9JDtmSFrSrnARb3AO8rRepUU9xbuCc8s
-	+pm0i+BCKhwvehyVvdUnrFvwv/Dad5W8=
-X-Received: by 2002:a17:903:3c2b:b0:2e2:d26c:df9f with SMTP id
- d9443c01a7336-2e6003c5d79mr19039435ad.51.1791370666132; Wed, 07 Oct 2026
- 03:57:46 -0700 (PDT)
+	by mout-p-103.mailbox.org (Postfix) with ESMTPS id 4j0Jhn135gzKnYC;
+	Wed, 07 Oct 2026 18:38:17 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
+	t=1791391097;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=2Ezflyex2QCq4IDhV46iLXvD5SXyLtu7Un9mXAhjKQE=;
+	b=UkFfAXtexXMe4siEWkyoHJ7MLt9nnrmneb00G00NlXzSKyG2mdf+UNnktckKGk2nPnUkki
+	ueDkpfo5Yq1KIJJq7XvES43wbpRTJOFu57yqBFD4LUn3Uofvxo/kEj3P07j9/axs+NKdwv
+	CxUfTARcVHCHVOMSj7gnaFOEWz+UOxUlgM0ZTBjbV59KzB1vG1UVFJkvjVf8FIte5lgjYd
+	jRVVoTd2irs6lA9k09ObJEmN8vp9J5joXIGZmHwK8MG3tuzF2dzXF0tnpXF37HRDV2SWZ2
+	KqH91ITWRUWJvrK0lSp9YBxYVeHbhsx5vUzZzElveAvuHNYEMjjg/0dVg7AsDQ==
+From: Manuel Ebner <manuelebnerli@mailbox.org>
+To: Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Randy Dunlap <rdunlap@infradead.org>,
+	linux-kbuild@vger.kernel.org,
+	oe-kbuild-all@lists.linux.dev,
+	linux-debuggers@vger.kernel.org,
+	tools@linux.kernel.org,
+	workflows@vger.kernel.org (open list:DOCUMENTATION PROCESS),
+	linux-doc@vger.kernel.org (open list:DOCUMENTATION),
+	linux-kernel@vger.kernel.org (open list)
+Cc: Manuel Ebner <manuelebnerli@mailbox.org>,
+	Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>,
+	Nicolas Schier <n.schier@fritz.com>
+Subject: [PATCH RFC] changes.rst: introduce 'Required for'-column
+Date: Wed,  7 Oct 2026 18:37:37 +0200
+Message-ID: <20261007163736.3942745-2-manuelebnerli@mailbox.org>
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: 
- <CAGwozwG0F88Ah8AEYf2u2BM-4bP+QnZe5p1qTFb4_H5acvaFkA@mail.gmail.com>
- <arfpV7IXRAHREMzO@laps>
- <CAGwozwHY7FsYQZaNf22S-nWGPkc4qekk3H=Hno5a0d0iWVtSJw@mail.gmail.com>
- <arhtsrVb82vr6U-p@laps>
- <CAGwozwE5pJaW14ePjeUQ_w=i1W-Kg=QQOzLY_33qV0W-Urmgjw@mail.gmail.com>
- <arkiyMt2NIydrPhE@laps>
- <CAGwozwGc62HAJnLeYL+jq_PnJq1LsV3Ex9LtQTE1pX3144MdtA@mail.gmail.com>
- <arvFBqreU0qahkXx@laps>
- <CAGwozwEfN7cUZm8usUsSR2bu23ux57QCPxyXJRfwv0tU34gEkQ@mail.gmail.com>
- <CAGwozwHOttyNkC=sdVFCZYKZzhSE=cmUMgNd7cukpEE-WXm9Vw@mail.gmail.com>
- <asYINZIUxBL8I4n9@laps>
-In-Reply-To: <asYINZIUxBL8I4n9@laps>
-From: Antheas Kapenekakis <lkml@antheas.dev>
-Date: Wed, 7 Oct 2026 12:57:34 +0200
-X-Gmail-Original-Message-ID: 
- <CAGwozwFfS8qzy9K_WZRWJ_3UD_8YR6MVn6QZ1HaKPSNVsyHVLQ@mail.gmail.com>
-X-Gm-Features: AclHuK_BeZbeRs6xrVuF5xmld8_euALCHxim7-h_g1D573GzFHOgEnKcEC6QxnA
-Message-ID: 
- <CAGwozwFfS8qzy9K_WZRWJ_3UD_8YR6MVn6QZ1HaKPSNVsyHVLQ@mail.gmail.com>
-Subject: Re: [PATCH] docs: add AGENTS.md as a symlink to README
-To: Sasha Levin <sashal@kernel.org>
-Cc: corbet@lwn.net, workflows@vger.kernel.org, linux-doc@vger.kernel.org,
-	skhan@linuxfoundation.org, rdunlap@infradead.org,
-	linux-kernel@vger.kernel.org, "kees@kernel.org" <kees@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-X-PPP-Message-ID: 
- <179137066811.274997.4378505432536376040@linux3247.grserver.gr>
-X-PPP-Vhost: antheas.dev
-X-Virus-Scanned: clamav-milter 1.4.6 at linux3247.grserver.gr
-X-Virus-Status: Clean
+Content-Transfer-Encoding: 8bit
+X-MBO-RS-ID: dddea4e6f5fbbada107
+X-MBO-RS-META: rx4z7z4tgdgubcmsyy11wmkig53ae4fe
 
-On Wed, 7 Oct 2026 at 10:52, Sasha Levin <sashal@kernel.org> wrote:
->
-> On Tue, Sep 29, 2026 at 06:10:42PM +0200, Antheas Kapenekakis wrote:
-> >The kernel forces you to have a local version file, otherwise it adds
-> >a .test wart. At least on Fedora. So there is precedent for requiring
-> >the user to create a file to disable some default behavior.
-> >
-> >Similarly, you swap this series into a two parter.
-> >
-> >The first patch gitignores agents.md.
-> >
-> >The second patch adds a phony rule to the makefile that symlinks
-> >agents.md to the coding assistants rst or similar if it does not
-> >exist. People that do not want that, like me, touch that file. Not to
-> >the current readme, please. Be reasonable. Yes the coding assistants
-> >rst file is not ideal either but that can be fixed later.
->
-> But then you would need to run make to "generate" the symlink, which would not
-> normally happen.
+The optional tag isn't obvious nor defined. Therefore remove the tag and
+add column 'Required for' to make it easier to define the need for the tools.
 
-We would make the dependency part of a basic rule, so it runs whenever
-someone e.g., compiles a kernel. Yes a naked checkout would not have
-it, but after an initial make it would appear.
+CC: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
+CC: Nicolas Schier <n.schier@fritz.com>
+---
+If anybody has info to add to or refine the new column I would appreciate it a lot.
+Please forward this to list or people which can contribute to this patch.
 
-Something like:
+There's also the option to remove the 'Command to check the version'-column
+and refer to scripts/ver_linux - and with this also removing the duplicated
+information-issue.
 
-AGENTS.md:
-  ln -s Documentation/process/coding-assistants.rst AGENTS.md
+[v3]
+ Rearange column space of the table in order to add column instead of replacing column
+ add some requirements to the table
 
-basic-dependency: ... AGENTS.md
+[v2]
+ Ditch footnotes in favor of a column
+ Replace 'Check Version Command'-column with optional-column
+ https://lore.kernel.org/all/20260831152523.638881-1-manuelebnerli@mailbox.org/
 
-This would cause the file to be created only if it does not exist.
-since : is empty afterwards, the rule only runs when AGENTS.md does
-not exist and does not replace any existing ones.
+[v1]
+ https://lore.kernel.org/all/20260812122426.1636227-2-manuelebnerli@mailbox.org/
+---
+ Documentation/process/changes.rst | 97 ++++++++++++++++---------------
+ 1 file changed, 51 insertions(+), 46 deletions(-)
 
-Best,
-Antheas
-
-> --
-> Thanks,
-> Sasha
->
+diff --git a/Documentation/process/changes.rst b/Documentation/process/changes.rst
+index 28f2ca633..dafe0530f 100644
+--- a/Documentation/process/changes.rst
++++ b/Documentation/process/changes.rst
+@@ -1,13 +1,14 @@
+ .. _changes:
+ 
+-Minimal requirements to compile the Kernel
+-++++++++++++++++++++++++++++++++++++++++++
++Minimal requirements to interact with the Kernel
++++++++++++++++++++++++++++++++++++++++++++++++++
+ 
+ Intro
+ =====
+ 
+-This document is designed to provide a list of the minimum levels of
+-software necessary to run the current kernel version.
++This document is designed to provide a list of the minimum versions of
++software necessary to change code, compile, install and boot the current
++kernel version.
+ 
+ This document is originally based on my "Changes" file for 2.0.x kernels
+ and therefore owes credit to the same people as that file (Jared Mauch,
+@@ -27,48 +28,52 @@ running a Linux kernel.  Also, not all tools are necessary on all
+ systems; obviously, if you don't have any PC Card hardware, for example,
+ you probably do not need to concern yourself with pcmciautils.
+ 
+-====================== ===============  ========================================
+-        Program        Minimal version       Command to check the version
+-====================== ===============  ========================================
+-bash                   4.2              bash --version
+-bc                     1.06.95          bc --version
+-bindgen (optional)     0.71.1           bindgen --version
+-binutils               2.30             ld -v
+-bison                  2.0              bison --version
+-btrfs-progs            0.18             btrfs --version
+-Clang/LLVM (optional)  17.0.1           clang --version
+-e2fsprogs              1.41.4           e2fsck -V
+-flex                   2.5.35           flex --version
+-gdb                    7.2              gdb --version
+-GNU awk (optional)     5.1.0            gawk --version
+-GNU C                  8.1              gcc --version
+-GNU make               4.0              make --version
+-GNU tar                1.28             tar --version
+-GRUB                   0.93             grub --version || grub-install --version
+-gtags (optional)       6.6.5            gtags --version
+-iptables               1.4.2            iptables -V
+-jfsutils               1.1.3            fsck.jfs -V
+-kmod                   13               kmod -V
+-mcelog                 0.6              mcelog --version
+-mkimage (optional)     2017.01          mkimage --version
+-nfs-utils              1.0.5            showmount --version
+-openssl & libcrypto    1.0.0            openssl version
+-pahole                 1.26             pahole --version
+-pcmciautils            004              pccardctl -V
+-pigz (optional)        2.4              pigz --version
+-PPP                    2.4.0            pppd --version
+-procps                 3.2.0            ps --version
+-Python                 3.9.x            python3 --version
+-quota-tools            3.09             quota -V
+-Rust (optional)        1.85.0           rustc --version
+-Sphinx\ [#f1]_         3.4.3            sphinx-build --version
+-squashfs-tools         4.0              mksquashfs -version
+-udev                   081              udevadm --version
+-util-linux             2.10o            mount --version
+-xfsprogs               2.6.0            xfs_db -V
+-====================== ===============  ========================================
+-
+-.. [#f1] Sphinx is needed only to build the Kernel documentation
++==============  ========  =======================  ========================================
++    Program     Minimal      Command to check                  Required for
++                version         the version
++==============  ========  =======================  ========================================
++bash            4.2       bash --version           general requirement
++bc              1.06.95   bc --version             Kbuild (
++bindgen         0.71.1    bindgen --version        CONFIG_RUST=y
++binutils        2.30      ld -v
++bison           2.0       bison --version          Kbuild (.config)
++btrfs-progs     0.18      btrfs --version
++Clang/LLVM      17.0.1    clang --version          alternative to GNU C (gcc)
++e2fsprogs       1.41.4    e2fsck -V                ext4
++flex            2.5.35    flex --version           Kbuild (.config)
++gdb             7.2       gdb --version            Debugging
++GNU awk         5.1.0     gawk --version           objtool, CONFIG_SYSTEM_BLACKLIST_HASH_LIST=y
++GNU C           8.1       gcc --version            alternative to Clang/LLVM (clang)
++GNU make        4.0       make --version
++GNU tar         1.28      tar --version
++GRUB            0.93      grub --version ||
++                          grub-install --version
++gtags           6.6.5     gtags --version          to generate tag files through ``make gtags``
++iptables        1.4.2     iptables -V
++jfsutils        1.1.3     fsck.jfs -V
++kmod            13        kmod -V
++mcelog          0.6       mcelog --version
++mkimage         2017.01   mkimage --version        Flat Image Tree (FIT) or ARCH=arc, arm or powerpc
++nfs-utils       1.0.5     showmount --version
++openssl         1.0.0     openssl version
++pahole          1.26      pahole --version
++pcmciautils     004       pccardctl -V
++pigz            2.4       pigz --version           Compile and boot with KPGZIP=y
++PPP             2.4.0     pppd --version
++procps          3.2.0     ps --version
++Python          3.9.x     python3 --version
++quota-tools     3.09      quota -V
++Rust            1.85.0    rustc --version          CONFIG_RUST=y
++Sphinx          3.4.3     sphinx-build --version   build kernel documentation
++squashfs-tools  4.0       mksquashfs -version
++udev            081       udevadm --version
++util-linux      2.10o     mount --version
++xfsprogs        2.6.0     xfs_db -V
++==============  ========  =======================  ========================================
++    Program     Minimal      Command to check                  Required for
++                version      check the version
++==============  ========  =======================  ========================================
++
+ 
+ Kernel compilation
+ ******************
+-- 
+2.55.0
 
