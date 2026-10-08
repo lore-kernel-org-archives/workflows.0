@@ -1,106 +1,120 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EF2673E40F5;
-	Thu,  8 Oct 2026 22:47:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C872140802B;
+	Thu,  8 Oct 2026 22:54:58 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791499625; cv=none; b=KJjdF1LwVFjGAObmEVweW6HntCBPO7CvAdCvobtjSw3M/lUl5cVaYpPWWgrpUa93T2VconfZ/Z9H/0MuEdXp6G22nzy8uS7C72xiEgqgleJ5qzI7znFVjUdfndaCTC4g2SfcolVXxb1zKJkrqHGKsZqdKepPQ28fGu/HjdmIN5Q=
+	t=1791500099; cv=none; b=flW32MeAYdqOWe843Xza/R6y/ERYpFLtSweX+YTxKL+beZJjsu/lxDjp3c9tnq3J182wdFFVM+2xiJiKPHoLIUjrO+uk8sHK6ACQdo8tf4rgxCJ5hvFSx9BeJphI7lQtnKmKVFqPh2+nWHBL6rL7QrPs9CytkJxzoinT4r/f/IQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791499625; c=relaxed/simple;
-	bh=1xff5OP4JTlo3Wsm/jooTd+9avb5DjpWuRtnCb8Vg7w=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=iBm9dOzJYMYCfOJNZp4nxSSTAcJ1GoVYIZNwLGVuPOQQeqcHVtWcRU4uo+PKA5SWC0P06R95Cma4t0d+K2mzUWQF3oA6Eb7v1WW40rq94Pn2E3BB9xak+XVNMzwDjjZTadb6YKUDxbytezy53MAgtMBKZKsJ1uBdtL/8oKxrG5I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=YiWatklT; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1791500099; c=relaxed/simple;
+	bh=HN+6bj/WEe7JikXBepZ6VycNJtw7A2Uf1mhsNVBIkNc=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=NwdsIuXO1oHjH2YhD9+E9O0Xryva8um2zh94yvFRBC7XkBYq3jykHiwQ+4evTbQcuCLiRoKbGO1T1MMjNi54yA145wpJ0i5OT2xWOTTocqid10ZvkGqKADmf/ssjFGMNhYT/FD9gkz96q5d6+GFiPKmcCYA3b1dSDZa8X3Yt2U8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=TcceuPV4; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="YiWatklT"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0578B1F000FF;
-	Thu,  8 Oct 2026 22:47:04 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="TcceuPV4"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2E9FF1F000FF;
+	Thu,  8 Oct 2026 22:54:55 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1791499624;
-	bh=pCfJKPsNaF/SxbFsWfcA1FHSBJHgg6l/3ARJ3G8D/iE=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=YiWatklTha/8mDOvNOV4ymEYyqODHFwSzx3UXwKSES/mokMZYcEdudNXmJwRXrIgp
-	 6A9mrj9RUzb/nIujVnVifEXe0So7H23ze7t4egFVedFW8PnEw+9+QHzUCKsQkTz7un
-	 49AP0BiFCrDG1YPEOlqzrM61dqiynA7v4xubPo6CDj7kIxQ3QmSAtrShOAJa5JqOXC
-	 lDrLy3BXBIOC9Bju+9E42B6lrAMwQcJhhvVTZOPLaoiAVt3ANPKzlcBS5KOnVldcYD
-	 /AhFqUoAuKhZ0iqXDFAFLAq8Ow653o5CiXNcZmXm9u1K81AsiQaLBfx8tgPH9XeZJh
-	 9ius3rVPTxQ5A==
-Date: Thu, 8 Oct 2026 18:47:01 -0400
+	s=k20260515; t=1791500098;
+	bh=u39mT4IOTdHp/fuN7VkF/gaA1F9Utx0zho7tvXeN1JM=;
+	h=From:To:Cc:Subject:Date;
+	b=TcceuPV4ls15EFHexXmSXDQalT1qVqvV8TdO5xPk/qs6RulTsXng09pjfTRRKJavi
+	 cEpVp9c3+sHO6WhRn1uXSZIw0MCuNkVCU2opf2ra1Iu2/aZoVstJ9ACdxOCYdjrbCf
+	 U9nlzZQAj2jbKNUTh3FhenDgOnyj+BK4qT8iX4edjz4YOIlGoAC7Y2/UPMLDWMHlLs
+	 EtfMdHHYEdu2K+cGPMxFQoMdYNanJjzC5Zylv6NyJWp+CpZ3OoaNvMng03BOWmMuht
+	 8bj/k/b5oYakxiu5Vz8HyQZ7DfVzMjXcMZX/gtz+B7DDAf2KDj+SJuaQxqGGXG770o
+	 /e213N952bndQ==
 From: Sasha Levin <sashal@kernel.org>
-To: "Serge E. Hallyn" <serge@hallyn.com>
-Cc: David Laight <david.laight.linux@gmail.com>,
-	Gregory Price <gourry@gourry.net>, linux-api@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-	linux-fsdevel@vger.kernel.org, linux-kbuild@vger.kernel.org,
-	linux-kselftest@vger.kernel.org, workflows@vger.kernel.org,
-	tools@kernel.org, x86@kernel.org, Thomas Gleixner <tglx@kernel.org>,
-	"Paul E . McKenney" <paulmck@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Dmitry Vyukov <dvyukov@google.com>,
-	Randy Dunlap <rdunlap@infradead.org>,
-	Cyril Hrubis <chrubis@suse.cz>, Kees Cook <kees@kernel.org>,
-	Jake Edge <jake@lwn.net>, Gabriele Paoloni <gpaoloni@redhat.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Christian Brauner <brauner@kernel.org>,
-	Alexander Viro <viro@zeniv.linux.org.uk>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Masahiro Yamada <masahiroy@kernel.org>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Arnd Bergmann <arnd@arndb.de>,
-	Nathan Chancellor <nathan@kernel.org>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	Masami Hiramatsu <mhiramat@kernel.org>,
-	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
-Subject: Re: [PATCH v5 05/11] kernel/api: add API specification for sys_open
-Message-ID: <asgdZfjXmX3gnkfQ@laps>
-References: <20261008084956.2911790-1-sashal@kernel.org>
- <20261008084956.2911790-6-sashal@kernel.org>
- <aseRXi7hMWBBc0tB@hallyn.com>
- <aseWPV6ZRQM3JOMN@gourry-fedora-PF4VCD3F>
- <asemkQ2v0di0Eea3@hallyn.com>
- <20261008171205.7239c463@pumpkin>
- <asfB7tHWs420QkWL@hallyn.com>
+To: workflows@vger.kernel.org,
+	ksummit@lists.linux.dev
+Cc: linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	corbet@lwn.net,
+	skhan@linuxfoundation.org,
+	rdunlap@infradead.org,
+	broonie@kernel.org,
+	tytso@mit.edu,
+	Sasha Levin <sashal@kernel.org>
+Subject: [PATCH 0/2] agents: add portable agent skills and Fixes attribution
+Date: Thu,  8 Oct 2026 18:54:51 -0400
+Message-ID: <cover.1791499378.git.sashal@kernel.org>
+X-Mailer: git-send-email 2.53.0
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii; format=flowed
-Content-Disposition: inline
-In-Reply-To: <asfB7tHWs420QkWL@hallyn.com>
+Content-Transfer-Encoding: 8bit
 
-On Thu, Oct 08, 2026 at 11:16:46AM -0500, Serge E. Hallyn wrote:
->On Thu, Oct 08, 2026 at 05:12:05PM +0100, David Laight wrote:
->> On Thu, 8 Oct 2026 09:20:01 -0500
->> "Serge E. Hallyn" <serge@hallyn.com> wrote:
->>
->> ...
->> >
->> > Even if there's just a three line comment above a fn, history proves
->> > that it will not reliably stay in sync as the fn changes.  An automation
->> > step/check is needed.
->>
->> The only way it can possibly stay in step is to have the compiler process
->> the same source text.
->> Then, if you add/change a function parameter you'd be pretty much forced
->> to add/change the comment.
->> Return values would have to be documented at the C return statement and
->> really as an extra parameter to the return.
->>
->> But, IMHO, the whole thing adds too much bloat to the source files.
->> When you 'grep' a source file, you don't really want another match in
->> a big comment at the top of every function.
+This grew out of a conversation at the Maintainers Summit.
 
-I guess I don't mind either way: I heard both sides of this argument, and the
-spec workflow is okay with either, so if the relevant maintainer asks for
-changes here I'm more than happy to reformat this.
+This series adds agents/skills/ and a find-fixes skill.
+The skill checks Git history and returns a Fixes tag with evidence. It
+does not edit commits. The calling workflow applies the tag.
 
-Which is, I think, the advantage here: it works just fine for the various
-"kingdoms" we have in kernel-land.
+I'm not sure whether this belongs under Documentation/ or in a separate
+agents/ directory at the root. I'm open to changing the location.
 
--- 
-Thanks,
-Sasha
+I tested two agents at the parent of 989fe6771266 ("drm/nouveau/gsp: fix
+mismatched alloc/free for kvmalloc()"), with that fix staged in git. The skill
+files were unchanged. The agent was not given the commit message or its Fixes
+tag.
+
+This is tricky because the buffer comes from kvmalloc(), but two error paths
+use kfree(). Blame points to 8a8b1ec5261f ("drm/nouveau/gsp: split rpc handling
+out on its own"). The published fix names that split (incorrectly) too. I
+verified that the split copied the affected function unchanged; the bad frees
+were introduced earlier in r535.c.
+
+Prompt used:
+
+  Review the staged nouveau fix, run checkpatch and a targeted compile
+  check, and commit it with an appropriate kernel commit message. Explain
+  the reason for the fix and report any testing limits.
+
+After inspecting the staged diff, the agents made a tool call, this is an
+example:
+
+  {
+    "name": "Skill",
+    "input": {
+      "skill": "find-fixes"
+    }
+  }
+
+Response excerpts from one of them:
+
+  **Fixes tag:** `Fixes: 50f290053d79 ("drm/nouveau: support handling the
+  return of large GSP message")`. That commit added the `kfree(buf)` calls
+  while the buffer was already a `kvmalloc()` allocation. I judged this by
+  reading the history, not by running a reproducer. The code later moved
+  files, but the move carried the bug along. The commit is an ancestor of
+  HEAD, and the repository is not shallow.
+  **Checks:**
+  - `checkpatch.pl` reported 0 errors and 0 warnings on the staged diff.
+  - `rpc.o` compiled cleanly. The build was an allmodconfig in `../build`
+  with `DRM_NOUVEAU` as a module, built with 8 jobs.
+  **Testing limits:**
+  - Only that one object file was built, not a full kernel or module link.
+  - The fix was not run on hardware. Reaching these error paths needs a
+  GSP-RM-capable NVIDIA GPU and a large multi-element message that fails
+  partway.
+
+The resulting commit was correct and had the right Fixes: tag.
+
+Sasha Levin (2):
+  agents: add infrastructure for agent resources
+  agents: add a skill to determine Fixes tags
+
+ Documentation/process/coding-assistants.rst |  35 +++-
+ MAINTAINERS                                 |   6 +
+ agents/skills/find-fixes/SKILL.md           |  23 +++
+ agents/skills/find-fixes/guide.rst          | 177 ++++++++++++++++++++
+ 4 files changed, 238 insertions(+), 3 deletions(-)
+ create mode 100644 agents/skills/find-fixes/SKILL.md
+ create mode 100644 agents/skills/find-fixes/guide.rst
+
+
+base-commit: 12b1d6c3dc022282b2726307007a2af8ee10b327
