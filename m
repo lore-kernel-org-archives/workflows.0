@@ -1,103 +1,71 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B716D4D0CFD;
-	Fri,  9 Oct 2026 13:40:31 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E299A4E36E1;
+	Fri,  9 Oct 2026 14:20:07 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791553232; cv=none; b=nkNyYit5IiXxr4QA5yZcFF5fY/sJpBgVfFdZtosBqC38FaxDJTb6ZCUmcJ61mS7DGjwTArv+l9+qdMTuFFRxQECq4JHc+8R35lu+Ch1kpgdn+veNkEUCJ2sb08fmGUeZVhhSakh2SHQqRwnUJDQqCUtnK5+b2/c+HtIrQNPeJ7M=
+	t=1791555612; cv=none; b=KNS5XDVdSdj+p1qRAB6zB0zae/xfJE1/lSZyCyhntmB3vUAMuZSmwMSRPqFSXPQwjYAzWCZbdVbwZ4qcQfiv4XZ+oLdQfdJTZGwKD2V1MJRaf3vCLfp9SwTW6csYMFebaKZ0smKys/s/MOqaxxaDApArFg6ckQO7C6xPvSEL87s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791553232; c=relaxed/simple;
-	bh=UouKCcq7rLgQURQkIXksVmQmq9vLEuOMFkYG9+4j1EU=;
+	s=arc-20240116; t=1791555612; c=relaxed/simple;
+	bh=OjGKxXpJaFjdVOG5Ol2AwyL+NtDgFBCAiso2ZYhyLTE=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=iK1ZpyW6zWqFlBE+vZEHqSIrsxzDVx5isgI/LehCRKQxp5jUsFOMe2IMJEIxlP2y6+Ao+SJCLvjdzsAdn9aHvJsbH94n/eOroTcLrTZrhUDCVW+OK8/13BLb322kQnwtgrGO19E5AIGAl9Y5DNl2rnarccKMwomoxPiGGH5YMwg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=gJRwrMmn; arc=none smtp.client-ip=100.103.45.18
+	 Content-Type:Content-Disposition:In-Reply-To; b=Pd7P/4i0dT6fRB4CaPYuzZUbU6/4YTfQhaVj61Kvt3YVwvuXYhSHTdnkHB/EOWH5lGGJCrkBnBpm2Q00HlO5MZmqzUFQ/Qk0mCQvO41r0tkWgBBS5dZMuwAm+2CK+Nz3Luy9EIKfsMKf+fOkZ6G4N1uVCcjC0Re8snZI3q562us=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=SftOsoAX; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="gJRwrMmn"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9050F1F000FF;
-	Fri,  9 Oct 2026 13:40:30 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="SftOsoAX"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D371C1F00893;
+	Fri,  9 Oct 2026 14:20:06 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1791553231;
-	bh=cAy0K7DWY/c8nJMgudteNUXw58/uv7fg8K9MBq10Jbs=;
+	s=k20260515; t=1791555607;
+	bh=hfizGw9RYkpI5EiT+JchxQEGoEgZV/MvZJPcW1lwzbg=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=gJRwrMmntujb+cd3MK5Ji2Kfo+2iacrYvCJ4UQEdoB+IDNZB/L2xQB7qvewT4gkDT
-	 lV+sOuShzBCp8v7AGpFEDERWT+uPMHYHLhqbNuiHEIYh0PhuqNRxn35vWDqVMHg616
-	 aIm5byiiIupHaP5T6yCrE+X0vO7OvqHWi8OVGeJnQ1WPpTKLK+fUzXzOP9sty+aDPb
-	 +VtV3mJ07uLMSJbrDYTtTE1v349lBe7lnFCkIdux61otqHefh/f7Q2zaYi/eQspg9w
-	 IUM2700M/LDgoqXtFNe8GYsEL9ujAMICGu24lMf1Tf2HWdw1sTzlriatUVwbvMiGf4
-	 cOk/aQuwa29lg==
-Date: Fri, 9 Oct 2026 16:40:25 +0300
-From: Leon Romanovsky <leon@kernel.org>
-To: Sasha Levin <sashal@kernel.org>
+	b=SftOsoAXny0HftFV9n79w8VZ3lZRTXm4UVRgeApKYG5MCBK4wtn5zbWZ5Ebriq9Ik
+	 xz99DKPuRLSMgSpGE8kDMCRG3UiLOixlzzS8y/hlPWUzsVJ38T4b2pjt+Ijv0or/yc
+	 LfSdsPg0nsQCELmJ6XvSulEeTjO3s5zjhL3X95kEOzGNUAABN5qYjIPc3bghiNQ97A
+	 8j7wnt/VzrnOBWP1YlkkR1DY3cuUZxYzMzyDlO2MrQflDqB/HRbV6GAGa1PMPRkKym
+	 sbIU3pH8sYItJY0tz/6Dw+l2Pi513lW40XlzgSSGidEzvKLeVd4YZ6dVnPT3EuKqLR
+	 bSkcq0pnAb+sQ==
+Date: Fri, 9 Oct 2026 10:20:04 -0400
+From: Sasha Levin <sashal@kernel.org>
+To: Leon Romanovsky <leon@kernel.org>, konstantin@linuxfoundation.org
 Cc: workflows@vger.kernel.org, ksummit@lists.linux.dev,
 	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
 	corbet@lwn.net, skhan@linuxfoundation.org, rdunlap@infradead.org,
 	broonie@kernel.org, tytso@mit.edu
 Subject: Re: [PATCH 1/2] agents: add infrastructure for agent resources
-Message-ID: <20261009134025.GA11438@unreal>
+Message-ID: <asj4FCbBoca8TUK6@laps>
 References: <cover.1791499378.git.sashal@kernel.org>
  <5dfafd6f79165526fe17774c55b553b7dfe4b3fe.1791499378.git.sashal@kernel.org>
+ <20261009134025.GA11438@unreal>
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=us-ascii; format=flowed
 Content-Disposition: inline
-In-Reply-To: <5dfafd6f79165526fe17774c55b553b7dfe4b3fe.1791499378.git.sashal@kernel.org>
+In-Reply-To: <20261009134025.GA11438@unreal>
 
-On Thu, Oct 08, 2026 at 06:54:52PM -0400, Sasha Levin wrote:
-> Add agents/ as a home for skills, prompts, and other resources for coding
-> assistants. Describe the skill layout and how to read the procedures in
-> coding-assistants.rst, and add a MAINTAINERS entry covering agents/.
-> 
-> Assisted-by: LLM
-> Signed-off-by: Sasha Levin <sashal@kernel.org>
-> ---
->  Documentation/process/coding-assistants.rst | 12 ++++++++++++
->  MAINTAINERS                                 |  6 ++++++
->  2 files changed, 18 insertions(+)
-> 
-> diff --git a/Documentation/process/coding-assistants.rst b/Documentation/process/coding-assistants.rst
-> index 051f0d819f68e..3288b32e993f5 100644
-> --- a/Documentation/process/coding-assistants.rst
-> +++ b/Documentation/process/coding-assistants.rst
-> @@ -19,6 +19,18 @@ For guidelines on content generated by AI coding assistants see:
->  
->  * Documentation/process/generated-content.rst
->  
-> +Agent resources
-> +===============
-> +
-> +The ``agents/`` directory holds skills, prompts, and other resources for
-> +coding assistants.
-> +
-> +Skills live under ``agents/skills/<name>/``, with a ``SKILL.md`` entry point
-> +in the `Agent Skills format
-> +<https://agentskills.io/specification>`_. Read the relevant resource
-> +directly from its repository path. Links within a skill are relative to
-> +that skill's directory.
-> +
->  Licensing and Legal Requirements
->  ================================
->  
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index 65e8a4b5c90b1..2a09e95b801eb 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -713,6 +713,12 @@ F:	Documentation/filesystems/afs.rst
->  F:	fs/afs/
->  F:	include/trace/events/afs.h
->  
-> +AGENT RESOURCES
-> +M:	Sasha Levin <sashal@kernel.org>
-> +L:	linux-kernel@vger.kernel.org
-> +S:	Maintained
-> +F:	agents/
+On Fri, Oct 09, 2026 at 04:40:25PM +0300, Leon Romanovsky wrote:
+>On Thu, Oct 08, 2026 at 06:54:52PM -0400, Sasha Levin wrote:
+>> +AGENT RESOURCES
+>> +M:	Sasha Levin <sashal@kernel.org>
+>> +L:	linux-kernel@vger.kernel.org
+>> +S:	Maintained
+>> +F:	agents/
+>
+>If you choose a separate entry instead of adding this to the existing
+>"Documentation Process" entry, let's update the mailing list to
+>workflows@vger.kernel.org. This is where all process changes are announced.
 
-If you choose a separate entry instead of adding this to the existing
-"Documentation Process" entry, let's update the mailing list to
-workflows@vger.kernel.org. This is where all process changes are announced.
+Hm... What do you think Konstantin?
 
-Thanks
+I remember the workflows@ list was originally created to share our
+secret/magical workflows, and I'm not sure that this one qualifies. We can
+start a new list too if it's easier.
+
+-- 
+Thanks,
+Sasha
