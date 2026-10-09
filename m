@@ -1,49 +1,52 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from outgoing.mit.edu (outgoing-auth-1.mit.edu [18.9.28.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 77B9A36B934;
-	Fri,  9 Oct 2026 15:57:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DD83F2749DC
+	for <workflows@vger.kernel.org>; Fri,  9 Oct 2026 16:30:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=18.9.28.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791561424; cv=none; b=IPLwN0dSvHcijLQyVINP+9ZHhjUQeAOCEN+DUt2ZHUgVpTEraF5trU9F0JFuHrsY8IHRlK9JsTFst5fmNYxGxW4xiGb7o8k2UECGB1xfX1eY7HybG8I+mlDQJFlxKM6Kw92BXqMeeCXNBdsSV7KKW+SjhyThlmLeuymWgBm5ftk=
+	t=1791563461; cv=none; b=FEwJeaSjDUTx0p917+Aqp4XThP3R9Irwnf6teob1I/8BmGAll62XGeoJJHSo7GncTLw+EHQzgv9X4KInk1wwznO5a4NfyKhG3LKjYDBYSoLbdY5Ifs4p5CSLh7lLH01r8HgKjGIZBYyTM2r3MJbvix6NKvwsANtOJ+1iy72Yjyg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791561424; c=relaxed/simple;
-	bh=mVDw3558qi2dmbH+1SMnQnVGN6LG7PdfxcI2x2CWViE=;
+	s=arc-20240116; t=1791563461; c=relaxed/simple;
+	bh=tcmgkuhiNN17EugX4RUpYEsyUNnSbw6ABrqH4Thixe8=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=nkmuGV9eLAXHYh7vsriQaeIQP5nU2v5MOtoK7I3RY0kgQ52uI1V1YJ5/0xgwiP5/br475HaNS3DN5BjxJdJN24QYDHvo0gaK0l26UsfgYXZZmzmRxZ4WSbVsp3X1Z9mf/oeviUiinpize43ObX68do7/r9i7oruKl/XEijDLsV4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=JfSUF17F; arc=none smtp.client-ip=100.103.45.18
+	 Content-Type:Content-Disposition:In-Reply-To; b=I2T6g1bPVqbr8tI44PawcJOYPN9C4vQE0Ik1+N+fmBOHJ5UHrUxvtBANZBTWumlr0HC6ZSQAFRfanmMcIiDvLkdSOXo3aozLp7uK5LDS0tlSePqCJzADOMFQcXAhu0jzq1hxA4Oj2NqbIXLJIG3VvxWCWo1xMkqY1zYnMgPVmB0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=mit.edu; spf=pass smtp.mailfrom=mit.edu; dkim=pass (2048-bit key) header.d=mit.edu header.i=@mit.edu header.b=OIqWkl5r; arc=none smtp.client-ip=18.9.28.11
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=mit.edu
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mit.edu
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="JfSUF17F"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 227F71F000FF;
-	Fri,  9 Oct 2026 15:57:03 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1791561423;
-	bh=KuCaZxCYMdZZgfvi4rJIGQNSUWpQj/i0u1SZL9YwMIM=;
-	h=Date:From:To:Cc:Subject:Reply-To:References:In-Reply-To;
-	b=JfSUF17FIQ5uG0WgMZv5K8JlPGc6Lo0UfZBDoM/LH9OrsUGdFbx4LmEuxkgZYxsZi
-	 7uwQzI0RWf7VvVp3UiIXgWXdMZsMpWCCi+eFXZzQ5MJuDrudaKVWa6XjrFbinmLX6i
-	 BQhM0qI6lv2pjur4K1esNmz8j+IO3sD0D/FpbrFy3hlgStSiid/Sykt+1oHIiFvXh8
-	 t5rcKW0wOEHOpM3EfEPYJVb4HlNHf+QNyIYQAYNi+55C9yBOo97BVA4wjzlpnZ2l/B
-	 G7Y5x4mB4IrbM21jjIk1KN5kSxtpJrN5r+FgArJ2ooFrxgcsus3xzk4+hHyut3FJHt
-	 WNi41848auhXQ==
-Received: by paulmck-ThinkPad-P17-Gen-1.home (Postfix, from userid 1000)
-	id BDF91CE0B28; Fri,  9 Oct 2026 08:57:02 -0700 (PDT)
-Date: Fri, 9 Oct 2026 08:57:02 -0700
-From: "Paul E. McKenney" <paulmck@kernel.org>
-To: Kees Cook <kees@kernel.org>
-Cc: Lorenzo Stoakes <ljs@kernel.org>, Nicolas Schier <nsc@kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Manuel Ebner <manuelebnerli@mailbox.org>,
-	Nathan Chancellor <nathan@kernel.org>, linux-kbuild@vger.kernel.org,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-	workflows@vger.kernel.org, Mark Brown <broonie@kernel.org>,
-	linux-next@vger.kernel.org
-Subject: Re: [BUG] Build failure in next-20261007 and next-20261008
-Message-ID: <51aa9736-6e78-40db-9d4f-95dc7142e222@paulmck-laptop>
-Reply-To: paulmck@kernel.org
-References: <0ddb5e5e-f801-444c-aa98-0cfe814a3026@paulmck-laptop>
- <202610082200.752C6C08A5@keescook>
+	dkim=pass (2048-bit key) header.d=mit.edu header.i=@mit.edu header.b="OIqWkl5r"
+Received: from macsyma.thunk.org (99-196-133-108.cust.exede.net [99.196.133.108] (may be forged))
+	(authenticated bits=0)
+        (User authenticated as tytso@ATHENA.MIT.EDU)
+	by outgoing.mit.edu (8.14.7/8.12.4) with ESMTP id 699GUAvb004081
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Fri, 9 Oct 2026 12:30:24 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mit.edu; s=outgoing;
+	t=1791563429; bh=ZM0CvUeJVuI50r1AFpimp14FZHjiiFE5U0fKRuwYWA0=;
+	h=Date:From:Subject:Message-ID:MIME-Version:Content-Type;
+	b=OIqWkl5rivkO9/94TUUQ+4lRjfaFQaqIcdZ8GYc97A4RclY6iBe/HBRdaV9q+YQ9E
+	 Dz48C7cRBS2bxqAsKVQRQAatJEbMlVDzwIZbc1VAn5Ba8v+M5Uo3iUMaAR6j1QVKcw
+	 sJJcmNIgsOGrT4TmiE26OOXpebxfsYsWiWhCMEfuNPTC1H97Z4YgYRL2qU72jFxpYr
+	 +Hnwpx/r/ezZacryM/AB38EtA0Ol5kGBesLWiymt8lKM/yjb8rd0OJQxxvSffa8QAG
+	 GZMHfDMHZ7LlP37VCyoEidtWSw+hEXAWO7Gn+XcJGPp1uoVSsFfDmaQDPP+BWNQfoe
+	 QegKAK+8EadaA==
+Received: by macsyma.thunk.org (Postfix, from userid 15806)
+	id 8D8C41FA0BE7; Fri,  9 Oct 2026 12:30:07 -0400 (EDT)
+Date: Fri, 9 Oct 2026 12:30:07 -0400
+From: "Theodore Tso" <tytso@mit.edu>
+To: Sasha Levin <sashal@kernel.org>
+Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        workflows@vger.kernel.org, ksummit@lists.linux.dev,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        corbet@lwn.net, skhan@linuxfoundation.org, rdunlap@infradead.org,
+        broonie@kernel.org
+Subject: Re: [PATCH 0/2] agents: add portable agent skills and Fixes
+ attribution
+Message-ID: <askTmFZC6RJKAE_p@mit.edu>
+References: <cover.1791499378.git.sashal@kernel.org>
+ <20261009094237.GA693830@killaraus.ideasonboard.com>
+ <asi91eAf5veKEUA3@laps>
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
@@ -52,54 +55,33 @@ List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <202610082200.752C6C08A5@keescook>
+In-Reply-To: <asi91eAf5veKEUA3@laps>
 
-On Thu, Oct 08, 2026 at 10:11:14PM -0700, Kees Cook wrote:
-> On Thu, Oct 08, 2026 at 05:56:21PM -0700, Paul E. McKenney wrote:
-> > Building a kernel on CentOS Stream 9 from next-20261007 and next-20261008
-> > (and maybe others?)  on an x86 or arm64 system results in a strange
-> > build failure featuring:
-> > 
-> > WARNING: Unable to reopen jobserver read-side pipe: FileNotFoundError(2, 'No such file or directory')
+On Fri, Oct 09, 2026 at 06:11:33AM -0500, Sasha Levin wrote:
 > 
-> What are your make and python versions? (Oh, the answer is going to be
-> "CentOS-patched make 4.3")
+> Ted Ts'o asked if we have a way to handle incorrect Fixes: tags in our stable
+> tree work, I pointed out that we have LLM workflows to help us determine the
+> correct Fixes: tag when we determine when the issue is first introduced, at
+> which point other folks showed interest and asked to share it.
 
-I get "GNU Make 4.3", so maybe I need to patch or upgrade or something?
+The context behind the request was from a conversation I had with
+Hannes Reinecke earlier in the week at Plumbers, who told me that in
+his estimation 15-20% of the Fixes tags were actively wrong, and were
+often due to contributors running "git blame" and just looking at the
+first commit which modified a line touched by the patch --- and
+maintainers (including myself) not having the time to verify every
+single Fixes tags, or adding any missing Fixes tags.
 
-And "Python 3.12.15+meta", so maybe I need to talk to people here.  ;-)
+Hence, having some help, either as a standalone AI skill, or as part
+of a Sashiko review, or both, to make sure Fixes tags are correct
+would be really helpful.
 
-> > The failing systems have a pigz command (which complains bitterly when
-> > run without arguments), and the immune system does not.  On the failing
-> > systems, "pigz --version" gives me "pigz 2.5".
-> > 
-> > Do I need a specific version of pigz?  Does this commit need a
-> > version-number check?  Are my systems pigz-intolerant?  ;-)
-> > 
-> > Less flippantly, is this a known problem?  If not, what debugging
-> > information can I provide?
-> 
-> Having pigz just means the parallelism logic kicks in, so I'm suspecting
-> something in scripts/jobserver-exec. That would point to something
-> specific to python or make.
-> 
-> I haven't seen this reported before, no.
-> 
-> Ah, and before I could even finish writing this email, my ever helpful
-> LLM has reported: "pre-4.4 make (like CentOS's 4.3) closes jobserver
-> pipe descriptors in non-recursive recipes but still exports
-> --jobserver-auth=R,W via MAKEFLAGS, whereas 4.4+ uses a named FIFO
-> instead, explaining why it doesn't appear here." And has further found
-> that this is CentOS-specific, since they appear to have incorrectly
-> backported a patch ("make-4.3-cloexec.patch"), as stock make 4.3 doesn't
-> have this problem.
-> 
-> I'll go figure out if there is some proper way to work around CentOS's
-> broken make...
-> 
-> (And given this, I would suspect you can't do a '-j...' build of the
-> "htmldocs" target either?)
+What follows from this is that for people who are doing backports to
+their own kernels (if they can't depend on LTS kernels), especially
+for commits before we have Maintainers regularly using the AI skill or
+Sashiko can start suggesting proper Fixes commits, they should not
+depend on the Fixes tags to determine whether their production kernel
+might need a particular security or other bug fix.
 
-I will install sphinx &c and give it a try.  ;-)
-
-							Thanx, Paul
+						- Ted
+								
