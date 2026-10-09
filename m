@@ -1,71 +1,70 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0C9612D592D;
-	Fri,  9 Oct 2026 14:22:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9AD1D4D4867;
+	Fri,  9 Oct 2026 15:20:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791555768; cv=none; b=CRgL83RAUybyueEDvPU85aQcpowNgDA25DegUr8h3N3gFs5OZhujGhHXRo16P0OuPz3Ws1Ew8sxo8kvk4lCk5Fa4mGfs9srcRzAZNiBAPw1nDxBLOXlRz2l8s3zic2oOXv+WIqWU6W4y/CTJEncgPWkalJPrybrBFVfTtQmch9o=
+	t=1791559244; cv=none; b=Ay71/tfhAf3hxnZsl6k0/RyMjSOKZokwejPW/X8lOslFaxpa9cTXINUR2Ysto8eCaJHM90PGgOQARR3H091x/V733Bbd2hu2HJKfO73Bs59D2asfGYTq7oK449vlqFBvKgu7tC0NnI6s+JDgwhBeV/1r7HBV6OpO6OwZPEUk9Xg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791555768; c=relaxed/simple;
-	bh=fQbqETrk+6hHLAWxiWRSbCCRBONqw5Hry4DTx6uTvk0=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=MS1wSMAD90vsBx8yqxoIylyLQ9Gmf05PxzXzvNs1Pz8gehfUi5SkqnE6e0Rrg6DqIlkB2u3eTOItcw/nWtC8okyppWomI4lyrlnjwwnupDt7CIdEWPkdMa4JF4aOF0NOJz9oKzdDo11TwUG9Cc07Ua9FCMGpum9b/HLVra1aE6Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=Qs50c1fv; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1791559244; c=relaxed/simple;
+	bh=igkR6oZaJNB119k4ar5BBv3eWH4uV3qXpqYUvh2iXvE=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=S9oT5tOdYurtj2aZgbaOIjHW1SAA41MXgzYlwQQJH5YgZJNdutthkEEZ01qaTlTbE05exZEpHq6s0b+4a/j0m3Oa0n5OhPkYmn/O8VIm0bQuqysk0XVsdDBTtLMhOTPlNc08bp95cTa3Z5gokq8trdsvn9nC8njSZOQ8bpQFgwM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=tYCpnGPL; arc=none smtp.client-ip=45.79.88.28
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="Qs50c1fv"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E5C951F00893;
-	Fri,  9 Oct 2026 14:22:45 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linuxfoundation.org;
-	s=korg; t=1791555766;
-	bh=k5u0nEAirOWqi1VCaxdmJQ4JqrSlci3pWXWjeAqH/8A=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=Qs50c1fvAAJGbUqZVjnk06seG8+SFM7f/mLMzFePbxQmD6so/orpPKgaMhTjrPUEH
-	 ZqYjQ5CMSb0UNsAg+RnaPsTwAyUxN4a5/zUchKuQkk11K7zsamNpDZj/2E7aD5St/3
-	 FVZXsiqqNzVWF8vzv0sSt3dXwvOvR8C9sUJJhUiU=
-Date: Fri, 9 Oct 2026 10:22:44 -0400
-From: Konstantin Ryabitsev <konstantin@linuxfoundation.org>
-To: Sasha Levin <sashal@kernel.org>
-Cc: Leon Romanovsky <leon@kernel.org>, workflows@vger.kernel.org, 
-	ksummit@lists.linux.dev, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	corbet@lwn.net, skhan@linuxfoundation.org, rdunlap@infradead.org, 
-	broonie@kernel.org, tytso@mit.edu
-Subject: Re: [PATCH 1/2] agents: add infrastructure for agent resources
-Message-ID: <20261009-nebulous-prophetic-caiman-c7842c@lemur>
-References: <cover.1791499378.git.sashal@kernel.org>
- <5dfafd6f79165526fe17774c55b553b7dfe4b3fe.1791499378.git.sashal@kernel.org>
- <20261009134025.GA11438@unreal>
- <asj4FCbBoca8TUK6@laps>
+	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="tYCpnGPL"
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 01B50408FF
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
+	t=1791559236; bh=igkR6oZaJNB119k4ar5BBv3eWH4uV3qXpqYUvh2iXvE=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+	b=tYCpnGPLttPQ+2Ny9k/bxAop5yDy0XuOyr990hr5l+qDWTiK8VlgXaaKX5ZPCCk30
+	 Fym10Tzr1YtkbQ3EVvTcSOhqGue6/a+KFMXUsUZtGnJpioT+rtUp/zGrlxwQSQ5AYZ
+	 9IrGnmPDEdH1kQTlHbPLG8GHQk6qtGbahN0pZBV3k2IRu2CmKkzsCzxJpLAO9wyV5x
+	 siyoDT7FtegEDLqdwOgTaN1vx772qbSdve8xIgtFYwH+WgkDX0Xi7q4S5UYpi1AtmS
+	 sCr+/MNh1Ik0BSEnWYrpR39rwY0/8m6K2RCEM3X//syFvt8M37CsjGqZEgG1QclHPn
+	 x0qAVIAEAcqMw==
+Received: from localhost (unknown [205.220.129.27])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (prime256v1) server-signature ECDSA (prime256v1) server-digest SHA256)
+	(No client certificate requested)
+	by ms.lwn.net (Postfix) with ESMTPSA id 01B50408FF;
+	Fri,  9 Oct 2026 15:20:34 +0000 (UTC)
+From: Jonathan Corbet <corbet@lwn.net>
+To: Krzysztof Kozlowski <krzk@kernel.org>, Sasha Levin <sashal@kernel.org>
+Cc: skhan@linuxfoundation.org, rdunlap@infradead.org,
+ federico.vaga@vaga.pv.it, apw@canonical.com, joe@perches.com,
+ workflows@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] docs: remove Assisted-by references
+In-Reply-To: <0914a106-bacf-4d95-854a-bfeefbff62a4@kernel.org>
+References: <20261009083137.3-1-sashal@kernel.org>
+ <0914a106-bacf-4d95-854a-bfeefbff62a4@kernel.org>
+Date: Fri, 09 Oct 2026 09:20:18 -0600
+Message-ID: <87h5iuc34d.fsf@trenco.lwn.net>
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <asj4FCbBoca8TUK6@laps>
+Content-Type: text/plain
 
-On Fri, Oct 09, 2026 at 10:20:04AM -0400, Sasha Levin wrote:
-> > > +AGENT RESOURCES
-> > > +M:	Sasha Levin <sashal@kernel.org>
-> > > +L:	linux-kernel@vger.kernel.org
-> > > +S:	Maintained
-> > > +F:	agents/
-> > 
-> > If you choose a separate entry instead of adding this to the existing
-> > "Documentation Process" entry, let's update the mailing list to
-> > workflows@vger.kernel.org. This is where all process changes are announced.
-> 
-> Hm... What do you think Konstantin?
-> 
-> I remember the workflows@ list was originally created to share our
-> secret/magical workflows, and I'm not sure that this one qualifies. We can
-> start a new list too if it's easier.
+Krzysztof Kozlowski <krzk@kernel.org> writes:
 
-Eh. At this point I'm trying to shove everyone towards "just use dfn: queries
-for your stuff, stop relying on actual 'lists'". I'd just leave it as
-linux-kernel@vger, honestly, since the automated patch churn may annoy those
-people on the workflows list that we actually want to keep there.
+> On 09/10/2026 10:31, Sasha Levin wrote:
+>> The Maintainers Summit reached consensus to deprecate the Assisted-by
+>> tag. Remove the documentation requiring it.
+>
+> Please provide here some sort of arguments used in that summit
+> consensus/discussion. This basically reverts/changes previous consensus
+> [1], which is fine itself, but it lacks reasoning.
+>
+> [1] https://lore.kernel.org/workflows/2026070224-unholy-commode-cf45@gregkh/
 
--K
+I'm working on a report on the discussion, don't worry...Monday or
+Tuesday probably.
+
+jon
