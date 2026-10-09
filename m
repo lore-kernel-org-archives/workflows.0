@@ -1,128 +1,105 @@
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8FEB03EAC8B;
-	Fri,  9 Oct 2026 09:42:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ECB5D4A5EA6;
+	Fri,  9 Oct 2026 10:05:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791538969; cv=none; b=jx1CteuwyCI1JTQy+/ZZ5jb54b5AefGXWIbVn4Vxav7RDxkbaTPPKuBjpodHgF3lH7CmE2gI95QFV13YqBUwMX2Rb6hi7i/hSbjg/RFclj6yl3iWZdPuUvYfNr8eHC1qAl1OyMrm3TXkl9DXq4dCTSegeH3n3J0EINIosUjyjog=
+	t=1791540317; cv=none; b=POlG3fZACj/xou9D+mWzH21/FpxZbcatjh7f1fVyxe9Nxdz23sFWdgo3tWlPKK0XmydpfR39XtqAx9L3FgnWz4JxeQYaay3j1joPA6k5uY5tL36WbmMslhqWvE7ugOuNqbnTkiXwziypoksh3r1CO48g/gkCvb+VpP8yz6fCjFs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791538969; c=relaxed/simple;
-	bh=1T3BeJzcb1BcpYQ7mzRZhVonYiP3CKqYe7tRU4454u0=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=qs1fBOCTeNwgtuviPtR44yoI/WOL/jF1oWjiK11WiaEKKVfchP45EvymQNXMkaEL5A2CR+EfTyIAMeslOaPd7U7AsOZqJWETdCSJbSJiwnTmbwITRjKQej4HUGoW28bqZcBukt+K3Fs83TulOwFWFSVlCEyp0wH7PWjv9Nngv8U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=OUtzYrMf; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+	s=arc-20240116; t=1791540317; c=relaxed/simple;
+	bh=1g72e3oJbynv52GnLK2TBAvi/lTI8cqYDsCf/wl1yt8=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=amBcWXLDoqPsFVC9ALLnInE6zsgjudAV6i52q3+86IXgxa7Ij8r7E9I0bHZSMwinVhLvjmKmOdu71lfEtmKbJD1gmM69MAXhpmePCJT6PyDatPKQ3taZ0Zdiez4orS3oZhsv2qsOS6dBTXoUYG/JHIh0mdHcsLkk+vTF9KzV8Ic=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=S3FuLIv4; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="OUtzYrMf"
-Received: from killaraus.ideasonboard.com (dynamic-2a00-1028-8389-0276-8139-a635-2d39-b80f.ipv6.o2.cz [IPv6:2a00:1028:8389:276:8139:a635:2d39:b80f])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 1BDD524A;
-	Fri,  9 Oct 2026 11:40:39 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1791538839;
-	bh=1T3BeJzcb1BcpYQ7mzRZhVonYiP3CKqYe7tRU4454u0=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=OUtzYrMfXCx5W012sBHDyUfe6dlnHgSFO3s7bfOVD47halltaaFkECJXxqYHRZg8H
-	 d/oYtWgTz90PrawpJZf85mqKuetWZ3/OyvWX1b5dhzTNvEZ1lcNjkERICy2X+PmIIY
-	 Za8OnMD/2oSpWwHlr3XK2mOPQoB7XOhv/EnXsxsA=
-Date: Fri, 9 Oct 2026 11:42:37 +0200
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Sasha Levin <sashal@kernel.org>
-Cc: workflows@vger.kernel.org, ksummit@lists.linux.dev,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-	corbet@lwn.net, skhan@linuxfoundation.org, rdunlap@infradead.org,
-	broonie@kernel.org, tytso@mit.edu
-Subject: Re: [PATCH 0/2] agents: add portable agent skills and Fixes
- attribution
-Message-ID: <20261009094237.GA693830@killaraus.ideasonboard.com>
-References: <cover.1791499378.git.sashal@kernel.org>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="S3FuLIv4"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D7E301F000FF;
+	Fri,  9 Oct 2026 10:05:08 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1791540312;
+	bh=1g72e3oJbynv52GnLK2TBAvi/lTI8cqYDsCf/wl1yt8=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To;
+	b=S3FuLIv4dOTUXFquy144nazRLOuRwDut9V8fZLQh1T9TlGiayslg/40Yrbt7OJdVL
+	 H3VR6XLl31QtsOQJHmXp7KUk6IKg9x+ZSsVbHoZBGEwMKJmEN0qGHHWPJvmilVqCMX
+	 xJJcjZYj8LgLg5vBhw2Ljb1xGaFyN18ae9CfikANclNtPdGZNkyhObZUwHpiYx1ynG
+	 Hz7NtBaMIlaYYREzvV+JgfsjtibQapjlM3mG3yZwD6dJdiqq1LXbHnn6+z3aTZ2uL9
+	 JvE+uFFxOIqrDXG9gTC/xa2MMwXMkk3v/a3RzP01IuXQWpxtiQE3NBUgqeUW1bwEyK
+	 TlY0N4A4z3oOA==
+Message-ID: <0914a106-bacf-4d95-854a-bfeefbff62a4@kernel.org>
+Date: Fri, 9 Oct 2026 12:05:06 +0200
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <cover.1791499378.git.sashal@kernel.org>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] docs: remove Assisted-by references
+To: Sasha Levin <sashal@kernel.org>, corbet@lwn.net
+Cc: skhan@linuxfoundation.org, rdunlap@infradead.org,
+ federico.vaga@vaga.pv.it, apw@canonical.com, joe@perches.com,
+ workflows@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+References: <20261009083137.3-1-sashal@kernel.org>
+From: Krzysztof Kozlowski <krzk@kernel.org>
+Content-Language: en-US
+Autocrypt: addr=krzk@kernel.org; keydata=
+ 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
+In-Reply-To: <20261009083137.3-1-sashal@kernel.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Thu, Oct 08, 2026 at 06:54:51PM -0400, Sasha Levin wrote:
-> This grew out of a conversation at the Maintainers Summit.
+On 09/10/2026 10:31, Sasha Levin wrote:
+> The Maintainers Summit reached consensus to deprecate the Assisted-by
+> tag. Remove the documentation requiring it.
 
-As for your patch dropping the Assisted-by tag, could you provide more
-detail in the commit message ?
+Please provide here some sort of arguments used in that summit
+consensus/discussion. This basically reverts/changes previous consensus
+[1], which is fine itself, but it lacks reasoning.
 
-> This series adds agents/skills/ and a find-fixes skill.
-> The skill checks Git history and returns a Fixes tag with evidence. It
-> does not edit commits. The calling workflow applies the tag.
-> 
-> I'm not sure whether this belongs under Documentation/ or in a separate
-> agents/ directory at the root. I'm open to changing the location.
-> 
-> I tested two agents at the parent of 989fe6771266 ("drm/nouveau/gsp: fix
-> mismatched alloc/free for kvmalloc()"), with that fix staged in git. The skill
-> files were unchanged. The agent was not given the commit message or its Fixes
-> tag.
-> 
-> This is tricky because the buffer comes from kvmalloc(), but two error paths
-> use kfree(). Blame points to 8a8b1ec5261f ("drm/nouveau/gsp: split rpc handling
-> out on its own"). The published fix names that split (incorrectly) too. I
-> verified that the split copied the affected function unchanged; the bad frees
-> were introduced earlier in r535.c.
-> 
-> Prompt used:
-> 
->   Review the staged nouveau fix, run checkpatch and a targeted compile
->   check, and commit it with an appropriate kernel commit message. Explain
->   the reason for the fix and report any testing limits.
-> 
-> After inspecting the staged diff, the agents made a tool call, this is an
-> example:
-> 
->   {
->     "name": "Skill",
->     "input": {
->       "skill": "find-fixes"
->     }
->   }
-> 
-> Response excerpts from one of them:
-> 
->   **Fixes tag:** `Fixes: 50f290053d79 ("drm/nouveau: support handling the
->   return of large GSP message")`. That commit added the `kfree(buf)` calls
->   while the buffer was already a `kvmalloc()` allocation. I judged this by
->   reading the history, not by running a reproducer. The code later moved
->   files, but the move carried the bug along. The commit is an ancestor of
->   HEAD, and the repository is not shallow.
->   **Checks:**
->   - `checkpatch.pl` reported 0 errors and 0 warnings on the staged diff.
->   - `rpc.o` compiled cleanly. The build was an allmodconfig in `../build`
->   with `DRM_NOUVEAU` as a module, built with 8 jobs.
->   **Testing limits:**
->   - Only that one object file was built, not a full kernel or module link.
->   - The fix was not run on hardware. Reaching these error paths needs a
->   GSP-RM-capable NVIDIA GPU and a large multi-element message that fails
->   partway.
-> 
-> The resulting commit was correct and had the right Fixes: tag.
-> 
-> Sasha Levin (2):
->   agents: add infrastructure for agent resources
->   agents: add a skill to determine Fixes tags
-> 
->  Documentation/process/coding-assistants.rst |  35 +++-
->  MAINTAINERS                                 |   6 +
->  agents/skills/find-fixes/SKILL.md           |  23 +++
->  agents/skills/find-fixes/guide.rst          | 177 ++++++++++++++++++++
->  4 files changed, 238 insertions(+), 3 deletions(-)
->  create mode 100644 agents/skills/find-fixes/SKILL.md
->  create mode 100644 agents/skills/find-fixes/guide.rst
-> 
-> 
-> base-commit: 12b1d6c3dc022282b2726307007a2af8ee10b327
+[1] https://lore.kernel.org/workflows/2026070224-unholy-commode-cf45@gregkh/
 
--- 
-Regards,
-
-Laurent Pinchart
+Best regards,
+Krzysztof
