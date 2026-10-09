@@ -1,42 +1,43 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4F2663DAABE;
-	Fri,  9 Oct 2026 10:09:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1E14549C4B5;
+	Fri,  9 Oct 2026 10:11:35 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791540546; cv=none; b=Ys5NHs3s5iBdXCsRRbkt7GLKt1jaeHfR6JXhtU/x8JZH6VJV6LCfWF4AW8g5OaeUZLvF8OC8ZQoHca6XWQ5IAe8zabmAhgJmNTy427ig3B6T+YjAzj9w6jT1CEgm5w/HaMOgDyjPVnSvEJI2ptpvpdbrjG4xWOaIGSE2eCz4TFg=
+	t=1791540697; cv=none; b=PC8VmNIpN0zyH8JQnL5TcVTH7RWNlPUoY3lxCwPrqOWbIUgJpZIR1v3/FkjJbF/Y5Uf/WByFmIekNLypYwFFCeeHMP41Ov6wrBiKQXoZtzpuTDI1wXzq4K3B4z+yNuFVOW8r0bts/haOhkfHcV3pS2BPh2rOAonSdRUvpHy9bO0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791540546; c=relaxed/simple;
-	bh=C5nIS4a/9RI29LZzKYAyHnILJQkRS6aCWfMhWAQKmY4=;
+	s=arc-20240116; t=1791540697; c=relaxed/simple;
+	bh=+AHeosVgImrW9M5js3wM4bugPrJ9Mik12isPB5SVCbk=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Ryzu+A1Ww3G4BATHaPxOwutDkneq6pAJQeVjAKRqsk5CwtTJgs4clMzdUwkgoVjHD0F+JRl+3tdGlm9odhEH8vMQ5iXsVEAffmKBIW2YCEaqN0qmNZ4vzxFqjv7mSCcIY43L0iQ1FzK/b6FdAD5wNnisS3CEVeQMqm1Nhho9Yr0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=SLPZP1/x; arc=none smtp.client-ip=100.103.45.18
+	 Content-Type:Content-Disposition:In-Reply-To; b=CdSo++idLmTNHSIkJujWJJJSmn9DHOlYO+afLlocibOMoWTBQgdWetbQFeZyjnNwPXpi3JHncJtXSGcMEa2T4lHVUmTxWmqjUnSicGmJ9MwoFqws1auUaZ2iqYX/jZzUHU4R/sATY0eHIG2wrqgue0P/5D6S5TscyzalPSKeg4k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=bCt+dML0; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="SLPZP1/x"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6D2A61F000FF;
-	Fri,  9 Oct 2026 10:09:04 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="bCt+dML0"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2BCF31F0089D;
+	Fri,  9 Oct 2026 10:11:34 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1791540545;
-	bh=4LZuJjMCZ/U5VB2s8tUC7MOstEljx0l7VDAINwd8w3E=;
+	s=k20260515; t=1791540695;
+	bh=ymPuZI0fAnFqsqK7TjwwxqbFews6fz78UratcRfYtSM=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=SLPZP1/xjg2nSzodVoUSaFkb22uWE8pf3MBWmwCJiMo50rveRrJ50gZU1Dqb4Y//C
-	 5YJlLwiEmdT5kJQDTKRpI16ViHxvBXcghfcWZ6bqLP0X4GMDqrj84ZYiJLrMj2VVPW
-	 piWtv8Lb/e9jiiR7wn7WcnteCDILI9EuYeNjrQGaDDpeAZbosQH/ks57ngbaDKnMbu
-	 M/iqkl2UqpuAtdtoQZR/KkhEqIxlEiOEuqs/wWYYsc7iMtMZFtl6l8RvVMwENaL/0S
-	 QkAw3MpekRiNlgWUHun3ewmKuN0oIj7Np+ZOpEqRlxzvhyC5gw8x4PD3TVKDuAnyWy
-	 RukG02iDb6stw==
-Date: Fri, 9 Oct 2026 06:09:02 -0400
+	b=bCt+dML0SAdglO4kkzkeVe//bmGvNFJRodvxijUGlMkyEDhFyt3sllslPPmTC1UEx
+	 oNUFAJD85yHsqX6QY33G1BVZ5sx+FOzEYnsKEuFVPyb76Zi85Q36jwu8X0wAUXrt6e
+	 m0kPbChH/CykDsxQxF1h54sSHZIVW5hIohzUl2G1HlfKjcaHAa+iJr9F+BcW9i48zA
+	 3CoTRwzDDnKb7R8rD+8W72JIpvAMGDP01i02ZOVVc9mSKpDqCr0w81a8bM6Zw04Ssg
+	 xgbr0rL2Rb7B3pf3GKJJZYUH1CqhVlQ7g3srJX7TDsavkAFWMI3BmlRLCSK2IV3D/6
+	 UMv4O4oi3rPng==
+Date: Fri, 9 Oct 2026 06:11:33 -0400
 From: Sasha Levin <sashal@kernel.org>
 To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc: corbet@lwn.net, skhan@linuxfoundation.org, rdunlap@infradead.org,
-	federico.vaga@vaga.pv.it, apw@canonical.com, joe@perches.com,
-	workflows@vger.kernel.org, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] docs: remove Assisted-by references
-Message-ID: <asi9PhPrAv0StYEi@laps>
-References: <20261009083137.3-1-sashal@kernel.org>
- <20261009093835.GA680229@killaraus.ideasonboard.com>
+Cc: workflows@vger.kernel.org, ksummit@lists.linux.dev,
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+	corbet@lwn.net, skhan@linuxfoundation.org, rdunlap@infradead.org,
+	broonie@kernel.org, tytso@mit.edu
+Subject: Re: [PATCH 0/2] agents: add portable agent skills and Fixes
+ attribution
+Message-ID: <asi91eAf5veKEUA3@laps>
+References: <cover.1791499378.git.sashal@kernel.org>
+ <20261009094237.GA693830@killaraus.ideasonboard.com>
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
@@ -45,24 +46,23 @@ List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii; format=flowed
 Content-Disposition: inline
-In-Reply-To: <20261009093835.GA680229@killaraus.ideasonboard.com>
+In-Reply-To: <20261009094237.GA693830@killaraus.ideasonboard.com>
 
-On Fri, Oct 09, 2026 at 11:38:35AM +0200, Laurent Pinchart wrote:
->Hi Sasha,
+On Fri, Oct 09, 2026 at 11:42:37AM +0200, Laurent Pinchart wrote:
+>On Thu, Oct 08, 2026 at 06:54:51PM -0400, Sasha Levin wrote:
+>> This grew out of a conversation at the Maintainers Summit.
 >
->On Fri, Oct 09, 2026 at 04:31:37AM -0400, Sasha Levin wrote:
->> The Maintainers Summit reached consensus to deprecate the Assisted-by
->> tag. Remove the documentation requiring it.
->
->Please explain the rationale in the commit message. I'm sure you know
->how sensitive this topic is for many people, the more opaque changes are
->the more questions and frustration they will generate.
+>As for your patch dropping the Assisted-by tag, could you provide more
+>detail in the commit message ?
 
-Ack, sorry. Let me withdraw this patch until the LWN coverage is up too.
+Maybe I should have omitted that line altogether :)
 
-For context, this wasn't even on the schedule: I believe it was Jon who asked
-if anyone still find it useful, no one really voiced a strong opinion in favor,
-so we suggested that we should just send a patch.
+Ted T'so asked if we have a way to handle incorrect Fixes: tags in our stable
+tree work, I pointed out that we have LLM workflows to help us determine the
+correct Fixes: tag when we determine when the issue is first introduced, at
+which point other folks showed interest and asked to share it.
+
+Please treat this as just a regular patch adding functionality.
 
 -- 
 Thanks,
