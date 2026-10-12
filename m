@@ -1,79 +1,108 @@
-Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com [209.85.221.71])
+Received: from mail-dy1-f181.google.com (mail-dy1-f181.google.com [74.125.82.181])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9BA43377EC7
-	for <workflows@vger.kernel.org>; Mon, 12 Oct 2026 13:42:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.71
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791812530; cv=none; b=lgeAs6DAhQL4Rf0OHQq9XMznL6VAxL6m69FKvJsytFPsJj3N7HbAUfqX0yn5lRoLm8hBZ97hDM9DTp/7L/r4Mnj+WqljZE8PPHNljLZaeOwxRXSDzrn31l7UEBWBovuKjx6UdbJKiKKLnROtR2LDOFHKR/0C81WsTJefKVmuA/c=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791812530; c=relaxed/simple;
-	bh=Rg6cJAv6ZUUI6IKmwS6DVaUEOkrHublyHQ8IOYSpW4E=;
-	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
-	 To:Cc:Content-Type; b=UgusH+LWi3tU16DvJtHMFr6lWnqCxtOvCDAhfqI68QYf4H9md+fQTes1oWz7wZH4SlFIKb25BAtvBnl83+zZSy9iHvDHLBpyduTK6vKC89GOR2p4X984nUxVZpgbkkFZXhyhJ4z/69pwu/q58mPI0iOXOlOEty2vgZoS55+e8As=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--elver.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=oCsBICku; arc=none smtp.client-ip=209.85.221.71
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--elver.bounces.google.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1EBB13B19BC
+	for <workflows@vger.kernel.org>; Mon, 12 Oct 2026 14:18:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.82.181
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1791814695; cv=pass; b=I9FWqG1up4rrQYz/hLzE2hAYf4TbNBByvie5FWNNg3gJt0ju9UYHeOAs7CqMUysTUT7gj3hAvdDWQ23fGEQ9DbZJSdpNCX61QiPSTS+Ah1+ScPUbhX1StXqolUihXXlXPCkg7B3Hek3NL+zokCzSgpy7WgllHZ+50BFKDULT2os=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1791814695; c=relaxed/simple;
+	bh=g/BhmG4j9ffr0oFBvhz7lb5ueTvQbhXIGndnnY78eok=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=ucnwNGjPfP7RB82j1jkKE3B7x0v0JGJWbE8srUHYtLZwL0XcbcYt2VQchFmSFqkKdrDHgnumL1ozY1eHFq8SjAjAkOH5faJKxOi2+r+Ao0+vd8Bv7Tu4xDQ7Q2DM5abG4At9A+bwAFPiz7rwF/ocK4IcqoHw2isT0rxiS4PVsek=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=My1OId9A; arc=pass smtp.client-ip=74.125.82.181
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="oCsBICku"
-Received: by mail-wr1-f71.google.com with SMTP id ffacd0b85a97d-48c69bdeaacso1550840f8f.0
-        for <workflows@vger.kernel.org>; Mon, 12 Oct 2026 06:42:07 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="My1OId9A"
+Received: by mail-dy1-f181.google.com with SMTP id 5a478bee46e88-33bb5afa736so189725eec.1
+        for <workflows@vger.kernel.org>; Mon, 12 Oct 2026 07:18:13 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1791814693; cv=none;
+        d=google.com; s=arc-20260327;
+        b=FthObQBZ5j+PWg1L4JoneYRxFtt41Eu7vWvV15S8dvKpAHLjwISLSN4OexhqXx+bjN
+         31KMnPiZ2M+2oGHVYCdBQeNY4tqRaRsZph/xITOc1G8R5rY5Wa5R5LQeYHlRZZBlMe0/
+         RbnFXo8s7U0pHXCaz0+Pv3j+Gi6hT/uKZEjXGwr8qy8tNFeyIP4TQakhmhVb3uneF7nB
+         SkaZA1rou45W36uyhljiFGNYop24/kuH9FevWyPY2GgIthhVtI0a6ljkmcNrRxn3C8m1
+         riaUd43u8EQaukH+bCNc6PVCPNIZEgNFItMJ+SSZmUhdZQ8MqXsRmzASbkX5R16LpgHd
+         sSEA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=qN3n/cIMeW0sefgec1U1C0Bcl140fSse8+Pudd7plIQ=;
+        fh=Z60bx6dbW/kkNoe3jZ6GKViPtYisa4/LhKtlhGPSEcU=;
+        b=ShLebTS5sAoiTCOIz2XW5kTnl5IBiaamhQxNVGSb6+w+N8pWMPK7afaNaJ8+UGOTeB
+         Mg2+6TPmSjOY5OIw5Y0MnF8IAIgrGxpUxrMKeoYLiJMHk6F5C165r4eL8ZBw1JC9Sqlu
+         zxVTbY6iBtcY4PMitNZpv8aS2OaCsgPxyoyPf+i+fZ07amsdzRh6GRgZ3hkT3FRwFxIx
+         d6iMa8yTQijs4HJavUs+lR5jYnkLgnaa0XH+17jOgFEDRIlQc6yS3AoC1Vzmb556RgXH
+         gM46gokcnhEgnZ9b6AGfH93XLBIxCILsxj1UpQaaZGepDh9CobvaRMjKK1/MypoRzgMq
+         BQ0g==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1791812526; x=1792417326; darn=vger.kernel.org;
-        h=content-type:cc:to:from:subject:message-id:references:mime-version
-         :in-reply-to:date:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=VXSOc9CMrvtsfjOt0Sddq/wNROQxYDyqZfPwUsE1PWU=;
-        b=oCsBICkuWl77QUtELk4WrEKBMqEtlVNqz6aktoWUshxqZB+fVVJnii8fDbHN+jPBge
-         jN3YyPGzKAvbA9qn6an/eDA/5H1ksSHygF9Z2WE5+g/cDcXvs7TzXAU3HgFtPmkbflHe
-         FfLG4zIhLVrHVAe+xXU/7c0Waz2JZpMMaLtbHH85oLoHZfMeIU+3aZ/SbD1HT2+xfiVf
-         7e2JkOPBaIYJ9BxOuHtcHQmRHfi3gqsQJyXvsXmyrmxZFiCBoT0j2P3O1eKhw/zD1dfV
-         xEEbiqqIoIFuLK0SMurepNYF2t6iq4aPII53g22ZPTQwv7xEzn93MxlvHIBJRIV/LhId
-         4mMA==
+        d=gmail.com; s=20251104; t=1791814693; x=1792419493; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=qN3n/cIMeW0sefgec1U1C0Bcl140fSse8+Pudd7plIQ=;
+        b=My1OId9Afu44hbY9lwaqcKNK3hVPzp8rPSGYolT6JXNPvKYoq4DQfBxJm5eeoJXLPE
+         LnEVGTrZuX+RqYI1veoEBDoEaHJ0XGtbCfJOw1YNRELMGZDHnFsmI08VMwcpW8q0F+AD
+         v5ZfpZVhTLtHNjxeG3QnsaMv1jj4zddz1L4yMn0P2j8BpqLraO8mASnlHu8kXrlT4G0c
+         MLRzDVtTDHSq9ocOFjs9CL4dC5zfsgE9m84pKgazql+TJ1BP5kNcPCNMod6lrfmLJDoC
+         aKqrtBEw69cKrJ/QfHKwQnTNVLNkRGOqTs66ioJZ3oD84yrKdYtggQ11+otgINcck2Wl
+         kEJQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1791812526; x=1792417326;
-        h=content-type:cc:to:from:subject:message-id:references:mime-version
-         :in-reply-to:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=VXSOc9CMrvtsfjOt0Sddq/wNROQxYDyqZfPwUsE1PWU=;
-        b=Q01F+ARReZdDGXEpKKTqibAKkKz9JfR7u7S6bBS53AcWAg1z6rxD1VNx7JuPbzgBXZ
-         Gc1G5xzB/b7HPXVUbTOWUtj6deghjci8trQbmP5NG89E2fX8KQZ78BMHgWzUNRyAUC14
-         agGxc93onYyZIaLR12DjTyYwtpsPbimvlNuowSrYOfZO9eKRHGetNSuzl/pKXc3todf+
-         MH12BqxfjOag5BUGVUKst5PLAnkneb7aiAndEUOw/m1ZlHULdt/WMZdtVhejobE1SNp6
-         EkrcNfgZUYOTXOOWCcxwKCsErkUKiQjd3PyUy4jT/1as5X7S5PMZI66/iMWTkASOn8Y1
-         HjtQ==
-X-Forwarded-Encrypted: i=1; AKwUvBzGiWShRYV6CFvw37q9LPCaeyHy4SWIBiK/w6/CH/Nhlb56/Iusb6QFFTZlk4rmR1RFZuv7zwbaQ6g=@vger.kernel.org
-X-Gm-Message-State: AFq9FYKFYcPZkVOAPMJe/PgtBCZJuaKiXBTl6D3M/49d7yovC0Td/6sv
-	O6JCQWKAIVOYnFCtPbquMzQejQO1EuyVgNQxFnfbJ69x76FYhtsQ1dg9S4ujoH7mQJneannzdCA
-	aVQ==
-X-Received: from wrvb8.prod.google.com ([2002:a5d:5508:0:b0:48c:4566:c9eb])
- (user=elver job=prod-delivery.src-stubby-dispatcher) by 2002:a5d:5590:0:b0:48c:6cdd:ba89
- with SMTP id ffacd0b85a97d-48dbaaefa6emr12665508f8f.36.1791812525412; Mon, 12
- Oct 2026 06:42:05 -0700 (PDT)
-Date: Mon, 12 Oct 2026 13:39:15 +0000
-In-Reply-To: <20261012134159.912183-1-elver@google.com>
+        d=1e100.net; s=20260707; t=1791814693; x=1792419493;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=qN3n/cIMeW0sefgec1U1C0Bcl140fSse8+Pudd7plIQ=;
+        b=qsA/kz6sjcToj+1MYIYH+kAcItVEW6dvq/iqR8DrhW67RY58MixFb/J3pieqcntHL6
+         GMJfd/OnZc418suiaIW6GSCI/3wIIWZs5f/Pin9qWKxCYDihajdqd9RAVMMn1a4h9USA
+         ZjJ9f77U+MvfYyHrD9lYmomjUXUNRWCgj5e3bU0vOB3zgexEfF2EMEBh46OjBed4PLzO
+         s/FweWg4C0ZJsIVMSQLeEl+CexIhJJk/w+fHq+PBuStdlo2XglSX0y1OYh+cCMHxwESj
+         svpvkabNcMfg36rpivyoptia7UidTLu/5kKwxdkUXWBnIDklr+g17CEYQ7svwnthOwOm
+         NvqA==
+X-Forwarded-Encrypted: i=1; AKwUvBx7zzh1YyzQ1ohstniVlHtAhzfM/x73whPPExKbGb0/Kzu0O2//n7fCNtVhF0tz2ARS0kPQGAvaQj4=@vger.kernel.org
+X-Gm-Message-State: AFq9FYLfomK7hReVPErEG/3PeZH0tffJbLokPqVUrNoqqWIVCfLCWKP2
+	pFqkZaBtEhRSlc9s7hgxnjE1rVvfKvPQMYFhvRLsdisWWbV16QQBEXaXGONiK5PbQveEI2mU/Do
+	4Z9VHhhdJiIeMER/CEOVblkvYbkurkdQ=
+X-Gm-Gg: AYBFou30RMQ6TX0o5bw5vHqqm5j88QFLuXnubtRp4xMV15SAz2CjZZyrT7hbrlEalBy
+	/w9QPfD/2AM3H1j6XGNYsMnyEpn2W7jYKDpvqMdvCHZQeBnWWHEAx6cVgh33LKQMcg8UDlxi3Tq
+	Z711VPsd2PfwUIfOvmUajlyWZ2TDcmj/oMCduHEShTwrQ7hkAHMybDgDLaRBLJf4BoE3/i9kNCz
+	csXIhs5BO4gB4bBiv2xpdtiwgOUhxaeulxPS5n/64dX2b2KNVyE62sot7SOfGguEvYNGuPoUG97
+	bpxoAEDVcQpgLC34TWXUVMQX0DAZN9yvwdXZae+WJTC4Cdq9nrY7ha/fsaOFk8K0f/qQcxng55Q
+	p8Fc9s0jg03qHv5zWwmc5lZkXK1qpVHjIxy05mVJNDJFsG7rYDWVI4tfyvnYzIZoizFzhhOtMEy
+	PEoO2wFLwiJcdtmZCZtXcdH3+nAy+F3LYkHeKnox7b8EkZAnPCDTnXxPkJjb8ehQ==
+X-Received: by 2002:a05:7301:428b:b0:358:7ed4:a049 with SMTP id
+ 5a478bee46e88-3587ee40938mr13997955eec.0.1791814693087; Mon, 12 Oct 2026
+ 07:18:13 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
+MIME-Version: 1.0
 References: <20261012134159.912183-1-elver@google.com>
-X-Mailer: git-send-email 2.56.0.385.gd3acb90ef8-goog
-Message-ID: <20261012134159.912183-2-elver@google.com>
-Subject: [PATCH 2/2] rust: kcsan: add KUnit test for data race detection
-From: Marco Elver <elver@google.com>
-To: elver@google.com, Boqun Feng <boqun.feng@gmail.com>, Miguel Ojeda <ojeda@kernel.org>, 
-	Gary Guo <gary@garyguo.net>
-Cc: Alexander Potapenko <glider@google.com>, kasan-dev@googlegroups.com, 
+In-Reply-To: <20261012134159.912183-1-elver@google.com>
+From: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
+Date: Mon, 12 Oct 2026 16:17:59 +0200
+X-Gm-Features: AclHuK-Ywlbcl-S8KQPaD-1cIH6SBhIHUu2wWCV_8Z4IN4dYEXXQbTyoeFpEilQ
+Message-ID: <CANiq72nsJw25w6sFbLKKSaWog5_2cpmBmJMat-zQW1rcveJA_A@mail.gmail.com>
+Subject: Re: [PATCH 1/2] kbuild: rust: enable KCSAN support
+To: Marco Elver <elver@google.com>
+Cc: Boqun Feng <boqun.feng@gmail.com>, Miguel Ojeda <ojeda@kernel.org>, Gary Guo <gary@garyguo.net>, 
+	Alexander Potapenko <glider@google.com>, kasan-dev@googlegroups.com, 
 	linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>, 
 	Shuah Khan <skhan@linuxfoundation.org>, Randy Dunlap <rdunlap@infradead.org>, 
 	Andrew Morton <akpm@linux-foundation.org>, Boqun Feng <boqun@kernel.org>, 
-	"=?UTF-8?q?Bj=C3=B6rn=20Roy=20Baron?=" <bjorn3_gh@protonmail.com>, Benno Lossin <lossin@kernel.org>, 
-	Andreas Hindborg <a.hindborg@kernel.org>, Alice Ryhl <aliceryhl@google.com>, 
-	Trevor Gross <tmgross@umich.edu>, Danilo Krummrich <dakr@kernel.org>, 
-	Daniel Almeida <daniel.almeida@collabora.com>, Tamir Duberstein <tamird@kernel.org>, 
-	Alexandre Courbot <acourbot@nvidia.com>, "=?UTF-8?q?Onur=20=C3=96zkan?=" <work@onurozkan.dev>, 
+	=?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
+	Benno Lossin <lossin@kernel.org>, Andreas Hindborg <a.hindborg@kernel.org>, 
+	Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>, 
+	Danilo Krummrich <dakr@kernel.org>, Daniel Almeida <daniel.almeida@collabora.com>, 
+	Tamir Duberstein <tamird@kernel.org>, Alexandre Courbot <acourbot@nvidia.com>, 
+	=?UTF-8?Q?Onur_=C3=96zkan?= <work@onurozkan.dev>, 
 	Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nsc@kernel.org>, 
 	Nick Desaulniers <ndesaulniers@google.com>, Bill Wendling <morbo@google.com>, 
 	Justin Stitt <justinstitt@google.com>, Asahi Lina <lina+kernel@asahilina.net>, 
@@ -82,232 +111,48 @@ Cc: Alexander Potapenko <glider@google.com>, kasan-dev@googlegroups.com,
 	linux-doc@vger.kernel.org, rust-for-linux@vger.kernel.org, 
 	linux-kbuild@vger.kernel.org, llvm@lists.linux.dev
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Add a minimal KUnit test that checks that KCSAN detects data races in
-Rust code: two threads concurrently increment a shared counter without
-synchronization, and a probe on the console tracepoint waits for the
-KCSAN report (similar to kcsan_test.c):
+On Mon, Oct 12, 2026 at 3:42=E2=80=AFPM Marco Elver <elver@google.com> wrot=
+e:
+>
+> +Rust code is instrumented as well on architectures whose Rust target sup=
+ports
+> +it (currently only x86_64; see ``CONFIG_HAVE_KCSAN_RUSTC``).
 
-| BUG: KCSAN: data-race in _RNvNtNtCskctMpSfuwL9_6kernel10kcsan_test5tests8racy_inc / _RNvNtNtCskctMpSfuwL9_6kernel10kcsan_test5tests8racy_inc
-|
-| read-write to 0xffffffffb751ae28 of 8 bytes by task 116 on cpu 5:
-|  _RNvNtNtCskctMpSfuwL9_6kernel10kcsan_test5tests8racy_inc+0x1c/0x30
-|  _RNvNtNtCskctMpSfuwL9_6kernel10kcsan_test5tests28kunit_rust_wrapper_data_race+0x28c/0x850
-|  kunit_try_run_case+0xdf/0x2a0
-|  kunit_generic_run_threadfn_adapter+0x48/0x80
-|  kthread+0x234/0x280
-|  ret_from_fork+0xf8/0x280
-|  ret_from_fork_asm+0x1a/0x30
-|
-| read-write to 0xffffffffb751ae28 of 8 bytes by task 12 on cpu 3:
-|  _RNvNtNtCskctMpSfuwL9_6kernel10kcsan_test5tests8racy_inc+0x1c/0x30
-|  _RNvXsb_NtCskctMpSfuwL9_6kernel9workqueueINtNtCs1G77UTwpz6o_4core3pin3PinINtNtNtB7_5alloc4kbox3BoxINtB5_11ClosureWorkNCNvNtNtB7_10kcsan_test5tests9data_races_0ENtNtB1d_9allocator7KmallocEEINtB5_15WorkItemPointerKy0_E3runB7_+0x55/0x120
-|  process_scheduled_works+0x4cd/0x970
-|  worker_thread+0x4de/0x6e0
-|  kthread+0x234/0x280
-|  ret_from_fork+0xf8/0x280
-|  ret_from_fork_asm+0x1a/0x30
-|
-| value changed: 0x000000000000022b -> 0x00000000000005a2
-| [...]
+Maybe we can omit the x86_64 bit, to avoid maintaining the list in two
+places, although it is convenient to know in the docs (but risks
+getting out of date, of course).
 
-The test is intentionally kept minimal; comprehensive tests of KCSAN's
-runtime behaviour are in kernel/kcsan/kcsan_test.c.
+> +  Note that ``rustc`` rejects linking crates built with and without KCSA=
+N
+> +  instrumentation, so ``KCSAN_SANITIZE`` and ``KCSAN_SANITIZE_<target>.o=
+``
+> +  cannot currently be used for Rust code.
 
-Assisted-by: Antigravity
-Signed-off-by: Marco Elver <elver@google.com>
----
- MAINTAINERS                     |   1 +
- rust/bindings/bindings_helper.h |   1 +
- rust/kernel/Kconfig.test        |  11 +++
- rust/kernel/kcsan_test.rs       | 120 ++++++++++++++++++++++++++++++++
- rust/kernel/lib.rs              |   2 +
- 5 files changed, 135 insertions(+)
- create mode 100644 rust/kernel/kcsan_test.rs
+Would `-Cunsafe-allow-abi-mismatch=3Dsanitizer` work? Not a blocker for
+the patch (and in fact I don't know if we would like to actually
+support it even if it works), but perhaps in the future we can relax
+it using that.
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index cc3cae2e378b..3fbbfbb31f5d 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -14089,6 +14089,7 @@ F:	Documentation/dev-tools/kcsan.rst
- F:	include/linux/kcsan*.h
- F:	kernel/kcsan/
- F:	lib/Kconfig.kcsan
-+F:	rust/kernel/kcsan_test.rs
- F:	scripts/Makefile.kcsan
- 
- KDUMP
-diff --git a/rust/bindings/bindings_helper.h b/rust/bindings/bindings_helper.h
-index 4b31aa7f432f..b06d5142d6e1 100644
---- a/rust/bindings/bindings_helper.h
-+++ b/rust/bindings/bindings_helper.h
-@@ -97,6 +97,7 @@
- #include <linux/xarray.h>
- #include <net/genetlink.h>
- #include <net/netlink.h>
-+#include <trace/events/printk.h>
- #include <trace/events/rust_sample.h>
- 
- /*
-diff --git a/rust/kernel/Kconfig.test b/rust/kernel/Kconfig.test
-index e6a5c7a795f0..caf98a23de76 100644
---- a/rust/kernel/Kconfig.test
-+++ b/rust/kernel/Kconfig.test
-@@ -83,4 +83,15 @@ config RUST_BITFIELD_KUNIT_TEST
- 
- 	  If unsure, say N.
- 
-+config RUST_KCSAN_KUNIT_TEST
-+	bool "KUnit test for KCSAN instrumentation of Rust code" if !KUNIT_ALL_TESTS
-+	depends on KCSAN && HAVE_KCSAN_RUSTC && TRACEPOINTS
-+	default KUNIT_ALL_TESTS
-+	help
-+	  This option enables a KUnit test checking that KCSAN detects data
-+	  races in Rust code. The test needs at least 2 CPUs to reliably
-+	  observe a data race.
-+
-+	  If unsure, say N.
-+
- endif
-diff --git a/rust/kernel/kcsan_test.rs b/rust/kernel/kcsan_test.rs
-new file mode 100644
-index 000000000000..5ddc9090cd6e
---- /dev/null
-+++ b/rust/kernel/kcsan_test.rs
-@@ -0,0 +1,120 @@
-+// SPDX-License-Identifier: GPL-2.0
-+
-+//! KUnit test checking that KCSAN detects data races in Rust code.
-+
-+#[macros::kunit_tests(rust_kcsan)]
-+mod tests {
-+    use crate::{
-+        bindings,
-+        error::to_result,
-+        ffi::{c_char, c_void},
-+        prelude::*,
-+        sync::{
-+            atomic::{Atomic, Relaxed},
-+            Arc, Completion,
-+        },
-+        time::{Delta, Instant, Monotonic},
-+        types::ScopeGuard,
-+        workqueue,
-+    };
-+    use core::{cell::UnsafeCell, ptr, slice};
-+
-+    struct Racy(UnsafeCell<u64>);
-+
-+    // SAFETY: Not actually safe: unsynchronized concurrent access is the point of this test.
-+    unsafe impl Sync for Racy {}
-+
-+    static RACY: Racy = Racy(UnsafeCell::new(0));
-+
-+    /// Set by [`probe_console`] once KCSAN reported a data race in [`racy_inc`].
-+    static OBSERVED: Atomic<bool> = Atomic::new(false);
-+
-+    #[inline(never)]
-+    fn racy_inc() {
-+        let p = RACY.0.get();
-+        // SAFETY: `p` is valid; the data race is intentional. `wrapping_add()` keeps the load and
-+        // store in one basic block, so that the access is instrumented as a compound access (plain
-+        // writes may be assumed atomic with `CONFIG_KCSAN_ASSUME_PLAIN_WRITES_ATOMIC=y`).
-+        unsafe { *p = (*p).wrapping_add(1); }
-+    }
-+
-+    fn contains(haystack: &[u8], needle: &[u8]) -> bool {
-+        haystack.windows(needle.len()).any(|w| w == needle)
-+    }
-+
-+    /// Probe for the `console` tracepoint.
-+    ///
-+    /// # Safety
-+    ///
-+    /// `buf` must be non-null and valid for reads of `len` bytes.
-+    unsafe extern "C" fn probe_console(_data: *mut c_void, buf: *const c_char, len: usize) {
-+        // SAFETY: By the safety requirements of this function.
-+        let line = unsafe { slice::from_raw_parts(buf.cast::<u8>(), len) };
-+
-+        if contains(line, b"BUG: KCSAN: data-race in ") && contains(line, b"racy_inc") {
-+            OBSERVED.store(true, Relaxed);
-+        }
-+    }
-+
-+    #[pin_data]
-+    struct Ctx {
-+        stop: Atomic<bool>,
-+        #[pin]
-+        done: Completion,
-+    }
-+
-+    #[test]
-+    fn data_race() -> Result {
-+        // Do not pass on a report from a previous run of this suite.
-+        OBSERVED.store(false, Relaxed);
-+
-+        let ctx = Arc::pin_init(
-+            pin_init!(Ctx {
-+                stop: Atomic::new(false),
-+                done <- Completion::new(),
-+            }),
-+            GFP_KERNEL,
-+        )?;
-+
-+        // SAFETY: `probe_console` has the signature expected by the `console` tracepoint. Being
-+        // part of the kernel image, it and `OBSERVED` outlive the registration, so there is no
-+        // need to synchronize with in-flight probes after unregistering.
-+        to_result(unsafe {
-+            bindings::tracepoint_probe_register(
-+                &raw mut bindings::__tracepoint_console,
-+                probe_console as *mut c_void,
-+                ptr::null_mut(),
-+            )
-+        })?;
-+        let _unregister = ScopeGuard::new(|| {
-+            // SAFETY: The probe was registered above.
-+            unsafe {
-+                bindings::tracepoint_probe_unregister(
-+                    &raw mut bindings::__tracepoint_console,
-+                    probe_console as *mut c_void,
-+                    ptr::null_mut(),
-+                );
-+            }
-+        });
-+
-+        let worker = ctx.clone();
-+        workqueue::system_unbound().try_spawn(GFP_KERNEL, move || {
-+            while !worker.stop.load(Relaxed) {
-+                racy_inc();
-+            }
-+            worker.done.complete_all();
-+        })?;
-+
-+        let start = Instant::<Monotonic>::now();
-+        while !OBSERVED.load(Relaxed) && start.elapsed() < Delta::from_secs(10) {
-+            racy_inc();
-+        }
-+
-+        ctx.stop.store(true, Relaxed);
-+        ctx.done.wait_for_completion();
-+        drop(_unregister);
-+
-+        assert!(OBSERVED.load(Relaxed));
-+        Ok(())
-+    }
-+}
-diff --git a/rust/kernel/lib.rs b/rust/kernel/lib.rs
-index 4d5c96ddc49c..009efda9e7a4 100644
---- a/rust/kernel/lib.rs
-+++ b/rust/kernel/lib.rs
-@@ -94,6 +94,8 @@
- pub mod iov;
- pub mod irq;
- pub mod jump_label;
-+#[cfg(CONFIG_RUST_KCSAN_KUNIT_TEST)]
-+mod kcsan_test;
- #[cfg(CONFIG_KUNIT)]
- pub mod kunit;
- pub mod list;
--- 
-2.56.0.385.gd3acb90ef8-goog
+(If it doesn't work for some reason, and we want it, then we can ask
+upstream for an "escape hatch" as we usually do, since things like
+this should normally have one...)
 
+> +# The minimum supported rustc's LLVM supports all of these options.
+
+Just to double-check: does this refer to the LLVM version of the
+upstream `rustc` binary (LLVM 19.1.7) or the actual minimum they
+support in that minimum `rustc` version (LLVM 18 major)?
+
+I think all the options exist for a long time, so it doesn't matter,
+but just to confirm...
+
+In any case, this sounds all reasonable:
+
+Acked-by: Miguel Ojeda <ojeda@kernel.org>
+
+Thanks!
+
+Cheers,
+Miguel
