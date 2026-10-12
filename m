@@ -1,125 +1,206 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com [209.85.128.71])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5DCF846C840;
-	Sun, 11 Oct 2026 23:36:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9CABC376A05
+	for <workflows@vger.kernel.org>; Mon, 12 Oct 2026 13:42:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.71
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791761821; cv=none; b=UERgJfJVo4ALFLNRf2HT2Gq5LUOEF7uz93rQbs7CdYCQW9SuqpRoYQ0G0fBsXr+9cvMcX8jK74mOW5NbiBa57Ix1eZfgYPybSWpVSE4XwOEs539cOUjf4WHwKMeHSRoYwRrniHZZoaCupfSbJKjfQ0CQwMSWU97f+nGyhQE4aZg=
+	t=1791812528; cv=none; b=cXx96mueG2ObmR1CCmNTLNifxdBIrs1aHqw/aQKkkXUcDP8WMrATKWpfxxszxfcrHuxSx7v0ML0lRRjSa0GqHC38E2EqdoxUg46R7uBQY6b3m5TX7Y1L3E0wjPejPfqdp2+COiLw7C4qsyNzsxB+feo+lh8IXNuoxsdrtYjKRdA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791761821; c=relaxed/simple;
-	bh=FBfaI0cmoDsi8R69uUeDrIYyoOXNUDuV7jIj7az660k=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=eMfZLQ3E54Kc50TgWTqmxXYjlV2oHXmRQA46AY6xzYUNf+dKLg0WmQ+L6hSMNnJs9Gfzeg3Zz6pRWXaD7m14EoIidf2z8Absq/lbYbbtakdAx6SEsGVI2rnOs/9jy/jmLAoV7ieJ3F8LZPMPzWKROifNpEfs0WqIh0rWpEJJsl0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ReMBvRhI; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1791812528; c=relaxed/simple;
+	bh=834HCsT+yG6FoiMCNmsSF0KuEbbYNjXGWtFDC+r4/lU=;
+	h=Date:Mime-Version:Message-ID:Subject:From:To:Cc:Content-Type; b=rYBuWviqM+4SxUZElIvLxlmMTV0W3sQhoBen/Nt0EeloOjBD1z1EHoMeYV02kd3k3Obk1/iYn9o0WghNJ64sYuzei8Oq9wF2SsSqNbHPgV3mqHtslDrY0TZwJroyaCOZXYButd+Ta26G2XOig9Zf/TcaJwzw7fMFvul4T9u4nNM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--elver.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=Eb39Srie; arc=none smtp.client-ip=209.85.128.71
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--elver.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ReMBvRhI"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 869EC1F0089C;
-	Sun, 11 Oct 2026 23:36:57 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1791761819;
-	bh=Hhwt7NcqlK2UG3MHM+AwzpIyGFQ3Rmp336tlJmGcn88=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=ReMBvRhIiypYU7sn9qiRgDIK4TXAt7b8wkePMzbSb/OfBM03rfkmP2FCdxl3RFW6n
-	 ur8VsZPIN5QsyGJ/mhCz/KRjIyh4LgjZVhwyFE6trZ5KKmmwol9hGebiWADHk/zU7g
-	 di8aTQdfEzOnkAuf17JtPiAtJ39KU9+QE3Iue9o5LoCyZpD4ST/Z3kgKxr29uMsHVJ
-	 6G7mP4h6e+n73I1x/ZlkV5/muyKKP3oo1xeEGsJHSuaCUFzt8XB2Mqv2dA01xh2+jw
-	 6ejXPGvpKRQHPsCAgyDNc35WeTk+udOGzOYKgkh34N/SSpr+OKu9Y0cVKpogFGx5D2
-	 CCWZooqelbwFg==
-From: Sasha Levin <sashal@kernel.org>
-To: Nathan Chancellor <nathan@kernel.org>,
-	Nicolas Schier <nsc@kernel.org>,
-	linux-kbuild@vger.kernel.org
-Cc: Shuah Khan <shuah@kernel.org>,
-	linux-kselftest@vger.kernel.org,
-	Arnaldo Carvalho de Melo <acme@kernel.org>,
-	Namhyung Kim <namhyung@kernel.org>,
-	Ian Rogers <irogers@google.com>,
-	linux-perf-users@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Sasha Levin <sashal@kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Randy Dunlap <rdunlap@infradead.org>,
-	workflows@vger.kernel.org,
-	linux-doc@vger.kernel.org
-Subject: [RFC PATCH 6/6] Documentation: describe building tools with the kernel
-Date: Sun, 11 Oct 2026 19:36:45 -0400
-Message-ID: <20261011233647.2454648-7-sashal@kernel.org>
-X-Mailer: git-send-email 2.53.0
-In-Reply-To: <20261011233647.2454648-1-sashal@kernel.org>
-References: <20261011233647.2454648-1-sashal@kernel.org>
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="Eb39Srie"
+Received: by mail-wm1-f71.google.com with SMTP id 5b1f17b1804b1-4a009f82bedso15977925e9.0
+        for <workflows@vger.kernel.org>; Mon, 12 Oct 2026 06:42:06 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20251104; t=1791812525; x=1792417325; darn=vger.kernel.org;
+        h=content-type:cc:to:from:subject:message-id:mime-version:date:from
+         :to:cc:subject:date:message-id:reply-to:content-type;
+        bh=PWBgbU9wWHlrfBumGJ2ey37GLEs4mFig313aUL/JPgY=;
+        b=Eb39SrieM2VN8EUYaupyNNf9VeJz8sjpvBwzh0Z3WF1FZj7preYnnUWsAPShS7Z1o3
+         LLcv/p9iXUBTe7RFmpwvL3ymN8ImGk5dO5qcsOVVLnfCmj9dLYjze9KQUrlI72omimMB
+         lVLRoilW4GVWbAp+IWm2TFYZ9mQ/I7wa6bSBpawH9zdWZkXFejnDh0k2fIpuybOgmDHq
+         /o2WaWslW/8IPuSvt4WEULtpVP84i/1ihZgm2LTilsww7GrG6XzTuh4q+RZIBNOUY/L7
+         IbjLk0+5p+/FjfZ/ro54yTshz6Hm1WrzupbqhOMLnskAH8YFCMSF8CiQdx1xJeGKlj6R
+         Nhyg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1791812525; x=1792417325;
+        h=content-type:cc:to:from:subject:message-id:mime-version:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=PWBgbU9wWHlrfBumGJ2ey37GLEs4mFig313aUL/JPgY=;
+        b=Z3CUwqpYyyLd4cR1v28YVf9Hu69b/L5jjncjHgANDFyl0oxOJMgI3EyLDXpVJAFwhb
+         EDZBhDtXvgVogyLVt+3ptkiNG/DkELnj5U8SarsOLfiZ9HO/Jb8WzBB1PE5HL7ULwtrR
+         6dXnMkKMy7MSLvb1t1bTFj7CGb2Ua6T+VBMRdyDTH14txqy/UiuXhcab3nHO8/3c2WCn
+         nI2U0zfW01UxFpnpXOh8E/caoBR6xciLj9608qOiDAtpv0VycRUsj8++n5mREFTvBOa6
+         FKcKawqlfokf6VMYebdDYPy5Pq59MAMUZ5NRZXyS+dGB6Lo01GuC9iWtHc8058tAH7Y8
+         9wpw==
+X-Forwarded-Encrypted: i=1; AKwUvBzbIIpHVu6Fj+efprPExXTvtvok5CRtpV6+8x7GsysX8KRvwqUKEgB6NoM0ii6BW8OTOkYg9rjyG6o=@vger.kernel.org
+X-Gm-Message-State: AFq9FYJz4EY1k94JLYpaESQOToXNUT34ercSMECTzx8Upu+uEupMZO6Z
+	U4u4DcHgICCUwrDq0HiuyMuoHppAIMOc6xf4rQSfaVk0N03/URPRujKp8dWFlgP/s7EyBxtTsxe
+	2mg==
+X-Received: from wmrp18.prod.google.com ([2002:a05:600c:8a92:b0:4a1:9311:9d1d])
+ (user=elver job=prod-delivery.src-stubby-dispatcher) by 2002:a05:600c:8518:b0:49f:cbf3:551c
+ with SMTP id 5b1f17b1804b1-4a18e4a8ca6mr166715615e9.12.1791812524523; Mon, 12
+ Oct 2026 06:42:04 -0700 (PDT)
+Date: Mon, 12 Oct 2026 13:39:14 +0000
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Mime-Version: 1.0
+X-Mailer: git-send-email 2.56.0.385.gd3acb90ef8-goog
+Message-ID: <20261012134159.912183-1-elver@google.com>
+Subject: [PATCH 1/2] kbuild: rust: enable KCSAN support
+From: Marco Elver <elver@google.com>
+To: elver@google.com, Boqun Feng <boqun.feng@gmail.com>, Miguel Ojeda <ojeda@kernel.org>, 
+	Gary Guo <gary@garyguo.net>
+Cc: Alexander Potapenko <glider@google.com>, kasan-dev@googlegroups.com, 
+	linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>, 
+	Shuah Khan <skhan@linuxfoundation.org>, Randy Dunlap <rdunlap@infradead.org>, 
+	Andrew Morton <akpm@linux-foundation.org>, Boqun Feng <boqun@kernel.org>, 
+	"=?UTF-8?q?Bj=C3=B6rn=20Roy=20Baron?=" <bjorn3_gh@protonmail.com>, Benno Lossin <lossin@kernel.org>, 
+	Andreas Hindborg <a.hindborg@kernel.org>, Alice Ryhl <aliceryhl@google.com>, 
+	Trevor Gross <tmgross@umich.edu>, Danilo Krummrich <dakr@kernel.org>, 
+	Daniel Almeida <daniel.almeida@collabora.com>, Tamir Duberstein <tamird@kernel.org>, 
+	Alexandre Courbot <acourbot@nvidia.com>, "=?UTF-8?q?Onur=20=C3=96zkan?=" <work@onurozkan.dev>, 
+	Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nsc@kernel.org>, 
+	Nick Desaulniers <ndesaulniers@google.com>, Bill Wendling <morbo@google.com>, 
+	Justin Stitt <justinstitt@google.com>, Asahi Lina <lina+kernel@asahilina.net>, 
+	Yury Norov <ynorov@nvidia.com>, Eliot Courtney <ecourtney@nvidia.com>, 
+	Joel Fernandes <joelagnelf@nvidia.com>, workflows@vger.kernel.org, 
+	linux-doc@vger.kernel.org, rust-for-linux@vger.kernel.org, 
+	linux-kbuild@vger.kernel.org, llvm@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
 
-Mention CONFIG_TOOLS_BUILD and "make tools_build" in the submit
-checklist, ask for libc-only selftests to be added to tools/Kconfig,
-and note that USERCFLAGS and USERLDFLAGS also apply to the tools.
+Rust supports ThreadSanitizer instrumentation via LLVM, which is what
+KCSAN relies on; however, Rust code is not currently instrumented.
 
-Assisted-by: LLM
-Signed-off-by: Sasha Levin <sashal@kernel.org>
+Pass -Zsanitizer=thread and the same TSan backend options used for C
+code to rustc. Wire up KCSAN_SANITIZE in scripts/Makefile.lib for parity
+with C (though rustc currently rejects linking crates with mismatched
+instrumentation).
+
+rustc only accepts -Zsanitizer=thread for targets that declare support
+for it. Of the targets used by the kernel, this is only possible for the
+generated x86_64 target specification, so restrict instrumentation of
+Rust code to x86_64 for now via HAVE_KCSAN_RUSTC. On other architectures
+Rust code remains uninstrumented as before.
+
+All TSan options used are supported by the LLVM versions of the minimum
+supported rustc, so no rustc-option checks are needed (they would also
+fail, because x86_64-unknown-none used for option checks does not
+support -Zsanitizer=thread).
+
+With this enabled we can detect data races in kernel Rust code and
+between Rust and C code.
+
+Signed-off-by: Marco Elver <elver@google.com>
 ---
- Documentation/dev-tools/kselftest.rst      | 4 ++++
- Documentation/kbuild/kbuild.rst            | 5 ++++-
- Documentation/process/submit-checklist.rst | 5 +++++
- 3 files changed, 13 insertions(+), 1 deletion(-)
+ Documentation/dev-tools/kcsan.rst |  7 +++++++
+ lib/Kconfig.kcsan                 |  7 +++++++
+ scripts/Makefile.kcsan            | 13 +++++++++++++
+ scripts/Makefile.lib              |  3 +++
+ scripts/generate_rust_target.rs   |  2 +-
+ 5 files changed, 31 insertions(+), 1 deletion(-)
 
-diff --git a/Documentation/dev-tools/kselftest.rst b/Documentation/dev-tools/kselftest.rst
-index 64c0ec7428a27..407d539e49b01 100644
---- a/Documentation/dev-tools/kselftest.rst
-+++ b/Documentation/dev-tools/kselftest.rst
-@@ -315,6 +315,10 @@ Contributing new tests (details)
+diff --git a/Documentation/dev-tools/kcsan.rst b/Documentation/dev-tools/kcsan.rst
+index 8575178aa87f..3bb8754f844b 100644
+--- a/Documentation/dev-tools/kcsan.rst
++++ b/Documentation/dev-tools/kcsan.rst
+@@ -14,6 +14,9 @@ Usage
+ KCSAN is supported by both GCC and Clang. With GCC we require version 11 or
+ later, and with Clang also require version 11 or later.
  
-     TARGETS += android
- 
-+ * If the test builds with only a C library, add an entry for it to the
-+   "Kernel selftests" menu in tools/Kconfig and to tools/Makefile.kbuild,
-+   so that it is built together with the kernel.
++Rust code is instrumented as well on architectures whose Rust target supports
++it (currently only x86_64; see ``CONFIG_HAVE_KCSAN_RUSTC``).
 +
-  * All changes should pass::
+ To enable KCSAN configure the kernel with::
  
-     kselftest-{all,install,clean,gen_tar}
-diff --git a/Documentation/kbuild/kbuild.rst b/Documentation/kbuild/kbuild.rst
-index 5a9013bacfb75..3e8e076a262fa 100644
---- a/Documentation/kbuild/kbuild.rst
-+++ b/Documentation/kbuild/kbuild.rst
-@@ -114,12 +114,15 @@ Additional libraries to link against when building host programs.
+     CONFIG_KCSAN = y
+@@ -121,6 +124,10 @@ the below options are available:
  
- USERCFLAGS
- ----------
--Additional options used for $(CC) when compiling userprogs.
-+Additional options used for $(CC) when compiling userprogs and the tools
-+selected in tools/Kconfig.
+     KCSAN_SANITIZE := n
  
- USERLDFLAGS
- -----------
- Additional options used for $(LD) when linking userprogs. userprogs are linked
- with CC, so $(USERLDFLAGS) should include "-Wl," prefix as applicable.
-+The tools selected in tools/Kconfig get these options on the compiler
-+command line.
- 
- KBUILD_KCONFIG
- --------------
-diff --git a/Documentation/process/submit-checklist.rst b/Documentation/process/submit-checklist.rst
-index beb7f94279fdb..9857b05824c2d 100644
---- a/Documentation/process/submit-checklist.rst
-+++ b/Documentation/process/submit-checklist.rst
-@@ -91,6 +91,11 @@ Build your code
-      Use ``make htmldocs`` or ``make pdfdocs`` to check the build and
-      fix any issues.
- 
-+  e) Changes to tools/ or to UAPI headers do not break the userspace tools
-+     selected by ``CONFIG_TOOLS_BUILD``. ``allmodconfig`` turns it on when
-+     the compiler can link glibc programs for the target (currently x86_64
-+     and arm64), and ``make tools_build`` builds only the tools.
++  Note that ``rustc`` rejects linking crates built with and without KCSAN
++  instrumentation, so ``KCSAN_SANITIZE`` and ``KCSAN_SANITIZE_<target>.o``
++  cannot currently be used for Rust code.
 +
- 2) Builds on multiple CPU architectures by using local cross-compile tools
-    or some other build farm.
-    Note that testing against architectures of different word sizes
+ .. _"Marking Shared-Memory Accesses" in the LKMM: https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/tools/memory-model/Documentation/access-marking.txt
+ 
+ Furthermore, it is possible to tell KCSAN to show or hide entire classes of
+diff --git a/lib/Kconfig.kcsan b/lib/Kconfig.kcsan
+index 4ce4b0c0109c..f0096e1c8b61 100644
+--- a/lib/Kconfig.kcsan
++++ b/lib/Kconfig.kcsan
+@@ -10,6 +10,13 @@ config HAVE_KCSAN_COMPILER
+ 	  For the list of compilers that support KCSAN, please see
+ 	  <file:Documentation/dev-tools/kcsan.rst>.
+ 
++config HAVE_KCSAN_RUSTC
++	def_bool RUST && X86_64
++	help
++	  rustc only accepts -Zsanitizer=thread for targets that declare
++	  support for it; of the kernel's Rust targets, only x86_64 does.
++	  Elsewhere, Rust code is not instrumented.
++
+ menuconfig KCSAN
+ 	bool "KCSAN: dynamic data race detector"
+ 	depends on HAVE_ARCH_KCSAN && HAVE_KCSAN_COMPILER
+diff --git a/scripts/Makefile.kcsan b/scripts/Makefile.kcsan
+index 19f693b68a96..01af6fd71006 100644
+--- a/scripts/Makefile.kcsan
++++ b/scripts/Makefile.kcsan
+@@ -24,3 +24,16 @@ kcsan-cflags += $(call cc-option,$(call cc-param,tsan-instrument-func-entry-exit
+ endif
+ 
+ export CFLAGS_KCSAN := $(kcsan-cflags)
++
++ifdef CONFIG_HAVE_KCSAN_RUSTC
++# The minimum supported rustc's LLVM supports all of these options.
++rustc-param = -Cllvm-args=-$(1)
++kcsan-rustflags := -Zsanitizer=thread \
++	$(call rustc-param,tsan-compound-read-before-write=1) \
++	$(call rustc-param,tsan-distinguish-volatile=1)
++ifndef CONFIG_KCSAN_WEAK_MEMORY
++kcsan-rustflags += $(call rustc-param,tsan-instrument-func-entry-exit=0)
++endif
++endif
++
++export RUSTFLAGS_KCSAN := $(kcsan-rustflags)
+diff --git a/scripts/Makefile.lib b/scripts/Makefile.lib
+index 0a4fdd8bd975..78f1c23e54be 100644
+--- a/scripts/Makefile.lib
++++ b/scripts/Makefile.lib
+@@ -98,6 +98,9 @@ ifeq ($(CONFIG_KCSAN),y)
+ _c_flags += $(if $(patsubst n%,, \
+ 	$(KCSAN_SANITIZE_$(target-stem).o)$(KCSAN_SANITIZE)$(is-kernel-object)), \
+ 	$(CFLAGS_KCSAN))
++_rust_flags += $(if $(patsubst n%,, \
++	$(KCSAN_SANITIZE_$(target-stem).o)$(KCSAN_SANITIZE)$(is-kernel-object)), \
++	$(RUSTFLAGS_KCSAN))
+ # Some uninstrumented files provide implied barriers required to avoid false
+ # positives: set KCSAN_INSTRUMENT_BARRIERS for barrier instrumentation only.
+ _c_flags += $(if $(patsubst n%,, \
+diff --git a/scripts/generate_rust_target.rs b/scripts/generate_rust_target.rs
+index 7687b0dd5474..4b02bffa6b46 100644
+--- a/scripts/generate_rust_target.rs
++++ b/scripts/generate_rust_target.rs
+@@ -231,7 +231,7 @@ fn main() {
+         }
+         ts.push("features", features);
+         ts.push("llvm-target", "x86_64-linux-gnu");
+-        ts.push("supported-sanitizers", ["kcfi", "kernel-address"]);
++        ts.push("supported-sanitizers", ["kcfi", "kernel-address", "thread"]);
+         if cfg.rustc_version_atleast(1, 91, 0) {
+             ts.push("target-pointer-width", 64);
+         } else {
 -- 
-2.53.0
+2.56.0.385.gd3acb90ef8-goog
 
