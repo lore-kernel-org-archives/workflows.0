@@ -1,129 +1,98 @@
-Received: from mail-dy1-f177.google.com (mail-dy1-f177.google.com [74.125.82.177])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ADE6549B45C
-	for <workflows@vger.kernel.org>; Mon, 12 Oct 2026 15:21:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.82.177
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791818488; cv=pass; b=qSc74SIJAnCpHWwo+L8meej2xrshAbcKdjgAEbK14IPIBplvRA69ra9JpBg3TbmRQcNK9P5I9a0+cmsBH2ZXJuWf2ffiDn7d7ehcVe82FPvXBNGZOtZCidkWOHflGM+fSKlcMeewHTm2BT4EQKPQSJmheOuPP4ojmI1d1+XUT7w=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791818488; c=relaxed/simple;
-	bh=acXxdYNI6vj4GN6tEYHBYlbXzhzxGLnqPGYWn+EXNdM=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=PsEteM8OV/mjYEAmFKJl9/beSMtwifypBlOQtIAJmCnSHPNGoGXuLonW4Z4tNhjIEgM6+aswEHFUoF34UZbJ54lCmcDXYRU8YIxyC5aPD6jFlyXS6Z/ly5Sds+BohCQK3xTLbU0PkYduyxvck3KgQHz0Wrk//M3AWCK1K/f8IAI=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=V9UVbICO; arc=pass smtp.client-ip=74.125.82.177
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7C3FC4AA588;
+	Mon, 12 Oct 2026 15:42:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1791819777; cv=none; b=iu3+Ewg9eMEHjgpAh93uKU4dAcOLt+PU0YiNat6Q43cktKqAH8ESyubxiR+0aEDeuGJQNfh6q8KxYOwJ05SgvbA9Jd81Sk4PrmB0dHWjF6fw+jGyf2KhV92+VRAwWe5EgpKyrBtRjcG9Ciu9yJHIHKFR1Xyan42vNLfw8Arx82I=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1791819777; c=relaxed/simple;
+	bh=X2iOuKDIcM6P2f2Dk/sgBqtjQv8dg3hwr0i+5pVjRAc=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=A0T/sI/+wRAV1a/fbVfyUmF4qnOG3dB3JzTD17GY2GonTuNnKTgJuoazsF6lt8nyQr6uFZeOsDbKotFuPxHd4xGNuFbWsJNNkB6D1TlbQggWS7AK1COEuvOqyDOAsaZLdXXM8nl7KGZEJodB3heqIWCgb0Pr6LyrxiRnOZR4Ok0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=fum2f69t; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="V9UVbICO"
-Received: by mail-dy1-f177.google.com with SMTP id 5a478bee46e88-313bab9cfe7so207687eec.3
-        for <workflows@vger.kernel.org>; Mon, 12 Oct 2026 08:21:27 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1791818487; cv=none;
-        d=google.com; s=arc-20260327;
-        b=E58DhlgCL/oonYoDcabd3e7Z5wFNnCrs1bLKoBfFw4Jxfx7zgyuOC0Li5GZNlCLhyU
-         syQho4cQkvOvspOHASdh5n0byqHvDv3po1Kpat4nhP1Dhy7W2YiRRSJ8Klye8w05ZWth
-         ZKWyMBwQSYOrLmwuNT94edTSX09C9PfSz/CRgTuKpPImJ5hU+cWP5MDnM2UbYaoftdjk
-         JcjWwG1JvxqQw9QJCV6K0rNajZ4d+ysLFhlKLnK1qsql+ioPGfrnmx3mixbJlYf+6Eb/
-         ZggxZ3WOSzBy4Bl3CtriDSq23kl+76niPITa4u7x9MdCoR0yl31eVvQCZAuTUn659pAQ
-         /1tw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=iLgJ65oJxZVZBoTJpBXKaV00tw4eO5li3Mv5JTtGud0=;
-        fh=uFZf/n5GPiWkf8o83Ttt8oUdDYyFuWRFFsN+PVVh7u8=;
-        b=nyCJCbTgQnYmVjpF9bsJNs6T/dTD9GgfwrYClIE1v2mVWdZPLIah6WONYK/DoRzVse
-         rOyd8uDypvcbIDoeX+24E6sUFgiSkAZKXTsO/jXqEYe/3T2mlYpMVEo3xB74RfgVEfWW
-         5YyypoJlUO1e4lrPAEHdiV0LGSKBR47dk78POINmpIqyEMBevwkZDlIkEj6xpoDtOo0x
-         RhXle7iU5f++tEKIZQnFCTFm/8807dYNmLDRb3yxtgyK+au88MOCa/TT0CSI0q7Fpu7y
-         LxoCJt3C47brMv7VqiWHfJLWkFDUi1YFtNtQa0AAt42TUQQXfbGnZrW/TI3HdV0mhfsr
-         jwVg==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1791818487; x=1792423287; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=iLgJ65oJxZVZBoTJpBXKaV00tw4eO5li3Mv5JTtGud0=;
-        b=V9UVbICO9Vb3G0dHVTiGb8S4WVniQxs6wmTmPNcXznYmsWz8kd1y+k31MFrHAf8vSr
-         F/xu3g2v5JkYjvBeTbKIBSPdbOMtozVeZwNJe/sneeG+41EP6qmE4OlR8ZAft5Aw3GY8
-         5QKTN1uz326YnQuvFOv/Dh4E5k3sn+Hyqa94/cPE5CWDlxlTTKSV8V6mLrRTozIwWcOH
-         sqHovpjY6+6o70mawD+5zf6vV7GcNVQJpS1asU3zptVn8fG5vEtRCymo5tXcTJVdT/dg
-         aOQpLbB7ySZzkjVQwzGgtzrtANP0OAgkCKgoS8RaZIK8+EPmpQgit/8WHVOlQr2kiIk8
-         S0Tg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1791818487; x=1792423287;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=iLgJ65oJxZVZBoTJpBXKaV00tw4eO5li3Mv5JTtGud0=;
-        b=WfEF7BE/tgQVnQ2bwlSLWKk7iFtWXaQ9qflX+0rqqleCjYdivgfJjKY+hquuF1LH+x
-         vR0VPcuxOshIe+u/b3JYjcMdXhGCtk4b+cr3dwSlc588xtExUkesXmI4thTcKZUO44iF
-         x81EmrBImSYiUUIhYDP6mgEnSbUznpCyuc3ipyxZssQN9kzK1pLPZRUXu4s0Q6PS0Ewa
-         g5rzTmFRs/1qTxgc0yvKSSZYLl8IyVY2csST+Ilke77P4si2G8o9pK9x0Dru/TEHChF6
-         IG04JkqonKPdaNxp8LOfamaU+GSpiLrdVACJ7veUmu/brSARle5HjdShLOb8hmCG74oR
-         9L4g==
-X-Forwarded-Encrypted: i=1; AKwUvBxNCm+e4EphHMZ0pOwW+tMvmhy4ODfvzGZt065gcWIDU3s+e4dXmu0Wn3FOeUUuxkoDwYpjTlfHYVs=@vger.kernel.org
-X-Gm-Message-State: AFq9FYI78lp7ElxX3p/cOUk8HYIRmpGXdcyFIU/1blrS450v6z+aMuuH
-	eoAQJTx71bqQMKmEChZvhgw3HdOIAFNhYoYflCrRscvRo1usLrTsV24Zt09No262QSd+prCB24g
-	EsObWmdnjLbg0jUy2PJbLuGFyfATSCZU=
-X-Gm-Gg: AYBFou3xo88ffQMHyIYM0tnOgkcdoQOYFhVuAsoEJRzouqjdXoucOHVp0pe6LKLACDH
-	DHWiVb3Sd3oaWouvsVUCgx84bd83om7t5suWGWn+KLW7pdR8mC6gZJRgp/DqDieQChiHLJl91Ez
-	UrSAjH+YwC7CHHRdVX3l8yTu9LwHcxNhXrtcK3mI9GyuxmEziJ2MdudjbyfRCnZisvH+qmg6uus
-	/k+YxBX4M9lbbQUyKZPHoAjX+BvE/80uXnIRftS8dcBQ1auytqvwlc1zO1OScmuZsYaPXj1Tnpn
-	3f9ntxcium8KRV5tiuI0r1VfJZ67pjne3E56KINUGeSX5i3LP82utA1Q4UgiiljCHa9w1tSMqmk
-	LK6QZvsZ/25uYb78a/lpd9WOMWMvBvysrrwArAN7OYmnhNcoyZjROzBIi9mqTcNIQXiaupYO/kH
-	CopBhkgc8AlCgicoKVt+P1tOYQnTSZUiBmUbCsKyj5t/Om+UnS41U=
-X-Received: by 2002:a05:7300:f3c8:b0:351:7883:bf47 with SMTP id
- 5a478bee46e88-3537dc8e9c0mr22095379eec.0.1791818486595; Mon, 12 Oct 2026
- 08:21:26 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="fum2f69t"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C21091F0089B;
+	Mon, 12 Oct 2026 15:42:49 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1791819776;
+	bh=X2iOuKDIcM6P2f2Dk/sgBqtjQv8dg3hwr0i+5pVjRAc=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=fum2f69tIVeQQmSs7POwa1MxF+0wWWGv8G69k/QhPJ9lSQHCmOuWSTyG/Pq2hdV+8
+	 cncHcCWMPkbBv7WZ9lqtI/oL4OuOivKbEaxIPAg4z67WIXCnCO4BuxHV06J7L0orrd
+	 BJOgvIodRsZvb4NQQzoTcR50kobo5lTBcF02I4EL289Kg7mk4P5gQ7gd8Z1EubNHGR
+	 JrRIyfEvLf/vubqflmFPRdGTwe/xEEyEs1cM0lS8+hTkBFlO3cLBIUNM8M4KJ8KD2X
+	 b1J/AfGyMr4zUXeZhgy0te15G2no/tF1OYoFo8oa38c78VNTgpfJEuWfcPtlaAiQJr
+	 f2KddCPBZoaKw==
+Date: Mon, 12 Oct 2026 16:42:46 +0100
+From: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>
+To: Krzysztof Kozlowski <krzk@kernel.org>
+Cc: Sasha Levin <sashal@kernel.org>, corbet@lwn.net, 
+	skhan@linuxfoundation.org, rdunlap@infradead.org, federico.vaga@vaga.pv.it, 
+	apw@canonical.com, joe@perches.com, workflows@vger.kernel.org, 
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Linus Torvalds <torvalds@linux-foundation.org>, 
+	Justin Stitt <justinstitt@google.com>, Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
+	Carlos Maiolino <cem@kernel.org>, Jakub Kicinski <kuba@kernel.org>, 
+	Jori Koolstra <jkoolstra@xs4all.nl>, Krzysztof Kozlowski <krzk@kernel.org>, 
+	Brian Foster <bfoster@redhat.com>, Christoph Hellwig <hch@infradead.org>, 
+	David Disseldorp <ddiss@suse.de>, Mark Brown <broonie@kernel.org>, 
+	Jani Nikula <jani.nikula@intel.com>, Jens Axboe <axboe@kernel.dk>, 
+	"David Hildenbrand (Arm)" <david@kernel.org>, Vlastimil Babka <vbabka@kernel.org>, 
+	"Christian Brauner (Amutable)" <brauner@kernel.org>
+Subject: Re: [PATCH] docs: remove Assisted-by references
+Message-ID: <asz9AeFe3CutP73z@gremlin>
+References: <20261009083137.3-1-sashal@kernel.org>
+ <0914a106-bacf-4d95-854a-bfeefbff62a4@kernel.org>
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20261012134159.912183-1-elver@google.com> <20261012134159.912183-2-elver@google.com>
- <CAG_fn=Umb8c1yjp-wEPPFSNXfNdr5UHb5BBd4tV=iwNSehCxxQ@mail.gmail.com> <CANpmjNPBoS7SUTMVboZPGdgXbhY_sz2LhzZqEU=EPojVWkqWHA@mail.gmail.com>
-In-Reply-To: <CANpmjNPBoS7SUTMVboZPGdgXbhY_sz2LhzZqEU=EPojVWkqWHA@mail.gmail.com>
-From: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-Date: Mon, 12 Oct 2026 17:21:12 +0200
-X-Gm-Features: AclHuK8qicd0EkbAG2tR809BSGa88U6FRkGTx1gJTbJF14aEuOf_oW-ieXqq320
-Message-ID: <CANiq72=p6a=4K+8jhbm8=y8i_4yMszacK-fu91s3-Eg69ACejg@mail.gmail.com>
-Subject: Re: [PATCH 2/2] rust: kcsan: add KUnit test for data race detection
-To: Marco Elver <elver@google.com>
-Cc: Alexander Potapenko <glider@google.com>, Boqun Feng <boqun.feng@gmail.com>, 
-	Miguel Ojeda <ojeda@kernel.org>, Gary Guo <gary@garyguo.net>, kasan-dev@googlegroups.com, 
-	linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>, 
-	Shuah Khan <skhan@linuxfoundation.org>, Randy Dunlap <rdunlap@infradead.org>, 
-	Andrew Morton <akpm@linux-foundation.org>, Boqun Feng <boqun@kernel.org>, 
-	=?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
-	Benno Lossin <lossin@kernel.org>, Andreas Hindborg <a.hindborg@kernel.org>, 
-	Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>, 
-	Danilo Krummrich <dakr@kernel.org>, Daniel Almeida <daniel.almeida@collabora.com>, 
-	Tamir Duberstein <tamird@kernel.org>, Alexandre Courbot <acourbot@nvidia.com>, 
-	=?UTF-8?Q?Onur_=C3=96zkan?= <work@onurozkan.dev>, 
-	Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nsc@kernel.org>, 
-	Nick Desaulniers <ndesaulniers@google.com>, Bill Wendling <morbo@google.com>, 
-	Justin Stitt <justinstitt@google.com>, Asahi Lina <lina+kernel@asahilina.net>, 
-	Yury Norov <ynorov@nvidia.com>, Eliot Courtney <ecourtney@nvidia.com>, 
-	Joel Fernandes <joelagnelf@nvidia.com>, workflows@vger.kernel.org, 
-	linux-doc@vger.kernel.org, rust-for-linux@vger.kernel.org, 
-	linux-kbuild@vger.kernel.org, llvm@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <0914a106-bacf-4d95-854a-bfeefbff62a4@kernel.org>
 
-On Mon, Oct 12, 2026 at 5:16=E2=80=AFPM Marco Elver <elver@google.com> wrot=
-e:
++cc the participants from that thread FYI. The original patch is at [2].
+
+On Fri, Oct 09, 2026 at 12:05:06PM +0200, Krzysztof Kozlowski wrote:
+> On 09/10/2026 10:31, Sasha Levin wrote:
+> > The Maintainers Summit reached consensus to deprecate the Assisted-by
+> > tag. Remove the documentation requiring it.
 >
-> Oops. I guess we'll make a v2.
+> Please provide here some sort of arguments used in that summit
+> consensus/discussion. This basically reverts/changes previous consensus
+> [1], which is fine itself, but it lacks reasoning.
+>
+> [1] https://lore.kernel.org/workflows/2026070224-unholy-commode-cf45@gregkh/
 
-Please also take the chance to use the kernel vertical imports style:
+Thanks for linking that! It is important to ack previous discussion on
+this. Also LWN article is up now at [3].
 
-  https://docs.kernel.org/rust/coding-guidelines.html#imports
+I'm less bothered than you might think by this change.
 
-Thanks!
+The tag's useful for push back on review, but the only long-term strategy for
+slop is to aggressively ignore it.
 
-Cheers,
-Miguel
+Linus has made that clear that that's fine.
+
+What kills the project is having 1,000 slop submissions that 2 or 3 people have
+to do something with.
+
+The only long-term solution to that is to hit mark read 1,000 times :)
+
+Sasha - maybe worth linking the LWN article now it's up in the commit message
+and adding a little more detail around the decision?
+
+Otherwise LGTM:
+
+Acked-by: Lorenzo Stoakes (ARM) <ljs@kernel.org>
+
+--
+Cheers, Lorenzo
+
+[2]:https://lore.kernel.org/all/20261009083137.3-1-sashal@kernel.org/
+[3]:https://lwn.net/Articles/1099594/
