@@ -1,124 +1,134 @@
-Received: from mail-ot1-f52.google.com (mail-ot1-f52.google.com [209.85.210.52])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EFE7C53E2E7
-	for <workflows@vger.kernel.org>; Tue, 13 Oct 2026 20:01:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A07DE54529D;
+	Tue, 13 Oct 2026 20:16:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791921683; cv=none; b=EYhSMg1b9sm5/WpbLAPCqyuY1zZEK5JRPwF5Lf1M9rlD+2WK4zzGQj/KRpqia+f7tok3wxRCMj03VYRcfDAh6kU6VBDKJPP6dF58bOpsRd2ChPv2VO64PCbhbcLu4Ir0gWnaBN/k5uWALHYatyNCJH8dVmO0l0HER3zkFJ5a1b8=
+	t=1791922594; cv=none; b=Do6aA6yLY0eZxFWzLJ8F7K7+MSnEZma0+GeQqf/ha18S/ov0j9GDE2h05HNEngU8rkrqAxGSbl3XSTFErDw0MOdGat5fB0td+tL2U3WX9nLG6oOIIhm1sjbaenBWFuQNiOC107jiG70SVC8QOZSnzGipW+aX6EBwJ3VAlN//E+s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791921683; c=relaxed/simple;
-	bh=fQVY5chC60ZjBQjDFPKKF/d1XMZEKgL4x/CtPrZ0YQc=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=GD0lhcusuOBby7u+EGLXHBSdfGBEYwQK2iUKCUEsWFHMfq1/u0B+nh+vfSVxMALUeC4SA+LSiPZGV7VmU4k3eA726V+sMixKuIaVst5vdtKDr7aRz5ljSXLH+VpiX4MlP2xvqF9Qpb5gxWoJKSMm1gTWozfU6GOyHpwine3H4Ak=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linuxfoundation.org; spf=pass smtp.mailfrom=linuxfoundation.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=bHHNblJA; arc=none smtp.client-ip=209.85.210.52
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linuxfoundation.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linuxfoundation.org
+	s=arc-20240116; t=1791922594; c=relaxed/simple;
+	bh=G9fzofN7cMi8sVJA0pNWiJAX0zQLQeRDou9I5f76JS4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=YjOQ8Do06skyqZwKlwGdTNti4jQuEZppLPis2X+UCLAAQkxTE7GPdEuCcHdXqlXzvEdXrYftvKEP//odzCbnh0AeoSGngx/Ikl2tA3mnTvG7BcSDdvEk+8gMwpuAAeJaQZbmoRnh6hs/ow7vW1wDR3I/iMgczQiujszcPRA2gUk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=OYGZ2ecJ; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="bHHNblJA"
-Received: by mail-ot1-f52.google.com with SMTP id 46e09a7af769-81579d03929so2360704a34.2
-        for <workflows@vger.kernel.org>; Tue, 13 Oct 2026 13:01:20 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1791921679; x=1792526479; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=Yptnc6KUcr57HmaDPJW3YGRT6JlQRoFG6je5ZFpjWiE=;
-        b=bHHNblJAwI9TqaTiC/MFjsd0joApLpBanlzHeO5elCnR6Em9h4aL7Gki6LXOqQUBn4
-         HukHeCqAhzWt94MFMYsY/Bk1kxfCWaYFujo+AGDrMPB9B14AJFQMJFcXsh55J9LrWnPN
-         xu1tJBrHCaSm3ozS9XlCitZEEPO9GWn+rwM+U=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1791921679; x=1792526479;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=Yptnc6KUcr57HmaDPJW3YGRT6JlQRoFG6je5ZFpjWiE=;
-        b=jttlnYp4hozDi7I3MxSvjwEWnXzRIte52+p9mPQIDslpkh2Ld+KyajmGc0fiig9TDq
-         2KtZ0lOx1twF27i8OQkV52gZx1en9BBT1fGCfmZRtJuc+6+aMSq+8ra0IQfSh1OALt7L
-         YoMIoHvuAlVqv6c59QM676IKmHq1TpqFNAVQdSt0cmKhvknFBMqo0zXzQUtscSLlbPM3
-         LEJHLVGSTAD3zX2hG9WyZNJkdAzRXt6DlHIBNKvREfsv5ZH4udipWg0DLRcCpEf+9nBl
-         sFYp63/NjwswpYe4EEA8V0p9gS4ziN/taQ3swGcAY1436VIMRdQTJoQWgqQysFyKDQsW
-         /OHQ==
-X-Forwarded-Encrypted: i=1; AKwUvByPTisj1GyosI9da4YsfR2+Nk1n/O1GKDwS/ASuK1j460vtbKb4bdm/a69/vpb5wJV41QPF30CL51c=@vger.kernel.org
-X-Gm-Message-State: AFq9FYJwgqE3h5GvWdHECHMBtWQXDJSlOPQcKyduoA9ltwagoQ6LY2rJ
-	1e+USx93QuMUv8w0DoVg5eDZ1Vss22OKcin2HqQ47AdGddf9R3YM0osfHt2yT4sVmZA=
-X-Gm-Gg: AYBFou3xfyvau3K5a0y3rp5CDhfaoFHoueDbbUlJeLtBcivc0Q/gjZHRFDBu+0uB+Ny
-	540X+/eZuAUxfKYZ6iAKJN5HVFjd0TDxCIFfKO5CT2a4BkIEu3Dcb2FqPcqGsRkdrFXmsBYzBxr
-	lfG2kaKwJdRfF8T1OtwhjLQj3keX1m1PIDpyh+w1t1o9Qv6AOakpUPgW7X8qsY3GpH9J310h+lx
-	AvztZYSqbI1XHaKP+Srw4VZaHyhXr1C2bLtO3q1R89LhM8AIDhxXwQpqEZLqLSzbffVxf3F/+XR
-	EQPuThBEIVjww7dUvyGPk6Q/QEtAsb9fLg6xuCwZhevLHlxY+9vb8K6clBPzwOtdrLgxYEjwKyR
-	SrvXtG4MZyb7kF/6odFg8qwOz3feiwWznL1XQhvMvHat8kZhpAIMAN2tb1hccgLdx0T2Ja7FPDG
-	zp6aat+uG/U3a5quF4rsGjyKfPZRPvMzvLNkoRhiIa/CqVmnHB+ejNc1AJurkxFq8VMnRgESL+Q
-	5/3TwBneQ==
-X-Received: by 2002:a05:6830:680f:b0:81b:ac5b:ea0d with SMTP id 46e09a7af769-83096cc4e39mr13898778a34.19.1791921679468;
-        Tue, 13 Oct 2026 13:01:19 -0700 (PDT)
-Received: from [192.168.1.128] ([38.15.57.99])
-        by smtp.gmail.com with ESMTPSA id 46e09a7af769-83039a3dfa1sm13350079a34.18.2026.10.13.13.01.15
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 13 Oct 2026 13:01:18 -0700 (PDT)
-Message-ID: <3c45e083-4e08-4699-adea-1d758baf8d0e@linuxfoundation.org>
-Date: Tue, 13 Oct 2026 14:01:14 -0600
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="OYGZ2ecJ"
+Received: from killaraus.ideasonboard.com (unknown [109.141.100.247])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 448301E4;
+	Tue, 13 Oct 2026 22:14:28 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1791922468;
+	bh=G9fzofN7cMi8sVJA0pNWiJAX0zQLQeRDou9I5f76JS4=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=OYGZ2ecJvqeimtJQBVQPcRHZUEa+GYjEbuHzovpzwJFJnUfTtjOTLB3WVQhJh/ztu
+	 83g/06kbzhURrpXcMw3hrwwl5a3c0OWDL76mhNg7JNzwAkFqKGa9ieNZDe/FVEUIVz
+	 i+AhPniw9aHe/fynHayWyXN7RKtBNOfcVloN89vM=
+Date: Tue, 13 Oct 2026 22:16:28 +0200
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Kees Cook <kees@kernel.org>
+Cc: Jori Koolstra <jkoolstra@xs4all.nl>,
+	"Lorenzo Stoakes (ARM)" <ljs@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Sasha Levin <sashal@kernel.org>, corbet@lwn.net,
+	skhan@linuxfoundation.org, rdunlap@infradead.org,
+	federico.vaga@vaga.pv.it, apw@canonical.com, joe@perches.com,
+	workflows@vger.kernel.org, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Linus Torvalds <torvalds@linux-foundation.org>,
+	Justin Stitt <justinstitt@google.com>,
+	Carlos Maiolino <cem@kernel.org>, Jakub Kicinski <kuba@kernel.org>,
+	Brian Foster <bfoster@redhat.com>,
+	Christoph Hellwig <hch@infradead.org>,
+	David Disseldorp <ddiss@suse.de>, Mark Brown <broonie@kernel.org>,
+	Jani Nikula <jani.nikula@intel.com>, Jens Axboe <axboe@kernel.dk>,
+	"David Hildenbrand (Arm)" <david@kernel.org>,
+	Vlastimil Babka <vbabka@kernel.org>,
+	"Christian Brauner (Amutable)" <brauner@kernel.org>
+Subject: Re: [PATCH] docs: remove Assisted-by references
+Message-ID: <20261013201628.GO4214@killaraus.ideasonboard.com>
+References: <asz9AeFe3CutP73z@gremlin>
+ <20261013123132.GC4214@killaraus.ideasonboard.com>
+ <as4pAEnLd4H68W4W@gremlin>
+ <20261013131243.GM56180@killaraus.ideasonboard.com>
+ <as4xMnT8a75pIw9v@gremlin>
+ <FAD7F1E6-5FE0-47F5-8D10-40473B39A2D8@kernel.org>
+ <907933931.787284.1791903485683@kpc.webmail.kpnmail.nl>
+ <202610131000.43AB316FBC@keescook>
+ <20261013174243.GC178151@killaraus.ideasonboard.com>
+ <202610131216.C841415F01@keescook>
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] docs: remove Assisted-by reference
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Mark Brown <broonie@kernel.org>
-Cc: Jori Koolstra <jkoolstra@xs4all.nl>, Kees Cook <kees@kernel.org>,
- Randy Dunlap <rdunlap@infradead.org>, Sasha Levin <sashal@kernel.org>,
- corbet@lwn.net, federico.vaga@vaga.pv.it, apw@canonical.com,
- joe@perches.com, workflows@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, Shuah Khan <skhan@linuxfoundation.org>
-References: <20261009083137.3-1-sashal@kernel.org>
- <202610122124.08E058768D@keescook>
- <ea3ff257-70e2-43e4-aba7-140e84994872@infradead.org>
- <202610130120.E43D236E@keescook> <as4gLo_6acb_zZu0@daedalus>
- <20261013125559.GG4214@killaraus.ideasonboard.com>
- <7524f3d6-02c0-488c-be76-23de8afc2b76@sirena.org.uk>
- <20261013170744.GA178151@killaraus.ideasonboard.com>
-Content-Language: en-US
-From: Shuah Khan <skhan@linuxfoundation.org>
-In-Reply-To: <20261013170744.GA178151@killaraus.ideasonboard.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <202610131216.C841415F01@keescook>
 
-On 10/13/26 11:07, Laurent Pinchart wrote:
-> On Tue, Oct 13, 2026 at 04:18:32PM +0100, Mark Brown wrote:
->> On Tue, Oct 13, 2026 at 02:55:59PM +0200, Laurent Pinchart wrote:
->>
->>> The absence of the tag on a suspicious series offered a low-effort way
->>> for maintainers to push back. What's the proposed low-effort replacement
->>> ?
->>
->> Greg's suggested asking "how did you test this?" or similar, a lot of
->> people just throwing stuff at the wall simply won't respond.
+On Tue, Oct 13, 2026 at 12:25:03PM -0700, Kees Cook wrote:
+> On Tue, Oct 13, 2026 at 07:42:43PM +0200, Laurent Pinchart wrote:
+> > I'm increasingly thinking that the Mesa policy of requiring commit
+> > messages to be manually written (possibly with machine translation)
+> > could be applied to the kernel.
+> > 
+> > I've heard multiple people saying how using LLMs made them more
+> > productive, with an extreme example during the maintainer summit of
+> > Linus talking about doing in a couple of months what would have likely
+> > taken multiple years. The same people like to tell how they're in charge
+> > of the whole process, how they control the machine, and how they have a
+> > deep understanding of what they're doing. If that's the case, surely
+> > writing a commit message will not increase the development time back
+> > from a few months to a few years, the extra effort would be negligible.
+> > 
+> > Most commit messages generated by LLMs are quite easy to identify today.
+> > Requiring a human-written message would be a good way to quickly ignore
+> > patches submitted by meat proxies. And before anyone tells me this will
+> > change very soon with <insert employer's new model>, I'll say we will
+> > update our process when that happens.
 > 
-> I've done that too. I still find it better to have multiple tools at my
-> disposal, I want to be able to tell people they're expected to disclose
-> that the code they submit was generated.
+> I agree on the face of it, but it's just as unenforceable as the
+> Assisted-by tag was. :(
 
-Asking how the fix was found and tested has been helping me. I get silence
-or didn't test it and that ends the discussion.
+Perhaps, but I think that's missing the point. The SoB line is not
+enforceable either. Very few of our requirements and assumptions can be
+enforced. We're not telling people they can get backdoors merged in the
+kernel because we can't guarantee 100% that one won't sneak in.
 
+What this is about is setting our expectations, telling what we want and
+what we don't want. There's still value in that, and I'd argue there's
+even more value now. There will be people who won't care, there will be
+people who cheat. We've always had those, we'll keep having them, and
+we'll keep rejecting their contributions. I really don't get the
+unenforceable argument here.
+
+> My own recent commit logs are, like the code, a
+> combination of work from me and the LLM. I trim and edit and reorganize
+> and add/remove stuff all the time (code or commit log). And all the
+> while, tweaking its rules for how to write prose, so I do less and less
+> editing. (And maybe my commit logs are now too verbose? I'm not sure;
+> I've regularly been told I was too terse before, so hopefully there will
+> be a balance found.)
+
+What would be your issue with writing commit messages manually ?
+
+> And as far as spotting this kind of thing, I've already failed the
+> Reverse Turing Test[1], where I thought some of Lorenzo's (justifiably)
+> verbose commit logs were all LLM generated, so the inflection point for
+> clearly distinguishing is here or fast approaching.
+
+Again, we're not aiming for 100% accuracy, we've never considered that
+goal reachable, LLMs or not.
+
+> -Kees
 > 
-> Maybe Documentation/process/generated-content.rst is enough. As I wrote,
-> what matters to me is the disclosure requirement, not the Assisted-by
-> tag as such. I'm however concerned that it's even easier for
-> contributors to ignore Documentation/process/generated-content.rst than
-> the tag.
-> 
+> [1] https://lore.kernel.org/all/202609150943.000EC9277@keescook/
 
-We could add documentation to call out the need for telling us why the patch
-is necessary and how the code was verified in the commit message.
+-- 
+Regards,
 
-This will save time asking those questions.
-
-thanks,
--- Shuah
-
+Laurent Pinchart
