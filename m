@@ -1,69 +1,68 @@
-Received: from mail-ej1-f49.google.com (mail-ej1-f49.google.com [209.85.218.49])
+Received: from mail-ed1-f53.google.com (mail-ed1-f53.google.com [209.85.208.53])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 674344BB263
-	for <workflows@vger.kernel.org>; Tue, 13 Oct 2026 10:22:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B285C4BC00B
+	for <workflows@vger.kernel.org>; Tue, 13 Oct 2026 10:22:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791886952; cv=none; b=DilXbARpcwyvaJOhdIGZHNBUzN6NHmXs29AQvfHxRbnJcEppKSPlasSJqyWe/70An/Ssjkg3lAMoWdcID1tIaI0DC4+QUBuwfGXQS5gOUmudSHDx5YQkQc39MSIUh8f7Wji3tvnZNDufD1L1Bf/POT95oQ2Z9nWR4AlYFBW94Gc=
+	t=1791886955; cv=none; b=mwPdCZG5gZi2PNDmldeYKcrdaqRwhDYozcKxZo337+khojhiU04uNRvR1CYSipNtUT8TKFZsD791xM5z09nSFC26QaQmCipW/LaErl5QZFbo1payRlqChvBF2IlvhAVmcxjoHkwF0cerlcOE51mdZYcSqXk0PCOYlCn3qqVg67Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791886952; c=relaxed/simple;
-	bh=YksWpFnXopwyl0GA9r6k3J7Ba5+eH89Y4Cf4TR7lbDc=;
+	s=arc-20240116; t=1791886955; c=relaxed/simple;
+	bh=2mda2/w8AjN8jnKUaMwvix7N6TVg4/7UD4J37iK+TiE=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=AOYcyCECBlQK6dpOAhTyv1NtDMq3SDKZqK5YO+hY0QvSvQlKKGiet/Ci5+guVrX6Pd93Gq5B595J0MYFYrJC3KAtbjvtGbEt9ZXikL+pS/htZs7xUUkNOJbKTHo20xocOIqH9pH+zuV/I2Z3U50NQss6cVTYTGVN2QMWHPemcyE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=OxDBswgj; arc=none smtp.client-ip=209.85.218.49
+	 In-Reply-To:To:Cc; b=kZZW8kbLtLpeISSz0RsVpbvmBDfxF6qaGQsDyqWkQ/Qd/v12+Piz+3fVsR9Q9rqvyYnDtMEk/QYZR7jT/JmmUn+lnjX+6xeIjtOeSqz8ADOFAUKM63PiSsI+eF1ltwhwHeHvAxnwpV49wYvuQWZvqd6FPWaFFi4qcyUNQhvMFmM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=TWaA+Ijw; arc=none smtp.client-ip=209.85.208.53
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="OxDBswgj"
-Received: by mail-ej1-f49.google.com with SMTP id a640c23a62f3a-c2e43f3d1fdso386790866b.3
-        for <workflows@vger.kernel.org>; Tue, 13 Oct 2026 03:22:30 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="TWaA+Ijw"
+Received: by mail-ed1-f53.google.com with SMTP id 4fb4d7f45d1cf-6b1aa377c61so3036247a12.3
+        for <workflows@vger.kernel.org>; Tue, 13 Oct 2026 03:22:33 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1791886949; x=1792491749; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1791886952; x=1792491752; darn=vger.kernel.org;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :content-type:mime-version:subject:date:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=pJ++bhJiH0xJ/lCRUXOsssknMCsC9h0Cz3zSabf+zyY=;
-        b=OxDBswgjgiWj+6HZkkTnALlgNxDIncxbhpy+2hHXO+rA6d7sNrpT7+ErAffSJsESc0
-         TDaSzF9cBWXdYU+oaONg8R2/Bj5plQW50nq8REA+MXq21H8FkCchQydeI63gI/rPW/SS
-         XlkcoereRACtSec7Bo6DxatxS4089EZa7m9u/GQ9PymIaWRbcZmiQZrZZV2FyiZ92l2c
-         UAzhwjUe05gP6YN5rsuueb/vL69iUTrCJsNkcs9OGlcae8+sYMApOY2UZCFTSvQQmL5X
-         HwZG5XZ3YV6o2OLk0nYD1tCd6CmP6Fe4DYKyip+JUcADB1milBmGXkxocLLiw6Qle34S
-         H57w==
+        bh=iCyfvNJyyWCOyv28in+aW8lLFWLZVEY3hCHsrsMENqI=;
+        b=TWaA+IjwRty5h9fUh3LiSBxcvJy4RorpCkIl7Yaro7PTXwU+PsPWFZ7KSE+ulCkB3W
+         lwkanii2p8HwcIsWMxEzLZD3bJ/p0uIvHAC4WB+AhDi+EqdBpRn90voCTySo7vhxuCge
+         IiOK9OIAiS0h4alii9w4iFSVLhr9XIzKWvScXayOqLU0rCeZPqYmaFkrjxatkzw0ithz
+         rSHy8TwotuawJXwIBYZnfSMCwN+MPV1J7wMCWQnOr6qll6yCOrqq2+4AlDEfwBEOtvNA
+         PFxf/lk6crgSE9WM9uhXipi51gEV+0+daUVP0NxwjyQ+80tDn7lCv9jtERZDs88fmwL7
+         usUg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1791886949; x=1792491749;
+        d=1e100.net; s=20260707; t=1791886952; x=1792491752;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :content-type:mime-version:subject:date:from:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=pJ++bhJiH0xJ/lCRUXOsssknMCsC9h0Cz3zSabf+zyY=;
-        b=Mqo6E9U5758DtbJUubNwCeJWTcREYMLRRNQ6nb/LqlRxtfUPSouhpw7VejJ995dTAy
-         MhBpgeCnwBcMenjRdXk8yHny/lcmapDWA3CkriOiLsZ5Kh4UGi0IBSvM5NnjsuazXAPC
-         qgLn9rXL6qCX09v8HwsH6eCGhcDMEQLtWe7jc4I880V9MoIzN/LMFMjBJxr585HO/dDz
-         E+pQ7theuhbhSdxjwxjoS5MrBddtyuWKMl6wdA6SI8swigqfKBeTdh4h7vl6DAqXB1MQ
-         VZ9VOR+hmb3h6OkgR7tWpGS8eSg1RC/MG/BxhmG+P+NFMOK4SjtxqFTa9+FETucP1b9r
-         e0PQ==
-X-Forwarded-Encrypted: i=1; AKwUvBxcrXhdLcMULf0VQT3yJf8+Z1PBzE6Kmpxtzii+weDCYLFwuZypHV+XoXfJtdp2JqJA4DtWUGDuggc=@vger.kernel.org
-X-Gm-Message-State: AFq9FYKzMuqOlmUoA0NntMAQqliEVDKmULrLQZybvl0dqD+gx8K+3YZL
-	YMSoH2L6m7tPowFFxxR1zjGjgp6sh/Gtovl7x5uupzPsovcgRPAoc3ug
-X-Gm-Gg: AYBFou30bKLJSIuegH4fH50rDxMfN8ZtOgB1E/9Hkix2nVOkaC3Hx0/2aAZVnTX1MSA
-	Ulk/ZVFZzCori802dKo/oWzfx/9V7k30hZ7WBhjaGUmob+3oFE2m3c+Rv11JVdlKBWCwMkphnuy
-	MDxQ9CJjF2epNUu3LMRvb6zIYdZp1yg3bCqAaT/MeYMr/gstneIrNwZIsHZx2GV0r1cASOeVPy2
-	2uMxLiSmdsNQBq61lXGnaydNyrTYO2VCmwFovelsicwDF8i1k4zqqMmQ5Qh7c7C2bpFGK2lSxIM
-	YcE3dHolka/DgDbvwhYcE0KCkVgqW0SSIeZGi8PRL56ptFJRg/Ikl55trsK2ghVjJLHOX+jHAe7
-	EnuJHTS28qFra6nxCHtDZKOfpKA0w6jQ+TMI7n4MxLAvqnQziBsk2miUGD401L/1oQF6RFPeNJW
-	mokgH19SjOh7/37+aZJLPlgqtwQKyOJqP/tQSSPcjgbzFaMfKqqiF9ciBrlPmnvfYcQPCeaoCxG
-	QMnOwdkUGJeTEt5An16cYepLhYAMANBHg==
-X-Received: by 2002:a17:907:72ca:b0:c29:462b:f908 with SMTP id a640c23a62f3a-c31a9fec198mr1483784366b.10.1791886948439;
-        Tue, 13 Oct 2026 03:22:28 -0700 (PDT)
+        bh=iCyfvNJyyWCOyv28in+aW8lLFWLZVEY3hCHsrsMENqI=;
+        b=LpjUBUaIa9GW/tBIIaXzw+jO8zRUJd/3t9cERSvSyOCl4KhmoNGbo4MX65DCD+MZF3
+         BJtt2ZSa1merNTtPhLB2UCGXZlPowUnfP57R/n8xDOfRlupMSWeM3MPfqBtj5RKpXlRZ
+         pBBvd8sChwyMFO0tBnPcLSwzPkxAs7kD3scCHek/8AbCOw/vbGu1HDyIPptYtQv3DTlr
+         KIvlMPtFNWt6sO/mZH29bPkt9+11MgCBhk0WWg/5GABBdv0B7SsEXYU/t5nPV2lM3IoV
+         eCb7eTIHJq4+ntPoqo8KUrB/dY1i5mAOXsgdtzQtOY0QnKDjsS5mLGBnIgwo7Cx6ECYZ
+         fVDA==
+X-Forwarded-Encrypted: i=1; AKwUvBxQllaIMevEaOHu1Fn+etZzjaiaWZRO1TV1i88melYO5T4MhZMz6C3Ty+rh2JMs5vKpmBxdLFEpFn8=@vger.kernel.org
+X-Gm-Message-State: AFq9FYJEEMOLvj3+Vxhy47cO2pVYIjVfiRrNoeXC6g/BKLxKGsG83o74
+	wisqIf8XjWjWlFnes8xkIJN/NNZ+cQHLg6EC5eNbQ4HLvu/9josYC3kR
+X-Gm-Gg: AYBFou2SHMa5q5hEHVz2J8uxYpHI0WseLGC4dcjTWGRdfBW2x55WojzhMh7eCOkI3Su
+	Rl3tR6piAmddR0Sh1wJU33UAtlZXNuHEqpoPJVhhZeg7QpRlbWiycxDiZZIKjg0nCdm7F2V69LG
+	Iavflj0XzTNriJbYMsQM/MxT7mWaqcpWtRTE1EGBM4SZh9oAK6aSeqlzidGUDU4PEyogPXldaby
+	87dOWd6W9GXcvbFZfgInXsCAx07pATvNHIKggo6K245/Lv4+GNfdiKNkQ/KVA5DqdSQQvkkO4AY
+	Vax+VHzBvMEbWLmx+h+g39ZBFhAK49fwgdfn+jqtXSGHVh1X915o4kGCguN/V5DaYwJY/WaWY62
+	0Ia1/Hzap22UEPtggyKOLSJiclkiF1C/lBaIWEQrUlqPzMBWdqRKRKoI/In0dJ3593/YVCXOaq8
+	EiE7JOpsvAJEy5D2I/EnVv9QMSBmXwX9icqIJUQ15un3MYqe/h0ZaIJYXXyLO6OoGzdMXn0Lnrk
+	OLchuXNwTrD/+CFw2xAU7byY/shOVT7kw==
+X-Received: by 2002:a17:907:1c93:b0:c2e:3d29:a5a0 with SMTP id a640c23a62f3a-c31a9a077ecmr1177052266b.3.1791886951684;
+        Tue, 13 Oct 2026 03:22:31 -0700 (PDT)
 Received: from [127.0.0.2] ([2a05:f6c4:d34b:0:eb4c:5610:e9e4:9d1e])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-c34d011dfccsm230739766b.42.2026.10.13.03.22.26
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-c34d011dfccsm230739766b.42.2026.10.13.03.22.28
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 13 Oct 2026 03:22:27 -0700 (PDT)
+        Tue, 13 Oct 2026 03:22:31 -0700 (PDT)
 From: Malte Wechter <maltewechter@gmail.com>
-Date: Tue, 13 Oct 2026 12:22:21 +0200
-Subject: [PATCH v3 1/4] kunit: add logic for tracking forcefully skipped
- test cases/suites
+Date: Tue, 13 Oct 2026 12:22:22 +0200
+Subject: [PATCH v3 2/4] kunit: add assertions for lockdep inside of kunit
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
@@ -72,7 +71,7 @@ List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20261013-lockdep-kunit-v3-1-cdb8ff720c1f@gmail.com>
+Message-Id: <20261013-lockdep-kunit-v3-2-cdb8ff720c1f@gmail.com>
 References: <20261013-lockdep-kunit-v3-0-cdb8ff720c1f@gmail.com>
 In-Reply-To: <20261013-lockdep-kunit-v3-0-cdb8ff720c1f@gmail.com>
 To: Brendan Higgins <brendan.higgins@linux.dev>, 
@@ -94,451 +93,99 @@ Cc: linux-kselftest@vger.kernel.org, kunit-dev@googlegroups.com,
  workflows@vger.kernel.org, linux-doc@vger.kernel.org, 
  Malte Wechter <maltewechter@gmail.com>
 X-Mailer: b4 0.16-dev
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1791886944; l=16273;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1791886944; l=2944;
  i=maltewechter@gmail.com; s=20260812; h=from:subject:message-id;
- bh=YksWpFnXopwyl0GA9r6k3J7Ba5+eH89Y4Cf4TR7lbDc=;
- b=aUMwpeF0gUrYGiwUBzGwLb2rQcT0ARscp0e+6PeAcsela3ULCFWTGLOv2pf5q1rTKcSs1zwGT
- SDWFNIPjvfTChXqdQS9/ERSkq2/FJgr859D+8brK+WVM0DsuhzTTnjL
+ bh=2mda2/w8AjN8jnKUaMwvix7N6TVg4/7UD4J37iK+TiE=;
+ b=83KoWQOgs0rSGqsETeICKKRaxUfu6BR2dUGAYusaCo5tN+Eb4PHmWQdUbad4Kt1RBBdjon6lS
+ Ha9D4rY1xG0ByT2JUGVAg3fdndu9xv9kaYCQrtXnmER3mnRGPYKuUx6
 X-Developer-Key: i=maltewechter@gmail.com; a=ed25519;
  pk=Ta/JQQMOW0Cbxp+yEwWqWFEyKFRyuQeSoYicwD7yvWI=
 
-extend tools/testing/kunit/kunit_parser.py with logic to handle test
-cases that have been forcefully skipped internally by kunit. This is done
-by adding extra information before the skip reason in the ktap output,
-more specifically: `# SKIP force skip: (skip reason)`. If the ktap output
-were to contain the `force skip:` group, the test would be parsed and
-displayed as `[FORCE SKIPPED]` instead of `[SKIPPED]`. On top of this,
-the `[FORCE SKIPPED]` result is displayed using an orange color to
-signify that the result is different both from a regular skipped test and
-a failed test case.
-
-furthermore, internal bookkeeping inside of kunit is added, this is done
-by adding a `forced_skip` field both to the `kunit_suite` and `kunit`
-structs, which enables kunit to check if a skipped test was forcefully
-skipped or not, which is necessary in order to correctly bookkeep and
-display test results. It is important to note that a test _cannot_ be
-marked as forcefully skipped if neither of CONFIG_KUNIT_FAIL_TEST_ON_WARN
-and CONFIG_KUNIT_FAIL_TEST_ON_LOCKDEP is =y. The rust kunit wrapper
-inside of rust/kernel/kunit.rs is correctly updated to handle
-the `forced_skip` field.
+assert that `debug_locks` are on prior to running a kunit testcase and
+assert that `debug_locks` has not been turned off while the test has run.
+The assertions are gated behind `CONFIG_KUNIT_FAIL_TEST_ON_LOCKDEP=y`,
+if it is not enabled, writing and running kunit test cases that trigger
+a lockdep warning does _not_ fail the test if the test itself passes.
+If enabled, it marks any test that triggers a lockdep warning as failed,
+and forcefully skips all proceeding test cases, implying that the kernel
+is now seen as unreliable since `debug_locks` are off. Failing a test
+when lockdep reports a problem is useful for any unit test that takes
+locks, locking bugs are caught by the test that triggered them,
+instead of being silently logged and missed.
 
 Signed-off-by: Malte Wechter <maltewechter@gmail.com>
 ---
- include/kunit/test.h                 |  4 ++
- lib/kunit/Kconfig                    | 23 +++++++++++
- lib/kunit/test.c                     | 79 +++++++++++++++++++++++++++---------
- rust/kernel/kunit.rs                 |  1 +
- tools/testing/kunit/kunit_json.py    |  2 +
- tools/testing/kunit/kunit_parser.py  | 36 +++++++++++++---
- tools/testing/kunit/kunit_printer.py |  3 ++
- 7 files changed, 123 insertions(+), 25 deletions(-)
+ lib/kunit/test.c | 29 +++++++++++++++++++++++++++++
+ 1 file changed, 29 insertions(+)
 
-diff --git a/include/kunit/test.h b/include/kunit/test.h
-index da5312e0dfa5..248737980bb5 100644
---- a/include/kunit/test.h
-+++ b/include/kunit/test.h
-@@ -285,6 +285,9 @@ struct kunit_suite {
- 	struct string_stream *log;
- 	int suite_init_err;
- 	bool is_init;
-+
-+	/* true if any tests in this suite has been forcefully skipped */
-+	bool forced_skip;
- 	enum kunit_status status;
- };
- 
-@@ -345,6 +348,7 @@ struct kunit {
- 	 */
- 	spinlock_t lock; /* Guards all mutable test state. */
- 	enum kunit_status status; /* Read only after test_case finishes! */
-+	bool forced_skip; /* True if this test has been forcefully skipped */
- 	/*
- 	 * Because resources is a list that may be updated multiple times (with
- 	 * new resources) from any thread associated with a test case, we must
-diff --git a/lib/kunit/Kconfig b/lib/kunit/Kconfig
-index 94ff8e4089bf..5ed10ea5d4eb 100644
---- a/lib/kunit/Kconfig
-+++ b/lib/kunit/Kconfig
-@@ -142,4 +142,27 @@ config KUNIT_UML_PCI
- 
- 	  If unsure, say N.
- 
-+config KUNIT_FAIL_TEST_ON_WARN
-+	bool "Enable kernel TAINT_WARN assertions in KUnit tests"
-+	default n
-+	help
-+		Enables asserting if the kernel is tainted with `TAINT_WARN` before
-+		and after a KUnit test case is run. In case `TAINT_WARN` is set
-+		before a test case is run, skip that test, if `TAINT_WARN`
-+		gets set during the test, fail that test and skip all proceeding test cases.
-+		Tests that intentionally trigger warnings must use `kunit_warning_suppress()`,
-+		or they will fail with this option.
-+
-+		If unsure, say N.
-+
-+config KUNIT_FAIL_TEST_ON_LOCKDEP
-+	bool "Enable debug_locks assertions in KUnit tests"
-+	depends on LOCKDEP
-+	default n
-+	help
-+		Enables asserting `debug_locks` is on before and after a KUnit test case is run.
-+		In case `debug_locks` is off before a test case is run, skip that test, if `debug_locks`
-+		has been turned off during the test, fail that test and skip all proceeding test cases.
-+
-+		If unsure, say N.
- endif # KUNIT
 diff --git a/lib/kunit/test.c b/lib/kunit/test.c
-index 09e3dabfac0c..0e3ed457daca 100644
+index 0e3ed457daca..1292a0799c33 100644
 --- a/lib/kunit/test.c
 +++ b/lib/kunit/test.c
-@@ -27,6 +27,28 @@
- 
- static DEFINE_MUTEX(kunit_run_lock);
- 
-+/*
-+ * True if test cases/suites can be forcefully skipped
-+ */
-+#define KUNIT_CAN_FORCE_SKIP \
-+	(IS_ENABLED(CONFIG_KUNIT_FAIL_TEST_ON_WARN) || \
-+	 IS_ENABLED(CONFIG_KUNIT_FAIL_TEST_ON_LOCKDEP))
-+
-+/*
-+ * If force skips are possible, forced_skip should be logged as a stat.
-+ * Macro must expand to multiple function arguments.
-+ * checkpatche falsely displays an error for this.
-+ */
-+#if KUNIT_CAN_FORCE_SKIP
-+#define KUNIT_STATS_FMT "pass:%lu fail:%lu skip:%lu forced_skip:%lu total:%lu"
-+#define KUNIT_STATS_ARGS(s) \
-+	(s)->passed, (s)->failed, (s)->skipped, (s)->forced_skipped, (s)->total
-+#else
-+#define KUNIT_STATS_FMT "pass:%lu fail:%lu skip:%lu total:%lu"
-+#define KUNIT_STATS_ARGS(s) \
-+	(s)->passed, (s)->failed, (s)->skipped, (s)->total
-+#endif
-+
- /*
-  * Hook to fail the current test and print an error message to the log.
+@@ -6,6 +6,7 @@
+  * Author: Brendan Higgins <brendanhiggins@google.com>
   */
-@@ -90,6 +112,7 @@ MODULE_PARM_DESC(stats_enabled,
- struct kunit_result_stats {
- 	unsigned long passed;
- 	unsigned long skipped;
-+	unsigned long forced_skipped;
- 	unsigned long failed;
- 	unsigned long total;
- };
-@@ -113,12 +136,8 @@ static void kunit_print_test_stats(struct kunit *test,
  
- 	kunit_log(KERN_INFO, test,
- 		  KUNIT_SUBTEST_INDENT
--		  "# %s: pass:%lu fail:%lu skip:%lu total:%lu",
--		  test->name,
--		  stats->passed,
--		  stats->failed,
--		  stats->skipped,
--		  stats->total);
-+		  "# %s: " KUNIT_STATS_FMT,
-+		test->name, KUNIT_STATS_ARGS(stats));
++#include <linux/debug_locks.h>
+ #include <kunit/resource.h>
+ #include <kunit/test.h>
+ #include <kunit/test-bug.h>
+@@ -80,6 +81,29 @@ void __printf(3, 4) __kunit_fail_current_test_impl(const char *file, int line, c
+ 	kunit_kfree(current->kunit_test, buffer);
  }
  
- /* Append formatted message to log. */
-@@ -230,6 +249,10 @@ enum kunit_status kunit_suite_has_succeeded(struct kunit_suite *suite)
- 			status = KUNIT_SUCCESS;
- 	}
- 
-+	/* If any test cases has been forcefully skipped, mark the test suite as failed */
-+	if (suite->forced_skip && status == KUNIT_SKIPPED)
-+		status = KUNIT_FAILURE;
-+
- 	return status;
- }
- EXPORT_SYMBOL_GPL(kunit_suite_has_succeeded);
-@@ -360,6 +383,7 @@ void kunit_init_test(struct kunit *test, const char *name, struct string_stream
- 	if (test->log)
- 		string_stream_clear(log);
- 	test->status = KUNIT_SUCCESS;
-+	test->forced_skip = false;
- 	test->status_comment[0] = '\0';
- 	kunit_init_params(test);
- }
-@@ -611,21 +635,14 @@ static void kunit_print_suite_stats(struct kunit_suite *suite,
- {
- 	if (kunit_should_print_stats(suite_stats)) {
- 		kunit_log(KERN_INFO, suite,
--			  "# %s: pass:%lu fail:%lu skip:%lu total:%lu",
--			  suite->name,
--			  suite_stats->passed,
--			  suite_stats->failed,
--			  suite_stats->skipped,
--			  suite_stats->total);
-+		"# %s: " KUNIT_STATS_FMT,
-+		suite->name, KUNIT_STATS_ARGS(suite_stats));
- 	}
- 
- 	if (kunit_should_print_stats(param_stats)) {
- 		kunit_log(KERN_INFO, suite,
--			  "# Totals: pass:%lu fail:%lu skip:%lu total:%lu",
--			  param_stats->passed,
--			  param_stats->failed,
--			  param_stats->skipped,
--			  param_stats->total);
-+		"# Totals: " KUNIT_STATS_FMT,
-+		KUNIT_STATS_ARGS(param_stats));
- 	}
- }
- 
-@@ -647,11 +664,23 @@ static void kunit_update_stats(struct kunit_result_stats *stats,
- 	stats->total++;
- }
- 
-+static void kunit_update_stats_forced_skip(struct kunit_result_stats *stats,
-+				      enum kunit_status status, bool forced)
++/*
++ * Fails current test if test turns off debug_locks.
++ */
++static void kunit_check_lockdep(struct kunit *test, int prev_debug_locks)
 +{
-+	if (KUNIT_CAN_FORCE_SKIP && status == KUNIT_SKIPPED && forced) {
-+		stats->forced_skipped++;
-+		stats->total++;
-+		return;
++	if (IS_ENABLED(CONFIG_KUNIT_FAIL_TEST_ON_LOCKDEP) && !debug_locks && prev_debug_locks) {
++		kunit_err(test, "Test triggered a lockdep warning");
++		kunit_set_failure(test);
 +	}
-+	kunit_update_stats(stats, status);
 +}
 +
- static void kunit_accumulate_stats(struct kunit_result_stats *total,
- 				   struct kunit_result_stats add)
++/*
++ * Skip a KUnit test if debug_locks is turned off by lockdep.
++ */
++static void kunit_skip_if_lockdep(struct kunit *test, struct kunit_suite *suite)
++{
++	if (IS_ENABLED(CONFIG_KUNIT_FAIL_TEST_ON_LOCKDEP) && !debug_locks) {
++		suite->forced_skip = true;
++		test->forced_skip = true;
++		kunit_skip(test, "force skip: debug_locks are off");
++	}
++}
++
+ /*
+  * Enable KUnit tests to run.
+  */
+@@ -462,6 +486,8 @@ static void kunit_run_case_internal(struct kunit *test,
  {
- 	total->passed += add.passed;
- 	total->skipped += add.skipped;
-+	total->forced_skipped += add.forced_skipped;
- 	total->failed += add.failed;
- 	total->total += add.total;
- }
-@@ -723,6 +752,7 @@ kunit_run_param_test(struct kunit_suite *suite, struct kunit_case *test_case,
- 			.param_value = curr_param,
- 			.param_index = ++test->param_index,
- 			.parent = test,
-+			.forced_skip = false,
- 		};
- 		kunit_init_test(&param_test, test_case->name, NULL);
- 		param_test.log = test_case->log;
-@@ -739,7 +769,15 @@ kunit_run_param_test(struct kunit_suite *suite, struct kunit_case *test_case,
- 				      param_desc,
- 				      param_test.status_comment);
+ 	struct timespec64 start, end;
  
--		kunit_update_stats(param_stats, param_test.status);
-+		kunit_update_stats_forced_skip(param_stats, param_test.status,
-+				param_test.forced_skip);
++	kunit_skip_if_lockdep(test, suite);
 +
-+		/* If any param test is forcefully skipped, mark the test as well */
-+		if (param_test.forced_skip && !test->forced_skip) {
-+			test->forced_skip = true;
-+			strscpy(test->status_comment, param_test.status_comment,
-+				sizeof(test->status_comment));
-+		}
+ 	if (suite->init) {
+ 		int ret;
  
- 		/* Get next param. */
- 		param_desc[0] = '\0';
-@@ -773,7 +811,7 @@ kunit_run_one_test(struct kunit_suite *suite, struct kunit_case *test_case,
- 		/* Non-parameterised test. */
- 		test_case->status = KUNIT_SKIPPED;
- 		kunit_run_case_catch_errors(suite, test_case, &test);
--		kunit_update_stats(&param_stats, test.status);
-+		kunit_update_stats_forced_skip(&param_stats, test.status, test.forced_skip);
- 	} else {
- 		kunit_run_param_test(suite, test_case, &test, suite_stats,
- 				     total_stats, &param_stats);
-@@ -787,7 +825,7 @@ kunit_run_one_test(struct kunit_suite *suite, struct kunit_case *test_case,
- 			      test_case->name,
- 			      test.status_comment);
+@@ -512,6 +538,7 @@ static void kunit_try_run_case(void *data)
+ 	struct kunit *test = ctx->test;
+ 	struct kunit_suite *suite = ctx->suite;
+ 	struct kunit_case *test_case = ctx->test_case;
++	int debug_locks_snapshot = debug_locks;
  
--	kunit_update_stats(suite_stats, test_case->status);
-+	kunit_update_stats_forced_skip(suite_stats, test_case->status, test.forced_skip);
- 	kunit_accumulate_stats(total_stats, param_stats);
+ 	current->kunit_test = test;
+ 
+@@ -521,6 +548,8 @@ static void kunit_try_run_case(void *data)
+ 	 * thread will resume control and handle any necessary clean up.
+ 	 */
+ 	kunit_run_case_internal(test, suite, test_case);
++
++	kunit_check_lockdep(test, debug_locks_snapshot);
  }
  
-@@ -840,6 +878,7 @@ static void kunit_init_suite(struct kunit_suite *suite)
- 	suite->status_comment[0] = '\0';
- 	suite->suite_init_err = 0;
- 	suite->status = KUNIT_SUCCESS;
-+	suite->forced_skip = false;
- 
- 	if (suite->log)
- 		string_stream_clear(suite->log);
-diff --git a/rust/kernel/kunit.rs b/rust/kernel/kunit.rs
-index 91eaff8c186a..c3fcad576320 100644
---- a/rust/kernel/kunit.rs
-+++ b/rust/kernel/kunit.rs
-@@ -288,6 +288,7 @@ macro_rules! kunit_unsafe_test_suite {
-                     log: ::core::ptr::null_mut(),
-                     suite_init_err: 0,
-                     is_init: false,
-+                    forced_skip: false,
-                     status: kernel::bindings::kunit_status_KUNIT_SUCCESS,
-                 };
- 
-diff --git a/tools/testing/kunit/kunit_json.py b/tools/testing/kunit/kunit_json.py
-index 80fa4e354a17..64fb6e29a792 100644
---- a/tools/testing/kunit/kunit_json.py
-+++ b/tools/testing/kunit/kunit_json.py
-@@ -24,6 +24,7 @@ JsonObj = Dict[str, Any]
- _status_map: Dict[TestStatus, str] = {
- 	TestStatus.SUCCESS: "PASS",
- 	TestStatus.SKIPPED: "SKIP",
-+	TestStatus.FORCE_SKIPPED: "FAIL",
- 	TestStatus.TEST_CRASHED: "ERROR",
- }
- 
-@@ -46,6 +47,7 @@ def _get_group_json(test: Test, common_fields: JsonObj) -> JsonObj:
- 		"failed": test_counts.failed,
- 		"crashed": test_counts.crashed,
- 		"skipped": test_counts.skipped,
-+		"forced_skipped": test_counts.force_skipped,
- 		"errors": test_counts.errors,
- 	}
- 	test_group = {
-diff --git a/tools/testing/kunit/kunit_parser.py b/tools/testing/kunit/kunit_parser.py
-index d722874bc660..45a8afffefc4 100644
---- a/tools/testing/kunit/kunit_parser.py
-+++ b/tools/testing/kunit/kunit_parser.py
-@@ -69,6 +69,7 @@ class TestStatus(Enum):
- 	SUCCESS = auto()
- 	FAILURE = auto()
- 	SKIPPED = auto()
-+	FORCE_SKIPPED = auto()
- 	TEST_CRASHED = auto()
- 	NO_TESTS = auto()
- 	FAILURE_TO_PARSE_TESTS = auto()
-@@ -83,13 +84,14 @@ class TestCounts:
- 	failed: int = 0
- 	crashed: int = 0
- 	skipped: int = 0
-+	force_skipped: int = 0
- 	errors: int = 0
- 
- 	def __str__(self) -> str:
- 		"""Returns the string representation of a TestCounts object."""
- 		statuses = [('passed', self.passed), ('failed', self.failed),
- 			('crashed', self.crashed), ('skipped', self.skipped),
--			('errors', self.errors)]
-+			('force skipped', self.force_skipped), ('errors', self.errors)]
- 		return f'Ran {self.total()} tests: ' + \
- 			', '.join(f'{s}: {n}' for s, n in statuses if n > 0)
- 
-@@ -98,7 +100,7 @@ class TestCounts:
- 		object, where a test case is a test with no subtests.
- 		"""
- 		return (self.passed + self.failed + self.crashed +
--			self.skipped)
-+			self.skipped + self.force_skipped)
- 
- 	def add_subtest_counts(self, counts: TestCounts) -> None:
- 		"""
-@@ -114,6 +116,7 @@ class TestCounts:
- 		self.failed += counts.failed
- 		self.crashed += counts.crashed
- 		self.skipped += counts.skipped
-+		self.force_skipped += counts.force_skipped
- 		self.errors += counts.errors
- 
- 	def get_status(self) -> TestStatus:
-@@ -130,6 +133,8 @@ class TestCounts:
- 		if self.passed:
- 			# No failures or crashes, looks good!
- 			return TestStatus.SUCCESS
-+		if self.force_skipped:
-+			return TestStatus.FORCE_SKIPPED
- 		# We have only skipped tests.
- 		return TestStatus.SKIPPED
- 
-@@ -141,6 +146,8 @@ class TestCounts:
- 			self.failed += 1
- 		elif status == TestStatus.SKIPPED:
- 			self.skipped += 1
-+		elif status == TestStatus.FORCE_SKIPPED:
-+			self.force_skipped += 1
- 		elif status != TestStatus.NO_TESTS:
- 			self.crashed += 1
- 
-@@ -384,6 +391,8 @@ def peek_test_name_match(lines: LineStream, test: Test) -> bool:
- 		return False
- 	return name == test.name
- 
-+FORCE_SKIP_PREFIX = 'force skip:'
-+
- def parse_test_result(lines: LineStream, test: Test,
- 			expected_num: int, printer: Printer) -> bool:
- 	"""
-@@ -431,8 +440,13 @@ def parse_test_result(lines: LineStream, test: Test,
- 	# Set status of test object
- 	status = match.group(1)
- 	if skip_match:
--		test.status = TestStatus.SKIPPED
--		test.skip_reason = skip_match.group(5) or ''
-+		skip_reason = skip_match.group(5) or ''
-+		if skip_reason.startswith(FORCE_SKIP_PREFIX):
-+			test.status = TestStatus.FORCE_SKIPPED
-+			test.skip_reason = skip_reason[len(FORCE_SKIP_PREFIX):].strip()
-+		else:
-+			test.status = TestStatus.SKIPPED
-+			test.skip_reason = skip_reason
- 	elif status == 'ok':
- 		test.status = TestStatus.SUCCESS
- 	else:
-@@ -540,6 +554,11 @@ def format_test_result(test: Test, printer: Printer) -> str:
- 	"""
- 	if test.status == TestStatus.SUCCESS:
- 		return printer.green('[PASSED] ') + test.name
-+	if test.status == TestStatus.FORCE_SKIPPED:
-+		skip_message = printer.orange('[FORCE SKIPPED] ') + test.name
-+		if test.skip_reason != '':
-+			skip_message += printer.yellow(' (' + test.skip_reason + ')')
-+		return skip_message
- 	if test.status == TestStatus.SKIPPED:
- 		skip_message = printer.yellow('[SKIPPED] ') + test.name
- 		if test.skip_reason != '':
-@@ -659,6 +678,8 @@ def print_summary_line(test: Test, printer: Printer) -> None:
- 		color = printer.green
- 	elif test.status in (TestStatus.SKIPPED, TestStatus.NO_TESTS):
- 		color = printer.yellow
-+	elif test.status == TestStatus.FORCE_SKIPPED:
-+		color = printer.orange
- 	else:
- 		color = printer.red
- 	printer.print_with_timestamp(color(f'Testing complete. {test.counts}'))
-@@ -678,7 +699,9 @@ def bubble_up_test_results(test: Test) -> None:
- 	"""
- 	If the test has subtests, add the test counts of the subtests to the
- 	test and check if any of the tests crashed and if so set the test
--	status to crashed. Otherwise if the test has no subtests add the
-+	status to crashed. If the test has subtests, is marked as failed
-+	and all subtests are FORCE_SKIPPED then mark the test as FORCE_SKIPPED.
-+	Otherwise if the test has no subtests add the
- 	status of the test to the test counts.
- 
- 	Parameters:
-@@ -694,6 +717,9 @@ def bubble_up_test_results(test: Test) -> None:
- 	elif test.counts.get_status() == TestStatus.TEST_CRASHED:
- 		test.status = TestStatus.TEST_CRASHED
- 
-+	if status == TestStatus.FAILURE and test.counts.get_status() == TestStatus.FORCE_SKIPPED:
-+		test.status = TestStatus.FORCE_SKIPPED
-+
- 	if status == TestStatus.FAILURE and test.counts.get_status() == TestStatus.SUCCESS:
- 		counts.add_status(status)
- 
-diff --git a/tools/testing/kunit/kunit_printer.py b/tools/testing/kunit/kunit_printer.py
-index ca119f61fe79..97813b462b93 100644
---- a/tools/testing/kunit/kunit_printer.py
-+++ b/tools/testing/kunit/kunit_printer.py
-@@ -45,6 +45,9 @@ class Printer:
- 	def green(self, text: str) -> str:
- 		return self._color('\033[1;32m', text)
- 
-+	def orange(self, text: str) -> str:
-+		return self._color('\033[1;38;5;208m', text)
-+
- 	def color_len(self) -> int:
- 		"""Returns the length of the color escape codes."""
- 		return len(self.red(''))
+ static void kunit_try_run_case_cleanup(void *data)
 
 -- 
 2.54.0
