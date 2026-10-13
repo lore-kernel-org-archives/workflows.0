@@ -1,37 +1,37 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8ECBF47F3CF;
-	Tue, 13 Oct 2026 03:48:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3AA6642586F;
+	Tue, 13 Oct 2026 03:55:25 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791863331; cv=none; b=G4qbkxSRLjAcZkOro99jIk2OcRD+XnKNIMFYaPNszD/bCP3iVo/96Mkd5Gg0pubAKvv9VWIfW+etL6hX57o/7vLaxZ6zrYNKFCkpdL1L8FyjRuLAVq49x3HOTw4LQBu4JP5gjl3smSOh06lbN5zm3mFH9//E6b4xA/CWdgoAHeY=
+	t=1791863727; cv=none; b=g5KFOJMA5GJMbWbbQKmQWccyR3ZAG6Q8Eg8hnNTZLpmmFVdrkXE/asfea5q9d5DknfyLwlvoxHqPFOFY82UCloPVIoq+FFvIedmNlSWYx6yPPO4hnBYxdLPeS3MRvFrMzokPX9428+6WIz2fSb4XUheziKbiSZLFjRPwzT/Ekzg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791863331; c=relaxed/simple;
-	bh=JcwwFdubjAuED0BflqpGNaarAgz/XSPFMNuF6gdyhqU=;
+	s=arc-20240116; t=1791863727; c=relaxed/simple;
+	bh=J4mnlfv/cdNhDxuQInO2hTV33plUnkz9wuKluI8FoPs=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=eVt+RlM+LIwrPDBQf4mvAPiRJP9A6rh6iVTNZHHxL2d80nlnpYdnH07H2KSF8XbeeF6rHTWF+O7sfBokR+ccS2CNCQE1xmOPabTfS2KvjnJEwcpPww8FXC8+sR0Tmrmhs5BTR+mrqOZvFvasmWnEkQCv4SCPCREjPgplrTCnPEk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=D95J9WKE; arc=none smtp.client-ip=100.103.45.18
+	 Content-Type:Content-Disposition:In-Reply-To; b=K7NaxUl/yZ5+8OSrvidaYqAr1JKxQMcGVZVwu1c1Ims24GMQmEWVeZPBpmD8m4NawJ0RtDhPWlJctJb/YPV3G0jZuoKPpDjkQqCZNV7NGw9a1wenA7N+ClXuZviEHQGJ2bJOqZ9vfcR38DGZZY1tbWYJsKptOTDf2XzfssVFl3A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=NevIXHWB; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="D95J9WKE"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 28F491F000FF;
-	Tue, 13 Oct 2026 03:48:49 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="NevIXHWB"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CB35F1F000FF;
+	Tue, 13 Oct 2026 03:55:25 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1791863329;
-	bh=Gr68N5Yl3I741vmeAmNStLekMikbH3dgfcoR17xQsIU=;
+	s=k20260515; t=1791863725;
+	bh=t+YUNfuiqgmvEt+mxqXzg03SaI723QNUcqZZNdfCc/c=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=D95J9WKE3Uf43j5UiQBW/cK8Z7qjhItXmZ3caym8pge7R/DXS1mU14xH1my12eJD4
-	 lHr49nWApaljg+yObwUr9cylJiR5LF9guCkreEqK7fS7PM2d3rM5h2gzMlUMlRBxbC
-	 ldFFlIkQ9YAINRzG7T/aOHmqRtzYjcebH/sdl/AkaKTDcitrY746zk4JtHCYFAVH8S
-	 mxSnh04UkjmA+84orfAHkOi/2xAzuemgGqhX7AbnMUmE8mFiCtdfw7rKbjYJKCRuuU
-	 AGGJ0zGPporQzxXvfsyRXO0+WXGWHrA0q6kNV8lkyh9McFwVmfYZWPnsSgnBiASSln
-	 LAp+zOIU2xe2w==
-Date: Mon, 12 Oct 2026 20:48:48 -0700
+	b=NevIXHWBTa34TPTpmiY1ulwd5uP9+siqezahjw1A8f+BPdDzP8/3/oAPrSM49tv9m
+	 dt9XGTgtsmQ0TXkZ9OrKz0Nc9ePsgswqAdK4vwZSb7EseGkhRXGohjClfXQArXj7yr
+	 yenDmGYovrdr6z9SLv6VKeRrJEKmEoxp8qU25VacbVg1OpV0pIqHYgAVbOCZU49LTS
+	 nzIQflyfUOoMDlIOMdaXinQCq7P/i4KH/Dv2JRyyxRr1QFTtb6Tqs7s5dg/u7sTqBm
+	 RGEx1Gju3yP30Z5+xoSAaYiZKJxq8mhu5Fef7dsrq0ZDTCE08TCD6DOYT8nlT2LBPE
+	 GJDF4wYFIS+GA==
+Date: Mon, 12 Oct 2026 20:55:25 -0700
 From: Kees Cook <kees@kernel.org>
-To: Jonathan Corbet <corbet@lwn.net>
-Cc: Sasha Levin <sashal@kernel.org>, workflows@vger.kernel.org,
-	ksummit@lists.linux.dev, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
+To: Sasha Levin <sashal@kernel.org>
+Cc: workflows@vger.kernel.org, ksummit@lists.linux.dev,
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+	Jonathan Corbet <corbet@lwn.net>,
 	Shuah Khan <skhan@linuxfoundation.org>,
 	Randy Dunlap <rdunlap@infradead.org>,
 	Mark Brown <broonie@kernel.org>, Theodore Ts'o <tytso@mit.edu>,
@@ -41,11 +41,10 @@ Cc: Sasha Levin <sashal@kernel.org>, workflows@vger.kernel.org,
 	Konstantin Ryabitsev <konstantin@linuxfoundation.org>,
 	Thorsten Leemhuis <linux@leemhuis.info>,
 	"Michael S . Tsirkin" <mst@redhat.com>
-Subject: Re: [PATCH v2 0/5] agents: add skills for Fixes tags, stable tags,
- similar bugs, and commit messages
-Message-ID: <202610122047.A9E381A@keescook>
+Subject: Re: [PATCH v2 2/5] agents: add a skill to determine Fixes tags
+Message-ID: <202610122052.0C2001A48E@keescook>
 References: <20261012213452.1863248-1-sashal@kernel.org>
- <87zewiy1sd.fsf@trenco.lwn.net>
+ <20261012213452.1863248-3-sashal@kernel.org>
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
@@ -54,38 +53,44 @@ List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <87zewiy1sd.fsf@trenco.lwn.net>
+In-Reply-To: <20261012213452.1863248-3-sashal@kernel.org>
 
-On Mon, Oct 12, 2026 at 04:47:14PM -0600, Jonathan Corbet wrote:
-> Sasha Levin <sashal@kernel.org> writes:
-> 
-> > At the Maintainers Summit, Ted asked whether the stable trees have a way
-> > to deal with incorrect Fixes tags. Hannes estimated that 15-20% of them
-> > are wrong, often because the author ran git blame and took the first
-> > commit that touched the line [1]. We use LLM workflows to find the
-> > commit that actually introduced a bug, and others asked us to share
-> > them.
-> >
-> > This series adds them as agent skills under agents/skills/, together
-> > with a skill for writing commit messages:
-> 
-> Time to argue for a more fuchsia shade of mauve without actually getting
-> into the substance of what you're doing...:)
-> 
-> I wonder about the top-level agents/ directory.  If we regard this
-> material as documentation, perhaps the "skills" should go there too?  As
-> readable text, they might just help to improve human skills as well,
-> assuming we think we still need those.  Under Documentation, they could
-> be built into the rendered docs and made more widely available.
-> 
-> Otherwise, if this is primarily a development tool, perhaps under tools/
-> makes sense?
-> 
-> I lack strong opinions here, but figured I would ask the question.
+On Mon, Oct 12, 2026 at 05:34:49PM -0400, Sasha Levin wrote:
+> +Resolve revisions against the repository being inspected. For example, with
+> +``fix`` set to the supplied revision::
+> +
+> +    git rev-parse --show-toplevel
+> +    git rev-parse --verify --end-of-options "$fix^{commit}"
+> +    git show --no-patch --format=fuller "$fix"
+> +    git rev-list --parents -n 1 "$fix"
+> +    git show --format= --find-renames "$fix"
+> +
+> +Use ``git diff --cached`` and ``git diff`` to inspect staged and unstaged work.
+> +Read the surrounding code at the pre-fix base with ``git show <base>:<path>``.
+> +Do not assume the current checkout contains the historical implementation.
 
-I was expecting this to appear under Documentation/. The agents are
-designed to read human text, so let's make it at least passingly
-sensible for humans to read too. :)
+I don't really like having "how to use git" in here. Especially not "how
+to figure out what the staged diff is". That is way off topic.
+
+> +Useful read-only searches include the following. Here ``base``, ``path``,
+> +``old_path``, ``new_path``, and ``candidate`` refer to identified revisions or
+> +paths; replace the example line range and expressions with relevant ones::
+> +
+> +    git blame -M -C -L 100,140 "$base" -- "$path"
+> +    git log --follow -p "$base" -- "$path"
+> +    git log -p -S 'relevant expression' "$base" -- "$old_path" "$new_path"
+> +    git log -p -G 'relevant.*pattern' "$base" -- "$old_path" "$new_path"
+> +    git show --find-renames "$candidate" -- "$old_path" "$new_path"
+> +    git rev-list --parents -n 1 "$candidate"
+
+For example, using -S and -G here can be *extremely* slow. I think it's
+best to keep this skill as short as it can possibly be. Adding these
+"off topic" diversions seems like a token-eating mistake to me.
+
+The overall guidance about how/why and where a short-cut isn't workable
+all read well, though.
+
+-Kees
 
 -- 
 Kees Cook
