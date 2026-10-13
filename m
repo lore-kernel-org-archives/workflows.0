@@ -1,216 +1,182 @@
-Received: from mail-ed1-f42.google.com (mail-ed1-f42.google.com [209.85.208.42])
+Received: from mail-dy1-f182.google.com (mail-dy1-f182.google.com [74.125.82.182])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8EB114BE439
-	for <workflows@vger.kernel.org>; Tue, 13 Oct 2026 10:22:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.42
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791886959; cv=none; b=s2BGjW3+oArUsU8Yk+eYViNGWxLGWMneM7zPwOsTfdW9Tu7y5/IvFGlKj8ERfIu4xbrFHYrit+V65t9bh9mEJRJp78RWYonSeSz7vVBO0nfOLYglQRK3vlaH/bHBy6fDoewinfssNWg9MCI7XWgGZJXasP1xwpLVVxt+xowej8E=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791886959; c=relaxed/simple;
-	bh=aXw1L7g/upf/F3tnOXBS/dAE7Az9MAaw8sM83XMWJFM=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=iKXP++IySTVS6VJ1h2nU8KEJ4rh1zqZCzjuoUSw34ioDDMpblkV9zmKn6gpZmQO4qviHw0B6HMgMuRCPLCKWIJ64S/zAemiAK3+CxQSPau08KCTrugsrfHx8pvx66lEacbRXfF79MTTv1QFRrCQzsGXGSINC+sVPjN1x26ZK9BY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=XbaTtQFQ; arc=none smtp.client-ip=209.85.208.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9E9FB408617
+	for <workflows@vger.kernel.org>; Tue, 13 Oct 2026 10:32:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.82.182
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1791887542; cv=pass; b=tzbt8aK4qA/DPQYi4r61di7gceFR0snze+erfX/KKXFUl2tvAQCtKrgnzKCKfCcDb0Sn7KEsOrtL3851ENv0BuOLqZwqDNFf3ZIMLxe5+WTtznpm8sbX1TRs6cB0b6o0rY+cafm6Z9jFclIxCv0yYssyPECB2XBS+QvdNGkiCnU=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1791887542; c=relaxed/simple;
+	bh=IAfkKA0U+QL1NU6vVqFogpbTbIovJwScmPrSbAdsIoU=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=uJg3SIxrhuPYD6FsPKUao4wFoNlBFgeyjzFklK+NJt0I0ubSZ6Pt6pCblpPzD0I3k8fj5I5iBP548S1NJ+1k+bmxufw66AcCXU2PdHP4Mr0I19Q4fBrwQ86jL7bncQE2EhpJAGNOSA9vA8JbMzxIYkG95bKEk7ovTmZErB37Cao=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Y/tLEpBd; arc=pass smtp.client-ip=74.125.82.182
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="XbaTtQFQ"
-Received: by mail-ed1-f42.google.com with SMTP id 4fb4d7f45d1cf-6b1f4d8e09aso484920a12.1
-        for <workflows@vger.kernel.org>; Tue, 13 Oct 2026 03:22:37 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Y/tLEpBd"
+Received: by mail-dy1-f182.google.com with SMTP id 5a478bee46e88-3584f70a5aaso331468eec.1
+        for <workflows@vger.kernel.org>; Tue, 13 Oct 2026 03:32:20 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1791887540; cv=none;
+        d=google.com; s=arc-20260327;
+        b=Qnq/gZFz64T9VwNGC5pAwN0cGpYWUgvi5Qy9iwLIuM9Xx8BMb3IUyjntwAS8nYhAsw
+         F/L0Y1BKayg4NajPlctgUWX8st+Q0mcBQIWI/bhwXtU/pBvBGFenwnTix+apF8smeT48
+         N19HIooMG0FWxvumBmBrVvdwFD/ra5CmPb1ZfI7smSye4XwRmKQedWkGL+kfhpatYzVA
+         hgldzfJz7OgnvLOnsyt5GWc1xkJgPrD+W5P6ugjvyJcxojI81ZVpoXJYqXxotZCX9kUo
+         t9xvtdGJag+/a0Nq6QLBHUb4O7DFaLxZyexWYldHay9Oc9S3rHJACeohxJX7TDyGjv3S
+         fX3Q==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=SYwDmHP5gC698Sj67HNGApHy2r5CrxT42QNJMV7RL6o=;
+        fh=zp0f3L3zx+cGln2x7x5/t6+P7N/6cd5lcJPOtKZy5l4=;
+        b=mYoco0Q3qJoSvvpzh2wE79KbaPjRvVwjX/pbv+GTL8Cr82HX4QJ8+1XfC98nZcchoY
+         KmSJWGYOrQO8OrINAIRvbXg5oJ1FKONCVuOobmSCLdc0NGzg/45yC0AdiyaBmcV97jwT
+         WZZImlMfMZ+ryaerLLImZD1YV/vsWIXvNALDoCMQY9jgr8yFi9lDt6dRk3itDyub2ULZ
+         wIt0/iWFpMUSoKM+Svi9K8WxPuDkOJFGGNVch/qyA5uLQlCa7uJWCXBEC9lLeFr8wJPt
+         b9TcoGtvQlPdKa0wC17r5rSZxBhGHT3phEZ+rDmaURiyVm/W0szVYlVOUYu+M4rZRy2y
+         3PWw==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1791886956; x=1792491756; darn=vger.kernel.org;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :content-type:mime-version:subject:date:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=kNO0S4V3NLwBUeXdjMEGGTCuH76HrYE6Qlz+uekWGHI=;
-        b=XbaTtQFQpmJeNKVahdkVQpkwCQt8mF9fF2MisEpwkYSWbeeXxYJjCIIe9iJ7NzcP2r
-         F8hmSHiBT7NI5yqhaRMXio83I7th11+8Z/IjyVYpzYLO+BL6A3N309/YsTD08UO/jg/k
-         LyYLWGDQ4z+MXuAujoYfzBCRFrCH+Rq9ZeiCJkmIaocky64U0OSQBElarD1EdGfj8e3h
-         qI3uC8jyrPbneUf95gJmz1bF9JmplE8miSTAFZqCcIVt+ZQlc+aMB0ZB6FUJ6DQmIZNx
-         byiEZzYgEdootKWbC3yie6ScWhEMcONLSXJIeWYu6VCv9I9IXUBtsKjdqvP0+gb4jTYM
-         p1WQ==
+        d=gmail.com; s=20251104; t=1791887540; x=1792492340; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=SYwDmHP5gC698Sj67HNGApHy2r5CrxT42QNJMV7RL6o=;
+        b=Y/tLEpBdP24lKTF7jvb/dKv6TxqZVNFs2Pj2CuqXfO5HRD5Aw3vsmFxQcyBhBQqIYR
+         6VD893zgvpKQyC6jITbu+iO/lTmW2wNinSIm3iwrbo9Bzh+Jy7pf8SLCtAkmC8UO/2rj
+         1WfajpWd1PMk08oyfSh/2BRM1CLPz9VY8hyxJi+v/GzeH1q4XQ81JbnU4WwZwMMC8IvA
+         s5799Wvbj8ILnxG54laGxLd7PtbjP+1QgTjRr1yMdxJAVLbyKa9Lp95VhByaHTuAZSOV
+         pYSN3xFzmqHDUpvJx4c84viFlMPH8qAK71b7LVrKoNeyNqe03FpwDiPelUrxVEvFuBRQ
+         jG9Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1791886956; x=1792491756;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :content-type:mime-version:subject:date:from:x-gm-gg
+        d=1e100.net; s=20260707; t=1791887540; x=1792492340;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=kNO0S4V3NLwBUeXdjMEGGTCuH76HrYE6Qlz+uekWGHI=;
-        b=nEQxjvEWXjh4yMesgRXd+84q1CUskc8wC6p1k9DYTzNk5JTaZlAHpIPHEFZsLwv2ON
-         Ohj0AFr17SrJtW3BXeVxFX1kPq93FKEGXBsLNMPlblDGb+1M77XZcGi5JYJuAfJptsO7
-         nb9ZWAxaNe4VzbCH241uiGdoihop9ylCT3ydHa53F0eYHHDyaAu/jwvebpwdnKSBf5Tg
-         vd8x1o1c75vtyHFL/SKN6Ak295Z9gCQ35oZ+qIb0nuKa0jBA8CmGW1oLZbBB55T1mKWb
-         lY1VmScOCbtW1/AVxx8VYuH5z2bhC1GJ58kxeujmc8ewAvM9SkZVrKQebTtks3kyd954
-         S3mA==
-X-Forwarded-Encrypted: i=1; AKwUvBz3PveeN4G4W3SW98v1CS8uX89ibmnmARDE728NJZbXWZAUQJuxa7Ea/mqMRyFoNAEeYa3FdTxlBko=@vger.kernel.org
-X-Gm-Message-State: AFq9FYLq79TqgrzrZ9Fe8ARUYqyXpNEMcVH8+NQsijI8VPwiXEclsOZJ
-	Vx3JV2smcoDtU7VNTEhSI9IWl+bVyeugQyIsIiM1q9PUufeRDdgYATJy
-X-Gm-Gg: AYBFou0cAk5CKFnnrT+FpzQhLGMd/ZU+43qR2tyN1fYz5jddGOspjDrlJMvBO8ACx5W
-	e/oAN+UL7ZjD3w6RuT+zzZepOZ1WbEqAyIBcR56U1I3uMuKVJq6hirabQWitbM4VNJz6nueno5U
-	mcfEQIS8T7IvZymZp8kZZV+GRPKSRmO1tu2AYX42knoWJscr4PXpR4I5wUmy+ahGTSNIYpIryWu
-	kLS4bsM13jzz2qCJnmu68vCac9Oxl5LMdY3OxVKOihIx9wuHcr3ilmOCdW9bYY+jVOECmNIUT6X
-	mIxpUJBx5wmqpqkbwwNttUMKSqO26GIoA7ZmM0xP7r8gwkc4PdkMXZtmUh4UWgKqafreH4vcwAP
-	BtQf/jcL4q9rPZ8DODGZsIbIiBxQblg15Md3NJCiLjMQu1hwAXqWBgHC83nfhJ1iQ85jwu51ZYx
-	eSCONaw766U5aNPuRJoOEiiYpa6hRGCowI9lskSaLkb7a9bxMQ0M/jEuSEYe++AuoBXDTJ9DycR
-	yb/pv2+4M/bv1aUT63elgnvGVWwfiv6PA==
-X-Received: by 2002:a05:6402:2348:b0:6ae:a675:62dd with SMTP id 4fb4d7f45d1cf-6b17c2bfb46mr10924005a12.42.1791886955466;
-        Tue, 13 Oct 2026 03:22:35 -0700 (PDT)
-Received: from [127.0.0.2] ([2a05:f6c4:d34b:0:eb4c:5610:e9e4:9d1e])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-c34d011dfccsm230739766b.42.2026.10.13.03.22.33
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 13 Oct 2026 03:22:34 -0700 (PDT)
-From: Malte Wechter <maltewechter@gmail.com>
-Date: Tue, 13 Oct 2026 12:22:24 +0200
-Subject: [PATCH v3 4/4] Documentation: kunit: add documentation and
- examples to kunit documentation
+        bh=SYwDmHP5gC698Sj67HNGApHy2r5CrxT42QNJMV7RL6o=;
+        b=sbzPR6DNDo9xV3M+D3Sbd/kRyJ1QE9vRTOg3TACnLWaw9CLKhY1UR+pzkKDocyrWJ9
+         WwpP+hbS4nUjLYM3QLw2Z/2p5p2uhPfzHtdhYA9BL5Uqz4AWacitDpR0kYi8I8HlDjPx
+         FeZuQ9gqCpzTa0mRPJd5hJ4ElIjGOizSc3FsNXMBkumvs4uQ7L1vMJ3kb3IrMzYjp8br
+         xj3QxrK6ifuoZ47N0ZPk+B7AV9Bs0a9HwK/EA97X7Gsgta5qM7s2zoks9NFa0fehhgoR
+         VenC/JX02ij3fNG0kkAUiLvL5cRzR2tsqq6bh2I0h1JGxL+eVeD5J8ybzpalBrn7dlWA
+         CheQ==
+X-Forwarded-Encrypted: i=1; AKwUvBzyLQUSGnr1w2aWTjRkR0Ox+xdTW1BEZxq3fMNv0JuFB+vbJEAPaHrW29yayu27q4i2MtuOBiHbNwM=@vger.kernel.org
+X-Gm-Message-State: AFq9FYLdp+2uvvVhzjjSbnbGekPwKuhfGqi285MLUBOaKgNk3wc/RIWJ
+	uAu6FXUE75TqaypQ+rAiDT3fBB3evO2vai/uYrIPSDdQOxwQ/FuBBNyP0CkBwVg5Ku/X2g5lQcx
+	Jd3rwUvLmKdzvY7Py2yKacvVluiz1X4M=
+X-Gm-Gg: AYBFou2PX59whVBjXpHeqUVxoM9U4ZtidzH56sfZQiWrmN3waGW+FoiDYs4oBQV8cM2
+	YQpOlvkSR/rAv+buwx/LDw6TAIv26a2esK2l6r2wbB7uQt2rUZH4ylIInVRnvQu/zGJ+HftRCOI
+	3DSrcAEILt55MOjR8TSWX84ezYTBBv19WaqCYuOf+qTtAJgkAYwntoIu6QGBXmomDrpYU7ztptq
+	o27rtbjs9VlZEmCiLalMnTI9a7JKl+tvmkqQzqJCtolpVSVs1+6xI7AQMGSUwkYFU4tPmnLlPJq
+	reJ1B+txD6iBYVDa8X4PaLVXribQChOjOWiqKaFXEIX1SM1srN/Z4J3o57ZAPio0S2T88u/EgEb
+	ryjGOLeEnuJdu6whFRPs3I7Ks85NNi0KpvsgEoOWV/7+LSB/9J5xKeLP0C/ZxvDNIhnuv0fnWP2
+	PfdZmpngrU2KN/gVK+j1lHxJvk6b5bTWi13FV523e2bmvkkX1WLQYerH2jM+AiCQ==
+X-Received: by 2002:a05:7300:c8c5:b0:351:7e15:9c59 with SMTP id
+ 5a478bee46e88-3537dc89f58mr25702764eec.0.1791887539654; Tue, 13 Oct 2026
+ 03:32:19 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20261013-lockdep-kunit-v3-4-cdb8ff720c1f@gmail.com>
-References: <20261013-lockdep-kunit-v3-0-cdb8ff720c1f@gmail.com>
-In-Reply-To: <20261013-lockdep-kunit-v3-0-cdb8ff720c1f@gmail.com>
-To: Brendan Higgins <brendan.higgins@linux.dev>, 
- David Gow <david@davidgow.net>, Rae Moar <raemoar63@gmail.com>, 
- Miguel Ojeda <ojeda@kernel.org>, Boqun Feng <boqun@kernel.org>, 
- Gary Guo <gary@garyguo.net>, 
- =?utf-8?q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
- Benno Lossin <lossin@kernel.org>, Andreas Hindborg <a.hindborg@kernel.org>, 
- Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>, 
- Danilo Krummrich <dakr@kernel.org>, 
- Daniel Almeida <daniel.almeida@collabora.com>, 
- Tamir Duberstein <tamird@kernel.org>, 
- Alexandre Courbot <acourbot@nvidia.com>, 
- =?utf-8?q?Onur_=C3=96zkan?= <work@onurozkan.dev>, 
- Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
- Randy Dunlap <rdunlap@infradead.org>
-Cc: linux-kselftest@vger.kernel.org, kunit-dev@googlegroups.com, 
- linux-kernel@vger.kernel.org, rust-for-linux@vger.kernel.org, 
- workflows@vger.kernel.org, linux-doc@vger.kernel.org, 
- Malte Wechter <maltewechter@gmail.com>
-X-Mailer: b4 0.16-dev
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1791886944; l=4664;
- i=maltewechter@gmail.com; s=20260812; h=from:subject:message-id;
- bh=aXw1L7g/upf/F3tnOXBS/dAE7Az9MAaw8sM83XMWJFM=;
- b=197PL5sRImc434TSktPNDLm91sYqlCMcYaOqmobuwHoZ5KhTY6cLKelkof6ky+vRYJbqrT+m1
- xtS9GuurHSRCR2QUeq6SU8ntr6qrQ23Suo3a5TjE/CC+RL85z9iqllK
-X-Developer-Key: i=maltewechter@gmail.com; a=ed25519;
- pk=Ta/JQQMOW0Cbxp+yEwWqWFEyKFRyuQeSoYicwD7yvWI=
+References: <20261012134159.912183-1-elver@google.com> <20261012134159.912183-2-elver@google.com>
+ <CAG_fn=UbARgkMYOHY9kbqvkCEE532_wnkKkv50H-JkuKWtCe=g@mail.gmail.com> <as4DdRqFKxuJNDnS@elver.google.com>
+In-Reply-To: <as4DdRqFKxuJNDnS@elver.google.com>
+From: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
+Date: Tue, 13 Oct 2026 12:32:07 +0200
+X-Gm-Features: AclHuK-e9pojF-4-sUhcctzSu2Lj9dg88Qjibnm7E2u4bDLqEx7YvHBlJNvxTnE
+Message-ID: <CANiq72kQ0XggO9K44aprg1yLWZFj=zb3M+T4pRKnKbBwnoy13g@mail.gmail.com>
+Subject: Re: [PATCH 2/2] rust: kcsan: add KUnit test for data race detection
+To: Marco Elver <elver@google.com>, Tejun Heo <tj@kernel.org>, 
+	Lai Jiangshan <jiangshanlai@gmail.com>
+Cc: Alexander Potapenko <glider@google.com>, Boqun Feng <boqun.feng@gmail.com>, 
+	Miguel Ojeda <ojeda@kernel.org>, Gary Guo <gary@garyguo.net>, kasan-dev@googlegroups.com, 
+	linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>, 
+	Shuah Khan <skhan@linuxfoundation.org>, Randy Dunlap <rdunlap@infradead.org>, 
+	Andrew Morton <akpm@linux-foundation.org>, Boqun Feng <boqun@kernel.org>, 
+	=?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
+	Benno Lossin <lossin@kernel.org>, Andreas Hindborg <a.hindborg@kernel.org>, 
+	Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>, 
+	Danilo Krummrich <dakr@kernel.org>, Daniel Almeida <daniel.almeida@collabora.com>, 
+	Tamir Duberstein <tamird@kernel.org>, Alexandre Courbot <acourbot@nvidia.com>, 
+	=?UTF-8?Q?Onur_=C3=96zkan?= <work@onurozkan.dev>, 
+	Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nsc@kernel.org>, 
+	Nick Desaulniers <ndesaulniers@google.com>, Bill Wendling <morbo@google.com>, 
+	Justin Stitt <justinstitt@google.com>, Asahi Lina <lina+kernel@asahilina.net>, 
+	Yury Norov <ynorov@nvidia.com>, Eliot Courtney <ecourtney@nvidia.com>, 
+	Joel Fernandes <joelagnelf@nvidia.com>, workflows@vger.kernel.org, 
+	linux-doc@vger.kernel.org, rust-for-linux@vger.kernel.org, 
+	linux-kbuild@vger.kernel.org, llvm@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-add documentation section to Documentation/dev-tools/kunit
-named "Failing Tests on Lockdep Reports and Kernel Warnings", which
-explains the additional configurations namely:
-CONFIG_KUNIT_FAIL_TEST_ON_LOCKDEP and CONFIG_KUNIT_FAIL_TEST_ON_WARN,
-when and how they are useful as well as an example of an invocation.
+On Tue, Oct 13, 2026 at 12:10=E2=80=AFPM Marco Elver <elver@google.com> wro=
+te:
+>
+> Looks like it, and we need this patch to use system_dfl_wq:
+>
+>
+> From: Marco Elver <elver@google.com>
+> Date: Tue, 13 Oct 2026 10:05:52 +0000
+> Subject: [PATCH] rust: workqueue: add system_dfl()
+>
+> The C kernel deprecated system_unbound_wq in favor of system_dfl_wq
+> (commit 64d8eae3f895 ("workqueue: Add warnings and fallback if
+> system_{unbound}_wq is used")).
+>
+> Add `system_dfl()` to provide a safe wrapper around `system_dfl_wq`.
+>
+> Signed-off-by: Marco Elver <elver@google.com>
+> ---
+>  rust/kernel/workqueue.rs | 10 ++++++++++
+>  1 file changed, 10 insertions(+)
+>
+> diff --git a/rust/kernel/workqueue.rs b/rust/kernel/workqueue.rs
+> index 7e253b6f299c..e46d3acf903d 100644
+> --- a/rust/kernel/workqueue.rs
+> +++ b/rust/kernel/workqueue.rs
+> @@ -1063,6 +1063,16 @@ pub fn system_unbound() -> &'static Queue {
+>      unsafe { Queue::from_raw(bindings::system_unbound_wq) }
+>  }
+>
+> +/// Returns the system default work queue (`system_dfl_wq`).
+> +///
+> +/// Workers are not bound to any specific CPU, not concurrency managed, =
+and all queued work items
+> +/// are executed immediately as long as `max_active` limit is not reache=
+d and resources are
+> +/// available.
+> +pub fn system_dfl() -> &'static Queue {
+> +    // SAFETY: `system_dfl_wq` is a C global, always available.
+> +    unsafe { Queue::from_raw(bindings::system_dfl_wq) }
+> +}
+> +
+>  /// Returns the system freezable work queue (`system_freezable_wq`).
+>  ///
+>  /// It is equivalent to the one returned by [`system`] except that it's =
+freezable.
+> --
+> 2.56.0.385.gd3acb90ef8-goog
 
-Signed-off-by: Malte Wechter <maltewechter@gmail.com>
----
- .../dev-tools/kunit/failing_on_warnings.rst        | 78 ++++++++++++++++++++++
- Documentation/dev-tools/kunit/index.rst            |  1 +
- 2 files changed, 79 insertions(+)
+This is:
 
-diff --git a/Documentation/dev-tools/kunit/failing_on_warnings.rst b/Documentation/dev-tools/kunit/failing_on_warnings.rst
-new file mode 100644
-index 000000000000..cf502995368b
---- /dev/null
-+++ b/Documentation/dev-tools/kunit/failing_on_warnings.rst
-@@ -0,0 +1,78 @@
-+.. SPDX-License-Identifier: GPL-2.0
-+
-+====================================================
-+Failing Tests on Lockdep Reports and Kernel Warnings
-+====================================================
-+
-+By default, a KUnit test only fails if one of its own expectations or
-+assertions fails. If the code under test triggers a lockdep report or a
-+``WARN()``, the problem is printed to the kernel log, but the test still
-+passes and a bug is easily missed.
-+
-+KUnit provides two optional config options that turn these problems into
-+test failures.
-+
-+Config options
-+==============
-+
-+``CONFIG_KUNIT_FAIL_TEST_ON_LOCKDEP``
-+	Fail a test case if lockdep reports a problem (and turns off
-+	``debug_locks``) while the test runs, which is useful for any test
-+	that takes locks. Locking bugs are reported by the test that
-+	triggered them. Requires lockdep, e.g. ``CONFIG_PROVE_LOCKING=y``.
-+
-+``CONFIG_KUNIT_FAIL_TEST_ON_WARN``
-+	Fail a test case if the kernel becomes tainted with ``TAINT_WARN``
-+	while the test runs, i.e. if the test triggered a ``WARN()``. Since
-+	a warning usually indicates a bug, this is useful for any test that
-+	does not intentionally trigger a ``WARN()``. If you trigger a ``WARN()``
-+	on purpose use ``kunit_warning_suppress(test)`` otherwise your test
-+	will be marked as a failure.
-+
-+Forcefully skipped tests
-+========================
-+
-+Once lockdep has reported a problem, ``debug_locks`` stays off, and the
-+``TAINT_WARN`` taint cannot be cleared. The kernel is therefore considered
-+unreliable for the rest of the run, so after the failing test, all
-+remaining test cases are *forcefully skipped* instead of being run.
-+
-+A forcefully skipped test case is reported as a skip with a
-+``force skip:`` reason, for example:
-+
-+.. code-block:: none
-+
-+	ok 2 foo_test # SKIP force skip: debug_locks are off
-+
-+Unlike an ordinary skip, a forced skip does not mean the test does not
-+apply; it means the test could not be trusted to run. A suite in which
-+at least one test case was forcefully skipped is reported as follows:
-+
-+- **Failed**, if a test case failed, and the remaining test cases were
-+  forcefully skipped as a result. This is the common case.
-+- **Passed**, if the forcefully skipped test cases only follow passing
-+  ones. This is rare, and implies that something other than the test
-+  cases themselves triggered the lockdep report or ``TAINT_WARN``.
-+- **Forced skipped**, if all test cases in the suite were forcefully
-+  skipped, typically because an earlier suite already left the kernel
-+  unreliable. In the KTAP output, such a suite is reported as
-+  ``not ok``.
-+
-+The suite statistics count forced skips separately as ``forced_skip``,
-+and ``kunit.py`` shows such test cases as ``[FORCE SKIPPED]``.
-+
-+Running tests with the options enabled
-+======================================
-+
-+The options can be added to a ``kunit.py`` run with ``--kconfig_add``,
-+options CONFIG_KUNIT_FAIL_TEST_ON_WARN and CONFIG_KUNIT_FAIL_TEST_ON_LOCKDEP
-+are independent of each other. Here is an example of running kunit tests with both configs:
-+
-+.. code-block:: bash
-+
-+	./tools/testing/kunit/kunit.py run \
-+		--kconfig_add CONFIG_DEBUG_KERNEL=y \
-+		--kconfig_add CONFIG_PROVE_LOCKING=y \
-+		--kconfig_add CONFIG_KUNIT_FAIL_TEST_ON_WARN=y \
-+		--kconfig_add CONFIG_KUNIT_FAIL_TEST_ON_LOCKDEP=y
-+
-diff --git a/Documentation/dev-tools/kunit/index.rst b/Documentation/dev-tools/kunit/index.rst
-index b3593ae29ace..bdef2913da36 100644
---- a/Documentation/dev-tools/kunit/index.rst
-+++ b/Documentation/dev-tools/kunit/index.rst
-@@ -17,6 +17,7 @@ KUnit - Linux Kernel Unit Testing
- 	style
- 	faq
- 	running_tips
-+	failing_on_warnings
- 
- This section details the kernel unit testing framework.
- 
+  https://lore.kernel.org/rust-for-linux/20260807165252.3849875-2-dakr@kern=
+el.org/
 
--- 
-2.54.0
+i.e. we have had a warning like that in one of our current tests for a
+while, it would be nice to clean it up:
 
+    workqueue: work func
+    _RNvXs8_NtCs5lxGbhOOw2k_6kernel9workqueueINtNtNtB7_4sync3arc3ArcNtNtNtN=
+tBH_4lock8spinlock5tests4TestEINtB5_15WorkItemPointerKy0_E3runB7_
+    enqueued on deprecated workqueue. Use system_{percpu|dfl}_wq instead.
+
+Cc'ing workqueue: Tejun and Lai.
+
+Cheers,
+Miguel
