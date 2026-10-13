@@ -1,149 +1,163 @@
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+Received: from ewsoutbound.kpnmail.nl (ewsoutbound.kpnmail.nl [195.121.94.186])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0C5772E06E4;
-	Tue, 13 Oct 2026 13:01:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 06226321457
+	for <workflows@vger.kernel.org>; Tue, 13 Oct 2026 13:04:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.121.94.186
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791896509; cv=none; b=EctUjEdeIA9yxphkWJGtwzqYbxkNo9jeeDtX/OsKTgJFhbxXSwx38vTRb3tChx/LG/6dYEkwOk806GqO6It8xX6GLh8y4F7AepE7bH0NsgndJP5xbZcxjUh2AXbS5lkBcVkpJVfk8voZLEYLXq4uqA6RVXqACJdW2elHM6dRb98=
+	t=1791896661; cv=none; b=NdyYrhr0K4sV3mnT1jCg+zxg6q/a1LauLHToM+5oRsigh5jsax9CuaxgScFKzUD74Ve4cIp0nI4ttCcotGslNDqjyY9a6L9AhdP1nyuK7UStXRwo7iZBTNuszBfPObUXZgUIpbWigi0E8Q/xN4+H29SVVMrqjJEX+j8HcV57M3c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791896509; c=relaxed/simple;
-	bh=Q/jYL8BfCc2XZBjNa/XDCDhEq8sNzI4qwahH4HimM54=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=HnlBoFCBDE/O1J6pLg6H8V+nU6E3mPLi8spZe6AKHEWuf21ZzgTpdtl2fhs3tcDSxljb+UNRya3hIbj6q4dVcRBT26dlJtnEjc3EIBt1xGs0k+0R8JPLBMjQLwU3trQFiupk0JUOMgf6P20Ds8oZvolCU5zcJ4M287G35EuZlPI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=abpf6wUz; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+	s=arc-20240116; t=1791896661; c=relaxed/simple;
+	bh=lrijtuWmKwDDILeCMwYY3Sd3CUnCrwDE7vsIgjD++7A=;
+	h=Date:From:To:Cc:Message-ID:In-Reply-To:References:Subject:
+	 MIME-Version:Content-Type; b=qacE1YTBQ8UlDzuAiqL3uWsb/ybKWHoijRcuExC+bHuI1tt5ckfyjZPWg/FGAWCV+lNUDBpqtKCWzS8Wcqa9pJoIgO7/w2zgeEUiXjmCo+lhMlFEoAVY5isuHlU76WRECHTQ3eQTIMgRVt3uHuswkWO9Tv9tp5CvvuZpk+mSlh4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=xs4all.nl; spf=pass smtp.mailfrom=xs4all.nl; dkim=pass (2048-bit key) header.d=xs4all.nl header.i=@xs4all.nl header.b=HJIqfHnN; arc=none smtp.client-ip=195.121.94.186
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=xs4all.nl
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=xs4all.nl
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="abpf6wUz"
-Received: from killaraus.ideasonboard.com (unknown [185.104.138.147])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 88F271E4;
-	Tue, 13 Oct 2026 14:59:43 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1791896384;
-	bh=Q/jYL8BfCc2XZBjNa/XDCDhEq8sNzI4qwahH4HimM54=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=abpf6wUzqQRqFcalJJS6I0Qju+lIW63B/WfA6tWuYk+OVOxGvQ7XHg+BLRdT6l6VH
-	 YAEnySapCd9kQw6kLZ62vTFN2EF57wGEBUO+Ap+S3GIkNut2Geve0HP0N60+/UZwax
-	 LyCx0+TfKCYNZ+Zbw8oFKmJstCSsdx6gU4juli1I=
-Date: Tue, 13 Oct 2026 15:01:34 +0200
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Jori Koolstra <jkoolstra@xs4all.nl>
-Cc: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>,
-	Linus Torvalds <torvalds@linux-foundation.org>,
-	Sasha Levin <sashal@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, corbet@lwn.net,
-	skhan@linuxfoundation.org, rdunlap@infradead.org,
-	federico.vaga@vaga.pv.it, apw@canonical.com, joe@perches.com,
-	workflows@vger.kernel.org, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org, Krzysztof Kozlowski <krzk@kernel.org>,
-	Justin Stitt <justinstitt@google.com>,
-	Carlos Maiolino <cem@kernel.org>, Jakub Kicinski <kuba@kernel.org>,
-	Brian Foster <bfoster@redhat.com>,
-	Christoph Hellwig <hch@infradead.org>,
-	David Disseldorp <ddiss@suse.de>, Mark Brown <broonie@kernel.org>,
-	Jani Nikula <jani.nikula@intel.com>, Jens Axboe <axboe@kernel.dk>,
-	"David Hildenbrand (Arm)" <david@kernel.org>,
-	Vlastimil Babka <vbabka@kernel.org>,
-	"Christian Brauner (Amutable)" <brauner@kernel.org>
-Subject: Re: [PATCH] docs: remove Assisted-by references
-Message-ID: <20261013130134.GH4214@killaraus.ideasonboard.com>
+	dkim=pass (2048-bit key) header.d=xs4all.nl header.i=@xs4all.nl header.b="HJIqfHnN"
+X-KPN-MessageId: 6ffd0a7b-c706-11f1-bfc1-00505699b430
+Received: from mta.kpnmail.nl (unknown [10.31.161.188])
+	by ewsoutbound.so.kpn.org (Halon) with ESMTPS
+	id 6ffd0a7b-c706-11f1-bfc1-00505699b430;
+	Tue, 13 Oct 2026 15:03:08 +0200 (CEST)
+Received: from mtaoutbound.kpnmail.nl (unknown [10.128.135.190])
+	by mta.kpnmail.nl (Halon) with ESMTP
+	id 6ff27a77-c706-11f1-ac16-00505699693e;
+	Tue, 13 Oct 2026 15:03:08 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=xs4all.nl; s=xs4all01;
+	h=content-type:mime-version:subject:message-id:to:from:date;
+	bh=+vQgJL8MMGFhwYStVksSoppS6NdeKAy6mIy/hJhtSag=;
+	b=HJIqfHnNYGjyT668OaUoDe3gsYQQk2nGPABNaz8iL5iiAZHci+2hKcWWYGhWSG+rmvseLzkLUWBVh
+	 oSz5d+54F95pmsZD044t2nlPMM6kSG+7pmvAcbrM+jvV2U9epWbCSyUPqGqzL7OkiTn5CPPsjN8xvs
+	 SQvo2NBF+HpJZ68N1mHF6tnuWEmb1/5UXd9K8erm6WEc5oaVaQkguj8PlD09LNdS4CUKFjHOQeGDOG
+	 nwDKLTKAbwh6I0xEzRWcvc1ejYcD4EibpZbVcj/X4/+1CwGmBUADo9QjJ8hm2tmivTnjICN8gOpxqK
+	 cTMU8Q3/Mys3sn0+LnUWwDnPeDUG6pw==
+X-KPN-MID: 33|H4Vr3p2pgw67wyy+j6XhcwTitlw3OHPFMqwUz7Vjlwd2gL/tI8tzZP22Gdg7Opc
+ XG4+qvfu0SUEZoYi26tVvaK9lCh1TKSKv1iGSaOhj7BM=
+X-CMASSUN: 33|JoxRtGfIGlM4EJ2UoF9A67B7jdn2tU0ZuGu9Leo4e2sOROFV2UBL2zT/b6Gbabb
+ X22GoYSqAJ9ZO5FUkY3lmfw==
+X-KPN-VerifiedSender: Yes
+Received: from cpxoxapps-mh05 (cpxoxapps-mh05.personalcloud.so.kpn.org [10.128.135.211])
+	by mtaoutbound.kpnmail.nl (Halon) with ESMTPSA
+	id 6fe0ea2e-c706-11f1-916a-005056995d6c;
+	Tue, 13 Oct 2026 15:03:08 +0200 (CEST)
+Date: Tue, 13 Oct 2026 15:03:08 +0200 (CEST)
+From: Jori Koolstra <jkoolstra@xs4all.nl>
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: Kees Cook <kees@kernel.org>, Randy Dunlap <rdunlap@infradead.org>,
+	Sasha Levin <sashal@kernel.org>, corbet@lwn.net,
+	skhan@linuxfoundation.org, federico.vaga@vaga.pv.it,
+	apw@canonical.com, joe@perches.com, workflows@vger.kernel.org,
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Message-ID: <158571150.788122.1791896588591@kpc.webmail.kpnmail.nl>
+In-Reply-To: <20261013125559.GG4214@killaraus.ideasonboard.com>
 References: <20261009083137.3-1-sashal@kernel.org>
- <0914a106-bacf-4d95-854a-bfeefbff62a4@kernel.org>
- <asz9AeFe3CutP73z@gremlin>
- <1716819121.765615.1791890380179@kpc.webmail.kpnmail.nl>
- <20261013123853.GD4214@killaraus.ideasonboard.com>
- <353766590.785601.1791895821929@kpc.webmail.kpnmail.nl>
+ <202610122124.08E058768D@keescook>
+ <ea3ff257-70e2-43e4-aba7-140e84994872@infradead.org>
+ <202610130120.E43D236E@keescook> <as4gLo_6acb_zZu0@daedalus>
+ <20261013125559.GG4214@killaraus.ideasonboard.com>
+Subject: Re: [PATCH] docs: remove Assisted-by reference
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <353766590.785601.1791895821929@kpc.webmail.kpnmail.nl>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Priority: 3
+Importance: Normal
 
-On Tue, Oct 13, 2026 at 02:50:21PM +0200, Jori Koolstra wrote:
-> > Op 13-10-2026 14:38 CEST schreef Laurent Pinchart:
-> > On Tue, Oct 13, 2026 at 01:19:40PM +0200, Jori Koolstra wrote:
-> > > > Op 12-10-2026 17:42 CEST schreef Lorenzo Stoakes (ARM) <ljs@kernel.org>:
-> > > >  
-> > > > +cc the participants from that thread FYI. The original patch is at [2].
+
+> Op 13-10-2026 14:55 CEST schreef Laurent Pinchart <laurent.pinchart@ideasonboard.com>:
+> 
+>  
+> On Tue, Oct 13, 2026 at 02:28:43PM +0200, Jori Koolstra wrote:
+> > On Tue, Oct 13, 2026 at 01:25:59AM -0700, Kees Cook wrote:
+> > > On Mon, Oct 12, 2026 at 10:56:59PM -0700, Randy Dunlap wrote:
+> > > > On 10/12/26 9:24 PM, Kees Cook wrote:
+> > > > > On Fri, Oct 09, 2026 at 04:31:37AM -0400, Sasha Levin wrote:
+> > > > >> The Maintainers Summit reached consensus to deprecate the Assisted-by
+> > > > >> tag. Remove the documentation requiring it.
+> > > > >>
+> > > > >> Signed-off-by: Sasha Levin <sashal@kernel.org>
+> > > > > 
+> > > > > Yup, it has become as redundant as specifying what editor I use. ;)
+> > > > > 
+> > > > > Reviewed-by: Kees Cook <kees@kernel.org>
+> > > > 
+> > > > and for those of us who don't know details about the discussion,
+> > > > how is it redundant?
 > > > 
-> > > Thanks, Lorenzo.
+> > > No, I mean I use an LLM constantly for almost all aspects of my
+> > > development work, in multiple dimensions, so if the old tag requirement
+> > > held, my email body template would just put "Assisted-by: LLM" in there
+> > > because at the very least, it drove the build and test stage. It was
+> > > redundant in the sense of "yeah, of course I used an LLM at some point
+> > > for this patch". ("This tag means nothing *from* me")
 > > > 
-> > > > On Fri, Oct 09, 2026 at 12:05:06PM +0200, Krzysztof Kozlowski wrote:
-> > > > > On 09/10/2026 10:31, Sasha Levin wrote:
-> > > > > > The Maintainers Summit reached consensus to deprecate the Assisted-by
-> > > > > > tag. Remove the documentation requiring it.
-> > > > >
-> > > > > Please provide here some sort of arguments used in that summit
-> > > > > consensus/discussion. This basically reverts/changes previous consensus
-> > > > > [1], which is fine itself, but it lacks reasoning.
-> > > > >
-> > > > > [1] https://lore.kernel.org/workflows/2026070224-unholy-commode-cf45@gregkh/
-> > > > 
-> > > > Thanks for linking that! It is important to ack previous discussion on
-> > > > this. Also LWN article is up now at [3].
-> > > > 
-> > > > I'm less bothered than you might think by this change.
-> > > > 
-> > > > The tag's useful for push back on review, but the only long-term strategy for
-> > > > slop is to aggressively ignore it.
-> > > > 
-> > > > Linus has made that clear that that's fine.
-> > > > 
-> > > > What kills the project is having 1,000 slop submissions that 2 or 3 people have
-> > > > to do something with.
-> > > > 
-> > > > The only long-term solution to that is to hit mark read 1,000 times :)
+> > > > Do you assume that everyone now uses it (LLM), just as everyone
+> > > > uses an editor?
 > > > 
-> > > There's a way to nuke drive-by authors and that is to require them to do
-> > > some kind of "proof-of-effort." So you want to contribute to the kernel?
-> > > Good, come to one of the OSS conferences, or LPC, or have some well-known
-> > > maintainer vouch for you, or do the kernel mentorship program. The point
-> > > is not that this cannot be gamed, but that the "gaming" in itself requires
-> > > some kind of investment, like proof-of-work.
-> > > 
-> > > We may miss the savant that for whatever reason cannot show up to a conference,
+> > > I don't make that assumption, but I always held the position that the
+> > > tag was meaningless because it's the human wielding it that matters:
+> > > they either sent a good patch or a bad patch, and if it was mangled by
+> > > gmail or an LLM, it doesn't really matter. ("This tag means nothing *to*
+> > > me")
 > > 
-> > We'll miss all the contributors who started small and put time and
-> > effort in learning. I'm pretty sure that's a majority of the people on
-> > the CC list, and it certainly includes myself. Making it much more
-> > difficult for true hackers to contribute to the kernel, including by
-> > requiring paying for travel to conferences, is the kind of policy that
-> > would make me stop contributing to the kernel.
-> 
-> But you were there at LPC!
-
-It took a decade between my first kernel contribution and my first time
-at LPC. And luck played a great role there, it could easily have taken
-longer.
-
-> Sorry, was planning to go to your talk, but
-> couldn't :( . Would have loved to chat with you.
-> 
-> I doubt how many people are like this. You have to contribute A LOT of
-> time to get to a meaningful level of understanding of even just one
-> subsystem
-
-And that's what people have been doing since the start of the kernel.
-
-> , even with LLM support. I know some people don't travel, but
-> I didn't suggest that conference attendance should be the only avenue
-> to participate.
-> 
-> > > but Linux Foundation is already very supportive of funding people.
+> > I think the tag did have a genuine purpose for a while. Now we have just
+> > decided to implicitly attach it to every new submitter (because
+> > basically that is the case.) The point was that a patch that was
+> > obviously LLM generated could be rejected for not carrying the tag, and
+> > a patch that carried the tag could be asked to explain further (if they
+> > had not done so.) Or at least, that is how I felt and have understood
+> > Greg, for instance :)
 > > 
-> > How many people with very little history of kernel contributions has the
-> > LF funded ?
+> > Essentially, the way I read it, is that Linus said we don't need this
+> > roundabout way because we can just reject effortless LLM generated
+> > patches outright. This is good and an improvement.
 > 
-> Well, me, for instance :)
+> The absence of the tag on a suspicious series offered a low-effort way
+> for maintainers to push back. What's the proposed low-effort replacement
+> ?
+> 
 
-I note a count of 1 out of thousands.
+To ignore it, really. Even less effort :)
 
--- 
-Regards,
+> > What do you think about requiring people to explain how they used an LLM
+> > for code generation? I don't care if someone uses it for review, or
+> > brainstorming, or whatever, and I have never understood the tag to be
+> > required for that. But if the code is LLM generated, it would be nice to
+> > know for instance what prompts you used. We should have some way to not
+> > devolve into the maze that Jonathan Corbet has sketched, where no one
+> > really knows what's going on.
+> 
+> Listing the prompts seems fairly useless to me. Not only do prompts
+> capture only a small submit of the information you would want (many
+> people use custom agent files with lots of rules that supplement the
+> prompts), they don't show that the submitter understands what they're
+> doing.
+> 
 
-Laurent Pinchart
+I'm not sure. Maybe requiring prompts is not the best way to go about it,
+it may be a lot of annoyance to go back through your conversations and
+see what prompts were relevant. I do think the prompts still likely show
+whether you understood what you're doing, assuming they were authentic.
+
+> Mesa has a policy that LLM-generated code *must* have a human-written
+> commit message. They go one step further by requiring all comments in
+> the code to also be human-written. That seems a better (but possibly not
+> good enough) way to try and gauge the level of understand from the
+> submitter.
+> 
+
+Yes, requiring human written commit message sounds like a good idea. Only
+leaves the issue of people using LLMs for translate. But I think we could
+find a way around that.
+
+> -- 
+> Regards,
+> 
+> Laurent Pinchart
