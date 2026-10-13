@@ -1,113 +1,162 @@
-Received: from ewsoutbound.kpnmail.nl (ewsoutbound.kpnmail.nl [195.121.94.183])
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 998FC165F16
-	for <workflows@vger.kernel.org>; Tue, 13 Oct 2026 13:39:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.121.94.183
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CCB2B3955EB;
+	Tue, 13 Oct 2026 13:56:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791898749; cv=none; b=mj7vygWD+OSEnrWG8jFQDDo4amyGqR0V6ZjRltoi8QQwjux3rBsoxNmCy8gNlyCMLBEJ8pmN4Qbr9tPkqWOpvwUpCcJ3yHfM+2aGEquILmN97gfhl5ZYvg/D1lAagzjHdG7TGIESPys622+Xjc7XpjJxftq1Q3zg1sYMo5betm4=
+	t=1791899773; cv=none; b=XfmT3TKjb040ccnPQkzpX0O7kNvdXYGOWPLV8R6sPuyBf6TNzzsdfPk4gO9Yj554UpD8ETY4q5AgQLNZxlGqg0rv9bzug8NhZNErz665k+oggTYceLygJwTLokN8s+KXcdenEcfCrcAR5JDKajCdKhFGfrsZtvpHbQ5PAJLQ2cA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791898749; c=relaxed/simple;
-	bh=Xibk7ZZrjCGxgBVlBWwqQKg2NMbn7mu9H6vK4Z+5BTo=;
-	h=Date:From:To:Cc:Message-ID:In-Reply-To:References:Subject:
-	 MIME-Version:Content-Type; b=jJpdt7ipisNncIQ8KqQUwloEVy9itErmkdT0up1Utjv/PqMhWiui/Z06sex5Si6J7DWZcFUfWmAFGid3SpxRIgAWmeQCAygyHBbKedWgS2P0m4N9BvJKoS/t6YmJl45sR8FCQjfFxuV+3TmPTzq8BnCnuDcCcQBOIT1xbghMe2Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=xs4all.nl; spf=pass smtp.mailfrom=xs4all.nl; dkim=pass (2048-bit key) header.d=xs4all.nl header.i=@xs4all.nl header.b=CVoXSJgX; arc=none smtp.client-ip=195.121.94.183
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=xs4all.nl
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=xs4all.nl
+	s=arc-20240116; t=1791899773; c=relaxed/simple;
+	bh=4Gd7CRlI8kHfcSrkg3umhUme9cQhOQ2/wMZTRkDN27w=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=JipngasEFxH2BZegGxmozIzbhzALXqfAAhgIgoJNFBcELWtltAXs4Qugcx0Rk936bkeJuG+cHjY+kzbnOcEaSWo5uh8JQk3Lm+aAnyraGofoXLYKacQ1KgqKqzOOxVWmXODSkmY9ZV1NIuQ/JFACbDOveQsH0za3RHB/L+XH9Xw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=N5RW+SkD; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=xs4all.nl header.i=@xs4all.nl header.b="CVoXSJgX"
-X-KPN-MessageId: 4bdb38dd-c70b-11f1-8f57-005056992ed3
-Received: from mta.kpnmail.nl (unknown [10.31.161.190])
-	by ewsoutbound.so.kpn.org (Halon) with ESMTPS
-	id 4bdb38dd-c70b-11f1-8f57-005056992ed3;
-	Tue, 13 Oct 2026 15:37:55 +0200 (CEST)
-Received: from mtaoutbound.kpnmail.nl (unknown [10.128.135.189])
-	by mta.kpnmail.nl (Halon) with ESMTP
-	id 4bda04b6-c70b-11f1-b419-0050569977a2;
-	Tue, 13 Oct 2026 15:37:55 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=xs4all.nl; s=xs4all01;
-	h=content-type:mime-version:subject:message-id:to:from:date;
-	bh=Z8yTwcTSluWZJY5ZBYBe2zIFDAQkmy5cR5V2a6VW3TA=;
-	b=CVoXSJgXLqX6kd9Ud2YpuOm/03GVxPUP0DlmfwHP+o0BCtrXrn4+VylSPFBbLL8gUDelfLmNJqYRe
-	 NG/z6H3YJxOGr/JuB6Cu+2kIStGT4sVW3grllcYSM9TEFJUMtdPVkQnJB6BBFJFmH4OJl+02qACbBV
-	 S0BLsKcZKUC9iA3Rr02dC9kBGXEFtzRKRKRA8Tx/Z/pXXz8Q8JsKtMvlPF/9P70fStMfbrxaXdneTY
-	 42cPMkNfrqdqkpXCEZnAGmigaWc8/d01OD1gcqBSEjyEwgsd5PV+FeBzaZSvBkurgDW2Cjw0lkkmbF
-	 4EMUqZKqMcGHYlbcHFrnIYnBrwI2C0Q==
-X-KPN-MID: 33|l8c3Ci0Mj6eVISZaXjsuexY9LszYX48mW+j2ZaJc8WBwGL9Q6QRdrEG+3XTjKZl
- beBCdHagj4obboENe5zUK7WNMrCF6kKy69RE0d6nutec=
-X-CMASSUN: 33|VJawk7Wq0cGHKte5wFwkW2BUeGyb6UDcdZXyz48i9vDi0IVhSUHJuHVBrQWOJlR
- lFiFqaQ9rdLg8kf20nVedNw==
-X-KPN-VerifiedSender: Yes
-Received: from cpxoxapps-mh05 (cpxoxapps-mh05.personalcloud.so.kpn.org [10.128.135.211])
-	by mtaoutbound.kpnmail.nl (Halon) with ESMTPSA
-	id 4bc3b32e-c70b-11f1-8edd-00505699eff2;
-	Tue, 13 Oct 2026 15:37:55 +0200 (CEST)
-Date: Tue, 13 Oct 2026 15:37:55 +0200 (CEST)
-From: Jori Koolstra <jkoolstra@xs4all.nl>
-To: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>,
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc: Krzysztof Kozlowski <krzk@kernel.org>, Sasha Levin <sashal@kernel.org>,
-	corbet@lwn.net, skhan@linuxfoundation.org, rdunlap@infradead.org,
-	federico.vaga@vaga.pv.it, apw@canonical.com, joe@perches.com,
-	workflows@vger.kernel.org, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Linus Torvalds <torvalds@linux-foundation.org>,
-	Justin Stitt <justinstitt@google.com>,
-	Carlos Maiolino <cem@kernel.org>, Jakub Kicinski <kuba@kernel.org>,
-	Brian Foster <bfoster@redhat.com>,
-	Christoph Hellwig <hch@infradead.org>,
-	David Disseldorp <ddiss@suse.de>, Mark Brown <broonie@kernel.org>,
-	Jani Nikula <jani.nikula@intel.com>, Jens Axboe <axboe@kernel.dk>,
-	"David Hildenbrand (Arm)" <david@kernel.org>,
-	Vlastimil Babka <vbabka@kernel.org>,
-	"Christian Brauner (Amutable)" <brauner@kernel.org>
-Message-ID: <1955936841.795627.1791898675484@kpc.webmail.kpnmail.nl>
-In-Reply-To: <as4xMnT8a75pIw9v@gremlin>
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="N5RW+SkD"
+Received: from killaraus.ideasonboard.com (unknown [185.104.138.147])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 04584230;
+	Tue, 13 Oct 2026 15:54:07 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1791899648;
+	bh=4Gd7CRlI8kHfcSrkg3umhUme9cQhOQ2/wMZTRkDN27w=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=N5RW+SkDsM0fpi7wpwv60+4Y64bvNe9afz9Y9wdA4lk6sDBnXtH7+EXVIPviE17OK
+	 JkR7b3u59rLWxFOcxhxKvBxAFuqV+8ksQTqLNzqf/5bHp0oZ8LIJRqeeMC1UzRWscx
+	 YIhcOWfb++fNOij663KNIYjoJZ1aoz/SnmJlAEpo=
+Date: Tue, 13 Oct 2026 15:55:59 +0200
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Jori Koolstra <jkoolstra@xs4all.nl>
+Cc: Lorenzo Stoakes <ljs@kernel.org>, Kees Cook <kees@kernel.org>,
+	Randy Dunlap <rdunlap@infradead.org>,
+	Sasha Levin <sashal@kernel.org>, corbet@lwn.net,
+	skhan@linuxfoundation.org, federico.vaga@vaga.pv.it,
+	apw@canonical.com, joe@perches.com, workflows@vger.kernel.org,
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] docs: remove Assisted-by reference
+Message-ID: <20261013135559.GA161185@killaraus.ideasonboard.com>
 References: <20261009083137.3-1-sashal@kernel.org>
- <0914a106-bacf-4d95-854a-bfeefbff62a4@kernel.org>
- <asz9AeFe3CutP73z@gremlin>
- <20261013123132.GC4214@killaraus.ideasonboard.com>
- <as4pAEnLd4H68W4W@gremlin>
- <20261013131243.GM56180@killaraus.ideasonboard.com>
- <as4xMnT8a75pIw9v@gremlin>
-Subject: Re: [PATCH] docs: remove Assisted-by references
+ <202610122124.08E058768D@keescook>
+ <ea3ff257-70e2-43e4-aba7-140e84994872@infradead.org>
+ <202610130120.E43D236E@keescook>
+ <as4gLo_6acb_zZu0@daedalus>
+ <20261013125559.GG4214@killaraus.ideasonboard.com>
+ <158571150.788122.1791896588591@kpc.webmail.kpnmail.nl>
+ <20261013131056.GI4214@killaraus.ideasonboard.com>
+ <28216768.791900.1791897606751@kpc.webmail.kpnmail.nl>
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Priority: 3
-Importance: Normal
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <28216768.791900.1791897606751@kpc.webmail.kpnmail.nl>
 
+On Tue, Oct 13, 2026 at 03:20:06PM +0200, Jori Koolstra wrote:
+> Op 13-10-2026 15:10 CEST schreef Laurent Pinchart:
+> > On Tue, Oct 13, 2026 at 03:03:08PM +0200, Jori Koolstra wrote:
+> > > > Op 13-10-2026 14:55 CEST schreef Laurent Pinchart:
+> > > > On Tue, Oct 13, 2026 at 02:28:43PM +0200, Jori Koolstra wrote:
+> > > > > On Tue, Oct 13, 2026 at 01:25:59AM -0700, Kees Cook wrote:
+> > > > > > On Mon, Oct 12, 2026 at 10:56:59PM -0700, Randy Dunlap wrote:
+> > > > > > > On 10/12/26 9:24 PM, Kees Cook wrote:
+> > > > > > > > On Fri, Oct 09, 2026 at 04:31:37AM -0400, Sasha Levin wrote:
+> > > > > > > >> The Maintainers Summit reached consensus to deprecate the Assisted-by
+> > > > > > > >> tag. Remove the documentation requiring it.
+> > > > > > > >>
+> > > > > > > >> Signed-off-by: Sasha Levin <sashal@kernel.org>
+> > > > > > > > 
+> > > > > > > > Yup, it has become as redundant as specifying what editor I use. ;)
+> > > > > > > > 
+> > > > > > > > Reviewed-by: Kees Cook <kees@kernel.org>
+> > > > > > > 
+> > > > > > > and for those of us who don't know details about the discussion,
+> > > > > > > how is it redundant?
+> > > > > > 
+> > > > > > No, I mean I use an LLM constantly for almost all aspects of my
+> > > > > > development work, in multiple dimensions, so if the old tag requirement
+> > > > > > held, my email body template would just put "Assisted-by: LLM" in there
+> > > > > > because at the very least, it drove the build and test stage. It was
+> > > > > > redundant in the sense of "yeah, of course I used an LLM at some point
+> > > > > > for this patch". ("This tag means nothing *from* me")
+> > > > > > 
+> > > > > > > Do you assume that everyone now uses it (LLM), just as everyone
+> > > > > > > uses an editor?
+> > > > > > 
+> > > > > > I don't make that assumption, but I always held the position that the
+> > > > > > tag was meaningless because it's the human wielding it that matters:
+> > > > > > they either sent a good patch or a bad patch, and if it was mangled by
+> > > > > > gmail or an LLM, it doesn't really matter. ("This tag means nothing *to*
+> > > > > > me")
+> > > > > 
+> > > > > I think the tag did have a genuine purpose for a while. Now we have just
+> > > > > decided to implicitly attach it to every new submitter (because
+> > > > > basically that is the case.) The point was that a patch that was
+> > > > > obviously LLM generated could be rejected for not carrying the tag, and
+> > > > > a patch that carried the tag could be asked to explain further (if they
+> > > > > had not done so.) Or at least, that is how I felt and have understood
+> > > > > Greg, for instance :)
+> > > > > 
+> > > > > Essentially, the way I read it, is that Linus said we don't need this
+> > > > > roundabout way because we can just reject effortless LLM generated
+> > > > > patches outright. This is good and an improvement.
+> > > > 
+> > > > The absence of the tag on a suspicious series offered a low-effort way
+> > > > for maintainers to push back. What's the proposed low-effort replacement
+> > > > ?
+> > > 
+> > > To ignore it, really. Even less effort :)
+> > 
+> > Are you saying that we should ignore series when we have even a slight
+> > suspicion they're not perfect ? If not, I don't understand what you're
+> > proposing exactly.
+> 
+> I am saying it is up to the maintainer.
 
-> Op 13-10-2026 15:29 CEST schreef Lorenzo Stoakes (ARM) <ljs@kernel.org>:
-> 
->  
-> On Tue, Oct 13, 2026 at 03:12:43PM +0200, Laurent Pinchart wrote:
-> > On Tue, Oct 13, 2026 at 01:59:33PM +0100, Lorenzo Stoakes (ARM) wrote:
-> 
-> > > Ignoring is the only workable long-term solution.
-> >
-> > How do you decide which patches to ignore ?
-> 
-> Anything that looks schloppy. ATM it's very easy to tell.
-> 
-> In future it will be newcomers who do anything but the most trivial work. Or
-> they will at least be super-deprioritised.
-> 
-> Yes there will be collateral damage, but it's that or no more open source (we're
-> not the only ones going through this!)
-> 
+That has always been the case. It may have been voiced again in a way
+that is more noticeable to some, but maintainers have always been in
+charge of deciding that they accept.
 
-This is the tragedy of things, and LLMs have made it much much worse. I am
-sure that in today's world Hardy would have missed Ramanujan. I find it
-distasteful and wish it were not like this, but it is better to spend energy
-on looking at what we can do, instead of wishing it wasn't so.
+And at the same time it has never been the case. Maintainers can be
+overruled. One of the most recent examples to have made the news was the
+merge of rust bindings for the DMA mapping API.
 
-> --
-> Cheers, Lorenzo
+If the situation hasn't fundamentally changed, I hope I'm misreading
+this mail thread. I see people who seem to rejoiced at the news they
+have gained a power in their fiefdom that they can use and abuse at
+will. Being on the receiving end of patches I wish I would have never
+received I sympathize and understand we need to adjust processes. On the
+flip side, I hope I won't see a patch being rejected on the grounds that
+the submitter hasn't attended the same boys' club as the maintainer.
+
+Sanity often prevails after people cool down, I assume that will be the
+case here too.
+
+> The word is out and we are allowed to
+> ignore poor contributions, in particular if they are LLM generated. The whole point
+> is that in the past poor contributions were still a signal someone was trying and
+> it might be worthwhile to help them to grow. It is not that signal anymore per se.
+> We need other avenues to identify talent. The kernel mentorship program is one of
+> those, as is showing up in person at conferences.
+
+I think mailing lists are still a proper avenue. LLM-generated series
+(so far) never made me think there was someone trying and interesting in
+growing.
+
+> The tag helped some maintainers to push back (like Lorenzo). The tag isn't needed
+> anymore, because the push back isn't needed. I think that's an improvement, and at
+> any rate was inevitable.
+
+Ignoring is one way to push back. I still stand by what I say, I find
+the requirement of disclosure (regardless of whether it comes from an
+Assisted-by tag or something else) helpful for the middleground cases
+that don't necessarily require being ignored.
+
+-- 
+Regards,
+
+Laurent Pinchart
