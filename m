@@ -1,32 +1,32 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5CA04390987;
-	Tue, 13 Oct 2026 03:59:31 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2BCA84718C3;
+	Tue, 13 Oct 2026 04:02:46 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791863972; cv=none; b=TplwcQxjb7Y73rEn4/ses/yp6HwU8x7lhvHkMIUQH2O+7+8UJ36ENWys+vVntxP72qKCsaH8RztYS3hx8vpZbT0/r5uBgsFnNNEKUd1XC+oLhvup/Dh5MlrkZkud5Ubu9EFKife0YY9JtHBoucRf3ZCVVEPX43ooaAEGZJ3U9Fw=
+	t=1791864168; cv=none; b=hAzm+ZWXFqW+GCRH2aFltJN14/e/ljuBpMfugcUC72lMpviEpUvyUAcBP8wgzhLghp8nS7HZXu0UBYeg4YeDeGTLPyiDJXRyhSXKW7dQQ7cTEo9S8Guy5IYtt1lkQiX5YnsuGam2pBSckxVi2e1W/Po9uWo+Aig6fixDlncs6jg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791863972; c=relaxed/simple;
-	bh=X8R5GhWkeFJRy8DxDFxfbGIrYsKbRc5Og2bgvXvDobE=;
+	s=arc-20240116; t=1791864168; c=relaxed/simple;
+	bh=szk4eWJT0nYrXago6v60UNaRJsbQ9hJXPs+GMxG9C5I=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=A4frY70G2CquXy5vC+Lr+Ok4xAE1+cnaJzrTCMLpSRfDklrSbFwJobh96AqArOks/j//dUqhSXbv4W2NEmdboTuV7p3z38zQ891qt0YEM1sGaSQPUeTA3NYAv+x86gPS2guaKfanizkAQaQzHu01Dkc8MOgTD1TBgvLco6jfH5U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=iWE5ElrF; arc=none smtp.client-ip=100.103.45.18
+	 Content-Type:Content-Disposition:In-Reply-To; b=sJpTTsqWKfixR7UwCDcpq0w92OH6v+J/HEpWR1ZRwH3s6QYby3Nqa9Y5n+Og+HlwHvmKYjjGRL7MRl35vDIWa+GYfZG5pGtyu27pEqFi7PRZV2cthopIZ5BagEcNggm4wRB+uMHIMXJiqlAQ9uwCsvejl/Ck+QYuvacTeJyxY/I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=o0mTQQN3; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="iWE5ElrF"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3E2021F000FF;
-	Tue, 13 Oct 2026 03:59:31 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="o0mTQQN3"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id AA2A81F000FF;
+	Tue, 13 Oct 2026 04:02:46 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1791863971;
-	bh=mXmHd2OQ7R3TyyJ8nChLbUkrmd3BhyA6Rv+gaNNJWQY=;
+	s=k20260515; t=1791864166;
+	bh=U45kpIWGYSA+KkPSXBDC2Qx3zeCRgHPpENWcyaccVIw=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=iWE5ElrF76L8nOZfrvIRIg5BtPuezf/HG0l2qnfXxFklniln1r9hTQRUbNKLSa1DY
-	 uBOhsvvkGqIJBQDmNth7VGD+4AatmRhiUn1CglGIU6Kyud1DgtAoYNthBlHFOYNvw0
-	 Rsu3aR7rEx56xik7V+ZHcqSOpJTp7kAATzi9+g9s0evaR6+4Pg/sW3tflubEFtpTEe
-	 QqTbd433P2Uda5LXHiBB3MxR1ywZejMI/c7zidhVbpiUXGsaoz8HpEfAGN38Um2zm2
-	 3yM4d3H8D0Au0m7U7g/hiycIjleW753TI5jj0BLUv4KD1xEjx9RlsUI9qkc3nm+s8A
-	 LJufHlugEDAEA==
-Date: Mon, 12 Oct 2026 20:59:31 -0700
+	b=o0mTQQN33zfZ4iebgh1iA7/JLXLNNpb6ZlKYiINvzKDegj3YdEtU/+Kl7IJKNnUHB
+	 rxlvuPuUdWUv0rXswr7mP9N6LNBTPvfuKRLmIaesTVz4KMcntDuN6VIt/96B8E0aP3
+	 UJY1VWOrsLQNRmMMyCMhJ8hHSTAXZA3e4TIhBgfwoZmwBe4vUJLWUD6bIZmniqM5Fm
+	 c+trZc4v/2TVmtGq4+rlHlnV5HwGHb0fEMG/EdJx2s9mvF9Z1lC6DsRtGlWAqa66zo
+	 N5o5t8QqMtcwPmJ7cxGaL6pL4HPEzWsIS8OnPoKIhDZXo+w2kh6L7r0mLng3qjHKg8
+	 zKtzm/ujSp/TA==
+Date: Mon, 12 Oct 2026 21:02:46 -0700
 From: Kees Cook <kees@kernel.org>
 To: Sasha Levin <sashal@kernel.org>
 Cc: workflows@vger.kernel.org, ksummit@lists.linux.dev,
@@ -41,10 +41,11 @@ Cc: workflows@vger.kernel.org, ksummit@lists.linux.dev,
 	Konstantin Ryabitsev <konstantin@linuxfoundation.org>,
 	Thorsten Leemhuis <linux@leemhuis.info>,
 	"Michael S . Tsirkin" <mst@redhat.com>
-Subject: Re: [PATCH v2 3/5] agents: add a skill to determine stable tags
-Message-ID: <202610122057.6091D70BB@keescook>
+Subject: Re: [PATCH v2 4/5] agents: add a skill to find other instances of a
+ fixed bug
+Message-ID: <202610122059.771B08B@keescook>
 References: <20261012213452.1863248-1-sashal@kernel.org>
- <20261012213452.1863248-4-sashal@kernel.org>
+ <20261012213452.1863248-5-sashal@kernel.org>
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
@@ -53,22 +54,23 @@ List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20261012213452.1863248-4-sashal@kernel.org>
+In-Reply-To: <20261012213452.1863248-5-sashal@kernel.org>
 
-On Mon, Oct 12, 2026 at 05:34:50PM -0400, Sasha Levin wrote:
-> +A stable tag in the sign-off area asks the stable team to backport a commit to
-> +the stable and longterm trees once it is merged in mainline. The tag syntax is
-> +described in Documentation/process/stable-kernel-rules.rst. Deciding on a tag
-> +requires knowing whether the change is stable material, which released kernels
-> +contain the bug, and whether the fix applies to them.
+On Mon, Oct 12, 2026 at 05:34:51PM -0400, Sasha Levin wrote:
+> A bug fixed in one place often exists elsewhere, in copied code, sibling
+> drivers, or other users of the same interface, and reviewers routinely
+> ask whether that was checked. Add a read-only procedure that states the
+> defect as a rule, searches for it through shared interfaces, copied
+> code, the introducing series, Coccinelle patterns and earlier fixes,
+> and verifies each candidate before reporting it.
 
-And I really don't like this redundancy either. The skill should be
-strictly as short as it can possibly be and then aim at the _existing_
-documentation. If agents are getting something wrong after reading
-Documentation/process/stable-kernel-rules.rst, then we need to add the
-changes _there_, not in a parallel agent-only file. I would want to see
-all these skills designed to give the framework needed by the agent to
-find the _existing_ documentation.
+Isn't this a basic software engineering skill? I'd expect this to be in
+any agent's existing model, but okay, there's some Linux-specific aiming
+in this skill (duplicated drivers, etc).
+
+I'd still prefer that this documentation, which we don't really have
+anywhere else in the tree that I'm aware of, should be in a human area,
+with the skill referencing it instead of duplicating it.
 
 -- 
 Kees Cook
