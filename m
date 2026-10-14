@@ -1,129 +1,111 @@
-Received: from ewsoutbound.kpnmail.nl (ewsoutbound.kpnmail.nl [195.121.94.184])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AA696415F07
-	for <workflows@vger.kernel.org>; Wed, 14 Oct 2026 13:08:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.121.94.184
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5C2B84D9F9C;
+	Wed, 14 Oct 2026 13:42:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791983332; cv=none; b=e4tcmEeRij6n0+SDYE7ian0jdzx8fOjIi8GERXgTyBtaIi61SzJJHF5qu4xamZa14iMVd4EWXjF/1wWTVP9KDk3SEtbuLvGcL2ffRERFibEDENVL+mo//EFBJJsyoX81wp1yfvlBuSOz9OKaDQOsrfsYr0EEfYkO6MdTd7kYIfQ=
+	t=1791985339; cv=none; b=OZHFoptiFS+MK8DQ7I3x8ps9g39f6daEZNG1pcpHQwhK7cAN90m/51XiVFMNTahs7wQve3SowVt3IxIi/t0mfiypCRzrmGmsm4sOf4eKmVG6YPxMNZHQ8k+gP/NUmxwCww1xFQ6zTmMmU4+MSfUH4T+KIJ0/jvPKtKwY87Ru/ko=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791983332; c=relaxed/simple;
-	bh=zJyJwbqrIMCMA4hiRo6sDHUm2ZUNcy0WbKdZ2AnkuKA=;
-	h=Date:From:To:Cc:Message-ID:In-Reply-To:References:Subject:
-	 MIME-Version:Content-Type; b=mXvb2lS3rlA6LsPAFn5GsMa9xjAryWi0eB7COV3Q04DM/yK/Qwk/QQs0DFFA0V8T7ynvE5RPzJbmSBlP6MjeeARvbvZRvHbwdhMSVuzpFMalTZiISVOae0bezVe/docS8IVRqIMVuDJqnKHlfu0sX+6XbmSRvNqVQDYcxHYVCrI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=xs4all.nl; spf=pass smtp.mailfrom=xs4all.nl; dkim=pass (2048-bit key) header.d=xs4all.nl header.i=@xs4all.nl header.b=i7FInNFO; arc=none smtp.client-ip=195.121.94.184
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=xs4all.nl
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=xs4all.nl
+	s=arc-20240116; t=1791985339; c=relaxed/simple;
+	bh=gKom46KYHi3Ug8rNqRkBYTq7WsJJsb/Y/B9p/oLEB9Y=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=qMBrGPCDIlMUdWcZ3a6cpZ///sOtr2kYLUhdnHAjAahO3r9GCIQR+fAUxmucjkqvgG1B4KmDU6kT9jgG3NlgM9BQkF1DMIouXL51rG9GxNosY6qF/ZlT2epZ6C/h2SrkKRWRXfQHbUmW8SNlNSBQPhvOkppiJvrhPbQezuBFFB0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=NBQ/7lsy; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=xs4all.nl header.i=@xs4all.nl header.b="i7FInNFO"
-X-KPN-MessageId: 60149d4e-c7d0-11f1-a5a4-005056994fde
-Received: from mta.kpnmail.nl (unknown [10.31.161.189])
-	by ewsoutbound.so.kpn.org (Halon) with ESMTPS
-	id 60149d4e-c7d0-11f1-a5a4-005056994fde;
-	Wed, 14 Oct 2026 15:08:40 +0200 (CEST)
-Received: from mtaoutbound.kpnmail.nl (unknown [10.128.135.189])
-	by mta.kpnmail.nl (Halon) with ESMTP
-	id 60125701-c7d0-11f1-a0c8-0050569981f5;
-	Wed, 14 Oct 2026 15:08:40 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=xs4all.nl; s=xs4all01;
-	h=content-type:mime-version:subject:message-id:to:from:date;
-	bh=oR4mGO5dXvh7uKRKRY3Q/50+aTcyc5zgByMmdRWQX9Q=;
-	b=i7FInNFO3Xb/ksxW4x8osITtPT4xSz04pTlwnYTx7E4hW9ztYG4GXo0yWPkII33k4rw4rwAtCseEG
-	 LuHgylaHq0usb47Ib/WrBBThh4ZfumoAByo5xMmMaUUhM5AG18TrbiPXc/9DVpX3QqlTOmjPhhmj+O
-	 LfLJ6Fjr1ppGXg6PguVYKrV/TvG8AQ5x8W4QA51S45ZkJHuAsNPPTqXYrU4jGbHZxtCvNvbhozrCcp
-	 OtcSfJ2FIwFWFlY4KNffHq4otolwWbzabvRGK9SK4bQscVT/E/44WjwNCsNaUxV+faHz5oHEeC6gxF
-	 HHkFmHCc+8BF4kJF/D/Cy1/cKnouO5Q==
-X-KPN-MID: 33|tlWIlI8UH/nPAUmArasZsw+htSSBd38ayYa+8PbDpIYyisi933DreQF95HlN+/K
- j++w9V9/D953sD/QQ6ZekmQ==
-X-CMASSUN: 33|8ilib81BGiC4Ogwbb2AYB7SCHM+Z9biBi7EbLayFamokYY6B9feuzD6Q667AspX
- h6S1+pwsvA643HRJXfC72Ig==
-X-KPN-VerifiedSender: Yes
-Received: from cpxoxapps-mh01 (cpxoxapps-mh01.personalcloud.so.kpn.org [10.128.135.207])
-	by mtaoutbound.kpnmail.nl (Halon) with ESMTPSA
-	id 60076661-c7d0-11f1-8edd-00505699eff2;
-	Wed, 14 Oct 2026 15:08:40 +0200 (CEST)
-Date: Wed, 14 Oct 2026 15:08:40 +0200 (CEST)
-From: Jori Koolstra <jkoolstra@xs4all.nl>
-To: Theodore Tso <tytso@mit.edu>, "Lorenzo Stoakes (ARM)" <ljs@kernel.org>,
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	Linus Torvalds <torvalds@linux-foundation.org>
-Cc: Krzysztof Kozlowski <krzk@kernel.org>, Sasha Levin <sashal@kernel.org>,
-	corbet@lwn.net, skhan@linuxfoundation.org, rdunlap@infradead.org,
-	federico.vaga@vaga.pv.it, apw@canonical.com, joe@perches.com,
-	workflows@vger.kernel.org, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Justin Stitt <justinstitt@google.com>,
-	Carlos Maiolino <cem@kernel.org>, Jakub Kicinski <kuba@kernel.org>,
-	Brian Foster <bfoster@redhat.com>,
-	Christoph Hellwig <hch@infradead.org>,
-	David Disseldorp <ddiss@suse.de>, Mark Brown <broonie@kernel.org>,
-	Jani Nikula <jani.nikula@intel.com>, Jens Axboe <axboe@kernel.dk>,
-	"David Hildenbrand (Arm)" <david@kernel.org>,
-	Vlastimil Babka <vbabka@kernel.org>,
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="NBQ/7lsy"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A712B1F000FF;
+	Wed, 14 Oct 2026 13:42:11 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1791985337;
+	bh=mzcFQtKFlPS4VvT83K21ZA+ElcJoZ8GBpvRbKSDyLok=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=NBQ/7lsyMfT7atJIM6A4CXtsHvKUcUKgDOzUwWLCZ2WSdFUf5P41a9dtDetYjLziF
+	 L2eBXEdioe/w8rVGP2GZ6RBy8zMkVi9r9EbYl9TDuSunoEhiRklcnqZY9rGOwAU3Fw
+	 JZ2cucwv4hzgfzSScxF5Ai28MJGFC6F4arTToCR2TezWL5gdIXfLA3zymiVHQk/Dti
+	 QcoUEjwY1uXBh8y5OFdY3wQTRLSVPJ69aDZLS98uY/Rl72gydQRAyAmrPp5qCFIliE
+	 PUU3bHMbW76o3/3A5Mo9mZa7toApSmQPOS7ZZajsuOtIIPSaHhrS+3CpAKnr9B1qKG
+	 8EKahsGZogoEg==
+Date: Wed, 14 Oct 2026 14:42:09 +0100
+From: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>
+To: Theodore Tso <tytso@mit.edu>
+Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
+	Krzysztof Kozlowski <krzk@kernel.org>, Sasha Levin <sashal@kernel.org>, corbet@lwn.net, 
+	skhan@linuxfoundation.org, rdunlap@infradead.org, federico.vaga@vaga.pv.it, 
+	apw@canonical.com, joe@perches.com, workflows@vger.kernel.org, 
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Linus Torvalds <torvalds@linux-foundation.org>, 
+	Justin Stitt <justinstitt@google.com>, Carlos Maiolino <cem@kernel.org>, 
+	Jakub Kicinski <kuba@kernel.org>, Jori Koolstra <jkoolstra@xs4all.nl>, 
+	Brian Foster <bfoster@redhat.com>, Christoph Hellwig <hch@infradead.org>, 
+	David Disseldorp <ddiss@suse.de>, Mark Brown <broonie@kernel.org>, 
+	Jani Nikula <jani.nikula@intel.com>, Jens Axboe <axboe@kernel.dk>, 
+	"David Hildenbrand (Arm)" <david@kernel.org>, Vlastimil Babka <vbabka@kernel.org>, 
 	"Christian Brauner (Amutable)" <brauner@kernel.org>
-Message-ID: <1759910011.895530.1791983320339@kpc.webmail.kpnmail.nl>
-In-Reply-To: <as7uqZn9rQ52USwy@mit.edu>
+Subject: Re: [PATCH] docs: remove Assisted-by references
+Message-ID: <as-Dwg8DcEOYMXki@gremlin>
 References: <20261009083137.3-1-sashal@kernel.org>
  <0914a106-bacf-4d95-854a-bfeefbff62a4@kernel.org>
  <asz9AeFe3CutP73z@gremlin>
  <20261013123132.GC4214@killaraus.ideasonboard.com>
  <as4pAEnLd4H68W4W@gremlin>
  <20261013131243.GM56180@killaraus.ideasonboard.com>
- <as4xMnT8a75pIw9v@gremlin> <as7uqZn9rQ52USwy@mit.edu>
-Subject: Re: [PATCH] docs: remove Assisted-by references
+ <as4xMnT8a75pIw9v@gremlin>
+ <as7uqZn9rQ52USwy@mit.edu>
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Priority: 3
-Importance: Normal
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <as7uqZn9rQ52USwy@mit.edu>
 
+On Tue, Oct 13, 2026 at 11:23:53PM -0400, Theodore Tso wrote:
 
-> Op 13-10-2026 23:23 EDT schreef Theodore Tso <tytso@mit.edu>:
-> 
-> 
+> I think we're going about this the wrong way.  What we want is high
+> quality contributions.  If they are high quality, who cares if they
+> are AI-generated or not?
+
+Recently 2 people sent 1,000 patches over 2 hours. Care to check each and
+every patch for 'quality'? :) Only the beginning.
+
+>
+> If we get a contribution which is sloppy, it could be because the
+
+Schloppy, not sloppy :) I.e. tells. Turn of phrase, certain 'shapes' in the
+code/commit msgs, newcomer/recently reactivated? Sent a bunch of mails
+across many subsystems? etc.
+
+To be scaleable the check has to be very quick. In the end it'll sadly
+probably just have to be 'newcomer?'. It sucks but this is existential.
+
 > This isn't actually a new problem.  In the pre-AI era, we would
-> sometimes get marginal patches, and there is always a question of
-> whether it is the maintainer's time to try to engage with a new
-> contributor who might turn into the next valued senior contributor and
-> reviewer --- or who might be resistant to education and/or who might
-> disappear very shortly.  AI makes the problem worse in that there are
-> many more newcomers with new contributions, but it's really not a new
-> problem.
 
-This is aligned to the point that I was trying to make, and I believe you
-it is not a new problem: how do you identify these "next valued seniors"?
-What pipelines/processes does the kernel community have to identify and
-grow these people? Just showing up regularly on the list is becoming a less
-clear signal because of LLMs. Not because no useful contributions can come
-from them, but because a growing part of new contributors is of the drive-by
-variety. Jon recently outlined a case of someone submitting dozens of patches
-in a single day. Obviously this person is never going to be a core kernel
-developer, and the tool we have now (explicitly) is to ignore/deprioritize them.
-Zig took the approach to just disallow LLM contributions, Linux is explicitly
-not going down that road.
+Sorry you're completely wrong, it's entirely a new problem.
 
-This hopefully tackles the burn-out part of the equation, but it does not
-per se address the pipeline problem. I suggested maybe it could be addressed
-by simply seeing people at conferences (and I have a hard time understanding
-how one could grow into a senior without going to any ever). I imagine this more
-or less has always been the case anyway. It works the same way in academia,
-or really any field, if people don't know you, you likely won't get your paper
-published, savant or not. There was a time when kernel programming was fairly
-unapproachable, so that just the fact of submitting a patch was a signal of
-commitment or at least effort (and as you said, not even then always). That time
-is no more.
+Nobody could drive thousands of at least plausible patches end-to-end with
+little to no input in the past. INCLUDING replies.
 
-Yes, Hardy would have missed Ramanujan now maybe. But we also have the kernel
-mentorship program, and the community can think about other ways as well.
-As a senior kernel programmer, do you have any suggestions for this? I
-would be really interested in your take,
+> If AI is making the review problem more challenging, the good news is
+> that there are ways that AI can help.  For example Sashiko can help
 
-Best,
-Jori.
+Sashiko only checks if the code is buggy or not, not whether it's worth
+having or is a total mess or not. So completely unhelpful (speaking from
+experience).
+
+> I also suspect it should be possible to use something like Jev or some
+> other System One LLM to help with an initial prioritization for the
+> patch, and then have that prioritization be set in patchwork.  Each
+
+Using AI to detect AI right now works, who knows in the future. But that's
+an arms race which we'll eventually lose. Which also costs money...
+
+> Using AI-assited priotization may have some collateral damange because
+> it might not get the prioritization correct.  But ultimately, if we
+
+Any solution will incur collateral damage, sadly inevitable.
+
+--
+Cheers, Lorenzo
