@@ -1,165 +1,122 @@
-Received: from mta1.migadu.com (out-224.mta1.migadu.com [95.215.58.224])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from outgoing.mit.edu (outgoing-auth-1.mit.edu [18.9.28.11])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 48EFF38D3EB
-	for <workflows@vger.kernel.org>; Wed, 14 Oct 2026 03:12:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.224
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D10D838C2A7
+	for <workflows@vger.kernel.org>; Wed, 14 Oct 2026 03:25:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=18.9.28.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791947526; cv=none; b=MJVpR4PUsQhfnfD6iAwJJfOU4HxHSOsr4ysE8k+isClO96uhcpTBQz8aqJrDFowDUiGPFPrGWI+jl369cK2O91VRPUkvCD6DMIvy8H6P4AKwTJ16cbSeFEY9/u5eTalwpQlIMo7xE+sjQVSb6HR3D2B/ROhGOfPQA0BhBYkQW3k=
+	t=1791948314; cv=none; b=l+0Nu3tHiQUZ8J7o2PlHhkiuE3dEZjKNerUGIAWcO1q9U12ZYmOcDXTUY2fOKYsU98Q3xGI59/m8PTtKQ+n+5IRe3y/RO9XIE6wi6VIRPmTQj4QOdLINZHc9oUWvroOCNY32oim6EMZFcjcEG6hFqR0KlChs7rHZKbDQKnkdfVs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791947526; c=relaxed/simple;
-	bh=loYkF41Uy03n+0MK5bjqWUlD6ePbTjgxrtXYT7g2Odw=;
+	s=arc-20240116; t=1791948314; c=relaxed/simple;
+	bh=Cvzf8DygOJrI+qQl9SJJL+k/akBvvsnBIBK/RZNZ074=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=FUgYeDCulrWUhs3mQ49QYARP1pay6QnstSoH8OgTuFthztUqmbarLs9e+s6GA1y0pa1ys7gDY2nCpDegMzcB5NMPoSL9GOfuPr2AcaCng+RbuGU5/UHRgU4huZX0bUeZsJnrE2vX5DfBCsBaghSni4QWJTxKAjpc/e186Dtt8rs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=wyuan.org; spf=pass smtp.mailfrom=wyuan.org; dkim=pass (2048-bit key) header.d=wyuan.org header.i=@wyuan.org header.b=k5xoXJYE; arc=none smtp.client-ip=95.215.58.224
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=wyuan.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=wyuan.org
+	 Content-Type:Content-Disposition:In-Reply-To; b=QKJMrI7kFFY+qwT29WwjgCnwnXawyxVnKdQhT7syRF+uD0gYR65zCFQWXYkktq03vG8SbMrOx2yPH88/2lN7VxYQfMfWymfxEd0a9+a1/+W/iYkOmlqAWQzeh3f27ISqm+Niutq/lj13Rttj5wk5P0mhsi3di0c5WdW95owItoo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=mit.edu; spf=pass smtp.mailfrom=mit.edu; dkim=pass (2048-bit key) header.d=mit.edu header.i=@mit.edu header.b=kpcODCCS; arc=none smtp.client-ip=18.9.28.11
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=mit.edu
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mit.edu
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=wyuan.org header.i=@wyuan.org header.b="k5xoXJYE"
-X-Envelope-To: workflows@vger.kernel.org
-DKIM-Signature: a=rsa-sha256; bh=loYkF41Uy03n+0MK5bjqWUlD6ePbTjgxrtXYT7g2Odw=;
- c=simple/simple; d=wyuan.org;
- h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
- t=1791947522; v=1; x=1792552322;
- b=k5xoXJYEZ7JyB7Z7DSAYcPrOLxeFaBO4NY0znrt4IwkcstGUFYg5BUyRVcfzks/0DuyRyx45
- 5LI7geSYIG+X+Q563rfogZaFHDOUHNbj2yeuIWPPIvcyxSkIsyMNSDKMrVw1H3s0Dy2iS8bSu8Q
- c8IoCNe5ka8TReZbWE87Vip9f61pzj3U59N0eV7+yBIM27Lliz/94MatvSvPl00kCx6ERvnJbjN
- LNh8tuHdwVihXmQE+MzatDkVFxvx3s8K7S1vg71P1wVffGmxPoQEkl5YdKs6+zwiWrWL9sDNUsP
- TQgFfelmOHYOm8hF5P+ZBIdJ3/AJ1mrFCUREsFdtv9u2A==
-X-Envelope-To: workflows@vger.kernel.org
-Received: by smtp.migadu.com with ESMTPS id fa9852e4d2c6a547;
-	Wed, 14 Oct 2026 03:12:01 +0000
-X-Mizu-Trace-ID: fa9852e4d2c6a547
-X-Migadu-Flow: FLOW_OUT
-Date: Wed, 14 Oct 2026 11:11:56 +0800
-From: Weijie Yuan <wy@wyuan.org>
-To: Sasha Levin <sashal@kernel.org>
-Cc: Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Randy Dunlap <rdunlap@infradead.org>,
-	Federico Vaga <federico.vaga@vaga.pv.it>,
-	Daniel Pereira <danielmaraboo@gmail.com>,
-	Chen-Yu Yeh <chenyou910331@gmail.com>,
-	Dongliang Mu <dzm91@hust.edu.cn>,
-	Andy Whitcroft <apw@canonical.com>, Joe Perches <joe@perches.com>,
-	Linus Torvalds <torvalds@linux-foundation.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	Lorenzo Stoakes <ljs@kernel.org>, Kees Cook <kees@kernel.org>,
-	Jori Koolstra <jkoolstra@xs4all.nl>,
-	Jeff Layton <jlayton@kernel.org>,
-	Christian Brauner <brauner@kernel.org>,
-	David Hildenbrand <david@kernel.org>,
-	Vlastimil Babka <vbabka@kernel.org>,
-	Jakub Kicinski <kuba@kernel.org>,
-	Christoph Hellwig <hch@infradead.org>,
-	Mark Brown <broonie@kernel.org>, Jens Axboe <axboe@kernel.dk>,
-	Brian Foster <bfoster@redhat.com>, Carlos Maiolino <cem@kernel.org>,
-	David Disseldorp <ddiss@suse.de>,
-	Jani Nikula <jani.nikula@intel.com>,
-	Justin Stitt <justinstitt@google.com>, workflows@vger.kernel.org,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2] docs: remove Assisted-by references
-Message-ID: <as7y_EKm-wP2QKK2@wyuan.org>
-References: <20261013121501.3738437-1-sashal@kernel.org>
+	dkim=pass (2048-bit key) header.d=mit.edu header.i=@mit.edu header.b="kpcODCCS"
+Received: from macsyma.thunk.org (pool-173-48-111-204.bstnma.fios.verizon.net [173.48.111.204])
+	(authenticated bits=0)
+        (User authenticated as tytso@ATHENA.MIT.EDU)
+	by outgoing.mit.edu (8.14.7/8.12.4) with ESMTP id 69E3Nv6V019206
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Tue, 13 Oct 2026 23:23:58 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mit.edu; s=outgoing;
+	t=1791948244; bh=z3yqKHRDrqQQiz8tqpY89YBl4PBNpsH6SLTwbnMqKdc=;
+	h=Date:From:Subject:Message-ID:MIME-Version:Content-Type;
+	b=kpcODCCSK+XafIp5lMILCnfvJkpUUutPJswB1SG7jeHDeBvO68RqAkYE9ltoiMiWI
+	 NM69IE/qYMyrLQXFg/zT3mY6K1DkZcUyegrEV5wdfCfL+/diijwZSawKOCQ2IuHACk
+	 3njDVYDja+Fzc40udyQPI8GkyZRlFTCzdzSAMpgM/OVV7HVwqncJ3XdXS8d7fcxYUD
+	 m/dfSjhFatFR1zqVuaClBD6KVSXXqz4W9Lxz1kQbAMzi5PjCs8qb11EWVrf/c/x327
+	 8+C1CPDEp3ChH9y9w/3i/7SS374K7DX9XinedOaEPP9QqmzisXEHRKiWq66p9zf2Ky
+	 CO7ya/+erg0qA==
+Received: by macsyma.thunk.org (Postfix, from userid 15806)
+	id 0EB932070BE3; Tue, 13 Oct 2026 23:23:54 -0400 (EDT)
+Date: Tue, 13 Oct 2026 23:23:53 -0400
+From: "Theodore Tso" <tytso@mit.edu>
+To: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>
+Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Krzysztof Kozlowski <krzk@kernel.org>, Sasha Levin <sashal@kernel.org>,
+        corbet@lwn.net, skhan@linuxfoundation.org, rdunlap@infradead.org,
+        federico.vaga@vaga.pv.it, apw@canonical.com, joe@perches.com,
+        workflows@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        Justin Stitt <justinstitt@google.com>,
+        Carlos Maiolino <cem@kernel.org>, Jakub Kicinski <kuba@kernel.org>,
+        Jori Koolstra <jkoolstra@xs4all.nl>, Brian Foster <bfoster@redhat.com>,
+        Christoph Hellwig <hch@infradead.org>,
+        David Disseldorp <ddiss@suse.de>, Mark Brown <broonie@kernel.org>,
+        Jani Nikula <jani.nikula@intel.com>, Jens Axboe <axboe@kernel.dk>,
+        "David Hildenbrand (Arm)" <david@kernel.org>,
+        Vlastimil Babka <vbabka@kernel.org>,
+        "Christian Brauner (Amutable)" <brauner@kernel.org>
+Subject: Re: [PATCH] docs: remove Assisted-by references
+Message-ID: <as7uqZn9rQ52USwy@mit.edu>
+References: <20261009083137.3-1-sashal@kernel.org>
+ <0914a106-bacf-4d95-854a-bfeefbff62a4@kernel.org>
+ <asz9AeFe3CutP73z@gremlin>
+ <20261013123132.GC4214@killaraus.ideasonboard.com>
+ <as4pAEnLd4H68W4W@gremlin>
+ <20261013131243.GM56180@killaraus.ideasonboard.com>
+ <as4xMnT8a75pIw9v@gremlin>
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20261013121501.3738437-1-sashal@kernel.org>
+In-Reply-To: <as4xMnT8a75pIw9v@gremlin>
 
-On 2026-10-13 08:15:01 -0400, Sasha Levin <sashal@kernel.org> wrote:
+On Tue, Oct 13, 2026 at 02:29:08PM -0500, Lorenzo Stoakes (ARM) wrote:
+> On Tue, Oct 13, 2026 at 03:12:43PM +0200, Laurent Pinchart wrote:
+> > On Tue, Oct 13, 2026 at 01:59:33PM +0100, Lorenzo Stoakes (ARM) wrote:
+> > > Ignoring is the only workable long-term solution.
+> > How do you decide which patches to ignore ?
+> Anything that looks schloppy. ATM it's very easy to tell.
 
-> Commit 78d979db6cef ("docs: add AI Coding Assistants documentation") asked
-> contributors to add an Assisted-by tag to patches developed with help from an
-> LLM, and commit 816d9992d9ed ("coding-assistants: simplify attribution") later
-> reduced the tag to "Assisted-by: LLM".
-> 
-> A proposal to drop the tag was turned down in July [1]. The main argument for
-> keeping it was that maintainers wanted a signal that a patch was LLM-assisted,
-> so that they could review it accordingly.
-> 
-> The tag came up again at the 2026 Maintainers Summit [2]. Roughly 10% of the
-> 18,533 non-merge commits in 7.3 through -rc7 carry an Assisted-by tag, while
-> actual LLM use is far more widespread. Some contributors do not know about the
-> rule, others leave the tag off on purpose, and few maintainers ask about it. As
-> a result, the tag does not provide the signal it was kept for: its absence says
-> nothing about how a patch was made, and for developers who use these tools for
-> almost everything, its presence says little more. The choice was between
-> finding a way to enforce the requirement and dropping it, and there was a
-> strong, though not unanimous, consensus in the room to drop it. Greg
-> Kroah-Hartman, who argued for keeping the tag in July, supports removing it now
-> [3].
-> 
-> Maintainers do still want to know how a patch was created, but the view at the
-> Summit was that this belongs in the cover letter, where it can describe how the
-> tools were used, rather than in the changelog.
-> Documentation/process/generated-content.rst already asks contributors to be
-> transparent about tool use and is not changed here. The rules on the DCO and on
-> the submitter's responsibility for the patch stay as they are.
-> 
-> Remove the Assisted-by sections from coding-assistants.rst,
-> submitting-patches.rst, and the Italian, Brazilian Portuguese and Traditional
-> Chinese translations, and drop the handling of the tag from checkpatch.
-> 
-> [1] https://lore.kernel.org/workflows/2026070224-unholy-commode-cf45@gregkh/
-> [2] https://lwn.net/Articles/1099594/
-> [3] https://lore.kernel.org/all/2026101327-cupid-legal-6cf6@gregkh/
-> 
-> Acked-by: Lorenzo Stoakes (ARM) <ljs@kernel.org>
-> Reviewed-by: Kees Cook <kees@kernel.org>
-> Reviewed-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-> Signed-off-by: Sasha Levin <sashal@kernel.org>
-> ---
+I think we're going about this the wrong way.  What we want is high
+quality contributions.  If they are high quality, who cares if they
+are AI-generated or not?
 
-Acked-by: Weijie Yuan <wy@wyuan.org>
+If we get a contribution which is sloppy, it could be because the
+contributor doesn't know how to drive the LLM, or they are using an
+insufficiently powerful or badly chosen LLM --- or both.
 
-Thanks!
+This isn't actually a new problem.  In the pre-AI era, we would
+sometimes get marginal patches, and there is always a question of
+whether it is the maintainer's time to try to engage with a new
+contributor who might turn into the next valued senior contributor and
+reviewer --- or who might be resistant to education and/or who might
+disappear very shortly.  AI makes the problem worse in that there are
+many more newcomers with new contributions, but it's really not a new
+problem.
 
-> Changes in v2:
-> - Expand the changelog with the background and the Maintainers Summit
->   discussion (Laurent, Krzysztof, Greg, Lorenzo).
-> - Rebase on docs-next and also remove the Assisted-by sections from the
->   pt_BR and zh_TW translations there.
-> - Collect tags.
-> 
-> v1: https://lore.kernel.org/all/20261009083137.3-1-sashal@kernel.org/
-> 
->  Documentation/process/coding-assistants.rst   | 21 +------------------
->  Documentation/process/submitting-patches.rst  | 10 ---------
->  .../it_IT/process/submitting-patches.rst      | 10 ---------
->  .../pt_BR/process/coding-assistants.rst       | 20 ------------------
->  .../pt_BR/process/submitting-patches.rst      | 10 ---------
->  .../zh_TW/process/submitting-patches.rst      |  7 -------
->  scripts/checkpatch.pl                         | 11 ----------
->  7 files changed, 1 insertion(+), 88 deletions(-)
+If AI is making the review problem more challenging, the good news is
+that there are ways that AI can help.  For example Sashiko can help
+with the early AI review.  And if a newcomer sends 7 versions of the
+patch set in resposee to Sashiko reviews, I will generally not bother
+looking at it personally until a couple of days go past before I waste
+my limited human review bandwidth.  So it's not a case of permanently
+ignoring a patch --- but I may very well down-prioritize when I do pay
+attention.
 
-[...]
+I also suspect it should be possible to use something like Jev or some
+other System One LLM to help with an initial prioritization for the
+patch, and then have that prioritization be set in patchwork.  Each
+subsystem might have their own criteria which they could encode in
+their prioritization prompt.  For example, if the bug requires root
+privileges and/or a maliciously fuzzed file system, for ext4 it will
+automatically get down-priotized to low priority.
 
-> diff --git a/Documentation/translations/zh_TW/process/submitting-patches.rst b/Documentation/translations/zh_TW/process/submitting-patches.rst
-> index b780f1539b46b..4a7c046b23894 100644
-> --- a/Documentation/translations/zh_TW/process/submitting-patches.rst
-> +++ b/Documentation/translations/zh_TW/process/submitting-patches.rst
-> @@ -503,13 +503,6 @@ Fixes: 指示補丁修復了之前提交中的一個缺陷。它可以便於確
->  的。注意，就此而言bugzilla.kernel.org是公開場所，但其中使用的電子郵件地址
->  是私密的；因此不要在標籤中暴露它們，除非該人在先前的貢獻中使用過。
->  
-> -使用Assisted-by:
-> -----------------
-> -
-> -如果您在建立補丁的過程中使用了任何進階編碼工具，您需要透過添加Assisted-by
-> -標籤來聲明這一使用。不這樣做可能會妨礙您的工作被接受。關於聲明編碼助手的
-> -細節，請參見 Documentation/process/coding-assistants.rst 。
-> -
->  .. _tw_the_canonical_patch_format:
->  
->  標準補丁格式
+Using AI-assited priotization may have some collateral damange because
+it might not get the prioritization correct.  But ultimately, if we
+get a flood of patches from newcomers, the choices is either to (a)
+load-shed, or (b) burn out.  And of the two, (a) is the better of two
+bad choices.
 
-Thanks for doing this.
+						- Ted
