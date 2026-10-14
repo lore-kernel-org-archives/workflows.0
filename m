@@ -1,98 +1,95 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0FD2A36DA15;
-	Wed, 14 Oct 2026 16:36:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 108E23B5F50;
+	Wed, 14 Oct 2026 16:54:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791995808; cv=none; b=SDJ8Uw4jPbpTCj4HVFgc6uRQGIIcr36+2/tga7YSIBEvgCueHuXZXnNjnRhLisBNH2iiaH5yhsz5Kt4iykbW4i5XhT2mWBjgE8Nytz5OWOEnxDmScPDgmZICVPhrdMiBKr+O2CPnD1u+VbQYZ1wPgtLmMj8V40iqW7S+DTo681o=
+	t=1791996897; cv=none; b=YxnXOFXea/stBa2sCpCB6+AAoeuRkLIZSz7/TOC2K+1S9XRGAgB1J5S+sLc0jddVJD3ClSjSueBKQ6VKzag/ixPKra+xVzlPzM6UNCkAhMlHS6QMdyBlqFxvHUQq8vOKuJlZrAI4MCIlZFYvsvWb0FVNwIYsU97yOcdF7pXBJtg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791995808; c=relaxed/simple;
-	bh=Fl9szVcyfwiSTFtAiR6lrQmJogBb9OyiHM5PVSBMQfc=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=MVt2/9ZfHvmgCvge4dGn3DRZnuOTOE8xwt9uSuZaKIt4tfZzJc8mMX2g6e4EPePMK81xJ3bfpPh6VVD6oQoMWZXq08iVEStr3c9Q77IKotL1tPEMk3Mbln4Ge6atx9XaElR4M6yiO5G3/SkOJaCGiuigHUMx379uQvZay7IzHB0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Xmgl2Lvl; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1791996897; c=relaxed/simple;
+	bh=53cOAaA4VDYZ+gecsT6obnH0P9t8yYDIvAkYBXZ6/eo=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=R5s9zqPwk7OMdWoykGPvQybuFJkwLHjHJEBEEPF9swZr8Mx+qg1fol5LwlKk9bEnHOaCDBqD9+vQtJvH4ukGyp1aJB3YDhv3KxZJe8MvcTUlFpkqhrEOjthZtGC8bNab+plXzXfjz6WLdfNi0F2lLaiG0kOoZfM+7fbdhLN1+IY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=EHv24ZjW; arc=none smtp.client-ip=45.79.88.28
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Xmgl2Lvl"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0D6741F000C4;
-	Wed, 14 Oct 2026 16:36:39 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1791995807;
-	bh=Fl9szVcyfwiSTFtAiR6lrQmJogBb9OyiHM5PVSBMQfc=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=Xmgl2Lvl2ZSkAsdcL0Z2u4LJ5PHMrzjpaXSyI6Tr/rElGGSeT1p/3qmBTAsOnuWre
-	 lquNIx3DPWOQSsZTIMqDf2UprmB1ePU84dDCffAxP+dXB7q7M6o6IWZj8c5in1Wkyw
-	 jMTP1pxj4Of6C+PlyxgcbhEWWUlvRTCSjvNzUFqjueEAD3vJrWV1xCLnKt8AM+8Ell
-	 kvHlNMUsM5h5/M1tVpt+UNvO00p0cFDHdwk2oQ6J75s9CN5HqIQekLPozNUxkY2+JE
-	 QUGcOhh3Rmc83sHMou+klIFby1YdXeK70uXaCimPmIy6d1XGn4JZzism42x7SvayG+
-	 ItZw/fQayEaQA==
-From: Miguel Ojeda <ojeda@kernel.org>
-To: sashal@kernel.org
-Cc: apw@canonical.com,
-	axboe@kernel.dk,
-	bfoster@redhat.com,
-	brauner@kernel.org,
-	broonie@kernel.org,
-	cem@kernel.org,
-	chenyou910331@gmail.com,
-	corbet@lwn.net,
-	danielmaraboo@gmail.com,
-	david@kernel.org,
-	ddiss@suse.de,
-	dzm91@hust.edu.cn,
-	federico.vaga@vaga.pv.it,
-	gregkh@linuxfoundation.org,
-	hch@infradead.org,
-	jani.nikula@intel.com,
-	jkoolstra@xs4all.nl,
-	jlayton@kernel.org,
-	joe@perches.com,
-	justinstitt@google.com,
-	kees@kernel.org,
-	krzk@kernel.org,
-	kuba@kernel.org,
-	laurent.pinchart@ideasonboard.com,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	ljs@kernel.org,
-	rdunlap@infradead.org,
-	rostedt@goodmis.org,
-	skhan@linuxfoundation.org,
-	torvalds@linux-foundation.org,
-	vbabka@kernel.org,
-	workflows@vger.kernel.org,
-	wy@wyuan.org,
-	Miguel Ojeda <ojeda@kernel.org>
+	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="EHv24ZjW"
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net D870F408FF
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
+	t=1791996895; bh=EhUHkbPk4X+IbWsQOStYP2QUcrlkr/AFEVSmWdJhjrk=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+	b=EHv24ZjWHQgNp1/zC6idJIMwD1DXJCl89/y6rdaxSWz2937BB3c+w/cVtQvJeTrmr
+	 fqHbwJKS/q9xVrYlG2sJWD+fhWrpZrkuFqQA2a0qlxQWfhoRc8hlBTDt+/b5XaP9p6
+	 TfM7bsfwRv73raxkcrYHbyuEp6wthyX1B2b0yNCkRv47BB33a/Flh+zUX/7Jl+6+XR
+	 z19LMpsLZwP4GFFfaIsoW70KMDe91YMMVnFrz1SsuQn1XzQ5VKTccKsxaV1OLRLjcs
+	 d1WTfHNZDsRfK4mn529CoOv580q07KtyxK0AQw1VO9T+MiXFko/WcBayoDc/HL6MsT
+	 hDSLJRsw67OJg==
+Received: from localhost (unknown [IPv6:2601:280:4600:814::1fe])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (prime256v1) server-signature ECDSA (prime256v1) server-digest SHA256)
+	(No client certificate requested)
+	by ms.lwn.net (Postfix) with ESMTPSA id D870F408FF;
+	Wed, 14 Oct 2026 16:54:54 +0000 (UTC)
+From: Jonathan Corbet <corbet@lwn.net>
+To: Sasha Levin <sashal@kernel.org>
+Cc: Shuah Khan <skhan@linuxfoundation.org>, Randy Dunlap
+ <rdunlap@infradead.org>, Federico Vaga <federico.vaga@vaga.pv.it>, Daniel
+ Pereira <danielmaraboo@gmail.com>, Chen-Yu Yeh <chenyou910331@gmail.com>,
+ Weijie Yuan <wy@wyuan.org>, Dongliang Mu <dzm91@hust.edu.cn>, Andy
+ Whitcroft <apw@canonical.com>, Joe Perches <joe@perches.com>, Linus
+ Torvalds <torvalds@linux-foundation.org>, Greg Kroah-Hartman
+ <gregkh@linuxfoundation.org>, Laurent Pinchart
+ <laurent.pinchart@ideasonboard.com>, Krzysztof Kozlowski
+ <krzk@kernel.org>, Steven Rostedt <rostedt@goodmis.org>, Lorenzo Stoakes
+ <ljs@kernel.org>, Kees Cook <kees@kernel.org>, Jori Koolstra
+ <jkoolstra@xs4all.nl>, Jeff Layton <jlayton@kernel.org>, Christian Brauner
+ <brauner@kernel.org>, David Hildenbrand <david@kernel.org>, Vlastimil
+ Babka <vbabka@kernel.org>, Jakub Kicinski <kuba@kernel.org>, Christoph
+ Hellwig <hch@infradead.org>, Mark Brown <broonie@kernel.org>, Jens Axboe
+ <axboe@kernel.dk>, Brian Foster <bfoster@redhat.com>, Carlos Maiolino
+ <cem@kernel.org>, David Disseldorp <ddiss@suse.de>, Jani Nikula
+ <jani.nikula@intel.com>, Justin Stitt <justinstitt@google.com>,
+ workflows@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org
 Subject: Re: [PATCH v2] docs: remove Assisted-by references
-Date: Wed, 14 Oct 2026 18:36:06 +0200
-Message-ID: <20261014163606.109478-1-ojeda@kernel.org>
 In-Reply-To: <20261013121501.3738437-1-sashal@kernel.org>
 References: <20261013121501.3738437-1-sashal@kernel.org>
+Date: Wed, 14 Oct 2026 10:54:54 -0600
+Message-ID: <87o6cww7c1.fsf@trenco.lwn.net>
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 
-On Tue, 13 Oct 2026 08:15:01 -0400 Sasha Levin <sashal@kernel.org> wrote:
+Sasha Levin <sashal@kernel.org> writes:
+
+> Remove the Assisted-by sections from coding-assistants.rst,
+> submitting-patches.rst, and the Italian, Brazilian Portuguese and Traditional
+> Chinese translations, and drop the handling of the tag from checkpatch.
 >
-> The tag came up again at the 2026 Maintainers Summit [2]. Roughly 10% of the
-> 18,533 non-merge commits in 7.3 through -rc7 carry an Assisted-by tag, while
-> actual LLM use is far more widespread. Some contributors do not know about the
+> [1] https://lore.kernel.org/workflows/2026070224-unholy-commode-cf45@gregkh/
+> [2] https://lwn.net/Articles/1099594/
+> [3] https://lore.kernel.org/all/2026101327-cupid-legal-6cf6@gregkh/
+>
+> Acked-by: Lorenzo Stoakes (ARM) <ljs@kernel.org>
+> Reviewed-by: Kees Cook <kees@kernel.org>
+> Reviewed-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+> Signed-off-by: Sasha Levin <sashal@kernel.org>
+> ---
+> Changes in v2:
+> - Expand the changelog with the background and the Maintainers Summit
+>   discussion (Laurent, Krzysztof, Greg, Lorenzo).
+> - Rebase on docs-next and also remove the Assisted-by sections from the
+>   pt_BR and zh_TW translations there.
+> - Collect tags.
+>
+> v1: https://lore.kernel.org/all/20261009083137.3-1-sashal@kernel.org/
 
-I checked that number, and it matches what I see. It seems to be rising quite
-a lot, e.g. for things in linux-next that are not in mainline, it is more than
-16%, and for since -rc1, it is 19%.
+OK, I have applied this, thanks.
 
-Anyway, the patch looks fine of course: it is indeed part of what we discussed
-in the Maintainers Summit, and there is no mention of "Assisted-by" after
-applying the patch, even on top of `next/master`, so:
-
-Reviewed-by: Miguel Ojeda <ojeda@kernel.org>
-
-Thanks!
-
-Cheers,
-Miguel
+jon
