@@ -1,210 +1,86 @@
-Received: from mail-dl1-f47.google.com (mail-dl1-f47.google.com [74.125.82.47])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from outgoing.mit.edu (outgoing-auth-1.mit.edu [18.9.28.11])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 07AB53CF685
-	for <workflows@vger.kernel.org>; Thu, 15 Oct 2026 14:34:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.82.47
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792074880; cv=pass; b=KXFI5p7OPl6KDtBZeO0CT10qayLUUgnZHmPWB57WGEW5KHcxIFUE/EIN9DDIPQk1ixg0Bs2o6eWzYmK/dKmNkZVsnkeOlf0XeYywdGjIZ8Dvanw9aZQEF5ZtD4taV1qYUdgnHZ3voG91uVVXudniJIj2tBY4G3CjpU41S3FjlkU=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792074880; c=relaxed/simple;
-	bh=0qgS0UO1kcmwhXpK5KzPjRFjdmmHM4Qfpm9Hq9l0y94=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=fw3RNnWnZ4arJ5oS/0dC9IuwzJF4MybFbLBGAJayoExwim59mC5yTXIo0poj2jxiKDvlLbMSLZ1G/EAieqohrzYxUbvbMETGGvGPk1I7XA7vrycrV2L3YIHnmsjEqHd2MtveyMmIUXMDR4ZE1zkzJapxavK9M1JuicIR47txMg4=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=kki8MEN0; arc=pass smtp.client-ip=74.125.82.47
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ACF255328BD
+	for <workflows@vger.kernel.org>; Thu, 15 Oct 2026 14:44:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=18.9.28.11
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1792075456; cv=none; b=sFXrOqd5kDUFs52lapYeO8pWGrchRdM8oAZrhj4aE/wn8bSck/ZyFrbisX9i7hY7mFllhnYhD+b7DQkovJBf7p77vX/gUgXmAhUEZs0NiJj+i4zxlnVTWjbNwO7hy/S9NvNbZg2/7YhcX8c0i0oef2WAnMLq7Saow4xORfkLSvE=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1792075456; c=relaxed/simple;
+	bh=SxULDFHQExRoaZaA91Mvz7jczBC27pGAe4U8ZGv31i4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=MqfDSJ+PPV3Bd/vYnLbkuep4opOcEBZuBxJ4fXftwlD2AjWy7BI2Fgg4ld8PD/Fb92W2yOdBRrR+Gt8+qJ0ONRyWR8OcH+Mpv/Jy6OaorpaDRPVEbLw7AovTyFCIwqPGYTcbQkDEQc7ylzxRgsnuhnpSQ/I3YweMUH78w+bzEG8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=mit.edu; spf=pass smtp.mailfrom=mit.edu; dkim=pass (2048-bit key) header.d=mit.edu header.i=@mit.edu header.b=CaRBBYhi; arc=none smtp.client-ip=18.9.28.11
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=mit.edu
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mit.edu
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="kki8MEN0"
-Received: by mail-dl1-f47.google.com with SMTP id a92af1059eb24-1419d3416ceso3906551c88.0
-        for <workflows@vger.kernel.org>; Thu, 15 Oct 2026 07:34:38 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1792074878; cv=none;
-        d=google.com; s=arc-20260327;
-        b=Sms5KnovsW9/eNoW3xXLF31uGQCz7jgclHcTMvdVfO2wMWKqr1oEBjWUnn+ho9D4Ua
-         +5hwdM9E9JCzAttL6ZKT/XfkChv3pVDzPnh6k8p/RceBFFwXzjKc8GH/epb8MBzWUkFy
-         zd7Lu6pgRWIjftJE9mkiEPpQrIaejAovZ/i9fOdeZw2CvnT0n9RrDV74lsmUfTmG0jPE
-         pSZ55gCBpyW1KJidD1O99Og/DV0sBMKv5dfE+Bi1scVBBYawm9F55qhPOmA440Ox2A/F
-         iO3Cnk3SGA1J7oSjvUG1lJNkWv430e66+DH8LiO98BRJQvVWebVRpy/4btzIc5qlFRNE
-         pJ3g==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=F6fmcBNM8ahIowcwsWLF3jcUhFNGW6deuYFquaOGjh4=;
-        fh=ZGl/y3gdWO4i3bhoMuAKF5ustU8tvxyvmnePR+STpuc=;
-        b=FnT0TwmYAfUvpwbHHQYU2rpcDlQY21+EJMUFHqf05LYbJ4Shshynq3InxgAhxph65Y
-         AIvZTr6F8OAdpiWmMAm63VLQnuP4KxXCdyIlT+vLaK5KnsA96vru2owOrG982elxiN4w
-         ILDvHpbJjQUfUzRFHqn1PBSYkfXO1QiBZ3BF1lInZ95I+sotvQfyb//rFgpJjoypsfgZ
-         DxsiZooquDWcfyDNejg548aspkWEVPNs2h+tPjehru5f5/rjPnV59W54aS8gAH1O7f4U
-         cMjH4vb+5JDji7otWh9nFWNyaCAxR4jlIzucRa59WHS4kAYTGjPOU+WKVin8pN/skyPs
-         V3Og==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1792074878; x=1792679678; darn=vger.kernel.org;
-        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
-         :references:mime-version:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=F6fmcBNM8ahIowcwsWLF3jcUhFNGW6deuYFquaOGjh4=;
-        b=kki8MEN0wBYVFMQ8UYnW98K2Dw2BWXb7ywQ5r4U52c8SxrqSD4GLs6jK36hIL/yPhf
-         VQv9DByVceIfDj2e38oZb4Ty1pgKl67+lYphxGv17/+RsZ4t8NBepAUIyYQCoMcAym73
-         /UQkSrKSNRXkMvYy6fimKS92tE1a4Z4FB/SmHW5RtMFkKK0FN1+Pk0eTStblfoICPOYz
-         uNtIvhgBSYwwBJBAWT/q6TXSbwfJn206YT7BzLLUoyjlMsnBC7E/Ytb3BwvdRjPvSZOU
-         BsDAgYWOGkTMcZ3wDO6TrZ1SbdO0C3TTbEgyphuLiPaCDqYyRfexhi7GxJ5MFlWEQQ8p
-         ZIRw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1792074878; x=1792679678;
-        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
-         :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=F6fmcBNM8ahIowcwsWLF3jcUhFNGW6deuYFquaOGjh4=;
-        b=AZ1zF8T2klIT+hEztxrEOO97VrxZNfN54eUEKGMBSX1is5rHN1tNj0o2QDk9Ht/3Sp
-         eUFGFVhp3ekKzG5FN59WXE6KACxfTJHcnHZxc99BJ8Z8gp3BFCtH0snkelobtFifByX5
-         YvTQ0vlMFF0BZvklwv1293Ml4eq4jb3x/kLAKRw5cMFKciQ40xfddPSpzA4YZjeNu74r
-         3nZwicgyHLYjcGnII/cgo9AjfNv+xcKcMDBWWILb/lpT8qfWGKlEjgF6ABZJoQDwIsKF
-         RxaKLtRRjwPDX+WK7nmQErZe2TRfstfysJo7rlDS7+7uXD/qLYizXE6fNQuznesSKArD
-         kNJg==
-X-Forwarded-Encrypted: i=1; AKwUvBw5WPr9aKysR32bSIDUR6pOel6ci2iifFv/hS+dLLYVRbXTKbAEYJHiz23q3ykOpWT/HREztA7YB/g=@vger.kernel.org
-X-Gm-Message-State: AFq9FYKRRDwUrE3cyFxWMHpLvi/qk9J4r577IzA97zArC7DGasPunkb9
-	nJsRsTm9rPEu1mnpw+CE9N0+1fa8yv0bWwSea34PlFN/CpTZPQ4ovotXwQf51Klzq2FisT+UeMp
-	e/ChB1xP9mJ7CV5Ymdtw9S1u6v5TlHK/FztZgUrW8
-X-Gm-Gg: AYBFou1PYSQo4f52mHk2p4oZsIlUmvhVakZw+9gxeGDrudZkuV/M5ebcMrSkdjimpqe
-	FHfpHTJIPqd7KO1UsxNZPZI788ZlZUXy+OdcHBrGtWBlAxnrxWr59yFh5Rs0tbzSTw+0cEx9CAy
-	ndcDDYawNKSzQNKfQMTC6txENlnVE+jFRTY1JyClQbDfp38YZbHt5M6kOclLlDZWxGWmqNJf8JE
-	1VDE11GfotOG4G9L+Y4sf9ywdLq4iUZUWKcRwVYaZhEK3V6waGgy9lde9LsAOnHx5FC7TEzhtT0
-	9RSPTarXJAS9ksl64ZDq6TCtBMro+04Pe87cw0Gdx/NFO939wm74dD/+cxnhY0SBBufpQUpJwx0
-	hKkaq4zh9sw==
-X-Received: by 2002:a05:7023:908:b0:14d:f83b:f678 with SMTP id
- a92af1059eb24-16a63093432mr28786311c88.43.1792074876931; Thu, 15 Oct 2026
- 07:34:36 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=mit.edu header.i=@mit.edu header.b="CaRBBYhi"
+Received: from macsyma.thunk.org (pool-173-48-111-204.bstnma.fios.verizon.net [173.48.111.204])
+	(authenticated bits=0)
+        (User authenticated as tytso@ATHENA.MIT.EDU)
+	by outgoing.mit.edu (8.14.7/8.12.4) with ESMTP id 69FEhoZ5027680
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Thu, 15 Oct 2026 10:43:51 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mit.edu; s=outgoing;
+	t=1792075434; bh=VTrpwagnDlVO1pJaN3WC0qRUhUxJdf/xBhEK8KAUPm8=;
+	h=Date:From:Subject:Message-ID:MIME-Version:Content-Type;
+	b=CaRBBYhix5ZI6Pqirm+LkW2jz418n8YfzEHkGp3t6jIM1cRRQ/cxIWNosYW9K+znA
+	 SdJO5PHmQPpvu5yzgoOLwBGUcdbb7EvttKyknVaTBznroB7yhZkIVMp5u6HnMUtS/n
+	 8Hoe+N56PnZ4EDrCs9/YnJS2/wd2IzxlWhTiyiFw+F0feN3TXzYCkS5CgbWjpTIdNM
+	 QE38PUhFD+s75KeFD6zaVck7K3rWynSpYgWnM39Nt1+8qBDCMQ9sBFV2QA3CmzL9sF
+	 htjWrx1McQOihI+jlNAo3GGKsNEOIgUlR+h1eBQr7+l8hOXe4iCrjyHZaLGJeY082S
+	 EOJNx55zjwnlg==
+Received: by macsyma.thunk.org (Postfix, from userid 15806)
+	id 23B5720F90B5; Thu, 15 Oct 2026 10:42:50 -0400 (EDT)
+Date: Thu, 15 Oct 2026 10:42:50 -0400
+From: "Theodore Tso" <tytso@mit.edu>
+To: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
+Cc: Jonathan Corbet <corbet@lwn.net>, Sasha Levin <sashal@kernel.org>,
+        Miguel Ojeda <ojeda@kernel.org>, broonie@kernel.org,
+        ksummit@lists.linux.dev, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, rdunlap@infradead.org,
+        skhan@linuxfoundation.org, workflows@vger.kernel.org
+Subject: Re: [PATCH 0/2] agents: add portable agent skills and Fixes
+ attribution
+Message-ID: <atDlfUEr-d_sRP7c@mit.edu>
+References: <cover.1791499378.git.sashal@kernel.org>
+ <20261014174838.114990-1-ojeda@kernel.org>
+ <as_Cr4FhzyAh-kC4@laps>
+ <CANiq72m6okeCHuR8BCGENTw=wJhfXXZbXZtJq8xtoeVfvfo3TQ@mail.gmail.com>
+ <atDYWe9L0tv90Xjk@laps>
+ <CANiq72mgS15ZKwd-u1t1xvAaNf3ivpXdUMmVDfmGRyq1OewLvw@mail.gmail.com>
+ <87jynjrrqo.fsf@trenco.lwn.net>
+ <CANiq72=raWNCedXQW9dSDwxQTE0hfs9ecyGChRPnWqO6DUvbOw@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20261014095238.2132580-2-sh_def@163.com>
-In-Reply-To: <20261014095238.2132580-2-sh_def@163.com>
-From: Marco Elver <elver@google.com>
-Date: Thu, 15 Oct 2026 16:33:59 +0200
-X-Gm-Features: AclHuK_nqb0XohDsRgRoJxANfSfWrIowniz6RXwKCNJicgsayXH681Q_GDC1JBM
-Message-ID: <CANpmjNN0_EX8Tug6UFp=sap_Zv3QH1PnEn4GPGSKSHEU72W6zg@mail.gmail.com>
-Subject: Re: [RFC PATCH 1/4] kcsan: add targeted watchpoint matching
-To: Hui Su <sh_def@163.com>
-Cc: dvyukov@google.com, kasan-dev@googlegroups.com, corbet@lwn.net, 
-	skhan@linuxfoundation.org, rdunlap@infradead.org, workflows@vger.kernel.org, 
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CANiq72=raWNCedXQW9dSDwxQTE0hfs9ecyGChRPnWqO6DUvbOw@mail.gmail.com>
 
-On Wed, 14 Oct 2026 at 11:52, Hui Su <sh_def@163.com> wrote:
->
-> Add target state and a static key to KCSAN. When a target is set, only
-> non-atomic instrumented accesses containing that address are eligible for
-> watchpoint setup. Other accesses do not consume the skip interval. Keep
-> report filtering independent from target matching.
->
-> Signed-off-by: Hui Su <sh_def@163.com>
-> ---
->  kernel/kcsan/core.c  | 37 +++++++++++++++++++++++++++++++++++++
->  kernel/kcsan/kcsan.h | 10 ++++++++++
->  2 files changed, 47 insertions(+)
->
-> diff --git a/kernel/kcsan/core.c b/kernel/kcsan/core.c
-> index 2db82661cd60..2a58a3a53adb 100644
-> --- a/kernel/kcsan/core.c
-> +++ b/kernel/kcsan/core.c
-> @@ -12,10 +12,12 @@
->  #include <linux/delay.h>
->  #include <linux/export.h>
->  #include <linux/init.h>
-> +#include <linux/jump_label.h>
->  #include <linux/kernel.h>
->  #include <linux/list.h>
->  #include <linux/minmax.h>
->  #include <linux/moduleparam.h>
-> +#include <linux/mutex.h>
->  #include <linux/percpu.h>
->  #include <linux/preempt.h>
->  #include <linux/sched.h>
-> @@ -108,9 +110,40 @@ static atomic_long_t watchpoints[CONFIG_KCSAN_NUM_WATCHPOINTS + NUM_SLOTS-1];
->   */
->  static DEFINE_PER_CPU(long, kcsan_skip);
->
-> +static DEFINE_STATIC_KEY_FALSE(kcsan_target_key);
-> +static DEFINE_MUTEX(kcsan_target_lock);
-> +static unsigned long kcsan_target_addr;
-> +
->  /* For kcsan_prandom_u32_max(). */
->  static DEFINE_PER_CPU(u32, kcsan_rand_state);
->
-> +void kcsan_target_set(unsigned long addr)
-> +{
-> +       unsigned long old;
-> +
-> +       mutex_lock(&kcsan_target_lock);
-> +       old = READ_ONCE(kcsan_target_addr);
-> +
-> +       if (!old && addr) {
-> +               /* Publish the address before enabling the fast-path branch. */
-> +               WRITE_ONCE(kcsan_target_addr, addr);
-> +               static_branch_enable(&kcsan_target_key);
-> +       } else if (old && !addr) {
-> +               /* Disable the fast-path branch before invalidating the target. */
-> +               static_branch_disable(&kcsan_target_key);
-> +               WRITE_ONCE(kcsan_target_addr, 0);
-> +       } else if (old && addr) {
-> +               WRITE_ONCE(kcsan_target_addr, addr);
-> +       }
-> +
-> +       mutex_unlock(&kcsan_target_lock);
-> +}
-> +
-> +unsigned long kcsan_target_get(void)
-> +{
-> +       return READ_ONCE(kcsan_target_addr);
-> +}
-> +
->  static __always_inline atomic_long_t *find_watchpoint(unsigned long addr,
->                                                       size_t size,
->                                                       bool expect_write,
-> @@ -277,6 +310,10 @@ should_watch(struct kcsan_ctx *ctx, const volatile void *ptr, size_t size, int t
->         if (is_atomic(ctx, ptr, size, type))
->                 return false;
->
-> +       if (static_branch_unlikely(&kcsan_target_key))
-> +               return kcsan_target_matches(READ_ONCE(kcsan_target_addr),
-> +                                           (unsigned long)ptr, size);
-> +
+On Thu, Oct 15, 2026 at 04:05:56PM -0500, Miguel Ojeda wrote:
+> 
+> I think it would work fine in practice. But it means that we have to
+> split every "skill" into two files (and reformat when we may want to
+> move details from one to the other), unless I am missing something.
+> 
+> So if we keep the files rendered and so on (possibly in
+> `Documentation/`), and make use of `.rst` features etc., then I think
+> it is worth doing it. If not, i.e. if we just use it as a place to
+> "dump text", then I think Markdown may be simpler.
 
-How does this change the generate asm (say on x86-64) of the fast
-path? (E.g. take a look at __tsan_read8 disasm.)
+I'm a bit confused why people are assuming that we would need to have
+copies of the same or similar content in Documentation/ and agents/.
+For agents are are *doing* somethiing --- for example, determining the
+correct commit for a Fixes: tag is not something I'd think would be relevant for Documentations.
 
-We tried hard to e.g. avoid stack spills in the fast path, and if that
-affects fast path codegen negatively, that'd be not so nice.
+We dould just as easily say that there is a duplication between
+src/linux/ext4/scripts/checkpatch.pl and
+Documentation/process/submitting-patches.rst.  Which perhaps there is
+some, but is it really that big of a deal?
 
->         if (this_cpu_dec_return(kcsan_skip) >= 0)
->                 return false;
->
-> diff --git a/kernel/kcsan/kcsan.h b/kernel/kcsan/kcsan.h
-> index ae33c2a7f07e..2a36813c3a76 100644
-> --- a/kernel/kcsan/kcsan.h
-> +++ b/kernel/kcsan/kcsan.h
-> @@ -25,6 +25,16 @@ extern unsigned int kcsan_udelay_interrupt;
->   */
->  extern bool kcsan_enabled;
->
-> +void kcsan_target_set(unsigned long addr);
-> +unsigned long kcsan_target_get(void);
-> +
-> +static __always_inline bool
-> +kcsan_target_matches(unsigned long target, unsigned long addr,
-> +                    size_t size)
-> +{
-> +       return size && target >= addr && target - addr < size;
-> +}
-> +
->  /*
->   * Save/restore IRQ flags state trace dirtied by KCSAN.
->   */
-> --
-> 2.55.0
->
+	      	     	       	    - Ted
