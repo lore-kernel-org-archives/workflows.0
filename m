@@ -1,122 +1,210 @@
-Received: from mail-dy1-f174.google.com (mail-dy1-f174.google.com [74.125.82.174])
+Received: from mail-dl1-f47.google.com (mail-dl1-f47.google.com [74.125.82.47])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BB33D3E8684
-	for <workflows@vger.kernel.org>; Thu, 15 Oct 2026 14:06:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.82.174
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 07AB53CF685
+	for <workflows@vger.kernel.org>; Thu, 15 Oct 2026 14:34:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.82.47
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792073171; cv=pass; b=EIlTW4e0JDmGYjJkKRnBY/GuhdiqFWNfhGAFnxz7jGvTPzmu6TuQ7ITCvYnUobUGa3Txj1XIYYCSGmOXwoKEscWMubiljr2hW1lXZg0+R/pmohYbJuI8QurSRUvTgm4kmYHGz9II6DfLYbta7dPGxPkZqYLGKo1eDW7EvLBQSgM=
+	t=1792074880; cv=pass; b=KXFI5p7OPl6KDtBZeO0CT10qayLUUgnZHmPWB57WGEW5KHcxIFUE/EIN9DDIPQk1ixg0Bs2o6eWzYmK/dKmNkZVsnkeOlf0XeYywdGjIZ8Dvanw9aZQEF5ZtD4taV1qYUdgnHZ3voG91uVVXudniJIj2tBY4G3CjpU41S3FjlkU=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792073171; c=relaxed/simple;
-	bh=Ult2wbEPNmy3iN+NrU+/md6eFZJXKg3OExFz3pyUCCQ=;
+	s=arc-20240116; t=1792074880; c=relaxed/simple;
+	bh=0qgS0UO1kcmwhXpK5KzPjRFjdmmHM4Qfpm9Hq9l0y94=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=BXL+kbPYsVjaL6i/Uw4B9ODYkz+4lxPErI5Su9P6I6OK/Vs/Kof+TrjyW11omegVlC+7Gjozz01tV20fydyxpwzBvchZazegAPQrubtyj5hCLMhYKO3kaXVGEoPcT4QoanPfFHL6xOuv5P/P5LpdeDGdVnVOzCBzbsRJmQRDbmM=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=sGTJx7r+; arc=pass smtp.client-ip=74.125.82.174
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	 To:Cc:Content-Type; b=fw3RNnWnZ4arJ5oS/0dC9IuwzJF4MybFbLBGAJayoExwim59mC5yTXIo0poj2jxiKDvlLbMSLZ1G/EAieqohrzYxUbvbMETGGvGPk1I7XA7vrycrV2L3YIHnmsjEqHd2MtveyMmIUXMDR4ZE1zkzJapxavK9M1JuicIR47txMg4=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=kki8MEN0; arc=pass smtp.client-ip=74.125.82.47
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="sGTJx7r+"
-Received: by mail-dy1-f174.google.com with SMTP id 5a478bee46e88-355724d032fso604929eec.3
-        for <workflows@vger.kernel.org>; Thu, 15 Oct 2026 07:06:10 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1792073170; cv=none;
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="kki8MEN0"
+Received: by mail-dl1-f47.google.com with SMTP id a92af1059eb24-1419d3416ceso3906551c88.0
+        for <workflows@vger.kernel.org>; Thu, 15 Oct 2026 07:34:38 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1792074878; cv=none;
         d=google.com; s=arc-20260327;
-        b=ryiU+hPp/gvwC6EuM7BAGcEhwR4wnc4R/Z9p1aXvjOrq7MyvYlfD9IKw1f/sdrG3T5
-         n1E92Vjdzxxo163d+JgkOPslwdsERlG7n2fv1bHwt3Kij8+LvP8J2ZG/M4JgK5xynP2Y
-         Cd20Heij5bFHjXF05ykSC8KnSJ+AOpzrxkN3Q/MaXBzI6xrSYeAq/1M0QVZm8/PM/y8y
-         SiL3+g8h7GTvb4oCjkDiWKAtHFvG4Qm5UGZBpZuqPKsUu+SV04E0PExJI1h5gQpXnacb
-         d79jNoCIq6yRbG1+CKQgeP3fZ9t/LWay2yItFnYwApJM7CaRX9VEZ29RZT/NCdpbJgl2
-         L28g==
+        b=Sms5KnovsW9/eNoW3xXLF31uGQCz7jgclHcTMvdVfO2wMWKqr1oEBjWUnn+ho9D4Ua
+         +5hwdM9E9JCzAttL6ZKT/XfkChv3pVDzPnh6k8p/RceBFFwXzjKc8GH/epb8MBzWUkFy
+         zd7Lu6pgRWIjftJE9mkiEPpQrIaejAovZ/i9fOdeZw2CvnT0n9RrDV74lsmUfTmG0jPE
+         pSZ55gCBpyW1KJidD1O99Og/DV0sBMKv5dfE+Bi1scVBBYawm9F55qhPOmA440Ox2A/F
+         iO3Cnk3SGA1J7oSjvUG1lJNkWv430e66+DH8LiO98BRJQvVWebVRpy/4btzIc5qlFRNE
+         pJ3g==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=P2P5MXeugorL2l1zb5x+FuUUdQZHK5/NjbEjCV7Jqx8=;
-        fh=2DjebizF8Tf3KaWjCFAjFgvHltIIuBFBP+DWuaWYwe8=;
-        b=s72ykKXzpgZO/ovqnDWgvWoLPre76FravZu7A1/HfRY4FESVmw6VnS59tul1Q5D5bZ
-         37JC8+0x2ri6IBfO8jU5ZUgymIrWmY5uhvz8RS61DDn0iHKRLbTYX9VUGHem5GBi3DnW
-         T+VLbO8vlvy0z5oVgDKArj2pisBg1qgx0DGAHRLjNlrslM/HcXMg7Ik+nZhZYpX4WTYH
-         IyGZfBm+1BxdE0TOyiOC8Oy/dy6/KvAgb2Q5TWXNbHt6N6v0MW+JrIhSlikGvwlHgBcO
-         sHQD4UhluSzEsYPZuhDRaF/9QYI0TTu6NO7I+WSotOeRnefro1eFal/aZ4/6Tja8RkH3
-         dy1g==;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=F6fmcBNM8ahIowcwsWLF3jcUhFNGW6deuYFquaOGjh4=;
+        fh=ZGl/y3gdWO4i3bhoMuAKF5ustU8tvxyvmnePR+STpuc=;
+        b=FnT0TwmYAfUvpwbHHQYU2rpcDlQY21+EJMUFHqf05LYbJ4Shshynq3InxgAhxph65Y
+         AIvZTr6F8OAdpiWmMAm63VLQnuP4KxXCdyIlT+vLaK5KnsA96vru2owOrG982elxiN4w
+         ILDvHpbJjQUfUzRFHqn1PBSYkfXO1QiBZ3BF1lInZ95I+sotvQfyb//rFgpJjoypsfgZ
+         DxsiZooquDWcfyDNejg548aspkWEVPNs2h+tPjehru5f5/rjPnV59W54aS8gAH1O7f4U
+         cMjH4vb+5JDji7otWh9nFWNyaCAxR4jlIzucRa59WHS4kAYTGjPOU+WKVin8pN/skyPs
+         V3Og==;
         darn=vger.kernel.org
 ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1792073170; x=1792677970; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=P2P5MXeugorL2l1zb5x+FuUUdQZHK5/NjbEjCV7Jqx8=;
-        b=sGTJx7r+Z/9MQgXtI+uX30PqChS/HjVj4TBPitiO6AGLwjxb4ZpboK2FMm8bfHrNWv
-         ae/G/fiBt61LhUAWib9tvRvALWdKfIcn+1akZQV7d7sS3HP/QMm4ytNVQFpvs+DaWyWX
-         8ionMm9eApSxnOMg3DY21jGWBrifL3DHZhhXbUGy3yuLlQnCQ6Rt6oXy9ugFXmyRlQXp
-         Ow2lFgCd8it8ms4RcNlbyL3XKjgmRPdyhPA0KtIKUKSBQuB6ijQDRMdahBZpTk3sQW3H
-         1rEPjZU3wEe/Rd6U5tZIO8p5bGwBGcTvb628/MGlXV1ppir/dmfiezui6FiW1IkHoWCU
-         nIVQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1792073170; x=1792677970;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+        d=google.com; s=20251104; t=1792074878; x=1792679678; darn=vger.kernel.org;
+        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
+         :references:mime-version:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=P2P5MXeugorL2l1zb5x+FuUUdQZHK5/NjbEjCV7Jqx8=;
-        b=Oikms5OIpjtXXiXCEd0fh2zYI2942FHDYHQVIlA8Wx1N29Ato9ETksjesIy80uCXps
-         if7tqIVm3dSfVdka3YfzS6UgS3b/7kHewAkllge+R+NOpHqQGOmh38qy+VRbwzyCGWR6
-         Jah3KJLzyzGMgH3Y7SugZPP6089kJhNYyz7J7cd8cUWMyzrNocNdS5tY7ENcdUS0+8EA
-         CiCsscl6HFpMXEzjVUstDnSTXBZn9MKloT8ZHOP9u/OYGPJ2RubsxgbriviX5xHibmmB
-         83vQQgSM/kJujRoqk2XyN+bxyBtli/mCBkXiL/cjxtoKGXXHr9iatASgRj1JG5SCmPo2
-         ZBZw==
-X-Forwarded-Encrypted: i=1; AKwUvByCgzl2l5OlinYmJLmy9J6vLoiTk5NQTuQftOos1j2LkQgUarANgI5hYI49hzFMmSkunxdXCLB36sQ=@vger.kernel.org
-X-Gm-Message-State: AFq9FYJGLgF4//6LvmCGlDnv0BrOQWt2/MkGuhqwuy1z6L2eNcR+3ky4
-	AF0bn9TTxlBDsGNjYRS3k74s3uQH/OOunWzF9+v7wPDdhWllBt0n9hvh2IVOO/ew2k4kx8PQjc1
-	aP7OttIfjyxXSac1oAG5B8AYDyQKQTOg=
-X-Gm-Gg: AYBFou0Rbc62byBbX7BXGyZpoosA6nTUBMmCh4poGyFm0ymAPcyTUNCzA0Hymw9PpA2
-	Q5aWtTIsFfvCmNc+rnGexRY3fXYUhTmRFG7OvRHs41h53zLx9O7jVH9YQRud65HiC8LbxHMQclG
-	vx1OrVP/aLL3kPgaiAjEJVzaBXZL7DvYTXgPj+DU3+9d5Utt5b2BH+NTJem1VFFT4IHm3oHYxQ5
-	/9/vxno7+7fmN4QhWDDWlO4E7+5r1dCCP7Kh20mpQwhUYLLpfulo4hbp10RNCR5/9EEESTWK9sz
-	tFBihXaVGcXS8mACCDBa0bLgwqej4JQAaxYQ2mLNyRj7ftdxNSWDJ0XRsfMVml8Ykl+YCeQlI24
-	XRfimVgFZL27pT8sVHugpzcqcTwtPD83PCbuTTCUr6FahG9tvu/AY7qHDGS5Lv+KKD0e7wPZJ6Z
-	RVqzlh/53c95kOIfYqkczcgXmQnZlEfnPd0KYjwm8AtC/+c/6ODAs=
-X-Received: by 2002:a05:7300:c8c5:b0:351:7e15:9c59 with SMTP id
- 5a478bee46e88-3537dc89f58mr38177586eec.0.1792073169449; Thu, 15 Oct 2026
- 07:06:09 -0700 (PDT)
+        bh=F6fmcBNM8ahIowcwsWLF3jcUhFNGW6deuYFquaOGjh4=;
+        b=kki8MEN0wBYVFMQ8UYnW98K2Dw2BWXb7ywQ5r4U52c8SxrqSD4GLs6jK36hIL/yPhf
+         VQv9DByVceIfDj2e38oZb4Ty1pgKl67+lYphxGv17/+RsZ4t8NBepAUIyYQCoMcAym73
+         /UQkSrKSNRXkMvYy6fimKS92tE1a4Z4FB/SmHW5RtMFkKK0FN1+Pk0eTStblfoICPOYz
+         uNtIvhgBSYwwBJBAWT/q6TXSbwfJn206YT7BzLLUoyjlMsnBC7E/Ytb3BwvdRjPvSZOU
+         BsDAgYWOGkTMcZ3wDO6TrZ1SbdO0C3TTbEgyphuLiPaCDqYyRfexhi7GxJ5MFlWEQQ8p
+         ZIRw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1792074878; x=1792679678;
+        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
+         :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=F6fmcBNM8ahIowcwsWLF3jcUhFNGW6deuYFquaOGjh4=;
+        b=AZ1zF8T2klIT+hEztxrEOO97VrxZNfN54eUEKGMBSX1is5rHN1tNj0o2QDk9Ht/3Sp
+         eUFGFVhp3ekKzG5FN59WXE6KACxfTJHcnHZxc99BJ8Z8gp3BFCtH0snkelobtFifByX5
+         YvTQ0vlMFF0BZvklwv1293Ml4eq4jb3x/kLAKRw5cMFKciQ40xfddPSpzA4YZjeNu74r
+         3nZwicgyHLYjcGnII/cgo9AjfNv+xcKcMDBWWILb/lpT8qfWGKlEjgF6ABZJoQDwIsKF
+         RxaKLtRRjwPDX+WK7nmQErZe2TRfstfysJo7rlDS7+7uXD/qLYizXE6fNQuznesSKArD
+         kNJg==
+X-Forwarded-Encrypted: i=1; AKwUvBw5WPr9aKysR32bSIDUR6pOel6ci2iifFv/hS+dLLYVRbXTKbAEYJHiz23q3ykOpWT/HREztA7YB/g=@vger.kernel.org
+X-Gm-Message-State: AFq9FYKRRDwUrE3cyFxWMHpLvi/qk9J4r577IzA97zArC7DGasPunkb9
+	nJsRsTm9rPEu1mnpw+CE9N0+1fa8yv0bWwSea34PlFN/CpTZPQ4ovotXwQf51Klzq2FisT+UeMp
+	e/ChB1xP9mJ7CV5Ymdtw9S1u6v5TlHK/FztZgUrW8
+X-Gm-Gg: AYBFou1PYSQo4f52mHk2p4oZsIlUmvhVakZw+9gxeGDrudZkuV/M5ebcMrSkdjimpqe
+	FHfpHTJIPqd7KO1UsxNZPZI788ZlZUXy+OdcHBrGtWBlAxnrxWr59yFh5Rs0tbzSTw+0cEx9CAy
+	ndcDDYawNKSzQNKfQMTC6txENlnVE+jFRTY1JyClQbDfp38YZbHt5M6kOclLlDZWxGWmqNJf8JE
+	1VDE11GfotOG4G9L+Y4sf9ywdLq4iUZUWKcRwVYaZhEK3V6waGgy9lde9LsAOnHx5FC7TEzhtT0
+	9RSPTarXJAS9ksl64ZDq6TCtBMro+04Pe87cw0Gdx/NFO939wm74dD/+cxnhY0SBBufpQUpJwx0
+	hKkaq4zh9sw==
+X-Received: by 2002:a05:7023:908:b0:14d:f83b:f678 with SMTP id
+ a92af1059eb24-16a63093432mr28786311c88.43.1792074876931; Thu, 15 Oct 2026
+ 07:34:36 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <cover.1791499378.git.sashal@kernel.org> <20261014174838.114990-1-ojeda@kernel.org>
- <as_Cr4FhzyAh-kC4@laps> <CANiq72m6okeCHuR8BCGENTw=wJhfXXZbXZtJq8xtoeVfvfo3TQ@mail.gmail.com>
- <atDYWe9L0tv90Xjk@laps> <CANiq72mgS15ZKwd-u1t1xvAaNf3ivpXdUMmVDfmGRyq1OewLvw@mail.gmail.com>
- <87jynjrrqo.fsf@trenco.lwn.net>
-In-Reply-To: <87jynjrrqo.fsf@trenco.lwn.net>
-From: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-Date: Thu, 15 Oct 2026 16:05:56 +0200
-X-Gm-Features: AclHuK_RBJcp0X4oQoi_VtfEgbv-ao9LCjdidR0Z2ASFU3BEFBe0eg2AJEUSzpQ
-Message-ID: <CANiq72=raWNCedXQW9dSDwxQTE0hfs9ecyGChRPnWqO6DUvbOw@mail.gmail.com>
-Subject: Re: [PATCH 0/2] agents: add portable agent skills and Fixes attribution
-To: Jonathan Corbet <corbet@lwn.net>
-Cc: Sasha Levin <sashal@kernel.org>, Miguel Ojeda <ojeda@kernel.org>, broonie@kernel.org, 
-	ksummit@lists.linux.dev, linux-doc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, rdunlap@infradead.org, 
-	skhan@linuxfoundation.org, tytso@mit.edu, workflows@vger.kernel.org
+References: <20261014095238.2132580-2-sh_def@163.com>
+In-Reply-To: <20261014095238.2132580-2-sh_def@163.com>
+From: Marco Elver <elver@google.com>
+Date: Thu, 15 Oct 2026 16:33:59 +0200
+X-Gm-Features: AclHuK_nqb0XohDsRgRoJxANfSfWrIowniz6RXwKCNJicgsayXH681Q_GDC1JBM
+Message-ID: <CANpmjNN0_EX8Tug6UFp=sap_Zv3QH1PnEn4GPGSKSHEU72W6zg@mail.gmail.com>
+Subject: Re: [RFC PATCH 1/4] kcsan: add targeted watchpoint matching
+To: Hui Su <sh_def@163.com>
+Cc: dvyukov@google.com, kasan-dev@googlegroups.com, corbet@lwn.net, 
+	skhan@linuxfoundation.org, rdunlap@infradead.org, workflows@vger.kernel.org, 
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-On Thu, Oct 15, 2026 at 3:57=E2=80=AFPM Jonathan Corbet <corbet@lwn.net> wr=
-ote:
+On Wed, 14 Oct 2026 at 11:52, Hui Su <sh_def@163.com> wrote:
 >
-> For all that we hear about how smart these tools are, are they really
-> incapable of dealing with two only slightly different markup formats?  I
-> would really hate to bring in a separate format for this stuff...
+> Add target state and a static key to KCSAN. When a target is set, only
+> non-atomic instrumented accesses containing that address are eligible for
+> watchpoint setup. Other accesses do not consume the skip interval. Keep
+> report filtering independent from target matching.
+>
+> Signed-off-by: Hui Su <sh_def@163.com>
+> ---
+>  kernel/kcsan/core.c  | 37 +++++++++++++++++++++++++++++++++++++
+>  kernel/kcsan/kcsan.h | 10 ++++++++++
+>  2 files changed, 47 insertions(+)
+>
+> diff --git a/kernel/kcsan/core.c b/kernel/kcsan/core.c
+> index 2db82661cd60..2a58a3a53adb 100644
+> --- a/kernel/kcsan/core.c
+> +++ b/kernel/kcsan/core.c
+> @@ -12,10 +12,12 @@
+>  #include <linux/delay.h>
+>  #include <linux/export.h>
+>  #include <linux/init.h>
+> +#include <linux/jump_label.h>
+>  #include <linux/kernel.h>
+>  #include <linux/list.h>
+>  #include <linux/minmax.h>
+>  #include <linux/moduleparam.h>
+> +#include <linux/mutex.h>
+>  #include <linux/percpu.h>
+>  #include <linux/preempt.h>
+>  #include <linux/sched.h>
+> @@ -108,9 +110,40 @@ static atomic_long_t watchpoints[CONFIG_KCSAN_NUM_WATCHPOINTS + NUM_SLOTS-1];
+>   */
+>  static DEFINE_PER_CPU(long, kcsan_skip);
+>
+> +static DEFINE_STATIC_KEY_FALSE(kcsan_target_key);
+> +static DEFINE_MUTEX(kcsan_target_lock);
+> +static unsigned long kcsan_target_addr;
+> +
+>  /* For kcsan_prandom_u32_max(). */
+>  static DEFINE_PER_CPU(u32, kcsan_rand_state);
+>
+> +void kcsan_target_set(unsigned long addr)
+> +{
+> +       unsigned long old;
+> +
+> +       mutex_lock(&kcsan_target_lock);
+> +       old = READ_ONCE(kcsan_target_addr);
+> +
+> +       if (!old && addr) {
+> +               /* Publish the address before enabling the fast-path branch. */
+> +               WRITE_ONCE(kcsan_target_addr, addr);
+> +               static_branch_enable(&kcsan_target_key);
+> +       } else if (old && !addr) {
+> +               /* Disable the fast-path branch before invalidating the target. */
+> +               static_branch_disable(&kcsan_target_key);
+> +               WRITE_ONCE(kcsan_target_addr, 0);
+> +       } else if (old && addr) {
+> +               WRITE_ONCE(kcsan_target_addr, addr);
+> +       }
+> +
+> +       mutex_unlock(&kcsan_target_lock);
+> +}
+> +
+> +unsigned long kcsan_target_get(void)
+> +{
+> +       return READ_ONCE(kcsan_target_addr);
+> +}
+> +
+>  static __always_inline atomic_long_t *find_watchpoint(unsigned long addr,
+>                                                       size_t size,
+>                                                       bool expect_write,
+> @@ -277,6 +310,10 @@ should_watch(struct kcsan_ctx *ctx, const volatile void *ptr, size_t size, int t
+>         if (is_atomic(ctx, ptr, size, type))
+>                 return false;
+>
+> +       if (static_branch_unlikely(&kcsan_target_key))
+> +               return kcsan_target_matches(READ_ONCE(kcsan_target_addr),
+> +                                           (unsigned long)ptr, size);
+> +
 
-I think it would work fine in practice. But it means that we have to
-split every "skill" into two files (and reformat when we may want to
-move details from one to the other), unless I am missing something.
+How does this change the generate asm (say on x86-64) of the fast
+path? (E.g. take a look at __tsan_read8 disasm.)
 
-So if we keep the files rendered and so on (possibly in
-`Documentation/`), and make use of `.rst` features etc., then I think
-it is worth doing it. If not, i.e. if we just use it as a place to
-"dump text", then I think Markdown may be simpler.
+We tried hard to e.g. avoid stack spills in the fast path, and if that
+affects fast path codegen negatively, that'd be not so nice.
 
-Cheers,
-Miguel
+>         if (this_cpu_dec_return(kcsan_skip) >= 0)
+>                 return false;
+>
+> diff --git a/kernel/kcsan/kcsan.h b/kernel/kcsan/kcsan.h
+> index ae33c2a7f07e..2a36813c3a76 100644
+> --- a/kernel/kcsan/kcsan.h
+> +++ b/kernel/kcsan/kcsan.h
+> @@ -25,6 +25,16 @@ extern unsigned int kcsan_udelay_interrupt;
+>   */
+>  extern bool kcsan_enabled;
+>
+> +void kcsan_target_set(unsigned long addr);
+> +unsigned long kcsan_target_get(void);
+> +
+> +static __always_inline bool
+> +kcsan_target_matches(unsigned long target, unsigned long addr,
+> +                    size_t size)
+> +{
+> +       return size && target >= addr && target - addr < size;
+> +}
+> +
+>  /*
+>   * Save/restore IRQ flags state trace dirtied by KCSAN.
+>   */
+> --
+> 2.55.0
+>
