@@ -1,86 +1,86 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from outgoing.mit.edu (outgoing-auth-1.mit.edu [18.9.28.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5F1CA224AF2;
-	Thu, 15 Oct 2026 13:36:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 620B2416841
+	for <workflows@vger.kernel.org>; Thu, 15 Oct 2026 13:38:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=18.9.28.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792071406; cv=none; b=VsK199vZNORTaLsA8HrPKuvcy2CnvS8fiQqdewFTRqy1TUE34VQJfPd9v7QDPvOau1DU31kFJI54fAEfIzUQt6nMsEWrjO/cyMYoPbtXC+XaZiKPpDuxBBhqa8LWL9EiuRBkAgErqGLMkp3RnFSzZWUnNuZDzZYTuV1Ev/Dkb8w=
+	t=1792071537; cv=none; b=Du9QyIon73DYfT4swIIHekPcvi5ezLp1QQ9GzOhJgInC5+RKk6hfTukTG0FKkr9csLG0iGOic6oE/i2PEZKQrERVDTWKfvfkXiG2FpQG/7dSd1woBTiTRoTABeKLcNr0ulFJsnFQP4/yIWV51ugmjbfjJq5BWlGj4sjUFCS4Zz4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792071406; c=relaxed/simple;
-	bh=w5JO+zmWfR8jUGFTIlWctYX96udREVIpLX8l3C1BYZM=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=sSDnIIhoTdpNu4wboaAJtejWmfeVvYdv56oNK9XhTavXnzSNp6vGexGIf4IKJ3jvp8+Ats6PZv8lanPw2KZoKH0YVSxnleezqtTW1EgOsa5iDzgNYcwUNJiQ8f/licEzUb355QfIfNeLQ6Cdn9XMa4pF5jQh/nncMleqB+esobE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=JUDKrIAI; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1792071537; c=relaxed/simple;
+	bh=A+P/uS/SBd4J4/aBwwRg95rS3f18qizD+C+/cjUGpaQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=SOr6Kg6+ofBcuXVmCOZk+7tYuRRttJOdARz93gAa/Yy8aEZuQwbADOcEJb5nDT1dUQpV7Di/QvFnjNW6HEl+4W6ifz/S992xRBJf3Dl9VfhDVgKvlqcyOo5rpkM9A19fwK7iiPmeeLfRpbp+WwxhOS0aaSsAIUkyaSHo/HPgqwA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=mit.edu; spf=pass smtp.mailfrom=mit.edu; dkim=pass (2048-bit key) header.d=mit.edu header.i=@mit.edu header.b=Sq9cqj4D; arc=none smtp.client-ip=18.9.28.11
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=mit.edu
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mit.edu
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="JUDKrIAI"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id AD08F1F000C4;
-	Thu, 15 Oct 2026 13:36:44 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1792071405;
-	bh=t/R4jQwR3q67Bq6d2+JG5pzBdFJFv1FBilnObRHWmwk=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=JUDKrIAIevUjJIalLCzuO9PSfmgIrjy+SnkMXWX2snIbLbCO7/POOH7K4XGuiSurT
-	 ApiYm4r5MkCLrNt2NJ+e4ltC5Un1IBXAx2qMJtS+au9Ey8Y6HRuqDYRTKCYgegiGKJ
-	 GVsZbN087qEyYPM46OqVOHwUqSOBKA/ZVQJXPe2d8RDbL8UIXDqrmoIbrf7efxbWsD
-	 gAuSONSFF3wHoj6AfuZFrHdXc568QFZ+5MvNJUGmAs2B1Xvp/ewakUcAevJoqNTglO
-	 IcVMSC1Y8DwyX9JlW0o2CLIzFfw/U/ld3qF6CTphzRQsv2dtjn0K9xk5A7YCVdKhib
-	 rOSjlnO8kPlpQ==
-From: SJ Park <sj@kernel.org>
-To: Guillaume Tucker <gtucker@gtucker.io>
-Cc: SJ Park <sj@kernel.org>,
-	Konstantin Ryabitsev <konstantin@linuxfoundation.org>,
-	Arnd Bergmann <arnd@arndb.de>,
-	Miguel Ojeda <ojeda@kernel.org>,
-	Nathan Chancellor <nathan@kernel.org>,
-	"open list:DOCUMENTATION PROCESS" <workflows@vger.kernel.org>,
-	linux-kbuild@vger.kernel.org
-Subject: Re: kernel.org container images
-Date: Thu, 15 Oct 2026 06:36:37 -0700
-Message-ID: <20261015133638.86959-1-sj@kernel.org>
-X-Mailer: git-send-email 2.47.3
-In-Reply-To: <01a87de4-8de5-4ff0-941b-2e5932a3a19c@gtucker.io>
-References: 
+	dkim=pass (2048-bit key) header.d=mit.edu header.i=@mit.edu header.b="Sq9cqj4D"
+Received: from macsyma.thunk.org (pool-173-48-111-204.bstnma.fios.verizon.net [173.48.111.204])
+	(authenticated bits=0)
+        (User authenticated as tytso@ATHENA.MIT.EDU)
+	by outgoing.mit.edu (8.14.7/8.12.4) with ESMTP id 69FDc3jc025529
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Thu, 15 Oct 2026 09:38:04 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mit.edu; s=outgoing;
+	t=1792071488; bh=hGUXqsxkhpbopsDlKJlrjUnxIoRHN48sbeSfA7LeTlI=;
+	h=Date:From:Subject:Message-ID:MIME-Version:Content-Type;
+	b=Sq9cqj4D7nlHPDyTVk+2j9dXuVoKcFcl3IGICP3e1Al6mNOXTYBUCIb936XQDUwCq
+	 r4zK5/zFOH3Y2vyHCHPDDKqU+c9vZ/BKOarv0br7E3gi7j0HgSPJcTwlUjjMmkZVB/
+	 rUdQZISLbLELLwhe78KGN1cNKLB56uGm+9TXJiy2bBrExF50h3tEjTQmNTQYdRZo9g
+	 jipVVtFSCN0unNP13QO9xULlpgP3xeddJ4bnARQsCXPLy7KTBearV6OjHWP2sLkh2j
+	 35sfzGBnnThaxMrJ22gMzTIX1d3AAWtD9n3PGB6AutVhruGXlfEy3llP8T6UrO6oXz
+	 IGLUcC7IgreGA==
+Received: by macsyma.thunk.org (Postfix, from userid 15806)
+	id 5F87E20F151E; Thu, 15 Oct 2026 09:37:03 -0400 (EDT)
+Date: Thu, 15 Oct 2026 09:37:03 -0400
+From: "Theodore Tso" <tytso@mit.edu>
+To: Kees Cook <kees@kernel.org>
+Cc: Geert Uytterhoeven <geert@linux-m68k.org>,
+        Jonathan Corbet <corbet@lwn.net>, Sasha Levin <sashal@kernel.org>,
+        workflows@vger.kernel.org, ksummit@lists.linux.dev,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Shuah Khan <skhan@linuxfoundation.org>,
+        Randy Dunlap <rdunlap@infradead.org>, Mark Brown <broonie@kernel.org>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Leon Romanovsky <leon@kernel.org>,
+        Konstantin Ryabitsev <konstantin@linuxfoundation.org>,
+        Thorsten Leemhuis <linux@leemhuis.info>,
+        "Michael S . Tsirkin" <mst@redhat.com>
+Subject: Re: [PATCH v2 0/5] agents: add skills for Fixes tags, stable tags,
+ similar bugs, and commit messages
+Message-ID: <atDWaGJegsI3_Q8K@mit.edu>
+References: <20261012213452.1863248-1-sashal@kernel.org>
+ <87zewiy1sd.fsf@trenco.lwn.net>
+ <202610122047.A9E381A@keescook>
+ <CAMuHMdXR+U+pgyN+B=trSuPJuS5Kn1-kN=VMFPRSvSUiiwbqDg@mail.gmail.com>
+ <202610142149.C3CC39B22@keescook>
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <202610142149.C3CC39B22@keescook>
 
-On Mon, 28 Sep 2026 14:30:48 +0200 Guillaume Tucker <gtucker@gtucker.io> wrote:
+On Wed, Oct 14, 2026 at 09:50:47PM -0500, Kees Cook wrote:
+> Exactly. And the rate of frontier model improvement has me convinced
+> that there is no need to spend any time writing documentation to be
+> consumed _only_ by the agents. If an agent gets it wrong after reading
+> our existing documentation, ask it what would need to change for it to
+> understand it, and then see if that makes it better for a human too, and
+> send those patches. :)
 
-> Hello,
-> 
-> We discussed the topic of managing container images on kernel.org
-> again at Kernel Recipes last week with Konstantin and Arnd.  The
-> idea is to provide a set of reference images with kernel.org
-> toolchains which developers could use via the scripts/container
-> tool.  They would provide a common denominator to facilitate
-> development and reproducibility.  These images would of course not
-> be tied to any single tool and could provide a basis for CI bots
-> such as KernelCI or tuxmake.
+We might not want to assume that everyone has access to frontier
+models.  At the very least some people might want to use things like
+Gemini Flash instead of Gemini Pro, and there will also be people who
+wants to use local LLM's.  Even if we don't care about usage of more
+modest LLM's, there is still an economic (and environmental!) reason
+why we might want to make sure that we promote token-efficient usage.
+We certainly don't want to assume that LLM's need to read *all* of
+Documentation for every single prompt.
 
-I run a few humble and hacky build tests on my local machine.  I also want to
-do the build test on more setups including rust enabled build, and on more
-machines of different architectures.  But I'm short of time to learn how to do
-cross build correctly.  The Rust for Linux training at LPC helped me doing rust
-enabled kernel build for the first time, though.  Kudos to Rust for Linux team.
-
-I am therefore considering options including use of the scripts/container tool.
-I was unable to find a time to do that so far, though.  Having recommended
-images in kernel.org will definitly help me prioritizing it.
-
-I also find opportunities to use the images not only for build tests but more
-use cases including benchmark runs.
-
-I just wanted to say thank you for developing the tool and this kernel.org
-registry initiative.  Looking forward to more progress, and I will also try to
-find if there is something that I can help.
-
-
-Thanks,
-SJ
-
-[...]
+					- Ted
