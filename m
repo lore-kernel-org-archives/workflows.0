@@ -1,128 +1,127 @@
-Received: from m16.mail.163.com (m16.mail.163.com [117.135.210.3])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-dy1-f169.google.com (mail-dy1-f169.google.com [74.125.82.169])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B5B9239D6E7;
-	Thu, 15 Oct 2026 15:51:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=117.135.210.3
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792079489; cv=none; b=CIcgONsVwUQ3/N0Nkyh1OPD1bsDnffz61mRtwKRweKk7kHZJ1dGWNP6ljmMNP32Ajfgnsf9iS3IKXNyzUkrQ+kfhNXDprqn7787EePOHaVm0+uXKmCxDSZpYTXLtVEaBH5f6oOXY5OTMm+uGkdVFLCw119IHKCGLOQY0l6LxaTo=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792079489; c=relaxed/simple;
-	bh=Kmt3eqXzrIk1GticGB8EBuJzsvlpaYQn/Ti6aENHLtQ=;
-	h=From:To:Cc:Date:Message-ID:Subject:In-Reply-To:References; b=tCCiUSjRUUZdGA71VNBjjdLnqzgFsIFjRQ3h8cHMTvvQweyHDNHMgHMOxaODIwVe0zniWZ6pAlU2OQrVGo6Qek2+InPdFUpN1i5ImeE8/TPQJMKU2LjRFmjhTmZmHOBg32Y7mSfGiYc/+/n14Y0UvZq/xSfVgVFjC6iWZ6iOPQw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com; spf=pass smtp.mailfrom=163.com; dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b=BXmvIgg7; arc=none smtp.client-ip=117.135.210.3
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=163.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BB48453FD5A
+	for <workflows@vger.kernel.org>; Thu, 15 Oct 2026 16:15:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.82.169
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1792080940; cv=pass; b=L7TBhCeLUBDv4MEI33kVAAn3fweX2MYRA56SRdDyMmWAqmzz3popLKwElieiOMIOKJAIMWsby9aTXkn3+MmIjWqYlXCR3WFwPBlAEYkadJ2h2K4JXxKw759FvxBkqE99G1DB0bFTkVtTIwFwOqt3+k7nFW+7JGm0+g7FZ2YWRWk=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1792080940; c=relaxed/simple;
+	bh=G5AcZOU+pdoePF3JVJGwstAOUQkYC3WUg5uKVwxeFqQ=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=I0bPOtdl+1TiBtdCkDR1LY/iSv6ebuTWs1QJbYgydiwIHMoaypbK7qNHBPZPsIaEErYHaTpwvYelZMYHksEJ/Zr8fcjaXI0yoHF2yohNRZGIAXseeOhPefupW8YIEIbtz937tnRUvL14vKaskp8fKFnFBryyniySEtzIt0dJWR8=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=XutVYcfh; arc=pass smtp.client-ip=74.125.82.169
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b="BXmvIgg7"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
-	s=s110527; h=From:To:Date:Message-ID:Subject; bh=pV3u3W3cVSRN2sg
-	rn4Jh3xJKuGS6llGgumz3/Bt71S4=; b=BXmvIgg7yjTbRob3ynt/eArnI1muIPn
-	JRx7MTXUvWuUNN3k3JToIZhWN+zvDR6+FE+1TFW7xJaNnHbTVCvtT867eS48PbQW
-	WsXQfF9n6CfDHWYvzoVmaJb6eoKYFEHzIkcYZCr01lbC1Y8Y2PlCXCU/Qb3UXAaj
-	U43R2VPOU/a4=
-Received: from localhost (unknown [])
-	by gzsmtp4 (Coremail) with SMTP id PygvCgDH725F9tBq_DgYAA--.3201S2;
-	Thu, 15 Oct 2026 23:50:30 +0800 (CST)
-From: Hui Su <sh_def@163.com>
-To: Marco Elver <elver@google.com>
-Cc: dvyukov@google.com,
-	kasan-dev@googlegroups.com,
-	corbet@lwn.net,
-	skhan@linuxfoundation.org,
-	rdunlap@infradead.org,
-	workflows@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Date: Fri, 16 Oct 2026 00:41:52 +0900
-Message-ID: <179207891210.785435.2410067352826371928@163.com>
-Subject: Re: [RFC PATCH 0/4] kcsan: add targeted watchpoint sampling
-In-Reply-To: <CANpmjNNhZq6z8hZN-125OPNbho+YBwWJeOsa6QRedkqOdJP0kQ@mail.gmail.com>
-References: <20261014095238.2132580-1-sh_def@163.com>
-	<CANpmjNNhZq6z8hZN-125OPNbho+YBwWJeOsa6QRedkqOdJP0kQ@mail.gmail.com>
-X-CM-TRANSID:PygvCgDH725F9tBq_DgYAA--.3201S2
-X-Coremail-Antispam: 1Uf129KBjvJXoWxWry3Ww15WryUXr1DKF4fAFb_yoW5Kryfpa
-	yFk3yrKr4DJrWIyF92y3W7ZF109rs5Xw4UAa18Kr47A398CFyavr4Iq34UZa98Crn5Aa45
-	Ww4UZ34UW3yDAFJanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-	9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x07UYhFsUUUUU=
-X-CM-SenderInfo: xvkbvvri6rljoofrz/xtbC6ged-GrQ9kf4XQAA3i
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="XutVYcfh"
+Received: by mail-dy1-f169.google.com with SMTP id 5a478bee46e88-35e8253292cso149875eec.3
+        for <workflows@vger.kernel.org>; Thu, 15 Oct 2026 09:15:29 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1792080929; cv=none;
+        d=google.com; s=arc-20260327;
+        b=bQ9y1qrsK+gLP3iahQeTQGWY2V0mdB5pK67oi8LrlhUjQEUEryTmS5q/a8LtoqZtgz
+         L/mqFtyOVkJWL5IWbiV6lkYPiLC6g+1pwz653umtIoYmoTDUOYXgQHNVkEYAcRdFCoug
+         ZbM18InTU6DThY5SO6iNduaJylaIDFUki8XOqB/oZK8gYiQgHZIQ+h2X0Rd3OSM2gdLP
+         0liuEaNQYzRT4XFfIzOdwHt0x3r0pRuc+RS5nRfqG86LwmPSmoCIqg1LeMhAN26W2nDT
+         hYbyraoa7GCVzSRq72KSK1m/2Gfro5eWWLIkFNjLiRe0ubKEO1DnwNJf1Ew5idBOmwKB
+         Xp0w==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=G5AcZOU+pdoePF3JVJGwstAOUQkYC3WUg5uKVwxeFqQ=;
+        fh=xpFjlxSMMkikU6F9K/DsEYyySW6icbPYMuUI8YqIc3c=;
+        b=locxEWpPwgmEGqQxtA/vyOH7y8BssCG2LuxuXB9cLW3QVynMXsr7dJjNK6l8pJrU34
+         oRfTBQ6mi4wtabmiZhizqh6xOQBB6z4WlcHBLD6FRDI1eSr54AyWZAv7MCMHdx+Rn/PA
+         NdP28J9qS9zbVIUUkaq1Jw/bq6QvcVb+R17/pDy330Pz9RCMBMzFm+9BuVFusve5g2ha
+         Tl4P1MGjSSVpnZVMoC7j/UzPShgNZhd0ttoL0QEf4MlDaa+ciYcM4hOgyPiQYClQJc0U
+         IxRJ+bKG7h/oqCeRoAklw85TsNArEOTFqUF7gNtb0saX/wtKn4SpkSsVJ9MyPzkAzWcR
+         vvdw==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1792080929; x=1792685729; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=G5AcZOU+pdoePF3JVJGwstAOUQkYC3WUg5uKVwxeFqQ=;
+        b=XutVYcfhfuIwYt7oz3fIbtmTfgpStJjx0N7LF92toIkgvtGcj2MmD5s/cVeJiTxigI
+         LV+Fyr3gB5C6KJ/2BkH+cV2QBADoqzCXxAmJGt1H2E7qzljiCj+T9pzzVWPKXWcTQey9
+         SIomRRuCS/L+IZvkJRCM+9kgl/OyB8TGUeC0WzP5sNjFobcjxGSGT++Yd/ljP4ZVuCzk
+         6iulHb5Wha2Ih86swcKayujTnHVNmYMWixdP1Coo6LvkJ5hM2U5tcLDG6iQeFvIPB+sX
+         HLz06BZ8XKlGRVhsDLCkzENGM7IGpoyud+xiLOu4KoFxA5sxTfeTHMsBrODtFe9hRXLQ
+         DVEQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1792080929; x=1792685729;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=G5AcZOU+pdoePF3JVJGwstAOUQkYC3WUg5uKVwxeFqQ=;
+        b=H6GTt3MOvH+pTr8VPXDJEC++w8WSWtQIfE+N6zkoNq1ZeCbl1tOq7wabMu0tJygEZS
+         P3OhSYlOS8H5y5qw70B4Lj7D2Wu3MBc9WN8e6uU4aN1FcHUk7jjyhGVS8GLfFXEy82fq
+         otcV3c+VKJYkuuLt9r/zIBGMAdKuYkPhKR974v9FglLTDARaBWr4lpjjba/pF5uZUyzO
+         Kgy0S4BsRFCDRQPoXb9cIwDGwqomkMvVwEDwwFA15Os+q5A+bsyPX4sV39NoGsp6nBW7
+         N7nI59p9ry2cSYMqrXFExBMd9DLTG7tvq3g/NryCL88azgwhPpsYmvLg9lDFm8EiUUoH
+         Lc0A==
+X-Forwarded-Encrypted: i=1; AKwUvBym+aByxKHrWvJKrJ4wLqCRsLacP/Samz0Vh3A9C/XAz4LXwu2+GxTcXgVEexP7K6w2P08YuS1kn+8=@vger.kernel.org
+X-Gm-Message-State: AFq9FYL5px+NLvKKs0qarlbdYI+uPDhvcBe44lrh0KvrUe32LhrHYwbJ
+	beUy0pW3kLcLlXInsq0OA0hW4S7slIqUclcr6S39g476zq2vZOI+2nV+7Yhf5rcpPZQnG5xUqMM
+	UzC2oRrV/GC5dVXyo2YJ97fzqg/V6blU=
+X-Gm-Gg: AYBFou1pgV/lR1w4XskftUb86bJtBHKqDABoySNl5Xv3NAprFrz9oJH6dvb9GbBVhC7
+	GCNys71Btta/GkfTktpYYPtFOReJ3Bp9vvQGXK/hbAljzqqGvk5wBa4B0x3eRnby9pfg1Br2/Va
+	0hcx6VUW83oYM4HJblXpV24fNVi4Bxt7aDCUunDECmS7UbL2yUh1AtpdRdbL/ahN1Q96v84wiq5
+	Nsh+II9Sswig8Tledr0ObA1u2nBe6LunBvzSZ1eo64jnly8IjtNkFJnC08SbGRJ4dbu7vGx2O2s
+	KZyI/liBXpQ1Ca2q/7LuCSkHV+PNPFCQ4i0CEgJ+9tCCe+uoW+aLm/CzqAC4xlykYJUtQFl8c0b
+	dSzNyL9LLsOD0SAuB39M+NwqoX6nXXhK/U35e6hQIN/TqiZClGK8bd+SNUyuxjdb0GzoVMBTCGb
+	WFIX9+MPwYVHNKCOBUAriAWzf0iJTFMAKsGsxPlmvktLYBQXy7V6FrldqaRjKfj0I=
+X-Received: by 2002:a05:693c:66d0:10b0:35c:492b:e310 with SMTP id
+ 5a478bee46e88-35c492be9f8mr17514341eec.0.1792080928498; Thu, 15 Oct 2026
+ 09:15:28 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
+MIME-Version: 1.0
+References: <cover.1791499378.git.sashal@kernel.org> <20261014174838.114990-1-ojeda@kernel.org>
+ <as_Cr4FhzyAh-kC4@laps> <CANiq72m6okeCHuR8BCGENTw=wJhfXXZbXZtJq8xtoeVfvfo3TQ@mail.gmail.com>
+ <atDYWe9L0tv90Xjk@laps> <CANiq72mgS15ZKwd-u1t1xvAaNf3ivpXdUMmVDfmGRyq1OewLvw@mail.gmail.com>
+ <87jynjrrqo.fsf@trenco.lwn.net> <CANiq72=raWNCedXQW9dSDwxQTE0hfs9ecyGChRPnWqO6DUvbOw@mail.gmail.com>
+ <atDlfUEr-d_sRP7c@mit.edu>
+In-Reply-To: <atDlfUEr-d_sRP7c@mit.edu>
+From: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
+Date: Thu, 15 Oct 2026 18:15:15 +0200
+X-Gm-Features: AclHuK-PjnHmcyinHcDPK4Z6dnO9W7SGIPggSgvmNWFmm386jeOM2Bdrq8WVyuA
+Message-ID: <CANiq72m+j4j86sCnKUzjjq8udcW+hgdrnTa28WUWfyFu9qHXDw@mail.gmail.com>
+Subject: Re: [PATCH 0/2] agents: add portable agent skills and Fixes attribution
+To: Theodore Tso <tytso@mit.edu>
+Cc: Jonathan Corbet <corbet@lwn.net>, Sasha Levin <sashal@kernel.org>, Miguel Ojeda <ojeda@kernel.org>, 
+	broonie@kernel.org, ksummit@lists.linux.dev, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, rdunlap@infradead.org, 
+	skhan@linuxfoundation.org, workflows@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-> You should compare fast path disasm before/after, just to make codegen
-> isn't adversely affected.
-
-I also checked the x86-64 fast-path code generation as suggested. In
-paired GCC and Clang comparisons, I found no new calls, stack spills,
-stack-frame adjustment, or callee-saved register saves on the disabled
-path. The detailed `__tsan_read8` disassembly comparison is in my reply to
-patch 1:
-
-https://lore.kernel.org/lkml/179207802520.771660.5931695730876285158@163.com/
-
-> Questions for discussion:
-> 1. Is address-targeted watchpoint sampling a useful primitive for focused
->    KCSAN debugging?
+On Thu, Oct 15, 2026 at 4:43=E2=80=AFPM Theodore Tso <tytso@mit.edu> wrote:
 >
-> On surface, it seems helpful.
->
-> But there's another angle: The need for reproduction arises because we
-> want to debug an issue, and the fix it with a code change; after the
-> code change and a recompile, are there new data races that were
-> introduced as a side-effect? Perhaps the original data race you were
-> hunting is gone, but new ones may have been introduced. So my approach
-> has never been to try and focus on a single data race, but look for
-> data races that may have appeared adjacent to code I touched
-> (filtering based on function name). The method of reproduction are
-> stress tests that more or less reliably trigger the original data
-> race, but should also trigger data races (if they exist) adjacent to
-> the code being scrutinized.
->
-> But perhaps what you're after is asking "are all accesses to this
-> variable data race free" only?
+> I'm a bit confused why people are assuming that we would need to have
+> copies of the same or similar content in Documentation/ and agents/.
+> For agents are are *doing* somethiing --- for example, determining the
+> correct commit for a Fixes: tag is not something I'd think would be relev=
+ant for Documentations.
 
-Not exactly. This interface is not intended to prove that all accesses
-to a variable are race-free. The motivating use case is narrower: after
-a reproducer or report points to a suspicious address, make accesses
-overlapping that address eligible for watchpoint setup without unrelated
-accesses consuming the skip interval.
+I am confused -- I am not saying we will have copies between
+`Documentation/` and `agents/` of similar content.
 
-I agree that function-scoped filtering and stress testing remain useful
-for looking for races around code changed in a fix. Targeted mode is
-complementary to that workflow when a known low-frequency location is
-difficult to reproduce.
+I am saying that `SKILL.md` is necessarily Markdown (please see
+Sasha's patch), but most of the actual text is in the `.rst` instead,
+and that such a split is more complicated than a single Markdown file,
+especially if we don't plan to do any processing on it (as you say, it
+is mostly text).
 
-In the motivating loadavg run, targeting `calc_load_idx` produced a KCSAN
-report involving `calc_global_load()` and `calc_load_nohz_start()`. A separate
-upstream run with the default `kcsan.skip_watch=4000` did not report those
-locations during its test window. This is evidence for that workload and
-window, not proof that the accesses are race-free when no report appears.
+(I do think certain skills may want to point the agent to some
+`Documentation/` by file path; that is fine.)
 
-> 2. Should matching accesses bypass the normal `kcsan.skip_watch` interval, as
->    proposed here, or should targeted mode retain its own sampling interval?
->
-> It might become quite slow for frequently accessed data, but perhaps
-> that's intentional if we want maximum races detected for focused
-> testing.
-
-Yes, bypassing the normal `kcsan.skip_watch` interval for matching
-accesses is the intended tradeoff in this RFC. Nonmatching accesses
-neither set up a watchpoint nor consume that interval. `target=off`
-restores normal sampling. Targeted mode is intended for focused debugging,
-not steady-state use.
-
-The hot-target cost is therefore expected. In the RFC measurements an
-enabled nonmatching target was 26.981 ns/access versus 24.549 ns/access
-upstream, while a deliberately hot matching target measured 81.1 us/access
-because every matching access entered `kcsan_setup_watchpoint()`.
-
-> 3. Is the existing KCSAN debugfs file an appropriate interface for configuring
->    a single target?
->
-> This looks clean enough.
-
-Thanks. I'll keep the debugfs interface as proposed.
-
+Cheers,
+Miguel
