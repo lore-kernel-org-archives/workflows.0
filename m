@@ -1,86 +1,82 @@
-Received: from outgoing.mit.edu (outgoing-auth-1.mit.edu [18.9.28.11])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 620B2416841
-	for <workflows@vger.kernel.org>; Thu, 15 Oct 2026 13:38:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=18.9.28.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 322B44A206F;
+	Thu, 15 Oct 2026 13:42:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792071537; cv=none; b=Du9QyIon73DYfT4swIIHekPcvi5ezLp1QQ9GzOhJgInC5+RKk6hfTukTG0FKkr9csLG0iGOic6oE/i2PEZKQrERVDTWKfvfkXiG2FpQG/7dSd1woBTiTRoTABeKLcNr0ulFJsnFQP4/yIWV51ugmjbfjJq5BWlGj4sjUFCS4Zz4=
+	t=1792071772; cv=none; b=E6Asa/PpEWelLcaV/ASsAe79y7m+SAkY85nO1OeAe8gYCQlkMGo8QoAI8x58FUQgfqIpIHmfaTInTOCnU6u+7E4iDs+naEu4+2OrZVaxAOgAy3SDvpEvKNoT1qqgBwp0uKdUUv78RkeVn8chxNW5oShClD2EX2JwzTNheYYExLs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792071537; c=relaxed/simple;
-	bh=A+P/uS/SBd4J4/aBwwRg95rS3f18qizD+C+/cjUGpaQ=;
+	s=arc-20240116; t=1792071772; c=relaxed/simple;
+	bh=VZ+l5G45BBruLk6RgKTwQU8ClO+R8fk0wEsZtmKSkIM=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=SOr6Kg6+ofBcuXVmCOZk+7tYuRRttJOdARz93gAa/Yy8aEZuQwbADOcEJb5nDT1dUQpV7Di/QvFnjNW6HEl+4W6ifz/S992xRBJf3Dl9VfhDVgKvlqcyOo5rpkM9A19fwK7iiPmeeLfRpbp+WwxhOS0aaSsAIUkyaSHo/HPgqwA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=mit.edu; spf=pass smtp.mailfrom=mit.edu; dkim=pass (2048-bit key) header.d=mit.edu header.i=@mit.edu header.b=Sq9cqj4D; arc=none smtp.client-ip=18.9.28.11
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=mit.edu
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mit.edu
+	 Content-Type:Content-Disposition:In-Reply-To; b=dWuc3MKBQ+qTaB5KBeZSHBjpdunfV09gyrYGvynmaGmsLKRSIqqGzoJOzDxUgYxusBBvik1E/92h7cyIAZCS7LkmeICgR1a59bYcDPZM4aybKJHsW9UAKVqGLjxRHKVK1VZ700Q3AiV/vvqMyjL7vj6cag/MBhIxNi4egPP7Y+Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ZZ5ghlLA; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=mit.edu header.i=@mit.edu header.b="Sq9cqj4D"
-Received: from macsyma.thunk.org (pool-173-48-111-204.bstnma.fios.verizon.net [173.48.111.204])
-	(authenticated bits=0)
-        (User authenticated as tytso@ATHENA.MIT.EDU)
-	by outgoing.mit.edu (8.14.7/8.12.4) with ESMTP id 69FDc3jc025529
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Thu, 15 Oct 2026 09:38:04 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mit.edu; s=outgoing;
-	t=1792071488; bh=hGUXqsxkhpbopsDlKJlrjUnxIoRHN48sbeSfA7LeTlI=;
-	h=Date:From:Subject:Message-ID:MIME-Version:Content-Type;
-	b=Sq9cqj4D7nlHPDyTVk+2j9dXuVoKcFcl3IGICP3e1Al6mNOXTYBUCIb936XQDUwCq
-	 r4zK5/zFOH3Y2vyHCHPDDKqU+c9vZ/BKOarv0br7E3gi7j0HgSPJcTwlUjjMmkZVB/
-	 rUdQZISLbLELLwhe78KGN1cNKLB56uGm+9TXJiy2bBrExF50h3tEjTQmNTQYdRZo9g
-	 jipVVtFSCN0unNP13QO9xULlpgP3xeddJ4bnARQsCXPLy7KTBearV6OjHWP2sLkh2j
-	 35sfzGBnnThaxMrJ22gMzTIX1d3AAWtD9n3PGB6AutVhruGXlfEy3llP8T6UrO6oXz
-	 IGLUcC7IgreGA==
-Received: by macsyma.thunk.org (Postfix, from userid 15806)
-	id 5F87E20F151E; Thu, 15 Oct 2026 09:37:03 -0400 (EDT)
-Date: Thu, 15 Oct 2026 09:37:03 -0400
-From: "Theodore Tso" <tytso@mit.edu>
-To: Kees Cook <kees@kernel.org>
-Cc: Geert Uytterhoeven <geert@linux-m68k.org>,
-        Jonathan Corbet <corbet@lwn.net>, Sasha Levin <sashal@kernel.org>,
-        workflows@vger.kernel.org, ksummit@lists.linux.dev,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Shuah Khan <skhan@linuxfoundation.org>,
-        Randy Dunlap <rdunlap@infradead.org>, Mark Brown <broonie@kernel.org>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Leon Romanovsky <leon@kernel.org>,
-        Konstantin Ryabitsev <konstantin@linuxfoundation.org>,
-        Thorsten Leemhuis <linux@leemhuis.info>,
-        "Michael S . Tsirkin" <mst@redhat.com>
-Subject: Re: [PATCH v2 0/5] agents: add skills for Fixes tags, stable tags,
- similar bugs, and commit messages
-Message-ID: <atDWaGJegsI3_Q8K@mit.edu>
-References: <20261012213452.1863248-1-sashal@kernel.org>
- <87zewiy1sd.fsf@trenco.lwn.net>
- <202610122047.A9E381A@keescook>
- <CAMuHMdXR+U+pgyN+B=trSuPJuS5Kn1-kN=VMFPRSvSUiiwbqDg@mail.gmail.com>
- <202610142149.C3CC39B22@keescook>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ZZ5ghlLA"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A4A701F000C4;
+	Thu, 15 Oct 2026 13:42:50 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1792071770;
+	bh=NfxAf4gdiKXdVnrSuFQzOIQUQtoXjVgW8jdsWGVYkeo=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=ZZ5ghlLAHMU7U+pKM0hqw7cMvJGlnUm9qASMDdzORNg3mSCS/Gx5HrTM4Loo6uGCj
+	 Q/aE5/OcJQmSjrIVlZFAbymLW34rtsknVl6yISjRQERIM7YN8we7g6EvsqgzC21wIU
+	 4N6pHhf62Sp3qs41kkgHfV6zN61dhIGZQV1rq1pfY6FqDHdRvZCOP4wVdkkPiBjQVh
+	 njp4KlbrzhWHi8bOTJqfYpUQ90/tDDNJV9T5V6+AcUYxK5GXun4DtQbyI4JKoc7ReO
+	 4kNiMgzHYdXWtQASeucvAzYPD5eZ3KqoL/bG+XttjiFme8DpyA3tK+0BrjoGNkM40O
+	 99YZUba1NnbTg==
+Date: Thu, 15 Oct 2026 09:42:49 -0400
+From: Sasha Levin <sashal@kernel.org>
+To: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
+Cc: Miguel Ojeda <ojeda@kernel.org>, broonie@kernel.org, corbet@lwn.net,
+	ksummit@lists.linux.dev, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org, rdunlap@infradead.org,
+	skhan@linuxfoundation.org, tytso@mit.edu, workflows@vger.kernel.org
+Subject: Re: [PATCH 0/2] agents: add portable agent skills and Fixes
+ attribution
+Message-ID: <atDYWe9L0tv90Xjk@laps>
+References: <cover.1791499378.git.sashal@kernel.org>
+ <20261014174838.114990-1-ojeda@kernel.org>
+ <as_Cr4FhzyAh-kC4@laps>
+ <CANiq72m6okeCHuR8BCGENTw=wJhfXXZbXZtJq8xtoeVfvfo3TQ@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Disposition: inline
-In-Reply-To: <202610142149.C3CC39B22@keescook>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CANiq72m6okeCHuR8BCGENTw=wJhfXXZbXZtJq8xtoeVfvfo3TQ@mail.gmail.com>
 
-On Wed, Oct 14, 2026 at 09:50:47PM -0500, Kees Cook wrote:
-> Exactly. And the rate of frontier model improvement has me convinced
-> that there is no need to spend any time writing documentation to be
-> consumed _only_ by the agents. If an agent gets it wrong after reading
-> our existing documentation, ask it what would need to change for it to
-> understand it, and then see if that makes it better for a human too, and
-> send those patches. :)
+On Wed, Oct 14, 2026 at 11:37:56PM +0200, Miguel Ojeda wrote:
+>On Wed, Oct 14, 2026 at 7:58 PM Sasha Levin <sashal@kernel.org> wrote:
+>>
+>> I'm following the specs[1] for these skills, and my testing showed it works
+>> fine with a few of the more common tools.
+>
+>What I mean is that they don't get automatically picked up by default,
+>e.g. Claude Code and Codex don't seem to.
+>
+>The website you link (in another subpage, not the spec one) mentions
+>`.agents`, but not `agents` without the period.
+>
+>So what I wanted is just to confirm that, at least between those two
+>options, there was no inherent advantage (or disadvantage, depending
+>on how one sees it -- I am not sure if it is actually a good idea for
+>all use cases to have them automatically be picked up...).
+>
+>> We can open the markup language discussion, but I'm concerned that doing that
+>> will break some tools logic around importing these at skills.
+>
+>Hmm... Not sure what you mean.
 
-We might not want to assume that everyone has access to frontier
-models.  At the very least some people might want to use things like
-Gemini Flash instead of Gemini Pro, and there will also be people who
-wants to use local LLM's.  Even if we don't care about usage of more
-modest LLM's, there is still an economic (and environmental!) reason
-why we might want to make sure that we promote token-efficient usage.
-We certainly don't want to assume that LLM's need to read *all* of
-Documentation for every single prompt.
+Sorry, what I meant to say is that the spec seems to require markdown as it's
+preferred format. We can experiment with other options, but then the risk is
+that we'll break some tools.
 
-					- Ted
+-- 
+Thanks,
+Sasha
