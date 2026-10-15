@@ -1,37 +1,70 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3F988370AE6;
-	Thu, 15 Oct 2026 04:50:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3D5024AA40F
+	for <workflows@vger.kernel.org>; Thu, 15 Oct 2026 08:03:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792039849; cv=none; b=KkBiu7R3X9lswwtNoR1rWkAF4oKIOQIekVmcfgxz8katDFOaXcCUe4biBxuyszAH4cVgOCwWRqadE3prrebIsu22rlePUB4v89RgnvXzmcLiwVvt0b2TMlK3iy6QcFPsPL23pk9eVUEsefDsipgTMoIQqQeial7FPHuTB1PGvNQ=
+	t=1792051434; cv=none; b=LnOI/v7F3IujWR7J0lVBuFABkBkHosmbSBW9GRnRy2yJPUQEvCPRhjejp0FbBqkfxVieG6RlrScd/9LH5Fu7hyOgD23pIECYf+IrXIMzRWhVn3ukaBV0wE23mzx2CVuKvxA/URpABJ2K0tkoEurlz8YxRslWss5ehNFauLGN8c0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792039849; c=relaxed/simple;
-	bh=hEnYdcWvaVfvBTjrtiYDqeBInOl1mQvNxuuKtHGceuo=;
+	s=arc-20240116; t=1792051434; c=relaxed/simple;
+	bh=XobB0GpO5sYyTZ2hFUN5pcaQvo46soO0LtUdcW2CECI=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=YwRtV62MEH+gNTP6z1qHU3/N0Owv9wqH0YO257eFnh01p8aQsaF0hQvy6JwEzAXuK8y+WPboHzNJlOypSmfbXm4ibSbVEBLgs4/DGR9AMLdcL0LtdUH7nlTARnG7VLtUq/9sJDCs/SCkrhwZeSGbqBCdnfXCARfrYsswKM5TkA8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=C87YkfWs; arc=none smtp.client-ip=100.103.45.18
+	 Content-Type:Content-Disposition:In-Reply-To; b=jAVFfCAuA0g5QHUS7ywxfLhjFgzhBs8x9Idslyxk3FSUIeJbR02ouj8kCDyl43IZtzXJgWN/iU+OUocSySNDl7tgGa+fcWv2pv3/YU2zqlAB+/uuKlUMf8b2MeAHOtU32mwb7QYwYZZHJBed4SNc+GXegpS7YivqFZL0hhQP6pM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=W81Ac3HS; arc=none smtp.client-ip=209.85.128.42
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="C87YkfWs"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C4D6E1F000C4;
-	Thu, 15 Oct 2026 04:50:47 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1792039847;
-	bh=s5Y/6iBHV7ezHjvoUhMR7Eh3f9MZh8DMV1YS04Aex5g=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=C87YkfWsbG0fqfeu3PlgMOMSM2NmAqPrW3jnELD4a2FliuCYS1ktfrnfiJghRl46j
-	 5ms5Aim6lQRE6jftc/gmUDYvAPk3DlKPlql4vMztZGbkgNoubiSa1xb3mnv087p4Op
-	 Gg3yRRYEiOhV0/f/0QLqjCYJNuy2Ddv3Dk2B/2RduFELYWd8AtPInGMIgejKQLEACi
-	 T+QHoZOn5rxFHZEBpbziYQctuS0WOz6hok7ETUL/8J2aF7SsPaLGycrwam8eSy9fS1
-	 WuP2hcIJLqmV1eFEdreathatLx/fRH7f0FSqCbBLSA4aQlTfI0T3rYNocBjoC68SVA
-	 Q7JWBD8NBgVzw==
-Date: Wed, 14 Oct 2026 21:50:47 -0700
-From: Kees Cook <kees@kernel.org>
-To: Geert Uytterhoeven <geert@linux-m68k.org>
-Cc: Jonathan Corbet <corbet@lwn.net>, Sasha Levin <sashal@kernel.org>,
-	workflows@vger.kernel.org, ksummit@lists.linux.dev,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="W81Ac3HS"
+Received: by mail-wm1-f42.google.com with SMTP id 5b1f17b1804b1-4a17baef589so15636855e9.0
+        for <workflows@vger.kernel.org>; Thu, 15 Oct 2026 01:03:53 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1792051431; x=1792656231; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=1tCr4+FZVRH42/s/Dcv1+y2zUOpfmIVxo7wybQlZ/hQ=;
+        b=W81Ac3HSuOXcQDbDcaA0Ktmt9SaYUl3EhfwMxGK+RlLjsSiuMQy3qafijhj6Zzx2lM
+         DOtIb9lkVI30otNqnjvYQdg+qV9xmxCEHfjJFOYFBTlbY1K9RLRKV3LkSQN3W1Z8wLnS
+         BCaz7aO0WyMuDaZuamYJoA/YKnwrmaY2wj09xX1YJRreppWA4ZLffLcS5CR5vJmOcVEh
+         Ci2HTZHFtgTiK7s1bM8NuIJ1uz8LSQqHqX92moMAfOKf2RFxOrU9KzpJrUsFWYkN1L1T
+         O2Y8vTnBqTOzFs99T9m4ICdZHiqRhNNZpMfJfHvM6wdYcDDTUTSHsILsXhvFt0iB0p23
+         XBSA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1792051431; x=1792656231;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=1tCr4+FZVRH42/s/Dcv1+y2zUOpfmIVxo7wybQlZ/hQ=;
+        b=N/Otj+mFTzIeClC0iYRfV8pvaZ8sVKFdO2KYarZG8b6VTXKz0Z3IRgpcxO5T43OqHS
+         otFajr0/xVwwNH/0xpwY32vEpRjkBTkilzGcS5AZjgbiiC4bXsu4lPWOzk5RR59PJk3r
+         c/n5BxQ6ibepZzgZfB2irNpvFo1AaAVRQV+WJyT2BHx3zDmmMwDZGlmEvlNo+4JR1dBv
+         MHuaIeAYuLXWSThd7Hu+LEVYQFVI1JVju+p9r8Wr3PkTBPwlTjjIyqRv5g6vRqhkEQh6
+         YsKt/tl+L6MX+vtqCm0SlC2l9O1GrAgIgZ2YYGQzLDAuM/7vyp6tuSU4EWw/aZNZVxXA
+         eTuA==
+X-Forwarded-Encrypted: i=1; AKwUvBzdO13U+NvBWRbeteJhwX516z+5Y6HrBcgLPpojHB4zGjzpGClSeQjHRlcQYAEBqY8jM83jEnqP384=@vger.kernel.org
+X-Gm-Message-State: AFq9FYJLB1xLW8AOkzEPSOdnizlmq27V5/wWe1ZHZXdzNMbL/4I+1M3T
+	UzLNYg0pOVLJyGAUNxXlrkpSj25C+pHS2K/1u/AgG9/IfkLhLf2MQKj6
+X-Gm-Gg: AYBFou0ekvnVa3mMLYnGp1oCR6tBQR8ubtRSL0fbGIkob+nhvfVvU1mOE5471fB3RwW
+	cEcQPe5vD+zLc/wqgzxC7YwUGToXS0C1Ep8Q0LVebffgKGEeYh8B9V+hCSNU6LjIkNqwwtFjnUv
+	Pn0QMz9VfQXGwpWV6gkx6kbbUGIMCxolQLgcIBUtIzPIdmEoSOpbXiFW8JUnTB3vmNnkYZqhl/F
+	HLNDYVCBJsxnQuYB2RJMbxRlxWLgLndRtjDny4Yu5XhiBnNnVGQW8/zsAWX3R5z+oSE5caaUo8v
+	KX8KbJfhwCdyeoGRrS7IfwpJLHu/M0AjGzYWEBGS5f8pMxSWxp2Eu3gDcW+RXmR5KKUWUsswMvJ
+	qnhWp8Ab5bqOrcZGxXlxrDRh2Vkv+IFJk+EYCurDTMqzDgJoxqBgd89AV18HORaIwubvm/1nRV2
+	rigU5/x4CQHipKaOQFap9vry712dsR1GUr197HyefGsDTASGxi+VAHnx+XkJACzAXlrnQ=
+X-Received: by 2002:a05:600c:4e89:b0:4a0:12d7:4c88 with SMTP id 5b1f17b1804b1-4a18e4ac77amr406529725e9.30.1792051430698;
+        Thu, 15 Oct 2026 01:03:50 -0700 (PDT)
+Received: from localhost ([2c0f:3d00:6be:8900:ce5e:9212:ea4b:f30])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-48de0967affsm15482509f8f.1.2026.10.15.01.03.49
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 15 Oct 2026 01:03:49 -0700 (PDT)
+Date: Thu, 15 Oct 2026 11:03:46 +0300
+From: Dan Carpenter <error27@gmail.com>
+To: "Michael S. Tsirkin" <mst@redhat.com>
+Cc: Sasha Levin <sashal@kernel.org>, workflows@vger.kernel.org,
+	ksummit@lists.linux.dev, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
 	Shuah Khan <skhan@linuxfoundation.org>,
 	Randy Dunlap <rdunlap@infradead.org>,
 	Mark Brown <broonie@kernel.org>, Theodore Ts'o <tytso@mit.edu>,
@@ -39,15 +72,12 @@ Cc: Jonathan Corbet <corbet@lwn.net>, Sasha Levin <sashal@kernel.org>,
 	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 	Leon Romanovsky <leon@kernel.org>,
 	Konstantin Ryabitsev <konstantin@linuxfoundation.org>,
-	Thorsten Leemhuis <linux@leemhuis.info>,
-	"Michael S . Tsirkin" <mst@redhat.com>
-Subject: Re: [PATCH v2 0/5] agents: add skills for Fixes tags, stable tags,
- similar bugs, and commit messages
-Message-ID: <202610142149.C3CC39B22@keescook>
+	Thorsten Leemhuis <linux@leemhuis.info>
+Subject: Re: [PATCH v2 2/5] agents: add a skill to determine Fixes tags
+Message-ID: <atCI4q2HvqVXOag1@stanley.mountain>
 References: <20261012213452.1863248-1-sashal@kernel.org>
- <87zewiy1sd.fsf@trenco.lwn.net>
- <202610122047.A9E381A@keescook>
- <CAMuHMdXR+U+pgyN+B=trSuPJuS5Kn1-kN=VMFPRSvSUiiwbqDg@mail.gmail.com>
+ <20261012213452.1863248-3-sashal@kernel.org>
+ <20261013003535-mutt-send-email-mst@kernel.org>
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
@@ -56,23 +86,71 @@ List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <CAMuHMdXR+U+pgyN+B=trSuPJuS5Kn1-kN=VMFPRSvSUiiwbqDg@mail.gmail.com>
+In-Reply-To: <20261013003535-mutt-send-email-mst@kernel.org>
 
-On Wed, Oct 14, 2026 at 03:51:27PM +0200, Geert Uytterhoeven wrote:
-> On Tue, 13 Oct 2026 at 05:49, Kees Cook <kees@kernel.org> wrote:
-> > I was expecting this to appear under Documentation/. The agents are
-> > designed to read human text, so let's make it at least passingly
-> > sensible for humans to read too. :)
+On Tue, Oct 13, 2026 at 12:42:19AM -0400, Michael S. Tsirkin wrote:
+> On Mon, Oct 12, 2026 at 05:34:49PM -0400, Sasha Levin wrote:
+> > Blame and existing Fixes tags can point to code movement instead of the
+> > change that introduced a bug. Add a read-only investigation procedure
+> > that traces historical behavior and checks candidate commits against
+> > their parents before returning a tag with supporting evidence.
+> > 
+> > Keep the skill entry point and procedure together under
+> > agents/skills/find-fixes/. Connect the procedure to the coding-assistant
+> > guidance so bug fixes get verified attribution before finalization.
+> > 
+> > If the origin cannot be established, return no trailer and keep the fix
+> > as a draft. Applying the tag and writing the commit message remain outside
+> > the skill.
+> > 
+> > Validated with controlled histories covering moved code, changed
+> > preconditions, incorrect tags, shallow history, and reintroduction after
+> > a revert, as well as a real kernel fix.
+> > 
+> > Assisted-by: LLM
+> > Signed-off-by: Sasha Levin <sashal@kernel.org>
 > 
-> The expectation is that the agents are becoming better in understanding,
-> so more "instructions" can be shared?
+> Current documentation states:
+> 
+> 	A Fixes: tag indicates that the patch fixes a bug in a previous commit. It
+> 	is used to make it easy to determine where an issue originated, which can help
+> 	review a bug fix. This tag also assists the stable kernel team in determining
+> 	which stable kernel versions should receive your fix. This is the preferred
+> 	method for indicating a bug fixed by the patch. See :ref:`describe_changes` 
+> 	for more details.
+> 
+> 
+> the second part is easy to miss, so "what about an old bug in commit A
+> commit B exposes"
 
-Exactly. And the rate of frontier model improvement has me convinced
-that there is no need to spend any time writing documentation to be
-consumed _only_ by the agents. If an agent gets it wrong after reading
-our existing documentation, ask it what would need to change for it to
-understand it, and then see if that makes it better for a human too, and
-send those patches. :)
+This is pretty common for Makefile cleanups which enable COMPILE_TEST
+etc.  The Fixes tag should point to the commit which introduces the
+bug and not the one that exposes it.  Someone could backport the
+original patch or expose the bug a different way.
 
--- 
-Kees Cook
+> and "what if the bug both in commit A and commit B"
+> are pretty common questions.
+> 
+
+This sentence is missing a verb.  I don't understand the question.
+
+> 
+> 
+> 
+> Worth answering, maybe, and maybe here: the implication of the "stable
+> kernel team" rule is that the meaning of the tag is actually: "if you
+> have commit A then you need this commit".
+> 
+
+The Fixes tag is useful for stable, but that's not the only point.  It
+also means that if you don't have the commit, then you don't need the
+fix.  It's also useful for training AI for example.
+
+Someone told me that the netdev team was leaving Fixes tags off patches
+that they didn't want to be backported to stable.  But when I looked at
+it, it was documentation stuff that is really debatable if it deserves
+a Fixes tag or not.  There are some gray areas.
+
+regards,
+dan carpenter
+
