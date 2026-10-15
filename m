@@ -1,181 +1,217 @@
-Received: from mail-yw1-f181.google.com (mail-yw1-f181.google.com [209.85.128.181])
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com [209.85.128.70])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C0AA05304D2
-	for <workflows@vger.kernel.org>; Thu, 15 Oct 2026 14:54:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.128.181
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792076050; cv=pass; b=motFPgZC6xy0VluBkhmZEHm0WSOSCTPXg6YhKsybZig3A8nhC/891SNFnvV73oVXE9T7ncqWOnJSGtkdn+zAOGHhe5qVbC0h62glN+GeDy1q63XeLWL7go9iprj6EOMRZu2fNbNiGLneTeikRb8VI+RYafZ4/k7kXICOXcnd/Qc=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792076050; c=relaxed/simple;
-	bh=AnKorVyMFsue4YLkX+u6nG8xKZlce7b3N8YLsAXV5Xs=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=c68SgMgPNnlm2EXDmHD/kJDRgi69TtpyEiQ9rkYcTIwNnbF5BQTNzrREBSX4gOmO+xahRf4t13UfnYVKesTtdxL6bL4WtfYRJNdMpDNiOOJXvuuWs+qDUqujI0sGMDuFXadpIppLj/oMiOx0aYC5NjtltWe3zFMVg0oU1FgMvD0=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=UxWAsH/C; arc=pass smtp.client-ip=209.85.128.181
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 184B23B19AA
+	for <workflows@vger.kernel.org>; Thu, 15 Oct 2026 14:57:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.70
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1792076254; cv=none; b=CctTk9WcCQpCb2+x+CZha4vxZ2Z92CC/KV/3p6yQAZkJWuSR5zwCBiXEU4UhkYhhbUHDnnUc+Mt95NEmrANdCjKwGjcV23GmYue2j2zFc6cWMkLyJ4Gcx6c8doSmw/32kzWKlp+CiObBexk0dpts09gE8BJQ2ju92c8vxYuI01w=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1792076254; c=relaxed/simple;
+	bh=nbtf2aJFUaL/4iH/qLfpXzTeoJ6Tlhbj6DaOj27+188=;
+	h=Date:Mime-Version:Message-ID:Subject:From:To:Cc:Content-Type; b=c4ITdmmgtIpPzTN34DGmqqriGO0n7s2SSrfnd6f/g2QHFKxIcuHBJ6y86Jz/sZl0Z+/aEpPcPgU/zO8EH5iCu12LWinyvjBM4nKjZn5mDn+2G1PYnQn77mPYV+R91ZmcxE3lgjGK8i5yuq3OmZnytHk6zEcnlco+8YT0yxr3rt4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--elver.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=EZasvRAj; arc=none smtp.client-ip=209.85.128.70
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--elver.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="UxWAsH/C"
-Received: by mail-yw1-f181.google.com with SMTP id 00721157ae682-8ac9d666d4eso21316227b3.3
-        for <workflows@vger.kernel.org>; Thu, 15 Oct 2026 07:54:08 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1792076048; cv=none;
-        d=google.com; s=arc-20260327;
-        b=eB0+TT38hILMwoVd5y0nYMQbxvAUGOXg9sF5Ab2/jyiDm2E4BwSFnEEBu67hVfid5F
-         Tljb5q7vLZhAZAoAmpnD3ceZ7F24W22M+khcLjXBif6fxKDtlYaV2LBhmsPWVS7AnWkK
-         9LRQphrsP/83AK9uQ8gha6a2D3TFbFENaPF2ijg5GgEVR0nUBSIERVlXiq7IIg9hgg8w
-         dzJu7N0QzU2i8JBM96+4sVtBCCuTdnnNDmO4JE/l1MPVSifHEVMa5Ouj4vHQ9XgoAru1
-         RQIBtkhgnOiyhdEBcNc6EN/DHJorfoi+k9Q/y0HqvL1zU6xJycoDREuiVmJYBHFs6PlH
-         09gQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=dYgoYAnEHvzfJJCgXJF81sGKm1IaJw1pU61WKhV8va4=;
-        fh=nEM+TW9ldBUgTyHiI8jlzNow/cDHQ54mIHbo0eo2z8k=;
-        b=L2pbRJnnMF+RKfoCLN368KeZrWrrghHajrld0L+edfsePsVJ2sB4QZhjM30jdb6Mb1
-         SqF20//3jwbc/L5vU1dFXzKJH2szlWDYlRTHgY/1sX2MrfKd6EoItRuHN8WXWZUflYw9
-         EEPJdliZ8r+qFO45aDXK9fn84Pb6gYvV+QNRIgL+DeR8prX4j8VGyVljDOzl9XrXEfoz
-         CoaJZY/XAV2biBHdcqiaiFZXc3fnow1MYFl306l9i5VUdBe4dl6GEiCwplopWF/c1/hn
-         JklUHsRdaA6fY3vXjteClROEKF3xB5UlfN95wc4bsrIZ9U/fJek100G4eDbYGySCH/SS
-         G6fg==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="EZasvRAj"
+Received: by mail-wm1-f70.google.com with SMTP id 5b1f17b1804b1-4a01b112fa2so32249815e9.1
+        for <workflows@vger.kernel.org>; Thu, 15 Oct 2026 07:57:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1792076048; x=1792680848; darn=vger.kernel.org;
-        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
-         :references:mime-version:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=dYgoYAnEHvzfJJCgXJF81sGKm1IaJw1pU61WKhV8va4=;
-        b=UxWAsH/Cl7/pyenIZyo5P3fZgk1zP6Tgjx/mH4nNHyPuv99+U32mBwhmKQYGIuy+rp
-         Mx90p+EvV2iZLOQHFf6O4FzMt3oILoc1Y/FiXHViCO9mFpZkVG/rjvoV85x5xbIhfjYm
-         1b1JJVJm0aFvmi8SA50Kh8CGnpVC3OzlSIKREiv5kYwpEMFgILUJrHGWXGoRw3AXMRZm
-         tYtwD861qNFtSI0ttepy8ANkUKBHddWoj6qAqyDVxIeBn5UmjXLUKl7rsXoKdbqzU+S5
-         ylflJHtR1kEDSLCbQ5txgFO3TY/5BIMusihTQ6KBMpDbKO1sbe+gYkoWuEfnM8EnacAy
-         kR2Q==
+        d=google.com; s=20251104; t=1792076250; x=1792681050; darn=vger.kernel.org;
+        h=content-type:cc:to:from:subject:message-id:mime-version:date:from
+         :to:cc:subject:date:message-id:reply-to:content-type;
+        bh=gOPLD1Nk0xD9uDIf10OzE40FWH2sqAvdDlcLSS3lQok=;
+        b=EZasvRAjos5Z9twr/kI65YM9wdYqGfB5UoPJL2pol/ju2uoTKdBPr1nyQUP/ZLLMIH
+         MBnG3IlODF05yBX1GwZnYJyGhJrnycv6DNblJkwzq6+/QaCwQph7gA1Z1xwFj6WXVcef
+         W+raxletovlSkMJaiylCjoiSQKMYcaZ5XmQT/jk294q+1UgkPGArMzrVkyjoJec0N+tc
+         /HaDgv+NV1EuwfpLLJtOorWdwscXBr4aPN1447opaOPfFN6R51vLspa4th4Xc24J3BqZ
+         1Mjs8Rt01sA+voKP7UkAyrGoDlmYdL5WZqdP9FsFWko60LE0zw/gH0WHPloWplgHccUx
+         UI9Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1792076048; x=1792680848;
-        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
-         :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=dYgoYAnEHvzfJJCgXJF81sGKm1IaJw1pU61WKhV8va4=;
-        b=YawfHEIqJLb0JKEn+P4WUxBrxmDXOeBExCTYV6/XGl6eJbf2c++Y3utQxyiQWoA5mn
-         fK7gvllnrlsJjA/HG6uclVGCMQ3rDLHwuV0kCFQu7Rh6QrnqqBlo2C9FiyFxRhDY3vC6
-         Y6dwjHQQb/kVKLTT8aL/TGF41JMoU/9nkbi84cAoWNE6m18WH0ylnQdk4ouyP797Hcal
-         RU8ebOZCyn+QWMMs+TNfmln+TmEG5ZLliDWrI37gxJMJi+FMxi/FCEZKByO9aD7CBttB
-         pZnFcdDQK8Yycsf7kCgmT99DJIa57+2BPW75H7xC9v1ZM9kQdsHAFdZ3lJ6je7aiykjB
-         rL5A==
-X-Forwarded-Encrypted: i=1; AKwUvBxrsXNuBZGJ1BJGD9Xv/1wDacdkSW5Z+BAiJqQfGvD54oVIpVbOXnBZPVRsZCTS4X3KxE6W4ubUeEs=@vger.kernel.org
-X-Gm-Message-State: AFq9FYIFtDtXrghM7KBeSPfwrxIjXvHFezFZskhBUBUVovwGkc4Il5ks
-	e+hPSv35VMwcXp63n1JAHjoaNWpjCGMvURPzJ469aiRNZQEDywBh/aNJ2O6BlRrBHcW7lYQIhcb
-	fc97vH7Fq3Z03uISWLdic68wRtbefxA0C+TcamdKS
-X-Gm-Gg: AYBFou3UzTJtlMJ3CpaUdwBuJRhFMjOtrWLVStewB6qjWSa0wAzZwZ3ZiTNXRuiTQzB
-	mpJfoZvQCnh58A2e17nCGMBQtWtpdAMqnSj7RtiEvNt3L1f4a/bG6YzUbamVDOcz+TngVgOvZil
-	/CunmQnjgVfo1pvw6LZFGANxtNyvohQhUEW2sSsM76tyvYfh1Zf41QHm+lSySOJW+AVf81vsRlu
-	0uFz8xVGWVI141Fvmq0saxHwGQWP+faX2Di3iNkSnou9bij1eMBH/Yo7LdPVX4g5EhNAFbYx9dB
-	xlyYAh8l3M01ZxYP9/yI1vlIG+wAhyMloI2imnqR8VF0r3Go/pNbTJW4D0xab8wutg5Df28Q+HX
-	i8Sirt5EM3Q==
-X-Received: by 2002:a05:690c:6601:b0:854:819:64c9 with SMTP id
- 00721157ae682-8b07edb5ea4mr60117707b3.30.1792076046940; Thu, 15 Oct 2026
- 07:54:06 -0700 (PDT)
+        d=1e100.net; s=20260707; t=1792076250; x=1792681050;
+        h=content-type:cc:to:from:subject:message-id:mime-version:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=gOPLD1Nk0xD9uDIf10OzE40FWH2sqAvdDlcLSS3lQok=;
+        b=z3ZvHqN4HRVRq5WdlWvwDdp0gPJfURs3QOeJq99M1tySGiiKgR+S6ljLzuznrSDgsP
+         ROEwT2fkBqlIpyo+eyzSd2najfB4fLdkQsM+KeVKRjUZDg24Z//bnBM7qCEuxveA6smN
+         dhjM51SBS4OBZwAzfND5WNLNd49nXdBO5aFU9f485jz6HMUPCSeYCvp+n5UM+cuDBDin
+         3fBkz54PjvjBHQz7Ygu1jcdoqxkcQclsAibq11FrmqpNKqhu3PJKOpgDfVg3I3N5c0Qo
+         VSjAgSg5cKMoGVr+tMAMF7277gBU+R8eRKNs5b8MKRYdZ9gX3jzPs3FnX7ednTjFgzux
+         Cbpw==
+X-Forwarded-Encrypted: i=1; AKwUvBz9Otds91QUm7SyTfDQQyE7uvFg5pAKbOY2fGxCbQZ3z0ZsvJP73V2KW8z5toE9TGubM+5KOgc4sX0=@vger.kernel.org
+X-Gm-Message-State: AFq9FYKuGaYrxo4d4l7jfAemk0jsyuT8jsM5NXe3cKUsp4EhqoVfQ9K/
+	jgK3t7skgDBiwI7A3+8FCEsDaSIdPvutPHup0r9A4hgAb6wtCpW6kTeaVjdHa7B1GURPPCMAC0j
+	1TA==
+X-Received: from wmbgx18.prod.google.com ([2002:a05:600c:8592:b0:4a1:7fbd:344d])
+ (user=elver job=prod-delivery.src-stubby-dispatcher) by 2002:a05:600c:3f16:b0:4a0:2150:55fb
+ with SMTP id 5b1f17b1804b1-4a18e44395bmr382529505e9.4.1792076250083; Thu, 15
+ Oct 2026 07:57:30 -0700 (PDT)
+Date: Thu, 15 Oct 2026 14:56:14 +0000
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-References: <20261014095238.2132580-1-sh_def@163.com>
-In-Reply-To: <20261014095238.2132580-1-sh_def@163.com>
+Mime-Version: 1.0
+X-Mailer: git-send-email 2.56.0.385.gd3acb90ef8-goog
+Message-ID: <20261015145714.3327543-1-elver@google.com>
+Subject: [PATCH v2 1/2] kbuild: rust: enable KCSAN support
 From: Marco Elver <elver@google.com>
-Date: Thu, 15 Oct 2026 16:53:29 +0200
-X-Gm-Features: AclHuK9m7JT0Qck1kk4b70bqEqtddMmAhlHS6jUlvnCmwhJmF1L67Sq-JSWhkSA
-Message-ID: <CANpmjNNhZq6z8hZN-125OPNbho+YBwWJeOsa6QRedkqOdJP0kQ@mail.gmail.com>
-Subject: Re: [RFC PATCH 0/4] kcsan: add targeted watchpoint sampling
-To: Hui Su <sh_def@163.com>
-Cc: dvyukov@google.com, kasan-dev@googlegroups.com, corbet@lwn.net, 
-	skhan@linuxfoundation.org, rdunlap@infradead.org, workflows@vger.kernel.org, 
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+To: elver@google.com
+Cc: Alexander Potapenko <glider@google.com>, Boqun Feng <boqun.feng@gmail.com>, kasan-dev@googlegroups.com, 
+	linux-kernel@vger.kernel.org, Dmitry Vyukov <dvyukov@google.com>, 
+	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
+	Randy Dunlap <rdunlap@infradead.org>, Andrew Morton <akpm@linux-foundation.org>, 
+	Miguel Ojeda <ojeda@kernel.org>, Boqun Feng <boqun@kernel.org>, Gary Guo <gary@garyguo.net>, 
+	"=?UTF-8?q?Bj=C3=B6rn=20Roy=20Baron?=" <bjorn3_gh@protonmail.com>, Benno Lossin <lossin@kernel.org>, 
+	Andreas Hindborg <a.hindborg@kernel.org>, Alice Ryhl <aliceryhl@google.com>, 
+	Trevor Gross <tmgross@umich.edu>, Danilo Krummrich <dakr@kernel.org>, 
+	Daniel Almeida <daniel.almeida@collabora.com>, Tamir Duberstein <tamird@kernel.org>, 
+	Alexandre Courbot <acourbot@nvidia.com>, "=?UTF-8?q?Onur=20=C3=96zkan?=" <work@onurozkan.dev>, 
+	Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nsc@kernel.org>, 
+	Nick Desaulniers <ndesaulniers@google.com>, Bill Wendling <morbo@google.com>, 
+	Justin Stitt <justinstitt@google.com>, Asahi Lina <lina+kernel@asahilina.net>, 
+	Lorenzo Stoakes <ljs@kernel.org>, Yury Norov <ynorov@nvidia.com>, David Gow <david@davidgow.net>, 
+	Joel Fernandes <joelagnelf@nvidia.com>, Alvin Sun <alvin.sun@linux.dev>, 
+	Josh Poimboeuf <jpoimboe@kernel.org>, Petr Mladek <pmladek@suse.com>, workflows@vger.kernel.org, 
+	linux-doc@vger.kernel.org, rust-for-linux@vger.kernel.org, 
+	linux-kbuild@vger.kernel.org, llvm@lists.linux.dev
 Content-Type: text/plain; charset="UTF-8"
 
-On Wed, 14 Oct 2026 at 11:52, Hui Su <sh_def@163.com> wrote:
->
-> Hi,
->
-> While investigating a low-frequency scheduler access around `calc_load_idx` in
-> `kernel/sched/loadavg.c`, I found that KCSAN's per-CPU `kcsan.skip_watch`
-> interval can make focused reproduction difficult. Unrelated instrumented
-> accesses on the same CPUs may consume the interval before execution reaches a
-> known suspicious address. This is a limitation in focused-debugging control;
-> the proposal leaves the default sampling policy unchanged.
->
-> Setting `kcsan.skip_watch=0` removes the interval globally and can make
-> watchpoint setup much more frequent for all eligible accesses. The existing
-> debugfs whitelist and blacklist filter which reports are emitted after
-> watchpoint selection; they do not select which addresses may set up a
-> watchpoint. There is currently no runtime control to focus setup attempts on
-> one known address while leaving unrelated accesses out of that selection.
->
-> This RFC adds an optional single-address target to the KCSAN debugfs
-> interface. When enabled, a non-atomic access is eligible to set up a watchpoint
-> only when its byte range contains the target address. Matching accesses bypass
-> the normal `kcsan.skip_watch` interval; nonmatching accesses neither set up a
-> watchpoint nor consume that interval. The target can be specified as an address
-> or a kallsyms symbol, including `module:symbol`; `target=off` restores normal
-> sampling. A static key guards the disabled path.
->
-> Patch 1 adds single-address target matching and the static-key-guarded runtime
-> state. Patch 2 exposes address and symbol targets through debugfs, patch 3
-> tests the matching semantics, and patch 4 documents the interface and its
-> performance implications. The standalone integration module used for runtime
-> checks is local and is not included in the series.
->
-> Testing:
-> - x86_64 GCC and Clang `bzImage modules` builds completed, and the candidate's
->   built-in KCSAN selftest passed 4/4. Runtime validation recorded setup
->   activity for exact-address and `module:symbol` targets, none for a
->   nonmatching target, and normal sampling after `target=off`.
-> - In a separate motivating loadavg run, targeting `calc_load_idx` produced a
->   KCSAN report involving `calc_global_load()` and `calc_load_nohz_start()`. A
->   separate upstream run with the default `skip_watch=4000` did not report
->   those locations during its test window.
-> - Across 10 rounds of 1,000,000 accesses, medians were `24.549 ns/access`
->   upstream, `24.654 ns/access` with targeting disabled, and `26.981 ns/access`
->   with an enabled nonmatching target. The disabled-path results were
->   indistinguishable at this measurement granularity. A separate 10-round,
->   10,000-access hot-match run measured `81.1 us/access`: every matching
->   access enters `kcsan_setup_watchpoint()`, so this includes setup slow-path
->   work and represents focused debugging rather than normal use.
+Rust supports ThreadSanitizer instrumentation via LLVM, which is what
+KCSAN relies on; however, Rust code is not currently instrumented.
 
-You should compare fast path disasm before/after, just to make codegen
-isn't adversely affected.
+Pass -Zsanitizer=thread and the same TSan backend options used for C
+code to rustc. Wire up KCSAN_SANITIZE in scripts/Makefile.lib for parity
+with C (though rustc currently rejects linking crates with mismatched
+instrumentation).
 
-> Questions for discussion:
-> 1. Is address-targeted watchpoint sampling a useful primitive for focused
->    KCSAN debugging?
+rustc only accepts -Zsanitizer=thread for targets that declare support
+for it. Of the targets used by the kernel, this is only possible for the
+generated x86_64 target specification, so restrict instrumentation of
+Rust code to x86_64 for now via HAVE_KCSAN_RUSTC. On other architectures
+Rust code remains uninstrumented as before.
 
-On surface, it seems helpful.
+All TSan options used are supported by the LLVM versions of the minimum
+supported rustc, so no rustc-option checks are needed (they would also
+fail, because x86_64-unknown-none used for option checks does not
+support -Zsanitizer=thread).
 
-But there's another angle: The need for reproduction arises because we
-want to debug an issue, and the fix it with a code change; after the
-code change and a recompile, are there new data races that were
-introduced as a side-effect? Perhaps the original data race you were
-hunting is gone, but new ones may have been introduced. So my approach
-has never been to try and focus on a single data race, but look for
-data races that may have appeared adjacent to code I touched
-(filtering based on function name). The method of reproduction are
-stress tests that more or less reliably trigger the original data
-race, but should also trigger data races (if they exist) adjacent to
-the code being scrutinized.
+Unlike Clang and GCC, an equivalent to -fno-optimize-sibling-calls is
+omitted for Rust because rustc provides no corresponding option. While
+disabling tail-call optimizations helps preserve complete stacks traces
+in reports, it is optional and not required for KCSAN to function.
 
-But perhaps what you're after is asking "are all accesses to this
-variable data race free" only?
+With this enabled we can detect data races in kernel Rust code and
+between Rust and C code.
 
-> 2. Should matching accesses bypass the normal `kcsan.skip_watch` interval, as
->    proposed here, or should targeted mode retain its own sampling interval?
+Acked-by: Miguel Ojeda <ojeda@kernel.org>
+Acked-by: Boqun Feng <boqun@kernel.org>
+Signed-off-by: Marco Elver <elver@google.com>
+---
+v2:
+* Add note on -fno-optimize-sibling-calls to commit message.
+---
+ Documentation/dev-tools/kcsan.rst |  7 +++++++
+ lib/Kconfig.kcsan                 |  7 +++++++
+ scripts/Makefile.kcsan            | 13 +++++++++++++
+ scripts/Makefile.lib              |  3 +++
+ scripts/generate_rust_target.rs   |  2 +-
+ 5 files changed, 31 insertions(+), 1 deletion(-)
 
-It might become quite slow for frequently accessed data, but perhaps
-that's intentional if we want maximum races detected for focused
-testing.
+diff --git a/Documentation/dev-tools/kcsan.rst b/Documentation/dev-tools/kcsan.rst
+index 8575178aa87f..3bb8754f844b 100644
+--- a/Documentation/dev-tools/kcsan.rst
++++ b/Documentation/dev-tools/kcsan.rst
+@@ -14,6 +14,9 @@ Usage
+ KCSAN is supported by both GCC and Clang. With GCC we require version 11 or
+ later, and with Clang also require version 11 or later.
+ 
++Rust code is instrumented as well on architectures whose Rust target supports
++it (currently only x86_64; see ``CONFIG_HAVE_KCSAN_RUSTC``).
++
+ To enable KCSAN configure the kernel with::
+ 
+     CONFIG_KCSAN = y
+@@ -121,6 +124,10 @@ the below options are available:
+ 
+     KCSAN_SANITIZE := n
+ 
++  Note that ``rustc`` rejects linking crates built with and without KCSAN
++  instrumentation, so ``KCSAN_SANITIZE`` and ``KCSAN_SANITIZE_<target>.o``
++  cannot currently be used for Rust code.
++
+ .. _"Marking Shared-Memory Accesses" in the LKMM: https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/tools/memory-model/Documentation/access-marking.txt
+ 
+ Furthermore, it is possible to tell KCSAN to show or hide entire classes of
+diff --git a/lib/Kconfig.kcsan b/lib/Kconfig.kcsan
+index 4ce4b0c0109c..f0096e1c8b61 100644
+--- a/lib/Kconfig.kcsan
++++ b/lib/Kconfig.kcsan
+@@ -10,6 +10,13 @@ config HAVE_KCSAN_COMPILER
+ 	  For the list of compilers that support KCSAN, please see
+ 	  <file:Documentation/dev-tools/kcsan.rst>.
+ 
++config HAVE_KCSAN_RUSTC
++	def_bool RUST && X86_64
++	help
++	  rustc only accepts -Zsanitizer=thread for targets that declare
++	  support for it; of the kernel's Rust targets, only x86_64 does.
++	  Elsewhere, Rust code is not instrumented.
++
+ menuconfig KCSAN
+ 	bool "KCSAN: dynamic data race detector"
+ 	depends on HAVE_ARCH_KCSAN && HAVE_KCSAN_COMPILER
+diff --git a/scripts/Makefile.kcsan b/scripts/Makefile.kcsan
+index 19f693b68a96..01af6fd71006 100644
+--- a/scripts/Makefile.kcsan
++++ b/scripts/Makefile.kcsan
+@@ -24,3 +24,16 @@ kcsan-cflags += $(call cc-option,$(call cc-param,tsan-instrument-func-entry-exit
+ endif
+ 
+ export CFLAGS_KCSAN := $(kcsan-cflags)
++
++ifdef CONFIG_HAVE_KCSAN_RUSTC
++# The minimum supported rustc's LLVM supports all of these options.
++rustc-param = -Cllvm-args=-$(1)
++kcsan-rustflags := -Zsanitizer=thread \
++	$(call rustc-param,tsan-compound-read-before-write=1) \
++	$(call rustc-param,tsan-distinguish-volatile=1)
++ifndef CONFIG_KCSAN_WEAK_MEMORY
++kcsan-rustflags += $(call rustc-param,tsan-instrument-func-entry-exit=0)
++endif
++endif
++
++export RUSTFLAGS_KCSAN := $(kcsan-rustflags)
+diff --git a/scripts/Makefile.lib b/scripts/Makefile.lib
+index 0a4fdd8bd975..78f1c23e54be 100644
+--- a/scripts/Makefile.lib
++++ b/scripts/Makefile.lib
+@@ -98,6 +98,9 @@ ifeq ($(CONFIG_KCSAN),y)
+ _c_flags += $(if $(patsubst n%,, \
+ 	$(KCSAN_SANITIZE_$(target-stem).o)$(KCSAN_SANITIZE)$(is-kernel-object)), \
+ 	$(CFLAGS_KCSAN))
++_rust_flags += $(if $(patsubst n%,, \
++	$(KCSAN_SANITIZE_$(target-stem).o)$(KCSAN_SANITIZE)$(is-kernel-object)), \
++	$(RUSTFLAGS_KCSAN))
+ # Some uninstrumented files provide implied barriers required to avoid false
+ # positives: set KCSAN_INSTRUMENT_BARRIERS for barrier instrumentation only.
+ _c_flags += $(if $(patsubst n%,, \
+diff --git a/scripts/generate_rust_target.rs b/scripts/generate_rust_target.rs
+index 7687b0dd5474..4b02bffa6b46 100644
+--- a/scripts/generate_rust_target.rs
++++ b/scripts/generate_rust_target.rs
+@@ -231,7 +231,7 @@ fn main() {
+         }
+         ts.push("features", features);
+         ts.push("llvm-target", "x86_64-linux-gnu");
+-        ts.push("supported-sanitizers", ["kcfi", "kernel-address"]);
++        ts.push("supported-sanitizers", ["kcfi", "kernel-address", "thread"]);
+         if cfg.rustc_version_atleast(1, 91, 0) {
+             ts.push("target-pointer-width", 64);
+         } else {
+-- 
+2.56.0.385.gd3acb90ef8-goog
 
-> 3. Is the existing KCSAN debugfs file an appropriate interface for configuring
->    a single target?
-
-This looks clean enough.
