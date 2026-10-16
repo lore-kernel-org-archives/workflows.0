@@ -1,20 +1,20 @@
 Received: from mail.mainlining.org (mail.mainlining.org [5.75.144.95])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2F9C83E51DE;
-	Fri, 16 Oct 2026 16:02:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6D63C4DD3B5;
+	Fri, 16 Oct 2026 16:03:09 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=5.75.144.95
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792166540; cv=none; b=EVOBEygyDEA/IOu1zNQ9pNTbl/X8AlYI/fPBGdvCE6LLfgO9N5z5IWa7R9s9gt1RP6iI/SAAKZkUo7MFvFQ67Bk0wLqxOGzqKrUB9Zb+g9yAYxwde77yQOqpbfLKpSXO9zhoxHEOPxBsQg9N6SbwvitY7Jl4zhO6pkZh700J5J0=
+	t=1792166592; cv=none; b=KI+f11UWBFnsDKhwFZ0DxIV3c0ArrNHF7YeZCHbAvaM5Z2vnZ3tJZo8S0tAnCMwA7r+WLeaTh2EC8542lX5fiz2lwhJHORwyyHbINmRDkF7/mX4UdMj1eS065ztuLvts5h0pUw8S5esTAICZIax4bFAOs4R/jiUXYPV3DXp2qLc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792166540; c=relaxed/simple;
-	bh=sRNtULvTIFu/QdmdvWWCKAb4m/6z20vdBdBV3DFxyvY=;
+	s=arc-20240116; t=1792166592; c=relaxed/simple;
+	bh=GWU8JC0CI4KdDSq95d7Xww/72cmBcIdGZOCTJqdPaNk=;
 	h=Date:From:To:CC:Subject:In-Reply-To:Message-ID:MIME-Version:
-	 Content-Type; b=GwnH2HfhwuV+7RNKcSYvI2KO2ADSrSTJsCk5DJbVcTDtVPlvyxfviCN16TyfakobVVxhJHsPkjeIqevOHIzsc9AJer4pEiQuvkwWFRsc7fjdU0JmWroMYRXgq2YT2YflK6RQ8dGVn4xCF7gPeZE+8MftGBTzLgVz50CFaYseXLU=
+	 Content-Type; b=hwxOifo94iJFdt7uL5MjEFJcchqsa9o/OEVzE0we8fQbxPWWaaQgqpkOCKo1GSNEROO0PRw62GP/N7oRyU6MVaAn+bvYVY8vCeTd/BTJsA1ghc81A5tKjcqgwV3yFxNRVeDXO2ej+Tduk4ewvcDGo77LaCm9dhhHUl2pthJLQ0Y=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mainlining.org; spf=pass smtp.helo=mail.mainlining.org; arc=none smtp.client-ip=5.75.144.95
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mainlining.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.helo=mail.mainlining.org
-Date: Fri, 16 Oct 2026 17:01:54 +0100
+Date: Fri, 16 Oct 2026 17:02:58 +0100
 From: Bradley Morgan <brads@mainlining.org>
 To: sashal@kernel.org
 CC: broonie@kernel.org, corbet@lwn.net, error27@gmail.com, geert@linux-m68k.org,
@@ -22,12 +22,10 @@ CC: broonie@kernel.org, corbet@lwn.net, error27@gmail.com, geert@linux-m68k.org,
  ksummit@lists.linux.dev, laurent.pinchart@ideasonboard.com, leon@kernel.org,
  linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, linux@leemhuis.info,
  mst@redhat.com, ojeda@kernel.org, rdunlap@infradead.org,
- skhan@linuxfoundation.org, stable@vger.kernel.org, tytso@mit.edu,
- workflows@vger.kernel.org
-Subject: =?US-ASCII?Q?Re=3A_=5BPATCH_v3_3/7=5D_docs=3A_stable-kernel-rule?=
- =?US-ASCII?Q?s=3A_drop_rules_the_stable_trees_do_not_apply?=
-In-Reply-To: <20261016152828.3765695-4-sashal@kernel.org>
-Message-ID: <DF061D87-D1A3-42F6-AA3C-C288D3CB6BF3@mainlining.org>
+ skhan@linuxfoundation.org, tytso@mit.edu, workflows@vger.kernel.org
+Subject: Re: [PATCH v3 1/7] agents: add infrastructure for agent resources
+In-Reply-To: <20261016152828.3765695-2-sashal@kernel.org>
+Message-ID: <348BB89E-AD34-4B22-A7DD-A91E9657D566@mainlining.org>
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
@@ -38,67 +36,69 @@ Content-Type: text/plain;
  charset=utf-8
 Content-Transfer-Encoding: 8bit
 
-On 16 October 2026 16:28:23 BST, Sasha Levin <sashal@kernel.org> wrote:
->The stable trees do not apply the 100 line limit or the exclusion of
->theoretical issues, and they require a fix to be correct and tested
->rather than obviously correct. Drop those rules.
+On 16 October 2026 16:28:21 BST, Sasha Levin <sashal@kernel.org> wrote:
+>Add agents/ as a home for skills and other resources for
+>coding assistants. Describe the skill layout in coding-assistants.rst,
+>together with the rule that skills only inspect and report, and add a
+>MAINTAINERS entry covering the directory.
+
+I feel this "agents" would be ok, make sure not to let it conflict with the
+
+base agents.md file.
+
+Reviewed-by: Bradley Morgan <brads@mainlining.org>
+
+
 >
 >Assisted-by: LLM
 >Signed-off-by: Sasha Levin <sashal@kernel.org>
 >---
-> Documentation/process/stable-kernel-rules.rst | 6 +-----
-> 1 file changed, 1 insertion(+), 5 deletions(-)
+> Documentation/process/coding-assistants.rst | 14 ++++++++++++++
+> MAINTAINERS                                 |  6 ++++++
+> 2 files changed, 20 insertions(+)
 >
->diff --git a/Documentation/process/stable-kernel-rules.rst b/Documentation/process/stable-kernel-rules.rst
->index edf90bbe30f43..625c1b5b0e16b 100644
->--- a/Documentation/process/stable-kernel-rules.rst
->+++ b/Documentation/process/stable-kernel-rules.rst
->@@ -7,8 +7,7 @@ Rules on what kind of patches are accepted, and which ones are not, into the
-> "-stable" tree:
+>diff --git a/Documentation/process/coding-assistants.rst b/Documentation/process/coding-assistants.rst
+>index 051f0d819f68e..1efc7b08f09f8 100644
+>--- a/Documentation/process/coding-assistants.rst
+>+++ b/Documentation/process/coding-assistants.rst
+>@@ -19,6 +19,20 @@ For guidelines on content generated by AI coding assistants see:
 > 
-> - It or an equivalent fix must already exist in Linux mainline (upstream).
->-- It must be obviously correct and tested.
->-- It cannot be bigger than 100 lines, with context.
->+- It must be correct and tested.
-
-s/tested/fully tested ?
-
-'Tested" to agents would be just a basic compile test, maybe we could
-define here what you want the agent to do?
-
-E.g: a W1? A QEMU repro? And others.
-
-> - It must follow the
->   :ref:`Documentation/process/submitting-patches.rst <submittingpatches>`
->   rules.
->@@ -24,9 +23,6 @@ Rules on what kind of patches are accepted, and which ones are not, into the
->     regression they should only be submitted by a distribution kernel
->     maintainer and include an addendum linking to a bugzilla entry if it
->     exists and additional information on the user-visible impact.
->-  - No "This could be a problem..." type of things like a "theoretical race
->-    condition", unless an explanation of how the bug can be exploited is also
->-    provided.
-
-To help agents filter bugs see below:
-
->   - No "trivial" fixes without benefit for users (spelling changes, whitespace
->     cleanups, etc).
-
-What I tend to do when I use AI on my own projects to find bugs are to get
-it to "verify" what it finds to be a good enough bug. Could you refer to
-the security document here? That could help very well for AI agents to
-find proper bugs.
-
-
-Id also suggest that perhaps you *could* make a new patch saying that 
-
-"When finding bugs, you need to verify that this bug is severe enough to
-need stable backporting or a CVE, if you reckon it is not severe enough
-for them, if it's not reproducible, eliminate the bug from the results"
-
-What do you reckon Sasha?
-
+> * Documentation/process/generated-content.rst
 > 
+>+Agent resources
+>+===============
+>+
+>+Skills for coding assistants live under ``agents/skills/``, one directory per
+>+skill with a ``SKILL.md`` entry point in the `Agent Skills format
+>+<https://agentskills.io/specification>`_. Each skill points at the process
+>+documents that apply to its task and adds only what assistants tend to get
+>+wrong.
+>+
+>+Skills inspect and report. They do not change files, create commits or tags,
+>+or send mail. A skill returns its result with the evidence for it, or says what
+>+is missing. Do not fill a missing result with a guess or a placeholder, and do
+>+not finalize the work until it is resolved.
+>+
+> Licensing and Legal Requirements
+> ================================
+> 
+>diff --git a/MAINTAINERS b/MAINTAINERS
+>index f53047aa8d3c1..9e522cda56f1b 100644
+>--- a/MAINTAINERS
+>+++ b/MAINTAINERS
+>@@ -713,6 +713,12 @@ F:	Documentation/filesystems/afs.rst
+> F:	fs/afs/
+> F:	include/trace/events/afs.h
+> 
+>+AGENT RESOURCES
+>+M:	Sasha Levin <sashal@kernel.org>
+>+L:	workflows@vger.kernel.org
+>+S:	Maintained
+>+F:	agents/
+>+
+> AGPGART DRIVER
+> M:	David Airlie <airlied@redhat.com>
+> L:	dri-devel@lists.freedesktop.org
 >
 
 --- Thanks!
