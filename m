@@ -1,20 +1,20 @@
 Received: from mail.mainlining.org (mail.mainlining.org [5.75.144.95])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 768D04EFFC3;
-	Fri, 16 Oct 2026 16:05:15 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DCA4E4EFFB4;
+	Fri, 16 Oct 2026 16:05:46 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=5.75.144.95
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792166720; cv=none; b=nkyOMrbc0KmYpYC7wWyb8o2r2Leqwsw+TLlmi8cQMFHEVJgnYGAkWN26RqBSYRIT6DJ8mPgrvmWcJMyAVasPU+4kwHdDIL9GvNssqhSqBPXx9EDsYES1Fp8+MfIRFgCq/Jy6ofmCjlvQmvTcjwZoF3vGa3z8Yu+sxgzgD561z7w=
+	t=1792166752; cv=none; b=rkfZQOs5xmPp4sD/eP2dZ/gIcfR+mVS2rm6Dn1rqC4GKrz7H/XKgIs8+ZOF4mmHExoO7H4+B0ZJ1yaEdXix86QPj9GKRXMaIJhckfmyda/xGwmjGvW+BQnMqi5iI8N1i6qql4WTktBfGNGey5T1+SqoBZcFiiP5PVpHJZyowW0Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792166720; c=relaxed/simple;
-	bh=NUft4pH7f3JIjyQBKOEWfBoZDwmWN2kTTtQYfVs85Sc=;
+	s=arc-20240116; t=1792166752; c=relaxed/simple;
+	bh=z00kZSrfDHjx2jaAenRXcRDRrpo1U+a+Pz8k6xj3y3Y=;
 	h=Date:From:To:CC:Subject:In-Reply-To:Message-ID:MIME-Version:
-	 Content-Type; b=UimZ6iqs27MCgTmGJ7dmGUoaVBUBt5A28gQayz7ADgITg+91WB+50s2OJQGS3TEO9sHKSghCw0RN99Iwjb+Fevzm8GkyFIm12M23VP6c33bniB/td+BZRpxLHwuowI4zdqH/+sBs/Htfa6sVJ+S37Fo8YpeU3u+vZKbdH5hH6eE=
+	 Content-Type; b=fdWFoukB7wNbrvac+Etl4b55njA5sxkf70EGuyCwXXeaa5lIBcKSMtuiw7ZOASdrQGde8PpTLOdoPEwXuZ37xAk1HMShXIE+fc6nFavAidUDuH9rgt1AZNQOwFmszd7eRKZVvuVZNIGJOE3vMCY2VNqSuHAOzDDoyI/a1iEa4Cc=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mainlining.org; spf=pass smtp.helo=mail.mainlining.org; arc=none smtp.client-ip=5.75.144.95
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mainlining.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.helo=mail.mainlining.org
-Date: Fri, 16 Oct 2026 17:04:47 +0100
+Date: Fri, 16 Oct 2026 17:05:39 +0100
 From: Bradley Morgan <brads@mainlining.org>
 To: sashal@kernel.org
 CC: broonie@kernel.org, corbet@lwn.net, error27@gmail.com, geert@linux-m68k.org,
@@ -23,9 +23,9 @@ CC: broonie@kernel.org, corbet@lwn.net, error27@gmail.com, geert@linux-m68k.org,
  linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, linux@leemhuis.info,
  mst@redhat.com, ojeda@kernel.org, rdunlap@infradead.org,
  skhan@linuxfoundation.org, tytso@mit.edu, workflows@vger.kernel.org
-Subject: Re: [PATCH v3 5/7] agents: add a skill to determine stable tags
-In-Reply-To: <20261016152828.3765695-6-sashal@kernel.org>
-Message-ID: <E8B4AB04-80A1-421C-B5F8-C33743BCF484@mainlining.org>
+Subject: Re: [PATCH v3 7/7] agents: add a skill to write commit messages
+In-Reply-To: <20261016152828.3765695-8-sashal@kernel.org>
+Message-ID: <0CD32CFD-D3B9-4D48-A5E5-10C092719E70@mainlining.org>
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
@@ -36,137 +36,115 @@ Content-Type: text/plain;
  charset=utf-8
 Content-Transfer-Encoding: 8bit
 
-On 16 October 2026 16:28:25 BST, Sasha Levin <sashal@kernel.org> wrote:
->Whether a fix needs a stable tag, and which releases it should reach, is
->decided by hand and is often missed or left too broad. Add a skill that
->sends the agent to stable-kernel-rules.rst for the decision and the tag
->format, lists the kinds of changes the stable trees take and leave out
->in practice, and adds the checks agents tend to get wrong: finding the
->first release that contains each introducing commit, checking that the
->fix applies to the oldest affected release, giving every stable tag the
->same version, and following the subsystem's stable policy.
+On 16 October 2026 16:28:27 BST, Sasha Levin <sashal@kernel.org> wrote:
+>Assistants are asked to commit a fix with a detailed message, and the
+>find-fixes and stable-tag skills leave their tags for that message, but
+>nothing says how to write it. Messages written by assistants tend to be
+>long, and Linus recently asked that pull request text written with an
+>LLM be less verbose and prefer the imperative voice.
 >
->If the decision cannot be made, the skill returns no tag. Point the
->bug-fix procedure in coding-assistants.rst at the skill.
+>Add a skill that sends the agent to the parts of submitting-patches.rst,
+>5.Posting.rst and the maintainer documentation that cover commit
+>messages, cover letters and pull requests, and to the P: profiles of the
+>changed files. It adds what agents get wrong: stating only what the
+>change and the supplied sources support, keeping the text short and in
+>the imperative mood, and adding no tags that were not supplied.
+>
+>Point the bug-fix procedure in coding-assistants.rst at the skill.
+>
+
+This would be relevant to kill verbosity, no?
 
 Reviewed-by: Bradley Morgan <brads@mainlining.org>
 
 
->
+>Link: https://lore.kernel.org/r/CAHk-=wgXU50=KgZNZc1JDxsSxg9Z+DjG1_2yU-fNXpZtUe4XDw@mail.gmail.com
 >Assisted-by: LLM
 >Signed-off-by: Sasha Levin <sashal@kernel.org>
 >---
-> Documentation/process/coding-assistants.rst |  7 +-
-> agents/skills/stable-tag/SKILL.md           | 72 +++++++++++++++++++++
-> 2 files changed, 77 insertions(+), 2 deletions(-)
-> create mode 100644 agents/skills/stable-tag/SKILL.md
+> Documentation/process/coding-assistants.rst | 10 +++--
+> agents/skills/commit-message/SKILL.md       | 42 +++++++++++++++++++++
+> 2 files changed, 48 insertions(+), 4 deletions(-)
+> create mode 100644 agents/skills/commit-message/SKILL.md
 >
 >diff --git a/Documentation/process/coding-assistants.rst b/Documentation/process/coding-assistants.rst
->index ddff951856dce..fc4e98fd96e11 100644
+>index a89a33980c41f..9cae53cc5d8b9 100644
 >--- a/Documentation/process/coding-assistants.rst
 >+++ b/Documentation/process/coding-assistants.rst
->@@ -37,6 +37,8 @@ The following skills are available:
-> 
-> * agents/skills/find-fixes/SKILL.md determines the Fixes tag of a bug
-> fix, or
->   checks an existing one.
->+* agents/skills/stable-tag/SKILL.md decides whether a fix goes to stable and
->+  returns its stable tag, or checks an existing one.
+>@@ -41,6 +41,8 @@ The following skills are available:
+>   returns its stable tag, or checks an existing one.
+> * agents/skills/find-siblings/SKILL.md looks for the same bug elsewhere
+> in the
+>   tree.
+>+* agents/skills/commit-message/SKILL.md writes, rewrites or reviews a commit
+>+  message or cover letter, and writes the text of a pull request.
 > 
 > Licensing and Legal Requirements
 > ================================
->@@ -101,8 +103,9 @@ these steps:
+>@@ -105,10 +107,10 @@ these steps:
 >    another one. The fix must not add build warnings and must pass the
->    checkpatch.pl checks (see submitting-patches.rst).
-> 6. Commit the working fix with a detailed message describing the problem,
-> the
->-   solution and a Fixes tag determined with the find-fixes skill. Do not add a
->-   Signed-off-by tag, and add an Assisted-by tag, as described above.
->+   solution, a Fixes tag determined with the find-fixes skill, and a stable tag
->+   if the stable-tag skill calls for one. Do not add a Signed-off-by tag, and
->+   add an Assisted-by tag, as described above.
+>    checkpatch.pl checks (see submitting-patches.rst). Then look for the same
+>    bug elsewhere with the find-siblings skill.
+>-6. Commit the working fix with a detailed message describing the problem, the
+>-   solution, a Fixes tag determined with the find-fixes skill, and a stable tag
+>-   if the stable-tag skill calls for one. Do not add a Signed-off-by tag, and
+>-   add an Assisted-by tag, as described above.
+>+6. Commit the working fix with a message written with the commit-message skill,
+>+   describing the problem, the solution, a Fixes tag determined with the
+>+   find-fixes skill, and a stable tag if the stable-tag skill calls for one. Do
+>+   not add a Signed-off-by tag, and add an Assisted-by tag, as described above.
 > 7. Identify the maintainers and lists using scripts/get_maintainer.pl.
 >    Documentation/process/security-bugs.rst shows how to do that.
 > 8. Indicate what could not be done. If the fix could not be built or
 > tested, or
->diff --git a/agents/skills/stable-tag/SKILL.md b/agents/skills/stable-tag/SKILL.md
+>diff --git a/agents/skills/commit-message/SKILL.md b/agents/skills/commit-message/SKILL.md
 >new file mode 100644
->index 0000000000000..d87bcc95089d3
+>index 0000000000000..0825c2f5117c9
 >--- /dev/null
->+++ b/agents/skills/stable-tag/SKILL.md
->@@ -0,0 +1,72 @@
+>+++ b/agents/skills/commit-message/SKILL.md
+>@@ -0,0 +1,42 @@
 >+---
 >+# SPDX-License-Identifier: GPL-2.0-only
->+name: stable-tag
+>+name: commit-message
 >+description: >-
->+  Decide whether a Linux kernel fix should be backported to stable kernels
->+  and return verified Cc: stable tag lines. Use when preparing or reviewing
->+  bug-fix patches, drafting their commit messages, or checking an existing
->+  stable tag.
+>+  Write, rewrite or review the commit message for a Linux kernel change or
+>+  the cover letter for a patch series, and write the signed tag and pull
+>+  request text for a subsystem pull. Use when committing or preparing
+>+  patches, when asked to improve or check a commit message, or when
+>+  preparing a pull request for an upstream maintainer.
 >+---
 >+
->+# Determine a stable tag
+>+# Write a commit message
 >+
->+Read Documentation/process/stable-kernel-rules.rst. It says which changes go
->+to stable and how to write the tag, its prerequisites and its version. Follow
->+the rules for skills in Documentation/process/coding-assistants.rst.
+>+Read "Describe your changes", the sections on tags, "The canonical patch
+>+format" and "Commentary" in Documentation/process/submitting-patches.rst, and
+>+Documentation/process/5.Posting.rst for cover letters. Follow the maintainer
+>+profiles, the `P:` entries in MAINTAINERS, for the changed files; they take
+>+precedence. Follow the rules for skills and for attribution in
+>+Documentation/process/coding-assistants.rst, and
+>+Documentation/process/generated-content.rst when a tool found the problem.
+>+When editing someone else's message, also follow
+>+Documentation/maintainer/modifying-patches.rst.
 >+
->+Judge a change by what it does, not by how its description labels it: a
->+"cleanup" that releases a resource on an error path fixes a leak. In practice,
->+the stable trees take:
+>+- State only what the diff and the sources you were given support, such as a
+>+  bug report, a crash log, test results, or the list discussion found with
+>+  `lei q` on lore.kernel.org. If the reason for the change is not known,
+>+  return no message and say what is missing.
+>+- Take the Fixes and stable tags from the find-fixes and stable-tag skills.
+>+  Add other tags only when they were supplied or given on the list. Never add
+>+  a Signed-off-by.
+>+- Use the imperative mood and keep the message as short as its content
+>+  allows. Leave out markdown, labels such as "Root cause:", intensifiers, a
+>+  restatement of the subject, and the story of the investigation.
+>+- Check the result with `scripts/checkpatch.pl --no-signoff`.
 >+
->+- Fixes for crashes, oopses, BUG and WARN splats, hangs, lockups, RCU stalls,
->+  deadlocks, data corruption and security issues.
->+- Fixes for use-after-free, double free, NULL pointer dereferences,
->+  out-of-bounds accesses, integer overflows, uninitialized data, reference
->+  counting errors, and memory or resource leaks.
->+- Fixes for races, including data races.
->+- Fixes for incorrect behavior, such as wrong results, wrong hardware
->+  programming, or endianness and type errors.
->+- Fixes for problems reported by syzbot, other fuzzers, or the KASAN, KMSAN,
->+  KCSAN and UBSAN sanitizers.
->+- New device IDs and quirks for drivers that exist in the stable trees, device
->+  tree fixes, and device tree additions for hardware that existing drivers
->+  support.
->+- Corrections to documentation that is wrong.
->+- Performance fixes that prevent lockups, stalls or hangs.
->+- Reverts of commits that are in a released kernel.
->+- Fixes for bugs introduced by commits that were backported to stable.
->+
->+They do not take the following, unless a fix that is taken depends on it:
->+
->+- New features, new user-visible interfaces or behavior, new drivers, and new
->+  module parameters or sysfs attributes.
->+- Refactoring, code movement and other preparation patches.
->+- Optimizations that do not prevent lockups, stalls or hangs.
->+- Cleanups that do not change behavior, such as style, renames and comment
->+  changes.
->+
->+Then work out which releases need the fix:
->+
->+- Determine the Fixes tags with the find-fixes skill first. A change with no
->+  introducing commit, such as a new device ID, a quirk or a build fix, or a
->+  bug older than the available history, affects every release that contains
->+  the code it changes. Otherwise, if the Fixes tags are unresolved, so is the
->+  stable decision.
->+- For each Fixes tag, find the first release that contains the commit, not the
->+  release it was based on. If no release contains it, check whether the
->+  commit was itself backported to stable.
->+- Check that everything the fix uses exists in the oldest affected release.
->+  If something is missing, list the commit that added it as a prerequisite
->+  if it is small and fit for stable, or start the tag at the first release
->+  that has it.
->+- Give every stable tag in a commit the same version: a tag without a version
->+  asks for every stable tree and overrides the versions in the other tags.
->+  The stable tooling reads the first version number in a tag comment as the
->+  version, so describe what older trees need in the commit message.
->+- Follow the stable tag policy in the maintainer profiles, the `P:` entries in
->+  MAINTAINERS, for the changed files.
->+- Ask the caller whether the fix addresses an unpublished vulnerability, as
->+  described in Documentation/process/threat-model.rst.
->+
->+Return the tag lines with the reasons for them, or the reasons for no tag. If
->+the decision cannot be made, return no tag and say what is missing.
+>+For the signed tag and email of a pull request, follow
+>+Documentation/maintainer/pull-requests.rst,
+>+Documentation/maintainer/rebasing-and-merging.rst and
+>+Documentation/maintainer/messy-diffstat.rst. Summarize what the pull contains
+>+and why from the commit messages in the range, in the same voice, without
+>+repeating the shortlog. Ask the caller for conflict resolutions and testing
+>+that the history does not show.
 >
 
 --- Thanks!
