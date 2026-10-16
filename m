@@ -1,109 +1,120 @@
-Received: from mail-pf1-f176.google.com (mail-pf1-f176.google.com [209.85.210.176])
+Received: from mta0.migadu.com (out-134.mta0.migadu.com [91.218.175.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6AD7A48DB5E
-	for <workflows@vger.kernel.org>; Fri, 16 Oct 2026 18:24:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.176
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 57F7B494295
+	for <workflows@vger.kernel.org>; Fri, 16 Oct 2026 18:26:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.134
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792175058; cv=none; b=gMspyynPIIDbrIbWchLeobCqlp2NkskJmIrtj5ityoe0A/9IdswRC56GSoNxkpGi4OwhQvVMoVuLdhpFzHFRLaEoEc+chX60XXF7kzgN5L3qlWFFzmjzw9KmZDNcm20yyUOoFLohN/sCLTx5nW0zIC2qGVv/3tJrNAlkAiG7ppc=
+	t=1792175206; cv=none; b=su1NqYfwF/CiP/4JJylHh0Cv8xKsc+YxBuRjJ5MMSW4ww+w5M0UV0BUJ3ivIaUn+1i0rk0KSP3IuKXLE45z9rkhl8OXE3IFkmPmh49InoYiOKeVYC7TeR4V8sOk1qgTzivZ5hPAIceYvFrjSj+RELUhgW7OqKi5fT0kE7UPXpeQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792175058; c=relaxed/simple;
-	bh=bIepsGyPsDjDb0Ip+H9KtkM7Sr8wz3KXlJWJMjG+7aI=;
-	h=Content-Type:Date:Message-Id:Cc:Subject:From:To:In-Reply-To:
-	 References:MIME-Version; b=JMGrG6IUdkUTOLTaJ5bxWLWPKFG/s+vHtmOVB8pZt/9upju5YZbZGqFN6zvKcu/8+tMf0BjirBKLrsWRnuKABdlONVWrQ5+Qn0Vttj6nTu45CMZXNGxAo/44y2qNxkEiZpYCneNwMKYWb03e8TYuRtpm9Ql/xEJRG6zb1msxV3E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=b5l55XuL; arc=none smtp.client-ip=209.85.210.176
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1792175206; c=relaxed/simple;
+	bh=jtuOJCCzzL0aM1Ldk4uNEeEW1TSYEpqIrSgTbwGTG6g=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=oErhe6j+9M2349Q7uKlPu+ydb+Nal4+yLQqKidqnClCefTjNWHWq/PYx7FLPkpMU6AYu2MUU5R7rvV8rlbB1hhMFF0I67H9a+cIws4719k+Eyoe8Sx6zDOR/OyVuTTyGkTLrqnk2tXcA5+ecio8gV+V2bMNUHAHE+Ba7VHkSKD8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=iLzXVdOE; arc=none smtp.client-ip=91.218.175.134
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="b5l55XuL"
-Received: by mail-pf1-f176.google.com with SMTP id d2e1a72fcca58-89a595332c7so142828b3a.0
-        for <workflows@vger.kernel.org>; Fri, 16 Oct 2026 11:24:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1792175057; x=1792779857; darn=vger.kernel.org;
-        h=mime-version:content-transfer-encoding:references:in-reply-to:to
-         :from:subject:cc:message-id:date:content-type:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=bIepsGyPsDjDb0Ip+H9KtkM7Sr8wz3KXlJWJMjG+7aI=;
-        b=b5l55XuLf4CP3BRvUqG+XkMBAHbn4cXQ/jQVbkSRkBEkPv4QIN/8I4DuigTBnZ0cs3
-         klUirn4hyw3Jh0auzmAHtsqQoeS1tlU2YD1kVL6CRw9RghaU6lLmWuL/PCIyy4/+NQEx
-         0haL5wH3moPytqEENOkCe415nZUpbJ17TR+DV8A8EDbyqEj+gRQMBtfR8ipiruRbb5a5
-         KUHtJiXaHT3/evZVSCiAoYQ9UoTaGudRW0MsAHJd/+ixtTOZJgiQUWWTe+OsNhvqgWcZ
-         Q4CgjWz8Us7UP39g5MQTE15sioUUDj+rS5d82PMNvQgzF/UEAEG//CwwxOCcVvKkAuYJ
-         VKfQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1792175057; x=1792779857;
-        h=mime-version:content-transfer-encoding:references:in-reply-to:to
-         :from:subject:cc:message-id:date:content-type:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=bIepsGyPsDjDb0Ip+H9KtkM7Sr8wz3KXlJWJMjG+7aI=;
-        b=oz5WHsPupUb45Kp9gPCPGq0q+V8sGR2PiFTisqsRUSvKeHsWZyphjutIyNGNjbgWWs
-         7dmoFSpzD2D2CXsWyLlg3k9rkfixw5BYkCHQ/UG+09wDvqPl9BY1gXF8EYDxbZ2tuwb+
-         r9nn8D9j8/thYiMrrRaWXF1rLvpusSlkWtThAWZ6VulR2z5vVu2ghJ4aCOTQK5ZeBvm8
-         /+h967AZVHXISh0gD+xYtKYDHZU3mjzjLsx5IRgTszs7tj2hEjVwxTrxohJjv0gSc8Mu
-         sYteMygJCRxd983r0ZFG/3HCW3r08ALJ8SJpodbAKHCYxjZa+sCO2iFpisc5/WYhcum5
-         8v4Q==
-X-Gm-Message-State: AFq9FYKnYIl6R9RIB4tR41dh/9GrDrDZAgS31pDQ7L1C1vIhNlh1atuy
-	Ec3Zyvt8YLl5eC821XgKRUDsyKZ91y2TYJ5sPmp0OWXCTQnvoeO4HhfO
-X-Gm-Gg: AYBFou37jQM0Hi2v79saglVUXMywAux7ZNK6pAVXWdMh3GqVxW3QyJctk0+DqdIQEsW
-	OYmS+IaU5P28owCpPK532ShvI4o3cUJz3PAksHr7BmkTmlyEGNdat8CadBTvJY/rRLiX4iEy+8S
-	WzLirnZB5JZmP3DgQeLqv7Hju2pingfKmFp7DUPcvoL5HIzLoFvgjdmjQywKIE1tT4GcMVuQ1u/
-	dWimuNApqanpuipYaBBjIqF9Er6JEROq1MDO+sIRkI63AAVUC34DHCy5nm2wGWXgKFhQo+kgbQu
-	bFijeVjgZczPrctFpJM60epKF+2oVdS8mWmz5phM7zNMN9NqqAkojjrClKbEZz8Xbi7CNtAmLbI
-	TOM75IlxHyb7ubAuNuzWjpbjGbVK6QoYI8lhPOL4joAjOlluEkLMpur/4GFhwhtA9DLYZJ0MGy4
-	deSwoYmc8sgXjBLsiBDTb8rZDmsLHAgSAZMa+PF6DHsWH1R4AcjidjUTKE+ZFHzKLRgGpUNKJ2B
-	/pZ2U8Yakf4wUzftx3Zy+bAx3ljowaPIgsFVrXSWlD0X7VcztIEEUVClzx44x/ZskqxJQ623evJ
-	sk0=
-X-Received: by 2002:a05:6a00:4106:b0:87d:dc3c:1b5e with SMTP id d2e1a72fcca58-8a04ba2601bmr396865b3a.26.1792175056503;
-        Fri, 16 Oct 2026 11:24:16 -0700 (PDT)
-Received: from localhost ([153.61.198.248])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-89f56c8cf81sm1506688b3a.16.2026.10.16.11.24.13
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 16 Oct 2026 11:24:16 -0700 (PDT)
-Content-Type: text/plain; charset=UTF-8
-Date: Fri, 16 Oct 2026 18:24:13 +0000
-Message-Id: <DM6H19P1797J.2QYZAQAOI9FTN@gmail.com>
-Cc: <workflows@vger.kernel.org>, <ksummit@lists.linux.dev>,
- <linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>, "Jonathan
- Corbet" <corbet@lwn.net>, "Shuah Khan" <skhan@linuxfoundation.org>, "Randy
- Dunlap" <rdunlap@infradead.org>, "Mark Brown" <broonie@kernel.org>,
- "Theodore Ts'o" <tytso@mit.edu>, "Laurent Pinchart"
- <laurent.pinchart@ideasonboard.com>, "Greg Kroah-Hartman"
- <gregkh@linuxfoundation.org>, "Leon Romanovsky" <leon@kernel.org>,
- "Konstantin Ryabitsev" <konstantin@linuxfoundation.org>, "Thorsten
- Leemhuis" <linux@leemhuis.info>, "Michael S . Tsirkin" <mst@redhat.com>
-Subject: Re: [PATCH v2 4/5] agents: add a skill to find other instances of a
- fixed bug
-From: "Alexei Starovoitov" <alexei.starovoitov@gmail.com>
-To: "Sasha Levin" <sashal@kernel.org>
-In-Reply-To: <atJnq_ssIAGK-OSZ@laps>
-References: <20261012213452.1863248-1-sashal@kernel.org> <20261012213452.1863248-5-sashal@kernel.org> <DM6DXZJSMPO3.J5PONDJ3HWNP@gmail.com> <atJnq_ssIAGK-OSZ@laps>
-X-Mailer: mkdraft (claude review draft; edit before sending)
-Content-Transfer-Encoding: 8bit
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="iLzXVdOE"
+X-Envelope-To: workflows@vger.kernel.org
+DKIM-Signature: a=rsa-sha256; bh=jtuOJCCzzL0aM1Ldk4uNEeEW1TSYEpqIrSgTbwGTG6g=;
+ c=simple/simple; d=linux.dev;
+ h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
+ t=1792175202; v=1; x=1792780002;
+ b=iLzXVdOEqHdLkfhHn/eAZLyavV5Zu/u2b3OVs36nfMEiQ2d7U/tjJ5mWRnLirKgM7AK1KAEA
+ dHSJ1ppYvK7Zdq9tfiDs4b/xIkmwxZrmO0c1o5Q19cKbO1BygrOht4gi84rCr76WD4ughKwCUgA
+ odSzE/BfotAFZGYo25bq4FCk=
+X-Envelope-To: workflows@vger.kernel.org
+Received: by smtp.migadu.com with ESMTPS id e74b6b979483c25e;
+	Fri, 16 Oct 2026 18:26:42 +0000
+X-Mizu-Trace-ID: e74b6b979483c25e
+X-Migadu-Flow: FLOW_OUT
+Message-ID: <b23eb084-cf56-4eea-a934-6e8497594383@linux.dev>
+Date: Fri, 16 Oct 2026 11:26:33 -0700
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] docs: remove Assisted-by references
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ "Lorenzo Stoakes (ARM)" <ljs@kernel.org>
+Cc: Krzysztof Kozlowski <krzk@kernel.org>, Sasha Levin <sashal@kernel.org>,
+ corbet@lwn.net, skhan@linuxfoundation.org, rdunlap@infradead.org,
+ federico.vaga@vaga.pv.it, apw@canonical.com, joe@perches.com,
+ workflows@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, Greg Kroah-Hartman
+ <gregkh@linuxfoundation.org>, Linus Torvalds
+ <torvalds@linux-foundation.org>, Justin Stitt <justinstitt@google.com>,
+ Carlos Maiolino <cem@kernel.org>, Jakub Kicinski <kuba@kernel.org>,
+ Jori Koolstra <jkoolstra@xs4all.nl>, Brian Foster <bfoster@redhat.com>,
+ Christoph Hellwig <hch@infradead.org>, David Disseldorp <ddiss@suse.de>,
+ Mark Brown <broonie@kernel.org>, Jani Nikula <jani.nikula@intel.com>,
+ Jens Axboe <axboe@kernel.dk>, "David Hildenbrand (Arm)" <david@kernel.org>,
+ Vlastimil Babka <vbabka@kernel.org>,
+ "Christian Brauner (Amutable)" <brauner@kernel.org>
+References: <20261009083137.3-1-sashal@kernel.org>
+ <0914a106-bacf-4d95-854a-bfeefbff62a4@kernel.org> <asz9AeFe3CutP73z@gremlin>
+ <20261013123132.GC4214@killaraus.ideasonboard.com> <as4pAEnLd4H68W4W@gremlin>
+ <20261013131243.GM56180@killaraus.ideasonboard.com>
+Content-Language: en-US
+From: Ihor Solodrai <ihor.solodrai@linux.dev>
+In-Reply-To: <20261013131243.GM56180@killaraus.ideasonboard.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Fri, Oct 16, 2026 at 02:06 PM Sasha Levin <sashal@kernel.org> wrote:
-> What I had in mind was the kind of bug our scripts/coccinelle/ rules look for.
+On 2026-10-13 6:12 a.m., Laurent Pinchart wrote:
+> On Tue, Oct 13, 2026 at 01:59:33PM +0100, Lorenzo Stoakes (ARM) wrote:
+>> On Tue, Oct 13, 2026 at 02:31:32PM +0200, Laurent Pinchart wrote:
+>>> On Mon, Oct 12, 2026 at 04:42:46PM +0100, Lorenzo Stoakes (ARM) wrote:
+>>>> The tag's useful for push back on review,
+>>>
+>>> That's the point I raised during the maintainer summit. It's actually
+>>> the *absence* of a tag that helps me push back on review. It allows me
+>>> to ask submitters if they forgot to add the tag, and in many cases (so
+>>> far) they simply don't reply.
 
-For kfree_mismatch.cocci kind, yes. Each site is its own bug.
-But the other example in the guide is "a missing put when leaving a loop".
-That's iterators/for_each_child.cocci. It was fixed one driver at a time
-for years until for_each_child_of_node_scoped() made the put automatic.
+A practical rule of thumb in the year 2026 is to assume LLM has been
+used unless there is very compelling evidence to believe otherwise.
 
-> I agree that fixing the interface is better, but do we want to push all these
-> agents there?
+A voluntary tag only tells you that the submitter may have been aware of
+the policy. It doesn't even prove that, because the tag could have been
+added by the "agent" reading the documentation.
 
-To report it, yes. The skill is read-only anyway.
-Whether to change the interface is for the human to decide.
+The decision to deprecate Assisted-by is right.
 
-> So I think it should be a balance. When the skill finds the same defect
-> in several places, it should also ask whether the interface invites the
-> mistake, and if so report that the fix belongs there instead of handing
-> back a list for N maintainers
+>>
+>> While the tag's useful for pushback, pushing back is the issue.
+>>
+>> The asymmetry between submitter volume/reviewer bandwidth is the MOST
+>> CRITICAL issue we face.
+>>
+>> If reviewers are required to reply to all of these people, the project's
+>> dead, AFAIC.
+>>
+>> Ignoring is the only workable long-term solution.
+> 
+> How do you decide which patches to ignore ?
 
-Makes sense to me.
+It is indeed the main issue.
+
+netdev, for example, has an automated scoring system, partly based on
+review to submission ratio - e.g. contributors who review other people's
+patches are prioritized:
+
+https://netdev-ctrl.bots.linux.dev/suie.html
+https://lore.kernel.org/netdev/20260303180122.0929a864@kernel.org/
+
+A complementary thing is deploying automated patch review systems that
+use LLMs, like sashiko. netdev and bpf have customized solutions and
+they are quite helpful in terms of scaling the patch queue processing.
+
+> 
+>> The issue we had before was a lack of a CLEAR and LOUD 'yes ignore these
+>> people' from Linus.
+>>
+>> We now have that :)
+> 
+
