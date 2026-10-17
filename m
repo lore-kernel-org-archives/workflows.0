@@ -1,94 +1,116 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from bc (unknown [162.221.207.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7359A3AAF69;
-	Sat, 17 Oct 2026 16:44:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D1256385D7B;
+	Sat, 17 Oct 2026 17:42:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=162.221.207.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792255457; cv=none; b=DqdMTno+79CgMZicnrYkj5RDFMw+lByFEoPamBpm2meEJ2OBbKQmqHXIfTdxxa7ew4RdmdfaBRuRrJkNnCFQOuH8pBHEZEua5afaWF5LLIf95DoPkUH5Y+PSIexKCtTWU8vqtLdIPBOzRHhPNbDQNAbDtjY9UkgGH63wzSFyFag=
+	t=1792258936; cv=none; b=IyrJO42LUwtzk6hrWiGDQ7eF4hsW1n2DWrNAi1XiD/9x0ayVwwJ0zDcxDTlDc+v5QRhnmAY4uBf39vSfYkgtAU4beDsPM5V8yNE3UGApGuTCHUERb4d8mE0mS5u+g8lDxJa8rCRL8g9RLD9Dwj9EHZTn2HUvpjqxISbU4sdPOXo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792255457; c=relaxed/simple;
-	bh=UKfbu1T20lQWRoXbYY8lBXY7F/u8wdHGM7XgPm/Ol3Q=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=mdza5P8bW2QtK4PLoN1VZdtbd8OKXrLeoW4hJA7sQUPrvV1nLRXCzK/+zOnyXTaX5IJwL9eim5a8rddyJ2J1hI5g6VmD+WquaISu8sfG6o0bifBB1bzmjtRF8lXI4J7tZ7SMfZ7yqoOdZXMEiRQQMnFo8M+SW7xlQi6QQzXVOH8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=UahZwYB/; arc=none smtp.client-ip=100.103.45.18
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="UahZwYB/"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 91BBF1F000C5;
-	Sat, 17 Oct 2026 16:44:15 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1792255456;
-	bh=7G2NT+fxfzQbeg8Nb8I82d+DeZrkITmTp7CpnmRJeHA=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=UahZwYB/srfY5H1wEt+QhcwHwIMamSV2QK6PUOvWsyvAWb26Ujy9ZyGZZbRIE7cx9
-	 L4sFGTVbTrdEP6DUKl5iIcs+0PqSzivCsyWpbT8QIjlPo4xXhWsO+2ymfBAO3/70ew
-	 i2c1sHcxmCq7aOBZwj7cGzkqkTgDWhBNYw3Nj7WkyzPo8eXCdXyfGPDNN02IkY8U1k
-	 PscUh0mSTdTv/nu6ZXb0ks5naIMwGvLp9KcfXw2nL/DtBxx3f/EtyvDMygbPCUFr9/
-	 4E93+YOyIxPjqYtGQ0RJSlElpcI2D2tEqQGquvN/2pynoT5jKOLzZFx9AuGopuW9Vt
-	 qKGJEjMVJzPCA==
-From: SJ Park <sj@kernel.org>
-To: Sasha Levin <sashal@kernel.org>
-Cc: SJ Park <sj@kernel.org>,
-	workflows@vger.kernel.org,
-	ksummit@lists.linux.dev,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Randy Dunlap <rdunlap@infradead.org>,
-	Mark Brown <broonie@kernel.org>,
-	Theodore Ts'o <tytso@mit.edu>,
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Leon Romanovsky <leon@kernel.org>,
-	Konstantin Ryabitsev <konstantin@linuxfoundation.org>,
-	Thorsten Leemhuis <linux@leemhuis.info>,
-	"Michael S. Tsirkin" <mst@redhat.com>,
-	Kees Cook <kees@kernel.org>,
-	Geert Uytterhoeven <geert@linux-m68k.org>,
-	Dan Carpenter <error27@gmail.com>,
-	Miguel Ojeda <ojeda@kernel.org>,
-	stable@vger.kernel.org
-Subject: Re: [PATCH v3 3/7] docs: stable-kernel-rules: drop rules the stable trees do not apply
-Date: Sat, 17 Oct 2026 09:44:08 -0700
-Message-ID: <20261017164408.104457-1-sj@kernel.org>
-X-Mailer: git-send-email 2.47.3
-In-Reply-To: <20261016152828.3765695-4-sashal@kernel.org>
-References: 
+	s=arc-20240116; t=1792258936; c=relaxed/simple;
+	bh=RVnU932CaFagWh3EiDY63LLcko/vJL9ah9oQGe7lYes=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:Mime-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=CXbri45nulUjpQ/lgtSnXDoDSttrucIumEkvYJL8JuZbG65ZRSJkH25RDIbh8nCEuPYo4fWnr0V9Pvr/UfV3cQYjC/mCV/Q5ssbDU4A/X5rJdBeJReQOpTEz6VL2u2UmtIVSc2GZSZ3ae1X7vM/MyZNj0qdLgWMPRxuhX9pB5o8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=hozed.org; spf=pass smtp.mailfrom=7el.us; arc=none smtp.client-ip=162.221.207.43
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=hozed.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=7el.us
+Received: from localhost (localhost [127.0.0.1])
+  (uid 1002)
+  by bc with local
+  id 0000000000040026.000000006AD3B376.002A50CB; Sat, 17 Oct 2026 17:42:14 +0000
+Date: Sat, 17 Oct 2026 17:42:13 +0000
+From: Troy Benjegerdes <hozer@hozed.org>
+To: Matthew Brost <matthew.brost@intel.com>
+Cc: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>,
+  Linus Torvalds <torvalds@linux-foundation.org>,
+  Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+  Kees Cook <kees@kernel.org>, Jori Koolstra <jkoolstra@xs4all.nl>,
+  Krzysztof Kozlowski <krzk@kernel.org>,
+  Sasha Levin <sashal@kernel.org>, corbet@lwn.net,
+  skhan@linuxfoundation.org, rdunlap@infradead.org,
+  federico.vaga@vaga.pv.it, apw@canonical.com, joe@perches.com,
+  workflows@vger.kernel.org, linux-doc@vger.kernel.org,
+  linux-kernel@vger.kernel.org,
+  Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+  Justin Stitt <justinstitt@google.com>,
+  Carlos Maiolino <cem@kernel.org>, Jakub Kicinski <kuba@kernel.org>,
+  Brian Foster <bfoster@redhat.com>,
+  Christoph Hellwig <hch@infradead.org>,
+  David Disseldorp <ddiss@suse.de>, Mark Brown <broonie@kernel.org>,
+  Jani Nikula <jani.nikula@intel.com>, Jens Axboe <axboe@kernel.dk>,
+  "David Hildenbrand (Arm)" <david@kernel.org>,
+  Vlastimil Babka <vbabka@kernel.org>,
+  "Christian Brauner (Amutable)" <brauner@kernel.org>
+Subject: Re: [PATCH] docs: remove Assisted-by references
+Message-ID: <atOzdXK88Z3yxO6o@false>
+References: <as4xMnT8a75pIw9v@gremlin>
+ <FAD7F1E6-5FE0-47F5-8D10-40473B39A2D8@kernel.org>
+ <907933931.787284.1791903485683@kpc.webmail.kpnmail.nl>
+ <202610131000.43AB316FBC@keescook>
+ <20261013174243.GC178151@killaraus.ideasonboard.com>
+ <202610131216.C841415F01@keescook>
+ <20261013201628.GO4214@killaraus.ideasonboard.com>
+ <CAHk-=whTs09_ozN+e09GU68N1wPP56MUzDjrg9rnKxQUa0A_4Q@mail.gmail.com>
+ <as-Ino4KNmaG77_G@gremlin>
+ <atIyeGHCGDTCIvkx@gsse-cloud1.jf.intel.com>
 Precedence: bulk
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Mime-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
+In-Reply-To: <atIyeGHCGDTCIvkx@gsse-cloud1.jf.intel.com>
 
-On Fri, 16 Oct 2026 11:28:23 -0400 Sasha Levin <sashal@kernel.org> wrote:
-
-> The stable trees do not apply the 100 line limit or the exclusion of
-> theoretical issues, and they require a fix to be correct and tested
-> rather than obviously correct. Drop those rules.
+On Fri, Oct 16, 2026 at 07:19:36AM -0700, Matthew Brost wrote:
+> On Wed, Oct 14, 2026 at 02:56:22PM +0100, Lorenzo Stoakes (ARM) wrote:
+> > On Tue, Oct 13, 2026 at 01:45:09PM -0700, Linus Torvalds wrote:
+> > > The kind of expectations *I* have is that people do their best and I
+> > > expect people to understand what they are doing.
+> > >
+> > > But that understanding has very little to do with what tools they use.
+> > 
+> > I think that's the crux of it. Don't send stuff you don't understand.
+> > 
 > 
-> Assisted-by: LLM
-> Signed-off-by: Sasha Levin <sashal@kernel.org>
+> Yes, never send code one doesn't undertstand.
+> 
+> Also as important - never send code you haven't tested.
+> 
+> The idea that LLMs should not be allowed to write commit messages or
+> documentation really gets under my skin. What if you have a learning
+> disability related to reading or writing? I do, and for years the
+> hardest part of writing code was documenting what it did in a way that
+> others could understand. When LLMs first came out, all I used them for
+> was writing documentation and commit messages because they couldn't
+> properly code my ideas. They could, however, describe my ideas quickly
+> and clearly. Fast forward to today, and LLMs can do both, so I use
+> them for both.
 
-Acked-by: SJ Park <sj@kernel.org>
+My argument to keep "assisted-by:" as optional but highly desired commit
+metadata is based on understanding. If you have a culture of being able
+to explain things to humans, then make it easy for both humans and their
+assistive techonology to know exactly *what* technology is being used, 
+and where to get it.
 
-[...]
-> @@ -24,9 +23,6 @@ Rules on what kind of patches are accepted, and which ones are not, into the
->      regression they should only be submitted by a distribution kernel
->      maintainer and include an addendum linking to a bugzilla entry if it
->      exists and additional information on the user-visible impact.
-> -  - No "This could be a problem..." type of things like a "theoretical race
-> -    condition", unless an explanation of how the bug can be exploited is also
-> -    provided.
+Hell, I would expect the proprietary LLM vendors would have a strong
+incentive to keep the free advertising. I personally haven't yet asked
+an LLM yet to write a thesis on the subject, but you can probably place a
+bet that I'll feed this message into a couple of assistive technologies
+and try to make the most compelling argument that any company operating
+under US securities rules might want to have their legal department review
+the company policy on what to put in the Assisted-by: signoff.
+ 
+> Matt
+> 
+> > And if you do, expect to be ignored.
+> > 
+> > --
+> > Cheers, Lorenzo
 
-I initially thought requestion the explanation of how it can be exploited is
-still good.  But, that's maybe what need to be requested when the commit is
-landed on the mainline.  So this looks good to me.
+A clear structured header is easy to ignore, and the cost to maintain
+is minimal once we have consensus to retain it.
 
-
-Thanks,
-SJ
-
-[...]
+Cheers, Troy
