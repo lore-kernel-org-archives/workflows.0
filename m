@@ -1,139 +1,99 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=170.10.133.124
-ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792431721;
-	b=WnLLfvsZc/l4bLkXQYTQD43wXItxDHQr/eahPkKZlSYaFRHykBlToZ3BG+Jdku8CqEtq
-	 ISaRpmeRA6qnA4vLUAp4Wbt5RXrGqsp75ZtmXQYep4ozhqbBaFVqeDmzBcTr0KzNNOPI6
-	 ow7NEKQQON5xLbnTuiwysrUWWHOS3YNceETdT3sj7SdzfAxjzX30G7Rmg9ueGz18lCVdM
-	 T7oR593LL66Lmt8SsFdUTxPC2asYEO6O370TRPmKioCnv7DL74YyxbUNCltFUNCEuFTZT
-	 DewmVLbJf2p003p9ah5LQ4pRU92dVMvboYb1AeVnyT9oaygfDfVepBtVYchPnLAyUeg==
-ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792431721;
-	h=DMARC-Filter:DKIM-Signature:Received:X-MC-Unique:
-	 X-Mimecast-MFC-AGG-ID:Received:DKIM-Signature:X-Google-DKIM-Signature:
+Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=74.125.82.172
+ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
+	t=1792447155;
+	b=pNoqK2GVfOne6GG1AAmK+BH9MmcOBjzW4xwxaYw+HijMG+hm5jaMatwF2wsDr1fEsOwq
+	 esICB4k/9KwLHqiUqzNNY/9r1wN8d942xr1Nu/8PTl7/zsmAMC9xTfP8Y+HFRnRC11gFd
+	 7umAgc8aFV/jYJPk8lxm5ywROE3TZVImrdih6WGbxXRXXEUXJPBs0q6Y/eP739HPUUntM
+	 voUUIYdx7Z/98Vl/oifObc8wk5NFfazY2t7YY+Je5vPC3ys81JAWfhrkhDgaRjIeCHJWt
+	 Sn87XCaiSuDvO6x5/weCrUnoW9ZOw5jaTR+WfVx7pjv6rjY5K9Aezjwk6ndduFg9ScQ==
+ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1792447155;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:
-	 X-Received:Received:Message-ID:Subject:From:To:Cc:Date:In-Reply-To:
-	 References:Content-Type:Content-Transfer-Encoding:User-Agent:
-	 MIME-Version;
-	bh=oj02P4ARr8nHFDPAaFaHXc0/AuKhomTGXneezdAxNaQ=;
-	b=TPCcG20vFIO+hMdmU4EVnGBKk8Cenbq3L4tZkPjz4dyYQnG6mCKm5NWZplm7/1PrsEuL
-	 o732Atr66Fr2lY+N1zdbLZ+QiEyHSqmZ8einkxGY7J8udGLNmXioczbHoYsa9MUYaK+ps
-	 pB1HpfE1pYrHb46T4UHjjsCTLhTkWb8Wsf37ub+1Dhn3ZUVCrSchPQxFNDgTXi7hHh/4w
-	 jpym+ci+7W8Jk/ymXDEhxZmy2hr0nXJtvpHjdrWr7OoMwHkGxXg0qqZ/LiaSsxVzkzPgd
-	 LIftHS+6ZXH3QoGcnj9+Wbm4lZvLjSWN0Kne0GYQWvIxH2kaoA+gCTTXm2da1bSPF0g==
-ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=redhat.com;
-	spf=pass smtp.mailfrom=redhat.com;
-	dkim=pass header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=mimecast20190719 header.b=QbvffP8x;
-	dkim=pass header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=google header.b=UxoZbMTm;
-	arc=none smtp.remote-ip=170.10.133.124
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 MIME-Version:References:In-Reply-To:From:Date:X-Gm-Features:
+	 Message-ID:Subject:To:Cc:Content-Type;
+	bh=jctDokCQpU+5f4McBmCcNrit0g75bLIuZ0vnR/79ocM=;
+	b=LvWpYn0SnCYObiLPYEUw/mQbAMlA3aDh/s4a3aE1u0z1r+Sds8yl4FVbHds1+Jzca68i
+	 IRJQu7JGea+6iEqYSAjdxXskW0p1jhlYSm1RpMN+/3hkf3FKgPPQfKVMSihI9jx3gTHL0
+	 PU+BX//viPme0cUA6vu6HJ/5hKvoiq9W5XRjwZVRal1G1mypSZyNLhOXF3zdIVQsQ9+Ug
+	 R51++QrFJUw0B2xk8IXXWbBlWN+QNQXNUAvJPMLvfcRXS+sGYozD5ci1y3Nvv0GiflD3T
+	 sTB1/2A0KD+0VNu0OLkUMdVc3rHHVBRrxGWYmHEJ9Mo6O4BaI6O1nlw6IYh9Y2gaajw==
+ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=google.com;
+	spf=pass smtp.mailfrom=google.com;
+	dkim=pass header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20251104 header.b=LX1cEARj;
+	arc=pass header.oldest-pass=0 smtp.remote-ip=74.125.82.172
+Received: from mail-dy1-f172.google.com (mail-dy1-f172.google.com [74.125.82.172])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3C7DC606A31A
-	for <workflows@vger.kernel.org>; Mon, 19 Oct 2026 17:42:01 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 3C7DC606A31A
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B75C0606A31D
+	for <workflows@vger.kernel.org>; Mon, 19 Oct 2026 21:59:14 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org B75C0606A31D
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=mimecast20190719 header.b=QbvffP8x;
-	dkim=pass (2048-bit key, unprotected) header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=google header.b=UxoZbMTm
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1792431720;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=oj02P4ARr8nHFDPAaFaHXc0/AuKhomTGXneezdAxNaQ=;
-	b=QbvffP8xxOhGbaHBOpUeAELu0Gias/LLjHlCsnO5QHQuY1cNgXv6uH05lW50Qs05FodOab
-	JYNBGPNDdZ6vAAL45vrdbPpAzswt8ls3FathOeM+dCEy09McDiqUBOO31tyzrSc229vOzN
-	Iq9j6SY72X4W1I2mlrkPJYt5rG5dn0Y=
-Received: from mail-qk1-f199.google.com (mail-qk1-f199.google.com
- [209.85.222.199]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-94-IkGx3OaCNGCkRYRuTjMIeg-1; Mon, 19 Oct 2026 17:41:58 +0000
-X-MC-Unique: IkGx3OaCNGCkRYRuTjMIeg-1
-X-Mimecast-MFC-AGG-ID: IkGx3OaCNGCkRYRuTjMIeg_1792431718
-Received: by mail-qk1-f199.google.com with SMTP id af79cd13be357-936aa34873bso476285185a.3
-        for <workflows@vger.kernel.org>; Mon, 19 Oct 2026 10:41:58 -0700 (PDT)
+	dkim=pass (2048-bit key, unprotected) header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20251104 header.b=LX1cEARj
+Received: by mail-dy1-f172.google.com with SMTP id 5a478bee46e88-3514b90bb89so6768984eec.1
+        for <workflows@vger.kernel.org>; Mon, 19 Oct 2026 14:59:14 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1792447154; cv=none;
+        d=google.com; s=arc-20260327;
+        b=GfZLPZstqBnsK3jUdumL8gkPMc6Huw2m22DGBrGK2pkn+NSv9aAlyYjZowoXZxc27c
+         BX/mpNtfOGDKME4Ew7nuKkNP14+tx6a9Fj/Wgz3jEjac6ex2SNzmC0bsYdqc6I2eT/0G
+         UY2UxUmswj5HC4qV2pCfEWiEqS+DkOAL250Kgef4fJ1OiA+dq5V3Y651lLY7C2++5YKh
+         mT6DQtLaQ16BIAy51JTC5yjvWrtQmsmKLqyZ/rvY56b4tWRks/vvk/c9wP+NZEJwO/z/
+         5Vjb7jmGzUsiBB+okz89XSzkDHq6cOmWOGRkxODdjKYYZZt+wM0GB0T47ZEm9R1cnuQv
+         8tcA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=jctDokCQpU+5f4McBmCcNrit0g75bLIuZ0vnR/79ocM=;
+        fh=jJ9g7BEpbKfmf4FugCjmC2P1NMRE5FQDBKfGGSJ7Cqk=;
+        b=VJFSsJNOLZ/wThTHP237O6S/FazpiMDYo5Z9+bjUqM2gZjchMu043r6KMKmLwXASGe
+         VJa+CNisBeeBtbeW91Dvbz/HcD/3yvy+a4nvsFPVXmCVB/rXTG0WpuP8CsTLB4QX11Q7
+         OIfi2RE0HtxyOjVlQhwYi+lxPOSHwJ3gHHBqpDJvWA8LphVUZluvVEDOwnICr0zesQ13
+         xQYgImMyhokQRTiejREsqKVsq8BMjiprXwXRHjbtkamGWnFvUTMihdmHXlQct2MRd2Fr
+         XJdxu37qek69f8M/DhUTIH2Qd6U/Hq6oi4KCxHOsZYbWynxijg82PYFO9UuwuUj7nLfz
+         yJsw==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=redhat.com; s=google; t=1792431718; x=1793036518; darn=vger.kernel.org;
-        h=mime-version:user-agent:content-transfer-encoding:content-type
-         :references:in-reply-to:date:cc:to:from:subject:message-id:from:to
-         :cc:subject:date:message-id:reply-to:content-type;
-        bh=oj02P4ARr8nHFDPAaFaHXc0/AuKhomTGXneezdAxNaQ=;
-        b=UxoZbMTm+oOpWM4UEUqClYt+u2lMBHAkrD3m+LliSj4gaivLwRnANv/w/0a8F5jrU3
-         e8ecdk7jyl1NXRdedIUG3+Ayr5/Mq5KWWe7TBJf/YJ3UmEUccn5AdK8FoCXtPZ2shgCL
-         BjLzpiAcX+aijvF7jFFAmRqD2X+4y18QYaEobYWh0B1BTOiXEQwDWLQRVplfqeoVeDpk
-         JShV+i8JBmEv6mO28OUv77Y2IeoQMc1Ko3C9Bjn7oAi/Nz2LRBDEg9QdDdfU3tYAjMHC
-         8oNOUK3/9/i3/AsIzXKXRBbBkDERG5/q9ln6UkiL8WrZ4Vf7vhkXucqiKKvb5qk6Nj8R
-         BR+Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1792431718; x=1793036518;
-        h=mime-version:user-agent:content-transfer-encoding:content-type
-         :references:in-reply-to:date:cc:to:from:subject:message-id:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+        d=google.com; s=20251104; t=1792447154; x=1793051954; darn=vger.kernel.org;
+        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
+         :references:mime-version:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=oj02P4ARr8nHFDPAaFaHXc0/AuKhomTGXneezdAxNaQ=;
-        b=2gm2B0qg0LxqCf3j1p4IEe78IBm5DgpivWG1d7VRZ7jx36XRPt5+xnBhYjFk1By5L9
-         b0PVJvnPiNWxNHatsGmYxdnEYH2rpjUPXLPtDs4CUKZbNJxy/ei+ZER1GmeJwd7Z3Z0X
-         b5MMh9Ky4HQ6W3aHer7VZ62oFFMKaNLXBvGpPHRpldnuIlMnZvlKUFDJBMt9CHDBhBZ+
-         J+r+A6oR/NIKn8J2whNFFVS7BeQ8jgTk2PEpzryCoarvI/8OTbJ2EM24aHFgtF7ItKto
-         ZYgq9Qrysb9R/9Jdi116+aT6YNHy2OJ2HZVbCJ9dDwfLpvge1oEF2XzHG74I8Ff6Yw6l
-         TEBw==
-X-Forwarded-Encrypted: i=1; AKwUvBwpfUPlprvnGFdmKSIbQf7TI/b1AcYT5GWR5pbFmKONANmfDWOpOBp2AfwZU9UUjN/jbomETt/zSOM=@vger.kernel.org
-X-Gm-Message-State: AFq9FYLKeJizA9KhjFzium94PsS1dK0GHpv9PrteLdOYCpiA9h9U1GlK
-	j8eV3983ncMkvSxiIcIEUtvXkAKGosaTpMMe5rvpdIQGSBDkffWaaBrErTF5X2lNBhWA9IgMuQJ
-	S1vGIS7pLZYx2wGfN3OjuBglI4kG+6SBNt96e5RXoQmkrWxs+8IDt5Ol2Bm5WGA==
-X-Gm-Gg: AYBFou3m2x2pA+dQN89zC9ZG6QaMQplFieeyNxUwZtOLjKNpWtnRzRwqQ/0iYf1w6DT
-	rbUzCcgIwU7FjZAsxVRqJNMKt+ZmO/o1uKRHNeg3NIJq9FTqOTUfLXSuRvVbtbIZH+OeHq75yON
-	jSvd5n2QBffBt2NLtEVjdZy4U4lh66En0yWiadFPYunbS1ONrwZpDZWFjdaNBSzNyCJstCzIdDw
-	CSLZPiO3v3PBVgzUDn/k3jUazulckxWwJqqj+SVW8UAcrBDgu4HX3aTqJlEzQ3si3JOOnAukm67
-	4gP46mnJOiyC4rpuiK+lmMkwVvt+gn1+GjAWRr3SP4A5/7O3cX4Et2hPFZjjtZx5Xh4OlkU=
-X-Received: by 2002:a05:620a:4505:b0:939:6c9a:8f8d with SMTP id af79cd13be357-93f29ceec9bmr1386467185a.28.1792431718190;
-        Mon, 19 Oct 2026 10:41:58 -0700 (PDT)
-X-Received: by 2002:a05:620a:4505:b0:939:6c9a:8f8d with SMTP id af79cd13be357-93f29ceec9bmr1386462085a.28.1792431717358;
-        Mon, 19 Oct 2026 10:41:57 -0700 (PDT)
-Received: from [192.168.8.4] ([100.0.180.93])
-        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-91c0408c4c2sm1555996d6.20.2026.10.19.10.41.55
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 19 Oct 2026 10:41:56 -0700 (PDT)
-Message-ID: <b2b0296aaef22f8c4db2ab06ac7a708f8321a313.camel@redhat.com>
-Subject: Re: [PATCH] docs: remove Assisted-by references
-From: lyude@redhat.com
-To: Linus Torvalds <torvalds@linux-foundation.org>, Laurent Pinchart
-	 <laurent.pinchart@ideasonboard.com>
-Cc: Kees Cook <kees@kernel.org>, Jori Koolstra <jkoolstra@xs4all.nl>, 
- "Lorenzo Stoakes (ARM)"	 <ljs@kernel.org>, Krzysztof Kozlowski
- <krzk@kernel.org>, Sasha Levin	 <sashal@kernel.org>, corbet@lwn.net,
- skhan@linuxfoundation.org, 	rdunlap@infradead.org,
- federico.vaga@vaga.pv.it, apw@canonical.com, 	joe@perches.com,
- workflows@vger.kernel.org, linux-doc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, Greg Kroah-Hartman
- <gregkh@linuxfoundation.org>,  Justin Stitt <justinstitt@google.com>,
- Carlos Maiolino <cem@kernel.org>, Jakub Kicinski <kuba@kernel.org>,  Brian
- Foster <bfoster@redhat.com>, Christoph Hellwig <hch@infradead.org>, David
- Disseldorp <ddiss@suse.de>,  Mark Brown <broonie@kernel.org>, Jani Nikula
- <jani.nikula@intel.com>, Jens Axboe <axboe@kernel.dk>,  "David Hildenbrand
- (Arm)"	 <david@kernel.org>, Vlastimil Babka <vbabka@kernel.org>, "Christian
- Brauner (Amutable)" <brauner@kernel.org>
-Date: Mon, 19 Oct 2026 13:41:55 -0400
-In-Reply-To: <CAHk-=whTs09_ozN+e09GU68N1wPP56MUzDjrg9rnKxQUa0A_4Q@mail.gmail.com>
-References: <asz9AeFe3CutP73z@gremlin>
-	 <20261013123132.GC4214@killaraus.ideasonboard.com>
-	 <as4pAEnLd4H68W4W@gremlin>
-	 <20261013131243.GM56180@killaraus.ideasonboard.com>
-	 <as4xMnT8a75pIw9v@gremlin>
-	 <FAD7F1E6-5FE0-47F5-8D10-40473B39A2D8@kernel.org>
-	 <907933931.787284.1791903485683@kpc.webmail.kpnmail.nl>
-	 <202610131000.43AB316FBC@keescook>
-	 <20261013174243.GC178151@killaraus.ideasonboard.com>
-	 <202610131216.C841415F01@keescook>
-	 <20261013201628.GO4214@killaraus.ideasonboard.com>
-	 <CAHk-=whTs09_ozN+e09GU68N1wPP56MUzDjrg9rnKxQUa0A_4Q@mail.gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.58.3 (3.58.3-2.fc43) 
+        bh=jctDokCQpU+5f4McBmCcNrit0g75bLIuZ0vnR/79ocM=;
+        b=LX1cEARjYjyLWsHVq0TnFadifJpMl1riEBFE/Xx8mL8ByCwynKD6qynI1EhJIyeHh3
+         KzObEBds2ULVeYU3xtibaPVku7fXs8HIAaTa3IL8EqkJGKqsm5ZEnk2LuCr7nouCAPHL
+         EEGupoMs35LpI0T8ZPFeezaSAVyDuCMdBUu4DOHGL/2xcMYSI+AosaGkmZdwQJaIiQBj
+         micsO+P2ZUueb9J4/4bAfcId3doFTPR+MlqzRxN9HYoDSz2wConPCJdJWMLwmtKXs/wF
+         85Zk/FzK0k1omjubufQ2cY8dCOMFq2UeQrg2Tng76mJCvceisZ2bPXPqk3aX3zkdqdid
+         4gdw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1792447154; x=1793051954;
+        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
+         :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=jctDokCQpU+5f4McBmCcNrit0g75bLIuZ0vnR/79ocM=;
+        b=m6p1APsCMmrymwcPU83M5dqCHMlETlkCWoZx581RT5beFgdj8dbZVJ9DxyvdI0rdef
+         1JbT54T3HY6vwBcWEa7HkoJM0qjv4rHjws/GVkZViJ6nxsQ0JFLCmFMCu8+crWvgteJ6
+         vEWbOkUVsWdq8cysFIG7JrW4a17aehbd6D5EbLUFaFpZW3LguerUvnGACulg3EoOtmnS
+         FlLz8jzbrMQwZTYKSQU7ZezJWwmU6VWhptGv2B0aVBJahNbowwpUWMOIym7PgXM5lrTJ
+         xExPpdL8kWecbEbfntne/qkug2ZwdeaDFgQEflAUgQsTLQOXBXoCOMWoCrWqqqhwG7Ad
+         MbZQ==
+X-Forwarded-Encrypted: i=1; AKwUvBwQNGE4vj8AD7Nbyn59vyMwgx0Q6pcV3VP3AAEXq8kSKEN21XONXOwF5Xwag7xUeRrM7AfrCXt59aM=@vger.kernel.org
+X-Gm-Message-State: AFq9FYKZhfs2Ce84ZpoW9pS6UyGc02smmnp629J9yq4nnWlbgfRCbd24
+	QJpOWSqE9laiFvmYFedSMUeqDNLvjAeej99B6TYGMQfsT54yMMMvsaL3RxGWM2SBhHgWhJ9c8sM
+	k7J7DtGCHJl2qtdAxFIYwlnlht1P8viJi/zn1K7Sl
+X-Gm-Gg: AYBFou0VEHUC8IYabx2mkpMP3miWkcXej6v0sYqsfbvZL98OSwpvmtUpE96MtBKBwng
+	cljxcxZwCUn1Vk/BX6xE06ZqqGWI6QKJc59dPTDWtOKttOv0rs4+Ofx+I4EKnzjwaV90EAS1Y3T
+	oMWbXP3vkZEz3F+4HkoZ0HkxTf0ST4pJk+rTmTdsJk/2Zkkr6oV7MpD4IvH84TBva8V1NgQaHiL
+	y8UbE16rJWAqRWbE3Irpy7XhMJoCYyTh84E5YUl9q8jlBhFRUwDMZGAAlGx7fN+k++hbF1kQfHZ
+	SdYCysL4NL27VGr3ONo7NhyNk9tScJ4T/H5COs3LKwudg781Qm5boMlZaMYj1pvlZcx8KqXccb3
+	JNCxFXA74RWo=
+X-Received: by 2002:a05:701b:2207:b0:136:c443:80e5 with SMTP id
+ a92af1059eb24-1876658f6c4mr9237879c88.6.1792447152061; Mon, 19 Oct 2026
+ 14:59:12 -0700 (PDT)
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Post: <mailto:workflows@vger.kernel.org>
@@ -143,62 +103,72 @@ List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:workflows+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
+References: <20261015145714.3327543-1-elver@google.com> <DM8X51YCN6AA.1HV7J3R3PIYY9@garyguo.net>
+In-Reply-To: <DM8X51YCN6AA.1HV7J3R3PIYY9@garyguo.net>
+From: Marco Elver <elver@google.com>
+Date: Mon, 19 Oct 2026 23:58:26 +0200
+X-Gm-Features: AclHuK_qWUQb64XA37ScTQq_ZMKUMtenjdgDmPfnErmCHixLBqORRUjuSE_XZSQ
+Message-ID: <CANpmjNPALPJQDZFfNAqo8v0eu_0uNvj+rJ5xqeC3ZZSvs9zQwA@mail.gmail.com>
+Subject: Re: [PATCH v2 1/2] kbuild: rust: enable KCSAN support
+To: Gary Guo <gary@garyguo.net>
+Cc: Alexander Potapenko <glider@google.com>, Boqun Feng <boqun.feng@gmail.com>, kasan-dev@googlegroups.com, 
+	linux-kernel@vger.kernel.org, Dmitry Vyukov <dvyukov@google.com>, 
+	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
+	Randy Dunlap <rdunlap@infradead.org>, Andrew Morton <akpm@linux-foundation.org>, 
+	Miguel Ojeda <ojeda@kernel.org>, Boqun Feng <boqun@kernel.org>, 
+	=?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
+	Benno Lossin <lossin@kernel.org>, Andreas Hindborg <a.hindborg@kernel.org>, 
+	Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>, 
+	Danilo Krummrich <dakr@kernel.org>, Daniel Almeida <daniel.almeida@collabora.com>, 
+	Tamir Duberstein <tamird@kernel.org>, Alexandre Courbot <acourbot@nvidia.com>, 
+	=?UTF-8?Q?Onur_=C3=96zkan?= <work@onurozkan.dev>, 
+	Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nsc@kernel.org>, 
+	Nick Desaulniers <ndesaulniers@google.com>, Bill Wendling <morbo@google.com>, 
+	Justin Stitt <justinstitt@google.com>, Asahi Lina <lina+kernel@asahilina.net>, 
+	Lorenzo Stoakes <ljs@kernel.org>, Yury Norov <ynorov@nvidia.com>, David Gow <david@davidgow.net>, 
+	Joel Fernandes <joelagnelf@nvidia.com>, Alvin Sun <alvin.sun@linux.dev>, 
+	Josh Poimboeuf <jpoimboe@kernel.org>, Petr Mladek <pmladek@suse.com>, workflows@vger.kernel.org, 
+	linux-doc@vger.kernel.org, rust-for-linux@vger.kernel.org, 
+	linux-kbuild@vger.kernel.org, llvm@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
 
-On Tue, 2026-10-13 at 13:45 -0700, Linus Torvalds wrote:
->=20
-> I don't understand this whole idiotic concept of "don't use AI for
-> X".
->=20
-> Here's a new rule just for you: don't use compilers for any of your
-> kernel submissions.
->=20
-> Because if you can't show that you really understand what the machine
-> is actually doing by writing your code in assembler, then I don't
-> want
-> to see your code contribution. You clearly aren't competent if you
-> can't write it that way.
+On Mon, 19 Oct 2026 at 17:27, Gary Guo <gary@garyguo.net> wrote:
+>
+> On Thu Oct 15, 2026 at 3:56 PM BST, Marco Elver wrote:
+> > Rust supports ThreadSanitizer instrumentation via LLVM, which is what
+> > KCSAN relies on; however, Rust code is not currently instrumented.
+> >
+> > Pass -Zsanitizer=thread and the same TSan backend options used for C
+> > code to rustc. Wire up KCSAN_SANITIZE in scripts/Makefile.lib for parity
+> > with C (though rustc currently rejects linking crates with mismatched
+> > instrumentation).
+> >
+> > rustc only accepts -Zsanitizer=thread for targets that declare support
+> > for it. Of the targets used by the kernel, this is only possible for the
+> > generated x86_64 target specification, so restrict instrumentation of
+> > Rust code to x86_64 for now via HAVE_KCSAN_RUSTC. On other architectures
+> > Rust code remains uninstrumented as before.
+> >
+> > All TSan options used are supported by the LLVM versions of the minimum
+> > supported rustc, so no rustc-option checks are needed (they would also
+> > fail, because x86_64-unknown-none used for option checks does not
+> > support -Zsanitizer=thread).
+> >
+> > Unlike Clang and GCC, an equivalent to -fno-optimize-sibling-calls is
+> > omitted for Rust because rustc provides no corresponding option. While
+> > disabling tail-call optimizations helps preserve complete stacks traces
+> > in reports, it is optional and not required for KCSAN to function.
+> >
+> > With this enabled we can detect data races in kernel Rust code and
+> > between Rust and C code.
+> >
+> > Acked-by: Miguel Ojeda <ojeda@kernel.org>
+> > Acked-by: Boqun Feng <boqun@kernel.org>
+> > Signed-off-by: Marco Elver <elver@google.com>
+>
+> Acked-by: Gary Guo <gary@garyguo.net>
 
-I don't think this is a honest comparison when there has been a very
-clear shift in the kind of janitor patches I have received over the
-last 3 years. It used to be only occasional I got patches from people
-that they managed to write and build, but didn't understand. It is
-incredibly frequent now, and there is a very noticeable trend of what
-kind of tools are used for generating those patches. At the dawn of
-programming languages, sure, people could keep throwing things at the
-wall without understanding what they were doing. They could do it
-somewhat faster then before. But it still took time, it was not
-instant.
+Thanks!
 
-I've spent most of my career trying to push for new tooling, I pushed
-pretty hard in regards to pushing rust in the kernel. I've pushed for
-gitlab, I've pushed for new build systems, I literally believe that
-change is a part of what makes a developer good at their job. If you
-can't accept change happening anywhere around you, you blind yourself
-to new solutions that could make your work better. I even have started
-using LLM review bots like Sashiko, despite the fact that personally I
-wish these things never existed.
-
-And even I am not going to go out and try to say "it's just a new
-tool", because that's incredibly short sighted and just false.
-Usefulness doesn't change the fact we do not have the same social
-contracts we did before LLMs were around. And when a "new tool" changes
-the de-facto social contracts that a project has had, that seems quite
-a bit different then introducing a static analysis tool, a new API, a
-new programming language, etc. into the kernel. Rust helps attract new
-contributors, but it's never fundamentally changed the way that I've
-handled reviewing people's work or handle working with new
-contributors. It's perhaps saved me some time, but it's never
-fundamentally changed the expectations I had when a new contributor
-appeared. LLMs absolutely have changed that.
-
-This is the distinction between LLMs and other tooling, and it is a
-large enough one that at the very least it should be addressed with
-stronger arguments and a higher level of respect then "You just hate
-new tools don't you?".
-
-Frankly - that's part of why you don't understand "Don't use AI for X".
-You keep trying to look at this like someone introduced a simple new
-tool, and now people are just being luddites. If that's the only way
-you can approach these discussions then yes, you're never going to
-actually understand what's going on.
-
+Which tree should this go through? The Rust tree? Probably too late
+for this cycle.
