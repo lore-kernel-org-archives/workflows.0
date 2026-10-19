@@ -1,131 +1,123 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=170.10.129.124
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792427547;
-	b=lmVPpOQf537yNNgJg0EcT2w72ANjDn3nityslNhtOw1jVA+OaH/5nI2hh/FJWvYelYIe
-	 NUdFvCueszBhmK0G1XcVN+ACocGkIkEazEjvCGUkPvzqqr9fQSf0HmVjZ8m+qdgtEtE4S
-	 T4g5HTawDGyCgR0wm388WFdn20M/8PL1xsjaVqxONxuFO8Pda4X5qz9sKqJ88jhndfbUF
-	 lkpELZuBGO4s9GYhpEktf1fBiSdVmDmX/Q2xcQQZLRX2XyD1jiHmR7w9Jx3nKOyPzCG9a
-	 nVXZ35ZCzv1uQfHB2JOc/wcczb3FcAmyF34dydcx0rEb+Pcqag5/wNjY9uszLuQQqxg==
+	t=1792428607;
+	b=eaG7t5bl82eY0lU6P9eE6wG0ko7QRhL+3hrxSvVRkIsY6MKd0/ewbFG0shl9ddgFT74y
+	 WCzoruSIxvpUMSFh4BjCvqZrU1RWOGI4FdguDYhdAeBjtI0oAJUTJRQi111Jdl32lemvy
+	 4wkiiwvm2cqNZikDLUrUztfAlxpMi/qG48/h1TmTkbJ1I2bDqCbUgWupVmKdtNEGX3imA
+	 AB0hfVBYDjLmIIvDmvhXQDjyADSY/0MTtZgSjrFnUu02ObjUr2hLvOMOt9ksfVwHR3Hdb
+	 +D/HlpwNcFRLGpfepLmylJryFqzHCuh7MBF7+g3caW1pVp9Nvdw96tfGJcAQHPMG8CQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792427547;
+	a=rsa-sha256; c=relaxed/relaxed; t=1792428607;
 	h=DMARC-Filter:DKIM-Signature:Received:X-MC-Unique:
 	 X-Mimecast-MFC-AGG-ID:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:
 	 X-Received:Received:Message-ID:Subject:From:To:Cc:Date:In-Reply-To:
 	 References:Content-Type:Content-Transfer-Encoding:User-Agent:
 	 MIME-Version;
-	bh=Le4PJ1qJhxmaIRhwFNQeQkknTjXk1GEFa9C29hi3dNs=;
-	b=r0cETNVi/Xn3bJNRWsZITOsTEJwOjaHogf7vEdJDQ58GploupDlGo2mnnCL2FsOvARjw
-	 TlW2C5GLIflm5Zvo1zl5slfuwnM3F74P3Vjw2L/R3+thZJrz06ldMG1ekb6kdOBMjqQeb
-	 UNg28Qmg37DpFw3C+29bSM1eNEOPfiMqrDFRBydrLuq+9xpZUlrCvJI+UD6Cy+Cgd5fab
-	 EU7J3mk4EckuwA9lXK8eiWgnxl3wRCPF+DUgT2TY/L5vua7IoAqWYsR2UE9uFq48ffB+z
-	 Sy6oxpwQzTWMHDMOo0ktFG5bKtZZnSxOsTQtoCgqz4TxKR3gIjYDBYWZZhnupX7DoTQ==
+	bh=Uxw38r8wB/IQJnVPPwaZxC07zUgL/ICYp4/1chpBGhc=;
+	b=BfMiuBDl1Vagpug0DvwSs8a/C82TpBkmZx3Slqrcf+U28tIWM5JAGgGb4f1u0meml/b9
+	 IntCiHKuZcfYOegClbygWlhc7MB7qQ5ZWoN3MbsIYIZofdFXTT7UPOs2/bZPPU//+Lert
+	 t8fYRpZEdBk4zF1hxflFtEHr7u3m14AEA8Yv5QOWEV7u+hmOKJTq3kpzzG9Rh0lcSoBxQ
+	 DXUPIrPcwQOowWrPKgFcGHMy6WiYdtM8ZynLlBWrlQnFJoeMU1VVTMZRn55ePpDTpvGJG
+	 DUwRnQgS+9iMcQ2ooMTUHxbWrruV7B3o83Whe1vNbvx1UjHFSEX13zEWUK/DtZGndXg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=redhat.com;
 	spf=pass smtp.mailfrom=redhat.com;
-	dkim=pass header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=mimecast20190719 header.b=bpnT6bVv;
-	dkim=pass header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=google header.b=Jaj19A40;
+	dkim=pass header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=mimecast20190719 header.b=dcRMvGrR;
+	dkim=pass header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=google header.b=eDiGZkgg;
 	arc=none smtp.remote-ip=170.10.129.124
 Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 72860606A31C
-	for <workflows@vger.kernel.org>; Mon, 19 Oct 2026 16:32:27 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 72860606A31C
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2E6E9606A31D
+	for <workflows@vger.kernel.org>; Mon, 19 Oct 2026 16:50:05 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 2E6E9606A31D
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=mimecast20190719 header.b=bpnT6bVv;
-	dkim=pass (2048-bit key, unprotected) header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=google header.b=Jaj19A40
+	dkim=pass (1024-bit key, unprotected) header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=mimecast20190719 header.b=dcRMvGrR;
+	dkim=pass (2048-bit key, unprotected) header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=google header.b=eDiGZkgg
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1792427546;
+	s=mimecast20190719; t=1792428605;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=Le4PJ1qJhxmaIRhwFNQeQkknTjXk1GEFa9C29hi3dNs=;
-	b=bpnT6bVvqF+jUQnlTlzIUz349+gQbVPV3q19Wg0XLF62CafKwXURpxCpU4t+ok07Eswf13
-	OoykFwjB2pK1nliTx2idhrMIFPNuCgczZVY+gv2RRW/6TRaMOmoz0lyWavawcPffEWA+LQ
-	NDRQydgZBXIV893h495u7AAHwJU7nfo=
-Received: from mail-vk1-f198.google.com (mail-vk1-f198.google.com
- [209.85.221.198]) by relay.mimecast.com with ESMTP with STARTTLS
+	bh=Uxw38r8wB/IQJnVPPwaZxC07zUgL/ICYp4/1chpBGhc=;
+	b=dcRMvGrRYE65JobqEJDpqLlcG2AUFd2X9z6vY7tccthbk8ulGh9fHfHP5R5uhUSZtTnIas
+	FnLOYQmG7x7LW9KPi/Lfp2k6zXZ2g4+tpwruPPHPKCxrVxMck1gzPDY+pM0XTYr0vmBCs8
+	pEv+LnN8Mpfp8HHCjJYUbcFtGdqup0U=
+Received: from mail-qk1-f200.google.com (mail-qk1-f200.google.com
+ [209.85.222.200]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-539-dhvz8FINNjmFvNFcqgVmhw-1; Mon, 19 Oct 2026 16:32:25 +0000
-X-MC-Unique: dhvz8FINNjmFvNFcqgVmhw-1
-X-Mimecast-MFC-AGG-ID: dhvz8FINNjmFvNFcqgVmhw_1792427544
-Received: by mail-vk1-f198.google.com with SMTP id 71dfb90a1353d-5e944179148so2941995e0c.3
-        for <workflows@vger.kernel.org>; Mon, 19 Oct 2026 09:32:25 -0700 (PDT)
+ us-mta-371-wqrS-mIFN0mPPtnph-jjcQ-1; Mon, 19 Oct 2026 16:50:03 +0000
+X-MC-Unique: wqrS-mIFN0mPPtnph-jjcQ-1
+X-Mimecast-MFC-AGG-ID: wqrS-mIFN0mPPtnph-jjcQ_1792428603
+Received: by mail-qk1-f200.google.com with SMTP id af79cd13be357-939c30aa9a0so258823985a.0
+        for <workflows@vger.kernel.org>; Mon, 19 Oct 2026 09:50:03 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=redhat.com; s=google; t=1792427544; x=1793032344; darn=vger.kernel.org;
+        d=redhat.com; s=google; t=1792428603; x=1793033403; darn=vger.kernel.org;
         h=mime-version:user-agent:content-transfer-encoding:content-type
          :references:in-reply-to:date:cc:to:from:subject:message-id:from:to
          :cc:subject:date:message-id:reply-to:content-type;
-        bh=Le4PJ1qJhxmaIRhwFNQeQkknTjXk1GEFa9C29hi3dNs=;
-        b=Jaj19A40NcopUc++brDNJ+pO3bte8j2rHirqQmv7K+N2ELjmRH3EG1lOPMumZA4LQC
-         sKvmZ6orlM2582o/6bgCC0tzbStY0nlaiW3oCTU9dTzbmrmNPlGH2naaYeXAuwAimEbw
-         5zVnk0UoUNwymZ5bfNFpqnoT1ezhgtlqTaIOt9JX485L500pKkSpjQfSD7wMF7uPrUfQ
-         Mj+wSCew4v3m9cPL3TRogqakxIWIneHUmYOPhKIXu8keho4kKC9O2AEcLLu8TyJKP+CL
-         bOMjf+ocNNWmrCBqhAtJGlfzIQwNH1neXfmX8CqAUGLoxmxIrqONN8dTuIRdlP1HLwxV
-         pUdg==
+        bh=Uxw38r8wB/IQJnVPPwaZxC07zUgL/ICYp4/1chpBGhc=;
+        b=eDiGZkggUvGmkPK8PjiQVX2k3YcgL59lqvZLJAlQnPsJHHX2GIzOJ8FzKkEfD3StbL
+         pKVLwkvgjzSu3unmR/AQqh5lVn6itXI37kYmdpgk35fjOJrtmsXnE/lKnGb31zeg5I5L
+         eIzYi2kamp3D0512lhUHo5/IhxLbLhJBPGUiNY3Zp7IV+csJabwiuu+L/vZffmpWCVh5
+         VX83DpyuaJn7167VE/A5+XS9WN9c9pExbD08Yn086L+ChBLs0dpBG+TVOeL+tav6FAGO
+         +erMoD5MGoaHwf5zuqUj7VO2QkwUn2dR8YjEgv+xeSSLjKNIiQLa5hWw1YtQV58oewYF
+         Sy6Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1792427544; x=1793032344;
+        d=1e100.net; s=20260707; t=1792428603; x=1793033403;
         h=mime-version:user-agent:content-transfer-encoding:content-type
          :references:in-reply-to:date:cc:to:from:subject:message-id:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=Le4PJ1qJhxmaIRhwFNQeQkknTjXk1GEFa9C29hi3dNs=;
-        b=0qZiG1NWQvMe+QWGICzNDtjZZqCOQ0UuZ7a+Q+DqlOP4MsMDtK19NfUCMXahvl/FGV
-         sjmKaCBj4i+wpPQW0VFSs/K8+7PSwGiZQuq6nXXEUGqrnmB3BDcW8ap57S5N8X4pp6+l
-         5FEB+us6MY2Ac++2T4Cs7q28E1xqHeSkRv/aj62/YSHvXE8zXVCiwkP3wpFi/FMFd+vE
-         pMM1/J3SoShSuwG8QTR2xt6sEW2mSau2QfIpzdF/AG6iyKplCfucqr4IWOJOaP+PtJIo
-         10Ghlw8Pcmmgxhc+S9+O6bpdClVrnq++fBwxqiy2XkraIwrNd/28F1dNVE/IGc+xp0iq
-         oOSg==
-X-Forwarded-Encrypted: i=1; AKwUvBxIewraPYXS7C4Hwino5tAqMesXHHj8jMeisGsbBiillrMyVb3GvtuPPwTECcEDsIFrCIjvE++T23I=@vger.kernel.org
-X-Gm-Message-State: AFq9FYLR5PS0589w1oaKKZxo6dbpHh5gsY4Tg7onTlWo4zxyhS7uCRgY
-	07aLGkZyJbHMZEBcoGiDuky6NRF6JkJV7Kcmn0Frv3rBQtXwFvspa0aFowTxF36gqqNCSkZCE+8
-	5laXg+cnQQhwAEQ9i2oWAOEszVq4rxHm1esfmaguZyf6JoyVWLwihPxENs05UXw==
-X-Gm-Gg: AYBFou2N8/CQ1ZrKH0iSaUF3cUDzzRv/SRdJfnlB2/s069mLGYH9ur+lOv2f/An2o/3
-	3Dk6Kve2gQOWsaDNcW1dAq6frrMjPRD1wG1/Ip9vY30fu9c8UyAjalFsu/3FVXJ/etp932cEUkx
-	gOVuPjHQG+CbQqWTBknl7jr/VY0SVQZrYRuPtIjw6nEjrPTrVpQMxj1jRP0+gpEtNzFpBRyJbE5
-	cgsW46p+pDhtBcG1L6gfv29rWqqFs6gx0ECT3BMF28wO1bIxsYc+QxCBON0ieJXuW0zzHSqSfLJ
-	3OtrjmeHOMvjIrwBQ0YFyzAR0ScISjjbZG5yFJyZDdeHC9tIe/AhQdq7yX3kKieGV8oMRys=
-X-Received: by 2002:a05:6122:1d07:b0:5ea:be1b:1b24 with SMTP id 71dfb90a1353d-5eabe1b1e5amr1473611e0c.13.1792427544295;
-        Mon, 19 Oct 2026 09:32:24 -0700 (PDT)
-X-Received: by 2002:a05:6122:1d07:b0:5ea:be1b:1b24 with SMTP id 71dfb90a1353d-5eabe1b1e5amr1473594e0c.13.1792427543871;
-        Mon, 19 Oct 2026 09:32:23 -0700 (PDT)
+        bh=Uxw38r8wB/IQJnVPPwaZxC07zUgL/ICYp4/1chpBGhc=;
+        b=FJkLlZFOVmuuxdHZEnpx1D25nARsYXWCVWtuleaZRrY7y+IGg+glrIxlTCE0/e00Ps
+         TK/YtuUsvCcn9mETT5k8X9gKtSobOk6RYrp8Ijlvss0awBPcIErWK3vTSeCp2c7ZJcN0
+         dIR8KlPMW+pLmJvLt9wf9iyS88OstBhJhw2faUS3ye/cLAJzPU0wCn7qfQemtJN5NAH+
+         bF2LaxGUtsY+Rudx6HiKghI2uaxklrnO/nGlMJe5j4bDUY4h6k9+vFeFenJACvVlVItq
+         27Ecbj6vYmvxKjpTPwi7J6iUG+53HrKBKGmW8bVPVdYjmLwd16/6h/xAufhqICSfg+B+
+         y3mQ==
+X-Forwarded-Encrypted: i=1; AKwUvBy6ff7cbGeW5/QFtbSKi3UZse1ng1u+zWqcRr8W+QDnOEVETpx9hnMjovN3YmRuE5U6x/liUUXOJME=@vger.kernel.org
+X-Gm-Message-State: AFq9FYKk4scig1DdzZPv19qxncAT42R4VrQt71euEvdD2l48XuUhE1cm
+	wFsKXPKo89kdP/i8R5HoMEYFBQxmgCbrDL/Mrp5rqAX5Cy6euM6bm+QZkZyRgvlRRelK3DbJHEF
+	vA8OvleAZg05S8cSRxJJye5LtJLu7HujM33UdYBWWSA4/U9ofMNgLn6IWX/8Xjw==
+X-Gm-Gg: AYBFou23M+28yfjbFRb55EleuVly8x+bY98oDOjop+YETJWG3vC7dKlWw2flW2tQzCw
+	QrnEj8P5u/3pIXTmGAdruYPgvcMm+5TqiqcxK0gZ7O1AA1C5Yh0NVkyKKNRKYDlY6OGQnwxg1Zu
+	4m78gzQVr3+KE+uwk8+EaNkZn8Mn35VaRF6lmKFF46eUJGTN9d2h2a8rkTl2yrRr8cLSWPuA6wq
+	foVlW3hFCblp/kczlHVUJzqbo0ZZHZHXa8myiw2JT/ilEtcSUu+AaYW+PPWQdFNtJe/limhNlmr
+	mkjyNWdh+6jsSz4SLwbwKSNFRhH6ENi56pAInxRmQCFN1GIfkm2slAG+DFBft0uOf0d5VeE=
+X-Received: by 2002:a05:620a:2954:b0:93e:48fc:aa88 with SMTP id af79cd13be357-93f29d492c0mr1355987585a.44.1792428603023;
+        Mon, 19 Oct 2026 09:50:03 -0700 (PDT)
+X-Received: by 2002:a05:620a:2954:b0:93e:48fc:aa88 with SMTP id af79cd13be357-93f29d492c0mr1355980285a.44.1792428602323;
+        Mon, 19 Oct 2026 09:50:02 -0700 (PDT)
 Received: from [192.168.8.4] ([100.0.180.93])
-        by smtp.gmail.com with ESMTPSA id 71dfb90a1353d-5eaa42c2ab3sm9170267e0c.9.2026.10.19.09.32.22
+        by smtp.gmail.com with ESMTPSA id af79cd13be357-93f4af42903sm3989085a.5.2026.10.19.09.50.01
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 19 Oct 2026 09:32:23 -0700 (PDT)
-Message-ID: <4a2c667b14fafad7acef96af2585e41f158fdac0.camel@redhat.com>
-Subject: Re: [PATCH] docs: remove Assisted-by references
+        Mon, 19 Oct 2026 09:50:01 -0700 (PDT)
+Message-ID: <c0e0a34aa136104c9644e007032b98cf0d56417a.camel@redhat.com>
+Subject: Re: [PATCH] docs: remove Assisted-by reference
 From: lyude@redhat.com
-To: Theodore Tso <tytso@mit.edu>, "Lorenzo Stoakes (ARM)" <ljs@kernel.org>
-Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>, Krzysztof
- Kozlowski	 <krzk@kernel.org>, Sasha Levin <sashal@kernel.org>,
- corbet@lwn.net, 	skhan@linuxfoundation.org, rdunlap@infradead.org,
+To: Jori Koolstra <jkoolstra@xs4all.nl>, Laurent Pinchart
+	 <laurent.pinchart@ideasonboard.com>, Lorenzo Stoakes <ljs@kernel.org>
+Cc: Kees Cook <kees@kernel.org>, Randy Dunlap <rdunlap@infradead.org>, Sasha
+ Levin <sashal@kernel.org>, corbet@lwn.net, skhan@linuxfoundation.org,
  federico.vaga@vaga.pv.it, 	apw@canonical.com, joe@perches.com,
  workflows@vger.kernel.org, 	linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, Greg Kroah-Hartman	
- <gregkh@linuxfoundation.org>, Linus Torvalds
- <torvalds@linux-foundation.org>,  Justin Stitt <justinstitt@google.com>,
- Carlos Maiolino <cem@kernel.org>, Jakub Kicinski <kuba@kernel.org>,  Jori
- Koolstra <jkoolstra@xs4all.nl>, Brian Foster <bfoster@redhat.com>,
- Christoph Hellwig <hch@infradead.org>,  David Disseldorp	 <ddiss@suse.de>,
- Mark Brown <broonie@kernel.org>, Jani Nikula	 <jani.nikula@intel.com>, Jens
- Axboe <axboe@kernel.dk>, "David Hildenbrand (Arm)" <david@kernel.org>,
- Vlastimil Babka <vbabka@kernel.org>, "Christian Brauner (Amutable)"	
- <brauner@kernel.org>
-Date: Mon, 19 Oct 2026 12:32:21 -0400
-In-Reply-To: <as7uqZn9rQ52USwy@mit.edu>
+ linux-kernel@vger.kernel.org
+Date: Mon, 19 Oct 2026 12:50:00 -0400
+In-Reply-To: <28216768.791900.1791897606751@kpc.webmail.kpnmail.nl>
 References: <20261009083137.3-1-sashal@kernel.org>
-	 <0914a106-bacf-4d95-854a-bfeefbff62a4@kernel.org>
-	 <asz9AeFe3CutP73z@gremlin>
-	 <20261013123132.GC4214@killaraus.ideasonboard.com>
-	 <as4pAEnLd4H68W4W@gremlin>
-	 <20261013131243.GM56180@killaraus.ideasonboard.com>
-	 <as4xMnT8a75pIw9v@gremlin> <as7uqZn9rQ52USwy@mit.edu>
+	 <202610122124.08E058768D@keescook>
+	 <ea3ff257-70e2-43e4-aba7-140e84994872@infradead.org>
+	 <202610130120.E43D236E@keescook> <as4gLo_6acb_zZu0@daedalus>
+	 <20261013125559.GG4214@killaraus.ideasonboard.com>
+	 <158571150.788122.1791896588591@kpc.webmail.kpnmail.nl>
+	 <20261013131056.GI4214@killaraus.ideasonboard.com>
+	 <28216768.791900.1791897606751@kpc.webmail.kpnmail.nl>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 User-Agent: Evolution 3.58.3 (3.58.3-2.fc43) 
@@ -139,29 +131,155 @@ List-Owner: <mailto:workflows+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
 
-On Tue, 2026-10-13 at 23:23 -0400, Theodore Tso wrote:
+On Tue, 2026-10-13 at 15:20 +0200, Jori Koolstra wrote:
 >=20
-> Using AI-assited priotization may have some collateral damange
-> because
-> it might not get the prioritization correct.=C2=A0 But ultimately, if we
-> get a flood of patches from newcomers, the choices is either to (a)
-> load-shed, or (b) burn out.=C2=A0 And of the two, (a) is the better of tw=
-o
-> bad choices.
+> > Op 13-10-2026 15:10 CEST schreef Laurent Pinchart <laurent.pinchart@ide=
+asonboard.com>:
+> >=20
+> > =C2=A0
+> > On Tue, Oct 13, 2026 at 03:03:08PM +0200, Jori Koolstra wrote:
+> > > > Op 13-10-2026 14:55 CEST schreef Laurent Pinchart:
+> > > > On Tue, Oct 13, 2026 at 02:28:43PM +0200, Jori Koolstra wrote:
+> > > > > On Tue, Oct 13, 2026 at 01:25:59AM -0700, Kees Cook wrote:
+> > > > > > On Mon, Oct 12, 2026 at 10:56:59PM -0700, Randy Dunlap wrote:
+> > > > > > > On 10/12/26 9:24 PM, Kees Cook wrote:
+> > > > > > > > On Fri, Oct 09, 2026 at 04:31:37AM -0400, Sasha Levin wrote=
+:
+> > > > > > > > > The Maintainers Summit reached consensus to deprecate the=
+ Assisted-by
+> > > > > > > > > tag. Remove the documentation requiring it.
+> > > > > > > > >=20
+> > > > > > > > > Signed-off-by: Sasha Levin <sashal@kernel.org>
+> > > > > > > >=20
+> > > > > > > > Yup, it has become as redundant as specifying what editor I=
+ use. ;)
+> > > > > > > >=20
+> > > > > > > > Reviewed-by: Kees Cook <kees@kernel.org>
+> > > > > > >=20
+> > > > > > > and for those of us who don't know details about the discussi=
+on,
+> > > > > > > how is it redundant?
+> > > > > >=20
+> > > > > > No, I mean I use an LLM constantly for almost all aspects of my
+> > > > > > development work, in multiple dimensions, so if the old tag req=
+uirement
+> > > > > > held, my email body template would just put "Assisted-by: LLM" =
+in there
+> > > > > > because at the very least, it drove the build and test stage. I=
+t was
+> > > > > > redundant in the sense of "yeah, of course I used an LLM at som=
+e point
+> > > > > > for this patch". ("This tag means nothing *from* me")
+> > > > > >=20
+> > > > > > > Do you assume that everyone now uses it (LLM), just as everyo=
+ne
+> > > > > > > uses an editor?
+> > > > > >=20
+> > > > > > I don't make that assumption, but I always held the position th=
+at the
+> > > > > > tag was meaningless because it's the human wielding it that mat=
+ters:
+> > > > > > they either sent a good patch or a bad patch, and if it was man=
+gled by
+> > > > > > gmail or an LLM, it doesn't really matter. ("This tag means not=
+hing *to*
+> > > > > > me")
+> > > > >=20
+> > > > > I think the tag did have a genuine purpose for a while. Now we ha=
+ve just
+> > > > > decided to implicitly attach it to every new submitter (because
+> > > > > basically that is the case.) The point was that a patch that was
+> > > > > obviously LLM generated could be rejected for not carrying the ta=
+g, and
+> > > > > a patch that carried the tag could be asked to explain further (i=
+f they
+> > > > > had not done so.) Or at least, that is how I felt and have unders=
+tood
+> > > > > Greg, for instance :)
+> > > > >=20
+> > > > > Essentially, the way I read it, is that Linus said we don't need =
+this
+> > > > > roundabout way because we can just reject effortless LLM generate=
+d
+> > > > > patches outright. This is good and an improvement.
+> > > >=20
+> > > > The absence of the tag on a suspicious series offered a low-effort =
+way
+> > > > for maintainers to push back. What's the proposed low-effort replac=
+ement
+> > > > ?
+> > >=20
+> > > To ignore it, really. Even less effort :)
+> >=20
+> > Are you saying that we should ignore series when we have even a slight
+> > suspicion they're not perfect ? If not, I don't understand what you're
+> > proposing exactly.
+> >=20
+>=20
+> I am saying it is up to the maintainer. The word is out and we are allowe=
+d to
+> ignore poor contributions, in particular if they are LLM generated. The w=
+hole point
+> is that in the past poor contributions were still a signal someone was tr=
+ying and
+> it might be worthwhile to help them to grow. It is not that signal anymor=
+e per se.
 
-Why is there so much talk around trying to automate portions of the
-review process with non-deterministic tooling (don't get me wrong,
-things like Sashiko help) and not "we really kind of have a problem not
-having enough maintainers"?
+I consistently see new contributors getting involved in the kernel who
+are not using LLM tooling. This is still very much a thing, and I would
+advise against missing the forest for the trees because the new
+contributors with LLM tooling are so much louder then the ones without
+because only one of those two groups can send patch bombs at a moment's
+notice that require going through in order to know whether or not to
+ignore it.
 
-The latter has been the case for years, I've seen plenty of subsystems
-that barely have the bandwidth to actually review work and this was
-very much an issue well before the LLM bubble. Is it not even possible
-for us to maybe first consider trying to solve this problem and push
-subsystems towards actually making it a priority to find more
-maintainers? Subsystems like DRM have had this problem solved for ages,
-I consistently see us reviewing work far more consistently then other
-areas of the kernel I've seen - even with the onslaught of LLM
-contributions. Considering how attractive a lot of GPU drivers are for
-LLM contributors, I think that's saying something!
+> We need other avenues to identify talent. The kernel mentorship program i=
+s one of
+> those, as is showing up in person at conferences.
+
+This is an open source project, submitting work - even for people using
+LLMs - should be one of the ways that people can get involved. It has
+far less barriers to attending a conference in person, and not all
+contributors can or want to be at an in-person event just to contribute
+to a project.
+
+Also - I've been a kernel maintainer and I've never been at LPC. I know
+plenty of people who have never been to LPC, it is more then just
+financial constraints. If an LPC is so truly representative of
+maintainers at large here, then why are there maintainers responding
+here with objections? What challenge would there be to actually opening
+this discussion up to all of the other maintainers who were not there?
+
+>=20
+> The tag helped some maintainers to push back (like Lorenzo). The tag isn'=
+t needed
+> anymore, because the push back isn't needed. I think that's an improvemen=
+t, and at
+> any rate was inevitable.
+
+It is, though. I want people who actually took the time to learn how to
+contribute to a codebase I maintain to actually have some kind of
+priority over new contributors using LLMs, because we still attract new
+contributors and talent who don't want anything to do with LLMs.
+Projects like Asahi I've pretty much only started getting involved in
+because of their no LLM policy.
+
+Have you considered that maybe this is a self-fulfilling prophecy that
+is partly the result of a lack of maintainers and the difficulty
+imposed on new contributors getting involved because of policies like
+"just ignore work and don't respond if it looks like slop"? The person
+who could contribute and decides it's not welcoming, or there's not
+much chance of their work getting reviewed, etc. is not typically the
+person that says so on a mailing list, or as I've started seeing - just
+simply doesn't want to look at the project because they are not
+enthusiastic about working with LLMs in their spare time or ever. More
+likely, they just leave and don't contribute.
+
+Has the rest of the kernel really gotten so bad at attracting new
+contributors outside of LLM spheres you just, don't get these people
+anymore?
+
+>=20
+> Best,
+> Jori.
 
