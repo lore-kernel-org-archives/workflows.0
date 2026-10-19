@@ -1,53 +1,52 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=213.167.242.64
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792448658;
-	b=n8QGS7OatpF4NnmeMRg4+5uUcd2PG09qA1XNj3lczi3gA/qrPUrV6RktnQFiWr/d/1/C
-	 r5HnRX3NyvnbtGYFa6j4zpIoxPRGIw99eeaghCyseWY3mJr3SK8CW1DbK6SE9kVTKi9uQ
-	 4+dWDGdjvnFr/4lMGNuYHeZjusjFb+Pk00oWF2H3KRpaH5pLRDHC0fE0nbGamrqKLNWTP
-	 hsNX7xrnsDp2sOMti/7HRI1kaKEFrZc8mzTgEPl0TS0acJaDGHyGQuDzm7gBSa8TrsXeK
-	 dwOucOi4KSTet1zGVGUxrjt+m7Y+2c+q8E4E7dWQtt96RJF1lYS2NIlcWQo8risGqAA==
+	t=1792449893;
+	b=JhhaqX1tXQqUVeLsj862Pf9/QjuIX2H1HDre+Ecmi1Rx8NxvCinyfW+sRSQzoe5KqPw/
+	 so+adXWfWY5wWGPwTVSoO1ePHP1RD5bHDEQFbwJxgX7HesCQo3avqkV3jkNO0nRhp3vhp
+	 O6lbpjorbmfD69O8H5rWcs4GBBVWhwU4dsBKDB53o+ws0i6LIm0gav3aB9z2UYBDf5H/I
+	 zvHvUbvaEKfkOBUbVryoi78FnwVYCIdHXwIqhEr/Or/A2iHv5LDCWdKR7+qKr2LRadQhk
+	 5GLBVcS7KHLGCwIs/ZwGD+uUYyS+sgmtAjLRYR+3Eb8ExYMng99wthIy8ph8SkJBqhw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792448658;
+	a=rsa-sha256; c=relaxed/relaxed; t=1792449893;
 	h=DMARC-Filter:Received:DKIM-Signature:Date:From:To:Cc:Subject:
 	 Message-ID:References:MIME-Version:Content-Type:Content-Disposition:
 	 In-Reply-To;
-	bh=onPvjPRqQVZnDMviAeqzCOS3WIpD/+3wg/ABjaKSJFA=;
-	b=Y7UKzHFgt+CK5KekCewePbeaXhtIgAbIG+xQSxLMg7RUFmic6i7/IvYTEbzu6xwz/sx+
-	 HB4aKgQrLAMdlwwtpcXUxpUznSYsfafewAsWBc6bGMymdyEOeL3LGJVq/uzmW6I/FOB1h
-	 aaoh1xt3Rm3QdRABEi0PF6Ilwu6MUy7s47epNi9oMQwWzbDT0OTaHnNg89EFIj9e3kOd3
-	 fPqIGuHcT+jdUplJsqBPrKvnB49T1MiQm/DNMDR4b8dnoOcojw5PGlHX7s5r7p3q2owph
-	 FtxG+wHc5gRYmuZlfDAezy9Vd9fCeKlv5jffAc6PWy99Lij5Btna+FsJYcMVtsHGUcg==
+	bh=87IXxZqsowa9WY0C27LLwmzXedneWOVTtTPcbXwZCjk=;
+	b=2wy7oClRnyf3TfAS+/hZHFsN7NjfnTzkPH7YlGKmUVmko+Nk8R/PPJzMSyozvId1H1FJ
+	 lTDez/s5zdUbYb0x+r1B8WU5mPeTQyFamRxry1+TW1vuaGsAGmFVmQLqBpIGzM32a8SAW
+	 TLz/bulYI2rM4oxWYpouZuowl9hbPeu4OCQIH6DXXR9NvsVMaEsApf9n1thysBpiVz2dc
+	 uZgmdDM0cPVN4gZcNtHcg44iGmZexGKc2tdzrzTYZdrAZzQl32NzG/Kc1bLhK76MWbbdf
+	 2dDp8COEUE6ApGpW2GhYtOmVIrYAk8wX9zJ8VsK1/ESt3OhbIPetWLV3XI+2jNc5wGw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=ideasonboard.com;
 	spf=pass smtp.mailfrom=ideasonboard.com;
-	dkim=pass header.d=ideasonboard.com header.i=@ideasonboard.com header.a=rsa-sha256 header.s=mail header.b=bQa37Apa;
+	dkim=pass header.d=ideasonboard.com header.i=@ideasonboard.com header.a=rsa-sha256 header.s=mail header.b=UZiFLgVo;
 	arc=none smtp.remote-ip=213.167.242.64
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D8005606A319;
-	Mon, 19 Oct 2026 22:24:17 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org D8005606A319
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E42BF606A319;
+	Mon, 19 Oct 2026 22:44:52 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org E42BF606A319
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=ideasonboard.com header.i=@ideasonboard.com header.a=rsa-sha256 header.s=mail header.b=bQa37Apa
+	dkim=pass (1024-bit key, unprotected) header.d=ideasonboard.com header.i=@ideasonboard.com header.a=rsa-sha256 header.s=mail header.b=UZiFLgVo
 Received: from killaraus.ideasonboard.com (2001-14ba-70f3-e800--a06.rev.dnainternet.fi [IPv6:2001:14ba:70f3:e800::a06])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 138214B0;
-	Tue, 20 Oct 2026 00:22:09 +0200 (CEST)
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id BD9F04B0;
+	Tue, 20 Oct 2026 00:42:43 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1792448529;
-	bh=WNeWnMyzEEWtGttKeBP65gkCdPp6pYJORJeLpSXSXCc=;
+	s=mail; t=1792449764;
+	bh=GjiflgJjyYsS6WFluUw0flEVnXTtdzMofp1CJbun8dg=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=bQa37ApaE/sqXRb4EvmGJeQsSdF1UBnWYAHgLb0o39h/B4tE89v923371ZnK372KC
-	 dFNk8yIQfs3Q9c6hgGNoSM/JWGKB6hGYwqL6k/RnNoGxKddRFJhHuyz0NXCCHlsoQq
-	 IMoZCxRnVjy8IF+INZyAlHOIOl8ivMNLq87Sp48M=
-Date: Tue, 20 Oct 2026 01:24:13 +0300
+	b=UZiFLgVoafmWTtKpkHNdzLnR6LkGkUa+dzsBOluBO2OEzBahJDUey2LEd6EBjhz7M
+	 z1aMKuPPmPoYAAif37t+6iAhfoGMyglBkeL8+02eDRYS6kHvFlU9wLa9LOSkhzH2+w
+	 BszRJJv7r2HLKUEGnNf+06T0k7hbQhbQqXysZCts=
+Date: Tue, 20 Oct 2026 01:44:48 +0300
 From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Theodore Tso <tytso@mit.edu>
-Cc: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
+To: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>
+Cc: Theodore Tso <tytso@mit.edu>, Krzysztof Kozlowski <krzk@kernel.org>,
 	Sasha Levin <sashal@kernel.org>, corbet@lwn.net,
 	skhan@linuxfoundation.org, rdunlap@infradead.org,
 	federico.vaga@vaga.pv.it, apw@canonical.com, joe@perches.com,
@@ -66,7 +65,7 @@ Cc: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>,
 	Vlastimil Babka <vbabka@kernel.org>,
 	"Christian Brauner (Amutable)" <brauner@kernel.org>
 Subject: Re: [PATCH] docs: remove Assisted-by references
-Message-ID: <20261019222413.GB15441@killaraus.ideasonboard.com>
+Message-ID: <20261019224448.GC15441@killaraus.ideasonboard.com>
 References: <20261009083137.3-1-sashal@kernel.org>
  <0914a106-bacf-4d95-854a-bfeefbff62a4@kernel.org>
  <asz9AeFe3CutP73z@gremlin>
@@ -75,6 +74,7 @@ References: <20261009083137.3-1-sashal@kernel.org>
  <20261013131243.GM56180@killaraus.ideasonboard.com>
  <as4xMnT8a75pIw9v@gremlin>
  <as7uqZn9rQ52USwy@mit.edu>
+ <as-Dwg8DcEOYMXki@gremlin>
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Post: <mailto:workflows@vger.kernel.org>
@@ -86,81 +86,75 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <as7uqZn9rQ52USwy@mit.edu>
+In-Reply-To: <as-Dwg8DcEOYMXki@gremlin>
 
-On Tue, Oct 13, 2026 at 11:23:53PM -0400, Theodore Tso wrote:
-> On Tue, Oct 13, 2026 at 02:29:08PM -0500, Lorenzo Stoakes (ARM) wrote:
-> > On Tue, Oct 13, 2026 at 03:12:43PM +0200, Laurent Pinchart wrote:
-> > > On Tue, Oct 13, 2026 at 01:59:33PM +0100, Lorenzo Stoakes (ARM) wrote:
-> > > > Ignoring is the only workable long-term solution.
-> > > How do you decide which patches to ignore ?
-> > Anything that looks schloppy. ATM it's very easy to tell.
+On Wed, Oct 14, 2026 at 02:42:09PM +0100, Lorenzo Stoakes (ARM) wrote:
+> On Tue, Oct 13, 2026 at 11:23:53PM -0400, Theodore Tso wrote:
 > 
-> I think we're going about this the wrong way.  What we want is high
-> quality contributions.  If they are high quality, who cares if they
-> are AI-generated or not?
-
-I do.
-
-Nobody disagrees that quality of patches is important, and I also hardly
-see anyone seriously saying that the fact that a patch is human-written
-or LLM-generated is by itself a good measure of quality. If all you care
-is that the code performs as described, we can probably stop this
-conversation.
-
-What I think makes the value of the Linux kernel is its contributors. I
-want passionate developers who will grow in the community and drive the
-kernel forward. I want them to understand what they're doing to
-contribute meaningfully to the project, and I want to encourage them to
-become reviewers and maintainers. I've long believed that it's the
-people who make Linux.
-
-This is ultimately why this discussion saddens me. There is a small
-number of very vocal long term maintainers who all of a sudden appear
-like they've never really cared about the people making the kernel. That
-some show a very strong enthousiasm for LLMs doesn't surprise me. What
-does is hearing sudden proposals about AI-assisted reputation ranking
-where contributors are called "collateral damage". It's borderline
-sickening.
-
-> If we get a contribution which is sloppy, it could be because the
-> contributor doesn't know how to drive the LLM, or they are using an
-> insufficiently powerful or badly chosen LLM --- or both.
+> > I think we're going about this the wrong way.  What we want is high
+> > quality contributions.  If they are high quality, who cares if they
+> > are AI-generated or not?
 > 
-> This isn't actually a new problem.  In the pre-AI era, we would
-> sometimes get marginal patches, and there is always a question of
-> whether it is the maintainer's time to try to engage with a new
-> contributor who might turn into the next valued senior contributor and
-> reviewer --- or who might be resistant to education and/or who might
-> disappear very shortly.  AI makes the problem worse in that there are
-> many more newcomers with new contributions, but it's really not a new
-> problem.
-> 
-> If AI is making the review problem more challenging, the good news is
-> that there are ways that AI can help.  For example Sashiko can help
-> with the early AI review.  And if a newcomer sends 7 versions of the
-> patch set in resposee to Sashiko reviews, I will generally not bother
-> looking at it personally until a couple of days go past before I waste
-> my limited human review bandwidth.  So it's not a case of permanently
-> ignoring a patch --- but I may very well down-prioritize when I do pay
-> attention.
+> Recently 2 people sent 1,000 patches over 2 hours. Care to check each and
+> every patch for 'quality'? :) Only the beginning.
 
-What else are you expecting the newcomer to do when maintainers tell
-they won't look at the patches before sashiko is happy ?
+That's the kind of behaviour that should be easy to detect, and I have
+absolutely no issue with sending all those patches to /dev/null. This is
+script kiddies behaviour, not the work of someone with good intentions.
+Ignoring those patches is not "collateral damage".
 
-> I also suspect it should be possible to use something like Jev or some
-> other System One LLM to help with an initial prioritization for the
-> patch, and then have that prioritization be set in patchwork.  Each
-> subsystem might have their own criteria which they could encode in
-> their prioritization prompt.  For example, if the bug requires root
-> privileges and/or a maliciously fuzzed file system, for ext4 it will
-> automatically get down-priotized to low priority.
+We could go a step further. There's also an increase in patches from
+newcomers who send a few patches only, with the usual signs of not
+understanding what they're doing: code changes that give an eerie
+feeling, very large comment to code ratios, and commit messages longer
+than the three volumes of Lord of the Rings combined. As far as I
+understand, those are also the kind of contributions that many
+maintainers in this e-mail thread would like to ignore. Perhaps with an
+automated reply to tell that the kernel expects submitters to understand
+what they're doing and own their code, as this category is less of an
+obvious on-purpose DoS attack.
+
+There's some irony there though. I wouldn't be surprised if the
+headlines about kernel maintainers loving LLMs made the flood of patches
+even worse, and we now have maintainers essentially saying they don't
+want to receive most of the LLM-generated patches.
+
+> > If we get a contribution which is sloppy, it could be because the
 > 
-> Using AI-assited priotization may have some collateral damange because
-> it might not get the prioritization correct.  But ultimately, if we
-> get a flood of patches from newcomers, the choices is either to (a)
-> load-shed, or (b) burn out.  And of the two, (a) is the better of two
-> bad choices.
+> Schloppy, not sloppy :) I.e. tells. Turn of phrase, certain 'shapes' in the
+> code/commit msgs, newcomer/recently reactivated? Sent a bunch of mails
+> across many subsystems? etc.
+> 
+> To be scaleable the check has to be very quick. In the end it'll sadly
+> probably just have to be 'newcomer?'. It sucks but this is existential.
+> 
+> > This isn't actually a new problem.  In the pre-AI era, we would
+> 
+> Sorry you're completely wrong, it's entirely a new problem.
+> 
+> Nobody could drive thousands of at least plausible patches end-to-end with
+> little to no input in the past. INCLUDING replies.
+> 
+> > If AI is making the review problem more challenging, the good news is
+> > that there are ways that AI can help.  For example Sashiko can help
+> 
+> Sashiko only checks if the code is buggy or not, not whether it's worth
+> having or is a total mess or not. So completely unhelpful (speaking from
+> experience).
+> 
+> > I also suspect it should be possible to use something like Jev or some
+> > other System One LLM to help with an initial prioritization for the
+> > patch, and then have that prioritization be set in patchwork.  Each
+> 
+> Using AI to detect AI right now works, who knows in the future. But that's
+> an arms race which we'll eventually lose. Which also costs money...
+
+I'm sure AI companies will disagree with you :-)
+
+> > Using AI-assited priotization may have some collateral damange because
+> > it might not get the prioritization correct.  But ultimately, if we
+> 
+> Any solution will incur collateral damage, sadly inevitable.
 
 -- 
 Regards,
