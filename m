@@ -1,44 +1,44 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792513014;
-	b=F5BVe/pr14v7tro68U4ChqyIIEdQ4S4/y4Eq7y9PfBFgg1WHmWC6zUw4BLoLwnEOQxCS
-	 dpvnTkAvkAqCqvKB9qLidjXB61dyKqaCSykmUnZXP8qle/JHcPdeca2QeoqJXeuz/kqGQ
-	 c/GRkjpGldXRBiUXtj18tr8Trfkp4ePluJAS5S+pKxd3X3zR90M9FBQtbq8SaH7wGvsHU
-	 M/CSBEJvLlQkMLV4LyZD3hvTObRZwPlBUKNOBcFurX92AHFwS/jiwi6D/dGkAsyXGwrGs
-	 O8O0gFMn+chCsILFAWMTuKeQjMdhr0eB7DX/Vumhh8XbF5XgE5t09w7hK8Yl4eUyusg==
+	t=1792513023;
+	b=gQAtc0Geg/Ik9DDLW3nlhRyXl+sgkOW2+EbktLncdKPKO70nNtt741Ad7BTIDUNHINqT
+	 KGvoFyAcRRefJ68rjrYX9g7+BHKMHIffMUnHudy8WJgFZJ2sPkEuWWQtXxMHfQJqJFfD5
+	 /WUlSSkRyC7fORAo7Bu3Yg4z9F5PjG1QZlO78Ol4YTEjwhEP5aSHNRwBbdNbwAEyBEyia
+	 P1IIK0+z872pxya/GmkTjGFdG/ZiJOoL7a5gBr8S5hzHpfdj8R5ADqf1yWtxGDBMZyazw
+	 9VstJQK9f/thb7N4+K7MK5f5D5RZYzrYJP3Tqeq+YkC/IAcxrKAcuU26+c1OMcVv+ug==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792513014;
+	a=rsa-sha256; c=relaxed/relaxed; t=1792513023;
 	h=Received:DKIM-Signature:From:To:Cc:Subject:Date:Message-ID:X-Mailer:
-	 MIME-Version:Content-Transfer-Encoding;
-	bh=/2mtLY4vFEovE8W1FOC1bSzXPmT7/yfQXWZD/ct0dlg=;
-	b=fNVufZkdFUrTe+pSCc2mzjwKafQ28z6CGi8GwAzxTcX5TSo/Gcc6bdL/ZFawUfizv+45
-	 zO/cVuSj6sWI2dxkYzf4Y6xF9de02plWWBqLUio9Zbupm5BSjB74fCAWOE424ypyLv2QA
-	 VTHjfmsBlUmqNjM3bco93lQV4tcazMCg9WiYWdkcFb36Ab2tP7WcQF6Oy8wH7ZWvmD1eO
-	 2r1t1tEX9XycD/T38hk0zLSl+tkKMAsG5VCM9AQd9oZbdlG5jnz87bK/cXT9W1Q1dmtWV
-	 eaJDFbO1iZ0OBZq7xHKVNbgl/lcNdFNW8xxDzoTO5e5KBwZoioe+ed/Yj2OSDkfLIgg==
+	 In-Reply-To:References:MIME-Version:Content-Transfer-Encoding;
+	bh=oF8o2NkVOsBS01dOJyuHdHQ0Bcvo6IPZ+9izz83SPZo=;
+	b=17REjM2ziW4xPiVpXk06zKJndL+ScxJtjWzP3+ifD4Bh8nXYS4eebu0DyBpKDAYzfTtR
+	 yWgROF/ZCv0VPhKDts5481skSfy2ckohddPpATmLmbUniyg44rn29PGuUF7GOIip6QiIx
+	 7mrFRdykZOsaGATGx3wfMiy1fSnPmqzeM4rrU258gj4Kkg2aLZy/XWpXYXFPCqh4DSTEe
+	 mgMn64GP9VAoMm9ryMdld1wAH827VKUNy7d6v8iIM+JSWArG1kpQvTSzfH10RkN117/uI
+	 fVzKVLsgukxOuBdNu5n4JLAMWBTYqckRrz2I35oNX6S4QxQpHE64YoQqQyoNbJ3fBpg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=numaRKUw;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=JLbW5fDE;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 29B84606A31A;
-	Tue, 20 Oct 2026 16:16:53 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 537EF606A32D;
+	Tue, 20 Oct 2026 16:17:03 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=numaRKUw
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3D68E1F000C4;
-	Tue, 20 Oct 2026 16:16:51 +0000 (UTC)
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=JLbW5fDE
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0AFFD1F000C4;
+	Tue, 20 Oct 2026 16:16:56 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1792513013;
-	bh=/2mtLY4vFEovE8W1FOC1bSzXPmT7/yfQXWZD/ct0dlg=;
-	h=From:To:Cc:Subject:Date;
-	b=numaRKUwY2PB+YhjMuQ5QphhJtTKDBtfRsN1paHGiXjTrOIXdl2oQLcpqT1EoapMk
-	 tZcoqK7tF+j3wK2H4jl20jCEDb978VcY0uriuxv2//S3M0RgYi9zVHwioaqvp7T7uN
-	 CHdGpY27oIBRXUcarE0gQ3w5dzv0KbJ6iWv7gJjWPTICxY2XyxUQobaOnWHP2dwBo+
-	 vuAGXUjAv+6Gc9+sApyn/wf2qjRsV7AYmiQhz9c55KPqrsLmX9K1uSLH+umFaPKn3t
-	 AhP1ZkrQ3/ZxPA+c0xNL6zwo7qqAB7RXcHHL4LmxIkMax79bd7Xw4px/kjcdFntXCf
-	 giWSxz+qBm8tw==
+	s=k20260515; t=1792513023;
+	bh=oF8o2NkVOsBS01dOJyuHdHQ0Bcvo6IPZ+9izz83SPZo=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References;
+	b=JLbW5fDEVYrKo6ZjPeo5eyS966SGrbULngiTBtm1nuiL8LRkc/2e4V1WIkq0F2BWI
+	 1EZpZuJHLQYXkvUOjV+adFLTid9IPmDnmq0b5OOtpBXyCN6kOngDeEXiV+8pjFmxVV
+	 eXZgNuAGS4sWc2TpecBzf1B+B1YTwFlqkHTYZqs6KCN0sBj36nI73Kpqn1EjQEpWH2
+	 k9DSQttz9YZ9oA6DPAM8qmFTkLmnEkig00Ng4JQfakwgB8+bWuVDJmCi6zkgskPAfB
+	 Eua1wzgzzwKkHBcYtf3kvzqjgBYNOEEVbB+6VEdy00J5wD/VYIYT4PE7ngSYYT6LCm
+	 KeK8/VJGuecDg==
 From: Sasha Levin <sashal@kernel.org>
 To: workflows@vger.kernel.org,
 	ksummit@lists.linux.dev
@@ -63,12 +63,13 @@ Cc: linux-doc@vger.kernel.org,
 	Julia Lawall <julia.lawall@inria.fr>,
 	SJ Park <sj@kernel.org>,
 	Bradley Morgan <brads@mainlining.org>,
-	Sasha Levin <sashal@kernel.org>,
-	stable@vger.kernel.org
-Subject: [PATCH v4 0/5] agents: add skills for Fixes tags, stable tags, similar bugs, and commit messages
-Date: Tue, 20 Oct 2026 12:16:37 -0400
-Message-ID: <20261020161642.3713052-1-sashal@kernel.org>
+	Sasha Levin <sashal@kernel.org>
+Subject: [PATCH v4 2/5] agents: add a skill to determine Fixes tags
+Date: Tue, 20 Oct 2026 12:16:39 -0400
+Message-ID: <20261020161642.3713052-3-sashal@kernel.org>
 X-Mailer: git-send-email 2.53.0
+In-Reply-To: <20261020161642.3713052-1-sashal@kernel.org>
+References: <20261020161642.3713052-1-sashal@kernel.org>
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Post: <mailto:workflows@vger.kernel.org>
@@ -80,120 +81,99 @@ Precedence: list
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-At the Maintainers Summit, Ted asked whether the stable trees have a way
-to deal with incorrect Fixes tags. Hannes estimated that 15-20% of them
-are wrong, often because the author ran git blame and took the first
-commit that touched the line [1]. We use LLM workflows to find the
-commit that actually introduced a bug, and others asked us to share
-them.
+Blame and existing Fixes tags can point to code movement instead of the
+change that introduced a bug. Add a skill that sends the agent to the
+description of the Fixes: tag in submitting-patches.rst, and adds the
+checks agents tend to skip: pinning down the bug before searching,
+following the code past moves and refactors, comparing each candidate
+with its parent, tagging a later commit that only exposed the bug as
+well, handling merges, reverts, backports and bugs older than the Git
+history, and taking the commit ID and subject from the commit rather
+than typing them.
 
-This series adds them as agent skills under agents/skills/, together
-with a skill for writing commit messages. Each skill is a short SKILL.md
-that points the agent at the process documents for its task and adds
-only the checks agents tend to get wrong:
+If the origin cannot be established, the skill returns no tag. Point the
+bug-fix procedure in coding-assistants.rst at the skill.
 
- - find-fixes determines the commit for a Fixes tag, following the
-   history past code moves and refactors.
-
- - stable-tag decides whether a fix should go to stable and generates the
-   tag. It finds the first release with the bug and checks that the fix
-   applies there.
-
- - find-siblings looks for the same bug elsewhere in the tree, with a
-   Coccinelle semantic patch when Coccinelle is available, verifies each
-   candidate, and reports whether the interface itself invites the bug.
-
- - commit-message writes, rewrites, or reviews a commit message or cover
-   letter, and writes the text of a pull request. It follows the P:
-   profiles for the changed files and keeps the text short and in the
-   imperative voice, as Linus asked [2].
-
-Rules that people need as much as agents go into the existing documents
-instead, in two patches sent separately: one says in
-submitting-patches.rst which commit a Fixes tag names [5], and the other
-drops the 100 line limit, the rule against theoretical issues, and the
-requirement that a fix be obviously correct from stable-kernel-rules.rst,
-none of which the stable trees apply [6].
-
-Most of the skills only point at Documentation/. The exception is
-stable-tag, which also lists the kinds of changes the stable trees take
-and leave out. The lists describe how the stable rules are applied, not
-new rules, and they save smaller models from working that out on every
-fix. To keep agents/ consistent with Documentation/, I'll check one
-against the other every release and trim anything in agents/ that
-duplicates or contradicts it, as Kees suggested [4].
-
-The skills only inspect and report. The calling workflow writes the
-commit, creates the tag, and sends the mail. coding-assistants.rst tells
-agents when to use each skill. Tools do not load agents/skills/ on their
-own; to have a tool load them automatically, link the skill directories
-into its skills directory.
-
-Changes since v3:
- - find-siblings: when the same defect turns up in several places, also
-   report whether the interface invites it, and leave the choice between
-   fixing the interface and fixing each site to the developer (Alexei).
- - find-siblings returns the semantic patch it used, and commit-message
-   includes it in the commit message, or names it if it is under
-   scripts/coccinelle/ (Julia).
- - find-fixes also returns a Fixes tag for a later commit that exposed
-   the bug, to match Thorsten's rewording of the Fixes paragraph
-   (Thorsten).
- - Send the submitting-patches.rst and stable-kernel-rules.rst patches
-   separately [5][6].
- - Add the Reviewed-by tags given on v3.
-
-Changes since v2:
- - Keep the skills in agents/. They are now short pointers into
-   Documentation/ rather than documentation of their own; see the
-   discussion on v1 [3].
- - Cut each skill to a single short SKILL.md that points at the existing
-   documentation, and drop the git how-to (Kees). The skill text went
-   from about 960 lines to 250.
- - find-siblings: describe how to search with Coccinelle in a separate
-   file that agents read only when Coccinelle is available.
- - Say in submitting-patches.rst which commit to name when a later commit
-   exposed the bug or more than one commit introduced it, and which trees
-   need the fix (Michael, Thorsten, Dan).
- - Drop the 100 line limit and the exclusion of theoretical issues from
-   stable-kernel-rules.rst, and require a fix to be correct rather than
-   obviously correct.
- - State once, in coding-assistants.rst, that skills only inspect and
-   report.
-
-v3: https://lore.kernel.org/r/20261016152828.3765695-1-sashal@kernel.org
-v2: https://lore.kernel.org/r/20261012213452.1863248-1-sashal@kernel.org
-v1: https://lore.kernel.org/r/cover.1791499378.git.sashal@kernel.org
-[1] https://lore.kernel.org/r/askTmFZC6RJKAE_p@mit.edu
-[2] https://lore.kernel.org/r/CAHk-=wgXU50=KgZNZc1JDxsSxg9Z+DjG1_2yU-fNXpZtUe4XDw@mail.gmail.com
-[3] https://lore.kernel.org/r/87y0bzq8oe.fsf@trenco.lwn.net
-[4] https://lore.kernel.org/r/202610150832.58E80C02A@keescook
-[5] https://lore.kernel.org/r/20261020142534.3533478-1-sashal@kernel.org
-[6] https://lore.kernel.org/r/20261020142537.3533510-1-sashal@kernel.org
-
-Sasha Levin (5):
-  agents: add infrastructure for agent resources
-  agents: add a skill to determine Fixes tags
-  agents: add a skill to determine stable tags
-  agents: add a skill to find other instances of a fixed bug
-  agents: add a skill to write commit messages
-
- Documentation/process/coding-assistants.rst   | 35 +++++++--
- MAINTAINERS                                   |  6 ++
- agents/skills/commit-message/SKILL.md         | 45 ++++++++++++
- agents/skills/find-fixes/SKILL.md             | 39 ++++++++++
- agents/skills/find-siblings/SKILL.md          | 36 ++++++++++
- .../find-siblings/references/coccinelle.md    | 66 +++++++++++++++++
- agents/skills/stable-tag/SKILL.md             | 72 +++++++++++++++++++
- 7 files changed, 295 insertions(+), 4 deletions(-)
- create mode 100644 agents/skills/commit-message/SKILL.md
+Assisted-by: LLM
+Signed-off-by: Sasha Levin <sashal@kernel.org>
+---
+ Documentation/process/coding-assistants.rst |  9 +++--
+ agents/skills/find-fixes/SKILL.md           | 39 +++++++++++++++++++++
+ 2 files changed, 46 insertions(+), 2 deletions(-)
  create mode 100644 agents/skills/find-fixes/SKILL.md
- create mode 100644 agents/skills/find-siblings/SKILL.md
- create mode 100644 agents/skills/find-siblings/references/coccinelle.md
- create mode 100644 agents/skills/stable-tag/SKILL.md
 
-
-base-commit: 3857c2fe5449541e24afc5efdb0f81a8a8f9a3a0
+diff --git a/Documentation/process/coding-assistants.rst b/Documentation/process/coding-assistants.rst
+index 1efc7b08f09f8..ddff951856dce 100644
+--- a/Documentation/process/coding-assistants.rst
++++ b/Documentation/process/coding-assistants.rst
+@@ -33,6 +33,11 @@ or send mail. A skill returns its result with the evidence for it, or says what
+ is missing. Do not fill a missing result with a guess or a placeholder, and do
+ not finalize the work until it is resolved.
+ 
++The following skills are available:
++
++* agents/skills/find-fixes/SKILL.md determines the Fixes tag of a bug fix, or
++  checks an existing one.
++
+ Licensing and Legal Requirements
+ ================================
+ 
+@@ -96,8 +101,8 @@ these steps:
+    another one. The fix must not add build warnings and must pass the
+    checkpatch.pl checks (see submitting-patches.rst).
+ 6. Commit the working fix with a detailed message describing the problem, the
+-   solution and a Fixes tag. Do not add a Signed-off-by tag, and add an
+-   Assisted-by tag, as described above.
++   solution and a Fixes tag determined with the find-fixes skill. Do not add a
++   Signed-off-by tag, and add an Assisted-by tag, as described above.
+ 7. Identify the maintainers and lists using scripts/get_maintainer.pl.
+    Documentation/process/security-bugs.rst shows how to do that.
+ 8. Indicate what could not be done. If the fix could not be built or tested, or
+diff --git a/agents/skills/find-fixes/SKILL.md b/agents/skills/find-fixes/SKILL.md
+new file mode 100644
+index 0000000000000..12b6ea83876d9
+--- /dev/null
++++ b/agents/skills/find-fixes/SKILL.md
+@@ -0,0 +1,39 @@
++---
++# SPDX-License-Identifier: GPL-2.0-only
++name: find-fixes
++description: >-
++  Determine the bug-introducing commit and return a verified Fixes tag for
++  a Linux kernel fix. Use when preparing or reviewing bug-fix patches,
++  drafting their commit messages, or checking an existing Fixes tag.
++---
++
++# Determine a Fixes tag
++
++Read the description of the Fixes: tag in
++Documentation/process/submitting-patches.rst. It says which commit to name
++and how to format the tag. Follow the rules for skills in
++Documentation/process/coding-assistants.rst.
++
++- First establish exactly which bug the fix addresses: the failure, how it is
++  triggered and the code involved. Trace only that bug. If the search leads
++  to a different bug or subsystem, go back to the fix.
++- Name a commit from the history of the tree the fix applies to. A stable
++  backport of that commit, or a commit that exists only on another branch, is
++  not a valid tag.
++- Treat blame output, an existing Fixes tag and a bisection result as leads,
++  not answers. Follow the code back through moves, renames, file splits and
++  older implementations to the commit that made it wrong.
++- For each candidate, compare the commit with its parent and explain why the
++  code was correct before and wrong after. Keep apart the commit that added
++  the code, the commit that made it wrong, and a later commit that only made
++  the bug reachable, which gets a tag of its own.
++- Check each parent of a merge, whether the bug was reverted and later
++  reintroduced, and whether a backport differs from its upstream commit.
++- If the bug is already present in the first commit of the Git history, name
++  that commit: Fixes: 1da177e4c3f4 ("Linux-2.6.12-rc2"). Confirm that the bug
++  exists there instead of using it as a default. A shallow clone boundary is
++  not an introducing commit; report the limit instead.
++
++Take the commit ID and subject from the commit itself instead of typing them.
++Return the tags with that explanation and the candidates you rejected. If the
++origin cannot be established, return no tag and say what is missing.
 -- 
 2.53.0
 
