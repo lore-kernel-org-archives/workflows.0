@@ -1,100 +1,73 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=74.125.224.47
-ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1792520558;
-	b=hczLw7K928ihvXbuWiQveUnVIam9K+jwkjB9yT75nISNBfb3m8ttQJtcEDP7LuikUZTc
-	 1mzlZUBlC65nR0wSeAb8Yp0l0bxJOB9wLJnkD2Yjfdy4wG1uUUKjYsmiIalwbNVMDyByJ
-	 tYz9Lhdruarp2XJwmMrclNq7enAtsZz2OExIMHR6hj5owTw8Q212U+suZjulKtmaZr3aR
-	 Qs4ARQQEt+ctKODTRsXhtlcJraYejrNBVcopVz2UqPOWeJMi3h4n86+YNvmgWcuHLamzA
-	 9GXTtNBgrkjhZBek/lW1OHVJBYsyVZ6LSh9OfRlckzrPi0rxOxNTkt6vbHTw9qrtpHA==
-ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792520558;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:
-	 MIME-Version:References:In-Reply-To:From:Date:X-Gm-Features:
-	 Message-ID:Subject:To:Cc:Content-Type:Content-Transfer-Encoding;
-	bh=RHLyyCKYeuOzEypTTHpByT6eNu3x1tlDaVLz6hUSTes=;
-	b=ZSReWj39qZ3cqxHuKrF2uth1An4Xo9L1vAQeK5ZtFFjcnrrymSxjZxzHWSQ3rpUxZf7H
-	 vlKNlZRsGOYXSSJrn3AKks4B2UmysBqPmQuNW4UwWDvAOTEcGLhzh4aU5HcX5zhDd25Jh
-	 WA/oRha6WKuxg9pGJ7XHpnlfXYY0YBZOTk0VJbmghPGdepHEjaLntQF97Zl3qZYVa1EF5
-	 Wr1dKTbi46NDsfgLI6MkdzW9qLplja9zOXLYHvBnLRHFsq7XbTcm0BOaxyNjF7IjZ/W04
-	 tCwHYvw2YMT2UjjZVYGwBAz6xGpd1Yiuu5NKf8X2xNsXfYg8V21sfZ6QSILTZGNijtg==
-ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=google.com;
-	spf=pass smtp.mailfrom=google.com;
-	dkim=pass header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20251104 header.b=jCpPoMO5;
-	arc=pass header.oldest-pass=0 smtp.remote-ip=74.125.224.47
-Received: from mail-yx1-f47.google.com (mail-yx1-f47.google.com [74.125.224.47])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=18.9.28.11
+ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
+	t=1792522383;
+	b=lrNJIB2JVd1gzSc7MoySXAUSCqnfUQUPbhS8RoArApz5o5p0c+7XSwOlVVpBu2wJxyhC
+	 NhEFSi0EAAejajKMWg9lQXweXuUCr9FShXkEuIGbuIHOL8IDSQ6HA4DMHpUIqn/jycBOQ
+	 omQy1HYf94RtanHK5B6ZEICq2y5YDfzXc03pnvGW5O4AN5ur8b+V4u08zkZC4dlkNbZcC
+	 SN5ntnAAokAFKBhCfEyi/uOUGOryyRX1eLHT8il6bUgtPte4ZGA9EB07tVXpEEeYYnrwt
+	 kyg7DU1EJl1mdTf1Gj9UXRjlGUBh/F+Fg2ez49h3yOZ2tIz1k15QK8O31hJbzippFhw==
+ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1792522383;
+	h=DMARC-Filter:Received:DKIM-Signature:Received:Date:From:To:Cc:
+	 Subject:Message-ID:References:MIME-Version:Content-Type:
+	 Content-Disposition:In-Reply-To;
+	bh=UqcJbHQA0qSmJT2YyqO1y6Et2C0y7UxlUcTAd1a/UjM=;
+	b=znZh4oCyemyAy35vKnCvkXWpkMizsPjCA43LewYIjht4AsikD3wIYetCoP2KtvOnmtw+
+	 9rZh41WLGn4HYYIYMSLsBEqnJnf9V7KBGece15XLCrmErWR29PBorrNup2ZRHE4yQZlVn
+	 Qm5df08UZOvcYsaWZy5B9yFyuG4wRnoEx7xYl9lMxDx9LrDJwgJsT1n9OkYufTIwEIImR
+	 p4B9HhE9Yo7X1Zk4sDHb5rZNkgnBjvmvK2CCDBLj2iT8Ju1Vo8b4Lmi/COlZhLA1djPcH
+	 1YQlc67ZJIMHav0YIRVex9S79IHAucN+JQiqA9iCJzbhMYA0/7rNxQCUDdxWBPSCNow==
+ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=mit.edu;
+	spf=pass smtp.mailfrom=mit.edu;
+	dkim=pass header.d=mit.edu header.i=@mit.edu header.a=rsa-sha256 header.s=outgoing header.b=TlMpbqgi;
+	arc=none smtp.remote-ip=18.9.28.11
+Received: from outgoing.mit.edu (outgoing-auth-1.mit.edu [18.9.28.11])
+	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 10582606A320
-	for <workflows@vger.kernel.org>; Tue, 20 Oct 2026 18:22:37 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 10582606A320
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8BC5C606A324
+	for <workflows@vger.kernel.org>; Tue, 20 Oct 2026 18:53:02 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 8BC5C606A324
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=mit.edu
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mit.edu
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20251104 header.b=jCpPoMO5
-Received: by mail-yx1-f47.google.com with SMTP id 956f58d0204a3-679e6ab6471so919578d50.0
-        for <workflows@vger.kernel.org>; Tue, 20 Oct 2026 11:22:37 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1792520557; cv=none;
-        d=google.com; s=arc-20260327;
-        b=B79m6TKebawLZLKGPLZJddgfaD9gczqlc5MYN6u4oAQtAPCaJVCnuONdIgkk++X5zQ
-         +c0iswrCcMJgK0NVbfGkb3V5QjZHbTYArHhG6Vd6AC0FVqPH6GWoQOydpKJYpJs9qAup
-         K6V2LpvcvoaeBFsE+HSMc501XESirY0S89+hVnF4U+/OTnDs9CoUtiCfEG+jwrP4gx0Z
-         XLuur488Z0cf+RD+Z2Arl1967Vx/tMIjESByScHbKZFF/he5HphKDP9Zo+f7+Vm+uVah
-         v2s0IJUJiZG+n9X4/4vPsuICH5IE8Tlk27O8sUwu6rmFtLC++xsiVDgkp9a8ZwKDvHLL
-         ulhw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=RHLyyCKYeuOzEypTTHpByT6eNu3x1tlDaVLz6hUSTes=;
-        fh=cR2jMBJ55xupKOiSakJeSwQ2wNpzx9m5YcVy9tmpugE=;
-        b=gwV+eDIe+qEF4I3vnjMFGHaj1Hc81iJsOcvCqO3XPgDCifACruZWS4W789Tyvsw0y6
-         2ya8+0siuuKbYf14WPTseVtmzBQKUXmDhFxuGk5Nk4ocf0up98uQS1sx8IsT1A7tHgGN
-         yvO8cfDznvaz3jdsxJGf9hHyR6jLmhN2gZXiM5ib4Eg8dBJZP9WHjt39hfA5ysgQCGjr
-         v+0pYqPhw8I++fQBvQ0kmvNItSRyE93e0FLtus848RCqwiNpra62XmYP+DK533WQj1hD
-         e8tEw6h/tH6Tn0f7piCXNfIP8M003vRmT80lvxDCel+KIDzemies4YIOry+UKca93vbp
-         GFdQ==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1792520557; x=1793125357; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=RHLyyCKYeuOzEypTTHpByT6eNu3x1tlDaVLz6hUSTes=;
-        b=jCpPoMO58y6sJRNyUMWUWt3Xaw377KaYeVqrCJswRAQ7oKQE3kKZ95epr4PHsw8jDo
-         +Vymhp4pDTcYix/GYcYigVbhJ1c35neN7bD/cng2pd+6S7s+QzkwOXRmFWhmrZrBgKtS
-         uF9e/+MT5cJsEuOOvqCc7whuK+e6LEQbbFr6JTp6HpsdMQassQUMqaIylxCgHB7Nna4X
-         DLnrnpOCODqRFSx8BjU8GCmq/xzr12NndAQ9cVvg0WQ8c0FEhJ/i5779DSYCzc6Mmt29
-         TZInkgPURMOVAxBDShoWsPQiMMC6ZVT87Cq5hblK6YvF0yoLo69dvfI3KNOWArT7GB0M
-         CZrw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1792520557; x=1793125357;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=RHLyyCKYeuOzEypTTHpByT6eNu3x1tlDaVLz6hUSTes=;
-        b=0KPBbrsIl+xNCPq5CJl6sjmhRS8ebq1IeeY4s3xi3mk1y0/Fqw1aQINyt6brZPQRQX
-         yszFg3r4ESR+0v5+bu1Glwihx92gFqNcCrDliKpIElaeOdSlk9wOKk6d9Hd4ub3E3/TC
-         F9GNOZtV1snzOz4mV25AQ05RwZpcQIkwOP7Avsah5G5Neu+X59cNeOE4ATCsITnsZ2TB
-         Gxpkqz8C99fyRpsghlgaKRUPf623yn4AyjLeLS4VyT+wCZuyZk/o63rtJCRGzCW7JEtr
-         2IQ3aU6p63LQoL+wmdxnJO6b1YkwzJATacKtwNTm2iSr8+ENWDIq/O7SDvoX7cJjj0M9
-         DYag==
-X-Forwarded-Encrypted: i=1; AKwUvBz65wElzDhCMBEEVcqEltrT8d4NSQRfgT5GXe/sXGhjQx8Qz6yr58mZWO9j5ZqyIGhBh4eTBGaqFCg=@vger.kernel.org
-X-Gm-Message-State: AFq9FYJtPAXGbk/u5/7lru/My+2D5Fwo+ShAeMBn46Vt33ownX0oO96D
-	kEb4G+L7lqKuxLeuR4P58AGY5JhbNBrCuVVa8/LkvO1joLjNw45Ve6HeTamEyN0HwerlaN5xqsv
-	KhfGDiinRLSFG3r4jYId5AB/PI7XRiZ47J9UGUt3A
-X-Gm-Gg: AYBFou2thfPkh3UIQC1M3KEQ0gD7r56a3Lk1ZKSeIJGFGy89NwPO5nw1B+s9G6CVPhk
-	9MbEbKpnAgIm3huDMnSeJhvI+BB8G8mvBfXLER+UCeuPRAvl9uj0pW2ygelMNsUOXXjFTDOD45o
-	JppLUUoQX4h0c2sVM/IhgZUJe+LguI4pUubnBMdhSDRIkgDQKfzY1QUpfUk4Bc9YidCoo3GjOpB
-	jcPea0/UWz573D8xaSeR1myC+Mkt0iDOrwUZ1xCLs/4uT8tIUKBsAMitOHSN7pyUtLRSaC0Jrnx
-	U6x+iUOnWv2aiWIYD/8s1jPu6B1bJPACUa3SxykMjAxjOMmGNR4j/pWD9z2Uhqjce6w94hpJ32L
-	MGXiHa6OdaXI=
-X-Received: by 2002:a05:690e:1508:b0:675:61ed:ae79 with SMTP id
- 956f58d0204a3-67a0e53f3camr15368d50.40.1792520555651; Tue, 20 Oct 2026
- 11:22:35 -0700 (PDT)
+	dkim=pass (2048-bit key, unprotected) header.d=mit.edu header.i=@mit.edu header.a=rsa-sha256 header.s=outgoing header.b=TlMpbqgi
+Received: from macsyma.thunk.org (pool-173-48-113-115.bstnma.fios.verizon.net [173.48.113.115])
+	(authenticated bits=0)
+        (User authenticated as tytso@ATHENA.MIT.EDU)
+	by outgoing.mit.edu (8.14.7/8.12.4) with ESMTP id 69KIqFFS026857
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Tue, 20 Oct 2026 14:52:16 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mit.edu; s=outgoing;
+	t=1792522341; bh=UqcJbHQA0qSmJT2YyqO1y6Et2C0y7UxlUcTAd1a/UjM=;
+	h=Date:From:Subject:Message-ID:MIME-Version:Content-Type;
+	b=TlMpbqgimb37WMdCuTZkv0eJZqZ93rom0jwcxk3r1Oz5y1H2YpIc8NNOsTvAX69P7
+	 MNZ3CwlN6g/BnWwZ9M2omLRR2OKnU/SmQC3YM1iK6e8i+CfIwLD0hsM09b/PTdT0Ac
+	 1Ty/ZmybQwpkYSJItQ3tQcbxUmimUE6IL3XaYFfjruzoUwLetPQf7DL649RABNx7Al
+	 GghlzMZSxZ2qPffjMZY2iHQf2yTpCBvfZVh6+x9FMYkbTbj+A/QHoej97jPbiyVWA1
+	 PPgmSmrGTN5pspp9Dso4RytZKK0VUiSB0r4JldysDzFxlyMExxnYGB99limJO1sXy6
+	 VkafRAbrYdLWQ==
+Received: by macsyma.thunk.org (Postfix, from userid 15806)
+	id 3BF7221C47DC; Tue, 20 Oct 2026 14:51:15 -0400 (EDT)
+Date: Tue, 20 Oct 2026 14:51:15 -0400
+From: "Theodore Tso" <tytso@mit.edu>
+To: Joe Perches <joe@perches.com>
+Cc: Konstantin Ryabitsev <konstantin@linuxfoundation.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Shuah Khan <skhan@linuxfoundation.org>,
+        Randy Dunlap <rdunlap@infradead.org>, linux-kernel@vger.kernel.org,
+        users@kernel.org, Federico Vaga <federico.vaga@vaga.pv.it>,
+        Akira Yokosawa <akiyks@gmail.com>,
+        Carlos Bilbao <carlos.bilbao@kernel.org>,
+        Avadhut Naik <avadhut.naik@amd.com>, Alex Shi <alexs@kernel.org>,
+        Yanteng Si <si.yanteng@linux.dev>, Dongliang Mu <dzm91@hust.edu.cn>,
+        Chen-Yu Yeh <chenyou910331@gmail.com>, Weijie Yuan <wy@wyuan.org>,
+        workflows@vger.kernel.org, linux-doc@vger.kernel.org,
+        Petr Pavlu <petr.pavlu@suse.com>
+Subject: Re: [PATCH v2 0/2] get_maintainer: stop sending every patch to LKML
+Message-ID: <ate3lqnWlk9zLZC5@mit.edu>
+References: <20261020-get-maintainer-the-rest-fallback-v2-0-162aea473488@linuxfoundation.org>
+ <0605a3c99b55124d1be71c9939f636e2@perches.com>
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Post: <mailto:workflows@vger.kernel.org>
@@ -104,61 +77,26 @@ List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:workflows+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-References: <20261015145714.3327543-1-elver@google.com> <DM8X51YCN6AA.1HV7J3R3PIYY9@garyguo.net>
- <CANpmjNPALPJQDZFfNAqo8v0eu_0uNvj+rJ5xqeC3ZZSvs9zQwA@mail.gmail.com>
- <CANiq72mCixHhc5tU6ueiJNEfE7yHXHXekhWDcvhFdfd414Q3yw@mail.gmail.com>
- <CANpmjNNmnTMqxSJ_R+wYeAkFOxnJcUmwktNuG990GunjxhcvbQ@mail.gmail.com> <CANiq72ns9P6gxOWmwL5VMAnAA8eASUjVUdSai3_iqXvM72mF=A@mail.gmail.com>
-In-Reply-To: <CANiq72ns9P6gxOWmwL5VMAnAA8eASUjVUdSai3_iqXvM72mF=A@mail.gmail.com>
-From: Marco Elver <elver@google.com>
-Date: Tue, 20 Oct 2026 20:21:56 +0200
-X-Gm-Features: AclHuK_xIgQ2EfRpHmzLAMkZfp67LMe6ufygxtV1abJhpWdiWd3lua4TQ51kRJc
-Message-ID: <CANpmjNMNo67fgFY9u8zurGJOxOY10C1CKwb1UvUbHo01cU+_Sw@mail.gmail.com>
-Subject: Re: [PATCH v2 1/2] kbuild: rust: enable KCSAN support
-To: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-Cc: Gary Guo <gary@garyguo.net>, Alexander Potapenko <glider@google.com>, 
-	Boqun Feng <boqun.feng@gmail.com>, kasan-dev@googlegroups.com, 
-	linux-kernel@vger.kernel.org, Dmitry Vyukov <dvyukov@google.com>, 
-	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
-	Randy Dunlap <rdunlap@infradead.org>, Andrew Morton <akpm@linux-foundation.org>, 
-	Miguel Ojeda <ojeda@kernel.org>, Boqun Feng <boqun@kernel.org>, 
-	=?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
-	Benno Lossin <lossin@kernel.org>, Andreas Hindborg <a.hindborg@kernel.org>, 
-	Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>, 
-	Danilo Krummrich <dakr@kernel.org>, Daniel Almeida <daniel.almeida@collabora.com>, 
-	Tamir Duberstein <tamird@kernel.org>, Alexandre Courbot <acourbot@nvidia.com>, 
-	=?UTF-8?Q?Onur_=C3=96zkan?= <work@onurozkan.dev>, 
-	Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nsc@kernel.org>, 
-	Nick Desaulniers <ndesaulniers@google.com>, Bill Wendling <morbo@google.com>, 
-	Justin Stitt <justinstitt@google.com>, Asahi Lina <lina+kernel@asahilina.net>, 
-	Lorenzo Stoakes <ljs@kernel.org>, Yury Norov <ynorov@nvidia.com>, David Gow <david@davidgow.net>, 
-	Joel Fernandes <joelagnelf@nvidia.com>, Alvin Sun <alvin.sun@linux.dev>, 
-	Josh Poimboeuf <jpoimboe@kernel.org>, Petr Mladek <pmladek@suse.com>, workflows@vger.kernel.org, 
-	linux-doc@vger.kernel.org, rust-for-linux@vger.kernel.org, 
-	linux-kbuild@vger.kernel.org, llvm@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <0605a3c99b55124d1be71c9939f636e2@perches.com>
 
-On Tue, 20 Oct 2026 at 19:09, Miguel Ojeda
-<miguel.ojeda.sandonis@gmail.com> wrote:
-> On Tue, Oct 20, 2026 at 12:34=E2=80=AFPM Marco Elver <elver@google.com> w=
-rote:
-> >
-> > Happy to take it - but in the interest of avoiding conflicts, thought
-> > it might be better suited for the Rust (or Kbuild trees).
->
-> Same -- happy to take it too next cycle, whatever you prefer.
+On Tue, Oct 20, 2026 at 08:53:04AM -0500, Joe Perches wrote:
+> > This issue came up during the 2026 Maintainer Summit and the consensus
+> > was that "always include linux-kernel for every patch" was never the
+> > intent.
+> 
+> That's not actually true.
+> 
+> Lkml was the default mailing list and other lists were specific to their
+> interests.
 
-If you think there's a low risk of conflict, I'll take it.
+Historical practice for decades before the change was made that plenty
+of patches only went to the subsystem list (e.g., linux-ext4,
+linux-scsi) and it was *never* intentional that LKML was supposed to
+be cc'ed for all patches.  That didn't match historical behavior, and
+as far as I know no one was asking for that change.  If someone
+managed to slip that into submitting-patches, that was either a
+mistake by the submitters or the people reviewing the change.
 
-> > Needs some -next time, too.
-> >
-> > If I don't hear otherwise, I'll pick it up later this week / next week.
->
-> Do you mean for this cycle? Linus may not like that, but up to you of cou=
-rse.
-
-No, next cycle. I'd pick it up next week, push it to a branch the test
-robots see, and then update my -next branch after the current cycle.
-
-Thanks,
--- Marco
+						- Ted
