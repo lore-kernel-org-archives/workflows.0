@@ -1,102 +1,42 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=74.125.82.175
-ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1792513436;
-	b=PwDvpPjHaFeIfuTxBeFvtn2IHuo5u012JNedzWcgDo7MjPr5DXkzJJfMcAgN2JSGFasO
-	 iIPzGHRCSboL58gFp24KI6kor+//hwfkKYdKxsX/Wr9z7rGUzrtQjNL6fQaNWx1OADLmp
-	 MlPHd3aptmsZq2VbWZ7sPVU62UBA1hbRkRGwmsZVgx2HLXHuzcgUjt+Njr1ka1fv/2d2d
-	 wh44tvYLtAv5HioWaTuXHutQtMSl+l+7RLcRGXRLFxRKIY7oZW7JVjHnnT7wPlTNmhUq3
-	 lTXHzOyv1Xhq55R7OhEW9jnCgOODBcZlvbPAlCihnAEHHsigcXn36YyD3nauINLe2Hw==
-ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792513436;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:
-	 MIME-Version:References:In-Reply-To:From:Date:X-Gm-Features:
-	 Message-ID:Subject:To:Cc:Content-Type:Content-Transfer-Encoding;
-	bh=1/TU1fx5Q7KS3NNxFTqPhkwN2RAGL4ewSYUEXSsjILU=;
-	b=HrePe6OGLWKAddgqLxmYZPuUfRqqhq+NXr9DWGsWxILU9W20xkr0C0K7AJ1AHqkVRva7
-	 hxNhJ8DRW4R0B0Wc5RnxF/84raWltzZ9ni+UI39zgfvkebOPCe0kfmMV7rAjmhwEn6iqX
-	 sW5pbtrRB1E4a9AAaCThgt8HuMqhR+4GkUIz4f4Vl47tVWAhJLoaN951OUwCxT0S04u8k
-	 yP9UoEIwU0fefDgHuA3MN7R/gs17PLHaT9DxbCYUnaWqzE2vP2FXTKNQNN8w9V24U7frc
-	 CuqB5S0Gc9o0c8TdG7Vc902HuL24KQ3nNv0G7S4QYN6CUWMIhAAZDC5Fq1bQd8DkPBg==
-ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=gmail.com;
-	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=nNJAyjCA;
-	arc=pass header.oldest-pass=0 smtp.remote-ip=74.125.82.175
-Received: from mail-dy1-f175.google.com (mail-dy1-f175.google.com [74.125.82.175])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=216.40.44.15
+ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
+	t=1792514392;
+	b=PQtBNLb6OSz0ksEOk+Pfw+qOR8ENMb2v0Q9abVNxuQ0M891jErDqrSxzdZVPQyS42mgH
+	 2UXxdBNGtblmTABF3m0X+gapPCQAFl/hch3q2RhPg5e0n+Qr4aqioOUDgaH0RXWJ7cYde
+	 e0wsIZVFSnlFWfNbRvS/KljUmcdULyjE+cL4EBLZ0MnEXkixut+kNpQE+cWThXXdWZrtV
+	 5UYfAcWlbGb/HTPZ6G7072AZpaoDjPbCbl3jlmed3uYHUm7kew0TNMprDhu5PSycXlTpe
+	 EOfqNed/63l8UahTdfTCcDhmqkKn81f7iTcpbXVuTFsfml0RLOf3WPEpX0NWkildOtA==
+ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1792514392;
+	h=DMARC-Filter:Received:Received:MIME-Version:Date:From:To:Cc:Subject:
+	 In-Reply-To:References:Message-ID:X-Sender:Content-Type:
+	 Content-Transfer-Encoding:X-Rspamd-Server:X-Rspamd-Queue-Id:
+	 X-Stat-Signature:X-Spam-Status:X-Session-Marker:X-Session-ID:X-HE-Tag:
+	 X-HE-Meta;
+	bh=I7aSeZRqOiGs9qoglPINA7QOH72KGaCp+aP5x2nuYoY=;
+	b=gU93NWWYmUaMKC+oebrZZOypedz/jQJMrWtw/D+f8jlUvvLGKJcbcnZSK4ieX9vxY67K
+	 QgWiLgbFxQDUy+G/zqupEu9vg5ic3xVA0J8InmTLsPuegLENkMJGirRvyDWH4RSp3pCoY
+	 dhBpByaW4zwAS0H5Xpr4wiCkQjGk3TV+14mSViaRESvxFGhGhS4ajmUqI90cWNSbJmoFE
+	 cSJwobAjsWuykMjsNYGz+X8N/XDFeFIp0wjavjSPAb1yn7bmAZ/IJGvu4YMapRfaRiHf6
+	 I0etTmBqcCIL3k49vWvO1QX/0I1JfYmW6NU+YqHivi0I9SrDMj5ntCdNssBlBEA25sg==
+ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
+	dmarc=none header.from=perches.com;
+	spf=pass smtp.mailfrom=perches.com;
+	arc=none smtp.remote-ip=216.40.44.15
+Received: from relay.hostedemail.com (smtprelay0015.hostedemail.com [216.40.44.15])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AFDC8606A31B
-	for <workflows@vger.kernel.org>; Tue, 20 Oct 2026 16:23:55 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org AFDC8606A31B
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=nNJAyjCA
-Received: by mail-dy1-f175.google.com with SMTP id 5a478bee46e88-35159e0092aso417909eec.2
-        for <workflows@vger.kernel.org>; Tue, 20 Oct 2026 09:23:55 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1792513435; cv=none;
-        d=google.com; s=arc-20260327;
-        b=rojR2sIz11TJNdo+ll9Jbx49h6vzNLVqTyLIqlI22/LFUe4fAGe6hj4ACj7QDL2vGF
-         uNwJgGKvEoXFlsUNWtaG1KsJAzHactpYK14EBpP6UG+mC2VtJ35z8gWUPteNVBejm+Nu
-         rgWSaCVhaIiyVAKqZuS4dZMXD7r7KxMv4tRGnH0iKX73UwcSVp2ANtvxQuz95s5MPQHt
-         BEOsb5wC1N+doJtPzZk0cFMwzujT2IF9lvfqouS2OBGYiptyDE4IKAxycjvfN2BnZe2q
-         H0ErlTgnNns6YQbjKIY7BTZ3DD7S+hNNBMG1zjynviVjdVW6w2++FHkcLR7K4KiF8zR9
-         6brQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=1/TU1fx5Q7KS3NNxFTqPhkwN2RAGL4ewSYUEXSsjILU=;
-        fh=0iuMrcMdg8tXlWgvHYpK/hCD8xifW7Euus6+zNWzIOE=;
-        b=LfTtVv18RWv4nDkGOQsfrqk0pta0TVsgpg90tLjkvibw8ZEIIfV3qAGxA+c+jq7HGH
-         fCYuI2RkgAozm+uLrvZfLDxTJz3mpxYEeTP7NM+6oJG9Luy+vIAIonCuMUm5J70Px8TU
-         d/Kcke6BexRUZQ6BTbE+nuu/O3unl/e/rdLt5T0koeAInCa+/WKXJwtL5ZJIYpzhTKuz
-         LJwqu8+Xbq9IUQYWbbQvRrMUtdLn35h5pVZ9Keoaye0QuiryFHRe9mhzrl10FF4DsCEK
-         ChWLVGzjqf74Br1aOJ3CuiFEMlHAE6GS2a9CwzGAXWSwKdqSUCaY44lfqDAm5Y312gdw
-         jQ3A==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1792513435; x=1793118235; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=1/TU1fx5Q7KS3NNxFTqPhkwN2RAGL4ewSYUEXSsjILU=;
-        b=nNJAyjCA1cBtwTNsbNVgKbr42Fi2rxrR0AfP1I3EeNVC2GFOPbZzecenbHeKcp0763
-         qlUTrtVJHbBz+kOuCzFOkQsDsTFo4W3CIiQxL+dXKPxYMKuPL9MGv3c2JIPRu/SGDt9t
-         wRGSzHBAxq2gIQaYhRjmaoOVm6IvWlSd2hLmnzUoEEI7PDenhNsNoHVAnGWxBXqp6Z4G
-         4GUiA+/JjyrtHoXM38Ik1qjtKbQ3+epNp+KSjx1NeRqAu3AI4TtVaPgITFEMLjJW3Rrz
-         xE2SQkOuL1B20fBoNghYNTqsAnWLHLpp52JYVQUAcXlWWX+22A2MP8MlLzcVKezcpgIO
-         5yFg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1792513435; x=1793118235;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=1/TU1fx5Q7KS3NNxFTqPhkwN2RAGL4ewSYUEXSsjILU=;
-        b=NIIhzCS7vDpG6J1dKP5N49SoQOLdxmffMlJ0dwW0mL54U3VhxZ0Y0uZMpLp709PSxZ
-         fPxE1CkhBTSkiO7RpATaNZiPoPBFQnq8r0XwksfNB90O1156Rft+MtBxEF5gmpPDeZQh
-         uwGVfUlIp76A4GyH9VRBolh5BtV8LPRDxiczdgHixKxJ+uVC4G/a3xW3o2IEGRb0rv49
-         P0gMEy/O3asZOnlFDqaX9YR/sl5RhvYuKnVx2CrCh06z/DlLMPE+5gDbOhpdSk+W46Uo
-         qvNc9X5fwi1Vo5NG7HeAMcYIDG9TtrMLNVDPoQ4lWIAgGo/jWdORgLEo5TPJNs756ykP
-         M1Wg==
-X-Forwarded-Encrypted: i=1; AKwUvBwrnsJA14m/1Zej8ACAEZTlHQl1oAOXnkC4tQR1/NSH8a+vA0r6PrQ504KSioo9/VnpAathdZUw6ZQ=@vger.kernel.org
-X-Gm-Message-State: AFq9FYL67WRa2VDWORAe1AIBMw2Lcqc7VUDv2HxfGYsq4Lk72Swa+Z87
-	GZ4SbhDgI8U+spfpu9GbKwRVF1IWEmKgk8Pc0AbmUMGZQHL78NML9vXsfGVGUrhcDnkdXjV2uks
-	4hxvP6QP9M+ESrbUqXcoMAnX3Ill8qE0=
-X-Gm-Gg: AYBFou3YG/5FBEUJaWSHEfuzLePOtZpISUhI9Po1NfXpBZyGJcV4vpWaJTvfZ835jYR
-	LRmAi1p6jnUQ+sH2JylkOtgH8dOJOYW4bC4qyfAQYm0l4IjuHIIMTEZP+V8pr9t46WLDLaSCnxq
-	LG3ioOrzg3jys9TgWsrUiEnqC6hE1vG7YBKTKVcHYu2lT/34uk5v+ySbMTVJFG+Y/mSU2naIhoB
-	b3sfPF4UjHaEgExLgo/z08elGdtWYwWny+Eoa1MgPdDz4pWZGFeNWF7iG3PBBHJHcdlN5pN0h4v
-	3s4gD1V/0xnS5RmOavlrZjxjhHGUBwCClyGQzImzeobjqM4P7pxubGKMcSEJSSAdOKu1dfypDYT
-	7PK00DqqSl92+dvgg+yZAKaBklohzvw2WG/A/k1HdYBMgfp4+bS1RPg+Zb5kFcwPqhKWpmmW2F1
-	Tu0hFCpNbS/z9LWOtewjgNPYQu2Rr2M6jbTqrnW2iPm2hZ2pUxlXtQk5WRSDa/edOGUKHH4mtl+
-	1I3mEwUHxUBtlEsJyFXUYx6iOkHWnRm7vmN
-X-Received: by 2002:a05:693c:409c:b0:35b:cb8a:8ce7 with SMTP id
- 5a478bee46e88-361a06a6544mr28167645eec.1.1792513434719; Tue, 20 Oct 2026
- 09:23:54 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7C172606A319;
+	Tue, 20 Oct 2026 16:39:52 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 7C172606A319
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=perches.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=perches.com
+Received: from omf17.hostedemail.com (lb01a-stub [10.200.18.249])
+	by unirelay04.hostedemail.com (Postfix) with ESMTP id 0DD2C1A02D1;
+	Tue, 20 Oct 2026 16:39:50 +0000 (UTC)
+Received: from [HIDDEN] (Authenticated sender: joe@perches.com) by omf17.hostedemail.com (Postfix) with ESMTPA id 3647B19;
+	Tue, 20 Oct 2026 16:39:47 +0000 (UTC)
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Post: <mailto:workflows@vger.kernel.org>
@@ -106,42 +46,65 @@ List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:workflows+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-References: <20261016152828.3765695-1-sashal@kernel.org> <20261016160030.118973-1-ojeda@kernel.org>
- <20261020133156.3153106-1-sashal@kernel.org>
-In-Reply-To: <20261020133156.3153106-1-sashal@kernel.org>
-From: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-Date: Tue, 20 Oct 2026 18:23:41 +0200
-X-Gm-Features: AclHuK9Pd22EdXpHIfqU5N44FLer_q0ZOIvVGA7MYMY15OzC7aZuyhpkAko0zds
-Message-ID: <CANiq72n9q93=usmoPqey_ohnrZ_nQOwvZfPYLAXgb0h1-NSjEw@mail.gmail.com>
-Subject: Re: [PATCH v3 0/7] agents: add skills for Fixes tags, stable tags,
- similar bugs, and commit messages
-To: Sasha Levin <sashal@kernel.org>
-Cc: Miguel Ojeda <ojeda@kernel.org>, broonie@kernel.org, corbet@lwn.net, error27@gmail.com, 
-	geert@linux-m68k.org, gregkh@linuxfoundation.org, kees@kernel.org, 
-	konstantin@linuxfoundation.org, ksummit@lists.linux.dev, 
-	laurent.pinchart@ideasonboard.com, leon@kernel.org, linux-doc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux@leemhuis.info, mst@redhat.com, 
-	rdunlap@infradead.org, skhan@linuxfoundation.org, stable@vger.kernel.org, 
-	tytso@mit.edu, workflows@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Date: Tue, 20 Oct 2026 09:39:46 -0700
+From: Joe Perches <joe@perches.com>
+To: Konstantin Ryabitsev <konstantin@linuxfoundation.org>
+Cc: Jonathan Corbet <corbet@lwn.net>, Shuah Khan
+ <skhan@linuxfoundation.org>, Randy Dunlap <rdunlap@infradead.org>,
+ linux-kernel@vger.kernel.org, users@kernel.org, Federico Vaga
+ <federico.vaga@vaga.pv.it>, Akira Yokosawa <akiyks@gmail.com>, Carlos Bilbao
+ <carlos.bilbao@kernel.org>, Avadhut Naik <avadhut.naik@amd.com>, Alex Shi
+ <alexs@kernel.org>, Yanteng Si <si.yanteng@linux.dev>, Dongliang Mu
+ <dzm91@hust.edu.cn>, Chen-Yu Yeh <chenyou910331@gmail.com>, Weijie Yuan
+ <wy@wyuan.org>, workflows@vger.kernel.org, linux-doc@vger.kernel.org
+Subject: Re: [PATCH v2 1/2] get_maintainer: only use THE REST as a fallback
+In-Reply-To: <20261020-witty-proud-coot-89ecd3@lemur>
+References: <20261020-get-maintainer-the-rest-fallback-v2-0-162aea473488@linuxfoundation.org>
+ <20261020-get-maintainer-the-rest-fallback-v2-1-162aea473488@linuxfoundation.org>
+ <88c5be32a371b5d73561a82a63426485@perches.com>
+ <20261020-witty-proud-coot-89ecd3@lemur>
+Message-ID: <23b3cedc62f21179d9374661dc3dad06@perches.com>
+X-Sender: joe@perches.com
+Content-Type: text/plain; charset=US-ASCII;
+ format=flowed
+Content-Transfer-Encoding: 7bit
+X-Rspamd-Server: rspamout02
+X-Rspamd-Queue-Id: 3647B19
+X-Stat-Signature: bmicfdtck94poreneq9eozgbc1wduj8a
+X-Session-Marker: 6A6F6540706572636865732E636F6D
+X-Session-ID: U2FsdGVkX19U2qCaQ3m5sLaZ6wrwOtFUa+s8RXzYRP4=
+X-HE-Tag: 1792514387-945908
+X-HE-Meta: U2FsdGVkX1+wEJwEUewYAn/f2TZ10Q+veOBpJRxu45b5v2UbCK/oAW1gjsc7bEcUU4ErdVMB9CZijuRZSyv/NKS5xH8MWy3DMDToMjZ6RtaH/5MTuN3PbqO1dHpkEk9UYQgsygwElmhrmxw5C3ACOk3INDpetCcBFLe/fB2X16ZKF3omUUlSpwCP7igJX3HEmz0hn52HlywH5D7h97NJP4zf/rbQGid4RXhFFk1IdqbOYn3jAiSO7bynFg2qLmBYwztRChTuWJJdfrLq8LEOtl/GdUjYyuSpvtPa06p4csZRlPYO6uB3VpmaNYjMxS61Z9Bx0pagdJYa2hR8nMmCOw==
 
-On Tue, Oct 20, 2026 at 3:31=E2=80=AFPM Sasha Levin <sashal@kernel.org> wro=
-te:
->
-> Could you send it as a separate patch to Greg and stable@? It doesn't rea=
-lly
-> depend on this series.
->
-> 3/7 only drops rules that LLMs follow more strictly than the stable trees
-> actually apply them. Adding a new kind of fix to the list is a policy
-> change, and it should get its own review rather than ride along here.
+On 2026-10-20 08:52, Konstantin Ryabitsev wrote:
+> On Tue, Oct 20, 2026 at 08:47:01AM -0700, Joe Perches wrote:
+>> > Only add THE REST for a file when no other matching section provides a
+>> > mailing list that get_maintainer.pl would actually output. Lists marked
+>> > "subscribers-only" are omitted unless --s is given, and lists marked
+>> > "moderated" are omitted with --no-moderated, so such lists don't count
+>> > as a destination in those cases. Files that match no section, or only
+>> > sections without such a list, still fall back to THE REST, so every
+>> > patch keeps reaching at least one known-public mailing list.
+>> >
+>> > Signed-off-by: Konstantin Ryabitsev <konstantin@linuxfoundation.org>
+>> > ---
+>> 
+>> I don't disagree that this is useful but v2: no changelog
+>> 
+>> Perhaps there's a simpler and more generic mechanism.  I'll play with 
+>> it for
+>> a couple days.
+> 
+> It's like to convey the sense of urgency -- with the amount of patches,
+> automated reviews, and follow-ups being sent daily, having all of them 
+> land on
+> LKML and delivered to 2000+ subscribers... is not sustainable. At this 
+> point,
+> I'm very close to outright banning subscriptions from gmail, outlook 
+> and yahoo
+> addresses. Not sending every single patch to the LKML is a better way 
+> to deal
+> with this.
 
-Sounds good, I saw you split it in v4.
-
-(To clarify, it is already the policy in practice and it is documented
-on our side too; but I agree it is a good idea to discuss it
-separately).
-
-Cheers,
-Miguel
+No worries.
+Apply it and I might deal with later.
