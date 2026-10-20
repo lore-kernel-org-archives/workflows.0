@@ -1,66 +1,54 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=91.218.175.99
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.137.202.133
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792514690;
-	b=GfvLlVmiZ1pqvTliOUJWPUkxZ9CDcpcNCO5t7ikP3LSlbsQLXhjQoUktPMITQ5RGfjcu
-	 vjAsS0PSTcOfXWuRn8HvADxpI6bTSPYCkgxzW3WGTOrnusx1hYZGchmbHcjqJxpH9U8/l
-	 AQ6K70dkZ2ncQHq5JkT3HSKkCDYi1rdlqIdUx3dzDJKZMwVYnq+uH4bzeOiYND/GYXp6T
-	 ce9xy0xeeGkfJ9bZ4SoYER8BFmPjuy2rOBqgIGv/90Ji8XBsu16g7vT2i35DFLB+Spje0
-	 Izb/m7e7jJVbIoHDe6JGUy3B1fg0H8ENP5eAi3WwVdL1H8lPxHS8nfP0PDFnBM4VFwg==
+	t=1792515504;
+	b=5coLYF8GY3+1fmGKtfVgVrjWSYviYgClxe/6PwusDzssE+SFeD3cBRzQfZS8yyV/HQ0K
+	 TfUuM+v8GKyIK/3bUK/a37OAEAUiq8L9jAU5gUC1JEZSuG2Elow783dFljDZxIgFjZp7N
+	 Uc887GrPwKLyUFpBiSEcRnXr3B2bExbAgZJChzr0qbPaRbCZrji7AqSPvFd7HbYijcx1j
+	 yClyx7q1YOQ7gSKd9Bs7O9JA9JeU0hY4WeHE41VqU3yQE+aJS/p9zW5pxEROBbHQHR9kj
+	 WT+E/oeS94uHtaR/uIO5mtkvNxU32wujLJ00XjridcY3QKO+79SC1GpP77UgVqgyZpw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792514690;
-	h=DMARC-Filter:X-Envelope-To:DKIM-Signature:X-Envelope-To:Received:
-	 X-Mizu-Trace-ID:X-Migadu-Flow:Date:From:To:Cc:Subject:Message-ID:
-	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
-	bh=aTmACZ/+QtvgkXkB87/Q1326A2lmn3wrW3YNYzLyp4k=;
-	b=iEjX5YE1VZ/PqW9Atpsq4fDOr8JL160EdtEHjdSiqrpqRL2YHoVK0J69UmrqVyv6mrVm
-	 ofnsWwYKta9jNKpzjdwg/akrQycSLhqpJNRFm0OJsdkVkN7UpJscfwOJB9TIa+hN84RyN
-	 It44vB5C6N3ka1LzkKAzeYqUX3TPUFE9Sbn8dlZAihmGZhVJEaknmUf58fB01OQNYKc3y
-	 n/k9NVqqsjr1TryyfHfA5KJTx+vW0fEDuBVnKc8JpGvwob9jIeYjZaYvBJc6GY6XcAiV5
-	 hzNHPprDp43QK0m9v6MjfcTQDFhVhN3NOtAlLlyXM7tFXz1Ms9MZWCIW0todKfZIoeQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1792515504;
+	h=DMARC-Filter:DKIM-Signature:Received:Message-ID:Date:MIME-Version:
+	 User-Agent:Subject:To:Cc:References:Content-Language:From:In-Reply-To:
+	 Content-Type:Content-Transfer-Encoding;
+	bh=5rK+lDjde7+rlTTqYoeU/IKtrX3tA8RsSKIzVbGxN5A=;
+	b=k5BErheJ7R22Dt7nzluWIK5ESNg2IlO05x8A+bh/kCx6CwyKPo6qiPsscmOGBF57E4EP
+	 KGcDXqdU9zJsFoMrI0LTezHgXMgGYXM1GKytCXbl3KbwjVhXqy9WnXb16A+7nOCDPWSxQ
+	 /U2vPZgzkuzfywnvcJ1ew8KLYGUWBWaloxToSresu5Gmbch/ZWa5cdy3e9yMCaQgD9z6U
+	 csE0PwDERcmYBV2cQQRBd6IKHEVUHhLjeW4WwvpDozCAIx/hCY6b8zA79331svlORtf5c
+	 KsGmAIF1gCIRjlM3sbM4ZknSRjCJsMwh1hcz3JkOZqQ2CSwdssMk2WNLnjvQu8velDg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=wyuan.org;
-	spf=pass smtp.mailfrom=wyuan.org;
-	arc=none smtp.remote-ip=91.218.175.99
-Received: from mta0.migadu.com (out-99.mta0.migadu.com [91.218.175.99])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	dmarc=pass header.from=infradead.org;
+	spf=pass smtp.mailfrom=infradead.org;
+	dkim=pass header.d=infradead.org header.i=@infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=SC5cvL4f;
+	arc=none smtp.remote-ip=198.137.202.133
+Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 30196606A328
-	for <workflows@vger.kernel.org>; Tue, 20 Oct 2026 16:44:43 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 30196606A328
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=wyuan.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=wyuan.org
-X-Envelope-To: workflows@vger.kernel.org
-DKIM-Signature: a=rsa-sha256; bh=XjqcV9ZvR7h/4pI77pPXVunNE25bWrZE4kzLXH0JbYw=;
- c=simple/simple; d=wyuan.org;
- h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
- t=1792514682; v=1; x=1793119482;
- b=si/2oLkZmD6SnimNJ+tZuKJtRdyDt48CmadO9NqYzqhwXYQlHTvmiIQ1owzOqCHbt2baDEQC
- qozgwb1UHftuHj50CgzAZijG6ySqffmCQpk+m2MFSrP+5CFUZwHePKfRUgIx9XgxZ979W14SJdX
- 8Fc2BDOoO0GRD0IJuQNlmLtEUWTQ7mAkSVQu5QXazwyTpS/Mdw679p0YQVnnSRosFGRB0Z1sNBb
- nJFaBiF0lXfFNdOimrRfxG1QPPavt+y0LVZ31M6Aa/lr1Fk9Cu+uV2yvb4+WBJ07xT0cm0xIS/e
- YNzqs3y9qAxS1Eb+3g+Xmpm4GPw4F12p8cT3WMMNOH4UQ==
-X-Envelope-To: workflows@vger.kernel.org
-Received: by smtp.migadu.com with ESMTPS id 3e91a7bb92a9dc53;
-	Tue, 20 Oct 2026 16:44:41 +0000
-X-Mizu-Trace-ID: 3e91a7bb92a9dc53
-X-Migadu-Flow: FLOW_OUT
-Date: Wed, 21 Oct 2026 00:44:37 +0800
-From: Weijie Yuan <wy@wyuan.org>
-To: Konstantin Ryabitsev <konstantin@linuxfoundation.org>
-Cc: Joe Perches <joe@perches.com>, Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Randy Dunlap <rdunlap@infradead.org>, linux-kernel@vger.kernel.org,
-	users@kernel.org, Federico Vaga <federico.vaga@vaga.pv.it>,
-	Akira Yokosawa <akiyks@gmail.com>,
-	Carlos Bilbao <carlos.bilbao@kernel.org>,
-	Avadhut Naik <avadhut.naik@amd.com>, Alex Shi <alexs@kernel.org>,
-	Yanteng Si <si.yanteng@linux.dev>, Dongliang Mu <dzm91@hust.edu.cn>,
-	Chen-Yu Yeh <chenyou910331@gmail.com>, workflows@vger.kernel.org,
-	linux-doc@vger.kernel.org, Petr Pavlu <petr.pavlu@suse.com>
-Subject: Re: [PATCH v2 0/2] get_maintainer: stop sending every patch to LKML
-Message-ID: <ateadbflRqzgIVSh@wyuan.org>
-References: <20261020-get-maintainer-the-rest-fallback-v2-0-162aea473488@linuxfoundation.org>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 61127606A320;
+	Tue, 20 Oct 2026 16:58:22 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 61127606A320
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=infradead.org
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key, unprotected) header.d=infradead.org header.i=@infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=SC5cvL4f
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
+	bh=5rK+lDjde7+rlTTqYoeU/IKtrX3tA8RsSKIzVbGxN5A=; b=SC5cvL4feNHpllqrgkushrqkoP
+	ikB3wZms9MpW+Yb4/ypjx+lUsW0+Ezp5EM8irdvFr1sNUjqDuMmaXQILDiEii2gEloX4zxzxtvV8I
+	9aEIpm7QrFb/OnpAvk/Jy3LDV3V6+U/5OVVuBFDIHqiOLIQQjlEPiKjaM5/ske036raVY7Ck8JFbW
+	neGwfPx03r7FMhO/BWHyxgxJPZi4pmfwGYV7khgMV8nctCglaYHfyZkJ29iSyayY4itKGlQk9FMS3
+	c9LMniptp9azPBAJeDY0wUrd/bBj83wULyTo6Y5cLdDVXhJ3Rn89rbxsEzESJlD+0CgFtakVTfk6c
+	31k+wPkA==;
+Received: from [50.53.43.113] (helo=[192.168.254.34])
+	by bombadil.infradead.org with esmtpsa (Exim 4.99.1 #2 (Red Hat Linux))
+	id 1xJDAJ-0000000AHZA-3ftz;
+	Tue, 20 Oct 2026 16:58:19 +0000
+Message-ID: <ded20c0a-f590-4160-a675-b68b54f25fe9@infradead.org>
+Date: Tue, 20 Oct 2026 09:58:18 -0700
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Post: <mailto:workflows@vger.kernel.org>
@@ -70,42 +58,70 @@ List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:workflows+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20261020-get-maintainer-the-rest-fallback-v2-0-162aea473488@linuxfoundation.org>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 2/2] docs: submitting-patches: make LKML a list of last
+ resort again
+To: Konstantin Ryabitsev <konstantin@linuxfoundation.org>,
+ Joe Perches <joe@perches.com>, Jonathan Corbet <corbet@lwn.net>,
+ Shuah Khan <skhan@linuxfoundation.org>
+Cc: linux-kernel@vger.kernel.org, users@kernel.org,
+ Federico Vaga <federico.vaga@vaga.pv.it>, Akira Yokosawa <akiyks@gmail.com>,
+ Carlos Bilbao <carlos.bilbao@kernel.org>, Avadhut Naik
+ <avadhut.naik@amd.com>, Alex Shi <alexs@kernel.org>,
+ Yanteng Si <si.yanteng@linux.dev>, Dongliang Mu <dzm91@hust.edu.cn>,
+ Chen-Yu Yeh <chenyou910331@gmail.com>, Weijie Yuan <wy@wyuan.org>,
+ workflows@vger.kernel.org, linux-doc@vger.kernel.org,
+ Petr Pavlu <petr.pavlu@suse.com>
+References: <20261020-get-maintainer-the-rest-fallback-v2-0-162aea473488@linuxfoundation.org>
+ <20261020-get-maintainer-the-rest-fallback-v2-2-162aea473488@linuxfoundation.org>
+Content-Language: en-US
+From: Randy Dunlap <rdunlap@infradead.org>
+In-Reply-To: <20261020-get-maintainer-the-rest-fallback-v2-2-162aea473488@linuxfoundation.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On 2026-10-20 11:35:24 -0400, Konstantin Ryabitsev
-<konstantin@linuxfoundation.org> wrote:
 
-> LKML has become mostly a firehose of patches that are already going to a
-> subsystem list. The reason is THE REST: it matches every file in the
-> tree, so get_maintainer.pl adds linux-kernel@vger.kernel.org to every
-> single patch. During the week of Oct 1-7, 2026:
-> 
->   - LKML carried 13,641 messages (~1,950/day), 90% of which were also
->     sent to at least one other list;
->   - with ~2,100 subscribers, that is about 29 million deliveries per
->     week for LKML alone.
-> 
-> This issue came up during the 2026 Maintainer Summit and the consensus
-> was that "always include linux-kernel for every patch" was never the
-> intent.
-> 
-> This series makes THE REST a fallback as initially intended: it is only
-> added for a file when no other matching MAINTAINERS section provides a
-> mailing list that get_maintainer.pl would actually output for it.
-> Patch 2 updates submitting-patches.rst, which currently tells submitters
-> to send every patch to LKML.
-> 
-> Several v1 reviewers asked for a catch-all list that would keep carrying
-> every patch for those who want to follow all kernel development. That
-> is a worthwhile discussion, but it is separate from this series, which
-> only restores THE REST to its original role.
-> 
-> Translation maintainers are Cc'd because the it_IT, ja_JP, sp_SP, zh_CN
-> and zh_TW versions of submitting-patches.rst carry the same "send every
-> patch to LKML" advice and will need a follow-up update once the English
-> text is settled.
 
-Thanks. Added to the todo list.
+On 10/20/26 8:35 AM, Konstantin Ryabitsev wrote:
+> Commit 77167b966b7e ("docs: submitting-patches: clarify the role of
+> LKML") changed the documentation to say that all patches should be sent
+> to LKML by default, because get_maintainer.pl always suggested it.
+> 
+> Now that get_maintainer.pl only falls back to THE REST when no other
+> matching section provides a mailing list, update the documentation to
+> match: send patches to the subsystem-specific list, and use LKML only
+> when there isn't one.
+> 
+> Suggested-by: Petr Pavlu <petr.pavlu@suse.com>
+> Signed-off-by: Konstantin Ryabitsev <konstantin@linuxfoundation.org>
+> ---
+>  Documentation/process/submitting-patches.rst | 9 ++++++---
+>  1 file changed, 6 insertions(+), 3 deletions(-)
+> 
+> diff --git a/Documentation/process/submitting-patches.rst b/Documentation/process/submitting-patches.rst
+> index 7ae79452e1b4..b4a2750599a7 100644
+> --- a/Documentation/process/submitting-patches.rst
+> +++ b/Documentation/process/submitting-patches.rst
+> @@ -239,9 +239,12 @@ patches as arguments to scripts/get_maintainer.pl).  If you cannot find a
+>  maintainer for the subsystem you are working on, Andrew Morton
+>  (akpm@linux-foundation.org) serves as a maintainer of last resort.
+>  
+> -linux-kernel@vger.kernel.org should be used by default for all patches, but the
+> -volume on that list has caused a number of developers to tune it out.  Please
+> -do not spam unrelated lists and unrelated people, though.
+> +You should also normally choose at least one mailing list to receive a copy of
+> +your patch set.  Look in the MAINTAINERS file for a subsystem-specific list;
+> +your patch will probably get more attention there.
+> +linux-kernel@vger.kernel.org functions as a list of last resort for patches
+> +that do not have a subsystem-specific list.  Please do not spam unrelated lists
+> +and unrelated people, though.
+>  
+>  Many kernel-related lists are hosted at kernel.org; you can find a list
+>  of them at https://subspace.kernel.org.  There are kernel-related lists
+> 
 
+Acked-by: Randy Dunlap <rdunlap@infradead.org>
+Thanks.
+
+-- 
+~Randy
