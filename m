@@ -1,42 +1,66 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=216.40.44.15
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=91.218.175.99
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792514392;
-	b=PQtBNLb6OSz0ksEOk+Pfw+qOR8ENMb2v0Q9abVNxuQ0M891jErDqrSxzdZVPQyS42mgH
-	 2UXxdBNGtblmTABF3m0X+gapPCQAFl/hch3q2RhPg5e0n+Qr4aqioOUDgaH0RXWJ7cYde
-	 e0wsIZVFSnlFWfNbRvS/KljUmcdULyjE+cL4EBLZ0MnEXkixut+kNpQE+cWThXXdWZrtV
-	 5UYfAcWlbGb/HTPZ6G7072AZpaoDjPbCbl3jlmed3uYHUm7kew0TNMprDhu5PSycXlTpe
-	 EOfqNed/63l8UahTdfTCcDhmqkKn81f7iTcpbXVuTFsfml0RLOf3WPEpX0NWkildOtA==
+	t=1792514690;
+	b=GfvLlVmiZ1pqvTliOUJWPUkxZ9CDcpcNCO5t7ikP3LSlbsQLXhjQoUktPMITQ5RGfjcu
+	 vjAsS0PSTcOfXWuRn8HvADxpI6bTSPYCkgxzW3WGTOrnusx1hYZGchmbHcjqJxpH9U8/l
+	 AQ6K70dkZ2ncQHq5JkT3HSKkCDYi1rdlqIdUx3dzDJKZMwVYnq+uH4bzeOiYND/GYXp6T
+	 ce9xy0xeeGkfJ9bZ4SoYER8BFmPjuy2rOBqgIGv/90Ji8XBsu16g7vT2i35DFLB+Spje0
+	 Izb/m7e7jJVbIoHDe6JGUy3B1fg0H8ENP5eAi3WwVdL1H8lPxHS8nfP0PDFnBM4VFwg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792514392;
-	h=DMARC-Filter:Received:Received:MIME-Version:Date:From:To:Cc:Subject:
-	 In-Reply-To:References:Message-ID:X-Sender:Content-Type:
-	 Content-Transfer-Encoding:X-Rspamd-Server:X-Rspamd-Queue-Id:
-	 X-Stat-Signature:X-Spam-Status:X-Session-Marker:X-Session-ID:X-HE-Tag:
-	 X-HE-Meta;
-	bh=I7aSeZRqOiGs9qoglPINA7QOH72KGaCp+aP5x2nuYoY=;
-	b=gU93NWWYmUaMKC+oebrZZOypedz/jQJMrWtw/D+f8jlUvvLGKJcbcnZSK4ieX9vxY67K
-	 QgWiLgbFxQDUy+G/zqupEu9vg5ic3xVA0J8InmTLsPuegLENkMJGirRvyDWH4RSp3pCoY
-	 dhBpByaW4zwAS0H5Xpr4wiCkQjGk3TV+14mSViaRESvxFGhGhS4ajmUqI90cWNSbJmoFE
-	 cSJwobAjsWuykMjsNYGz+X8N/XDFeFIp0wjavjSPAb1yn7bmAZ/IJGvu4YMapRfaRiHf6
-	 I0etTmBqcCIL3k49vWvO1QX/0I1JfYmW6NU+YqHivi0I9SrDMj5ntCdNssBlBEA25sg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1792514690;
+	h=DMARC-Filter:X-Envelope-To:DKIM-Signature:X-Envelope-To:Received:
+	 X-Mizu-Trace-ID:X-Migadu-Flow:Date:From:To:Cc:Subject:Message-ID:
+	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
+	bh=aTmACZ/+QtvgkXkB87/Q1326A2lmn3wrW3YNYzLyp4k=;
+	b=iEjX5YE1VZ/PqW9Atpsq4fDOr8JL160EdtEHjdSiqrpqRL2YHoVK0J69UmrqVyv6mrVm
+	 ofnsWwYKta9jNKpzjdwg/akrQycSLhqpJNRFm0OJsdkVkN7UpJscfwOJB9TIa+hN84RyN
+	 It44vB5C6N3ka1LzkKAzeYqUX3TPUFE9Sbn8dlZAihmGZhVJEaknmUf58fB01OQNYKc3y
+	 n/k9NVqqsjr1TryyfHfA5KJTx+vW0fEDuBVnKc8JpGvwob9jIeYjZaYvBJc6GY6XcAiV5
+	 hzNHPprDp43QK0m9v6MjfcTQDFhVhN3NOtAlLlyXM7tFXz1Ms9MZWCIW0todKfZIoeQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=none header.from=perches.com;
-	spf=pass smtp.mailfrom=perches.com;
-	arc=none smtp.remote-ip=216.40.44.15
-Received: from relay.hostedemail.com (smtprelay0015.hostedemail.com [216.40.44.15])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	dmarc=pass header.from=wyuan.org;
+	spf=pass smtp.mailfrom=wyuan.org;
+	arc=none smtp.remote-ip=91.218.175.99
+Received: from mta0.migadu.com (out-99.mta0.migadu.com [91.218.175.99])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7C172606A319;
-	Tue, 20 Oct 2026 16:39:52 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 7C172606A319
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=perches.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=perches.com
-Received: from omf17.hostedemail.com (lb01a-stub [10.200.18.249])
-	by unirelay04.hostedemail.com (Postfix) with ESMTP id 0DD2C1A02D1;
-	Tue, 20 Oct 2026 16:39:50 +0000 (UTC)
-Received: from [HIDDEN] (Authenticated sender: joe@perches.com) by omf17.hostedemail.com (Postfix) with ESMTPA id 3647B19;
-	Tue, 20 Oct 2026 16:39:47 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 30196606A328
+	for <workflows@vger.kernel.org>; Tue, 20 Oct 2026 16:44:43 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 30196606A328
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=wyuan.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=wyuan.org
+X-Envelope-To: workflows@vger.kernel.org
+DKIM-Signature: a=rsa-sha256; bh=XjqcV9ZvR7h/4pI77pPXVunNE25bWrZE4kzLXH0JbYw=;
+ c=simple/simple; d=wyuan.org;
+ h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
+ t=1792514682; v=1; x=1793119482;
+ b=si/2oLkZmD6SnimNJ+tZuKJtRdyDt48CmadO9NqYzqhwXYQlHTvmiIQ1owzOqCHbt2baDEQC
+ qozgwb1UHftuHj50CgzAZijG6ySqffmCQpk+m2MFSrP+5CFUZwHePKfRUgIx9XgxZ979W14SJdX
+ 8Fc2BDOoO0GRD0IJuQNlmLtEUWTQ7mAkSVQu5QXazwyTpS/Mdw679p0YQVnnSRosFGRB0Z1sNBb
+ nJFaBiF0lXfFNdOimrRfxG1QPPavt+y0LVZ31M6Aa/lr1Fk9Cu+uV2yvb4+WBJ07xT0cm0xIS/e
+ YNzqs3y9qAxS1Eb+3g+Xmpm4GPw4F12p8cT3WMMNOH4UQ==
+X-Envelope-To: workflows@vger.kernel.org
+Received: by smtp.migadu.com with ESMTPS id 3e91a7bb92a9dc53;
+	Tue, 20 Oct 2026 16:44:41 +0000
+X-Mizu-Trace-ID: 3e91a7bb92a9dc53
+X-Migadu-Flow: FLOW_OUT
+Date: Wed, 21 Oct 2026 00:44:37 +0800
+From: Weijie Yuan <wy@wyuan.org>
+To: Konstantin Ryabitsev <konstantin@linuxfoundation.org>
+Cc: Joe Perches <joe@perches.com>, Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Randy Dunlap <rdunlap@infradead.org>, linux-kernel@vger.kernel.org,
+	users@kernel.org, Federico Vaga <federico.vaga@vaga.pv.it>,
+	Akira Yokosawa <akiyks@gmail.com>,
+	Carlos Bilbao <carlos.bilbao@kernel.org>,
+	Avadhut Naik <avadhut.naik@amd.com>, Alex Shi <alexs@kernel.org>,
+	Yanteng Si <si.yanteng@linux.dev>, Dongliang Mu <dzm91@hust.edu.cn>,
+	Chen-Yu Yeh <chenyou910331@gmail.com>, workflows@vger.kernel.org,
+	linux-doc@vger.kernel.org, Petr Pavlu <petr.pavlu@suse.com>
+Subject: Re: [PATCH v2 0/2] get_maintainer: stop sending every patch to LKML
+Message-ID: <ateadbflRqzgIVSh@wyuan.org>
+References: <20261020-get-maintainer-the-rest-fallback-v2-0-162aea473488@linuxfoundation.org>
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Post: <mailto:workflows@vger.kernel.org>
@@ -46,65 +70,42 @@ List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:workflows+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Date: Tue, 20 Oct 2026 09:39:46 -0700
-From: Joe Perches <joe@perches.com>
-To: Konstantin Ryabitsev <konstantin@linuxfoundation.org>
-Cc: Jonathan Corbet <corbet@lwn.net>, Shuah Khan
- <skhan@linuxfoundation.org>, Randy Dunlap <rdunlap@infradead.org>,
- linux-kernel@vger.kernel.org, users@kernel.org, Federico Vaga
- <federico.vaga@vaga.pv.it>, Akira Yokosawa <akiyks@gmail.com>, Carlos Bilbao
- <carlos.bilbao@kernel.org>, Avadhut Naik <avadhut.naik@amd.com>, Alex Shi
- <alexs@kernel.org>, Yanteng Si <si.yanteng@linux.dev>, Dongliang Mu
- <dzm91@hust.edu.cn>, Chen-Yu Yeh <chenyou910331@gmail.com>, Weijie Yuan
- <wy@wyuan.org>, workflows@vger.kernel.org, linux-doc@vger.kernel.org
-Subject: Re: [PATCH v2 1/2] get_maintainer: only use THE REST as a fallback
-In-Reply-To: <20261020-witty-proud-coot-89ecd3@lemur>
-References: <20261020-get-maintainer-the-rest-fallback-v2-0-162aea473488@linuxfoundation.org>
- <20261020-get-maintainer-the-rest-fallback-v2-1-162aea473488@linuxfoundation.org>
- <88c5be32a371b5d73561a82a63426485@perches.com>
- <20261020-witty-proud-coot-89ecd3@lemur>
-Message-ID: <23b3cedc62f21179d9374661dc3dad06@perches.com>
-X-Sender: joe@perches.com
-Content-Type: text/plain; charset=US-ASCII;
- format=flowed
-Content-Transfer-Encoding: 7bit
-X-Rspamd-Server: rspamout02
-X-Rspamd-Queue-Id: 3647B19
-X-Stat-Signature: bmicfdtck94poreneq9eozgbc1wduj8a
-X-Session-Marker: 6A6F6540706572636865732E636F6D
-X-Session-ID: U2FsdGVkX19U2qCaQ3m5sLaZ6wrwOtFUa+s8RXzYRP4=
-X-HE-Tag: 1792514387-945908
-X-HE-Meta: U2FsdGVkX1+wEJwEUewYAn/f2TZ10Q+veOBpJRxu45b5v2UbCK/oAW1gjsc7bEcUU4ErdVMB9CZijuRZSyv/NKS5xH8MWy3DMDToMjZ6RtaH/5MTuN3PbqO1dHpkEk9UYQgsygwElmhrmxw5C3ACOk3INDpetCcBFLe/fB2X16ZKF3omUUlSpwCP7igJX3HEmz0hn52HlywH5D7h97NJP4zf/rbQGid4RXhFFk1IdqbOYn3jAiSO7bynFg2qLmBYwztRChTuWJJdfrLq8LEOtl/GdUjYyuSpvtPa06p4csZRlPYO6uB3VpmaNYjMxS61Z9Bx0pagdJYa2hR8nMmCOw==
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20261020-get-maintainer-the-rest-fallback-v2-0-162aea473488@linuxfoundation.org>
 
-On 2026-10-20 08:52, Konstantin Ryabitsev wrote:
-> On Tue, Oct 20, 2026 at 08:47:01AM -0700, Joe Perches wrote:
->> > Only add THE REST for a file when no other matching section provides a
->> > mailing list that get_maintainer.pl would actually output. Lists marked
->> > "subscribers-only" are omitted unless --s is given, and lists marked
->> > "moderated" are omitted with --no-moderated, so such lists don't count
->> > as a destination in those cases. Files that match no section, or only
->> > sections without such a list, still fall back to THE REST, so every
->> > patch keeps reaching at least one known-public mailing list.
->> >
->> > Signed-off-by: Konstantin Ryabitsev <konstantin@linuxfoundation.org>
->> > ---
->> 
->> I don't disagree that this is useful but v2: no changelog
->> 
->> Perhaps there's a simpler and more generic mechanism.  I'll play with 
->> it for
->> a couple days.
+On 2026-10-20 11:35:24 -0400, Konstantin Ryabitsev
+<konstantin@linuxfoundation.org> wrote:
+
+> LKML has become mostly a firehose of patches that are already going to a
+> subsystem list. The reason is THE REST: it matches every file in the
+> tree, so get_maintainer.pl adds linux-kernel@vger.kernel.org to every
+> single patch. During the week of Oct 1-7, 2026:
 > 
-> It's like to convey the sense of urgency -- with the amount of patches,
-> automated reviews, and follow-ups being sent daily, having all of them 
-> land on
-> LKML and delivered to 2000+ subscribers... is not sustainable. At this 
-> point,
-> I'm very close to outright banning subscriptions from gmail, outlook 
-> and yahoo
-> addresses. Not sending every single patch to the LKML is a better way 
-> to deal
-> with this.
+>   - LKML carried 13,641 messages (~1,950/day), 90% of which were also
+>     sent to at least one other list;
+>   - with ~2,100 subscribers, that is about 29 million deliveries per
+>     week for LKML alone.
+> 
+> This issue came up during the 2026 Maintainer Summit and the consensus
+> was that "always include linux-kernel for every patch" was never the
+> intent.
+> 
+> This series makes THE REST a fallback as initially intended: it is only
+> added for a file when no other matching MAINTAINERS section provides a
+> mailing list that get_maintainer.pl would actually output for it.
+> Patch 2 updates submitting-patches.rst, which currently tells submitters
+> to send every patch to LKML.
+> 
+> Several v1 reviewers asked for a catch-all list that would keep carrying
+> every patch for those who want to follow all kernel development. That
+> is a worthwhile discussion, but it is separate from this series, which
+> only restores THE REST to its original role.
+> 
+> Translation maintainers are Cc'd because the it_IT, ja_JP, sp_SP, zh_CN
+> and zh_TW versions of submitting-patches.rst carry the same "send every
+> patch to LKML" advice and will need a follow-up update once the English
+> text is settled.
 
-No worries.
-Apply it and I might deal with later.
+Thanks. Added to the todo list.
+
