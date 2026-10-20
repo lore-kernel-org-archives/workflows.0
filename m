@@ -1,101 +1,79 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=74.125.82.178
-ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1792523381;
-	b=gf00qBvzLsaHFWRWKOMD5KRhCK6Texw9mi3N6bCHGRwdOXFf+hneWbHYcXKh5xENmofd
-	 XEnlKLTjWZmo689zCGQ8JFne4oVA5Fdfm3Q5bitv7325iwIsNVScT8Lj14kgyZsYGz6fd
-	 Z+49K/GwiaIFO/u/q1wkV696PaFl+rusvrcV+b2b59lKiy8VICB3kMSSVR5vxcIOPquuL
-	 aa04Bak+JoyMKmCIVsexok6fONzDHF7zBpsOV0cLm91ozYzB1iAjHmNokTPzy6j4HCGvH
-	 gbUCCALdceT8Bj25yglzMJUMkYLcjmG+ksUcp/JJZw7CvA76wflNTzhQCWfgWCvUl/Q==
-ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792523381;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:
-	 MIME-Version:References:In-Reply-To:From:Date:X-Gm-Features:
-	 Message-ID:Subject:To:Cc:Content-Type:Content-Transfer-Encoding;
-	bh=ahczx5djr+c7p6mzXUGX/QvBdodUDaN77R7cgymXnO8=;
-	b=JmUtQiNWvevyCfSOCgp7RcqBkMDRIrrmYXdJvuEyw09N1OoYcx+2YYSuCED3xVzHjn8l
-	 YgAJE20j7gBehhf8ZGNme/cybknCevkEQCzXHazVbddfEE07X1SUiTrEJx+c8au3eu3/9
-	 yjG4o5v+zYI2uPPH3C9YaJt5+a1WK+kPjYQlvK3uZl5or+rfmpAdyes/dVBpcO6FySXj/
-	 qk03x5t1VJDEQo10k5toTgGBPjYjvAMQ26lsydHqIEYn6jryb5bwzHH4x5kLf5raWkSCQ
-	 rrEOhODCjm3Xf4Nby0Tc3urAltEQp4UNukjUQPgxXICASd796MzQG0LhccQYGMXderQ==
-ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=gmail.com;
-	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=IygMgcs6;
-	arc=pass header.oldest-pass=0 smtp.remote-ip=74.125.82.178
-Received: from mail-dy1-f178.google.com (mail-dy1-f178.google.com [74.125.82.178])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=213.167.242.64
+ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
+	t=1792530938;
+	b=0M+SyygyIaWNCahfyciEI+3KaTyBc3oNOS3l6qnCy53dBTFHmgR5cGKhKh8FlltuXmZ+
+	 RhEzVWcSz+aemhpLpeIwRgX8JDUKLaDPlgFMNhYh+9EjdCWrmRuxCGKEJV2eTVMcaKetJ
+	 fVVgnXRz2dnvoY2/OkKcG6jaDs7Z9/uP0oTXKuZF9t47ZLpMVfs8mJVUDQ9W2HUkl4A3V
+	 sjrjRH5a0y2HCJuc4aFzWwY5BLkeU1Dtjq5lrlTT+7XAsuechMbLCfrahSIHDT5+MTMrx
+	 LDecft6fJTB4gMw+mdztO9AjEFRsD18mJD9O2KRQMyuiR6jnjh5vA/dzB9UsL+XownA==
+ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1792530938;
+	h=DMARC-Filter:Received:DKIM-Signature:Date:From:To:Cc:Subject:
+	 Message-ID:References:MIME-Version:Content-Type:Content-Disposition:
+	 In-Reply-To;
+	bh=wHd3cMifOHT8XJzNmW+BScYMJPe67YDL+EZuUsiYtiE=;
+	b=fN9ippP15JgsxTuMkD6f15UYXpY7fkTIk9XKERfruJMcRJXnkpxsA6yHSG+KHNn3/udH
+	 oB/ltuDSVGCyM8pgIzmA4vozvv+jiSPD71XJAcs2UGfZ6nEAr3CRu4RizbBUCXaqXmxVW
+	 p6KyTCjubQlL/F9FPb4t0Pjq6lD2735B8JZOlqQLbyH0eKIEaRBKLJhAAM9fUi9gasqMS
+	 ZSZ/LPJKoH7B/l0MrHhy4rBr2qR56pdQzNn9vRgkO5d5d8sGBKtvhUDeKxFBRLwUKfyrX
+	 RKKsrtEsXj2RXsS9XX6EfXsNajGDP3Oc4iHIs7kBZXg0jal4I6E6euSYP4icefmf2PA==
+ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=ideasonboard.com;
+	spf=pass smtp.mailfrom=ideasonboard.com;
+	dkim=pass header.d=ideasonboard.com header.i=@ideasonboard.com header.a=rsa-sha256 header.s=mail header.b=fFpyAJLd;
+	arc=none smtp.remote-ip=213.167.242.64
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A037C606A31A
-	for <workflows@vger.kernel.org>; Tue, 20 Oct 2026 19:09:40 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org A037C606A31A
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2D39C606A31A;
+	Tue, 20 Oct 2026 21:15:36 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 2D39C606A31A
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=IygMgcs6
-Received: by mail-dy1-f178.google.com with SMTP id 5a478bee46e88-35ca5244753so425676eec.2
-        for <workflows@vger.kernel.org>; Tue, 20 Oct 2026 12:09:40 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1792523380; cv=none;
-        d=google.com; s=arc-20260327;
-        b=VPNeICy9mmd8XfKh9HWrL+pFptpYJRGOfljCaVvGGgGkRFTkAxcV+8GxkYLzSce2Ng
-         ubl4s0y8bJbxWkp0wfUPxZZnbJ5tjEeqqxmMPe6IGkkJFQSh5v0MXwKT6eW+G/Y+iedW
-         Hl6Oqg73Y0nyL2jQBMmhZIvE0MGwGE8x//oJfaoGf7nlcObKoNPngUxe/5JCcgUvhnUx
-         XdLgaB26ZuLd+xpSWmXoiRlKyy00LJmq8lWhoN82nWlYgYYSQh9YrRVGTUPfqJlQ2xYJ
-         WiJn97MOHHLltI6k/eN+jcwbVaTohjqUX07OANB5k81OJJ17yZ7yABzmEy+dWW4yhZoV
-         jiiA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=ahczx5djr+c7p6mzXUGX/QvBdodUDaN77R7cgymXnO8=;
-        fh=Vh9WUVsZ/dq5sS7rpJahxfQjUtmyL8M3YG9vD+wCQJ8=;
-        b=M+slodKcIFpPhVblH9ZvlEeUdZU6/Rno2qLtYNEJjNrCZbLfGaq/ed7+YtSou3PqYM
-         xxjhrcm7N31mksbAqhdLOr9xpChzLA6O/VPyKca8ixW80KkdbYnEa00NpnANmyfW7xjr
-         4coPW3YircYPua3ZxZJvrZ+552hnw1FWVmBk1x984aV7q79CWE/I3R1R+nyLkSGfzQDn
-         cWaCq6WKrDv02JBmobWei+fnUW2OSWffz1b0f7Y1gApxhzQgJeYrdXP9hRl9069p6d4a
-         8/HRN6WROwiYjW2Tpe0ya06c+ahqBlltCyqMErxLxVQ/M/TVJB6E5AYH5sBAtOA6ixzP
-         b2/g==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1792523380; x=1793128180; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=ahczx5djr+c7p6mzXUGX/QvBdodUDaN77R7cgymXnO8=;
-        b=IygMgcs6Wkd11h28ba3ojzsoJTpJa94odgDpgzrul6leMm134UWAt/R1EWFLQ7KrD7
-         cBSCFOQ7MVWcZDDh+NFWLTMz20zU5V4OtYha/Dt/ndOifBmQqWKbEPWCSAUmQUCztPrU
-         lV/rb5aZyojz0KbkWV7UxioMmIVCAOfmPB183Z6/VcaAHY/R7bG+jTfqiIfMVDC+L9J7
-         Ru+qT/CBDKbmkkQdRKoQq1VXCffrvFzcO+E4IgTEus+geEGk8m379SuKk4YQ5MAzXfhX
-         dJhCDvgLPUuAjgpRnNwG6zwIfkaC4zt+/JtE4MTaMLMyHELdf2YxSGLFrPDVCiXvHLUX
-         iOuw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1792523380; x=1793128180;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=ahczx5djr+c7p6mzXUGX/QvBdodUDaN77R7cgymXnO8=;
-        b=KQSn0Bf032ml/tbVOr8dNbPtuvq4ePR8pfK9Wq+/VRUVNt773FsXyoQxkT8rh0Q8oe
-         jggAWxfLr8ufRxR3mdy51h1DhtVSg4bTCAqGbLM1rG5TifIu6N8X62H2dG4tZJZ0kffD
-         2q05Y0PJVIuwc01WBqHfI83tJsMiMtL09qikLDgDzviwRiVOLIOXq8CTJFJNzgjcF5hB
-         gX2cB9fPxhkYeIXhB9Hx/4UZjxMBwOn69GNppVcEAhIAHJ98d/W1Eh45gMtWdWdnTYMa
-         4RQqnlwW9kifsDi7TsEn0aY4g3ZjRoq4nr8f6JAr+Ff3CbMAz9Uw0DYHD2yZ6lohKb0i
-         id/A==
-X-Forwarded-Encrypted: i=1; AKwUvBy32g9GR8l4VG1T8gxJNvrFH9RckQ/v1bzjlDCE/y8QM0HzSDevms0qikvYfBxB0P1o4NFIMprlsPk=@vger.kernel.org
-X-Gm-Message-State: AFq9FYJQlf2mrfNE2BMgua+9IxbcKHuf4nX6MEhOQiujt6XhPYiZlpPs
-	suUDKIuqWcxIAj+AOcBAxUkNdafzVnLIMx1joLyN7Q61R7Opw1W6hUvhjGeND3kou6YmY+pmoTT
-	Y6B1wFSLl270PaXRuNK03jCGfSiay3MQ=
-X-Gm-Gg: AYBFou2CHUPjGvXzNRFIP0dReQU3xRLmycOE5N3D1xNAoex9XyVkLHLByf7lpyAYYih
-	DSmvXwHY7TpokZqzTjWdafZK5xJjosugntVd5k4UEklPb8trk91rdUUYs3s97p/sgvZpwAT3q8d
-	e55YD0Xn8IWM9c5jw9Ny19DVEoK4Pn+C0lmhak7mblbTEAYKjQ3qCIwHxEOjvwaxPHhGgZTV+FX
-	RoGVNRxR7z0vRSlJ2+oYsCkyrF2k/jhns/Tr9J3M3w+tKO+r0Y2+k5ICg01BynlsRETq6KZC0+S
-	Lhn7RKeJNda9MzVZMSVhnERPch17wDFExoB4mHUED+CJul35VqgEM49UEn/OzxLu3S4Judejdg/
-	AJwa+xN8h/jgRZ493pB0QNzda2UC7zLYUVEWvpNpyQSzT9lQVonGXE6tpaqZ+UJTP5U8kfji6f3
-	+RLx+egntfqEmFBvCJxhVZRMOAMBkOWbwesYbpQIc7JZC96WZcfhg=
-X-Received: by 2002:a05:701b:4510:20b0:16b:4f52:a08 with SMTP id
- a92af1059eb24-18507ce1c04mr25464534c88.0.1792523379507; Tue, 20 Oct 2026
- 12:09:39 -0700 (PDT)
+	dkim=pass (1024-bit key, unprotected) header.d=ideasonboard.com header.i=@ideasonboard.com header.a=rsa-sha256 header.s=mail header.b=fFpyAJLd
+Received: from killaraus.ideasonboard.com (2001-14ba-70f3-e800--a06.rev.dnainternet.fi [IPv6:2001:14ba:70f3:e800::a06])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 2414224A;
+	Tue, 20 Oct 2026 23:13:27 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1792530807;
+	bh=u/yfSmPUydbUTto1BYzeKolJfPU9hLQ11kPO+5MbNp4=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=fFpyAJLdB9ER1nQO6qbzFR0WTuRAXjnP7KEN1UQeHThTizOX+EFrP0L36caTqTRdD
+	 ulH6ALapjRULM3l1uykAR3dpbSn0bBUFDdGdFMn6JEo6agD/HlQ0RexcSrfPkP3UhG
+	 sJHm2YaJC1WlLoOphYWD7HvhFUpDbczL9KA1DXeY=
+Date: Wed, 21 Oct 2026 00:15:32 +0300
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>
+Cc: Krzysztof Kozlowski <krzk@kernel.org>, Sasha Levin <sashal@kernel.org>,
+	corbet@lwn.net, skhan@linuxfoundation.org, rdunlap@infradead.org,
+	federico.vaga@vaga.pv.it, apw@canonical.com, joe@perches.com,
+	workflows@vger.kernel.org, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Linus Torvalds <torvalds@linux-foundation.org>,
+	Justin Stitt <justinstitt@google.com>,
+	Carlos Maiolino <cem@kernel.org>, Jakub Kicinski <kuba@kernel.org>,
+	Jori Koolstra <jkoolstra@xs4all.nl>,
+	Brian Foster <bfoster@redhat.com>,
+	Christoph Hellwig <hch@infradead.org>,
+	David Disseldorp <ddiss@suse.de>, Mark Brown <broonie@kernel.org>,
+	Jani Nikula <jani.nikula@intel.com>, Jens Axboe <axboe@kernel.dk>,
+	"David Hildenbrand (Arm)" <david@kernel.org>,
+	Vlastimil Babka <vbabka@kernel.org>,
+	"Christian Brauner (Amutable)" <brauner@kernel.org>
+Subject: Re: [PATCH] docs: remove Assisted-by references
+Message-ID: <20261020211532.GD15441@killaraus.ideasonboard.com>
+References: <20261009083137.3-1-sashal@kernel.org>
+ <0914a106-bacf-4d95-854a-bfeefbff62a4@kernel.org>
+ <asz9AeFe3CutP73z@gremlin>
+ <20261013123132.GC4214@killaraus.ideasonboard.com>
+ <as4pAEnLd4H68W4W@gremlin>
+ <20261013131243.GM56180@killaraus.ideasonboard.com>
+ <as4xMnT8a75pIw9v@gremlin>
+ <20261013173240.GK4214@killaraus.ideasonboard.com>
+ <atI_TSQXzAQFWBfx@gremlin>
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Post: <mailto:workflows@vger.kernel.org>
@@ -105,49 +83,112 @@ List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:workflows+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-References: <20261015145714.3327543-1-elver@google.com> <DM8X51YCN6AA.1HV7J3R3PIYY9@garyguo.net>
- <CANpmjNPALPJQDZFfNAqo8v0eu_0uNvj+rJ5xqeC3ZZSvs9zQwA@mail.gmail.com>
- <CANiq72mCixHhc5tU6ueiJNEfE7yHXHXekhWDcvhFdfd414Q3yw@mail.gmail.com>
- <CANpmjNNmnTMqxSJ_R+wYeAkFOxnJcUmwktNuG990GunjxhcvbQ@mail.gmail.com>
- <CANiq72ns9P6gxOWmwL5VMAnAA8eASUjVUdSai3_iqXvM72mF=A@mail.gmail.com> <CANpmjNMNo67fgFY9u8zurGJOxOY10C1CKwb1UvUbHo01cU+_Sw@mail.gmail.com>
-In-Reply-To: <CANpmjNMNo67fgFY9u8zurGJOxOY10C1CKwb1UvUbHo01cU+_Sw@mail.gmail.com>
-From: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-Date: Tue, 20 Oct 2026 21:09:24 +0200
-X-Gm-Features: AclHuK__St0uTCw1avvWmNXKKyd1psXINLsd-c9PUmbMZ1zOmfz4IJPwzKvtrCE
-Message-ID: <CANiq72mcCErQoK6wmtOcAZ+SOgRNZO2fPoZ1dac1Now6txy=MQ@mail.gmail.com>
-Subject: Re: [PATCH v2 1/2] kbuild: rust: enable KCSAN support
-To: Marco Elver <elver@google.com>
-Cc: Gary Guo <gary@garyguo.net>, Alexander Potapenko <glider@google.com>, 
-	Boqun Feng <boqun.feng@gmail.com>, kasan-dev@googlegroups.com, 
-	linux-kernel@vger.kernel.org, Dmitry Vyukov <dvyukov@google.com>, 
-	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
-	Randy Dunlap <rdunlap@infradead.org>, Andrew Morton <akpm@linux-foundation.org>, 
-	Miguel Ojeda <ojeda@kernel.org>, Boqun Feng <boqun@kernel.org>, 
-	=?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
-	Benno Lossin <lossin@kernel.org>, Andreas Hindborg <a.hindborg@kernel.org>, 
-	Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>, 
-	Danilo Krummrich <dakr@kernel.org>, Daniel Almeida <daniel.almeida@collabora.com>, 
-	Tamir Duberstein <tamird@kernel.org>, Alexandre Courbot <acourbot@nvidia.com>, 
-	=?UTF-8?Q?Onur_=C3=96zkan?= <work@onurozkan.dev>, 
-	Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nsc@kernel.org>, 
-	Nick Desaulniers <ndesaulniers@google.com>, Bill Wendling <morbo@google.com>, 
-	Justin Stitt <justinstitt@google.com>, Asahi Lina <lina+kernel@asahilina.net>, 
-	Lorenzo Stoakes <ljs@kernel.org>, Yury Norov <ynorov@nvidia.com>, David Gow <david@davidgow.net>, 
-	Joel Fernandes <joelagnelf@nvidia.com>, Alvin Sun <alvin.sun@linux.dev>, 
-	Josh Poimboeuf <jpoimboe@kernel.org>, Petr Mladek <pmladek@suse.com>, workflows@vger.kernel.org, 
-	linux-doc@vger.kernel.org, rust-for-linux@vger.kernel.org, 
-	linux-kbuild@vger.kernel.org, llvm@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <atI_TSQXzAQFWBfx@gremlin>
 
-On Tue, Oct 20, 2026 at 8:22=E2=80=AFPM Marco Elver <elver@google.com> wrot=
-e:
->
-> If you think there's a low risk of conflict, I'll take it.
+On Fri, Oct 16, 2026 at 05:14:02PM +0100, Lorenzo Stoakes (ARM) wrote:
+> On Tue, Oct 13, 2026 at 07:32:40PM +0200, Laurent Pinchart wrote:
+> > > Yes there will be collateral damage, but it's that or no more open source (we're
+> > > not the only ones going through this!)
+> >
+> > Think how you will feel the day you will be treated as collateral
+> > damage.
+> 
+> I'm already working evenings and weekends to deal with AI slop to the point
+> of burnout (finished work at 9pm last night, for instance), so I already
+> feel like I'm collateral damage.
+> 
+> And it's utterly thankless work. You get negativity no matter what you do
+> with this stuff.
+> 
+> I accept all that, I do it because I care. So you take it on the chin. But
+> the AI slop wave has changed everything.
+> 
+> What was already an unsustainable review load has now doubled, or tripled,
+> and there's every reason to believe it's only the beginning.
+> 
+> So now maintainership and review is thankless at an unprecedented scale,
+> which leads to only one thing - burnout. Possibly even the medical variety,
+> where you don't come back for a long while, if ever.
 
-Hard to predict everything... but conflicts are generally fine anyway.
+I hear your pain, and I'm sure it's more painful than what I experience
+in my corner of the kernel. I know how the sense of duty feels as a
+maintainer. It may not make a big difference, but I want to say you have
+no duty to burn out. If you decided to slow down merging patches in MM
+to get more sleep until we find a better solution to cope with the
+unsustainable work load, I would support that.
 
-Thanks!
+> The project simply cannot function like this, it can't. And nothing that
+> requires per-submitter effort scales.
+> 
+> There are people sending 500 patches in 2 hours already, for instance.
+> 
+> The only solution that can possibly work is large-scale ignoring, because
+> the number of submissions can grow exponentially, and even small
+> effort-per-submission is vastly beyond available resource.
 
-Cheers,
-Miguel
+It increasingly feel we need to also look at long term solutions.
+There's a sort of knee-jerk short term reaction that I can understand.
+On the longer term, I agree with Lyude that any solution will involve
+increasing the number of reviewers and maintainers.
+
+I fully understand that many maintainers currently feel they're too
+pressured to invest time in the next generation. We need to find
+solutions to make that possible.
+
+> The alternative is maintainers quitting en masse and the project dies at that
+> point. So it's a choice between two bad options, but one of them is 'linux
+> dies'. So the other one seems better.
+
+If we stop investing in the next generation, the project will die too,
+in a worse way in my opinion.
+
+> > I find this mail thread it taking an almost cynical and violent turn.
+> > Are people rejoicing at the prospect of actively discriminating against
+> > sincere contributors, or am I misreading it ? The kernel community needs
+> > more care.
+> 
+> You're misreading it.
+> 
+> I feel _terrible_ for newcomers. Really. It hurts me that this situation
+> exists.
+> 
+> I came up as a hobbyist from nowhere. I wrote a book thinking nobody would
+> care, part-time, while doing a busy non-kernel job.
+> 
+> And the kernel being what it is let me get where I am, for which I'm
+> eternally grateful.
+> 
+> I want to encourage talented newcomers. They are rare, and are the future
+> of the kernel.
+> 
+> I explicitly spent time at LPC encouraging newer people, in person, for
+> instance. I have (often behind the scenes) encouraged young, talented
+> developers. So in general, I've _actively_ worked on this.
+> 
+> And new people sending small, sensible, non-slopped patches/series will
+> still most likely get their stuff merged in mm.
+> 
+> So it's very far from the case of 'oh wow now I can just ignore everybody'.
+
+Thank you for taking the time to clarify this. I'm happy to read I
+misunderstand you. E-mail communication is horrible to discuss these
+topics, especially in public.
+
+This is something we really need to improve quickly. Over the past week
+multiple active kernel developers asked me if I thought they needed to
+find a job elsewhere, thinking maintainers will now ignore anything but
+perfect patches and dismiss contributions from developers who don't use
+LLMs. That's a wrong impression (at least I very much hope so, and you
+clarified that you're not advocating for that), but it's a disastrous
+impression that many people got from the maintainers summit and the
+following mailing lists discussions.
+
+I'd like to see more maintainers clarifying this publicly, like you have
+done.
+
+-- 
+Regards,
+
+Laurent Pinchart
