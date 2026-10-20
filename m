@@ -1,86 +1,101 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=18.9.28.11
-ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792470658;
-	b=t7cwQ8YVTWkA0pHi5c4Z+dFLLIqhY+Tunk//5HLdnW1bp6tnSA63OUIp9JL0/nmNghgO
-	 rfAyEmZPb+9QwqdgCSdpmCrEMu5rFS2dHHzusHwchWZLSDI0MzkJUP24L8NonPFfvG6qf
-	 9Y0MTpStPmNHn29xsmUjPfv+pKoIR/8IDYVkrnaghGux1lrzuky09RQl4IpRjCeesi5ZT
-	 6aZLNV27boYznsws8waVOoXey3wVZYPQHrzpCybiRMCwaWXMOukQajZ/xSlVvcnSjrzul
-	 zRBTkBXlQ/wX5ZhKIlgRTRQ2vRtgq6iFNTU5feFa20SyeM/fx/FOCmn7HIzdbfBDduw==
-ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792470658;
-	h=DMARC-Filter:Received:DKIM-Signature:Received:Date:From:To:Cc:
-	 Subject:Message-ID:References:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To;
-	bh=9j3OvoxTGWGD26yaKNg6HrpKJGkRBiGsb2UWwwP5GFA=;
-	b=1CZmJCM446eyoYJAxc9sMDRIoIv7kJt9FM+0LyZnDpKblvqbYg4fbI736dvJlwi+mcdQ
-	 YIsdUEu44jv2L3AvewZ1Qcof8oWQPkyXuDYzBixxYWeyyxO5S+zIlmYtHgCMj9KPaYObd
-	 dBzxURtKCmzZynohEU2/h12vN4S7R+9QqrDEp7Spa9dAEjvbyP/mMxdzv88+WOPz7hsfa
-	 /kyLEUOxlmmZSuFC1P01GlPwWeveW5G0wL2uKnxDYEvwXXXFCFoWD5fOGGIFyeiV1ErDU
-	 7LJkGBLhy2JVwih33VAyCB+cqcqFeSsN0HQW3PdHjDPbkit+Z4eXnqaXIisDVaIlOwg==
-ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=mit.edu;
-	spf=pass smtp.mailfrom=mit.edu;
-	dkim=pass header.d=mit.edu header.i=@mit.edu header.a=rsa-sha256 header.s=outgoing header.b=UJeI0CaH;
-	arc=none smtp.remote-ip=18.9.28.11
-Received: from outgoing.mit.edu (outgoing-auth-1.mit.edu [18.9.28.11])
-	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.remote-ip=74.125.82.181
+ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=fail;
+	t=1792492027;
+	b=Hf+3hRSeCP3Lf3GF7aKljnfJJSfCO9CudC8uZ2HrqzTkHHSC/I80ZSQdXxZa06x4fw56
+	 HqrXFo5CJMIm2QjKwH+SBupItq1czCeuvIinnZIFU0/EYAZj7/kNOQGkuQ9orhW/r5Wdw
+	 nrSS+UbuqK+7V4UyL7/UopxsqlK1CPX1JfDquSZK75w+5vACrrgKGpARNKFQojOJwaEnL
+	 7wAy9LJyRWw3d19eieudLoD+GjWEIYVXHe1wnfhONz8I4JBfmGLDWFVC1XtuhmZ4LHJyw
+	 qCFh0vEFJUTl9jg5OItCv4z5r5nV6qv8KCxWCjEdvXlq1T0hBMZRHlgL+kHT3QTy2mA==
+ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1792492027;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:
+	 MIME-Version:References:In-Reply-To:From:Date:X-Gm-Features:
+	 Message-ID:Subject:To:Cc:Content-Type:Content-Transfer-Encoding;
+	bh=5joQeDuaNbWkhSZiYGsKQCTB9a364Yr0MCQ6LWBnYBo=;
+	b=iKQZiI+Fectddq2GdfoPvBNXTh79Ud0MermHEcr8xGjNbdDNGVeJpCbOF/FIsyK640mh
+	 uiuF1piYEteUGGGLMJHNE7DtiEWe4BDDd7v9vsA9obbjkSsx3LEvLEUoewPWz6nzZ8RHI
+	 ukpmbhyVi0XxB2LiLQ2A6TlAxM2xr30Dca0A0m08CUKrh2p25NAqXcmyvm+jRHV4pQeEM
+	 ArfdKMCK79CD6bFWib9547Uoo+OyrxMo1iC9Lc1rwvh0Ya8mOWBEJ5V28deI396RadA0c
+	 O/pIK5dAH1Y2CZOb6NyQmdq03BHzrzHNDeSfhjxD1LrsGnFeWLYRIMgujak2DIS6OQA==
+ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=gmail.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=eK+TzsrG;
+	arc=fail smtp.remote-ip=74.125.82.181
+Received: from mail-dy1-f181.google.com (mail-dy1-f181.google.com [74.125.82.181])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AE83B606A31D
-	for <workflows@vger.kernel.org>; Tue, 20 Oct 2026 04:30:52 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org AE83B606A31D
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=mit.edu
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mit.edu
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 677EE606A31D
+	for <workflows@vger.kernel.org>; Tue, 20 Oct 2026 10:27:07 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 677EE606A31D
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=mit.edu header.i=@mit.edu header.a=rsa-sha256 header.s=outgoing header.b=UJeI0CaH
-Received: from macsyma.thunk.org (pool-173-48-113-115.bstnma.fios.verizon.net [173.48.113.115])
-	(authenticated bits=0)
-        (User authenticated as tytso@ATHENA.MIT.EDU)
-	by outgoing.mit.edu (8.14.7/8.12.4) with ESMTP id 69K4TZx2005333
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Tue, 20 Oct 2026 00:29:36 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mit.edu; s=outgoing;
-	t=1792470586; bh=9j3OvoxTGWGD26yaKNg6HrpKJGkRBiGsb2UWwwP5GFA=;
-	h=Date:From:Subject:Message-ID:MIME-Version:Content-Type;
-	b=UJeI0CaHr8FD1fkb9npYaLKCJIGT3pYr63clbA+4mvZ4Uj+fb0XxcWtIt4wQPGks4
-	 Rk3uDxtlGpuYS7vrPwm7uHAnHPJt/5MPHuL95WfdxWqKAjhwef0ZuP9lcdmOD/JMzu
-	 J8IffN4VnTeTFKeJoED0wVkhIVQKjxwKsC0vjKNIdCyQLkfItnvWv4leaR4GAksmKj
-	 lUPKmnHKqFDaTj+2uUmq2Qub2zAx8P6bMQY9dpYF2HVjZY50mEgQ/EeBn6oBfxN2bX
-	 wy+6l4B2teOukwF7dZkknQNeQVVy8ejknEhipJKPUG7znpBwCTNbVA57FzFg70H7uK
-	 j5tv7qYUzLGEg==
-Received: by macsyma.thunk.org (Postfix, from userid 15806)
-	id 07C0021B27DD; Tue, 20 Oct 2026 00:28:35 -0400 (EDT)
-Date: Tue, 20 Oct 2026 00:28:34 -0400
-From: "Theodore Tso" <tytso@mit.edu>
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>,
-        Krzysztof Kozlowski <krzk@kernel.org>, Sasha Levin <sashal@kernel.org>,
-        corbet@lwn.net, skhan@linuxfoundation.org, rdunlap@infradead.org,
-        federico.vaga@vaga.pv.it, apw@canonical.com, joe@perches.com,
-        workflows@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        Justin Stitt <justinstitt@google.com>,
-        Carlos Maiolino <cem@kernel.org>, Jakub Kicinski <kuba@kernel.org>,
-        Jori Koolstra <jkoolstra@xs4all.nl>, Brian Foster <bfoster@redhat.com>,
-        Christoph Hellwig <hch@infradead.org>,
-        David Disseldorp <ddiss@suse.de>, Mark Brown <broonie@kernel.org>,
-        Jani Nikula <jani.nikula@intel.com>, Jens Axboe <axboe@kernel.dk>,
-        "David Hildenbrand (Arm)" <david@kernel.org>,
-        Vlastimil Babka <vbabka@kernel.org>,
-        "Christian Brauner (Amutable)" <brauner@kernel.org>
-Subject: Re: [PATCH] docs: remove Assisted-by references
-Message-ID: <atbm7w6WFSnwpduj@mit.edu>
-References: <20261009083137.3-1-sashal@kernel.org>
- <0914a106-bacf-4d95-854a-bfeefbff62a4@kernel.org>
- <asz9AeFe3CutP73z@gremlin>
- <20261013123132.GC4214@killaraus.ideasonboard.com>
- <as4pAEnLd4H68W4W@gremlin>
- <20261013131243.GM56180@killaraus.ideasonboard.com>
- <as4xMnT8a75pIw9v@gremlin>
- <as7uqZn9rQ52USwy@mit.edu>
- <as-Dwg8DcEOYMXki@gremlin>
- <20261019224448.GC15441@killaraus.ideasonboard.com>
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=eK+TzsrG
+Received: by mail-dy1-f181.google.com with SMTP id 5a478bee46e88-35e8253292cso203202eec.3
+        for <workflows@vger.kernel.org>; Tue, 20 Oct 2026 03:27:07 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1792492026; cv=none;
+        d=google.com; s=arc-20260327;
+        b=fMzsFLaguH/dbmu78WJiUvw4bT282N9/27e7EQNJDhtt/fNXO8OPMVXmqe7A6gA1+G
+         RGU+xWPTvMF/kR9e1zomyC4VQwt+FdMaeLHwoKqSkM6X+ejx2AgmxR97L0i8FdvQ6wsD
+         gjPTsMSh7c3hp97hTDL52c5+4aa4e6LwiZSldomVelAuUTcKzRhp5YErSanx4d5VvN40
+         jKAWaqV1wsFIUsbaybRw7slr+r/3/1exIwwNUVnEYQMZSJgQnPgSVhN4gt8cidKRiyg5
+         KHl4k2ViapExNAxy2j5ddtV8juomxVU6vnLLRSU55aaXdlJJPuim92wxWsyH3mOyrDFp
+         9wtw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=5joQeDuaNbWkhSZiYGsKQCTB9a364Yr0MCQ6LWBnYBo=;
+        fh=6lTFj8ZqHKX++CuFvrWShOh3Vj3j5NUsuRPTjG2X59k=;
+        b=MqukzkOXZZ1rvjrh2WCtJMzKny9bf/tutdFObKSzDOI05sgWZn2BCvvOpp8Vckq4DM
+         9emCmBUs7XaKGcc6/IymR9rn2tIpYYRrCt8LR4pmvZmBMFqLaj5b52iRIeOUlH66YhYf
+         B66o48h7mUK1SwMj+Dvi0bQMqOu4G3VQHcx3FnfpCcjvUZIBvBnm0QcwRsw4a+khQo4G
+         E06mEJD7yN+Gsajo+4yzJ2aQJNUfPLmZhyfbqCDsTe+JV2GM7/ZG8mirB/WK911vb2mB
+         5Mv4MTiesyX3NolDsggN/2rCADtN9Kh2615SYfuQu6lVM2bRc++DIlC6/D9VVn34WWtr
+         GpIw==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1792492026; x=1793096826; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=5joQeDuaNbWkhSZiYGsKQCTB9a364Yr0MCQ6LWBnYBo=;
+        b=eK+TzsrG8ppsuUBTMaNmtZbCwx1Zipxq05QH5xDzFvCB8pUTqpe+AMfkezQc9FE4q+
+         47eMC81vpyd1Omv5sO+zDkakHWpHql5m6bNxnQrVrvxr67vRPTY6ommHrH46rl4pbAGe
+         oX6tn5uuhJ0Pny2Z7AimovUIRmVppIjpaIUGRyBcLReYhmWvOUSr+tvqcrmE8j6JqQ5P
+         zlspHWJBGuPxO2SoBJ4XJKzWF7VFR+Lxl+xi39nnPAMB8SGoovD6X8OZvLAh4PTir1zc
+         7fQxEGw85RUrzwIka79bjhAwvI/G9PAfrDnYuaEL7jdUzxlwUMz0LmM6SSEsa902xGjR
+         EmUg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1792492026; x=1793096826;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=5joQeDuaNbWkhSZiYGsKQCTB9a364Yr0MCQ6LWBnYBo=;
+        b=PhVuBdv+mC3ur6q0Qukt2/c+Jld94vy0+i+iL5muyMAmniIRoO9pIs7OVyUM7GRc4K
+         QpBcKV0+F5a+0wRdtf6NEixAzH2y0xZiuAvLxEsGZ+E3hKuIvJx4cL7I6Ceic0gXBwgB
+         3qbJ2QKJjf6ivyVT070trzffPTJ7osS8N+8RO4qMKKQPzkPbaBTzcrDXO2lk91LolThZ
+         r4eo/utg/lIKhwo87gBFloH186PmFExt7w+8IH42KfKJXdesgsqJVl5W0poZCSQMBeIO
+         9opfUrJpQY65G9T/DDDsY4uJ9X+ExJGx1TX4CBGuUfli6sFaZk7gIsPqP569JKEvIL4S
+         RqdA==
+X-Forwarded-Encrypted: i=1; AKwUvBxxRIFUKdoeFnp9kcMZDk3qmpQCxJxX2PLiOJA8CbLOFc4/kd0NgCwf83lSLdmBK5RIW0kD18Bidww=@vger.kernel.org
+X-Gm-Message-State: AFq9FYLhyNer8NxmdoAPLlhbaT5DIhTLqUdDD/1basHvAohRt+hZeTDy
+	Q14psO2sOnOeOi/vIsC49KX+CEeqkPvHApC6SyJniFUQSR0iuMmSriQIr27tQ5sn1+Hr4nuVlun
+	xvfwEMylFjBOzqKfQ/q7/HX6B9aoo4BQ=
+X-Gm-Gg: AYBFou2JVIaUv7w9OAqFxQ3ETzoqoy7OBLMCsGoyLvHrAn+mkuTbryadL9P/5GlMtU9
+	YPL7b3+qjck8uez/jQdOgLGMSvevzG//T67Ibm2k6MMWRNAz3XzpyV+/3K3W6/hcsirjq6CbneV
+	67g+8fX6MXtCzvRKReORd4pJreneFUxVT2QgtBNT4BW7XfpE3+qgm+NZPd+MNUriGAjmnzGHBah
+	GL0oSrJloydedRxRoqhdeOT4aOC64Wl0bWlW9+zigUFmb5R3lekI/d+EjGLxqY+w1y1jOkxxKAn
+	0+fAHSAtJ+eMdQonQmG+NFCpu8PjIfHoNMM+zOO0KoTOe/W6bSkkrnlzeRmhZ6wjQIURQVtCKC7
+	6oGaQz9jhFJeaKcQycO+nNJQwQR09UrzOe5jN2OsCBaSbpawi+Hhn1aHU4pa4phl+sMnrBr1XyN
+	BSo41Ibe8XEeKcwvLehpV+qfScekxiAzR2SFfdPBQ79TLX1fSZ/f4=
+X-Received: by 2002:a05:693c:65cc:b0:35e:9cb2:b88a with SMTP id
+ 5a478bee46e88-361a136a601mr21744064eec.2.1792492026480; Tue, 20 Oct 2026
+ 03:27:06 -0700 (PDT)
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Post: <mailto:workflows@vger.kernel.org>
@@ -90,76 +105,53 @@ List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:workflows+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20261019224448.GC15441@killaraus.ideasonboard.com>
+References: <20261015145714.3327543-1-elver@google.com> <DM8X51YCN6AA.1HV7J3R3PIYY9@garyguo.net>
+ <CANpmjNPALPJQDZFfNAqo8v0eu_0uNvj+rJ5xqeC3ZZSvs9zQwA@mail.gmail.com>
+In-Reply-To: <CANpmjNPALPJQDZFfNAqo8v0eu_0uNvj+rJ5xqeC3ZZSvs9zQwA@mail.gmail.com>
+From: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
+Date: Tue, 20 Oct 2026 12:26:52 +0200
+X-Gm-Features: AclHuK-QCNlJqtXqMEy-POlR7cKE_rSWRMxYBpanQuZ3UPD3z8WuYE16A81SYDk
+Message-ID: <CANiq72mCixHhc5tU6ueiJNEfE7yHXHXekhWDcvhFdfd414Q3yw@mail.gmail.com>
+Subject: Re: [PATCH v2 1/2] kbuild: rust: enable KCSAN support
+To: Marco Elver <elver@google.com>
+Cc: Gary Guo <gary@garyguo.net>, Alexander Potapenko <glider@google.com>, 
+	Boqun Feng <boqun.feng@gmail.com>, kasan-dev@googlegroups.com, 
+	linux-kernel@vger.kernel.org, Dmitry Vyukov <dvyukov@google.com>, 
+	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
+	Randy Dunlap <rdunlap@infradead.org>, Andrew Morton <akpm@linux-foundation.org>, 
+	Miguel Ojeda <ojeda@kernel.org>, Boqun Feng <boqun@kernel.org>, 
+	=?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
+	Benno Lossin <lossin@kernel.org>, Andreas Hindborg <a.hindborg@kernel.org>, 
+	Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>, 
+	Danilo Krummrich <dakr@kernel.org>, Daniel Almeida <daniel.almeida@collabora.com>, 
+	Tamir Duberstein <tamird@kernel.org>, Alexandre Courbot <acourbot@nvidia.com>, 
+	=?UTF-8?Q?Onur_=C3=96zkan?= <work@onurozkan.dev>, 
+	Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nsc@kernel.org>, 
+	Nick Desaulniers <ndesaulniers@google.com>, Bill Wendling <morbo@google.com>, 
+	Justin Stitt <justinstitt@google.com>, Asahi Lina <lina+kernel@asahilina.net>, 
+	Lorenzo Stoakes <ljs@kernel.org>, Yury Norov <ynorov@nvidia.com>, David Gow <david@davidgow.net>, 
+	Joel Fernandes <joelagnelf@nvidia.com>, Alvin Sun <alvin.sun@linux.dev>, 
+	Josh Poimboeuf <jpoimboe@kernel.org>, Petr Mladek <pmladek@suse.com>, workflows@vger.kernel.org, 
+	linux-doc@vger.kernel.org, rust-for-linux@vger.kernel.org, 
+	linux-kbuild@vger.kernel.org, llvm@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Tue, Oct 20, 2026 at 01:44:48AM -0500, Laurent Pinchart wrote:
-> > Recently 2 people sent 1,000 patches over 2 hours. Care to check each and
-> > every patch for 'quality'? :) Only the beginning.
-> 
-> That's the kind of behaviour that should be easy to detect, and I have
-> absolutely no issue with sending all those patches to /dev/null. This is
-> script kiddies behaviour, not the work of someone with good intentions.
-> Ignoring those patches is not "collateral damage".
+On Mon, Oct 19, 2026 at 11:59=E2=80=AFPM Marco Elver <elver@google.com> wro=
+te:
+>
+> Which tree should this go through? The Rust tree? Probably too late
+> for this cycle.
 
-Well, let's take the reverse.  Suppose there are 500 newcomers who
-have each sent two patches each in the same time period.  This is
-going to put the same stress on the reviewers and maintainers.  Of
-those 500 newcomers, there will undoubtedly be few (single digit
-percentage) that will eventually become valued reviewers, and somewhat
-larger percentage that will become regular code contributors of
-quality improvements.
+I think you send KCSAN PRs, so I thought you would use that, thus the
+Acked-bys (I suspect others thought the same). But the Rust or Kbuild
+trees are also a possibility, yeah.
 
-These percentages were always there pre-AI, but there were much fewer
-newcomers per unit time.  So this increase of new comers has its good
-side --- it means we have the opportunity to significantly grow our
-community.  But it also has its shadow side, which is when we only
-have a newcomer every month or two or three, the overhead of trying to
-engage with a newcomer isn't that great, even if the vast majority of
-them disappear after the maintainer attempts to work with them.  And
-if that happens, we just shrug and move on.
+In any case, at least for Kbuild and Rust, the PRs were already sent
+(and, generally speaking, I would have expected a patch like this to
+be in the list for longer anyway).
 
-But if there is 10x or 100x the number of newcomers, it puts a huge
-strain on the pre-existing community to engage with these newcomers.
-And when we get newcomers who send patches like this:
+Thanks!
 
-> We could go a step further. There's also an increase in patches from
-> newcomers who send a few patches only, with the usual signs of not
-> understanding what they're doing: code changes that give an eerie
-> feeling, very large comment to code ratios, and commit messages longer
-> than the three volumes of Lord of the Rings combined.
-
-.... the question is the probability that newcomers whose first few
-patches look like this compare with the probability of newcomers who
-first patches are 100% human generated?
-
-I don't know the answer to this question, but clearly some people
-believe that the probabilities are different, and so if they need to
-make some lifeboat choices about which newcomers to engage with first,
-it might influence their choices.
-
-Even if doesn't, the reality is that with a huge influx of patches and
-newcomers, maintainers' time is finite and expecting them to engage
-with all newcomers, and review all patches promptly is a recipe for
-burnout.  So "collateral damage" isn't just not just newcomers needing
-to wait weeks before someone gets back to them (and some might never
-get a reply if their patches get lost in someone's inbox), although
-that can certainly be collateral damage.  It's also the potential of
-maintainers getting burned out; that can also be collateral damage.
-
-And having someone claim that it's the maintainers "fault" for not
-building up the reviewing community is also not helpful.  We are where
-we are, and as much as I would hate to lose a potential contributor
-who gives up because they don't get attention right away, when only a
-percentage of these newcomers become regular contributors a certain
-amount of self-care and preserving the maintainers' sanity might have
-to take higher priority.
-
-Don't get me wrong.  Getting a large number of contributions, even if
-not all of them are high priority fixes and/or high quality
-contributions, and having a large number of newcomers is a ***good***
-problem to have.  And I'm thankful that we have it.  But it still can
-be a problem that we need to solve, one way or another.
-
-							- Ted
+Cheers,
+Miguel
