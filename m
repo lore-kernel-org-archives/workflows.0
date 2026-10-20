@@ -1,61 +1,70 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=188.68.61.103
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792506340;
-	b=EaIvjx/9sXpyhdDrH2QB8ZxP6/3DhZj2daH6V0xUAQIoRoNxvQvY2yVIaC/0quQRU9gT
-	 u1VziTBS84xXN3CXJ/Te54Mw1tsiCz0We20hhN3U0O0Rt4CW9oDWjZLf7nKL9z/oFk7mm
-	 1xcTQKTqxw+Bp2tBVlqBy22e+zU9ETp9IK+ym5pmhGkXNUYJhXNaTm5wFRh0TZupZOp/M
-	 A3y/HV4WQC9wR6QCeaqQb6XLmKi663/Zux6IgdVjTEq9C8yhQCxZVa2Jr0cLK3xLW14+g
-	 dckAqadk0if5V2NL2TR921PN9IHNVgCj7k/1wWRrrfRKHRb12S2NMc4jNXrTYwzqvhg==
+	t=1792506392;
+	b=hjOfa2hp6qZ4w48+pOcR009uZTLrP/aZ+7ESFEPXk+uN55CC2bymGNRBKu3awD5ZwIaU
+	 lrTk8rroK9yLn+kccDtyMWa5hblWRfD8H8vc34n1mCmL7GPP65aL0MwkNcmtKGObfa99+
+	 jV8MFiE77p2GF/FNAVQNL/yl10KOLYKzSh8kzVPafHgwm19oiifMDaOb1zhxDPiwk8wM6
+	 lLlzgEgKe8lfSelESI7JHXT4mSlv4BgQUhtyyBNUOQizjmXa2RpenNqU5d6i+7+PoMHSh
+	 UhRlLFcC5AxzrA/TqJWbLEmVI4JnevFF0SfPKJBEU4o0qK0Dnu7vjg/mqRiYjG76Mcg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792506340;
-	h=Received:DKIM-Signature:From:To:Cc:Subject:Date:Message-ID:X-Mailer:
-	 MIME-Version:Content-Transfer-Encoding;
-	bh=8h82BZn/dr8JnZ5jrgrsVJGvd09onNJ58+84IX1QMR4=;
-	b=jHvhDKMXFEy5vwRESJtsZsX4ZUDffS4xL38ZhWNjmTCRM019l9tXQ53WuXF5dBAheEWq
-	 5djHr4KRtTLDJRXrsdXV2WRmpI7WgH0uvhfaSS2nxt+Rwci+/CxodhLAif0kr89RAZDzl
-	 qk425XAdwtFZ/nF/GduYMKkQN947ZqzwnTudPPm6H4UjyFl8VqDU4gjKw+GmwrTGfS4mN
-	 T5WrDo0ovvOrtuGnCbkJAECA1JP3gJyEzsUQtHzI7fyNdtxrKZlI0Xocry4fBxKCR2jdU
-	 t/+EHw3qtDvAgxknOzFFVGCyg/YxsN5YQqjqb3+9LTqX5EjK8RWjJmjuTRZfQGPtMoA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1792506392;
+	h=DMARC-Filter:Received:DKIM-Signature:Received:Received:Received:
+	 Received-SPF:Message-ID:Date:MIME-Version:User-Agent:Subject:To:Cc:
+	 References:From:Content-Language:Autocrypt:In-Reply-To:Content-Type:
+	 Content-Transfer-Encoding:X-PPP-Message-ID:X-Rspamd-Server:
+	 X-Rspamd-Queue-Id:X-NC-CID;
+	bh=Ar2dn0+THjZK4u/Cvqoo16ZTIobYlDHRsPkH3Kn/gsk=;
+	b=GuOghlSGMacAvk7bJsFR18GRuj81xAgLnhsHDMcpAlfzN9Q5cGsUvkrS69YYeIFBtGz+
+	 GbtBDQeJhlE1U1JzWZiW38rIHFxT5Ut2pt/+Vul7YdwzoJ8W+/p/DwIw7F1kTJ4Htet7e
+	 QATwR3p8fdX92MD6uV1R6M4TXP5niI1BUX7MBt97pv6czc4zRsLaKmqycOrZ0CP9zuthd
+	 u/6ypu5YY8pxgy84gki9JYXc5zDexHrhIqpy+xpTT/9UKZ90mIMzEiqsndGZ5nPCCEBl/
+	 7paR4LAXBy7gFHMPie0/QCNWoG5fsqaxp6YXPI754eVpUvKEVUwVigLSldOsuKZVMnQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=DgrgAwt7;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	dmarc=pass header.from=leemhuis.info;
+	spf=pass smtp.mailfrom=leemhuis.info;
+	dkim=pass header.d=leemhuis.info header.i=@leemhuis.info header.a=rsa-sha256 header.s=key2 header.b=S0vU54hr;
+	arc=none smtp.remote-ip=188.68.61.103
+Received: from relay.yourmailgateway.de (relay.yourmailgateway.de [188.68.61.103])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2426D606A32C;
-	Tue, 20 Oct 2026 14:25:39 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 77E53606A334;
+	Tue, 20 Oct 2026 14:26:31 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 77E53606A334
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=leemhuis.info
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=leemhuis.info
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=DgrgAwt7
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7FAFA1F000C4;
-	Tue, 20 Oct 2026 14:25:38 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1792506339;
-	bh=8h82BZn/dr8JnZ5jrgrsVJGvd09onNJ58+84IX1QMR4=;
-	h=From:To:Cc:Subject:Date;
-	b=DgrgAwt7Zcvj8WpF2TAf/dkFE1xWtR0+uAzzYbs6UPdda03mSB73vc0DLuPhR2XcM
-	 3mLtt+7uOgvvU5l2yM584x1htDJWZRQg3qqzC7zBY8ME7PqQTZLZwCEe9ZlAUAJo/7
-	 LiRQLDzqCU/rwwgW4ZzjcwlCH1NWVkZJ63IXNG6p6oBq03BmvgFedd6njfr+Z3ZQXy
-	 42BlWomZFQTwiCduGsxvQhTsXSM/UhoSIXbPHI6Vi9Pr0lJ2qutvmiT95QjkbuGXL3
-	 1fEsGNnilMxHSZVj7sm8ArjeY+Mqo8UYY9U9wjk0aEf6jTuiEU0ncSlAF3+AsCiRG/
-	 oH8zEnJHjz0Ig==
-From: Sasha Levin <sashal@kernel.org>
-To: Jonathan Corbet <corbet@lwn.net>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Shuah Khan <skhan@linuxfoundation.org>,
-	Randy Dunlap <rdunlap@infradead.org>,
-	workflows@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Bradley Morgan <brads@mainlining.org>,
-	SJ Park <sj@kernel.org>,
-	Kees Cook <kees@kernel.org>,
-	Miguel Ojeda <ojeda@kernel.org>,
-	stable@vger.kernel.org
-Subject: [PATCH v4] docs: stable-kernel-rules: drop rules the stable trees do not apply
-Date: Tue, 20 Oct 2026 10:25:37 -0400
-Message-ID: <20261020142537.3533510-1-sashal@kernel.org>
-X-Mailer: git-send-email 2.53.0
+	dkim=pass (2048-bit key, unprotected) header.d=leemhuis.info header.i=@leemhuis.info header.a=rsa-sha256 header.s=key2 header.b=S0vU54hr
+Received: from mors-relay-8403.netcup.net (localhost [127.0.0.1])
+	by mors-relay-8403.netcup.net (Postfix) with ESMTPS id 4j8F8b6TXFz8FfY;
+	Tue, 20 Oct 2026 16:26:23 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=leemhuis.info;
+	s=key2; t=1792506383;
+	bh=aA+qrgci+kHtn15zDtYqkC7/RXIfoE9h4wgiGSUF3rw=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=S0vU54hrrXsrQT6BJwKWEUiBkkpFD/kfIHwqfYyOa/VxPC84bvfuoA9Bn6YsaaXE5
+	 XzJpI0OkzIpL6l2twwd785dJjLT3QowekwrpK1tgaSlY9ocf5dHfYdcb/ay3zdESKJ
+	 2lN9BwzKYeLGpZ4gA+rgV5phNdaKpmXxRDzBiYCsjDGU2Ok5a83v1u9YMKeeR7g/an
+	 0WYn/QDq0DAoEtqIR0ermWAPKU8neGTSBKTPjtMQ1fWaALr9fWjKV8a33SsfnaJjCy
+	 ximlANmTYeVlEzvg/JzbAN2kai7T9x2sqfIUYY1GsTZjYxB6UDB+XIEL+2ts36np7i
+	 iD9azACRfpSKQ==
+Received: from policy02-mors.netcup.net (unknown [46.38.225.35])
+	by mors-relay-8403.netcup.net (Postfix) with ESMTPS id 4j8F8b5lcHz8F56;
+	Tue, 20 Oct 2026 16:26:23 +0200 (CEST)
+Received: from mxe9fb.netcup.net (unknown [10.243.12.53])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by policy02-mors.netcup.net (Postfix) with ESMTPS id 4j8F8Y4SLdz8svC;
+	Tue, 20 Oct 2026 16:26:21 +0200 (CEST)
+Received: from [IPV6:2a02:8108:8984:1d00:a0cf:1912:4be:477f] (unknown [IPv6:2a02:8108:8984:1d00:a0cf:1912:4be:477f])
+	by mxe9fb.netcup.net (Postfix) with ESMTPSA id F1A525F9C5;
+	Tue, 20 Oct 2026 16:26:15 +0200 (CEST)
+Authentication-Results: mxe9fb;
+        spf=pass (sender IP is 2a02:8108:8984:1d00:a0cf:1912:4be:477f) smtp.mailfrom=linux@leemhuis.info smtp.helo=[IPV6:2a02:8108:8984:1d00:a0cf:1912:4be:477f]
+Received-SPF: pass (mxe9fb: connection is authenticated)
+Message-ID: <66c5725a-d190-427e-aedb-c0374f8d3f5a@leemhuis.info>
+Date: Tue, 20 Oct 2026 16:26:15 +0200
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Post: <mailto:workflows@vger.kernel.org>
@@ -65,51 +74,106 @@ List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:workflows+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3 2/7] docs: submitting-patches: say which commit a Fixes
+ tag names
+To: Sasha Levin <sashal@kernel.org>
+Cc: workflows@vger.kernel.org, ksummit@lists.linux.dev,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
+ Randy Dunlap <rdunlap@infradead.org>, Mark Brown <broonie@kernel.org>,
+ Theodore Ts'o <tytso@mit.edu>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Leon Romanovsky <leon@kernel.org>,
+ Konstantin Ryabitsev <konstantin@linuxfoundation.org>,
+ "Michael S. Tsirkin" <mst@redhat.com>, Kees Cook <kees@kernel.org>,
+ Geert Uytterhoeven <geert@linux-m68k.org>, Dan Carpenter
+ <error27@gmail.com>, Miguel Ojeda <ojeda@kernel.org>
+References: <20261016152828.3765695-1-sashal@kernel.org>
+ <20261016152828.3765695-3-sashal@kernel.org>
+ <bcef59f8-33fe-4bbe-8429-307630dc6bb5@leemhuis.info>
+ <20261020135429.3340755-1-sashal@kernel.org>
+From: Thorsten Leemhuis <linux@leemhuis.info>
+Content-Language: de-DE, en-US
+Autocrypt: addr=linux@leemhuis.info; keydata=
+ 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 MEK4
+In-Reply-To: <20261020135429.3340755-1-sashal@kernel.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-PPP-Message-ID: 
+ <179250637674.1112457.15156320296333205536@mxe9fb.netcup.net>
+X-Rspamd-Server: rspamd-worker-8404
+X-Rspamd-Queue-Id: F1A525F9C5
+X-NC-CID: 2crZjiLa3zFzMwnrX1wokWi+laVlfL9yukuIczRJM19WQkSbJQU=
 
-The stable trees do not apply the 100 line limit or the exclusion of
-theoretical issues, and they require a fix to be correct and tested
-rather than obviously correct. Drop those rules.
+On 10/20/26 15:54, Sasha Levin wrote:
+> On Sat, Oct 17, 2026 at 10:07:36AM +0200, Thorsten Leemhuis wrote:
+> 
+> So v4 will have:
 
-Assisted-by: LLM
-Signed-off-by: Sasha Levin <sashal@kernel.org>
-Reviewed-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Acked-by: SJ Park <sj@kernel.org>
----
-v4:
- - Split out of the agents skills series, where this was patch 3/7 of v3:
-   https://lore.kernel.org/r/20261016152828.3765695-4-sashal@kernel.org
- - No other changes.
+Great, thx!
+The following might be nitpicking, so feel free to silently ignore it:
+>   Name the commit that introduced the bug. When using ``git blame`` to
+>   find it, do not settle on a commit that only moved the code. If a later
+>   commit exposed an older bug, add a Fixes: tag for that commit too. If
+>   the same bug was introduced separately by more than one commit, add a>   Fixes: tag for each.
 
- Documentation/process/stable-kernel-rules.rst | 6 +-----
- 1 file changed, 1 insertion(+), 5 deletions(-)
+This jumps from "change that caused a bug", to "change that exposed a
+bug", back to "changes that caused a bug". The order I suggested avoided
+that.
 
-diff --git a/Documentation/process/stable-kernel-rules.rst b/Documentation/process/stable-kernel-rules.rst
-index edf90bbe30f43..625c1b5b0e16b 100644
---- a/Documentation/process/stable-kernel-rules.rst
-+++ b/Documentation/process/stable-kernel-rules.rst
-@@ -7,8 +7,7 @@ Rules on what kind of patches are accepted, and which ones are not, into the
- "-stable" tree:
- 
- - It or an equivalent fix must already exist in Linux mainline (upstream).
--- It must be obviously correct and tested.
--- It cannot be bigger than 100 lines, with context.
-+- It must be correct and tested.
- - It must follow the
-   :ref:`Documentation/process/submitting-patches.rst <submittingpatches>`
-   rules.
-@@ -24,9 +23,6 @@ Rules on what kind of patches are accepted, and which ones are not, into the
-     regression they should only be submitted by a distribution kernel
-     maintainer and include an addendum linking to a bugzilla entry if it
-     exists and additional information on the user-visible impact.
--  - No "This could be a problem..." type of things like a "theoretical race
--    condition", unless an explanation of how the bug can be exploited is also
--    provided.
-   - No "trivial" fixes without benefit for users (spelling changes, whitespace
-     cleanups, etc).
- 
+Independently: I'm not a native speaker, but "If the same bug..." to me
+sounded like it refers to something specific (especially if the "exposed
+an older bug" in the sentence before remains). Maybe just use "If one
+bug..." instead to avoid that.
 
-base-commit: 3857c2fe5449541e24afc5efdb0f81a8a8f9a3a0
--- 
-2.53.0
+> Do not add tags for commits that are only
+>   suspected. The Fixes: tags tell the stable team which trees need the
+>   fix: those that contain one of the tagged commits. Trees that contain
+>   none of them do not need it.
 
+Maybe it's just me, but I'd remove the last sentence, as that feels like
+it kinda implied by the one right before it.
+Ciao, THorsten
