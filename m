@@ -1,46 +1,46 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792502978;
-	b=uDwEAlylmdj2J0EsH009f/KKrHPMoYto5SwfnFGM3tpNZG6F3W0NBhzDEfpSargZa4Te
-	 EtuxomkLuCaZwO011CNqWwDQn9nOULGuDhsoNlx66XvGFfRSu5hQXNrfXjqUuNt5E7+vA
-	 vzz2xu0pG4a3H2R+k3lrcOhVFAm3r2d+OKiRCJbHgq+F4Eihl2zBfLXm8C4+ihDxYWuGV
-	 x0grfVqVF2iRj9bivWzVPAUnvdLcymwLrYac1lthP7v44PTWoplPj47bNOqRWqc4ixHDJ
-	 wg0PGwIvaugSXbWTb7YKMXYdfu3FNZPUPlQbMty9vICDceSABGBcVEcfv8iLzHPHgDw==
+	t=1792503119;
+	b=mEii4iis6fQui/q+kuGouOL0l/IgIBor7K9+JlLC6E3wGxXLZa5WwVAbtP7HYPUqIqBO
+	 FqKS6PlvNFqGaI7Wo1aD8AQTLoBdliWHjebahozyKG6HhuCPVW/nbTJ5HAy6Dx61jT6mB
+	 +bbjy3R5SAc29E2cW8vqDmhLbk/3rkvZ3F2vzgkU5gVp4ssZY49oXpNDBIFcmf9zakOb2
+	 O10HKSVfmDJya/sFm4A5CrLTq07wjxG6gUV8svVSuRlyyVUrBIEsF9KIPTqsul1AUJml9
+	 nqyCnzFak4bh9zPgd1DfdqEEJXpcVcSqpihGL61H24Bsx2GmAjB6Afu02mdvp9Qbm2g==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792502978;
+	a=rsa-sha256; c=relaxed/relaxed; t=1792503119;
 	h=Received:DKIM-Signature:From:To:Cc:Subject:Date:Message-ID:X-Mailer:
 	 In-Reply-To:References:MIME-Version:Content-Transfer-Encoding;
-	bh=y62/TFsNcY79K35D7RLsZBrGqWIZx2AhdsHxBeOjheo=;
-	b=MGAI5E9UK/YrrWKuVvAjF9Xdb9yhXd6i1b1k38EGFjnqFihinmpG4A2vV9xfVTL58sSK
-	 IuaVmOiI6ywqDwSxQcy/UDiH5XJSAMDesEiMcw97c4j9pn5K/xeUXYidZ/0YWen/RMUZY
-	 DEhdBuMdu7y0l4TU23YYgG+WQ0Apg/x9NXtzKh9RyjLQtua5Of/86ELG5OTcXoztV7wSc
-	 hLjWfpkAGMuGIrSDlCeFzAeynTv4JcRYlzFtT8mYvcSxICIC8EV3G7V8wV5APEb/Uvumn
-	 DY+790hgTNPrzUgpV50Qw5M+8d0yx06NlwTDENHN6/qq1xxghRDdUTVfky2Ew3sOcBg==
+	bh=DLIfcgoUznNYwhN2Vn/cnOy2bGBm6xaZc0Mel+r1CSk=;
+	b=nXhhV0Wusdjb3NsmMjIbv7jdP/u4aYJJgtb+rN+62pgco2BuCRB7wCg+oRg/2T/dKG/s
+	 bBOgy0tvaFx5IjyDn9F8OuQMG2nFkPfARmCOW0Mfe31sklbac8HrD192O/sSkhRBIssA4
+	 UjPl3eg6oxEW4j0FuJCgKKUdvyS+z2gB/Yi/4unQfa3M576tRRxNotYpdw3sa995TZOg5
+	 9MIDkgCXeEuVU3DrevEaDhcCSyLgcjfe56XV14m77kpIMVQC4XlChshLPjPWXyzawXUwF
+	 fr9n8MzdzrEH4LAU/mMOsF9IAxK4rG1bJvDOzLOQ8mssViBjs1hnb1wkL82YSmkEUpQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=cK7SST05;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=E6Jvoyrc;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1B5C8606A319;
-	Tue, 20 Oct 2026 13:29:37 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9C614606A328;
+	Tue, 20 Oct 2026 13:31:59 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=cK7SST05
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id ADA881F000D1;
-	Tue, 20 Oct 2026 13:29:35 +0000 (UTC)
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=E6Jvoyrc
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 604191F000C4;
+	Tue, 20 Oct 2026 13:31:57 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1792502977;
-	bh=y62/TFsNcY79K35D7RLsZBrGqWIZx2AhdsHxBeOjheo=;
+	s=k20260515; t=1792503119;
+	bh=DLIfcgoUznNYwhN2Vn/cnOy2bGBm6xaZc0Mel+r1CSk=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=cK7SST05UcxnhpB4lJ+cWFJbwbFSVT0Nw93IVAJuBlGVjwjd5hPCbFIo9WXHQWMCe
-	 2LdmPd4/BCzurtCHt4V2cV7es0X+4xOOT9QBjv9Emslle6nnoYXRKUUOeM7S7IyXVp
-	 ilKO8q1coG4lJKOWhe3AfwF5mlE0iGZ3avmrvI3zaSAmB6estzo8OrbwSueqPPB+ek
-	 K5+GBwiY6nZtMyN2J/HRlUdNMMbDq2tF5VmI6CDtJOse6LE9iD6GxLBDziH417vJfm
-	 0qUsezgGgbgB0zaR5jewFafLNB3n2KKLhcdIVoC6dwlrvMRyUnt36UfKwgCj4VSsam
-	 /nZLXZ0E+6Cdw==
+	b=E6JvoyrcQgSw20ptEX+6FKJe4HdUtKYwB32TXrGFAmyuq6DyrdtvxCltTmtcbSBuv
+	 xGs+d7jPEb8NCjFsGRD3s80g9ctHbvO949Koef6eL68QBz0QH3YlCKNLpbqvkX4C6k
+	 us1DDZED2WBbUBkdym5LJQP3aFzYZkdmWGnoeTk76h4BVEfNu30Ub+6pr4X9/LvrsU
+	 tTBCBnbDeKz/CT9LyXCYZllgk9LfPqgXjWXaQ/LuPcEIQIDcXXOSZBgzRfIoQWLg8k
+	 NOWgg9TFZ3RF+lkjaCt+gcYnGQCXk/v2mBr2FN0Z7W+Aei8x1DBbbkfQ/+0a8DezrF
+	 zpBrUY9y71/vg==
 From: Sasha Levin <sashal@kernel.org>
-To: Bradley Morgan <brads@mainlining.org>
+To: Miguel Ojeda <ojeda@kernel.org>
 Cc: broonie@kernel.org,
 	corbet@lwn.net,
 	error27@gmail.com,
@@ -55,17 +55,17 @@ Cc: broonie@kernel.org,
 	linux-kernel@vger.kernel.org,
 	linux@leemhuis.info,
 	mst@redhat.com,
-	ojeda@kernel.org,
 	rdunlap@infradead.org,
 	skhan@linuxfoundation.org,
+	stable@vger.kernel.org,
 	tytso@mit.edu,
 	workflows@vger.kernel.org
-Subject: Re: [PATCH v3 7/7] agents: add a skill to write commit messages
-Date: Tue, 20 Oct 2026 09:29:34 -0400
-Message-ID: <20261020132934.3149120-1-sashal@kernel.org>
+Subject: Re: [PATCH v3 0/7] agents: add skills for Fixes tags, stable tags, similar bugs, and commit messages
+Date: Tue, 20 Oct 2026 09:31:56 -0400
+Message-ID: <20261020133156.3153106-1-sashal@kernel.org>
 X-Mailer: git-send-email 2.53.0
-In-Reply-To: <0CD32CFD-D3B9-4D48-A5E5-10C092719E70@mainlining.org>
-References: <20261016152828.3765695-1-sashal@kernel.org> <20261016152828.3765695-8-sashal@kernel.org> <0CD32CFD-D3B9-4D48-A5E5-10C092719E70@mainlining.org>
+In-Reply-To: <20261016160030.118973-1-ojeda@kernel.org>
+References: <20261016152828.3765695-1-sashal@kernel.org> <20261016160030.118973-1-ojeda@kernel.org>
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Post: <mailto:workflows@vger.kernel.org>
@@ -77,10 +77,17 @@ Precedence: list
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-On Fri, Oct 16, 2026 at 05:05:39PM +0100, Bradley Morgan wrote:
->This would be relevant to kill verbosity, no?
+On Fri, Oct 16, 2026 at 06:00:30PM +0200, Miguel Ojeda wrote:
+>If we are going to have a skill for the stable bit and you are updating
+>the list, then may we take the chance to include Rust soundness issue?
+>Please see below.
 
-Yes, that's the main goal of this one.
+Could you send it as a separate patch to Greg and stable@? It doesn't really
+depend on this series.
+
+3/7 only drops rules that LLMs follow more strictly than the stable trees
+actually apply them. Adding a new kind of fix to the list is a policy
+change, and it should get its own review rather than ride along here.
 
 -- 
 Thanks,
