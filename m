@@ -1,44 +1,44 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792502975;
-	b=YM1AaU47LwqCLcQYfvh+MB8OPNNTihNzzmWXGX9CxhystgTsH2mUFdIB8/XwGgUdwtLO
-	 gtW/gJTBKhPZZssTRg+rGzHg9Fz1dVktEo4wrjtDzKjAhrc/mgtq7WPrPuZ0ag7vDKeZT
-	 mgCBJ9xie1L1F1cB6zILbShqrZD4x98qO2u0MUNgW20REA+08dEdq5imLQUixj3AfrJrR
-	 r/KoKoRyn1oylYjheFz89m9ub4yWTxbSstYSrop2r2k1ZyYCarnKTLDhGRYVfpK5TPszi
-	 JKIk5Akr//DfHXCCF7P7AMMWiAU+6PnE56S0c7sLxZgLwS794IO0TxTk7LqEE5wMgDA==
+	t=1792502971;
+	b=n9VCMdA61voW9AT8Nkc1MS6pSpmuV3yf0iGrLiSgMm5WG1/C8UR1x0h4HEmF8BvKV7lc
+	 cSjnCyeTaFnOY0qCw++uhAQ+L8OXm8MnqLC5c61EjFL/Z/c8mjG/j5F7ZTNC4tN/zgbVh
+	 dhYtkLaRw5bo0IEFBFoDlYgjNb+7wwD22c4eUiZ+iBuif/e61AnwxSd46FrjKbkLoBPIv
+	 1c/npNUOXgXJDYT7rBOtuhxWBlfsJ5ivLTtNBOw0mdvnp+hIWJw5FeUIDnv5r1LW/cvW3
+	 KekxXLRtQdYdOSFmjh9PITVPnpk6cLDb1FjMrhiITDJfkK9QOTPZc552vADTc6FMTfw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792502975;
+	a=rsa-sha256; c=relaxed/relaxed; t=1792502971;
 	h=Received:DKIM-Signature:From:To:Cc:Subject:Date:Message-ID:X-Mailer:
 	 In-Reply-To:References:MIME-Version:Content-Transfer-Encoding;
-	bh=eDwVtk9pYiB3AX1GpUwrH+ex2C83NZAN3p5E4NifyNw=;
-	b=3vUm6DsHFxrEPCklUTlisJzNeP6tph2vgtzBZRDKmRad3PAE/pa3MG9FzQaaU9ZXgwVz
-	 avg9HjtM4HaxV0MThjTe7u9qonW0lKUzh5A4FkbDx0Igu/Hld64KhaUCYz+EP/QO8HDXO
-	 7lxm6y3yizXNAkNSJG38YUjP1OtgVtmDsm1npFAH+CaHf+niljcSI5NKs36cQSpkrRico
-	 toSrLlPrFkC22pMkuev2p9tgQ0/aPYuHCU/rA3jX14rwn2PQZLCgjbmK07koUK2sa9vwH
-	 EsIcmVvr5Ow2ATzfhJKSB0+p+pTyfmdRbEXetsMI+7md58mNBr9Nujp0P3h1LDJMq3w==
+	bh=hM+QEoi1JNt5tNwKnk3qY5QT2eSGNCwRsdv4CdlCerk=;
+	b=3mqbPMPnKNPyEEtUUyBTp17PNv9jnbjJBmq8Qni4e4TV2TznL69Z1p9CVH8Rc6DYJk1X
+	 rav6n/u4ZvzD101jqBL1HH4ZWJcLQamTkeCn6leDoQkp4gJP5MA6/EutWs89UPVMw6onG
+	 YHFwwYqYoBgRqyUTqc/WIy00qqIYhccIEayl5p1Ea8VaPJAXdJoxq5XtCdfgJfVuVdevE
+	 mR4HYhT4GltihHBLVP6gtZDF/bulNn/ultzDFWIvR+jKwTEB9YWzMBFL2+61ixSUtQXOG
+	 v2+ENBcYdVdYUX1FYbmnmnlzuYIE3Q6a4rp1qro2Wbpon8hvVMcO5HG91wn7Y3oYbsw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Slp67J6w;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=CrBTN5D2;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BACD9606A31E;
-	Tue, 20 Oct 2026 13:29:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 72FBA606A31C;
+	Tue, 20 Oct 2026 13:29:31 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Slp67J6w
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 70D3A1F000C5;
-	Tue, 20 Oct 2026 13:29:32 +0000 (UTC)
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=CrBTN5D2
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 151B11F000C5;
+	Tue, 20 Oct 2026 13:29:28 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1792502974;
-	bh=eDwVtk9pYiB3AX1GpUwrH+ex2C83NZAN3p5E4NifyNw=;
+	s=k20260515; t=1792502971;
+	bh=hM+QEoi1JNt5tNwKnk3qY5QT2eSGNCwRsdv4CdlCerk=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=Slp67J6wJQ2VUhpZiBOI8ZxQ6E4cdUnNmE5iVEH9gsEzYp2JB499FCX1s+zWBEWOk
-	 7ecdiGga2Sge0IfjzTK6GiLRhRZnGAqPJfehpOQumqwvqFeT9WB1R3R/rr3qvHE56i
-	 rw/n0lj1QEEjb2Xg+D8y3pumKuOuUabf4Jjpg0I2zlogEpH4pIxS4hRs9oyrOG7j7s
-	 bLhMX4RQf46YXgV0+Rm4R84DaMTdUGYzJntNLSsJqf6JGoh9yyfaLMJraJ1C2rEReQ
-	 HBXND/0f954AQzS6DgOcTCFmFYcAi34WAexhB6/RcmFqZXWqAUsxyBDi+ocNlmrK4m
-	 jkX2F5K/EQvYg==
+	b=CrBTN5D2G6KM60kMBXONbLkThCc9IAxQ7svdwAzTLH1GmAP4bqYpxgbkq6NxU5PjZ
+	 YyS1gx0udNNmEft5MjYmmm+1damjJF7PUuwOp13ARnMsGz1TbxDcmGSeGPQDYaoZSX
+	 PGWZAZQEUr2EIlUfRRog6fYKjevebSf9k2EDlgvWKnufr9ZE9Bkj5xKWUZqiRq5kIU
+	 ejTgKQnEKb2yMfY6MxnMNihMo0cJqRYtfeYulY30M3WzXUVDvKHISTAWQ75Q5L336F
+	 CAZZGzqNFRT/YrpGPor6Jx2m9VOVpvUPIGAuK2ePBfjtaczbLw16bM9hkOluO6MxkW
+	 vE0dWCqz3c4wg==
 From: Sasha Levin <sashal@kernel.org>
 To: Bradley Morgan <brads@mainlining.org>
 Cc: broonie@kernel.org,
@@ -59,13 +59,14 @@ Cc: broonie@kernel.org,
 	rdunlap@infradead.org,
 	skhan@linuxfoundation.org,
 	tytso@mit.edu,
-	workflows@vger.kernel.org
-Subject: Re: [PATCH v3 1/7] agents: add infrastructure for agent resources
-Date: Tue, 20 Oct 2026 09:29:31 -0400
-Message-ID: <20261020132931.3149082-1-sashal@kernel.org>
+	workflows@vger.kernel.org,
+	stable@vger.kernel.org
+Subject: Re: [PATCH v3 3/7] docs: stable-kernel-rules: drop rules the stable trees do not apply
+Date: Tue, 20 Oct 2026 09:29:27 -0400
+Message-ID: <20261020132927.3149027-1-sashal@kernel.org>
 X-Mailer: git-send-email 2.53.0
-In-Reply-To: <348BB89E-AD34-4B22-A7DD-A91E9657D566@mainlining.org>
-References: <20261016152828.3765695-1-sashal@kernel.org> <20261016152828.3765695-2-sashal@kernel.org> <348BB89E-AD34-4B22-A7DD-A91E9657D566@mainlining.org>
+In-Reply-To: <DF061D87-D1A3-42F6-AA3C-C288D3CB6BF3@mainlining.org>
+References: <20261016152828.3765695-1-sashal@kernel.org> <20261016152828.3765695-4-sashal@kernel.org> <DF061D87-D1A3-42F6-AA3C-C288D3CB6BF3@mainlining.org>
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Post: <mailto:workflows@vger.kernel.org>
@@ -77,13 +78,51 @@ Precedence: list
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-On Fri, Oct 16, 2026 at 05:02:58PM +0100, Bradley Morgan wrote:
->I feel this "agents" would be ok, make sure not to let it conflict with the
+On Fri, Oct 16, 2026 at 05:01:54PM +0100, Bradley Morgan wrote:
+>On 16 October 2026 16:28:23 BST, Sasha Levin <sashal@kernel.org> wrote:
+>>-- It must be obviously correct and tested.
+>>-- It cannot be bigger than 100 lines, with context.
+>>+- It must be correct and tested.
 >
->base agents.md file.
+>s/tested/fully tested ?
+>
+>'Tested" to agents would be just a basic compile test, maybe we could
+>define here what you want the agent to do?
+>
+>E.g: a W1? A QEMU repro? And others.
 
-They don't overlap: AGENTS.md is the symlink to README that tools look
-for, and agents/ holds the skills.
+This rule applies to every stable patch, and the right testing differs a
+lot between, say, a driver fix and an mm change, so I'd rather not pin it
+down here. For agents, coding-assistants.rst already covers it: the fix
+has to be checked with the reproducer or a full re-analysis, and the
+agent has to say explicitly when it could not be built or tested.
+
+>>   - No "trivial" fixes without benefit for users (spelling changes, whitespace
+>>     cleanups, etc).
+>
+>What I tend to do when I use AI on my own projects to find bugs are to get
+>it to "verify" what it finds to be a good enough bug. Could you refer to
+>the security document here? That could help very well for AI agents to
+>find proper bugs.
+
+stable-kernel-rules.rst already points security fixes at
+security-bugs.rst, and coding-assistants.rst has agents read
+threat-model.rst to decide whether a bug is a vulnerability.
+
+>Id also suggest that perhaps you *could* make a new patch saying that
+>
+>"When finding bugs, you need to verify that this bug is severe enough to
+>need stable backporting or a CVE, if you reckon it is not severe enough
+>for them, if it's not reproducible, eliminate the bug from the results"
+
+I'd rather not. A bug that doesn't qualify for stable still needs a fix
+in mainline, and many real bugs, races in particular, are hard to
+reproduce; that is why this patch drops the "theoretical race" rule. CVEs
+are assigned by the CVE team once a fix is in a stable tree, so the
+finder doesn't need to decide that.
+
+Confirming that a bug is real before reporting it is the part that
+matters, and coding-assistants.rst already asks for a reproducer.
 
 -- 
 Thanks,
