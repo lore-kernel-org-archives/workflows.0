@@ -1,47 +1,47 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792564163;
-	b=ZEUoTu8VhzbY6snr3M2onFO/8Ou3wKywdSzN4ErC4nRzfdSq+pUcksHE+FjmFnWpcwoV
-	 58qXEZbJs8NAeEMZfn0j1mOSG81eW8OXf6wvWo2AIhOow7MPGpho8JkO/nYyfTk2gpt2R
-	 +sKHE6I+ys9Dt7zOF4MJwXhjgYpdYQdFbTa8vCnD50dJBAKDvMgbr3I4neEhiqpBnQMfx
-	 UZHuWJ2d4BUWCbUbv7Uh8NbN7bMfR8IK1S6W1fLoJL7ASKiWs+fmT52ICATPFV/p9kWM6
-	 bwdpY8wJMtev9YyTmGYzaYNiS2PB8msVcX3oYray3iJJgp+a+sAcm38MWAiGvKpQnLw==
+	t=1792564509;
+	b=HpOsaLLRbKAaznUINatTWeZ6i0rZK8OdTSLqrEwXUtxdrRPkMxKk8xTlnngYGlv4pjfs
+	 6sHXqdW3LUneMc+AqLzXFnZMFTUSSNPq7rZaVDuRNB7PVpSVwd44RuxB/tO6upzU0t6tz
+	 yNlyGyj/VPulmxwzHwgo/XmLLOus1i2OyeOr4pG4E4RRLbMoq96jOsV2oX+ORAI4SyNuN
+	 hBM6BlVBcLdS83Suk1oUr5s7oS1jSCkaDLJTvF0JTkE3xTy2rd3i+XaGgItAptpMlc7za
+	 YVIVHzZlekyaquVKqhNozx9kPBMDIbncmeQrQPVWg+bgjXOD5lWhrbU0nm45HD7Y60g==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792564163;
+	a=rsa-sha256; c=relaxed/relaxed; t=1792564509;
 	h=Received:DKIM-Signature:Message-ID:Date:MIME-Version:User-Agent:
 	 Subject:To:Cc:References:From:Content-Language:Autocrypt:In-Reply-To:
 	 Content-Type:Content-Transfer-Encoding;
-	bh=XHhkRaV5nOWlqsBsv79ktistdtq9IREDSaCxFO2ci0U=;
-	b=ere8kv9m8cuHrIdUZnBVyMl9EYuXrcunoMO9jGVz5+YfTWz8dlqyb+eDwSDrkyq9X61/
-	 ntkPcV9IMmLYD7C5Pn4XzFzXusZ3LhC30U4j4PSC4W3ATXp3dLtJoMLgm2rrItm9ikSoA
-	 ZSlLdJY+8QpoDUhYfEfWe1/OZaHog0WLO6K/eosxT+7njPCeZ/o1HtQM+LF8hvkgloyx2
-	 1D/grWKvSvt6y/kOJo1JELVhtzXm6po3YrWZorMTlIEq6kdVZytth0CNp4KQIK4S78GdL
-	 /hkoWSCO2KbsqfK4m13CJWxZAO9gRFXPxZ+cPeGm14npn0giVtV5NRxfeLv43cO5Wxg==
+	bh=Ybgu8Q8X7/F12PuXiq0sE9bAsmT69Sul4o5X2tuRa9k=;
+	b=E8a9Kj5a4XOaKMEtX8yz8T8BHHn58NNLsINLftIBYKSnefhjK5xfUAll0FE7o8nxn58v
+	 pxRIsIzfKotRcZSN1IY+GbVP16LZSXTjl1APbhu64iU6tm2hW4lD/xlZCgwNEIscG8lYb
+	 q9oyUNSDbEnlv6g57tfrRRVZLN6P2L125aVJ0dD1JF+1N8RoQupSPSocalbAkOFC52L/g
+	 Y7FG/0tAZ5ljeUjb9q7etBxY7TOuo0rXqYk6Twf8ZsMibm772q8XEdTLSyNpAQBxDzTc9
+	 62iz66ftrvcaCeozS3Jhovo8PF+bzLiD8/ki3Vx8zYNmr5NAvvCbop8hEl56jzAGTxQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=EDbWxzeR;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Mja4e3qf;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EB3B3606A31A;
-	Wed, 21 Oct 2026 06:29:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 60140606A319;
+	Wed, 21 Oct 2026 06:35:09 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=EDbWxzeR
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D5C971F000C9;
-	Wed, 21 Oct 2026 06:29:17 +0000 (UTC)
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Mja4e3qf
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 403161F000C9;
+	Wed, 21 Oct 2026 06:35:06 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1792564162;
-	bh=XHhkRaV5nOWlqsBsv79ktistdtq9IREDSaCxFO2ci0U=;
+	s=k20260515; t=1792564509;
+	bh=Ybgu8Q8X7/F12PuXiq0sE9bAsmT69Sul4o5X2tuRa9k=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To;
-	b=EDbWxzeRx4Y924SPcT6L/3uid/3k4h5W44x5riuZCS/tW0/pcuRPKtMsEqCSijudC
-	 rNGv0QkQn6OyGNe+Z9L37X8HR+XrtHA2tIusJTjF/2qoCTgiGlJDpIQCab/1gDGe7t
-	 Gbn7hLB/XTZW2EyR/MVZZG9raEozV74rtVMce0jO9myUf5UeP0ezIdAGk9Qx6nXrno
-	 CHUXeKqNttlwQfdvv9CY2ukxnMV2SuBnZx8gMH6co+OFsw4GjO6vNqMqQ1LTCGjCNg
-	 KhOHsDtcfxjSIHycQQbX6I6t/Byl4dYj4RDlfXlMxETGLFFu5DCGa+9u5gG667ocrK
-	 FcusHG3PhaoOA==
-Message-ID: <d7eea330-6423-481a-a4c9-712f4a1f8334@kernel.org>
-Date: Wed, 21 Oct 2026 08:29:15 +0200
+	b=Mja4e3qf/ts4Wmm1b6PvkNgv6secmaLcFaeU23/QVQEs8wp57zh9SOGausVwao8g/
+	 lNgGd7V7btsQche5aA47k5NXNFgSWhyToU/h9dKVK9rdfPVvw8L8Ku5xW2pYGF52Uy
+	 +fvHR2J4chZFFmq4/YxEUIhUTIXmoZcrmNltqBen7mY12HvKoQoGpJRWQP+3aJRE+V
+	 8OXVE7gMtpAfBQK4kUlTqWJfujY1zDcfXAyjJlRAt1ZHZYnqKm8bhnJMwbrbJjKR4C
+	 2BsmF2WUAn1F67sOxL2lEUoi5/oGSZPAvhVWHKb7SO9pvnvSAetRZSfBZToBCKfvni
+	 nl0Zr4un7r5sg==
+Message-ID: <7f3bab90-c32d-484b-b493-974cf33bb30c@kernel.org>
+Date: Wed, 21 Oct 2026 08:35:04 +0200
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Post: <mailto:workflows@vger.kernel.org>
@@ -52,21 +52,16 @@ List-Owner: <mailto:workflows+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 2/2] docs: submitting-patches: make LKML a list of last
- resort again
-To: Konstantin Ryabitsev <konstantin@linuxfoundation.org>,
- Joe Perches <joe@perches.com>, Jonathan Corbet <corbet@lwn.net>,
- Shuah Khan <skhan@linuxfoundation.org>, Randy Dunlap <rdunlap@infradead.org>
-Cc: linux-kernel@vger.kernel.org, users@kernel.org,
- Federico Vaga <federico.vaga@vaga.pv.it>, Akira Yokosawa <akiyks@gmail.com>,
- Carlos Bilbao <carlos.bilbao@kernel.org>, Avadhut Naik
- <avadhut.naik@amd.com>, Alex Shi <alexs@kernel.org>,
- Yanteng Si <si.yanteng@linux.dev>, Dongliang Mu <dzm91@hust.edu.cn>,
- Chen-Yu Yeh <chenyou910331@gmail.com>, Weijie Yuan <wy@wyuan.org>,
- workflows@vger.kernel.org, linux-doc@vger.kernel.org,
- Petr Pavlu <petr.pavlu@suse.com>
-References: <20261020-get-maintainer-the-rest-fallback-v2-0-162aea473488@linuxfoundation.org>
- <20261020-get-maintainer-the-rest-fallback-v2-2-162aea473488@linuxfoundation.org>
+Subject: Re: [PATCH] docs: submitting-patches: Require base tree information
+To: Randy Dunlap <rdunlap@infradead.org>,
+ Konstantin Ryabitsev <konstantin@linuxfoundation.org>,
+ Eric Biggers <ebiggers@kernel.org>
+Cc: linux-doc@vger.kernel.org, workflows@vger.kernel.org,
+ Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
+ linux-kernel@vger.kernel.org
+References: <20261020212235.1143086-1-ebiggers@kernel.org>
+ <20261020-brown-potoo-of-relaxation-3e9a72@lemur>
+ <f6d6d8d2-03ca-498d-b5d2-578aece560d9@infradead.org>
 From: Krzysztof Kozlowski <krzk@kernel.org>
 Content-Language: en-US
 Autocrypt: addr=krzk@kernel.org; keydata=
@@ -112,25 +107,58 @@ Autocrypt: addr=krzk@kernel.org; keydata=
  K9bCVaboTA2T77QYkRcRJYSsO1alGX0ome/hMLD1daXlkrNUp1HWa3K4iytLRXjCSIorWiGs
  n+q3krnpXu3TFkA8qtOFZMdnIiFuiq1yLT8hptsV5xh1TA2nsVvSYiaCr3q4s4BKjS/KrLDb
  qoxzw8ISjdUp4pA85vb6YLCmb39NgidD+7PmAr65lBNveIFynTgsja1rRQ4=
-In-Reply-To: <20261020-get-maintainer-the-rest-fallback-v2-2-162aea473488@linuxfoundation.org>
+In-Reply-To: <f6d6d8d2-03ca-498d-b5d2-578aece560d9@infradead.org>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-On 20/10/2026 17:35, Konstantin Ryabitsev wrote:
-> Commit 77167b966b7e ("docs: submitting-patches: clarify the role of
-> LKML") changed the documentation to say that all patches should be sent
-> to LKML by default, because get_maintainer.pl always suggested it.
+On 21/10/2026 08:07, Randy Dunlap wrote:
 > 
-> Now that get_maintainer.pl only falls back to THE REST when no other
-> matching section provides a mailing list, update the documentation to
-> match: send patches to the subsystem-specific list, and use LKML only
-> when there isn't one.
 > 
-> Suggested-by: Petr Pavlu <petr.pavlu@suse.com>
-> Signed-off-by: Konstantin Ryabitsev <konstantin@linuxfoundation.org>
+> On 10/20/26 3:07 PM, Konstantin Ryabitsev wrote:
+>> On Tue, Oct 20, 2026 at 09:22:35PM +0000, Eric Biggers wrote:
+>>> Many patches still don't include base tree information and can't be
+>>> applied.  Such patches can't be properly reviewed or tested, nor can
+>>> they be accepted.  submitting-patches.rst already describes how to
+>>> include base tree information, but it's characterized as optional,
+>>> appears only towards the end of the document, and is missing details.
+>>
+>> I'm happy with this change, but I'd disambiguate the title a bit. With b4, we
+>> started providing both a base-commit and base-tree footer, specifically
+>> because often times the "base-commit:" line by itself is not sufficient.
+>>
+>> Imagine this scenario: a developer is working on some code in a feature branch
+>> and come across a pre-existing bug. They create a fork off of their feature
+>> branch to fix the bug and send it in. In this situation, the "base-commit"
+>> footer would be meaningless, because it references some transient commit-id in
+>> their feature branch. In an ideal scenario, the developer would rebase that
+>> bugfix branch on a known tag, but that doesn't always happen.
+>>
+>> This observation doesn't really preclude this patch from being accepted, I'm
+>> just recording my own experience that, by itself, base-commit is often
+>> insufficient.
+> 
+> Yeah, I was wondering about specifying tree as well as commit, so thanks
+> answering before I even asked the question.
+> 
+> Most of my patches are made against linux-next.  So: is this going to be
+> acceptable?
+> 
+> (for linux-next-20261020:)
+> base-commit: 053966c344dbd346e71305f530e91ea77916189f
+> base-tree: git://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
 
+According to commit msg which claims that without base information "nor
+can they be accepted. " (ridiculous statement on its own, since base is
+for these contributions obvious and known), next would not be
+acceptable, because maintainers DO NOT work on next. So if base is
+necessary for the patch "to be accepted", then base pointing to
+something irrelevant to the maintainer does not fit that requirement.
 
-Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
+This patch is just harmful to contribution process, just to fix
+limitations of bots/testing tools which apparently do not understand we
+have something like linux-next.
+
+Nacked-by: Krzysztof Kozlowski <krzk@kernel.org>
 
 Best regards,
 Krzysztof
