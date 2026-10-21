@@ -1,58 +1,63 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792600628;
-	b=qoY6XZEU0bXIpaoq0AyTieSYtMV5KVdkfOB014qbNVQtOFRV5oviy0qvBUxIVWZO5oeh
-	 f0DX0C15BDcBcQ5JKWGQRnINsujSGHIybCFkIJeYJrY97IOUd2thue9pkkyG63wTuUwvU
-	 3Z6WECN1DxSpLD/yjDrKg11DBiGgF94swdstRM0g/9k9T4ZYup7FCf6Hdghoxz7y33Xw5
-	 8M3m40dMyCFAjlMNEdbTxEJwlqpMUP3h1D04lX7mIIU0b884+X/ysR9KYBtXNYs8JtUmr
-	 20HMt7HpxiIsPsKLDw+dkCk/R9gz38AEI+gVo4JcVWRDLZf6WsQPBlN8xSU30aLmNtg==
+	t=1792614792;
+	b=j6OzfXuxI+Eg17Y+GQUHpqxd3d5x1F92HN1cYD+lqVo6sWLD0Iv//L5kKALRN8IyJ40o
+	 1FqPCMMF+4s8E24KddumLj8vnWqB1XZk820Ea+MST2kB+FjDLCD9vDlhO8SP+oeRkhy8z
+	 pw/Hhph1Rj60u0/OHG4QuPCRenSitB2NKaAvsBW/I6d/1L+M78qmDuT3BEs837cg53EXq
+	 yNqBzzD5K/Tb0WIVh8NjIxyN0nAZ4GcyeDVFwilPdULT7M8HbUkyvvqE8bUuAVG30EU/H
+	 pXIhanxzwuKXhFpdLyMUTdtpQyS9Dd0FTEGBeHSlsKy7jrT40AwaL6B8N4AyW6PQhrw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792600628;
-	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
-	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
-	bh=r/EfQ/MDX8Ow3YiiykRfv96ZUvWfAFLHvcKeZLHSFs8=;
-	b=SPPZTYekhD9FLP/Q75YbEsepx4gMy8/Heyr2yXgjXBkVvdLExYVIE3dXgifkCFa2bFEx
-	 FHOYiZVBW4/XpMvSsDtz835nTqLYyCniqqh1TGCa1upJlwi3FiTGJ4qwxZGP0EqOVpVOp
-	 LlR7XyB7K/vDsGbm3ESWoseQtD56+IEvJa3kk96JI1CxHvROszUWpOrABZx9qZ+nVxTHE
-	 BOi7j4Zoi6M8HKMR8qAyUDc1vTInmbLcbitLUk1wGaHEMTKbuz0KS6OanHV7z6Dc8OYyF
-	 h536b06aw9UT1FNXhLbqwzNcZZg+q4szo1zI2u0btgI1AASXEjBizkVC+dZV0q6j8MA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1792614792;
+	h=Received:DKIM-Signature:Date:From:To:cc:Subject:In-Reply-To:
+	 Message-ID:References:MIME-Version:Content-Type;
+	bh=q55r308nM48XGugO5O0k+1+N07ZXDbC9ktK8kP/xCLc=;
+	b=rA0mWRPcwcXJD+ZovzT2ayLnCSV4nopTGcZirtkaAv+EJllT7UXD1lJDCuhduFAtN58U
+	 zLJM4c0Ouq4R3JW/IT7ti7ErrMjm+ApMav67zCkvgAcopQjH3F+JsoiavTeagJDqxB8vk
+	 UgCocYCB55JZYygHWrI0r3cyfwK4qcMOuW3p1FaqS2aVJSMeIrr21xm6JL6QmifQuPIb2
+	 VHM6hpLJ5/k8OWkXdnCqSQdnsbkPxm9p5yMTKMVk3dt2V2QV80gW0gVf8QJwMKLCMvQuu
+	 5OYMbYQbff9nHR9ztXU3XRx9R1Erg6sQ3TYivnV+/56RaAEgkCnhdU6kkDLbfuXeTpg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=linuxfoundation.org header.i=@linuxfoundation.org header.a=rsa-sha256 header.s=korg header.b=GbBrQaSk;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=K+xgkKu0;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3615C606A323;
-	Wed, 21 Oct 2026 16:37:02 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4676E606A319;
+	Wed, 21 Oct 2026 20:33:12 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.a=rsa-sha256 header.s=korg header.b=GbBrQaSk
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8BA971F000C3;
-	Wed, 21 Oct 2026 16:37:02 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linuxfoundation.org;
-	s=korg; t=1792600622;
-	bh=r/EfQ/MDX8Ow3YiiykRfv96ZUvWfAFLHvcKeZLHSFs8=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=GbBrQaSk2pLlyVTrh8fMqNtwAHJka/NgivKKfP05Zydfb+ZmUXRmYUCgyEFMeDCrz
-	 D7g9OhVAGUcUOcCkDWwXcrwlQS15v96tC96v1K85QhTshWlGEpEIBBOwtEhYKqdnSY
-	 5ppC0R+OTSbwH1L6ODm171mY2xJtpTYLS8ehQ/34=
-Date: Wed, 21 Oct 2026 12:37:01 -0400
-From: Konstantin Ryabitsev <konstantin@linuxfoundation.org>
-To: Krzysztof Kozlowski <krzk@kernel.org>
-Cc: Eric Biggers <ebiggers@kernel.org>, linux-doc@vger.kernel.org, 
-	workflows@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>, 
-	Shuah Khan <skhan@linuxfoundation.org>, Randy Dunlap <rdunlap@infradead.org>, 
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] docs: submitting-patches: Require base tree information
-Message-ID: <20261021-wonderful-seriema-of-defense-afee8d@lemur>
-References: <20261020212235.1143086-1-ebiggers@kernel.org>
- <363b228a-7e96-481a-b70f-195ba55d025e@kernel.org>
- <20261021063927.GA31908@sol>
- <d5d0801e-371c-4836-8b4a-26bff33df46f@kernel.org>
- <20261021064940.GC31908@sol>
- <aea2328d-4ea8-45bc-922e-9c1fed94083f@kernel.org>
- <20261021-origami-groundhog-of-radiance-78baf9@lemur>
- <9aa3e170-3d03-456b-ba2d-f329b93ff071@kernel.org>
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=K+xgkKu0
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 581D21F000C1;
+	Wed, 21 Oct 2026 20:33:11 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1792614791;
+	bh=q55r308nM48XGugO5O0k+1+N07ZXDbC9ktK8kP/xCLc=;
+	h=Date:From:To:cc:Subject:In-Reply-To:References;
+	b=K+xgkKu0v6TNvR5b8zTQfMBSDo9J4GvZ+fI/aRJ6COF7xbZ6VolgMGC2EoTdI1XKI
+	 NJAjALBLGtLBcil06oWgPwz29wle2L+/uc0xOLMhrQlEGFgWA88kM6VRdn53cbcVhE
+	 NJJkgI/XERqedbRSCGujWBQG9fUu+jF1M+LrHud5EWcqKdLNF9N85/fTHIMytGv8EC
+	 3sBUjCG20O1aRdBFEsPlXGwHqnpiMhybc2rnmPT0DJmhuQ+jsMPdESmJzba4zo68Fp
+	 N35D5cJnjiipKrfnXV1k2Pvf8MAcXxziIus5jLRlNFewQ9GJZsVYo4n1X9h7SEW/cg
+	 5FcP9zi/f+HYg==
+Date: Wed, 21 Oct 2026 22:33:09 +0200 (CEST)
+From: Jiri Kosina <jikos@kernel.org>
+To: Konstantin Ryabitsev <konstantin@linuxfoundation.org>
+cc: Joe Perches <joe@perches.com>, Jonathan Corbet <corbet@lwn.net>, 
+    Shuah Khan <skhan@linuxfoundation.org>, 
+    Randy Dunlap <rdunlap@infradead.org>, linux-kernel@vger.kernel.org, 
+    users@kernel.org, Federico Vaga <federico.vaga@vaga.pv.it>, 
+    Akira Yokosawa <akiyks@gmail.com>, 
+    Carlos Bilbao <carlos.bilbao@kernel.org>, 
+    Avadhut Naik <avadhut.naik@amd.com>, Alex Shi <alexs@kernel.org>, 
+    Yanteng Si <si.yanteng@linux.dev>, Dongliang Mu <dzm91@hust.edu.cn>, 
+    Chen-Yu Yeh <chenyou910331@gmail.com>, Weijie Yuan <wy@wyuan.org>, 
+    workflows@vger.kernel.org, linux-doc@vger.kernel.org, 
+    Petr Pavlu <petr.pavlu@suse.com>
+Subject: Re: [PATCH v2 2/2] docs: submitting-patches: make LKML a list of
+ last resort again
+In-Reply-To: <20261020-get-maintainer-the-rest-fallback-v2-2-162aea473488@linuxfoundation.org>
+Message-ID: <8n4orq27-n727-n631-69oo-sr8n2p44ns2n@xreary.bet>
+References: <20261020-get-maintainer-the-rest-fallback-v2-0-162aea473488@linuxfoundation.org> <20261020-get-maintainer-the-rest-fallback-v2-2-162aea473488@linuxfoundation.org>
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Post: <mailto:workflows@vger.kernel.org>
@@ -62,28 +67,27 @@ List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:workflows+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <9aa3e170-3d03-456b-ba2d-f329b93ff071@kernel.org>
+Content-Type: text/plain; charset=US-ASCII
 
-On Wed, Oct 21, 2026 at 05:49:04PM +0200, Krzysztof Kozlowski wrote:
-> > Specifically, I am working on a service that eager-builds git bundles for all
-> > submitted patch series -- the goal is to make it simple for CI systems to
-> > fetch patch submissions as bundles that are already applicable against
-> > mainline. Knowing which tree and commit the series is based on is really
-> > helpful when figuring this out.
+On Tue, 20 Oct 2026, Konstantin Ryabitsev wrote:
+
+> Commit 77167b966b7e ("docs: submitting-patches: clarify the role of
+> LKML") changed the documentation to say that all patches should be sent
+> to LKML by default, because get_maintainer.pl always suggested it.
 > 
-> This has limitations you will not be able to solve.
+> Now that get_maintainer.pl only falls back to THE REST when no other
+> matching section provides a mailing list, update the documentation to
+> match: send patches to the subsystem-specific list, and use LKML only
+> when there isn't one.
+> 
+> Suggested-by: Petr Pavlu <petr.pavlu@suse.com>
+> Signed-off-by: Konstantin Ryabitsev <konstantin@linuxfoundation.org>
 
-Oh, I am painfully aware of this -- but hopefully we'll hit most of the
-standard cases. The upside of us doing it is that we have All The Objects (as
-long as they have been pushed to our repos or the repos we mirror), so we
-should be able to figure out the ancestry, hopefully. The base-tree info is
-mostly useful for us to figure out the contributor's intent.
+Acked-by: Jiri Kosina <jkosina@suse.com>
 
-The service is still early in design stages and won't really be available for
-a while yet -- but hopefully once it is, the other CI systems will be able to
-benefit from us pre-solving the applicability so everyone doesn't have to do
-it over and over on their own.
+Thanks,
 
--K
+-- 
+Jiri Kosina
+SUSE Labs
+
