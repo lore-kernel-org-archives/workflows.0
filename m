@@ -1,54 +1,47 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.137.202.133
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792562829;
-	b=kjoPS1Ab/xgtcuX0KeyLmyYlY41nqr3wUP5WED9Flmj5q2cEQ3DjH79o3nxtfK9Z8Nnw
-	 rXObJPTNnpJqrsXOZTwE4eRHgpAYDNA5yLDx5zq/HiGBMVE0YwoO2xnF2VjrFcVTmOjnZ
-	 buB/cvhiXCgYFs1x1f9z96t2DyaNp7Mz6g1EsbQyewAaFD3t2KuMd3gMxZX84cNZ6XzHD
-	 M6sg3mTiGa77ljegoSqxytNF9FwaUwxwphEO4krDOWUR7ik1Uin7b3t5Oqaxess30bh9R
-	 IPu8CZiZy/U2oIyskjaJn1sPGowou1YEDLz1B1P/l7tqxz7yBFzUaB5MTwga5oAY7GQ==
+	t=1792563995;
+	b=wDM8aqNBoQEPtXbPDM31UWvSnvLfEx/yyaAmKthN2Bs30w5ktmrtih3UIjo5Y9/mnd8E
+	 GjkqkJ588KyHGGohjjMA+qVJcRxEuskYKBH+uc7Y4bY2n0gPaCO4ThQirF5LiYUbobWOZ
+	 +wJm8ksLA0tOV7yXX+Dkt26UggaFqNpcvvr+CUPPNDqJsms4cdN0wYHh4EN0lqN2Xg5Zr
+	 v4YGLwCaxWGtiIvmAovkgwMkVHGRgx1OFmG/Mc14ahujMeD5RieWOpRQdeUxQyoBJi0Rl
+	 TtmNSqm4M5MH0ywmqide/vscgjJTeafDQXyElYG+JNpj4PS2VN4/jWFOePSUltb8wUQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792562829;
-	h=DMARC-Filter:DKIM-Signature:Received:Message-ID:Date:MIME-Version:
-	 User-Agent:Subject:To:Cc:References:Content-Language:From:In-Reply-To:
+	a=rsa-sha256; c=relaxed/relaxed; t=1792563995;
+	h=Received:DKIM-Signature:Message-ID:Date:MIME-Version:User-Agent:
+	 Subject:To:Cc:References:From:Content-Language:Autocrypt:In-Reply-To:
 	 Content-Type:Content-Transfer-Encoding;
-	bh=RWXu4jpq1GrCvUDpKd/ed8T68hCMT6wRiDitfxefxoY=;
-	b=g8e/XiR8G+XfzpZtNK0MS+rcHMfty3GY/+4c2xobOwMo7FhZnipFUf4D9L5Rexxmh5JV
-	 o88Z78YFPJvJOrjasSn5ErW3HZKqLagzcdAO9Sd2/0Ow35P427Yeez/MGFttgYWJCPM7+
-	 ftaLJHEISt56XpUcc0h7lE9FajI9ElD9MnfMGWtcZanoHUkvTCZjxN6ccg1GWnJzcULAa
-	 K4d3aeFdGWvP7sA9vT0mmv2cWB4QHR1fclsAgQZR2atUlh4ZtFjbXmAYUi1TsCXyUlysC
-	 5f4/wAb2s+LOtEAbdMM2bPoRvm5zJxJZ8bDMDmWla62IA76C6lS0j0DoF58Z0nCoq6g==
+	bh=ElBdXWAjd5/2gZ7mZhUT7ZukISglljnO9yUGFpsfiaw=;
+	b=x+wLohycPu36F8rP+THh9YMR62pnRQpjE2/isbKrLBETm50Ge6c2Mz9xRgN6dWcIBqYE
+	 WhVrzGYLNp+YWvwHq+fp08VDouzOQn/VHUvjYy3iM+mrNb4wHCUrBgX4NuavEEW49JC/X
+	 bZZHEeE4H/HYk9wwzTLx9pi1dQp21E7zYIhNwHdpVkTME6UKx3CkAkHmY1fhsB1Fd8zoG
+	 JzN1mmU34QW6YTfWH/y299O4dlowi4fenAJI9/CV7cT1DbMHyqNRzWEB7KaDKrgp3YzE7
+	 cr2LFE5PDQSW1ht+UWdYnKoGDTBa19R8cvdi3J9rIIqeBSRcnoKbj9gcFpf9+nidThg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=infradead.org;
-	spf=pass smtp.mailfrom=infradead.org;
-	dkim=pass header.d=infradead.org header.i=@infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=UFtZhN0F;
-	arc=none smtp.remote-ip=198.137.202.133
-Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=f8+9ZkXV;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CAD58606A32E;
-	Wed, 21 Oct 2026 06:07:06 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org CAD58606A32E
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=infradead.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 07908606A319;
+	Wed, 21 Oct 2026 06:26:34 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=infradead.org header.i=@infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=UFtZhN0F
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
-	bh=RWXu4jpq1GrCvUDpKd/ed8T68hCMT6wRiDitfxefxoY=; b=UFtZhN0FIOqU8GkqMum6PS8cia
-	29pzu+E8MdtpMRhmvTkW+y/+wnbCl3gvk+Ti9uP2mgnAy6fFYhgOPcKceYudFmmaovR/r0ohoeCbH
-	+WWQEA6+mh8DS40Ol/MwsXAicv9u+wCTOd9QhV7GEFPXCy9SLAIOFx71IzvsG0zh84we/tJocRtMU
-	mh+x3J6OFOVsxWUzLizi4QwnObOvNXB6C4xJGij9buyYY8Oq9Hz1NKtCE+96NoP9ojqUW3AmmFa1h
-	GbuI3Onm7hnbTnjhwjmZhAuRvF6XzCuEuM0STnJAf5F60yTcjE4f3PmiqrsuFMq/uvoQqFI66Ay4c
-	Za1Bmn0A==;
-Received: from [50.53.43.113] (helo=[192.168.254.34])
-	by bombadil.infradead.org with esmtpsa (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1xJPTd-0000000B8H8-2CWa;
-	Wed, 21 Oct 2026 06:07:05 +0000
-Message-ID: <f6d6d8d2-03ca-498d-b5d2-578aece560d9@infradead.org>
-Date: Tue, 20 Oct 2026 23:07:05 -0700
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=f8+9ZkXV
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 258221F000C9;
+	Wed, 21 Oct 2026 06:26:29 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1792563994;
+	bh=ElBdXWAjd5/2gZ7mZhUT7ZukISglljnO9yUGFpsfiaw=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To;
+	b=f8+9ZkXVZLN1MwnDHglLGtUQqG1MKY5z0ITTXICIMo7RupTNzpLR6cVEiM/QMDBLz
+	 x2461OLk1DPHOSgXbu9NH8bV/wDpb1gaqrKU33Bjmo7F3LTDuqSgGjZlvWseIMrsm3
+	 RzPWo99dBHvTgnJ7fk2+g5Fxg38vak6jc4Hx5qnv4Uhnx6UxdDgD1z5IpY2aX0pcaz
+	 AvV2yBIRZlJ3DWbL6eKg9w1tRSzwL9UFO3kOAbbOBx8JpMmFl5v1dGyTJa8qtZeNWq
+	 T/iW4JfYLhvF4cqLOKwT9DM4PjBSSBe4RnsU1yrmacyGVWyrtBSEotPchJ+IJY0nOC
+	 cz3WFIYT3Ousw==
+Message-ID: <363b228a-7e96-481a-b70f-195ba55d025e@kernel.org>
+Date: Wed, 21 Oct 2026 08:26:28 +0200
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Post: <mailto:workflows@vger.kernel.org>
@@ -60,59 +53,90 @@ Precedence: list
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
 Subject: Re: [PATCH] docs: submitting-patches: Require base tree information
-To: Konstantin Ryabitsev <konstantin@linuxfoundation.org>,
- Eric Biggers <ebiggers@kernel.org>
-Cc: linux-doc@vger.kernel.org, workflows@vger.kernel.org,
- Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
- linux-kernel@vger.kernel.org
+To: Eric Biggers <ebiggers@kernel.org>, linux-doc@vger.kernel.org,
+ workflows@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
+ Shuah Khan <skhan@linuxfoundation.org>, Randy Dunlap <rdunlap@infradead.org>
+Cc: linux-kernel@vger.kernel.org,
+ Konstantin Ryabitsev <konstantin@linuxfoundation.org>
 References: <20261020212235.1143086-1-ebiggers@kernel.org>
- <20261020-brown-potoo-of-relaxation-3e9a72@lemur>
+From: Krzysztof Kozlowski <krzk@kernel.org>
 Content-Language: en-US
-From: Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <20261020-brown-potoo-of-relaxation-3e9a72@lemur>
+Autocrypt: addr=krzk@kernel.org; keydata=
+ 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
+In-Reply-To: <20261020212235.1143086-1-ebiggers@kernel.org>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
+On 20/10/2026 23:22, Eric Biggers wrote:
+> -Make sure that base commit is in an official maintainer/mainline tree
+> -and not in some internal, accessible only to you tree - otherwise it
+> -would be worthless.
+> +    If ``git format-patch`` with ``--base=auto`` (or
+> +    ``format.useAutoBase=true``) can't detect a base commit, e.g. due to
+> +    the current branch having no upstream tracking branch, it exits with
+> +    an error. In such cases, pass an explicit base commit to ``--base``
+> +    instead. This is also needed if git detects the wrong base commit,
+> +    such as when the upstream branch has local, unpublished commits.
+> +
+> +The base commit must be in a well-known public tree, such as the
+> +subsystem development branch the patch is targeting. See
+> +:ref:`obtain_a_current_source_tree`. Mainline or the latest linux-next
+> +can also be acceptable bases, depending on the subsystem.
 
+I disagree, that's pointlessly too hard requirement.
 
-On 10/20/26 3:07 PM, Konstantin Ryabitsev wrote:
-> On Tue, Oct 20, 2026 at 09:22:35PM +0000, Eric Biggers wrote:
->> Many patches still don't include base tree information and can't be
->> applied.  Such patches can't be properly reviewed or tested, nor can
->> they be accepted.  submitting-patches.rst already describes how to
->> include base tree information, but it's characterized as optional,
->> appears only towards the end of the document, and is missing details.
-> 
-> I'm happy with this change, but I'd disambiguate the title a bit. With b4, we
-> started providing both a base-commit and base-tree footer, specifically
-> because often times the "base-commit:" line by itself is not sufficient.
-> 
-> Imagine this scenario: a developer is working on some code in a feature branch
-> and come across a pre-existing bug. They create a fork off of their feature
-> branch to fix the bug and send it in. In this situation, the "base-commit"
-> footer would be meaningless, because it references some transient commit-id in
-> their feature branch. In an ideal scenario, the developer would rebase that
-> bugfix branch on a known tag, but that doesn't always happen.
-> 
-> This observation doesn't really preclude this patch from being accepted, I'm
-> just recording my own experience that, by itself, base-commit is often
-> insufficient.
+For many of my contributions base is obvious and not needed to be
+explicitly defined. For all the patches I accept, answer is the same -
+base is either obvious or if not and patch does not apply, then the base
+does not matter.
 
-Yeah, I was wondering about specifying tree as well as commit, so thanks
-answering before I even asked the question.
+Requiring it is just bureaucracy without actual benefit.
 
-Most of my patches are made against linux-next.  So: is this going to be
-acceptable?
+The only benefit would be if maintainer COULD change its base to apply
+some patch with odd base... but this cannot happen. Maintainer base is
+fixed - it's the HEAD of his development branch for given category of
+commits (e.g. DTS branch for SoC maintainers).
 
-(for linux-next-20261020:)
-base-commit: 053966c344dbd346e71305f530e91ea77916189f
-base-tree: git://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-
-linux-next how has over 400 trees in it. That's a tad prohibitive AFA cloning is
-concerned.
-
-
-thanks.
--- 
-~Randy
-
+Best regards,
+Krzysztof
