@@ -1,47 +1,47 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792597753;
-	b=l1UgaBvGpnAacuOAvTq0vswj+dnQ8w6GDzAVawmfR6CctKkcwzAOT0UdFmcE4/tnM2uw
-	 Gp0GUPXAPyvNZoQlyaCRQ4kuyGB1ecEnnreHx/BSHsGhdCjzD/kl7/Mpcy3MDQqYguju0
-	 0DyPkl4542Boaj78pnwChMoVVHIzbhdu4N7U8INw+5iC+3eHtUsnjkqm7BXCqX2CoLIRM
-	 +ViTuyou+FGZ07sR0D+C7xvYg1RjKcwFDSd65EXGZnrpeKQXBuJ47tcwISRfkj8Nd5gcG
-	 kaMIHS3NxSL5s4QcOHql7FxUY4VDH2+K5wpO6UfF72S5ULHx8YrkRdNYEVy+W8XPznA==
+	t=1792598408;
+	b=BNdSIVeZGgLeVBHPY3GKnUktnA2KE5AQw4VcEEpxWz+Fmg6MhFoULyNEDaGW47j+Yg6r
+	 mSDXw+LHKjfXGkp0/6/NwxuhHqxPzhXX3tLJjG62J45I3FH0+nGPGyAuqdyY9WsYtlcoa
+	 z5yQK7S3qvidGrU2D7+zfCJmLvzhgTJvSjhGkQTMQ4Z4mzhDPzA1DoEYHUj64aRwGeF1J
+	 sDLRahAH0oGUrt3zNeiVKVOqsQueOTrx3NhmBZrbIc0gG9PAwbLv/eYsueVN1Yrwwwev2
+	 uYl2nOEFSmSwVWbwzT9SCgDkRCDWIsVboc5Z8DPcydRBh1mYwvBz0YnFMryF9vdDS6g==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792597753;
-	h=Received:DKIM-Signature:Message-ID:Date:MIME-Version:User-Agent:
-	 Subject:To:Cc:References:From:Content-Language:Autocrypt:In-Reply-To:
+	a=rsa-sha256; c=relaxed/relaxed; t=1792598408;
+	h=Received:DKIM-Signature:Message-ID:Date:MIME-Version:User-Agent:From:
+	 Subject:To:Cc:References:Content-Language:Autocrypt:In-Reply-To:
 	 Content-Type:Content-Transfer-Encoding;
-	bh=PlIfgFCUjfT46EbRN/4oDU+8in7u2v22Ipk5f1NaKgk=;
-	b=CN3OK0qf9lwtprQvUz2PYPfPbZkg8CCYHZbn3Sth0BkGxoUf4oIB5sk2Zelewiqzy+a2
-	 xD9d4spT0hKK1nzOfGgsMRClJgoS03l52N6ZgC3dx9w9vUIotC7Egq6kEo1mB6QojBpoU
-	 I6sLnS92L4zqUEVHHJ2N+40O+6Wi/5Bx9tbd9JtsDJctOJK5BV9W75zsUcXeAGdAvDdyc
-	 o7zMOlwXjUb+dCK+6JRk++yCKoyNiVncD6XTo7IxpiQ8jtUswqVi62Oi1SVJIySaZwwx6
-	 WEEtY7JL+rshEqeidSMH25qlnYchUWd83kEj5ea61EBfbuqFCIIbl4u6IeYWrWAkcKA==
+	bh=9SqXtViRtGm7JEuHgSEjRHXF1lGpWBdC4iVKnbS5m7U=;
+	b=HwzvBvKQfJmVdO9qTzVB/F7cg0jcjA6qFGtiUlktD/UHwJNZTblOfpNzwoSNK9kcI6sX
+	 QKl6KHl33RGg7G5FLQ7j4fh3NWaWeyim2YV/p5V1+ReVEg+G2Q8h6zszGHOK8ucvfNw8c
+	 M4X1a5NOSb3nDKoQpoGI8QaB9dYviWQ3KqNNd9Buba9v3yMPRIv3gZkkSjy+0EFzs5Gsg
+	 G+Kd/K87kGZqZfexLbIekzBmgcoEub/QqEHNbBpgHq8q59jnzKdQInkbBUhxy2iSNDur3
+	 hXp3Zy7UNSnszxkCS0jRUDptT91I1v2RNKTLoqbM5u6EtOySIsHraEoHmqnnkmly+Rw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b="NMqrhk/W";
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=YYHKFdI0;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 37288606A319;
-	Wed, 21 Oct 2026 15:49:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CD378606A31D;
+	Wed, 21 Oct 2026 16:00:07 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=NMqrhk/W
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 706471F000C1;
-	Wed, 21 Oct 2026 15:49:09 +0000 (UTC)
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=YYHKFdI0
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3774D1F000C2;
+	Wed, 21 Oct 2026 16:00:00 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1792597752;
-	bh=PlIfgFCUjfT46EbRN/4oDU+8in7u2v22Ipk5f1NaKgk=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To;
-	b=NMqrhk/WKAhK6T206gsXqZjyVsfzeftCN3ZA5Tb5eYvjSftiz93wK4YRkXpZGFX+Z
-	 zMSEC8gfQDnZbOVbjDvTCzpr5tGo9YPbYFDL0ExQqG8dl8X3WXyRFXzpRHj+LPPiz+
-	 qnDV90OpUUtliG+Krtv67DOpU1673ZZE41VkdpKlwcXVopSgoG67UCOtDyd6GVQ8o7
-	 weNlcI8hR+ot+BCqHIR7O8oiHRJr92y7d73eT3INoNKlCCfIbbkjo80ogSSgYBMgjZ
-	 ObT0zV/BhKFUGBxxCN08N1oQ88QiVkks7+M7cBJC2o+RYqGKJW4xhiavfhvomaONHn
-	 9fSoCK6XQmIiA==
-Message-ID: <9aa3e170-3d03-456b-ba2d-f329b93ff071@kernel.org>
-Date: Wed, 21 Oct 2026 17:49:04 +0200
+	s=k20260515; t=1792598407;
+	bh=9SqXtViRtGm7JEuHgSEjRHXF1lGpWBdC4iVKnbS5m7U=;
+	h=Date:From:Subject:To:Cc:References:In-Reply-To;
+	b=YYHKFdI0tFg3gscTYD/+fS2GUihAgW+EyoJnGT8r1b2scz9Vfdcey3gdQCHvsyHhw
+	 vSTkw9Muwrb/TG12o1jkyqosVK5Wu4qG8pUcCuT5t5gtABI/jmprYgA4DtbTFViIeS
+	 ud0XAAjLmfDB3WBgtwJbrDgSqJr4d26sm36Gc5cZwW19WbVrYsSkHlDmHJ2FCLB2bi
+	 Js32ce6vPjPdADunjxyJOy2rxk1hxSpJYmOIg6r1NKvUiqdsDRgEzawFB2Hu3tUCUc
+	 Tv+JBDGf8KWemoEoVwQuZa62rW+fFbSy3YnkjvwAKgr1+MDZ78U3o/sl0spHj1xf/f
+	 B5U52SnxG++Xw==
+Message-ID: <9704f11c-4c2e-426b-87df-13ea2ffdca3c@kernel.org>
+Date: Wed, 21 Oct 2026 17:59:19 +0200
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Post: <mailto:workflows@vger.kernel.org>
@@ -52,20 +52,16 @@ List-Owner: <mailto:workflows+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
+From: Krzysztof Kozlowski <krzk@kernel.org>
 Subject: Re: [PATCH] docs: submitting-patches: Require base tree information
-To: Konstantin Ryabitsev <konstantin@linuxfoundation.org>
-Cc: Eric Biggers <ebiggers@kernel.org>, linux-doc@vger.kernel.org,
- workflows@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
- Shuah Khan <skhan@linuxfoundation.org>, Randy Dunlap
- <rdunlap@infradead.org>, linux-kernel@vger.kernel.org
+To: Jonathan Corbet <corbet@lwn.net>, Eric Biggers <ebiggers@kernel.org>,
+ linux-doc@vger.kernel.org, workflows@vger.kernel.org,
+ Shuah Khan <skhan@linuxfoundation.org>, Randy Dunlap <rdunlap@infradead.org>
+Cc: linux-kernel@vger.kernel.org,
+ Konstantin Ryabitsev <konstantin@linuxfoundation.org>
 References: <20261020212235.1143086-1-ebiggers@kernel.org>
  <363b228a-7e96-481a-b70f-195ba55d025e@kernel.org>
- <20261021063927.GA31908@sol>
- <d5d0801e-371c-4836-8b4a-26bff33df46f@kernel.org>
- <20261021064940.GC31908@sol>
- <aea2328d-4ea8-45bc-922e-9c1fed94083f@kernel.org>
- <20261021-origami-groundhog-of-radiance-78baf9@lemur>
-From: Krzysztof Kozlowski <krzk@kernel.org>
+ <87y0br3zln.fsf@trenco.lwn.net>
 Content-Language: en-US
 Autocrypt: addr=krzk@kernel.org; keydata=
  xsFNBFVDQq4BEAC6KeLOfFsAvFMBsrCrJ2bCalhPv5+KQF2PS2+iwZI8BpRZoV+Bd5kWvN79
@@ -110,53 +106,56 @@ Autocrypt: addr=krzk@kernel.org; keydata=
  K9bCVaboTA2T77QYkRcRJYSsO1alGX0ome/hMLD1daXlkrNUp1HWa3K4iytLRXjCSIorWiGs
  n+q3krnpXu3TFkA8qtOFZMdnIiFuiq1yLT8hptsV5xh1TA2nsVvSYiaCr3q4s4BKjS/KrLDb
  qoxzw8ISjdUp4pA85vb6YLCmb39NgidD+7PmAr65lBNveIFynTgsja1rRQ4=
-In-Reply-To: <20261021-origami-groundhog-of-radiance-78baf9@lemur>
+In-Reply-To: <87y0br3zln.fsf@trenco.lwn.net>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-On 21/10/2026 17:04, Konstantin Ryabitsev wrote:
-> On Wed, Oct 21, 2026 at 01:55:37PM +0200, Krzysztof Kozlowski wrote:
->> Dependency is something else, but for every other patch:
->> 1. For testing/CI: you apply on top of next
->> 2. Every other case the maintainer knows where to apply it, because it
->> is his HEAD of next-branch.
+On 21/10/2026 16:19, Jonathan Corbet wrote:
+> Krzysztof Kozlowski <krzk@kernel.org> writes:
+> 
+>> For many of my contributions base is obvious and not needed to be
+>> explicitly defined. For all the patches I accept, answer is the same -
+>> base is either obvious or if not and patch does not apply, then the base
+>> does not matter.
 >>
->> I am repeating myself, but I really had no single problem of lack of
->> knowledge where to apply a patch as a maintainer or reviewer of some
->> subsystem, thus maybe I do not understand the actual problem you are
->> experiencing.
+>> Requiring it is just bureaucracy without actual benefit.
+>>
+>> The only benefit would be if maintainer COULD change its base to apply
+>> some patch with odd base... but this cannot happen. Maintainer base is
+>> fixed - it's the HEAD of his development branch for given category of
+>> commits (e.g. DTS branch for SoC maintainers).
 > 
-> From my perspective, I don't really want to force contributors to manually
-> provide the tree information, but it's helpful if tooling includes it
-> automatically.
-
-Sure, I do not oppose this being helpful. I oppose this being a
-requirement and that was the impression I got from this patch.
-
+> I fairly routinely get docs patches that don't apply to docs-next; when
+> I'm in the mood, I'll try to figure what they *do* apply to, then
+> cherry-pick them over.  Base information would make that process easier,
+> and even automatable.
 > 
-> Specifically, I am working on a service that eager-builds git bundles for all
-> submitted patch series -- the goal is to make it simple for CI systems to
-> fetch patch submissions as bundles that are already applicable against
-> mainline. Knowing which tree and commit the series is based on is really
-> helpful when figuring this out.
 
-This has limitations you will not be able to solve. For example, around
-SoC code (ARM, ARM64, RISC-V) are often combination of minimum two
-subsystems:
-1. Driver code + Devicetree bindings, being picked up by driver
-maintainer, e.g. drivers/clock/ or drivers/reset/
-2. DTS (arch/*/boot/dts) being picked up by SoC platform maintainer who
-later sends it to SoC folks (Arnd Bergmann and folks).
+Some maintainers do that indeed and I propose not to. Every two months I
+see one of my or other folks around my area patch which is being changed
+in incorrect way between mailing list and Git. Change is done because:
 
-Such patchsets by definition target independent trees, thus the only
-reasonable base to fully test it or even apply it is the linux-next.
-Contributors would not be able to provide base-commit different than
-linux-next, thus that information is redundant - you can just assume it
-is linux-next.
+1. Patch did not apply cleanly (a lot of simultaneous work, so base is
+obviously old the moment the maintainer applies such patch)
 
-And if by "tree and commit the series is based on" you meant maintainer
-tree, excluding linux-next, then that information could not be even
-provided, unless patchset is split.
+2. Maintainer tried to resolve that by applying to the correct base (so
+followed your process) and then did git rebase or cherry pick to his
+final development branch.
+
+3. Maintainer is overloaded and has no time to investigate whether
+rebase/cherry-pick from above is truly correct, except building the
+code, so every two months result of such rebase is wrong.
+
+This is a real issue because it is very difficult to spot - your commit
+is applied, but you never verify whether is applied THE SAME way and
+maintainer thinks everything was applied cleanly.
+
+If (1) happens and patch does not apply, the solution is to ask the
+contributor to rebase.
+
+So sorry, but the proper base rather encourages risky patch
+merging/rebasing, instead of pushing the rebase problem to the person
+actually knowing the patch and having hardware to validate it.
 
 Best regards,
 Krzysztof
