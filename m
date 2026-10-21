@@ -1,47 +1,47 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792563995;
-	b=wDM8aqNBoQEPtXbPDM31UWvSnvLfEx/yyaAmKthN2Bs30w5ktmrtih3UIjo5Y9/mnd8E
-	 GjkqkJ588KyHGGohjjMA+qVJcRxEuskYKBH+uc7Y4bY2n0gPaCO4ThQirF5LiYUbobWOZ
-	 +wJm8ksLA0tOV7yXX+Dkt26UggaFqNpcvvr+CUPPNDqJsms4cdN0wYHh4EN0lqN2Xg5Zr
-	 v4YGLwCaxWGtiIvmAovkgwMkVHGRgx1OFmG/Mc14ahujMeD5RieWOpRQdeUxQyoBJi0Rl
-	 TtmNSqm4M5MH0ywmqide/vscgjJTeafDQXyElYG+JNpj4PS2VN4/jWFOePSUltb8wUQ==
+	t=1792564163;
+	b=ZEUoTu8VhzbY6snr3M2onFO/8Ou3wKywdSzN4ErC4nRzfdSq+pUcksHE+FjmFnWpcwoV
+	 58qXEZbJs8NAeEMZfn0j1mOSG81eW8OXf6wvWo2AIhOow7MPGpho8JkO/nYyfTk2gpt2R
+	 +sKHE6I+ys9Dt7zOF4MJwXhjgYpdYQdFbTa8vCnD50dJBAKDvMgbr3I4neEhiqpBnQMfx
+	 UZHuWJ2d4BUWCbUbv7Uh8NbN7bMfR8IK1S6W1fLoJL7ASKiWs+fmT52ICATPFV/p9kWM6
+	 bwdpY8wJMtev9YyTmGYzaYNiS2PB8msVcX3oYray3iJJgp+a+sAcm38MWAiGvKpQnLw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792563995;
+	a=rsa-sha256; c=relaxed/relaxed; t=1792564163;
 	h=Received:DKIM-Signature:Message-ID:Date:MIME-Version:User-Agent:
 	 Subject:To:Cc:References:From:Content-Language:Autocrypt:In-Reply-To:
 	 Content-Type:Content-Transfer-Encoding;
-	bh=ElBdXWAjd5/2gZ7mZhUT7ZukISglljnO9yUGFpsfiaw=;
-	b=x+wLohycPu36F8rP+THh9YMR62pnRQpjE2/isbKrLBETm50Ge6c2Mz9xRgN6dWcIBqYE
-	 WhVrzGYLNp+YWvwHq+fp08VDouzOQn/VHUvjYy3iM+mrNb4wHCUrBgX4NuavEEW49JC/X
-	 bZZHEeE4H/HYk9wwzTLx9pi1dQp21E7zYIhNwHdpVkTME6UKx3CkAkHmY1fhsB1Fd8zoG
-	 JzN1mmU34QW6YTfWH/y299O4dlowi4fenAJI9/CV7cT1DbMHyqNRzWEB7KaDKrgp3YzE7
-	 cr2LFE5PDQSW1ht+UWdYnKoGDTBa19R8cvdi3J9rIIqeBSRcnoKbj9gcFpf9+nidThg==
+	bh=XHhkRaV5nOWlqsBsv79ktistdtq9IREDSaCxFO2ci0U=;
+	b=ere8kv9m8cuHrIdUZnBVyMl9EYuXrcunoMO9jGVz5+YfTWz8dlqyb+eDwSDrkyq9X61/
+	 ntkPcV9IMmLYD7C5Pn4XzFzXusZ3LhC30U4j4PSC4W3ATXp3dLtJoMLgm2rrItm9ikSoA
+	 ZSlLdJY+8QpoDUhYfEfWe1/OZaHog0WLO6K/eosxT+7njPCeZ/o1HtQM+LF8hvkgloyx2
+	 1D/grWKvSvt6y/kOJo1JELVhtzXm6po3YrWZorMTlIEq6kdVZytth0CNp4KQIK4S78GdL
+	 /hkoWSCO2KbsqfK4m13CJWxZAO9gRFXPxZ+cPeGm14npn0giVtV5NRxfeLv43cO5Wxg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=f8+9ZkXV;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=EDbWxzeR;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 07908606A319;
-	Wed, 21 Oct 2026 06:26:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EB3B3606A31A;
+	Wed, 21 Oct 2026 06:29:22 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=f8+9ZkXV
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 258221F000C9;
-	Wed, 21 Oct 2026 06:26:29 +0000 (UTC)
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=EDbWxzeR
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D5C971F000C9;
+	Wed, 21 Oct 2026 06:29:17 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1792563994;
-	bh=ElBdXWAjd5/2gZ7mZhUT7ZukISglljnO9yUGFpsfiaw=;
+	s=k20260515; t=1792564162;
+	bh=XHhkRaV5nOWlqsBsv79ktistdtq9IREDSaCxFO2ci0U=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To;
-	b=f8+9ZkXVZLN1MwnDHglLGtUQqG1MKY5z0ITTXICIMo7RupTNzpLR6cVEiM/QMDBLz
-	 x2461OLk1DPHOSgXbu9NH8bV/wDpb1gaqrKU33Bjmo7F3LTDuqSgGjZlvWseIMrsm3
-	 RzPWo99dBHvTgnJ7fk2+g5Fxg38vak6jc4Hx5qnv4Uhnx6UxdDgD1z5IpY2aX0pcaz
-	 AvV2yBIRZlJ3DWbL6eKg9w1tRSzwL9UFO3kOAbbOBx8JpMmFl5v1dGyTJa8qtZeNWq
-	 T/iW4JfYLhvF4cqLOKwT9DM4PjBSSBe4RnsU1yrmacyGVWyrtBSEotPchJ+IJY0nOC
-	 cz3WFIYT3Ousw==
-Message-ID: <363b228a-7e96-481a-b70f-195ba55d025e@kernel.org>
-Date: Wed, 21 Oct 2026 08:26:28 +0200
+	b=EDbWxzeRx4Y924SPcT6L/3uid/3k4h5W44x5riuZCS/tW0/pcuRPKtMsEqCSijudC
+	 rNGv0QkQn6OyGNe+Z9L37X8HR+XrtHA2tIusJTjF/2qoCTgiGlJDpIQCab/1gDGe7t
+	 Gbn7hLB/XTZW2EyR/MVZZG9raEozV74rtVMce0jO9myUf5UeP0ezIdAGk9Qx6nXrno
+	 CHUXeKqNttlwQfdvv9CY2ukxnMV2SuBnZx8gMH6co+OFsw4GjO6vNqMqQ1LTCGjCNg
+	 KhOHsDtcfxjSIHycQQbX6I6t/Byl4dYj4RDlfXlMxETGLFFu5DCGa+9u5gG667ocrK
+	 FcusHG3PhaoOA==
+Message-ID: <d7eea330-6423-481a-a4c9-712f4a1f8334@kernel.org>
+Date: Wed, 21 Oct 2026 08:29:15 +0200
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Post: <mailto:workflows@vger.kernel.org>
@@ -52,13 +52,21 @@ List-Owner: <mailto:workflows+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] docs: submitting-patches: Require base tree information
-To: Eric Biggers <ebiggers@kernel.org>, linux-doc@vger.kernel.org,
- workflows@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
+Subject: Re: [PATCH v2 2/2] docs: submitting-patches: make LKML a list of last
+ resort again
+To: Konstantin Ryabitsev <konstantin@linuxfoundation.org>,
+ Joe Perches <joe@perches.com>, Jonathan Corbet <corbet@lwn.net>,
  Shuah Khan <skhan@linuxfoundation.org>, Randy Dunlap <rdunlap@infradead.org>
-Cc: linux-kernel@vger.kernel.org,
- Konstantin Ryabitsev <konstantin@linuxfoundation.org>
-References: <20261020212235.1143086-1-ebiggers@kernel.org>
+Cc: linux-kernel@vger.kernel.org, users@kernel.org,
+ Federico Vaga <federico.vaga@vaga.pv.it>, Akira Yokosawa <akiyks@gmail.com>,
+ Carlos Bilbao <carlos.bilbao@kernel.org>, Avadhut Naik
+ <avadhut.naik@amd.com>, Alex Shi <alexs@kernel.org>,
+ Yanteng Si <si.yanteng@linux.dev>, Dongliang Mu <dzm91@hust.edu.cn>,
+ Chen-Yu Yeh <chenyou910331@gmail.com>, Weijie Yuan <wy@wyuan.org>,
+ workflows@vger.kernel.org, linux-doc@vger.kernel.org,
+ Petr Pavlu <petr.pavlu@suse.com>
+References: <20261020-get-maintainer-the-rest-fallback-v2-0-162aea473488@linuxfoundation.org>
+ <20261020-get-maintainer-the-rest-fallback-v2-2-162aea473488@linuxfoundation.org>
 From: Krzysztof Kozlowski <krzk@kernel.org>
 Content-Language: en-US
 Autocrypt: addr=krzk@kernel.org; keydata=
@@ -104,39 +112,25 @@ Autocrypt: addr=krzk@kernel.org; keydata=
  K9bCVaboTA2T77QYkRcRJYSsO1alGX0ome/hMLD1daXlkrNUp1HWa3K4iytLRXjCSIorWiGs
  n+q3krnpXu3TFkA8qtOFZMdnIiFuiq1yLT8hptsV5xh1TA2nsVvSYiaCr3q4s4BKjS/KrLDb
  qoxzw8ISjdUp4pA85vb6YLCmb39NgidD+7PmAr65lBNveIFynTgsja1rRQ4=
-In-Reply-To: <20261020212235.1143086-1-ebiggers@kernel.org>
+In-Reply-To: <20261020-get-maintainer-the-rest-fallback-v2-2-162aea473488@linuxfoundation.org>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-On 20/10/2026 23:22, Eric Biggers wrote:
-> -Make sure that base commit is in an official maintainer/mainline tree
-> -and not in some internal, accessible only to you tree - otherwise it
-> -would be worthless.
-> +    If ``git format-patch`` with ``--base=auto`` (or
-> +    ``format.useAutoBase=true``) can't detect a base commit, e.g. due to
-> +    the current branch having no upstream tracking branch, it exits with
-> +    an error. In such cases, pass an explicit base commit to ``--base``
-> +    instead. This is also needed if git detects the wrong base commit,
-> +    such as when the upstream branch has local, unpublished commits.
-> +
-> +The base commit must be in a well-known public tree, such as the
-> +subsystem development branch the patch is targeting. See
-> +:ref:`obtain_a_current_source_tree`. Mainline or the latest linux-next
-> +can also be acceptable bases, depending on the subsystem.
+On 20/10/2026 17:35, Konstantin Ryabitsev wrote:
+> Commit 77167b966b7e ("docs: submitting-patches: clarify the role of
+> LKML") changed the documentation to say that all patches should be sent
+> to LKML by default, because get_maintainer.pl always suggested it.
+> 
+> Now that get_maintainer.pl only falls back to THE REST when no other
+> matching section provides a mailing list, update the documentation to
+> match: send patches to the subsystem-specific list, and use LKML only
+> when there isn't one.
+> 
+> Suggested-by: Petr Pavlu <petr.pavlu@suse.com>
+> Signed-off-by: Konstantin Ryabitsev <konstantin@linuxfoundation.org>
 
-I disagree, that's pointlessly too hard requirement.
 
-For many of my contributions base is obvious and not needed to be
-explicitly defined. For all the patches I accept, answer is the same -
-base is either obvious or if not and patch does not apply, then the base
-does not matter.
-
-Requiring it is just bureaucracy without actual benefit.
-
-The only benefit would be if maintainer COULD change its base to apply
-some patch with odd base... but this cannot happen. Maintainer base is
-fixed - it's the HEAD of his development branch for given category of
-commits (e.g. DTS branch for SoC maintainers).
+Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
 
 Best regards,
 Krzysztof
