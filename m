@@ -1,65 +1,66 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=45.79.88.28
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792591015;
-	b=2LdEgEkU6PofgaTsJS0roKJ5CvJyVhF2LE8mndz809uD79hy8jbHnMM41Eg+haUvR7Ex
-	 SMLh3AL2Pjtdn76ItHI+5b5XiEram1Rce90iDS7Wv/M83REhoBf8gsJf+9R7NIMaPC7MA
-	 df2dS0dtEoz2mwZKtApCUIGEskPUVM30PDMUDsOGJGPZUTCHEp+iCSzdGmxTaD45kCSON
-	 xQtQC1N9lXMb6GHlBUvfMVexctkAgg6sG5Es7D1200lFMto7DSE9KYABvf1O81nWIuEPQ
-	 CKdhE89yWTH8fS0PtHqNggKuf6yjQHx4cwrZviN2nXUNdoNOOLccNxDFZ01EakdF9lw==
+	t=1792592391;
+	b=zLZWPMPA1Gvt9/JuZQvAzpYTTyN/T+UZdTgxC0PuHQlrwedONNbZIp5czyBdKtfHGYJv
+	 vZewfNRCzaqnTFu5TXlsc9C+kZYTiUb62G0t3vcPnrv2v3vtGbramO64wWr38guKzprFf
+	 1cZgoppoAoDItKPToEiX8VcHjp8rVT2nJtSsvBvaPd4m0Iv4MJ55vxm2mII6LfhMCvNHY
+	 eqfpQxHcvRdrjaC+Thu546eBLwo7DwCY9rkZXFms5HbJ5RstImnQHG/Ha15PhfC6RxJMi
+	 LCvyaO855JTyMgKuaDqET+bkLHh66BDa9Ue8odd8yRn362wXeOkrN9HZQYq5OY/fS0w==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792591015;
-	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
-	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
-	bh=Y6jDT1+Uf+NYmG4WR9Wq5wTWlOhPzPOvbHnwX04CA7U=;
-	b=C7jCduPTxCbEHXs4jHnTVfMbFzxWaMI7Ox/7bW3sXP8ivOTvvru5/34x5QexrMpfJgCh
-	 hxVUB9re2LIdBtWtZojNfByYOT+lJqRZ53pNbwx5LuCDbeWs7la3MpmzQWmHGAdCZlZ9G
-	 zZ4Qn6ssNNoa6sX/KhwAr3JkaI0fm2p4ixjhGIWZGQgnlkxTAqQifwHrBrxfkj24vdpZ6
-	 6AlcxcbIY9EEoUROkEtWiStWbpzje0ooZXYCpkdhZeQIo3zKwOiCo4r4jL6kbIbfUpTYt
-	 q+jJ+r99X+OTVcF+xJTMlX4/YSOx9rp1ZZffMYNISNi0akWPdgyKFtBf5tanG3fPDVQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1792592391;
+	h=DMARC-Filter:DKIM-Filter:DKIM-Signature:Received:From:To:Cc:Subject:
+	 In-Reply-To:References:Date:Message-ID:MIME-Version:Content-Type;
+	bh=rEX5V43c4D3SEE8/QjnF2l3+QYXk5M1z/X/WgzWok2s=;
+	b=Y/qgg7KTkHEF/ffjd8uqv9q7wPPFwqA7PIPMvpR6ZtznB7DBVr5utnTtFwHebMjT71Kn
+	 3jNXpnaWLq+TzokDO9OCkuZAvFOHNnkV61Xczr07LrTntd/pFi718AXuiFss31wIdouzS
+	 X4NQcSOye9IB0UcPiloJ4Z1++7WH9Etp6MFlmNpW+IUBrqm9GJcLVTdLlupWDZwO4LmDn
+	 XfIubTnehWD4OHWFXDRWAPeCw2yCqjradCvcbByWXq5M6HhkI3pxjZ3xmE+Sjvz9AbEgg
+	 3f7123jOaWbTqURlC4MyLTpwRCrEm8+vjS0reFW5QNq+7C4IEgdukljbfgZ2RmkLNPA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=F5k610Af;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	dmarc=pass header.from=lwn.net;
+	spf=pass smtp.mailfrom=lwn.net;
+	dkim=pass header.d=lwn.net header.i=@lwn.net header.a=rsa-sha256 header.s=20201203 header.b=OVFF+11s;
+	arc=none smtp.remote-ip=45.79.88.28
+Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D9ABA606A319;
-	Wed, 21 Oct 2026 13:56:54 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9AEC060A2625;
+	Wed, 21 Oct 2026 14:19:50 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 9AEC060A2625
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=F5k610Af
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D53991F000C4;
-	Wed, 21 Oct 2026 13:56:46 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1792591014;
-	bh=Y6jDT1+Uf+NYmG4WR9Wq5wTWlOhPzPOvbHnwX04CA7U=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=F5k610AfzYB/Bn+C/Z6090ISaSjZ95g9I5zD9y0m1sc1sspIoh5pLoMNHuhtcV04F
-	 zDsAHi1x1X5dFCk7xQhxdaJg/hzu7WWD6vDoUAjfoU569a8xnlI4xrwKvu9AKuYngk
-	 XPP3LciDn3RCOcNoEtFaogHck4AO8/H8mxl+snoVXL7JJ6Rj5CE+U7V+CUjkDPXeea
-	 VPxIEtbfDTLJ3WhGdx0sY8KAESptL+By1r7hEmdFMjZR2UfZpjo9sNlRxgX5rjvtpH
-	 3g4XFCrwohJn43MBBt66jtcYVLe9D04zd04qDe+XnPf0eMnnN9YmJTIpkN4m5Ro98X
-	 Iu4C9qjzs0YFg==
-Date: Wed, 21 Oct 2026 15:56:44 +0200
-From: Christian Brauner <brauner@kernel.org>
-To: Sasha Levin <sashal@kernel.org>
-Cc: Jonathan Corbet <corbet@lwn.net>, 
-	Shuah Khan <skhan@linuxfoundation.org>, Randy Dunlap <rdunlap@infradead.org>, 
-	Federico Vaga <federico.vaga@vaga.pv.it>, Daniel Pereira <danielmaraboo@gmail.com>, 
-	Chen-Yu Yeh <chenyou910331@gmail.com>, Weijie Yuan <wy@wyuan.org>, Dongliang Mu <dzm91@hust.edu.cn>, 
-	Andy Whitcroft <apw@canonical.com>, Joe Perches <joe@perches.com>, 
-	Linus Torvalds <torvalds@linux-foundation.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>, Krzysztof Kozlowski <krzk@kernel.org>, 
-	Steven Rostedt <rostedt@goodmis.org>, Lorenzo Stoakes <ljs@kernel.org>, Kees Cook <kees@kernel.org>, 
-	Jori Koolstra <jkoolstra@xs4all.nl>, Jeff Layton <jlayton@kernel.org>, 
-	David Hildenbrand <david@kernel.org>, Vlastimil Babka <vbabka@kernel.org>, 
-	Jakub Kicinski <kuba@kernel.org>, Christoph Hellwig <hch@infradead.org>, 
-	Mark Brown <broonie@kernel.org>, Jens Axboe <axboe@kernel.dk>, Brian Foster <bfoster@redhat.com>, 
-	Carlos Maiolino <cem@kernel.org>, David Disseldorp <ddiss@suse.de>, 
-	Jani Nikula <jani.nikula@intel.com>, Justin Stitt <justinstitt@google.com>, workflows@vger.kernel.org, 
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2] docs: remove Assisted-by references
-Message-ID: <20261021-eisstadion-junitag-haargenau-af1082349d07@brauner>
-References: <20261013121501.3738437-1-sashal@kernel.org>
+	dkim=pass (2048-bit key, unprotected) header.d=lwn.net header.i=@lwn.net header.a=rsa-sha256 header.s=20201203 header.b=OVFF+11s
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 9C12440904
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
+	t=1792592389; bh=rEX5V43c4D3SEE8/QjnF2l3+QYXk5M1z/X/WgzWok2s=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+	b=OVFF+11s0uCeT/ElNSlUuPoj3uVq7dUx2pYO6gBCOMeuXR/m2U6cdGcZ6tkAE4y9W
+	 SUeC9MmM9Rnu5q+dwo3gg/UUwBnSlKf8nl9qAbZnWbolM2fL0iM7BVKZZjuYKRxR62
+	 jwlU3Ry2EI3UUQAlA2Rl2PT2lm0tcSjBL7hNkHfX0VZ805zux0D+77f8XU2xrzVGpB
+	 JNP7f9PhSDd51iRzzsANa6gxykcLhqM0qbJxXxlWLEVxkZjKuT5Mz01U4c2SII0GDE
+	 TZ7AE5Y0zR3cT174anBGu8WfVyq6atJyUo0Bb5d+efgGQ3YoeUNX3Cdbs7GwiwupkL
+	 BcPNbrhGizS0A==
+Received: from localhost (unknown [IPv6:2601:280:4600:814::1fe])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (prime256v1) server-signature ECDSA (prime256v1) server-digest SHA256)
+	(No client certificate requested)
+	by ms.lwn.net (Postfix) with ESMTPSA id 9C12440904;
+	Wed, 21 Oct 2026 14:19:49 +0000 (UTC)
+From: Jonathan Corbet <corbet@lwn.net>
+To: Krzysztof Kozlowski <krzk@kernel.org>, Eric Biggers
+ <ebiggers@kernel.org>, linux-doc@vger.kernel.org,
+ workflows@vger.kernel.org, Shuah Khan <skhan@linuxfoundation.org>, Randy
+ Dunlap <rdunlap@infradead.org>
+Cc: linux-kernel@vger.kernel.org, Konstantin Ryabitsev
+ <konstantin@linuxfoundation.org>
+Subject: Re: [PATCH] docs: submitting-patches: Require base tree information
+In-Reply-To: <363b228a-7e96-481a-b70f-195ba55d025e@kernel.org>
+References: <20261020212235.1143086-1-ebiggers@kernel.org>
+ <363b228a-7e96-481a-b70f-195ba55d025e@kernel.org>
+Date: Wed, 21 Oct 2026 08:19:48 -0600
+Message-ID: <87y0br3zln.fsf@trenco.lwn.net>
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Post: <mailto:workflows@vger.kernel.org>
@@ -69,51 +70,27 @@ List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:workflows+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20261013121501.3738437-1-sashal@kernel.org>
+Content-Type: text/plain
 
-On Tue, Oct 13, 2026 at 08:15:01AM -0400, Sasha Levin wrote:
-> Commit 78d979db6cef ("docs: add AI Coding Assistants documentation") asked
-> contributors to add an Assisted-by tag to patches developed with help from an
-> LLM, and commit 816d9992d9ed ("coding-assistants: simplify attribution") later
-> reduced the tag to "Assisted-by: LLM".
-> 
-> A proposal to drop the tag was turned down in July [1]. The main argument for
-> keeping it was that maintainers wanted a signal that a patch was LLM-assisted,
-> so that they could review it accordingly.
-> 
-> The tag came up again at the 2026 Maintainers Summit [2]. Roughly 10% of the
-> 18,533 non-merge commits in 7.3 through -rc7 carry an Assisted-by tag, while
-> actual LLM use is far more widespread. Some contributors do not know about the
-> rule, others leave the tag off on purpose, and few maintainers ask about it. As
-> a result, the tag does not provide the signal it was kept for: its absence says
-> nothing about how a patch was made, and for developers who use these tools for
-> almost everything, its presence says little more. The choice was between
-> finding a way to enforce the requirement and dropping it, and there was a
-> strong, though not unanimous, consensus in the room to drop it. Greg
-> Kroah-Hartman, who argued for keeping the tag in July, supports removing it now
-> [3].
-> 
-> Maintainers do still want to know how a patch was created, but the view at the
-> Summit was that this belongs in the cover letter, where it can describe how the
-> tools were used, rather than in the changelog.
-> Documentation/process/generated-content.rst already asks contributors to be
-> transparent about tool use and is not changed here. The rules on the DCO and on
-> the submitter's responsibility for the patch stay as they are.
-> 
-> Remove the Assisted-by sections from coding-assistants.rst,
-> submitting-patches.rst, and the Italian, Brazilian Portuguese and Traditional
-> Chinese translations, and drop the handling of the tag from checkpatch.
-> 
-> [1] https://lore.kernel.org/workflows/2026070224-unholy-commode-cf45@gregkh/
-> [2] https://lwn.net/Articles/1099594/
-> [3] https://lore.kernel.org/all/2026101327-cupid-legal-6cf6@gregkh/
-> 
-> Acked-by: Lorenzo Stoakes (ARM) <ljs@kernel.org>
-> Reviewed-by: Kees Cook <kees@kernel.org>
-> Reviewed-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-> Signed-off-by: Sasha Levin <sashal@kernel.org>
-> ---
+Krzysztof Kozlowski <krzk@kernel.org> writes:
 
-Reviewed-by: Christian Brauner (Amutable) <brauner@kernel.org>
+> For many of my contributions base is obvious and not needed to be
+> explicitly defined. For all the patches I accept, answer is the same -
+> base is either obvious or if not and patch does not apply, then the base
+> does not matter.
+>
+> Requiring it is just bureaucracy without actual benefit.
+>
+> The only benefit would be if maintainer COULD change its base to apply
+> some patch with odd base... but this cannot happen. Maintainer base is
+> fixed - it's the HEAD of his development branch for given category of
+> commits (e.g. DTS branch for SoC maintainers).
+
+I fairly routinely get docs patches that don't apply to docs-next; when
+I'm in the mood, I'll try to figure what they *do* apply to, then
+cherry-pick them over.  Base information would make that process easier,
+and even automatable.
+
+Thanks,
+
+jon
