@@ -1,50 +1,86 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=18.9.28.11
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792534052;
-	b=DFyUbdDL1G+vorHGUP/GQjHcdaBwezXXWapz0VKrgBvjCmlwcIH7kqmGPGxV+L4+XUou
-	 etfAy0oTrhINui3Gj0gsZR4nG5ddfWZPHpURR0lvfUIaOL6AdVTOZeMBL/Bf2UNyDe8ia
-	 ENNScWXnjHD2Sub4L+4BhHB3ElCu0OgseL0KWRIcZHa9yaUV6rQpQbqUl6bQWzqQHPRm5
-	 hrkBu3jlA7m+IMhh7equyBD8fbcg9zsxK4A6t5EGc6CTNpsYiv/zzF7SMCgqyGcV8ufZ1
-	 lbNjB8YWG1D/k+R7MXHMbLXFeiZZU1wwH4v+tQ8tfSQXvuJqGE2ukQwAQukSSPLK8qA==
+	t=1792551401;
+	b=HHXcFyJScHnPTOyHRQ/PIXs/TFPB+mkSQfXGlInFE/WGLOm/p9Ww8ceQTC/GXGae/stI
+	 aNuR9dVdWPQQt2br8BrQnnQ739t61P2DAtqQUgm9/0h3264DfLrVzuYzZRNAE4oqSIkGo
+	 FpEOPkuO5q+4QjUTHd9awr3m3cBdib/hPm9BlbVp1RUFm10bYM6/YVlJApQviz9Vo7rZc
+	 hhkkk34v7WuQsA4gs7TkEdxC4E2BcicSN7mI+eh8fiUap+U0BKjoDZfFoHG5a7LP5IgyZ
+	 q7Wo/KQdtHSQoxD7GSNOe1S2UmDgqdMh5P5F4ybCXurO5x9XoxpGBxwE8MdVDY6s04w==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792534052;
-	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
-	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
-	bh=pWdjr/d/hf7wlxe3EUx/jojVqEBvoFrMCPGjGaxAxZQ=;
-	b=yvGyrQKqq68iNG4WZOKEBut6eJfCdBaNeZ5UCjFR3HsaVTpo1Lu4gvIV3188jaZrx03M
-	 iipGtYKQksgwVzXwuEchg9AU1XdkKHM25Tif8K+O8rEYFJg3sX1pl/jtJ6BRfeegqZz4o
-	 t422J18Wuen6wuDaXwLSRwqKqyPJrKT5Hz51yLiMSFg+Ow0JO0rGXqKMn99eczU9HnHWC
-	 aJVIQHHXK2x0zV2bZf6WyS5/IqHsZB4nXgphx2yZhe6sE9rltr7wKEVlzQs5Wmh4stgdi
-	 NFTyClAJgAULF5eOHg2pNKsKYSeOeuH/7Avp7gn0lCjAnTJ+PshXXZuzvoN7xgQZ13A==
+	a=rsa-sha256; c=relaxed/relaxed; t=1792551401;
+	h=DMARC-Filter:Received:DKIM-Signature:Received:Date:From:To:Cc:
+	 Subject:Message-ID:References:MIME-Version:Content-Type:
+	 Content-Disposition:In-Reply-To;
+	bh=adBKmkAuQPG1pNEqNQsG9z5fLXrMmEzel894oEpnrT8=;
+	b=xs7zamT80KNJkPFGn6L9Qq3/PJN0tu1k08+bO05Hvq/bfj5aycvLe4/rl/OBMWFU52ci
+	 Od/H3Tqq+hGCNV9zWzzkVKbg3i+414zvTcobPT3S1Ch5YqguNoqSGx7VVyqo4ruKPQlNI
+	 msuMlVARJTKSwKBd3wi3GGtxvgtsUP4C7c7HqPyPNGKElk5gKc4RUk0J8cc61FJCg7uiM
+	 tArSI1MDuSsyzWGizVQH1Goloirc3+RebnggM3zyFuR3ddmdgUc/fuID6sAjdo5NbiNhR
+	 GnJ+W0yPPmKgXGbCpi3DEjkHKMq8BwBXSldUu/nzCuA1VmKhZw6bYasuh3vgi/P+a4g==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=linuxfoundation.org header.i=@linuxfoundation.org header.a=rsa-sha256 header.s=korg header.b=RYNjetCH;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	dmarc=pass header.from=mit.edu;
+	spf=pass smtp.mailfrom=mit.edu;
+	dkim=pass header.d=mit.edu header.i=@mit.edu header.a=rsa-sha256 header.s=outgoing header.b=UHDGXmxu;
+	arc=none smtp.remote-ip=18.9.28.11
+Received: from outgoing.mit.edu (outgoing-auth-1.mit.edu [18.9.28.11])
+	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1BD0C606A31E;
-	Tue, 20 Oct 2026 22:07:31 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 29AB9606A321
+	for <workflows@vger.kernel.org>; Wed, 21 Oct 2026 02:56:41 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 29AB9606A321
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=mit.edu
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mit.edu
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.a=rsa-sha256 header.s=korg header.b=RYNjetCH
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 76C2E1F000C9;
-	Tue, 20 Oct 2026 22:07:31 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linuxfoundation.org;
-	s=korg; t=1792534051;
-	bh=pWdjr/d/hf7wlxe3EUx/jojVqEBvoFrMCPGjGaxAxZQ=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=RYNjetCHcRRPhydHWUGAHk2nDz4REzEneMHTySufPG6jbxTNTxwfkRxiou8LWIKZ7
-	 VVjPQ4prwD+LYVP8bNE4oIWRPPC5ZdSdyl5DuUwblg/xPS/U7DyrpAQZxyshhnYPU5
-	 M1jNvI9IIHLRBediFSzmztmdYUF8hjER5nlazc4M=
-Date: Tue, 20 Oct 2026 18:07:30 -0400
-From: Konstantin Ryabitsev <konstantin@linuxfoundation.org>
-To: Eric Biggers <ebiggers@kernel.org>
-Cc: linux-doc@vger.kernel.org, workflows@vger.kernel.org, 
-	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
-	Randy Dunlap <rdunlap@infradead.org>, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] docs: submitting-patches: Require base tree information
-Message-ID: <20261020-brown-potoo-of-relaxation-3e9a72@lemur>
-References: <20261020212235.1143086-1-ebiggers@kernel.org>
+	dkim=pass (2048-bit key, unprotected) header.d=mit.edu header.i=@mit.edu header.a=rsa-sha256 header.s=outgoing header.b=UHDGXmxu
+Received: from macsyma.thunk.org (pool-173-48-113-115.bstnma.fios.verizon.net [173.48.113.115])
+	(authenticated bits=0)
+        (User authenticated as tytso@ATHENA.MIT.EDU)
+	by outgoing.mit.edu (8.14.7/8.12.4) with ESMTP id 69L2tfaT032022
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Tue, 20 Oct 2026 22:55:42 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mit.edu; s=outgoing;
+	t=1792551351; bh=adBKmkAuQPG1pNEqNQsG9z5fLXrMmEzel894oEpnrT8=;
+	h=Date:From:Subject:Message-ID:MIME-Version:Content-Type;
+	b=UHDGXmxuazjo9kg0UJBMosrzyJJQ0GTYgx9rT8vBbYtt1yEdHYvoklxa4vdyHRQnJ
+	 6vDWhg5S/uuxmRw5coSoUvvHFJe2htO1nXFxGFCZg2EmlLNIVkfZRukUG3QOBhEV/1
+	 6FJQnYs/Xqcd+MSvYsgkwGArnqXakd4fNMAWvyFh+Gdg17IST3YkGJfqF+KkkUdqQ8
+	 rYfUII2iGEx0y+XqD85X5xCo6r1q16/MXlN7GtZvLza03pIAuKtNLE3us7XLz2lRa7
+	 Q3gRg43M+YPrdYwYM0ZWJSc4ZM1FA8Et4o2GES5cPhiJJsblvciW3SvaXwm4g0WZ2Z
+	 IIznWg5R7Njjg==
+Received: by macsyma.thunk.org (Postfix, from userid 15806)
+	id 04FB821CF0C7; Tue, 20 Oct 2026 22:54:41 -0400 (EDT)
+Date: Tue, 20 Oct 2026 22:54:40 -0400
+From: "Theodore Tso" <tytso@mit.edu>
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>,
+        Krzysztof Kozlowski <krzk@kernel.org>, Sasha Levin <sashal@kernel.org>,
+        corbet@lwn.net, skhan@linuxfoundation.org, rdunlap@infradead.org,
+        federico.vaga@vaga.pv.it, apw@canonical.com, joe@perches.com,
+        workflows@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        Justin Stitt <justinstitt@google.com>,
+        Carlos Maiolino <cem@kernel.org>, Jakub Kicinski <kuba@kernel.org>,
+        Jori Koolstra <jkoolstra@xs4all.nl>, Brian Foster <bfoster@redhat.com>,
+        Christoph Hellwig <hch@infradead.org>,
+        David Disseldorp <ddiss@suse.de>, Mark Brown <broonie@kernel.org>,
+        Jani Nikula <jani.nikula@intel.com>, Jens Axboe <axboe@kernel.dk>,
+        "David Hildenbrand (Arm)" <david@kernel.org>,
+        Vlastimil Babka <vbabka@kernel.org>,
+        "Christian Brauner (Amutable)" <brauner@kernel.org>
+Subject: Re: [PATCH] docs: remove Assisted-by references
+Message-ID: <atggaWq0EU6Km8r0@mit.edu>
+References: <20261009083137.3-1-sashal@kernel.org>
+ <0914a106-bacf-4d95-854a-bfeefbff62a4@kernel.org>
+ <asz9AeFe3CutP73z@gremlin>
+ <20261013123132.GC4214@killaraus.ideasonboard.com>
+ <as4pAEnLd4H68W4W@gremlin>
+ <20261013131243.GM56180@killaraus.ideasonboard.com>
+ <as4xMnT8a75pIw9v@gremlin>
+ <20261013173240.GK4214@killaraus.ideasonboard.com>
+ <atI_TSQXzAQFWBfx@gremlin>
+ <20261020211532.GD15441@killaraus.ideasonboard.com>
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Post: <mailto:workflows@vger.kernel.org>
@@ -54,32 +90,75 @@ List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:workflows+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20261020212235.1143086-1-ebiggers@kernel.org>
+In-Reply-To: <20261020211532.GD15441@killaraus.ideasonboard.com>
 
-On Tue, Oct 20, 2026 at 09:22:35PM +0000, Eric Biggers wrote:
-> Many patches still don't include base tree information and can't be
-> applied.  Such patches can't be properly reviewed or tested, nor can
-> they be accepted.  submitting-patches.rst already describes how to
-> include base tree information, but it's characterized as optional,
-> appears only towards the end of the document, and is missing details.
+On Wed, Oct 21, 2026 at 12:15:32AM -0500, Laurent Pinchart wrote:
+> I fully understand that many maintainers currently feel they're too
+> pressured to invest time in the next generation. We need to find
+> solutions to make that possible.
 
-I'm happy with this change, but I'd disambiguate the title a bit. With b4, we
-started providing both a base-commit and base-tree footer, specifically
-because often times the "base-commit:" line by itself is not sufficient.
+One possibility is to create tools and/or procedure to amplify signals
+about which newcomers are most likely to become the next generation,
+as opposed to someone who is just sending drive-by patches.
 
-Imagine this scenario: a developer is working on some code in a feature branch
-and come across a pre-existing bug. They create a fork off of their feature
-branch to fix the bug and send it in. In this situation, the "base-commit"
-footer would be meaningless, because it references some transient commit-id in
-their feature branch. In an ideal scenario, the developer would rebase that
-bugfix branch on a known tag, but that doesn't always happen.
+The reality is that the vast majority of first time patch submitters
+won't become part of the next generation.  So if we are getting 10x
+the newcomers, if we can be more discerning about which newcomers we
+invest in, the project won't die, even if we are ignoring, 3x to 5x
+the number of newcomers.
 
-This observation doesn't really preclude this patch from being accepted, I'm
-just recording my own experience that, by itself, base-commit is often
-insufficient.
+> This is something we really need to improve quickly. Over the past week
+> multiple active kernel developers asked me if I thought they needed to
+> find a job elsewhere, thinking maintainers will now ignore anything but
+> perfect patches and dismiss contributions from developers who don't use
+> LLMs. That's a wrong impression (at least I very much hope so, and you
+> clarified that you're not advocating for that), but it's a disastrous
+> impression that many people got from the maintainers summit and the
+> following mailing lists discussions.
 
-Reviewed-by: Konstantin Ryabitsev <konstantin@linuxfoundation.org>
+If someone is an active kernel developer, presumably they already have
+enough of reputation that they won't get ignored.  The issue is really
+going to be newcomers who don't yet enough of a reputation, not
+"active kernel developres who are wondering if they need to find a job
+elsewhere".
 
--K
+And if they have a job, meaning they are in the industry, hopefully
+their employer is willing and able to hire a more senior kernel
+developer with a reputation in the industry to help them out.
+Fortunately, certain companies like Oracle have graciously been
+releasing a lot of such talent on the market, so these people *are*
+available.  :-)
+
+A senior kernel developer will be able to help introduce more junior
+developers to the community, both online via e-mail and at conferences
+such as Plumbers.  More importantly, the more senior kernel developer
+can help the more junior developer write cover letters which better
+motivate why a particular patch is important.  Half the problem is
+that a lot of the "AI Slop" patches aren't particular important, and
+in some cases, the business case has been wildly exagerated.
+
+(For example, there was the patch which claimed to address a very high
+severity "one click exploit" bug --- but the exploit required (a)
+tricking someone to download a malicious file system image, and (b)
+running a fairly obscure "tune2fs -U random" command on said image,
+and (c) be stupid enough do it as root to justify the astronomical
+CVSS score.  By calling this a "one click exploit" with an extremely
+high CVSS score, that engineer and their company has been forever
+tainted in my eyes, and you can *bet* that I'm going to take any
+patches from them far less seriously.)
+
+Anyway, all of this might mean that someone who has zero prior
+reputation, and doesn't have the $$$ to attend a conference, and who
+isn't able to get a job at a company where a more senior kernel
+engineer can introduce them to the community, and who can't get a
+position at a mentorship program like Outreachy or GSOC might have a
+much harder time to get a maintainer's attention.  Yes, this will suck
+for some newcomers; but so long as we get enough new blood from other
+sources (such as new college grads working at a traditional Linux
+company), it doesn't follow that just because we aren't engaging with
+*every* *single* *newcomer* that it spells doom for the Linux kernel
+community.
+
+					- Ted
