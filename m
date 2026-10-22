@@ -1,55 +1,56 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=217.70.183.193
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=162.221.207.43
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792672425;
-	b=nXkvaZU9L8RC8v+jZXtvs5S03dIvdnjYuokenhnk9UqjXhCixZg9MYWAWcCoyWF8IzTU
-	 qiljknuR6NWphmEQqnJGqpPWkfsATG3xjXJLqoMVkc18N6u8f8x1NN1GzKSleZgh5Hwn8
-	 1b3qJIaUVWJaHdrfOZI2NVMw5CgbHmYul9FVVWoIgdsSTr6ENlw3ijSO9gZiEN6Col6DQ
-	 nykYY+2w4mj9ETWKZKqFUWq0tKJIDk5K0p/3CQ5QR6MBqxtZ+4EiANB+rDDb7KMGYb2RP
-	 uWerrVo4kJoKyJkuttpmWwrLLWYnIt3x9qcTKyZI1HV+Y07/xTxGV252YW2aHO/tzGw==
+	t=1792675260;
+	b=f9keUyfWdSe0HmtymA7reDeVk4gqAYKCLdqDGWvc3q8hh0BfBqEA0mVjCAgd5+aQ5M9j
+	 +TVHAZJK4mIt9lsJpCNjI/nh2wt1MwveUuVQmI8XYiuTitJjhihkA0CMf6uKDDdOPmW7q
+	 MGf1rPdBCP9d98qUkf8T/1QpLauSmWIE+Gj8K1RIOI94LvW26u2IwGBrAFdcSSUe3Facv
+	 sUsmY2fjoGz8oPuhAX2wVsVygx6yxIe7U5QCo1ZO3MIWd8aMTH5dVQ0RQ5PWjaUweV6Dm
+	 qlS1TbNVTOLu7f4+iuOyVE+a8iHu2osU0h6Uy2PW6F0UqKkVZr8lUmVn+oKvDNl0Iag==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792672425;
-	h=DMARC-Filter:Received:DKIM-Signature:Message-ID:Date:MIME-Version:
-	 User-Agent:Subject:To:Cc:References:Content-Language:From:
-	 Organization:In-Reply-To:Content-Type:Content-Transfer-Encoding:
-	 X-GND-Sasl:X-GND-State:X-GND-Score:X-GND-Cause;
-	bh=PzLdnwzhOpSaZeeNAssy8uRY/6VB3glvi13v/N157wE=;
-	b=bvoghF9oHiwoge0xVkLkb63CDtUgkjqkmIONDhi3tn/mvDwfftMxrnW+VvLjXtkxTdaG
-	 Nv4apg4ZGwqBGKd4ERgxk40CzOFsk1DbP929IncfoPucZixvbPXOAFMY95xfw4p7OhxbT
-	 OXQ7tyAA8toANMtTMY3K6f86IVZq277UQVfWWagW734RKXw7ap6uRBvSU/r37JUt2ZJ5x
-	 7OXfj/5YLVAxSHHo5NyoMyrEs4b93HNu8ihDkWEZ+UjG7eF+vkj9gcOKBNEg9egt1hTyw
-	 04RQO2BrNNwsKVBHdx/i6Ii1X6KZjoEOcLpYZ4XQQJ9VOH7Lh0pNbtB9aEKSRJUSv6A==
+	a=rsa-sha256; c=relaxed/relaxed; t=1792675260;
+	h=DMARC-Filter:Received:Date:From:To:Cc:Subject:Message-ID:References:
+	 Mime-Version:Content-Type:Content-Transfer-Encoding:
+	 Content-Disposition:In-Reply-To;
+	bh=8sSUVj3k8bHSogQkYAgnak+1LXzp/s9rsz6uPbE7IJ8=;
+	b=YGgAaGNs9FQmg/IYm72MIeM5+yt/E0/tq8vJUF6DOa3LA5luUyGW8m6tFd4RWYzZ4Vyh
+	 sMbc34XF728VRE33vqs9acHBzHYcp74CS3WzH24Qa7UD/M2oy8g+2hnDUQqoXt4v0kYaL
+	 AnxO46N7ZUVkiFADoSnI1KazeMXuJrWJpz6TLO6qdoug1tqHgYU+H2nGmp51UnpLa8Lch
+	 aXqqyh67MzEU66MO2IBrPpnmW5rsG/EYZvY13Ae3i/kDJYR38nxJH4wDNf4A4FyNE32Xn
+	 +S37HzgSc4ZPEpTYODwMdCpQOtP3l7BEeBqtuLa6ZnRSlxR5uWPDf3Hmtv8KITmZvMw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=none header.from=gtucker.io;
-	spf=pass smtp.mailfrom=gtucker.io;
-	dkim=pass header.d=gtucker.io header.i=@gtucker.io header.a=rsa-sha256 header.s=gm1 header.b=FE+nZqnz;
-	arc=none smtp.remote-ip=217.70.183.193
-Received: from relay1-d.mail.gandi.net (relay1-d.mail.gandi.net [217.70.183.193])
+	dmarc=none header.from=hozed.org;
+	spf=pass smtp.mailfrom=7el.us;
+	arc=none smtp.remote-ip=162.221.207.43
+Received: from bc (unknown [162.221.207.43])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	 key-exchange ECDHE (prime256v1) server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4F132606A31A;
-	Thu, 22 Oct 2026 12:33:43 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 4F132606A31A
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gtucker.io
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gtucker.io
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=gtucker.io header.i=@gtucker.io header.a=rsa-sha256 header.s=gm1 header.b=FE+nZqnz
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 85A243EE42;
-	Thu, 22 Oct 2026 12:33:35 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gtucker.io; s=gm1;
-	t=1792672416;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=PzLdnwzhOpSaZeeNAssy8uRY/6VB3glvi13v/N157wE=;
-	b=FE+nZqnzagovPS6sjXCGGFnQSpspoz0qLOR1FIELg0FnbWsglTZ3UTcz18JCBAB5Cvzxbt
-	VL+imIPqCDF92Mie1SzlBgk9h6j/xZtyQN3U6iXuQY2xHNe+TH2wGu2YB64hPk100dBoai
-	xUsvbI8OLMCKgjD9QNZYpdYEuTBzdj5NY0GLPM7A4E6DExBljtD/TuaeIuXPSoC+iyJmDo
-	hKQSb75hVmRy/SxBt8KZZj+/PIflEfYbg679qNqs2RGKAscuyh9VhbvYlp2mTaV4V2/VhJ
-	qwtp/mR8b4Io9v4jDvFvcVJLJIVSS8sdEJb0KILVzZUdZzy9Fg9fL55zqospKg==
-Message-ID: <8cf6a585-515f-4ebc-8a8f-29de56a83529@gtucker.io>
-Date: Thu, 22 Oct 2026 14:33:35 +0200
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B00CC606A319;
+	Thu, 22 Oct 2026 13:20:59 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org B00CC606A319
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=hozed.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=7el.us
+Received: from localhost (localhost [127.0.0.1])
+  (uid 1002)
+  by bc with local
+  id 0000000000040066.000000006ADA0DBA.002ED3FD; Thu, 22 Oct 2026 13:20:58 +0000
+Date: Thu, 22 Oct 2026 13:20:58 +0000
+From: Troy Benjegerdes <hozer@hozed.org>
+To: lyude@redhat.com
+Cc: Jori Koolstra <jkoolstra@xs4all.nl>, Kees Cook <kees@kernel.org>,
+  Randy Dunlap <rdunlap@infradead.org>,
+  Sasha Levin <sashal@kernel.org>, corbet@lwn.net,
+  skhan@linuxfoundation.org, federico.vaga@vaga.pv.it,
+  apw@canonical.com, joe@perches.com, workflows@vger.kernel.org,
+  linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] docs: remove Assisted-by reference
+Message-ID: <atoNuurgxrKV4aid@false>
+References: <20261009083137.3-1-sashal@kernel.org>
+ <202610122124.08E058768D@keescook>
+ <ea3ff257-70e2-43e4-aba7-140e84994872@infradead.org>
+ <202610130120.E43D236E@keescook>
+ <as4gLo_6acb_zZu0@daedalus>
+ <4a55a48948a1f01686b0471307b6fc2d52be7896.camel@redhat.com>
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Post: <mailto:workflows@vger.kernel.org>
@@ -58,71 +59,127 @@ List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:workflows+owner@vger.kernel.org>
 Precedence: list
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: kernel.org container images
-To: SJ Park <sj@kernel.org>
-Cc: Konstantin Ryabitsev <konstantin@linuxfoundation.org>,
- Arnd Bergmann <arnd@arndb.de>, Miguel Ojeda <ojeda@kernel.org>,
- Nathan Chancellor <nathan@kernel.org>,
- "open list:DOCUMENTATION PROCESS" <workflows@vger.kernel.org>,
- linux-kbuild@vger.kernel.org
-References: <20261015133638.86959-1-sj@kernel.org>
-Content-Language: en-GB
-From: Guillaume Tucker <gtucker@gtucker.io>
-Organization: gtucker.io
-In-Reply-To: <20261015133638.86959-1-sj@kernel.org>
-Content-Type: text/plain; charset=UTF-8
+Mime-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
 Content-Transfer-Encoding: 7bit
-X-GND-Sasl: gtucker@gtucker.io
-X-GND-State: clean
-X-GND-Score: -100
-X-GND-Cause: dmFkZTE/S4BhfnCjrHhOIlr0QTUJfqSf2ospOlnXag/baLHqELxcqhoBRQvdpRPQ9FjAA3fP5kKxO7EODmMchnVjwUFQDVpmDzqVqTO8oAQp+flafGTKg5VCs12OyXXWJ0JDeQvVUmTksG5NyvH54blEfmMIMmYpjJxGzfXELLmO/Wfpv69m/huOXzh7RM1ZjjF7IJjC7SXl/5jy67x4Ol3jYsdDqtRVxBOFIBnZ2aKGtbAh7oHzMFMjwKMyw2hXHF1/KrwJ+trJ3MnqWrkZVfintwo8aLYJ/bk8n/k+TAyFx5zlkll/zQe1mvK/8YnLtfIL1SKrFTmU4qmjDVWNZxm+F/g8Xi5dL/8Q4t4fpksAgGjCgsU1VQXWx0mdaqB6SuknPWllPptBOhwxm02SJSlqtdUw88O+E1ooK5/Y0WWZkKW11aB3YRtDA5EpwlbkUXKVPiwt2SQmVXltQIzk+9VhUWQ9xQRq/YVQhljVv2NpRdf5JWqt17e9PjX2GcwKAsOvRhnYOYM+JYJHocAEpgwbxrcLT9LxVNEL6DujCjjXs+w/KDy4Wmg93SK1aeERbPy6/jvTvwEuC1yg/uNAIEINWZMLHfzuRW7qjM3BcBAyXosSrenCsgUPeN2nAbKRxO1W6s+Y/yqLZVIHQ/SnfiMM/kTOwx4aaCQErQfd1AjEKMm6PQ
+Content-Disposition: inline
+In-Reply-To: <4a55a48948a1f01686b0471307b6fc2d52be7896.camel@redhat.com>
 
-Hi SJ,
-
-On 15/10/2026 15:36, SJ Park wrote:
-> On Mon, 28 Sep 2026 14:30:48 +0200 Guillaume Tucker <gtucker@gtucker.io> wrote:
+On Mon, Oct 19, 2026 at 12:15:38PM -0400, lyude@redhat.com wrote:
+> On Tue, 2026-10-13 at 14:28 +0200, Jori Koolstra wrote:
+> > On Tue, Oct 13, 2026 at 01:25:59AM -0700, Kees Cook wrote:
+> > > On Mon, Oct 12, 2026 at 10:56:59PM -0700, Randy Dunlap wrote:
+> > > > On 10/12/26 9:24 PM, Kees Cook wrote:
+> > > > > On Fri, Oct 09, 2026 at 04:31:37AM -0400, Sasha Levin wrote:
+> > > > > > The Maintainers Summit reached consensus to deprecate the Assisted-by
+> > > > > > tag. Remove the documentation requiring it.
+> > > > > > 
+> > > > > > Signed-off-by: Sasha Levin <sashal@kernel.org>
+> > > > > 
+> > > > > Yup, it has become as redundant as specifying what editor I use. ;)
+> > > > > 
+> > > > > Reviewed-by: Kees Cook <kees@kernel.org>
+> > > > 
+> > > > and for those of us who don't know details about the discussion,
+> > > > how is it redundant?
+> > > 
+> > > No, I mean I use an LLM constantly for almost all aspects of my
+> > > development work, in multiple dimensions, so if the old tag requirement
+> > > held, my email body template would just put "Assisted-by: LLM" in there
+> > > because at the very least, it drove the build and test stage. It was
+> > > redundant in the sense of "yeah, of course I used an LLM at some point
+> > > for this patch". ("This tag means nothing *from* me")
+> > > 
+> > > > Do you assume that everyone now uses it (LLM), just as everyone
+> > > > uses an editor?
+> > > 
+> > > I don't make that assumption, but I always held the position that the
+> > > tag was meaningless because it's the human wielding it that matters:
+> > > they either sent a good patch or a bad patch, and if it was mangled by
+> > > gmail or an LLM, it doesn't really matter. ("This tag means nothing *to*
+> > > me")
+> > 
+> > I think the tag did have a genuine purpose for a while. Now we have just
+> > decided to implicitly attach it to every new submitter (because
+> > basically that is the case.) The point was that a patch that was
 > 
->> Hello,
->>
->> We discussed the topic of managing container images on kernel.org
->> again at Kernel Recipes last week with Konstantin and Arnd.  The
->> idea is to provide a set of reference images with kernel.org
->> toolchains which developers could use via the scripts/container
->> tool.  They would provide a common denominator to facilitate
->> development and reproducibility.  These images would of course not
->> be tied to any single tool and could provide a basis for CI bots
->> such as KernelCI or tuxmake.
+> I know plenty of people who would love to contribute to the kernel who
+> haven't before, who do not want to be involved or use LLM tools in
+> their own development. Considering how much LLMs lower the bar for
+> people to be able to submit fixes, I think it's also worth pointing out
+> that just because you've sent a patch doesn't mean you're a contributor
+> who is going to actually come back or is actually interested in trying
+> to get a patch to the finish line. I've even ran into 'contributors'
+> who wouldn't even avoid using an LLM to respond to review feedback
+> which makes it nearly impossible for them to actually retain any of the
+> critique they've received on their work.
+
+This is why I'd like to know *which* LLM I'm dealing with, so at least
+if the human is not paying attention, maybe the LLM developers will care
+enough to provision a large enough context window to actually retain the
+critique.
+
+> > obviously LLM generated could be rejected for not carrying the tag, and
+> > a patch that carried the tag could be asked to explain further (if they
+> > had not done so.) Or at least, that is how I felt and have understood
+> > Greg, for instance :)
+> > 
+> > Essentially, the way I read it, is that Linus said we don't need this
+> > roundabout way because we can just reject effortless LLM generated
+> > patches outright. This is good and an improvement.
+> > 
+> > What do you think about requiring people to explain how they used an LLM
+> > for code generation? I don't care if someone uses it for review, or
+> > brainstorming, or whatever, and I have never understood the tag to be
+> > required for that. But if the code is LLM generated, it would be nice to
+> > know for instance what prompts you used. We should have some way to not
+> > devolve into the maze that Jonathan Corbet has sketched, where no one
+> > really knows what's going on.
 > 
-> I run a few humble and hacky build tests on my local machine.  I also want to
-> do the build test on more setups including rust enabled build, and on more
-> machines of different architectures.  But I'm short of time to learn how to do
-> cross build correctly.  The Rust for Linux training at LPC helped me doing rust
-> enabled kernel build for the first time, though.  Kudos to Rust for Linux team.
+> Prompts aren't deterministic, and this also expects that everyone is
+> using LLMs (most of the contributors I work with do not actually use
+> LLMs, and most of the ones who do stop short of actually generating
+> code outside of large tree-wide changes with it). There are also
+> already drivers in the kernel which have adopted their own no-LLM
+> policies.
 > 
-> I am therefore considering options including use of the scripts/container tool.
-> I was unable to find a time to do that so far, though.  Having recommended
-> images in kernel.org will definitly help me prioritizing it.
+> I have wanted better tagging for a while, because I do agree Assisted-
+> by: isn't great, but just going "well you can reject slop :)" makes it
+> dramatically more difficult for me to tell the difference between a new
+> contributor who just doesn't know how to structure their patches
+> correctly, and one that just let their LLM take the wheel and barely
+> understands what they sent to me.
 > 
-> I also find opportunities to use the images not only for build tests but more
-> use cases including benchmark runs.
+> Something that would be dramatically better, and I really hope would be
+> considered over the nuclear option of just dropping this patch:
 > 
-> I just wanted to say thank you for developing the tool and this kernel.org
-> registry initiative.  Looking forward to more progress, and I will also try to
-> find if there is something that I can help.
+> Co-authored-by: LLM
+> Reported-by: LLM
+> 
 
-Many thanks for your feedback, this definitely helps a lot already.
+Automated-by: LLM ( env: LPttYC3GoXNrBqGfLT7tTbNHm8SiUpBwYz )
 
-It's great to see how the tool can improve workflows for developers
-and maintainers as well as automated testing.  Having the generic
-kernel.org registry will be the next milestone as these images are
-meant to provide the foundation for many use cases, not just the
-scripts/container tool.
+If we're really going to be open to new tools, maybe it's time to start
+having one or more linux-llm forks that are entirely maintained by tools
+and the only thing the humans are doing is deciding which one to run and
+posting prompts like this to the mailing list.
 
-As discussed with Miguel, we'll work on providing images for doing
-Rust builds using kernel.org toolchains too.
+The one I want to be using for farm robots is going to be the version
+that has a credible path to including the hash tree of signatures of the
+LLM model weights, the Nvidia GPU driver version that ran the tool, and
+a cryptocurrency address to fund the tokens needed to run the automation.
 
-Best wishes,
-Guillaume
+In the example above, which is the FSF's Litecoin donation address, all
+of this information could be included as transaction metadata associated
+with the address.
 
+> > 
+> > Best,
+> > Jori.
+> > 
+> > > 
+> > > -Kees
+> > > 
+> > > -- Kees Cook
+> 
+> 
