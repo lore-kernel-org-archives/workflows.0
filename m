@@ -1,54 +1,47 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.137.202.133
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792647709;
-	b=r6j4Jdj5DFHr1OEAmVa5bQ2TJX3HX/bSo0IKLU5X6HBqhqAKO8EHDKif7gS4un8fMTIq
-	 V/jLnslCg1lJP/eTuoBpBHyUtnywxrflI5IrvOF7F4ckcy9Mhx3QzhOPoL73HmBSkziLJ
-	 BpNHScOAmyFUsbZlUx/8VUhTBC3DAotEF264BgD/hRvvzgstGMo6EFnU6p7fnnXDp23Vf
-	 u8m0UkldFhUyph/GUXm1dZaa5E9nuGwzhUEOy2vSIFKC39kbpZzBpB+5gElAy9QAq9sZ/
-	 YFZjMqywgEKjRVlP8e0pIkChLzetSv0x0M1J9N7UUOe1wyzoh2LotnRVBb50uH7w8yg==
+	t=1792652282;
+	b=VEfXIEfz/oU4hV3kqlAFvJwAbH+C4nHYX36Jcokky1kkMs6tExrYs0Ukj2ZwtSMwOAZf
+	 B10PJJwKwm0LcHEiZoVHft/E1uUufomwwJ/muDrK0NjzhWvMZimengtlxeJw60l7r4FwR
+	 3A3TGC/IYo9IFfbVagKMtxdSFdedBC679BgcFkPS/canYrcuu8Eq7X01hs/0k4z/tn1DW
+	 ATZxBswn9kUu4j/L4rLutseG75BneLflc7ae7qUYKu2FIK0YwyQQyxddyN7xgREGxzIhv
+	 zIVFfVzkXXkUiQU6DJnk2K26An5oTR3idrBdxhDB4LC0KpAQYdaMJAg721xeCsAhNFg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792647709;
-	h=DMARC-Filter:DKIM-Signature:Received:Message-ID:Date:MIME-Version:
-	 User-Agent:Subject:To:Cc:References:Content-Language:From:In-Reply-To:
+	a=rsa-sha256; c=relaxed/relaxed; t=1792652282;
+	h=Received:DKIM-Signature:Message-ID:Date:MIME-Version:User-Agent:
+	 Subject:To:Cc:References:From:Content-Language:Autocrypt:In-Reply-To:
 	 Content-Type:Content-Transfer-Encoding;
-	bh=pVPyH3GoZBrVKP0Ttqz+/rHi2Rfgtq7gjnCe7XfjZjw=;
-	b=qq1hOgu5LgKON8PH9pJ4xT6hkjbRZgjTt92iS6+C1HNUJFMYkGqwx55fYxrCf4sWDmGV
-	 H9wyZ3+a6wh1uMJc+wuO9PDaGkNmsRvJ15CIpLTR1VX01T4h9gKlkx6beGPz3+xsj4743
-	 Nu88UUy0JGYfc9bW0ie8c/I/0VeDmmmSWcFmWhHJNfKMqMwGfHd2An2s78JnKI1KbPh+Q
-	 aT5PS0dv9gAcx8U2qLpmOdgorGt9xs0a3+n2XqV6YfbiY092S5D9eAMFJeJb5gOKpTflE
-	 m65Rfp3FDfs1AX7wIRgQErb9MDTANS0BRtIBhF6FERa/WrvAeJlmIP1T9wBffQOC+OA==
+	bh=vWz9kcn2hWQPiK8Y+BhTHSteUtclFoRKS4X7cWyTqWQ=;
+	b=bFBnTdyWJxNdtDIU03OFXTGe23DBVZPwJFLP6qeOGfC6LRxnkiR2kupBahkPHP1uL0re
+	 8w1GUEObOkq+6xS7MXqiK+XWKdz5emw+cXbaUIhrUXF2gcI3Nvvl5vFDd1BZvrY15aC/O
+	 JVKrXPRfwjDDJd37rDwzD7Xgj+Z/GSRtiJrY6t2bg1/Tc1cz90/7CTR7TT3mmig5J7VvI
+	 YoD9ZrXZI7c0+kwBDZqprUkOppJNmCUfjbRF0xHjPGYfB4shTdPY9OzbtQUzznAK+2Mbl
+	 /pGC3PLB74Gvbkm0nZ/SGfH5aDHBu12s8pjuA4goM1AdH9+J5Wgm8PKV9j1E79XJz2A==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=infradead.org;
-	spf=pass smtp.mailfrom=infradead.org;
-	dkim=pass header.d=infradead.org header.i=@infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=Wkb+IYPK;
-	arc=none smtp.remote-ip=198.137.202.133
-Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=I82ZPsVi;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 68750606A319;
-	Thu, 22 Oct 2026 05:41:42 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 68750606A319
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=infradead.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4F42A606A319;
+	Thu, 22 Oct 2026 06:58:02 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=infradead.org header.i=@infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=Wkb+IYPK
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
-	bh=pVPyH3GoZBrVKP0Ttqz+/rHi2Rfgtq7gjnCe7XfjZjw=; b=Wkb+IYPKcmGAULpRkQRky0WaY+
-	uH6s+FXiNNVvdIa4iiu3r/sEifPsAb4+TdwMbK8+bBT6q5bI6Ih7roTMWzWa/DfcdOJbwXjReS1ic
-	OFpq8Vg1ZCLyqkvdrTjd8Uusonp8W9g1cHtqMoXDbUGQU5AzUEuEl/jugB9J16T/VjgNj+qy1bxRo
-	QDXXRQ0UR2eSqojfz7BxsAiU8olQtK9leY5PEghxLjm/yulVaYoRpECY11HUW0j2ok7nZk3v65XcV
-	SHkHOMCZZH6+QoNNvINg/E8wet8oTlvPxt5A+bB8wCVktUm8KAshkRVF3pVSqzzcA/U3ErHyArDuq
-	Sy5Sr4Pg==;
-Received: from [50.53.43.113] (helo=[192.168.254.34])
-	by bombadil.infradead.org with esmtpsa (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1xJlYT-0000000DPf8-3CQ0;
-	Thu, 22 Oct 2026 05:41:33 +0000
-Message-ID: <d57ce591-2399-4bd4-ae70-8fdabf63ae82@infradead.org>
-Date: Wed, 21 Oct 2026 22:41:32 -0700
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=I82ZPsVi
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CD94A1F000C1;
+	Thu, 22 Oct 2026 06:57:57 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1792652281;
+	bh=vWz9kcn2hWQPiK8Y+BhTHSteUtclFoRKS4X7cWyTqWQ=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To;
+	b=I82ZPsViALFS6BvKGpe3hyRvvjQ4Et4lOSSJwPBwlJP24zg9FaneQBDezFRhZA24b
+	 csdx7m4XNUiGA75N/AKXq24P+9ryCefNDO2WYun+QA0yqfuNXp4Vt2R5AABLABrR5e
+	 GF6qyHUB3EbFppNRFJCcRvaJgGm2UOROdzHxryzptjdTkOsgJO5MlQt/90mOC5x+BN
+	 2ZLfdEzzi/INfdugrAkf66RT371Gqjq0+eX/62ga4XzmORO364EewL2JwWWGNQ+kvl
+	 0H3ZQsxVZYOjk9deg7LETzN5guX+r+1KMsy2y5Y0FTd5437VULn2wjfNxlhejByqsO
+	 nn/usj10FslSg==
+Message-ID: <73d01869-b536-4fcd-a139-6f9d0a043347@kernel.org>
+Date: Thu, 22 Oct 2026 08:57:55 +0200
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Post: <mailto:workflows@vger.kernel.org>
@@ -59,187 +52,108 @@ List-Owner: <mailto:workflows+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH RFC] changes.rst: introduce 'Required for'-column
-To: Manuel Ebner <manuelebnerli@mailbox.org>, Jonathan Corbet
- <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
- linux-kbuild@vger.kernel.org, oe-kbuild-all@lists.linux.dev,
- linux-debuggers@vger.kernel.org, tools@linux.kernel.org,
- "open list:DOCUMENTATION PROCESS" <workflows@vger.kernel.org>,
- "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
- open list <linux-kernel@vger.kernel.org>
-Cc: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>,
- Nicolas Schier <n.schier@fritz.com>
-References: <20261007163736.3942745-2-manuelebnerli@mailbox.org>
+Subject: Re: [PATCH] docs: submitting-patches: Require base tree information
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: Eric Biggers <ebiggers@kernel.org>, linux-doc@vger.kernel.org,
+ workflows@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
+ Shuah Khan <skhan@linuxfoundation.org>, Randy Dunlap
+ <rdunlap@infradead.org>, linux-kernel@vger.kernel.org,
+ Konstantin Ryabitsev <konstantin@linuxfoundation.org>
+References: <20261020212235.1143086-1-ebiggers@kernel.org>
+ <363b228a-7e96-481a-b70f-195ba55d025e@kernel.org>
+ <20261021063927.GA31908@sol>
+ <d5d0801e-371c-4836-8b4a-26bff33df46f@kernel.org>
+ <20261021064940.GC31908@sol>
+ <aea2328d-4ea8-45bc-922e-9c1fed94083f@kernel.org>
+ <20261021163242.GB325924@killaraus.ideasonboard.com>
+From: Krzysztof Kozlowski <krzk@kernel.org>
 Content-Language: en-US
-From: Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <20261007163736.3942745-2-manuelebnerli@mailbox.org>
+Autocrypt: addr=krzk@kernel.org; keydata=
+ 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
+In-Reply-To: <20261021163242.GB325924@killaraus.ideasonboard.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-Hi,
-
-On 10/7/26 9:37 AM, Manuel Ebner wrote:
-> The optional tag isn't obvious nor defined. Therefore remove the tag and
-> add column 'Required for' to make it easier to define the need for the tools.
+On 21/10/2026 18:32, Laurent Pinchart wrote:
+> On Wed, Oct 21, 2026 at 01:55:37PM +0200, Krzysztof Kozlowski wrote:
+>>
+>>> there's no base-commit?  Including any historical patch (from
+>>> months/years ago), patches with dependencies, etc.
+>>
+>> Dependency is something else, but for every other patch:
+>> 1. For testing/CI: you apply on top of next
+>> 2. Every other case the maintainer knows where to apply it, because it
+>> is his HEAD of next-branch.
+>>
+>> I am repeating myself, but I really had no single problem of lack of
+>> knowledge where to apply a patch as a maintainer or reviewer of some
+>> subsystem, thus maybe I do not understand the actual problem you are
+>> experiencing.
 > 
-> CC: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-> CC: Nicolas Schier <n.schier@fritz.com>
-> ---
-> If anybody has info to add to or refine the new column I would appreciate it a lot.
-> Please forward this to list or people which can contribute to this patch.
+> When I review patches, I often need to apply them to a tree, mainly to
+> see the context, but sometimes also to test them. I have encountered
+> many cases where the patch wouldn't apply on the current for-next branch
+> of the relevant subsystem. That's often because the patch had
+> dependencies. When I'm lucky they are listed manually in the cover
+> letter with a link to a branch, but that's far from being the common
+> case. I then have to ask the submitter to provide a branch, or enough
+> information to recreate a branch. Having base information (base-commit,
+> prerequisite-patch-id, and possibly base-tree) would save me quite some
+> time.
 > 
-> There's also the option to remove the 'Command to check the version'-column
-> and refer to scripts/ver_linux - and with this also removing the duplicated
-> information-issue.
-> 
-> [v3]
->  Rearange column space of the table in order to add column instead of replacing column
->  add some requirements to the table
-> 
-> [v2]
->  Ditch footnotes in favor of a column
->  Replace 'Check Version Command'-column with optional-column
->  https://lore.kernel.org/all/20260831152523.638881-1-manuelebnerli@mailbox.org/
-> 
-> [v1]
->  https://lore.kernel.org/all/20260812122426.1636227-2-manuelebnerli@mailbox.org/
-> ---
->  Documentation/process/changes.rst | 97 ++++++++++++++++---------------
->  1 file changed, 51 insertions(+), 46 deletions(-)
-> 
-> diff --git a/Documentation/process/changes.rst b/Documentation/process/changes.rst
-> index 28f2ca633..dafe0530f 100644
-> --- a/Documentation/process/changes.rst
-> +++ b/Documentation/process/changes.rst
-> @@ -1,13 +1,14 @@
->  .. _changes:
->  
-> -Minimal requirements to compile the Kernel
-> -++++++++++++++++++++++++++++++++++++++++++
-> +Minimal requirements to interact with the Kernel
-> +++++++++++++++++++++++++++++++++++++++++++++++++
->  
->  Intro
->  =====
->  
-> -This document is designed to provide a list of the minimum levels of
-> -software necessary to run the current kernel version.
-> +This document is designed to provide a list of the minimum versions of
-> +software necessary to change code, compile, install and boot the current
-> +kernel version.
->  
->  This document is originally based on my "Changes" file for 2.0.x kernels
->  and therefore owes credit to the same people as that file (Jared Mauch,
-> @@ -27,48 +28,52 @@ running a Linux kernel.  Also, not all tools are necessary on all
->  systems; obviously, if you don't have any PC Card hardware, for example,
->  you probably do not need to concern yourself with pcmciautils.
->  
-> -====================== ===============  ========================================
-> -        Program        Minimal version       Command to check the version
-> -====================== ===============  ========================================
-> -bash                   4.2              bash --version
-> -bc                     1.06.95          bc --version
-> -bindgen (optional)     0.71.1           bindgen --version
-> -binutils               2.30             ld -v
-> -bison                  2.0              bison --version
-> -btrfs-progs            0.18             btrfs --version
-> -Clang/LLVM (optional)  17.0.1           clang --version
-> -e2fsprogs              1.41.4           e2fsck -V
-> -flex                   2.5.35           flex --version
-> -gdb                    7.2              gdb --version
-> -GNU awk (optional)     5.1.0            gawk --version
-> -GNU C                  8.1              gcc --version
-> -GNU make               4.0              make --version
-> -GNU tar                1.28             tar --version
-> -GRUB                   0.93             grub --version || grub-install --version
-> -gtags (optional)       6.6.5            gtags --version
-> -iptables               1.4.2            iptables -V
-> -jfsutils               1.1.3            fsck.jfs -V
-> -kmod                   13               kmod -V
-> -mcelog                 0.6              mcelog --version
-> -mkimage (optional)     2017.01          mkimage --version
-> -nfs-utils              1.0.5            showmount --version
-> -openssl & libcrypto    1.0.0            openssl version
-> -pahole                 1.26             pahole --version
-> -pcmciautils            004              pccardctl -V
-> -pigz (optional)        2.4              pigz --version
-> -PPP                    2.4.0            pppd --version
-> -procps                 3.2.0            ps --version
-> -Python                 3.9.x            python3 --version
-> -quota-tools            3.09             quota -V
-> -Rust (optional)        1.85.0           rustc --version
-> -Sphinx\ [#f1]_         3.4.3            sphinx-build --version
-> -squashfs-tools         4.0              mksquashfs -version
-> -udev                   081              udevadm --version
-> -util-linux             2.10o            mount --version
-> -xfsprogs               2.6.0            xfs_db -V
-> -====================== ===============  ========================================
-> -
-> -.. [#f1] Sphinx is needed only to build the Kernel documentation
-> +==============  ========  =======================  ========================================
-> +    Program     Minimal      Command to check                  Required for
-> +                version         the version
-> +==============  ========  =======================  ========================================
-> +bash            4.2       bash --version           general requirement
-> +bc              1.06.95   bc --version             Kbuild (
+> I understand your concern about maintainers cherry-picking and sometimes
+> introducing issues as a result. In that case I also prefer asking the
+> submitter to rebase, retest, and resubmit. That's not what I want to use
+> base information for, in my case it helps with the review process.
 
-Something missing after the '('?
+That's valid and for 95% (guessing the number...) of cases will be
+solved by having linux-next as a base, thus requiring the base
+information is redundant. It's just linux-next.
 
-> +bindgen         0.71.1    bindgen --version        CONFIG_RUST=y
-> +binutils        2.30      ld -v
-> +bison           2.0       bison --version          Kbuild (.config)
-> +btrfs-progs     0.18      btrfs --version
-> +Clang/LLVM      17.0.1    clang --version          alternative to GNU C (gcc)
-> +e2fsprogs       1.41.4    e2fsck -V                ext4
-> +flex            2.5.35    flex --version           Kbuild (.config)
-> +gdb             7.2       gdb --version            Debugging
-> +GNU awk         5.1.0     gawk --version           objtool, CONFIG_SYSTEM_BLACKLIST_HASH_LIST=y
-> +GNU C           8.1       gcc --version            alternative to Clang/LLVM (clang)
-> +GNU make        4.0       make --version
-> +GNU tar         1.28      tar --version
-> +GRUB            0.93      grub --version ||
-> +                          grub-install --version
-> +gtags           6.6.5     gtags --version          to generate tag files through ``make gtags``
-> +iptables        1.4.2     iptables -V
-> +jfsutils        1.1.3     fsck.jfs -V
-> +kmod            13        kmod -V
-> +mcelog          0.6       mcelog --version
-> +mkimage         2017.01   mkimage --version        Flat Image Tree (FIT) or ARCH=arc, arm or powerpc
-> +nfs-utils       1.0.5     showmount --version
-> +openssl         1.0.0     openssl version
-> +pahole          1.26      pahole --version
-> +pcmciautils     004       pccardctl -V
-> +pigz            2.4       pigz --version           Compile and boot with KPGZIP=y
-> +PPP             2.4.0     pppd --version
-> +procps          3.2.0     ps --version
-> +Python          3.9.x     python3 --version
-> +quota-tools     3.09      quota -V
-> +Rust            1.85.0    rustc --version          CONFIG_RUST=y
-> +Sphinx          3.4.3     sphinx-build --version   build kernel documentation
-> +squashfs-tools  4.0       mksquashfs -version
-> +udev            081       udevadm --version
-> +util-linux      2.10o     mount --version
-> +xfsprogs        2.6.0     xfs_db -V
-> +==============  ========  =======================  ========================================
-> +    Program     Minimal      Command to check                  Required for
-> +                version      check the version
-> +==============  ========  =======================  ========================================
+When patchset does NOT apply on linux-next or maintainer tree is
+non-obvious, the base should be provided, but that is only "if ->
+should". I think the proposal here is a bit different.
 
-On my build of 'make htmldocs', the table ending confuses docutils.
-Did you build this with 'make htmldocs'?
-
-Documentation/process/changes.rst:73: WARNING: Blank line required after table. [docutils]
-Documentation/process/changes.rst:75: WARNING: Block quote ends without a blank line; unexpected unindent. [docutils]
-Documentation/process/changes.rst:419: ERROR: Malformed table.
-Bottom border or header rule does not match top border.
-
-==============  ========  =======================  ========================================
-
-...
-
-Getting updated software
-======================== [docutils]
-
--- 
-~Randy
-
+Best regards,
+Krzysztof
