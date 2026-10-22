@@ -1,68 +1,76 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.221.175
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792663405;
-	b=uwao50KVwroayP9JFpXU8NSOmVIQqNAAahKz/TJbUHf5EQ8863aoOYLBMzqIYrEpP1eR
-	 M0Vdq3X6W6CXUCBVVhvO+9SxhShMtajXZRpvpPKPDrer8eUzw+fTr1iedVTX3qn61n0/V
-	 IBUZvEK40TukdHHYXVU72VSbM9fySlvH6wtm22Jlt2Ys6eZlfXRRXNtOAIpzyta7rpzz2
-	 n88n5qW2W7cl5gcLtQNvaKFi20ndW3RQQawAlNB5WWy9vc5kpsqHBPgKqaOoQZiydE9C5
-	 27BH8OysrZO2NOyLaH+cNlCOHo0Tdm3HUto1CyZYntbrJAK2R/Gc5/PTHsNBE1DFTSw==
+	t=1792663510;
+	b=K1HUjCmTmz8sVALCc+ywpcCO/YdNSH/cD8dInooHaihAqiQJh+QKzNMk/N/xfMA0btKB
+	 iCf/swfOGxWqOomBbNWnceaydLlje/quRdHW0KKSO9H67QcXELSC+y0JIRLkBczVUAu7Q
+	 hpXv8sUjyQLS53aFPazs2Wn/EiHoUGL0//XSypjmAip3NcCXvHaMrnufG2UKrW/ibVLXx
+	 RAMQqPI1eZ9VyQg3XG8/ZQtoBT3+OSmB+HmoN6u34W95bNwumdfpeyt9O8u+PIajR3v9p
+	 imN5OIU34A4c7pTa54rsNzsQxaSn+BCAq6dZlNN1k8labLhUwLZj9BxBy/xA98eyFcg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792663405;
-	h=DMARC-Filter:Received:DKIM-Signature:Date:From:To:Cc:Subject:
-	 Message-ID:References:MIME-Version:Content-Type:Content-Disposition:
-	 In-Reply-To;
-	bh=LKFHPp9IOzONG9GPjbsaYkZsUGia8IXmv+C23o2wW9k=;
-	b=PWyHFVah2ncQmPQrdDW+j3yksV2Xc4nPl8Mo90HEg/Z1sHccAyz36l2m4Ih8SesKpipw
-	 U6O0+Wp812sp1/mQW1WMinDvPyc10nK5OS7ZGfcnytF8vq0Wmut/P8U5jfbmtoI8TGv1R
-	 rlKwAdCEU6ctL2MMPSz5i07wFHSQavk3YQll5ny9oZ7DWXGzQgI7u5DJNlkb/+zEcH8s5
-	 HtriM770X2eW51z6h+CdVqXnZx19EdFtI6dSVsgh9JDwGF09GsfdTrhvFDANEY+ccDKQG
-	 nyya4szoAbXWeEBOZkKy+On6G44Izz+KqWEpbpS1BmiK71JotH6ugO6gcNnvJV9brCw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1792663510;
+	h=DMARC-Filter:Received:X-Google-DKIM-Signature:X-Forwarded-Encrypted:
+	 X-Gm-Message-State:X-Gm-Gg:X-Received:Received:Received:
+	 X-Forwarded-Encrypted:X-Received:MIME-Version:References:In-Reply-To:
+	 From:Date:X-Gmail-Original-Message-ID:X-Gm-Features:Message-ID:
+	 Subject:To:Cc:Content-Type;
+	bh=AmtBa+LxL4SvVmJcPn57Ipgp4NVdoxGD7DbFVBLBg0I=;
+	b=dZcAdPRkxZciwBh7JFxBHhCLCZPOFpC0V+PgyTufeWv//tq/qypzhpSmHEkY1tJjS6Lt
+	 ZRst072BVW9pos9jlskJm40oFutum0ehRoanYX7nSL64TC4UdRpyWj9uYqiPdd3b6Kjib
+	 BTv+mnG7J+Gl7anALW88pkAk+pGxfESxIr5Zm+9gYZ3kImyRodIPMZMY0SuxwoJRLTG/h
+	 HylpNZKhhkBa3ZgBKOZ91mg22IZ/NMk0GLdES8EKGNOB8LWu/kEW9Oh1Yr1U65O0HAXAE
+	 x+L4kDNNePeMtC5wRkzi2b0yY7ocChLRFa7CXL4BJA56JPszrqK3DWzS+VlRR0xe3tw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=ideasonboard.com;
-	spf=pass smtp.mailfrom=ideasonboard.com;
-	dkim=pass header.d=ideasonboard.com header.i=@ideasonboard.com header.a=rsa-sha256 header.s=mail header.b=mmB+A4kh;
-	arc=none smtp.remote-ip=213.167.242.64
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	dmarc=none header.from=linux-m68k.org;
+	spf=pass smtp.mailfrom=gmail.com;
+	arc=none smtp.remote-ip=209.85.221.175
+Received: from mail-vk1-f175.google.com (mail-vk1-f175.google.com [209.85.221.175])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 59FD4606A31D;
-	Thu, 22 Oct 2026 10:03:24 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 59FD4606A31D
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=ideasonboard.com header.i=@ideasonboard.com header.a=rsa-sha256 header.s=mail header.b=mmB+A4kh
-Received: from killaraus.ideasonboard.com (2001-14ba-70f3-e800--a06.rev.dnainternet.fi [IPv6:2001:14ba:70f3:e800::a06])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id AA09C24A;
-	Thu, 22 Oct 2026 12:01:12 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1792663272;
-	bh=MlZWgSll8i8k01c8fAu3WetXI1sTFaQjCzC3maI6Qug=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=mmB+A4khu4no9DpdF/JIEY0MnIjCSW2P0O0WkUX6bwhEmYR3LPt+v4kr6AThnejmm
-	 qOGGRLmGvI8zPOu1BorNxbkiHXQAFHaAR9vRtH0/CwtZP+FYP16+xZqVFfVz7tlQcp
-	 e4oD/uNIDujpH4kT/VUv7r6Qgqm5jLXMt4Ey/PJU=
-Date: Thu, 22 Oct 2026 13:03:19 +0300
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Krzysztof Kozlowski <krzk@kernel.org>
-Cc: Eric Biggers <ebiggers@kernel.org>, linux-doc@vger.kernel.org,
-	workflows@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Randy Dunlap <rdunlap@infradead.org>, linux-kernel@vger.kernel.org,
-	Konstantin Ryabitsev <konstantin@linuxfoundation.org>
-Subject: Re: [PATCH] docs: submitting-patches: Require base tree information
-Message-ID: <20261022100319.GD97006@killaraus.ideasonboard.com>
-References: <20261020212235.1143086-1-ebiggers@kernel.org>
- <363b228a-7e96-481a-b70f-195ba55d025e@kernel.org>
- <20261021063927.GA31908@sol>
- <d5d0801e-371c-4836-8b4a-26bff33df46f@kernel.org>
- <20261021064940.GC31908@sol>
- <aea2328d-4ea8-45bc-922e-9c1fed94083f@kernel.org>
- <20261021163242.GB325924@killaraus.ideasonboard.com>
- <73d01869-b536-4fcd-a139-6f9d0a043347@kernel.org>
- <20261022072508.GB1857@sol>
- <88eae369-49ba-4581-beb7-a4ff22f43555@kernel.org>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4910F606A320
+	for <workflows@vger.kernel.org>; Thu, 22 Oct 2026 10:05:10 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 4910F606A320
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-vk1-f175.google.com with SMTP id 71dfb90a1353d-5eaefe5b523so1077946e0c.0
+        for <workflows@vger.kernel.org>; Thu, 22 Oct 2026 03:05:10 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1792663509; x=1793268309;
+        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
+         :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=AmtBa+LxL4SvVmJcPn57Ipgp4NVdoxGD7DbFVBLBg0I=;
+        b=r0WJVd0E1umVCk8SbjWiEgaVkiWMkJsiE5GQuj1lZGa/01tyVDW33+6brJ2jqrZyyD
+         HUXl8s/bODJI/vsx9xOZ3J8PFJI2SGyKITmY+/nlNBt8gqKY4RQ93R3ZJRmuWXca0wWu
+         tizhEvwqqA/Jbs78BsMrX+waGWihmT+c9MbLSzb+u1ACbfxL/R98BQsU/Y1QpJzNNA4O
+         TX6vqbR5P7L3NckR1hKtU8v4CYjazvrEBHpPgmPMBpkIlI22I0RFRiFxc0A+CIm+GVL9
+         o3bp0P+XGe4t0GeuZ0zPMVOhy1aZ/ukFwBkJ3DzzFCAasqwZUSdxLjYkUYWl3v0AyWBr
+         D49w==
+X-Forwarded-Encrypted: i=1; AKwUvBxAxFWSWiach+AclcleZzD4Y6wHzcwWceRN0bIORKpCCozLZrSEi2rNXrR3uzgkNDFLcyM0ZCKx25s=@vger.kernel.org
+X-Gm-Message-State: AFq9FYKOcWPVemjBFB+oHf/+L9uy6xS1pOva9bj8x/ab/mtsi5SpGjXx
+	m5PDPWvCIQ41FrHZw5eDJOENpDFyp62AJ9G9IlEjx8JwHhVFem2jaP6M3yze3kHk
+X-Gm-Gg: AYBFou1N0lO3SbaL/VCl54KVBsFBS0NrXE0seB2DjiisXWyUcs5Bmo8GvYyR0AY8yRd
+	QqfbZVsu3m9LspdvtAOA/RtRcdEHpdYcjTDZ662sbRBlQ1jE1ATvYJ1O4gBxj+40eXnNQI5ug1Z
+	CGfY1nair/1vIqce6xc7qUYnSVEkDmjhUlgdfbGBqAqGqgdGKFwF+Bt1wmTmTluIlgGgeAeIiWl
+	Rkq/qpqWQQ4dLgLTPG5GFr/namFSJ4ohCmy3jcQ/EPRTvV7HlwWY+mp7Jqur1dFHl87cgWGpGAR
+	RJWj+bU6iHNWHVaYulaLsMdBnL/ckJncIswCF2w91gzNzvGMVliB2HRd6+DMOuQMWCbgT4m9kp3
+	3tZSpBqq7gmCeJWpzjv8jciGM9fLfxp+VCfGv2lyRIlNbnuzTdBmH8ZtonAt+tXCy1od/AM7wBc
+	eVIpzSEC3rLodIfJuiSITqaFqJEAl+46/qhCRNqolqbhmyWuRL5OZfzJZqx1mHYLZKbmf5b5c7q
+	DZrqn5SJqLmcQ/JN2rhhKk8/RObx/pcg2zCjjbwkKJfFB3hYoj7P+frnQ89yhwumUIQKTmU6mIv
+	xfuhmJg7WVKbSMNEBg==
+X-Received: by 2002:a05:6102:4426:b0:7c1:9286:296f with SMTP id ada2fe7eead31-7cc926de9admr1777402137.25.1792663509293;
+        Thu, 22 Oct 2026 03:05:09 -0700 (PDT)
+Received: from mail-ua1-f48.google.com (mail-ua1-f48.google.com. [209.85.222.48])
+        by smtp.gmail.com with ESMTPSA id a1e0cc1a2514c-990d104017bsm5817434241.4.2026.10.22.03.05.07
+        for <workflows@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 22 Oct 2026 03:05:08 -0700 (PDT)
+Received: by mail-ua1-f48.google.com with SMTP id a1e0cc1a2514c-990703f817fso798691241.1
+        for <workflows@vger.kernel.org>; Thu, 22 Oct 2026 03:05:07 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AKwUvBw1O5UwdQh1DOBcPbDRaJKMsMz2mcQl8kiwQrWekV/kmn6lhNGXhpLFsm4SrDEa+6yl7uElSC8o2K8=@vger.kernel.org
+X-Received: by 2002:a05:6102:4410:b0:7cc:2946:7f80 with SMTP id
+ ada2fe7eead31-7cc927441e4mr2229849137.35.1792663507671; Thu, 22 Oct 2026
+ 03:05:07 -0700 (PDT)
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Post: <mailto:workflows@vger.kernel.org>
@@ -72,65 +80,85 @@ List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:workflows+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <88eae369-49ba-4581-beb7-a4ff22f43555@kernel.org>
+References: <20261020212235.1143086-1-ebiggers@kernel.org> <363b228a-7e96-481a-b70f-195ba55d025e@kernel.org>
+ <87y0br3zln.fsf@trenco.lwn.net> <9704f11c-4c2e-426b-87df-13ea2ffdca3c@kernel.org>
+In-Reply-To: <9704f11c-4c2e-426b-87df-13ea2ffdca3c@kernel.org>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Thu, 22 Oct 2026 12:04:55 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdW6fLN66GzWt1C+zpCwW99UCaN=C2xCrxL9k1P7K7VKHg@mail.gmail.com>
+X-Gm-Features: AclHuK_CDyU6-9WYZXLSnQ7yP-CtCllBONPjh-ERk93EX-FDKMuOE4BuJWpX_k8
+Message-ID: <CAMuHMdW6fLN66GzWt1C+zpCwW99UCaN=C2xCrxL9k1P7K7VKHg@mail.gmail.com>
+Subject: Re: [PATCH] docs: submitting-patches: Require base tree information
+To: Krzysztof Kozlowski <krzk@kernel.org>
+Cc: Jonathan Corbet <corbet@lwn.net>, Eric Biggers <ebiggers@kernel.org>, linux-doc@vger.kernel.org, 
+	workflows@vger.kernel.org, Shuah Khan <skhan@linuxfoundation.org>, 
+	Randy Dunlap <rdunlap@infradead.org>, linux-kernel@vger.kernel.org, 
+	Konstantin Ryabitsev <konstantin@linuxfoundation.org>
+Content-Type: text/plain; charset="UTF-8"
 
-On Thu, Oct 22, 2026 at 10:29:55AM +0200, Krzysztof Kozlowski wrote:
-> On 22/10/2026 09:25, Eric Biggers wrote:
-> > On Thu, Oct 22, 2026 at 08:57:55AM +0200, Krzysztof Kozlowski wrote:
-> >> On 21/10/2026 18:32, Laurent Pinchart wrote:
-> >>> On Wed, Oct 21, 2026 at 01:55:37PM +0200, Krzysztof Kozlowski wrote:
-> >>>>
-> >>>>> there's no base-commit?  Including any historical patch (from
-> >>>>> months/years ago), patches with dependencies, etc.
-> >>>>
-> >>>> Dependency is something else, but for every other patch:
-> >>>> 1. For testing/CI: you apply on top of next
-> >>>> 2. Every other case the maintainer knows where to apply it, because it
-> >>>> is his HEAD of next-branch.
-> >>>>
-> >>>> I am repeating myself, but I really had no single problem of lack of
-> >>>> knowledge where to apply a patch as a maintainer or reviewer of some
-> >>>> subsystem, thus maybe I do not understand the actual problem you are
-> >>>> experiencing.
-> >>>
-> >>> When I review patches, I often need to apply them to a tree, mainly to
-> >>> see the context, but sometimes also to test them. I have encountered
-> >>> many cases where the patch wouldn't apply on the current for-next branch
-> >>> of the relevant subsystem. That's often because the patch had
-> >>> dependencies. When I'm lucky they are listed manually in the cover
-> >>> letter with a link to a branch, but that's far from being the common
-> >>> case. I then have to ask the submitter to provide a branch, or enough
-> >>> information to recreate a branch. Having base information (base-commit,
-> >>> prerequisite-patch-id, and possibly base-tree) would save me quite some
-> >>> time.
-> >>>
-> >>> I understand your concern about maintainers cherry-picking and sometimes
-> >>> introducing issues as a result. In that case I also prefer asking the
-> >>> submitter to rebase, retest, and resubmit. That's not what I want to use
-> >>> base information for, in my case it helps with the review process.
+Hi Krzysztof,
+
+On Wed, 21 Oct 2026 at 18:01, Krzysztof Kozlowski <krzk@kernel.org> wrote:
+> On 21/10/2026 16:19, Jonathan Corbet wrote:
+> > Krzysztof Kozlowski <krzk@kernel.org> writes:
+> >
+> >> For many of my contributions base is obvious and not needed to be
+> >> explicitly defined. For all the patches I accept, answer is the same -
+> >> base is either obvious or if not and patch does not apply, then the base
+> >> does not matter.
 > >>
-> >> That's valid and for 95% (guessing the number...) of cases will be
-> >> solved by having linux-next as a base, thus requiring the base
-> >> information is redundant. It's just linux-next.
-> > 
-> > linux-next changes every day, so "It's just linux-next" is ambiguous.
-> > 
-> > Without base-commit, the workaround ends up being to use the date the
-> > patch was sent and various other information to try to guess a base
-> > commit.  That's time-consuming and unreliable.
-> 
-> No, you just apply to the latest next. You don't guess. We speak about
-> the case of reviewer, so person working with the kernel, thus probably
-> having not-so-old linux-next available. If the next use as base is old
-> it won't help you at all, because you might not even have it in your tree.
+> >> Requiring it is just bureaucracy without actual benefit.
+> >>
+> >> The only benefit would be if maintainer COULD change its base to apply
+> >> some patch with odd base... but this cannot happen. Maintainer base is
+> >> fixed - it's the HEAD of his development branch for given category of
+> >> commits (e.g. DTS branch for SoC maintainers).
+> >
+> > I fairly routinely get docs patches that don't apply to docs-next; when
+> > I'm in the mood, I'll try to figure what they *do* apply to, then
+> > cherry-pick them over.  Base information would make that process easier,
+> > and even automatable.
+> >
+>
+> Some maintainers do that indeed and I propose not to. Every two months I
+> see one of my or other folks around my area patch which is being changed
+> in incorrect way between mailing list and Git. Change is done because:
+>
+> 1. Patch did not apply cleanly (a lot of simultaneous work, so base is
+> obviously old the moment the maintainer applies such patch)
+>
+> 2. Maintainer tried to resolve that by applying to the correct base (so
+> followed your process) and then did git rebase or cherry pick to his
+> final development branch.
+>
+> 3. Maintainer is overloaded and has no time to investigate whether
+> rebase/cherry-pick from above is truly correct, except building the
+> code, so every two months result of such rebase is wrong.
+>
+> This is a real issue because it is very difficult to spot - your commit
+> is applied, but you never verify whether is applied THE SAME way and
+> maintainer thinks everything was applied cleanly.
+>
+> If (1) happens and patch does not apply, the solution is to ask the
+> contributor to rebase.
 
-I don't test on linux-next, that causes way too much churn. I test
-patches I review on top of their respective subsystem's tree, as that's
-where they will eventually be applied.
+This happens a lot in DTS-enablement patches: multiple people are
+working on different devices for the same SoC/board, so half of their
+patches insert new device nodes at the same conflicting location.
+Perhaps we can teach to git how to handle DTS addition conflicts?
+
+So your solution is that I apply one new patch every day and publish
+the result, and ask all other N-1 series to be rebased? Obviously this
+not only applies to queuing patches, but also to applying patches for
+build/run testing during review?
+
+Gr{oetje,eeting}s,
+
+                        Geert
 
 -- 
-Regards,
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
 
-Laurent Pinchart
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
