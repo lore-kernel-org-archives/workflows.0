@@ -1,47 +1,63 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792652282;
-	b=VEfXIEfz/oU4hV3kqlAFvJwAbH+C4nHYX36Jcokky1kkMs6tExrYs0Ukj2ZwtSMwOAZf
-	 B10PJJwKwm0LcHEiZoVHft/E1uUufomwwJ/muDrK0NjzhWvMZimengtlxeJw60l7r4FwR
-	 3A3TGC/IYo9IFfbVagKMtxdSFdedBC679BgcFkPS/canYrcuu8Eq7X01hs/0k4z/tn1DW
-	 ATZxBswn9kUu4j/L4rLutseG75BneLflc7ae7qUYKu2FIK0YwyQQyxddyN7xgREGxzIhv
-	 zIVFfVzkXXkUiQU6DJnk2K26An5oTR3idrBdxhDB4LC0KpAQYdaMJAg721xeCsAhNFg==
+	t=1792653910;
+	b=Pxp/DDyg94Ly1kHH7AZgXDSfhIc7DtlrHNP50SGq5LbG2+7s30UWI6AEGcbDnR4U+CKv
+	 tcQ92yrbJ/QqQ3xRg/3tFpkCSfWcJ6b0LxpAaxHqB/8tzfAMj0oXqp4TaBhaxIrh2P0ZV
+	 Irr71wmwmSPKSQME423DG++W/nO6HEe8p2lLSEJQf8E7/NXUMrPKys2NsVPczB/baLhi+
+	 uWtNJ3Ua3LZN8j+A7KWa8PVMc7QFCPbKK28NTGgTOjK5IaSIgpgCMIyvpRrnAdap/WPNs
+	 Kqx8GSqQjS1c64bX3KWfw88+rxD6Lnsl16599pf1kCCsQAGniBmpl3KOLqkx/IMgGWQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792652282;
-	h=Received:DKIM-Signature:Message-ID:Date:MIME-Version:User-Agent:
-	 Subject:To:Cc:References:From:Content-Language:Autocrypt:In-Reply-To:
-	 Content-Type:Content-Transfer-Encoding;
-	bh=vWz9kcn2hWQPiK8Y+BhTHSteUtclFoRKS4X7cWyTqWQ=;
-	b=bFBnTdyWJxNdtDIU03OFXTGe23DBVZPwJFLP6qeOGfC6LRxnkiR2kupBahkPHP1uL0re
-	 8w1GUEObOkq+6xS7MXqiK+XWKdz5emw+cXbaUIhrUXF2gcI3Nvvl5vFDd1BZvrY15aC/O
-	 JVKrXPRfwjDDJd37rDwzD7Xgj+Z/GSRtiJrY6t2bg1/Tc1cz90/7CTR7TT3mmig5J7VvI
-	 YoD9ZrXZI7c0+kwBDZqprUkOppJNmCUfjbRF0xHjPGYfB4shTdPY9OzbtQUzznAK+2Mbl
-	 /pGC3PLB74Gvbkm0nZ/SGfH5aDHBu12s8pjuA4goM1AdH9+J5Wgm8PKV9j1E79XJz2A==
+	a=rsa-sha256; c=relaxed/relaxed; t=1792653910;
+	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
+	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
+	bh=GzocSWmRnJBjCb2IF2ZXZ1TezmknaQ/uzyUsvuQWgJw=;
+	b=v1BHdE0+zJb9Q7hrj6I1Q7KQ2Xu2umkpFIk9/gjs8kRBepEsJxMWyGdcojoBpa8wGHZU
+	 Iq3IS2iNyd8FEBE77lOE+GD/1qJKyxSQ+Nrrq0En4Sde8jmwQteUvo/p3taKF81Yz4tDv
+	 bPV0snJJm0jBLdDjDjzZb50FRlPLIC1B0iyDpIV1lax11qkteN21ninLKqNn2K3m56qk6
+	 hgFGKnr6lPvqN2GF76vz2QQT5Z6S+eq0GEepGq0QY9buOvc/VQsGTNFj0dwdEq2PXWFqh
+	 rykZ+7tYWREZ7YZ/N8TLtXac+kbLPH11gGzMrk2j9AkFRxDIKczc6X0epCc1wn6YRQg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=I82ZPsVi;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b="R/0Q6bHq";
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4F42A606A319;
-	Thu, 22 Oct 2026 06:58:02 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 89ECA606A319;
+	Thu, 22 Oct 2026 07:25:10 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=I82ZPsVi
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CD94A1F000C1;
-	Thu, 22 Oct 2026 06:57:57 +0000 (UTC)
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=R/0Q6bHq
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DF9BF1F000C1;
+	Thu, 22 Oct 2026 07:25:09 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1792652281;
-	bh=vWz9kcn2hWQPiK8Y+BhTHSteUtclFoRKS4X7cWyTqWQ=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To;
-	b=I82ZPsViALFS6BvKGpe3hyRvvjQ4Et4lOSSJwPBwlJP24zg9FaneQBDezFRhZA24b
-	 csdx7m4XNUiGA75N/AKXq24P+9ryCefNDO2WYun+QA0yqfuNXp4Vt2R5AABLABrR5e
-	 GF6qyHUB3EbFppNRFJCcRvaJgGm2UOROdzHxryzptjdTkOsgJO5MlQt/90mOC5x+BN
-	 2ZLfdEzzi/INfdugrAkf66RT371Gqjq0+eX/62ga4XzmORO364EewL2JwWWGNQ+kvl
-	 0H3ZQsxVZYOjk9deg7LETzN5guX+r+1KMsy2y5Y0FTd5437VULn2wjfNxlhejByqsO
-	 nn/usj10FslSg==
-Message-ID: <73d01869-b536-4fcd-a139-6f9d0a043347@kernel.org>
-Date: Thu, 22 Oct 2026 08:57:55 +0200
+	s=k20260515; t=1792653910;
+	bh=GzocSWmRnJBjCb2IF2ZXZ1TezmknaQ/uzyUsvuQWgJw=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=R/0Q6bHqEEwQkMFBTpOUh4aAud/xmgWYqMgfLFHpDm11MHPv4m65rIi2mdpJSPAwh
+	 Je0+7/QCnmveYgttqoY3iGFia0GHA2u9x+1SiZH7wJyopn2pXBqBQpoHJmjmKZkFHW
+	 STd3VJKealBIMYLjCyUHiKYFB8bxsibJr9I3fL2kh+gR4pI2NQs7wSZKUrqKCh3+ql
+	 PxGTzA88H+vY6DLs+po4LkexVJ3kKT5bF1Jwuo3KAuELxNJAt4EvBM6z5aJkklf17u
+	 TYgikUf80/489n2MTmF2V6Dcc3lNSS299qZHBLeigEikha+CaNebVdDWJ7PQHV26q4
+	 nMfmSSQ/Wd2JQ==
+Date: Thu, 22 Oct 2026 00:25:08 -0700
+From: Eric Biggers <ebiggers@kernel.org>
+To: Krzysztof Kozlowski <krzk@kernel.org>
+Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	linux-doc@vger.kernel.org, workflows@vger.kernel.org,
+	Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Randy Dunlap <rdunlap@infradead.org>, linux-kernel@vger.kernel.org,
+	Konstantin Ryabitsev <konstantin@linuxfoundation.org>
+Subject: Re: [PATCH] docs: submitting-patches: Require base tree information
+Message-ID: <20261022072508.GB1857@sol>
+References: <20261020212235.1143086-1-ebiggers@kernel.org>
+ <363b228a-7e96-481a-b70f-195ba55d025e@kernel.org>
+ <20261021063927.GA31908@sol>
+ <d5d0801e-371c-4836-8b4a-26bff33df46f@kernel.org>
+ <20261021064940.GC31908@sol>
+ <aea2328d-4ea8-45bc-922e-9c1fed94083f@kernel.org>
+ <20261021163242.GB325924@killaraus.ideasonboard.com>
+ <73d01869-b536-4fcd-a139-6f9d0a043347@kernel.org>
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Post: <mailto:workflows@vger.kernel.org>
@@ -51,109 +67,51 @@ List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:workflows+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] docs: submitting-patches: Require base tree information
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc: Eric Biggers <ebiggers@kernel.org>, linux-doc@vger.kernel.org,
- workflows@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
- Shuah Khan <skhan@linuxfoundation.org>, Randy Dunlap
- <rdunlap@infradead.org>, linux-kernel@vger.kernel.org,
- Konstantin Ryabitsev <konstantin@linuxfoundation.org>
-References: <20261020212235.1143086-1-ebiggers@kernel.org>
- <363b228a-7e96-481a-b70f-195ba55d025e@kernel.org>
- <20261021063927.GA31908@sol>
- <d5d0801e-371c-4836-8b4a-26bff33df46f@kernel.org>
- <20261021064940.GC31908@sol>
- <aea2328d-4ea8-45bc-922e-9c1fed94083f@kernel.org>
- <20261021163242.GB325924@killaraus.ideasonboard.com>
-From: Krzysztof Kozlowski <krzk@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=krzk@kernel.org; keydata=
- xsFNBFVDQq4BEAC6KeLOfFsAvFMBsrCrJ2bCalhPv5+KQF2PS2+iwZI8BpRZoV+Bd5kWvN79
- cFgcqTTuNHjAvxtUG8pQgGTHAObYs6xeYJtjUH0ZX6ndJ33FJYf5V3yXqqjcZ30FgHzJCFUu
- JMp7PSyMPzpUXfU12yfcRYVEMQrmplNZssmYhiTeVicuOOypWugZKVLGNm0IweVCaZ/DJDIH
- gNbpvVwjcKYrx85m9cBVEBUGaQP6AT7qlVCkrf50v8bofSIyVa2xmubbAwwFA1oxoOusjPIE
- J3iadrwpFvsZjF5uHAKS+7wHLoW9hVzOnLbX6ajk5Hf8Pb1m+VH/E8bPBNNYKkfTtypTDUCj
- NYcd27tjnXfG+SDs/EXNUAIRefCyvaRG7oRYF3Ec+2RgQDRnmmjCjoQNbFrJvJkFHlPeHaeS
- BosGY+XWKydnmsfY7SSnjAzLUGAFhLd/XDVpb1Een2XucPpKvt9ORF+48gy12FA5GduRLhQU
- vK4tU7ojoem/G23PcowM1CwPurC8sAVsQb9KmwTGh7rVz3ks3w/zfGBy3+WmLg++C2Wct6nM
- Pd8/6CBVjEWqD06/RjI2AnjIq5fSEH/BIfXXfC68nMp9BZoy3So4ZsbOlBmtAPvMYX6U8VwD
- TNeBxJu5Ex0Izf1NV9CzC3nNaFUYOY8KfN01X5SExAoVTr09ewARAQABzSVLcnp5c3p0b2Yg
- S296bG93c2tpIDxrcnprQGtlcm5lbC5vcmc+wsGPBBMBCgA5AhsDBgsJCAcDAgYVCAIJCgsE
- FgIDAQIeAQIXgBYhBJvQfg4MUfjVlne3VBuTQ307QWKbBQJp2mE8AAoJEBuTQ307QWKbeaIP
- /ihHTkTW4KsN/DQ945JJbyu5tI0J80Wue7QyyLPglyKfhgb5cLLNPpOC8cCIJsc7+W3i2P38
- s2c1cOH6CYGE7E9ur3Vfme8NW2S2I/Z8VC7bZnzyS23wT17LrsdS/qCpx4o8U+pt/xdXDKph
- EGRYrIEmMpUWvyYzyYKGIe25FtaayIIKpq8eZYyFcp2f/sG5IkOW5uZzHPMPdcm87jU7fyuQ
- rAU2vx9r+ulUfQ/q9Z2roC/ode3l7t2pN7BCBCsUDp6JCrUyZrtT1e7EbA0ZRP3aOBNk2P2E
- DQOgJGjGdO5Yx2Y9LFtltu6JbsBJHi1syGRX3AtQYOMc4Y1WGoeZJmMlvKj2ZqqXNkcWi2DS
- IQEWB0uW6CqFsBBIMGDa+6OzdaVO/uAVXWDWml02Men3CILdI1MbVjoh8ECqYUY7OQ+JJvNN
- vnliuq5WM3Ghd3jg/LZZrxXjdIginRHFQCjIJYLKpLZWm1/iDFedcfzqRNYmTtqscdCNHW41
- oT3Z7BmO9xwdjuwBS6nmS6JJwkbf5Ot2QR4pB/DRU7ZwjT1qHe+9r9gF32wXVQatHNGK/VVu
- sfwOnkdxCWkp/qb2gdQRmZh+SedStWshigH6sNfuHBloF/q+hjMRc8b2m326OZdrbSHwY1Sz
- vti8Hn7n8NjdHO9LKB7BIdjkA9DA5WsqOuVCzsFNBFVDXDQBEADNkrQYSREUL4D3Gws46JEo
- Z9HEQOKtkrwjrzlw/tCmqVzERRPvz2Xg8n7+HRCrgqnodIYoUh5WsU84N03KlLueMNsWLJBv
- BaubYN4JuJIdRr4dS4oyF1/fQAQPHh8Thpiz0SAZFx6iWKB7Qrz3OrGCjTPcW6eiOMheesVS
- 5hxietSmlin+SilmIAPZHx7n242u6kdHOh+/SyLImKn/dh9RzatVpUKbv34eP1wAGldWsRxb
- f3WP9pFNObSzI/Bo3kA89Xx2rO2roC+Gq4LeHvo7ptzcLcrqaHUAcZ3CgFG88CnA6z6lBZn0
- WyewEcPOPdcUB2Q7D/NiUY+HDiV99rAYPJztjeTrBSTnHeSBPb+qn5ZZGQwIdUW9YegxWKvX
- XHTwB5eMzo/RB6vffwqcnHDoe0q7VgzRRZJwpi6aMIXLfeWZ5Wrwaw2zldFuO4Dt91pFzBSO
- IpeMtfgb/Pfe/a1WJ/GgaIRIBE+NUqckM+3zJHGmVPqJP/h2Iwv6nw8U+7Yyl6gUBLHFTg2h
- YnLFJI4Xjg+AX1hHFVKmvl3VBHIsBv0oDcsQWXqY+NaFahT0lRPjYtrTa1v3tem/JoFzZ4B0
- p27K+qQCF2R96hVvuEyjzBmdq2esyE6zIqftdo4MOJho8uctOiWbwNNq2U9pPWmu4vXVFBYI
- GmpyNPYzRm0QPwARAQABwsF2BBgBCgAgAhsMFiEEm9B+DgxR+NWWd7dUG5NDfTtBYpsFAmna
- YUkACgkQG5NDfTtBYptX+BAApg32CkxwNucNEi8WfWA8oKkW0y8YDuY6ORMo9FWNGiT/OTy0
- vyJrLocrpn86zwfjVp+eCrssPYh8eqJfnWqmYv6ACQtHPYzPZQ3mSo8H97Z01oUxITzCxpXm
- ZkLgPIqtDPcC2E3dPM/fVxcyowM8XsaMA9wcsaUYrta8toOq2b9tKcjleKMfMrm0gQ9u7wUc
- QbLkwj6TCLOwucb07GXzLTNF9PZmaDUpKAZjMjmrW+le+SFvQbhamx0rxLWPR0NWntXpbCn+
- +ACch03p/JyTBVktxFsFyCt7pTPE1kEaeuXBTe/a2D9iQvRxRW19LvuO2e59/u1wYUiH/orz
- wbIC2S4dBsPAPihL3ztOU1yE86GPyQtSE0kU+/7snnLt4QGi6PChf3t5gnNjAzjUUovO8rgI
- c+5yN5heq5loYHgK6OQ9OlHzsPHO9e9MOQcKlFycs1pyijFGzDwdNUm/SchK8iWT2QApTx4A
- K9bCVaboTA2T77QYkRcRJYSsO1alGX0ome/hMLD1daXlkrNUp1HWa3K4iytLRXjCSIorWiGs
- n+q3krnpXu3TFkA8qtOFZMdnIiFuiq1yLT8hptsV5xh1TA2nsVvSYiaCr3q4s4BKjS/KrLDb
- qoxzw8ISjdUp4pA85vb6YLCmb39NgidD+7PmAr65lBNveIFynTgsja1rRQ4=
-In-Reply-To: <20261021163242.GB325924@killaraus.ideasonboard.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <73d01869-b536-4fcd-a139-6f9d0a043347@kernel.org>
 
-On 21/10/2026 18:32, Laurent Pinchart wrote:
-> On Wed, Oct 21, 2026 at 01:55:37PM +0200, Krzysztof Kozlowski wrote:
->>
->>> there's no base-commit?  Including any historical patch (from
->>> months/years ago), patches with dependencies, etc.
->>
->> Dependency is something else, but for every other patch:
->> 1. For testing/CI: you apply on top of next
->> 2. Every other case the maintainer knows where to apply it, because it
->> is his HEAD of next-branch.
->>
->> I am repeating myself, but I really had no single problem of lack of
->> knowledge where to apply a patch as a maintainer or reviewer of some
->> subsystem, thus maybe I do not understand the actual problem you are
->> experiencing.
+On Thu, Oct 22, 2026 at 08:57:55AM +0200, Krzysztof Kozlowski wrote:
+> On 21/10/2026 18:32, Laurent Pinchart wrote:
+> > On Wed, Oct 21, 2026 at 01:55:37PM +0200, Krzysztof Kozlowski wrote:
+> >>
+> >>> there's no base-commit?  Including any historical patch (from
+> >>> months/years ago), patches with dependencies, etc.
+> >>
+> >> Dependency is something else, but for every other patch:
+> >> 1. For testing/CI: you apply on top of next
+> >> 2. Every other case the maintainer knows where to apply it, because it
+> >> is his HEAD of next-branch.
+> >>
+> >> I am repeating myself, but I really had no single problem of lack of
+> >> knowledge where to apply a patch as a maintainer or reviewer of some
+> >> subsystem, thus maybe I do not understand the actual problem you are
+> >> experiencing.
+> > 
+> > When I review patches, I often need to apply them to a tree, mainly to
+> > see the context, but sometimes also to test them. I have encountered
+> > many cases where the patch wouldn't apply on the current for-next branch
+> > of the relevant subsystem. That's often because the patch had
+> > dependencies. When I'm lucky they are listed manually in the cover
+> > letter with a link to a branch, but that's far from being the common
+> > case. I then have to ask the submitter to provide a branch, or enough
+> > information to recreate a branch. Having base information (base-commit,
+> > prerequisite-patch-id, and possibly base-tree) would save me quite some
+> > time.
+> > 
+> > I understand your concern about maintainers cherry-picking and sometimes
+> > introducing issues as a result. In that case I also prefer asking the
+> > submitter to rebase, retest, and resubmit. That's not what I want to use
+> > base information for, in my case it helps with the review process.
 > 
-> When I review patches, I often need to apply them to a tree, mainly to
-> see the context, but sometimes also to test them. I have encountered
-> many cases where the patch wouldn't apply on the current for-next branch
-> of the relevant subsystem. That's often because the patch had
-> dependencies. When I'm lucky they are listed manually in the cover
-> letter with a link to a branch, but that's far from being the common
-> case. I then have to ask the submitter to provide a branch, or enough
-> information to recreate a branch. Having base information (base-commit,
-> prerequisite-patch-id, and possibly base-tree) would save me quite some
-> time.
-> 
-> I understand your concern about maintainers cherry-picking and sometimes
-> introducing issues as a result. In that case I also prefer asking the
-> submitter to rebase, retest, and resubmit. That's not what I want to use
-> base information for, in my case it helps with the review process.
+> That's valid and for 95% (guessing the number...) of cases will be
+> solved by having linux-next as a base, thus requiring the base
+> information is redundant. It's just linux-next.
 
-That's valid and for 95% (guessing the number...) of cases will be
-solved by having linux-next as a base, thus requiring the base
-information is redundant. It's just linux-next.
+linux-next changes every day, so "It's just linux-next" is ambiguous.
 
-When patchset does NOT apply on linux-next or maintainer tree is
-non-obvious, the base should be provided, but that is only "if ->
-should". I think the proposal here is a bit different.
+Without base-commit, the workaround ends up being to use the date the
+patch was sent and various other information to try to guess a base
+commit.  That's time-consuming and unreliable.
 
-Best regards,
-Krzysztof
+- Eric
