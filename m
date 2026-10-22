@@ -1,47 +1,55 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=217.70.183.193
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792664031;
-	b=f7PTi78v1NTAJZRRHD6wL232YjJ8zCAgagl+8U00bLWIY/yEejPVrLIgKTAnKk/9pOZx
-	 OWko3Xio5MoPCm7xPJaAPJ+g/KF0amh3e4ubYOdcZbxApM8TsX61zE0WO65emZ7gkpq1w
-	 vB1o+wTimTCjL7YYJ1TdK8a70IXrV90IE3Fm4yNbQpy/uAb9edQPwsqXEcAkX/PaauVnj
-	 5B6ieWwQRVW9TLTeS0bjZNz7CB62FGLdnmu+mb6GGwb3nwPPL7EBfYqxvCLNmltJvYYxC
-	 X7ouWYPm5KytSxUXuHv5cdg+yR51Z+/UkalVV+u2wqskyZzP3bTKJf+c6u+ChI2lbZg==
+	t=1792672425;
+	b=nXkvaZU9L8RC8v+jZXtvs5S03dIvdnjYuokenhnk9UqjXhCixZg9MYWAWcCoyWF8IzTU
+	 qiljknuR6NWphmEQqnJGqpPWkfsATG3xjXJLqoMVkc18N6u8f8x1NN1GzKSleZgh5Hwn8
+	 1b3qJIaUVWJaHdrfOZI2NVMw5CgbHmYul9FVVWoIgdsSTr6ENlw3ijSO9gZiEN6Col6DQ
+	 nykYY+2w4mj9ETWKZKqFUWq0tKJIDk5K0p/3CQ5QR6MBqxtZ+4EiANB+rDDb7KMGYb2RP
+	 uWerrVo4kJoKyJkuttpmWwrLLWYnIt3x9qcTKyZI1HV+Y07/xTxGV252YW2aHO/tzGw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792664031;
-	h=Received:DKIM-Signature:Message-ID:Date:MIME-Version:User-Agent:
-	 Subject:To:Cc:References:From:Content-Language:Autocrypt:In-Reply-To:
-	 Content-Type:Content-Transfer-Encoding;
-	bh=HNqJmCyShDCVTxc3ETqjVTExQyidIL/udlP02+wEjXY=;
-	b=xd1GXFbDbZWEO0ynGvn0AcLz4an3zbE/+zFI2ENposJNleizwEu4ouYCOj/k+Vuii0dz
-	 nk8RkY7hPczL3apZOdkrWKDujsAMGV6CL29/UIghJU6AjBcJvCIsgbxZqE4badOzbLOkd
-	 ovcqHUvV8lWbEyJ/eqjB/Q3X1fq/wXXWJv7CyqxuqLgP9qA9nW5xQR/4wnCQXTc0spIYR
-	 V6wZz6RYayZk8hL9ZBna8Dz496dyoZSnh3+yGRmkK2r5ZA2aodo0XTiccXmQVb86ItMEn
-	 Odd+jnGb51qjsRvnscCwn0UeKvOueCIrZ+rkpF/hkc/lfnQIkpWzlvn/I5l/XtiRiWg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1792672425;
+	h=DMARC-Filter:Received:DKIM-Signature:Message-ID:Date:MIME-Version:
+	 User-Agent:Subject:To:Cc:References:Content-Language:From:
+	 Organization:In-Reply-To:Content-Type:Content-Transfer-Encoding:
+	 X-GND-Sasl:X-GND-State:X-GND-Score:X-GND-Cause;
+	bh=PzLdnwzhOpSaZeeNAssy8uRY/6VB3glvi13v/N157wE=;
+	b=bvoghF9oHiwoge0xVkLkb63CDtUgkjqkmIONDhi3tn/mvDwfftMxrnW+VvLjXtkxTdaG
+	 Nv4apg4ZGwqBGKd4ERgxk40CzOFsk1DbP929IncfoPucZixvbPXOAFMY95xfw4p7OhxbT
+	 OXQ7tyAA8toANMtTMY3K6f86IVZq277UQVfWWagW734RKXw7ap6uRBvSU/r37JUt2ZJ5x
+	 7OXfj/5YLVAxSHHo5NyoMyrEs4b93HNu8ihDkWEZ+UjG7eF+vkj9gcOKBNEg9egt1hTyw
+	 04RQO2BrNNwsKVBHdx/i6Ii1X6KZjoEOcLpYZ4XQQJ9VOH7Lh0pNbtB9aEKSRJUSv6A==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Pe7RlR1i;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	dmarc=none header.from=gtucker.io;
+	spf=pass smtp.mailfrom=gtucker.io;
+	dkim=pass header.d=gtucker.io header.i=@gtucker.io header.a=rsa-sha256 header.s=gm1 header.b=FE+nZqnz;
+	arc=none smtp.remote-ip=217.70.183.193
+Received: from relay1-d.mail.gandi.net (relay1-d.mail.gandi.net [217.70.183.193])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 26EB5606A319;
-	Thu, 22 Oct 2026 10:13:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4F132606A31A;
+	Thu, 22 Oct 2026 12:33:43 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 4F132606A31A
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gtucker.io
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gtucker.io
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Pe7RlR1i
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3F7D81F000C1;
-	Thu, 22 Oct 2026 10:13:48 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1792664030;
-	bh=HNqJmCyShDCVTxc3ETqjVTExQyidIL/udlP02+wEjXY=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To;
-	b=Pe7RlR1icts9Rk1OXpXCTrXq1y+wTCGxzaBgxXglxChD/USanzVnLGA1lZ+92LQb9
-	 0m9Ouc/7KJwgEpd2TZp9+lcV/xuT4lltHTHVHA0HHkDnOa2j5QE7LKGpKu8YW1Nrq9
-	 Bs+4lIbiPg3+/jG7v1qgeJQDseqD7yzHczMJLajujrTWe2tPrbMhmwxKHqGj/Q8xaS
-	 9TOQ85yOUehbBIi+J/muq1+L/3+EqoIRb79jn4G0Wqpzifp1I7nXDEfL7qtRuvetF4
-	 WC8u4jq6QZd2+PZVrj1cQe6JXtm23CRJBQymZiNUFbMdEjnG0miMOh97xeWWPii6bf
-	 B4iiEcG494xDw==
-Message-ID: <1e3ad9e8-cf97-4553-87ae-98c22aa974fc@kernel.org>
-Date: Thu, 22 Oct 2026 12:13:46 +0200
+	dkim=pass (2048-bit key, unprotected) header.d=gtucker.io header.i=@gtucker.io header.a=rsa-sha256 header.s=gm1 header.b=FE+nZqnz
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 85A243EE42;
+	Thu, 22 Oct 2026 12:33:35 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gtucker.io; s=gm1;
+	t=1792672416;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=PzLdnwzhOpSaZeeNAssy8uRY/6VB3glvi13v/N157wE=;
+	b=FE+nZqnzagovPS6sjXCGGFnQSpspoz0qLOR1FIELg0FnbWsglTZ3UTcz18JCBAB5Cvzxbt
+	VL+imIPqCDF92Mie1SzlBgk9h6j/xZtyQN3U6iXuQY2xHNe+TH2wGu2YB64hPk100dBoai
+	xUsvbI8OLMCKgjD9QNZYpdYEuTBzdj5NY0GLPM7A4E6DExBljtD/TuaeIuXPSoC+iyJmDo
+	hKQSb75hVmRy/SxBt8KZZj+/PIflEfYbg679qNqs2RGKAscuyh9VhbvYlp2mTaV4V2/VhJ
+	qwtp/mR8b4Io9v4jDvFvcVJLJIVSS8sdEJb0KILVzZUdZzy9Fg9fL55zqospKg==
+Message-ID: <8cf6a585-515f-4ebc-8a8f-29de56a83529@gtucker.io>
+Date: Thu, 22 Oct 2026 14:33:35 +0200
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Post: <mailto:workflows@vger.kernel.org>
@@ -52,100 +60,69 @@ List-Owner: <mailto:workflows+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] docs: submitting-patches: Require base tree information
-To: Geert Uytterhoeven <geert@linux-m68k.org>
-Cc: Jonathan Corbet <corbet@lwn.net>, Eric Biggers <ebiggers@kernel.org>,
- linux-doc@vger.kernel.org, workflows@vger.kernel.org,
- Shuah Khan <skhan@linuxfoundation.org>, Randy Dunlap
- <rdunlap@infradead.org>, linux-kernel@vger.kernel.org,
- Konstantin Ryabitsev <konstantin@linuxfoundation.org>
-References: <20261020212235.1143086-1-ebiggers@kernel.org>
- <363b228a-7e96-481a-b70f-195ba55d025e@kernel.org>
- <87y0br3zln.fsf@trenco.lwn.net>
- <9704f11c-4c2e-426b-87df-13ea2ffdca3c@kernel.org>
- <CAMuHMdW6fLN66GzWt1C+zpCwW99UCaN=C2xCrxL9k1P7K7VKHg@mail.gmail.com>
-From: Krzysztof Kozlowski <krzk@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=krzk@kernel.org; keydata=
- xsFNBFVDQq4BEAC6KeLOfFsAvFMBsrCrJ2bCalhPv5+KQF2PS2+iwZI8BpRZoV+Bd5kWvN79
- cFgcqTTuNHjAvxtUG8pQgGTHAObYs6xeYJtjUH0ZX6ndJ33FJYf5V3yXqqjcZ30FgHzJCFUu
- JMp7PSyMPzpUXfU12yfcRYVEMQrmplNZssmYhiTeVicuOOypWugZKVLGNm0IweVCaZ/DJDIH
- gNbpvVwjcKYrx85m9cBVEBUGaQP6AT7qlVCkrf50v8bofSIyVa2xmubbAwwFA1oxoOusjPIE
- J3iadrwpFvsZjF5uHAKS+7wHLoW9hVzOnLbX6ajk5Hf8Pb1m+VH/E8bPBNNYKkfTtypTDUCj
- NYcd27tjnXfG+SDs/EXNUAIRefCyvaRG7oRYF3Ec+2RgQDRnmmjCjoQNbFrJvJkFHlPeHaeS
- BosGY+XWKydnmsfY7SSnjAzLUGAFhLd/XDVpb1Een2XucPpKvt9ORF+48gy12FA5GduRLhQU
- vK4tU7ojoem/G23PcowM1CwPurC8sAVsQb9KmwTGh7rVz3ks3w/zfGBy3+WmLg++C2Wct6nM
- Pd8/6CBVjEWqD06/RjI2AnjIq5fSEH/BIfXXfC68nMp9BZoy3So4ZsbOlBmtAPvMYX6U8VwD
- TNeBxJu5Ex0Izf1NV9CzC3nNaFUYOY8KfN01X5SExAoVTr09ewARAQABzSVLcnp5c3p0b2Yg
- S296bG93c2tpIDxrcnprQGtlcm5lbC5vcmc+wsGPBBMBCgA5AhsDBgsJCAcDAgYVCAIJCgsE
- FgIDAQIeAQIXgBYhBJvQfg4MUfjVlne3VBuTQ307QWKbBQJp2mE8AAoJEBuTQ307QWKbeaIP
- /ihHTkTW4KsN/DQ945JJbyu5tI0J80Wue7QyyLPglyKfhgb5cLLNPpOC8cCIJsc7+W3i2P38
- s2c1cOH6CYGE7E9ur3Vfme8NW2S2I/Z8VC7bZnzyS23wT17LrsdS/qCpx4o8U+pt/xdXDKph
- EGRYrIEmMpUWvyYzyYKGIe25FtaayIIKpq8eZYyFcp2f/sG5IkOW5uZzHPMPdcm87jU7fyuQ
- rAU2vx9r+ulUfQ/q9Z2roC/ode3l7t2pN7BCBCsUDp6JCrUyZrtT1e7EbA0ZRP3aOBNk2P2E
- DQOgJGjGdO5Yx2Y9LFtltu6JbsBJHi1syGRX3AtQYOMc4Y1WGoeZJmMlvKj2ZqqXNkcWi2DS
- IQEWB0uW6CqFsBBIMGDa+6OzdaVO/uAVXWDWml02Men3CILdI1MbVjoh8ECqYUY7OQ+JJvNN
- vnliuq5WM3Ghd3jg/LZZrxXjdIginRHFQCjIJYLKpLZWm1/iDFedcfzqRNYmTtqscdCNHW41
- oT3Z7BmO9xwdjuwBS6nmS6JJwkbf5Ot2QR4pB/DRU7ZwjT1qHe+9r9gF32wXVQatHNGK/VVu
- sfwOnkdxCWkp/qb2gdQRmZh+SedStWshigH6sNfuHBloF/q+hjMRc8b2m326OZdrbSHwY1Sz
- vti8Hn7n8NjdHO9LKB7BIdjkA9DA5WsqOuVCzsFNBFVDXDQBEADNkrQYSREUL4D3Gws46JEo
- Z9HEQOKtkrwjrzlw/tCmqVzERRPvz2Xg8n7+HRCrgqnodIYoUh5WsU84N03KlLueMNsWLJBv
- BaubYN4JuJIdRr4dS4oyF1/fQAQPHh8Thpiz0SAZFx6iWKB7Qrz3OrGCjTPcW6eiOMheesVS
- 5hxietSmlin+SilmIAPZHx7n242u6kdHOh+/SyLImKn/dh9RzatVpUKbv34eP1wAGldWsRxb
- f3WP9pFNObSzI/Bo3kA89Xx2rO2roC+Gq4LeHvo7ptzcLcrqaHUAcZ3CgFG88CnA6z6lBZn0
- WyewEcPOPdcUB2Q7D/NiUY+HDiV99rAYPJztjeTrBSTnHeSBPb+qn5ZZGQwIdUW9YegxWKvX
- XHTwB5eMzo/RB6vffwqcnHDoe0q7VgzRRZJwpi6aMIXLfeWZ5Wrwaw2zldFuO4Dt91pFzBSO
- IpeMtfgb/Pfe/a1WJ/GgaIRIBE+NUqckM+3zJHGmVPqJP/h2Iwv6nw8U+7Yyl6gUBLHFTg2h
- YnLFJI4Xjg+AX1hHFVKmvl3VBHIsBv0oDcsQWXqY+NaFahT0lRPjYtrTa1v3tem/JoFzZ4B0
- p27K+qQCF2R96hVvuEyjzBmdq2esyE6zIqftdo4MOJho8uctOiWbwNNq2U9pPWmu4vXVFBYI
- GmpyNPYzRm0QPwARAQABwsF2BBgBCgAgAhsMFiEEm9B+DgxR+NWWd7dUG5NDfTtBYpsFAmna
- YUkACgkQG5NDfTtBYptX+BAApg32CkxwNucNEi8WfWA8oKkW0y8YDuY6ORMo9FWNGiT/OTy0
- vyJrLocrpn86zwfjVp+eCrssPYh8eqJfnWqmYv6ACQtHPYzPZQ3mSo8H97Z01oUxITzCxpXm
- ZkLgPIqtDPcC2E3dPM/fVxcyowM8XsaMA9wcsaUYrta8toOq2b9tKcjleKMfMrm0gQ9u7wUc
- QbLkwj6TCLOwucb07GXzLTNF9PZmaDUpKAZjMjmrW+le+SFvQbhamx0rxLWPR0NWntXpbCn+
- +ACch03p/JyTBVktxFsFyCt7pTPE1kEaeuXBTe/a2D9iQvRxRW19LvuO2e59/u1wYUiH/orz
- wbIC2S4dBsPAPihL3ztOU1yE86GPyQtSE0kU+/7snnLt4QGi6PChf3t5gnNjAzjUUovO8rgI
- c+5yN5heq5loYHgK6OQ9OlHzsPHO9e9MOQcKlFycs1pyijFGzDwdNUm/SchK8iWT2QApTx4A
- K9bCVaboTA2T77QYkRcRJYSsO1alGX0ome/hMLD1daXlkrNUp1HWa3K4iytLRXjCSIorWiGs
- n+q3krnpXu3TFkA8qtOFZMdnIiFuiq1yLT8hptsV5xh1TA2nsVvSYiaCr3q4s4BKjS/KrLDb
- qoxzw8ISjdUp4pA85vb6YLCmb39NgidD+7PmAr65lBNveIFynTgsja1rRQ4=
-In-Reply-To: <CAMuHMdW6fLN66GzWt1C+zpCwW99UCaN=C2xCrxL9k1P7K7VKHg@mail.gmail.com>
+Subject: Re: kernel.org container images
+To: SJ Park <sj@kernel.org>
+Cc: Konstantin Ryabitsev <konstantin@linuxfoundation.org>,
+ Arnd Bergmann <arnd@arndb.de>, Miguel Ojeda <ojeda@kernel.org>,
+ Nathan Chancellor <nathan@kernel.org>,
+ "open list:DOCUMENTATION PROCESS" <workflows@vger.kernel.org>,
+ linux-kbuild@vger.kernel.org
+References: <20261015133638.86959-1-sj@kernel.org>
+Content-Language: en-GB
+From: Guillaume Tucker <gtucker@gtucker.io>
+Organization: gtucker.io
+In-Reply-To: <20261015133638.86959-1-sj@kernel.org>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
+X-GND-Sasl: gtucker@gtucker.io
+X-GND-State: clean
+X-GND-Score: -100
+X-GND-Cause: dmFkZTE/S4BhfnCjrHhOIlr0QTUJfqSf2ospOlnXag/baLHqELxcqhoBRQvdpRPQ9FjAA3fP5kKxO7EODmMchnVjwUFQDVpmDzqVqTO8oAQp+flafGTKg5VCs12OyXXWJ0JDeQvVUmTksG5NyvH54blEfmMIMmYpjJxGzfXELLmO/Wfpv69m/huOXzh7RM1ZjjF7IJjC7SXl/5jy67x4Ol3jYsdDqtRVxBOFIBnZ2aKGtbAh7oHzMFMjwKMyw2hXHF1/KrwJ+trJ3MnqWrkZVfintwo8aLYJ/bk8n/k+TAyFx5zlkll/zQe1mvK/8YnLtfIL1SKrFTmU4qmjDVWNZxm+F/g8Xi5dL/8Q4t4fpksAgGjCgsU1VQXWx0mdaqB6SuknPWllPptBOhwxm02SJSlqtdUw88O+E1ooK5/Y0WWZkKW11aB3YRtDA5EpwlbkUXKVPiwt2SQmVXltQIzk+9VhUWQ9xQRq/YVQhljVv2NpRdf5JWqt17e9PjX2GcwKAsOvRhnYOYM+JYJHocAEpgwbxrcLT9LxVNEL6DujCjjXs+w/KDy4Wmg93SK1aeERbPy6/jvTvwEuC1yg/uNAIEINWZMLHfzuRW7qjM3BcBAyXosSrenCsgUPeN2nAbKRxO1W6s+Y/yqLZVIHQ/SnfiMM/kTOwx4aaCQErQfd1AjEKMm6PQ
 
-On 22/10/2026 12:04, Geert Uytterhoeven wrote:
->>
->> This is a real issue because it is very difficult to spot - your commit
->> is applied, but you never verify whether is applied THE SAME way and
->> maintainer thinks everything was applied cleanly.
->>
->> If (1) happens and patch does not apply, the solution is to ask the
->> contributor to rebase.
+Hi SJ,
+
+On 15/10/2026 15:36, SJ Park wrote:
+> On Mon, 28 Sep 2026 14:30:48 +0200 Guillaume Tucker <gtucker@gtucker.io> wrote:
 > 
-> This happens a lot in DTS-enablement patches: multiple people are
-> working on different devices for the same SoC/board, so half of their
-> patches insert new device nodes at the same conflicting location.
-> Perhaps we can teach to git how to handle DTS addition conflicts?
+>> Hello,
+>>
+>> We discussed the topic of managing container images on kernel.org
+>> again at Kernel Recipes last week with Konstantin and Arnd.  The
+>> idea is to provide a set of reference images with kernel.org
+>> toolchains which developers could use via the scripts/container
+>> tool.  They would provide a common denominator to facilitate
+>> development and reproducibility.  These images would of course not
+>> be tied to any single tool and could provide a basis for CI bots
+>> such as KernelCI or tuxmake.
 > 
-> So your solution is that I apply one new patch every day and publish
+> I run a few humble and hacky build tests on my local machine.  I also want to
+> do the build test on more setups including rust enabled build, and on more
+> machines of different architectures.  But I'm short of time to learn how to do
+> cross build correctly.  The Rust for Linux training at LPC helped me doing rust
+> enabled kernel build for the first time, though.  Kudos to Rust for Linux team.
+> 
+> I am therefore considering options including use of the scripts/container tool.
+> I was unable to find a time to do that so far, though.  Having recommended
+> images in kernel.org will definitly help me prioritizing it.
+> 
+> I also find opportunities to use the images not only for build tests but more
+> use cases including benchmark runs.
+> 
+> I just wanted to say thank you for developing the tool and this kernel.org
+> registry initiative.  Looking forward to more progress, and I will also try to
+> find if there is something that I can help.
 
-We speak about special cases, where there is a conflict thus the patch
-does not apply and base information could the maintainer rebase the
-patch. Only this case.
+Many thanks for your feedback, this definitely helps a lot already.
 
-> the result, and ask all other N-1 series to be rebased? Obviously this
-> not only applies to queuing patches, but also to applying patches for
-> build/run testing during review?
+It's great to see how the tool can improve workflows for developers
+and maintainers as well as automated testing.  Having the generic
+kernel.org registry will be the next milestone as these images are
+meant to provide the foundation for many use cases, not just the
+scripts/container tool.
 
-Unfortunately yes, because every other option I know, so maintainer
-doing rebases, is error-prone as I see every two months. If you assume
-that maintainer can be trusted in a way that they will do the rebase
-correctly, then well, welcome to burnout world were we barely have time
-to go through inbox, not even thinking about doing this diligently.
+As discussed with Miguel, we'll work on providing images for doing
+Rust builds using kernel.org toolchains too.
 
-If we had git-forge workflow, then this (contributor need to rebase till
-there is no conflict) would be even an obvious requirement enforced by
-the forge.
+Best wishes,
+Guillaume
 
-Best regards,
-Krzysztof
