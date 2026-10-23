@@ -1,71 +1,123 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=170.10.129.124
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792773904;
-	b=GEdj2x30qEQl2gVnGzeXQ4ZqHiduFhzbgq+RRrjTpbixB6hTaEW4SjlPx6IGBha8TT8B
-	 b2hUt3eZYG0gIysZG6I/wVmN5uSV6bAzenuhPrptNZEZRdsZR6ouxx02aG0bUitr26Ykh
-	 IXzeSLA1i6nz8sxuscTHT4G17pgky3O0keK1JYnphBFE6Jt8BiMYNJWJLz/kfT1FPwcn4
-	 mgTl8rhZTqGelyu+iL+MqDe9epzSCVr+bBBeBhAJGAtKEicLZMGnjAC7FVZg9PCi5bL6J
-	 tKWe4kOsHKr7j56UoR4o90cSECV19s8AE7qXgKBie6a19lEC+KnckrtJmJhujt9VsqA==
+	t=1792777028;
+	b=4Joi+c1eg/Fxwj8RGeMUmQ/hs/L9zuHYBB6L1IivGIoM6T7c/ZDQSmx5G1qDRelcReJO
+	 1kIh2j1SpkEQcczU6YfCoV2pDhsh2WE4aZnHk4m8nOPs8x/o4bQWJ3AGc0N3HRlokF3sV
+	 2S2WX+sayEIIfg2V2I3ktAMoaRZaGAI7Y2yYaS0JRHF2ln9eE9uAw7L3iv56dVEAYzMDa
+	 gANru4rtJ3eLZyb1zO40e21eEEnjTRxEwBxDXNlwsSndRlhUJrGvQ9BMHUPLfEzFNOzcj
+	 PdWqXGgijm8nO2RyPgLdAW/r3YsQnkpiHTeHtyA6VJ7TmKu8M1/Is4x9WI0I9hd1Whg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792773904;
-	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
-	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
-	bh=s4ne8OLtVs38lLgCbdFGLaiV4oqCFgQ7TwUBJCJlioo=;
-	b=3gOx1isA1oUXSrYbf1PvRZtBU+xvqmL8dT03ZVv4yQBDoGEu3E1+NgUZzzg5xhKs2TL6
-	 8RqHwP6USnaih6MmWr4iNxX64O8PBnIDHFQjXHH1OwZIhtnuvU22jwbG3YcxLRnWmnUZV
-	 mhI3lT4rT5L8/+4cjpR4clKDehZhUc4WQJCdsumKRTyxl+8BDrJ4MfB6wkKRNabz7zA95
-	 kyQ6fvIeYjSrcCGZ9LIHxuFUBY0J900ec7Oa4slTB9cHduVvK+Z0wXNfY76poFDpfOwsy
-	 GtUiZFDjs9B4ZiuaouWETNfqE9PWBiJvX6npcX+eO1oqYYOsp8XYsHI98MbEmVJZQKw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1792777028;
+	h=DMARC-Filter:DKIM-Signature:Received:X-MC-Unique:
+	 X-Mimecast-MFC-AGG-ID:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:
+	 X-Received:Received:Message-ID:Subject:From:To:Cc:Date:In-Reply-To:
+	 References:Content-Type:Content-Transfer-Encoding:User-Agent:
+	 MIME-Version;
+	bh=Ahv8hek+EvAXMKlXCTALJglEGd0QFHOYDAP+RILIW24=;
+	b=m5RfjCB5dTwDo5/VDo6KKQBbbimlIqnzEdTLFwgwlMhYniA8XcYREETsoBxeBwUkH9tr
+	 Z17EkBxiq5ddbdsBMpSDJLCbX7EBaNxedAT/eKOnwU9YJ/7CKoIOFPsGeJFpUl4NgDRLO
+	 F4pok0G4V6ja1hOskJvagWdR9BcAy9VlM6Se1WV1Q4eR5oOk/oVyXV2LS+FdiMThjmGRg
+	 q3WmNHY1V3fiWDcXl4UR228e9cGfTNleoue6KV7KbnAoXBJNc3tivj0oLFtnP7NBVeAb9
+	 18FWVsgI8dcrWuZziqbVa/ua5/MRIYv8owNT8Y5Qh+XQHB4qzYIxHn0cdZKnivwLqYw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=WOU8EpdI;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	dmarc=pass header.from=redhat.com;
+	spf=pass smtp.mailfrom=redhat.com;
+	dkim=pass header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=mimecast20190719 header.b=bcXzpRAE;
+	dkim=pass header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=google header.b=JicNh2Nh;
+	arc=none smtp.remote-ip=170.10.129.124
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EDA4A606A31F;
-	Fri, 23 Oct 2026 16:45:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E7598606A31E
+	for <workflows@vger.kernel.org>; Fri, 23 Oct 2026 17:37:07 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org E7598606A31E
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=WOU8EpdI
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 805E31F01825;
-	Fri, 23 Oct 2026 16:44:57 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1792773903;
-	bh=s4ne8OLtVs38lLgCbdFGLaiV4oqCFgQ7TwUBJCJlioo=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=WOU8EpdI+MOaw2yWS4AhxtlYPeA7u9wLlEwJkTmYQrKrx2Ig40QH2E0JcXp+dL0Gk
-	 EfYPqqtixfl0hLqJMiaOU7m7SiwIfx80/wDN9HCiDo9VuYWWfQbl1JRq2urCkPWyvT
-	 omBHB8NeYp5mSpiZKOaDplxd+UlRyiXXwUbkbOC2BiqhiUXQErbIxqxmzADpPfUaq7
-	 kyIH/2xw2lfZIpLzAc0RqUlc7nAeVjFTF+cW0nDSmOXkVY0PCbDodf0Jk7wZf54eaK
-	 kFxR7PEX+nxxjzjPbwZ2OemZ7fuGwhc0Xr75WDIKImcww9NV4/TEg0j36O1MvJFt0y
-	 d0WCBK4QSrUHg==
-Date: Fri, 23 Oct 2026 17:44:54 +0100
-From: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc: Krzysztof Kozlowski <krzk@kernel.org>, Sasha Levin <sashal@kernel.org>, 
-	corbet@lwn.net, skhan@linuxfoundation.org, rdunlap@infradead.org, 
-	federico.vaga@vaga.pv.it, apw@canonical.com, joe@perches.com, workflows@vger.kernel.org, 
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Linus Torvalds <torvalds@linux-foundation.org>, 
-	Justin Stitt <justinstitt@google.com>, Carlos Maiolino <cem@kernel.org>, 
-	Jakub Kicinski <kuba@kernel.org>, Jori Koolstra <jkoolstra@xs4all.nl>, 
-	Brian Foster <bfoster@redhat.com>, Christoph Hellwig <hch@infradead.org>, 
-	David Disseldorp <ddiss@suse.de>, Mark Brown <broonie@kernel.org>, 
-	Jani Nikula <jani.nikula@intel.com>, Jens Axboe <axboe@kernel.dk>, 
-	"David Hildenbrand (Arm)" <david@kernel.org>, Vlastimil Babka <vbabka@kernel.org>, 
-	"Christian Brauner (Amutable)" <brauner@kernel.org>
-Subject: Re: [PATCH] docs: remove Assisted-by references
-Message-ID: <atuDosjEibZI9exi@gremlin>
+	dkim=pass (1024-bit key, unprotected) header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=mimecast20190719 header.b=bcXzpRAE;
+	dkim=pass (2048-bit key, unprotected) header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=google header.b=JicNh2Nh
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1792777026;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=Ahv8hek+EvAXMKlXCTALJglEGd0QFHOYDAP+RILIW24=;
+	b=bcXzpRAEtifAQMtobXDOy+r0fJO0AGF97q8jjwObWvTjli2cYerUdcjM327aE3Wf5tqqhz
+	KfeUcbftikZCbzMyZpizcEorceFcOSahF4TQViGq+P1T9st99gM41SF5CU3oxIDSk8xFHL
+	vA+iROSjLULPAju9RxxyWY0OaqTuT9k=
+Received: from mail-qt1-f197.google.com (mail-qt1-f197.google.com
+ [209.85.160.197]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-57-vN-4rNVsPoaPnU3KcMOAAw-1; Fri, 23 Oct 2026 13:36:59 -0400
+X-MC-Unique: vN-4rNVsPoaPnU3KcMOAAw-1
+X-Mimecast-MFC-AGG-ID: vN-4rNVsPoaPnU3KcMOAAw_1792777019
+Received: by mail-qt1-f197.google.com with SMTP id d75a77b69052e-5352436cd78so4257691cf.0
+        for <workflows@vger.kernel.org>; Fri, 23 Oct 2026 10:36:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=redhat.com; s=google; t=1792777019; x=1793381819; darn=vger.kernel.org;
+        h=mime-version:user-agent:content-transfer-encoding:content-type
+         :references:in-reply-to:date:cc:to:from:subject:message-id:from:to
+         :cc:subject:date:message-id:reply-to:content-type;
+        bh=Ahv8hek+EvAXMKlXCTALJglEGd0QFHOYDAP+RILIW24=;
+        b=JicNh2NhM+bKqjfVJxtTDyhDIfJgYLdNUjZ5zqhe+edMq2OmfAgFtlKCFG+vNETJ8z
+         3rX/VDQVLyZ46UeSllkvbid2D9dNPM8OFah48hRSUKbjGC1aIroWp5KE+2PBLRYHBFpo
+         +J09gN9+Z1C4ZBBr91u9tr3Mkfd0SeIFT2GDQWGVysGqtWYMbKJGi9Ksua1VOPUkHDCZ
+         eX03l3QwsEuKqCC515rSmjBYxNy1+1bOlMFBZc/gPvrwObEyq2LtpKWMvcRP8zIPqxwF
+         GOUwemyNg90HAl8jCIXGZpKguyRSA+va9xj0Vv5qPw2oTGVX3wxsVdfhQ4FBzRjEnpbe
+         JSjA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1792777019; x=1793381819;
+        h=mime-version:user-agent:content-transfer-encoding:content-type
+         :references:in-reply-to:date:cc:to:from:subject:message-id:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=Ahv8hek+EvAXMKlXCTALJglEGd0QFHOYDAP+RILIW24=;
+        b=J041n5I/CJ5APeVHoMfBi3ccor4XjJIlSnibVO5xd90bT3fXgYgzAO94IPRiGK7mTb
+         DdPg0MCLtQmsJatbYZi/mGnTXJnrZ5oZsq31fC7UydEnXVfkTOdIplxcx565Vc6uD6wj
+         8xNVFjbky7E7tyok1q2/luUhYbNla9cTz3INUaPxFyD6Lncb6vQKgb08d7R7pGfAuQ0P
+         oggXyGOqM5V45b+naKcWqPbDJjwtzPNjUr8fxponGvUgq2nywpiQMaD7S0JJV7IE5Fs0
+         6A/o0V934yv6ZOX/5OgJOSG5Gm0aVrU+fakYbGppq1e48D0uy+Sp4/MxpFkRakuhr19t
+         8ewQ==
+X-Forwarded-Encrypted: i=1; AKwUvBxEIu2+HhBdqDTbCxKoVTEsVQ2kRNB2XzyQHQFMOk1xkmi6m9TelyydwmoIKkmUFUHGxdAsA7VbZn0=@vger.kernel.org
+X-Gm-Message-State: AFq9FYJAceVkS0kYRR09gJ2Q4PwPPYEn+7ILiBW/XwbVbWRLXNXqZuX0
+	xpR6GBiNbw0V6hcYzstE8fPjcWbA9Ia1OdGQM5gwbsGX/TkUl4JBAZSOtfp1GzxprTMccTLiELS
+	H1AztldUUHjDS4lkbAbXbEYn1OANoWjBQVrpwE+4ipEcAqmfsQysyVtNbSQQlioTms3pygQ==
+X-Gm-Gg: AYBFou2gK/ztFoaPwZDFhZjaREJV35bOzVV9GwVRt8ecxxPLLqED4tNC2+//PtyXhUz
+	L50O/6om7yk4rmwk+t37m1uSzgUgileaHp5SUPaz0WcXOoOH55/uVO6Z7il5D1wmzyIcq258EiN
+	aPllYyvhcXsaOnK0hnfUdsCsBtWImV9nvkLZdSD1tG3BO1PCNZDiqVMykgSVqyy5RpgLDReonMs
+	/Ckd5ZmFAgkkoZEjifoDYhvlTPA4UATi5+xV1x+2eW9L7iSbpxpIka5JdlQSpg5R5OWOc4ACZjK
+	SJDYMT37Q7763zGoJPkrsOuWE6gEhEuN+VZ6w7q1Kg0dy5EXlgRZuJo+AbsyuHSQNlwayqw=
+X-Received: by 2002:a05:622a:5b97:b0:532:f0a2:ef4 with SMTP id d75a77b69052e-536c25f7a86mr39840401cf.26.1792777018662;
+        Fri, 23 Oct 2026 10:36:58 -0700 (PDT)
+X-Received: by 2002:a05:622a:5b97:b0:532:f0a2:ef4 with SMTP id d75a77b69052e-536c25f7a86mr39839981cf.26.1792777018044;
+        Fri, 23 Oct 2026 10:36:58 -0700 (PDT)
+Received: from [192.168.8.4] ([100.0.180.93])
+        by smtp.gmail.com with ESMTPSA id d75a77b69052e-53836c4c71fsm2658041cf.25.2026.10.23.10.36.56
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 23 Oct 2026 10:36:56 -0700 (PDT)
+Message-ID: <04409702791cbc2519355d2291ae9db5f4e44339.camel@redhat.com>
+Subject: Re: [PATCH] docs: remove Assisted-by reference
+From: lyude@redhat.com
+To: Troy Benjegerdes <hozer@hozed.org>
+Cc: Jori Koolstra <jkoolstra@xs4all.nl>, Kees Cook <kees@kernel.org>, Randy
+ Dunlap <rdunlap@infradead.org>, Sasha Levin <sashal@kernel.org>,
+ corbet@lwn.net, 	skhan@linuxfoundation.org, federico.vaga@vaga.pv.it,
+ apw@canonical.com, 	joe@perches.com, workflows@vger.kernel.org,
+ linux-doc@vger.kernel.org, 	linux-kernel@vger.kernel.org
+Date: Fri, 23 Oct 2026 13:36:55 -0400
+In-Reply-To: <atoNuurgxrKV4aid@false>
 References: <20261009083137.3-1-sashal@kernel.org>
- <0914a106-bacf-4d95-854a-bfeefbff62a4@kernel.org>
- <asz9AeFe3CutP73z@gremlin>
- <20261013123132.GC4214@killaraus.ideasonboard.com>
- <as4pAEnLd4H68W4W@gremlin>
- <20261013131243.GM56180@killaraus.ideasonboard.com>
- <as4xMnT8a75pIw9v@gremlin>
- <20261013173240.GK4214@killaraus.ideasonboard.com>
- <atI_TSQXzAQFWBfx@gremlin>
- <20261020211532.GD15441@killaraus.ideasonboard.com>
+	 <202610122124.08E058768D@keescook>
+	 <ea3ff257-70e2-43e4-aba7-140e84994872@infradead.org>
+	 <202610130120.E43D236E@keescook> <as4gLo_6acb_zZu0@daedalus>
+	 <4a55a48948a1f01686b0471307b6fc2d52be7896.camel@redhat.com>
+	 <atoNuurgxrKV4aid@false>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.58.3 (3.58.3-2.fc43) 
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Post: <mailto:workflows@vger.kernel.org>
@@ -75,133 +127,26 @@ List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:workflows+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20261020211532.GD15441@killaraus.ideasonboard.com>
 
-On Wed, Oct 21, 2026 at 12:15:32AM +0300, Laurent Pinchart wrote:
-> On Fri, Oct 16, 2026 at 05:14:02PM +0100, Lorenzo Stoakes (ARM) wrote:
+On Thu, 2026-10-22 at 13:20 +0000, Troy Benjegerdes wrote:
+>=20
+>=20
+> This is why I'd like to know *which* LLM I'm dealing with, so at
+> least
+> if the human is not paying attention, maybe the LLM developers will
+> care
+> enough to provision a large enough context window to actually retain
+> the
+> critique.
 
-> > So now maintainership and review is thankless at an unprecedented scale,
-> > which leads to only one thing - burnout. Possibly even the medical variety,
-> > where you don't come back for a long while, if ever.
->
-> I hear your pain, and I'm sure it's more painful than what I experience
-> in my corner of the kernel. I know how the sense of duty feels as a
-> maintainer. It may not make a big difference, but I want to say you have
-> no duty to burn out. If you decided to slow down merging patches in MM
+I have to be honest: if the human is not paying attention, it is the
+same as a contributor repeatedly sending patches and not responding to
+patch reviews in any meaningful way. I don't see any reason why
+maintainers should be responsible for carrying the patch the rest of
+the way, this falls straight into slop territory and goes even further
+into "if I see someone repeatedly doing this with their submissions the
+chance of me actually looking over any of them goes down dramatically".
 
-Kind words always make a difference :) so thank you. And agreed, I am
-working on... working less :P
+Also, it's not like it gets the critique anyway. Whether or not it
+follows it is up to chance.
 
-I take my maintainership duties seriously, so there's always stuff I _have_
-to do, though. I suppose the point is that for me and likely many others,
-things are _already_ overloaded.
-
-> > The only solution that can possibly work is large-scale ignoring, because
-> > the number of submissions can grow exponentially, and even small
-> > effort-per-submission is vastly beyond available resource.
->
-> It increasingly feel we need to also look at long term solutions.
-> There's a sort of knee-jerk short term reaction that I can understand.
-> On the longer term, I agree with Lyude that any solution will involve
-> increasing the number of reviewers and maintainers.
-
-I have a fair bit of experience on this front, as I did a lot of work
-establishing mm maintainers/reviewers once the community had decided on
-establishing submaintainers, etc.
-
-Aside from being technically competent, maintainers must have 'soft' skills
-(misnomer, they are the most important), need sufficient experience to do
-the job, importantly must be able to say 'no' (when taste or technical
-concern dictates), and must also be willing to put up with what it entails
-(now including slop).
-
-That filters it down to a very small number of people, unfortunately, and
-in any case even if we had hordes of maintainers, the number of people
-sending slop can always exponentially exceed them.
-
-On reviewers and reviewing I agree, but it is _really_ hard to get people
-to review more, and I've noticed the slop has clearly discouraged people
-from doing more.
-
-> I fully understand that many maintainers currently feel they're too
-> pressured to invest time in the next generation. We need to find
-> solutions to make that possible.
-
-That's not what I'm saying, at least, myself :)
-
-With the best will in the world if we start getting 500 mails a day, or
-1,000, or 10,000, even reading the mail becomes intractable.
-
->
-> > The alternative is maintainers quitting en masse and the project dies at that
-> > point. So it's a choice between two bad options, but one of them is 'linux
-> > dies'. So the other one seems better.
->
-> If we stop investing in the next generation, the project will die too,
-> in a worse way in my opinion.
-
-Again, to me, it's just a scaling issue - nobody can read hundreds or
-thousands of mails a day effectively, and maintainers and reviewers are
-past capacity even now.
-
-And agreed, we need talented young people coming up and it kills me that
-they might be discouraged both by 'AI will take over so what's the point'
-and the hordes of 'competing' people sending slop.
-
-Perhaps there are ways and means of getting talented new people involved
-via side-channel, though.
-
-I did the 'eudyptula challenge' many years ago, which was a sort of boot
-camp for kernel developers (with a lot of 'are you patient enough' bits :)
-
-That can't work in identical form anymore because of AI (sigh), but perhaps
-we can figure out some AI-proof version of this?
-
-> > So it's very far from the case of 'oh wow now I can just ignore everybody'.
->
-> Thank you for taking the time to clarify this. I'm happy to read I
-> misunderstand you. E-mail communication is horrible to discuss these
-> topics, especially in public.
-
-You're welcome! Thanks for your kind and thoughtful response.
-
-And yes, text sucks, and I have myself both communicated poorly and
-misinterpreted people via email more times than I'd care to admit... :)
-
-It does seem text, while useful for asynchronous comms, is often very poor
-at conveying tone and intent.
-
->
-> This is something we really need to improve quickly. Over the past week
-> multiple active kernel developers asked me if I thought they needed to
-> find a job elsewhere, thinking maintainers will now ignore anything but
-> perfect patches and dismiss contributions from developers who don't use
-> LLMs. That's a wrong impression (at least I very much hope so, and you
-> clarified that you're not advocating for that), but it's a disastrous
-> impression that many people got from the maintainers summit and the
-> following mailing lists discussions.
-
-The intent of what I said was to be totally honest, and to _own_ the
-'collateral damage', rather than to deny that, which felt, to me,
-dishonest.
-
-Perhaps I could have conveyed that better, but that was the intent at
-least! :)
-
->
-> I'd like to see more maintainers clarifying this publicly, like you have
-> done.
-
-I'm sure the other maintainers who've said similar things feel the same
-way.
-
-None of us are enjoying this I wouldn't say, and none of us want to harm
-genuine newcomers.
-
-So yeah, the TL;DR is 'scaling is the big problem' and I probably should
-have limited my response to that many mails ago :)
-
---
-Cheers, Lorenzo
