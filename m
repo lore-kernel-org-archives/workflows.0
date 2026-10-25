@@ -1,123 +1,101 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=170.10.129.124
-ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792777028;
-	b=4Joi+c1eg/Fxwj8RGeMUmQ/hs/L9zuHYBB6L1IivGIoM6T7c/ZDQSmx5G1qDRelcReJO
-	 1kIh2j1SpkEQcczU6YfCoV2pDhsh2WE4aZnHk4m8nOPs8x/o4bQWJ3AGc0N3HRlokF3sV
-	 2S2WX+sayEIIfg2V2I3ktAMoaRZaGAI7Y2yYaS0JRHF2ln9eE9uAw7L3iv56dVEAYzMDa
-	 gANru4rtJ3eLZyb1zO40e21eEEnjTRxEwBxDXNlwsSndRlhUJrGvQ9BMHUPLfEzFNOzcj
-	 PdWqXGgijm8nO2RyPgLdAW/r3YsQnkpiHTeHtyA6VJ7TmKu8M1/Is4x9WI0I9hd1Whg==
-ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792777028;
-	h=DMARC-Filter:DKIM-Signature:Received:X-MC-Unique:
-	 X-Mimecast-MFC-AGG-ID:Received:DKIM-Signature:X-Google-DKIM-Signature:
+Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.219.46
+ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
+	t=1792934589;
+	b=XlIymwd9+gGK5eHYQ48P/sr0WT6rGQDqJOaXUsDVfo+48uMNhX8OlvVa8110DuTYPaxK
+	 pUfwPoGNM1PPNzyDrDuLEu9vEKGrRzm50/deYZULQwCk6jXoj4icwmhcyf35v5loQPGcl
+	 3JGaCbUFXdy6zQ2nl15tm8DEkfzO5/cb3I9bszlG6sUC7GyUw3sEbLyZ+HfH1B83IBfry
+	 TCoxc7whrnpnVP1pzKIJCucArE6Q+YlUOXP+XI0H9w7TdQzrizfF3/9nlfyzlK9s5xC0o
+	 5UDT6dTkUH6COtSBYJ0YDT7FEFolg379rzyZsqJB9nDWtWPb9MzRhckOe4j6ybxj4Bg==
+ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1792934589;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:
-	 X-Received:Received:Message-ID:Subject:From:To:Cc:Date:In-Reply-To:
-	 References:Content-Type:Content-Transfer-Encoding:User-Agent:
-	 MIME-Version;
-	bh=Ahv8hek+EvAXMKlXCTALJglEGd0QFHOYDAP+RILIW24=;
-	b=m5RfjCB5dTwDo5/VDo6KKQBbbimlIqnzEdTLFwgwlMhYniA8XcYREETsoBxeBwUkH9tr
-	 Z17EkBxiq5ddbdsBMpSDJLCbX7EBaNxedAT/eKOnwU9YJ/7CKoIOFPsGeJFpUl4NgDRLO
-	 F4pok0G4V6ja1hOskJvagWdR9BcAy9VlM6Se1WV1Q4eR5oOk/oVyXV2LS+FdiMThjmGRg
-	 q3WmNHY1V3fiWDcXl4UR228e9cGfTNleoue6KV7KbnAoXBJNc3tivj0oLFtnP7NBVeAb9
-	 18FWVsgI8dcrWuZziqbVa/ua5/MRIYv8owNT8Y5Qh+XQHB4qzYIxHn0cdZKnivwLqYw==
-ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=redhat.com;
-	spf=pass smtp.mailfrom=redhat.com;
-	dkim=pass header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=mimecast20190719 header.b=bcXzpRAE;
-	dkim=pass header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=google header.b=JicNh2Nh;
-	arc=none smtp.remote-ip=170.10.129.124
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 MIME-Version:References:In-Reply-To:From:Date:X-Gm-Features:
+	 Message-ID:Subject:To:Cc:Content-Type:Content-Transfer-Encoding;
+	bh=X6vbMJkh4xPzuEcl9o4UTbdDi9m9a6y5s+AAwaTb/VE=;
+	b=1OSROQ2D7aaJc2W5R5UwLSUrtwgFC8rxJYhrLC4lV3AZb9fhLxBBmY4BU7l5VnKH+0rq
+	 9TAA3255nZAQ/uELC+w/QkIGsm1YZ98b4I7WvzhPzUfQw/m13jLgFTg/vuLoX16x3mJdm
+	 Y+tOJEVmHJ7vlVYzO63GjLvVHopEWnE1k6GMscavu1wkvyW80FG8x4ZYSaA33B7ZrJMsF
+	 qV5aTeiwvkIcRnCavZoC8qc9Lq1lmt3BiHlF3UR0z4Bsa8dI+/QXI2LihqHo4tReWYNlW
+	 Sq/mYpINJDZ6CxkFgKchWN0/8BaDtQrUUtyZbz9fpneMSXYnfQIbTiUpKWQp64Pp6xQ==
+ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=gmail.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=jPKsLWh1;
+	arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.219.46
+Received: from mail-qv1-f46.google.com (mail-qv1-f46.google.com [209.85.219.46])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E7598606A31E
-	for <workflows@vger.kernel.org>; Fri, 23 Oct 2026 17:37:07 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org E7598606A31E
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4D738606A31A
+	for <workflows@vger.kernel.org>; Sun, 25 Oct 2026 13:23:08 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 4D738606A31A
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=mimecast20190719 header.b=bcXzpRAE;
-	dkim=pass (2048-bit key, unprotected) header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=google header.b=JicNh2Nh
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1792777026;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=Ahv8hek+EvAXMKlXCTALJglEGd0QFHOYDAP+RILIW24=;
-	b=bcXzpRAEtifAQMtobXDOy+r0fJO0AGF97q8jjwObWvTjli2cYerUdcjM327aE3Wf5tqqhz
-	KfeUcbftikZCbzMyZpizcEorceFcOSahF4TQViGq+P1T9st99gM41SF5CU3oxIDSk8xFHL
-	vA+iROSjLULPAju9RxxyWY0OaqTuT9k=
-Received: from mail-qt1-f197.google.com (mail-qt1-f197.google.com
- [209.85.160.197]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-57-vN-4rNVsPoaPnU3KcMOAAw-1; Fri, 23 Oct 2026 13:36:59 -0400
-X-MC-Unique: vN-4rNVsPoaPnU3KcMOAAw-1
-X-Mimecast-MFC-AGG-ID: vN-4rNVsPoaPnU3KcMOAAw_1792777019
-Received: by mail-qt1-f197.google.com with SMTP id d75a77b69052e-5352436cd78so4257691cf.0
-        for <workflows@vger.kernel.org>; Fri, 23 Oct 2026 10:36:59 -0700 (PDT)
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=jPKsLWh1
+Received: by mail-qv1-f46.google.com with SMTP id 6a1803df08f44-91c5e31bea9so2706846d6.1
+        for <workflows@vger.kernel.org>; Sun, 25 Oct 2026 06:23:08 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1792934587; cv=none;
+        d=google.com; s=arc-20260327;
+        b=KJIMF11m0QLXHrk/s43KIkCingQgTNmNr/5e3XoyJdAoG8CwZ+fId5v+hWlqDnZg1I
+         4ATEmsqCNJLHowiJXxvhemMPse8a2AamioA/hFOxepo3lwZjFSn9y1ae1IfFO5ETLI6z
+         uy6Q8taWwriz9UagAEKAEgXJ7EwQqUeolSWLnAv4xEIrgQoP6cgs2eiVFK2X7B+ZcO/2
+         xQVqG6jvQGKIFuwvPQXs2ia9LTkiSmUds32WuZEQQIRjm8wCdlxjq/YtR9s1hoPoqI1R
+         81zd6wi/Je7I9T9u8DzF9oW3LVHHZavJsYNA4QFpPCfSUuDupY88NTN5S4hvTIP30Gl1
+         DiWw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=X6vbMJkh4xPzuEcl9o4UTbdDi9m9a6y5s+AAwaTb/VE=;
+        fh=0OpZowphgha/OdMd7ma7mpymxE6aLOcCt30xMQBKvR0=;
+        b=dqdyoUrEru40bYzGi5nT2wn4BorxNkVpL0a3nvz2taEGJ5VnDgEK5HLzgrTFKCWqFV
+         jmBHRg0lnpU3idfYvbEfYu527zkoNjvbPsYTMjRMvj7NhofLV33YD4aV83PdqmqoyoE7
+         puIPNsUTBKH5djfB+hvrvVxvb1i/fRDtvUDLLfVu0LFtCEVWjU5iStQ1wk+k/eyjZqAi
+         o5BimONkEq1qPlCrzIeK3cO8b+U9t3/tD/csMBH7I0PLJ13XeI9GH8hq5XsM+0DomHNK
+         YsVGqUVr2Giv0eSp/uPQzrSNNGCcRjjhm8WN74FXm570A081JPVqFt9LtQL28TElq4Z9
+         DmFA==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=redhat.com; s=google; t=1792777019; x=1793381819; darn=vger.kernel.org;
-        h=mime-version:user-agent:content-transfer-encoding:content-type
-         :references:in-reply-to:date:cc:to:from:subject:message-id:from:to
-         :cc:subject:date:message-id:reply-to:content-type;
-        bh=Ahv8hek+EvAXMKlXCTALJglEGd0QFHOYDAP+RILIW24=;
-        b=JicNh2NhM+bKqjfVJxtTDyhDIfJgYLdNUjZ5zqhe+edMq2OmfAgFtlKCFG+vNETJ8z
-         3rX/VDQVLyZ46UeSllkvbid2D9dNPM8OFah48hRSUKbjGC1aIroWp5KE+2PBLRYHBFpo
-         +J09gN9+Z1C4ZBBr91u9tr3Mkfd0SeIFT2GDQWGVysGqtWYMbKJGi9Ksua1VOPUkHDCZ
-         eX03l3QwsEuKqCC515rSmjBYxNy1+1bOlMFBZc/gPvrwObEyq2LtpKWMvcRP8zIPqxwF
-         GOUwemyNg90HAl8jCIXGZpKguyRSA+va9xj0Vv5qPw2oTGVX3wxsVdfhQ4FBzRjEnpbe
-         JSjA==
+        d=gmail.com; s=20251104; t=1792934587; x=1793539387; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=X6vbMJkh4xPzuEcl9o4UTbdDi9m9a6y5s+AAwaTb/VE=;
+        b=jPKsLWh1wQCx+uFkDMaGoQAlzMDmG0XPhV4wljunZLrs09EJyBKRKiDA58n7EuJ/4V
+         je2zRLXEtjn1PhsqD28scCYrTMNv37rUYlCCKHjmP+gT4bsRCiOOOEyB14bQkkJ+OgdW
+         RADNOn1ivHmCwSQ1sGI/l7e6xuwW/Gpdm2UHqe2TOEQ8on+feWUGlDCprsBXttntqwcv
+         ALq9IW+2izLruIIjjsX2CbLCXSzafBAHmkmV7kAQhcM6h2DfnpxJw5CFdp10njk3vDHb
+         mfxKOsQgrAX3CcjwG/Joa2GQFssuEbcS2WIHTr3cvhdk35eCu7wCsMeMNYb3UiA0FwXa
+         oHEg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1792777019; x=1793381819;
-        h=mime-version:user-agent:content-transfer-encoding:content-type
-         :references:in-reply-to:date:cc:to:from:subject:message-id:x-gm-gg
+        d=1e100.net; s=20260707; t=1792934587; x=1793539387;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=Ahv8hek+EvAXMKlXCTALJglEGd0QFHOYDAP+RILIW24=;
-        b=J041n5I/CJ5APeVHoMfBi3ccor4XjJIlSnibVO5xd90bT3fXgYgzAO94IPRiGK7mTb
-         DdPg0MCLtQmsJatbYZi/mGnTXJnrZ5oZsq31fC7UydEnXVfkTOdIplxcx565Vc6uD6wj
-         8xNVFjbky7E7tyok1q2/luUhYbNla9cTz3INUaPxFyD6Lncb6vQKgb08d7R7pGfAuQ0P
-         oggXyGOqM5V45b+naKcWqPbDJjwtzPNjUr8fxponGvUgq2nywpiQMaD7S0JJV7IE5Fs0
-         6A/o0V934yv6ZOX/5OgJOSG5Gm0aVrU+fakYbGppq1e48D0uy+Sp4/MxpFkRakuhr19t
-         8ewQ==
-X-Forwarded-Encrypted: i=1; AKwUvBxEIu2+HhBdqDTbCxKoVTEsVQ2kRNB2XzyQHQFMOk1xkmi6m9TelyydwmoIKkmUFUHGxdAsA7VbZn0=@vger.kernel.org
-X-Gm-Message-State: AFq9FYJAceVkS0kYRR09gJ2Q4PwPPYEn+7ILiBW/XwbVbWRLXNXqZuX0
-	xpR6GBiNbw0V6hcYzstE8fPjcWbA9Ia1OdGQM5gwbsGX/TkUl4JBAZSOtfp1GzxprTMccTLiELS
-	H1AztldUUHjDS4lkbAbXbEYn1OANoWjBQVrpwE+4ipEcAqmfsQysyVtNbSQQlioTms3pygQ==
-X-Gm-Gg: AYBFou2gK/ztFoaPwZDFhZjaREJV35bOzVV9GwVRt8ecxxPLLqED4tNC2+//PtyXhUz
-	L50O/6om7yk4rmwk+t37m1uSzgUgileaHp5SUPaz0WcXOoOH55/uVO6Z7il5D1wmzyIcq258EiN
-	aPllYyvhcXsaOnK0hnfUdsCsBtWImV9nvkLZdSD1tG3BO1PCNZDiqVMykgSVqyy5RpgLDReonMs
-	/Ckd5ZmFAgkkoZEjifoDYhvlTPA4UATi5+xV1x+2eW9L7iSbpxpIka5JdlQSpg5R5OWOc4ACZjK
-	SJDYMT37Q7763zGoJPkrsOuWE6gEhEuN+VZ6w7q1Kg0dy5EXlgRZuJo+AbsyuHSQNlwayqw=
-X-Received: by 2002:a05:622a:5b97:b0:532:f0a2:ef4 with SMTP id d75a77b69052e-536c25f7a86mr39840401cf.26.1792777018662;
-        Fri, 23 Oct 2026 10:36:58 -0700 (PDT)
-X-Received: by 2002:a05:622a:5b97:b0:532:f0a2:ef4 with SMTP id d75a77b69052e-536c25f7a86mr39839981cf.26.1792777018044;
-        Fri, 23 Oct 2026 10:36:58 -0700 (PDT)
-Received: from [192.168.8.4] ([100.0.180.93])
-        by smtp.gmail.com with ESMTPSA id d75a77b69052e-53836c4c71fsm2658041cf.25.2026.10.23.10.36.56
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 23 Oct 2026 10:36:56 -0700 (PDT)
-Message-ID: <04409702791cbc2519355d2291ae9db5f4e44339.camel@redhat.com>
-Subject: Re: [PATCH] docs: remove Assisted-by reference
-From: lyude@redhat.com
-To: Troy Benjegerdes <hozer@hozed.org>
-Cc: Jori Koolstra <jkoolstra@xs4all.nl>, Kees Cook <kees@kernel.org>, Randy
- Dunlap <rdunlap@infradead.org>, Sasha Levin <sashal@kernel.org>,
- corbet@lwn.net, 	skhan@linuxfoundation.org, federico.vaga@vaga.pv.it,
- apw@canonical.com, 	joe@perches.com, workflows@vger.kernel.org,
- linux-doc@vger.kernel.org, 	linux-kernel@vger.kernel.org
-Date: Fri, 23 Oct 2026 13:36:55 -0400
-In-Reply-To: <atoNuurgxrKV4aid@false>
-References: <20261009083137.3-1-sashal@kernel.org>
-	 <202610122124.08E058768D@keescook>
-	 <ea3ff257-70e2-43e4-aba7-140e84994872@infradead.org>
-	 <202610130120.E43D236E@keescook> <as4gLo_6acb_zZu0@daedalus>
-	 <4a55a48948a1f01686b0471307b6fc2d52be7896.camel@redhat.com>
-	 <atoNuurgxrKV4aid@false>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.58.3 (3.58.3-2.fc43) 
+        bh=X6vbMJkh4xPzuEcl9o4UTbdDi9m9a6y5s+AAwaTb/VE=;
+        b=Fy/OMAqYmnhq5XvvtNEtVI1J9uvL2h2pz2Xv3KAZHXt+scherKqeeVEx3qkvzJjcZ3
+         oCs2OHDrwIt475JEBK1ESzf3EirMD+7ewNugPDn6XdRIi5BfEepKYnn+WUnNnmWrw+uv
+         cNvJ8H9ByHAZ/Hh0IJkv79zr5+/IyQm39s07GhUOh0ELDtSAbHex7vPlvB1mdTmQHBMA
+         UbeMAroyIs2vJuARb5okCCG9Svu/EMddcMSzBahNCEgcADczaZfhowkK3hPKYaIpPenj
+         cclaMZ+UuNDsQpDio2ETnD0eDnw+PybKvmV9XF09i/Rh/TEMzDORZPM4EfgyaxdXyaox
+         Sq8w==
+X-Forwarded-Encrypted: i=1; AKwUvBw+2oTfmfbdvz+rMEuQatqIDXUk1B+NoJ4DWZxXBPYmeCIC8mI7xx4nArMikQiZXereSyY5U+6drBM=@vger.kernel.org
+X-Gm-Message-State: AFq9FYKBy4YWYKJD0Gb4PolcNbuYrGUinKmH4d8WbXXOqdR3mC20tohi
+	IIPfYvm9BOckIPmpUovHw9BEr1UpakB9V74A5FIkoSpRUojdXZ354cAvWcxYI2bvkcbxpsJMCIv
+	LH8xGvbrQcRD5GTN0SIeLjzqNKuVXYio=
+X-Gm-Gg: AYBFou2f87FqeeXmbD1WrnbonzPyudva1pgXHsXA1+Hgoic6+68U1x6mbqEfqpswVR+
+	TJ33E5OJ2Ulhh8wNm2auPd30QINK+Ijqx4z0SDNutvyE5iHjv05Zj9WYqGkUZFEOJX8T/prPzbA
+	1T0QD3FCAvMVC5cXs2WshHzwqily4X1ktkhQ91c/vAVDHn4OrO/K0IwmLN9Eu5L8w3bDWgJwXnz
+	y4kKHc2bq6xvQK5ZYHa38LrXVEG+vri48VwxXfW+P5p1uVBzzFZWOd5TLqUhaKyNM/CWf3FbuOi
+	sqSN4NJi60+Ib4qxmEcaQOJ12WkWNCIwwDmIG434YC8+Xr14OUgIFv80V9nehHsXN6q6ZpXQQ0A
+	3q/o9pBmQK2IZbjS5p09f85Yf+ODqrL0v/vReNNZT7xw1+F1Uq5cfI/B895h7ygujqnZpL/uGTT
+	cCngJNay+ee7cyEdpW3kX+ngyQKkM4UcD4oDoB31WDO787mkCBwYzfRVkpI5wiCD30AAAR5Od+
+X-Received: by 2002:a05:6214:53c3:b0:91b:b26a:9791 with SMTP id
+ 6a1803df08f44-91c48f150camr69861666d6.56.1792934587195; Sun, 25 Oct 2026
+ 06:23:07 -0700 (PDT)
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Post: <mailto:workflows@vger.kernel.org>
@@ -127,26 +105,156 @@ List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:workflows+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
+References: <20261022013432.2638010-1-gr3yf0x87@skyn3tlab.com> <20261022014811.2803450-1-gr3yf0x87@skyn3tlab.com>
+In-Reply-To: <20261022014811.2803450-1-gr3yf0x87@skyn3tlab.com>
+From: Daniel Pereira <danielmaraboo@gmail.com>
+Date: Sun, 25 Oct 2026 10:22:55 -0300
+X-Gm-Features: AclHuK9yewKN0-UZdNUV7XZr57BksERgCEoIcvborAR-JnzTIy1oVpZl5H1ou6Q
+Message-ID: <CAMAsx6dgDhfNvw+3NWD1pBxyJfHTa7rUD+-9Y4L5K2FpDXJS6A@mail.gmail.com>
+Subject: Re: [PATCH v2] docs: changes.rst: set the pahole minimum back to 1.22
+To: gr3yf0x87@skyn3tlab.com
+Cc: corbet@lwn.net, federico.vaga@vaga.pv.it, skhan@linuxfoundation.org, 
+	rdunlap@infradead.org, ihor.solodrai@linux.dev, eddyz87@gmail.com, 
+	workflows@vger.kernel.org, linux-doc@vger.kernel.org, bpf@vger.kernel.org, 
+	linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Thu, 2026-10-22 at 13:20 +0000, Troy Benjegerdes wrote:
->=20
->=20
-> This is why I'd like to know *which* LLM I'm dealing with, so at
-> least
-> if the human is not paying attention, maybe the LLM developers will
-> care
-> enough to provision a large enough context window to actually retain
-> the
-> critique.
+On Wed, Oct 21, 2026, Mark Severson wrote:
+> Set the table back to 1.22, in the English document and in the Italian
+> translation, which carries the same table, and remove the Italian
+> translation's copy of the paragraph that the English document no longer
+> has.
 
-I have to be honest: if the human is not paying attention, it is the
-same as a contributor repeatedly sending patches and not responding to
-patch reviews in any meaningful way. I don't see any reason why
-maintainers should be responsible for carrying the patch the rest of
-the way, this falls straight into slop territory and goes even further
-into "if I see someone repeatedly doing this with their submissions the
-chance of me actually looking over any of them goes down dramatically".
+Hi Mark,
 
-Also, it's not like it gets the critique anyway. Whether or not it
-follows it is up to chance.
+I went through v2 against the tree (docs-next at f857ff5bf):
 
+- In Documentation/process/changes.rst the table says pahole 1.26,
+while the text below it and lib/Kconfig.debug (DEBUG_INFO_BTF
+depends on PAHOLE_VERSION >=3D 122) say 1.22, so the table is the odd
+one out.
+- tools/bpf/resolve_btfids/main.c now rewrites the prototype of
+KF_IMPLICIT_ARGS kfuncs itself, which is consistent with the
+explanation in the changelog for dropping the 1.26 requirement.
+- The English document has no KF_IMPLICIT_ARGS paragraph any more, so
+removing the Italian copy brings it_IT back in line with it.
+- You mention that htmldocs was not run, so I built
+SPHINXDIRS=3Dprocess and SPHINXDIRS=3Dtranslations/it_IT with the patch
+applied: no new warnings compared to the unpatched tree. The
+undefined-label warnings that show up in these two files also show
+up without the patch in partial builds.
+
+One process remark, which I leave to Jon: "Assisted-by:" is not a tag
+that Documentation/process/ describes in docs-next, and checkpatch
+flags it. I could not find the "Attribution" section of
+coding-assistants.rst that the note mentions in this tree; it may be in
+another one.
+
+Reviewed-by: Daniel Pereira <danielmaraboo@gmail.com>
+
+Thanks,
+Daniel
+
+
+Em qua., 21 de out. de 2026 =C3=A0s 22:48, Mark Severson
+<gr3yf0x87@skyn3tlab.com> escreveu:
+>
+> Commit fd5425b67355 ("docs, resolve_btfids: Document kfunc BTF
+> annotation emission") removed the paragraph saying that kfuncs annotated
+> with KF_IMPLICIT_ARGS need pahole v1.26, because resolve_btfids now
+> emits the kfunc BTF annotations that pahole used to produce. That
+> paragraph was the reason the requirements table lists pahole 1.26, and
+> the table was left unchanged. The text below the table and
+> lib/Kconfig.debug (DEBUG_INFO_BTF depends on PAHOLE_VERSION >=3D 122)
+> both still say 1.22.
+>
+> Set the table back to 1.22, in the English document and in the Italian
+> translation, which carries the same table, and remove the Italian
+> translation's copy of the paragraph that the English document no longer
+> has.
+>
+> Checked by building linux-next 20261021 with pahole v1.25 and
+> CONFIG_DEBUG_INFO_BTF=3Dy: in the vmlinux BTF,
+> bpf_task_work_schedule_signal has four arguments and the bpf_kfunc decl
+> tag, and bpf_task_work_schedule_signal_impl keeps the
+> struct bpf_prog_aux * argument, as Documentation/bpf/kfuncs.rst
+> describes for KF_IMPLICIT_ARGS.
+>
+> Fixes: fd5425b67355 ("docs, resolve_btfids: Document kfunc BTF annotation=
+ emission")
+> Assisted-by: Claude
+> Signed-off-by: Mark Severson <gr3yf0x87@skyn3tlab.com>
+> ---
+> v2:
+> - Also remove the Italian translation's copy of the KF_IMPLICIT_ARGS /
+>   pahole 1.26 paragraph, which fd5425b67355 removed from the English
+>   document only; v1 left the Italian text contradicting its own table.
+>   Found by the Sashiko review of v1.
+> v1: https://lore.kernel.org/all/20261022013432.2638010-1-gr3yf0x87@skyn3t=
+lab.com/
+>
+> checkpatch reports the Assisted-by tag as non-standard; it follows the
+> Attribution section of Documentation/process/coding-assistants.rst as
+> published on docs.kernel.org. Not run: make htmldocs; the change keeps
+> the table's column widths and removes a whole paragraph.
+>
+>  Documentation/process/changes.rst                    | 2 +-
+>  Documentation/translations/it_IT/process/changes.rst | 8 +-------
+>  2 files changed, 2 insertions(+), 8 deletions(-)
+>
+> diff --git a/Documentation/process/changes.rst b/Documentation/process/ch=
+anges.rst
+> index 28f2ca633..13093c5c2 100644
+> --- a/Documentation/process/changes.rst
+> +++ b/Documentation/process/changes.rst
+> @@ -53,7 +53,7 @@ mcelog                 0.6              mcelog --versio=
+n
+>  mkimage (optional)     2017.01          mkimage --version
+>  nfs-utils              1.0.5            showmount --version
+>  openssl & libcrypto    1.0.0            openssl version
+> -pahole                 1.26             pahole --version
+> +pahole                 1.22             pahole --version
+>  pcmciautils            004              pccardctl -V
+>  pigz (optional)        2.4              pigz --version
+>  PPP                    2.4.0            pppd --version
+> diff --git a/Documentation/translations/it_IT/process/changes.rst b/Docum=
+entation/translations/it_IT/process/changes.rst
+> index 0be1292a8..b4accd428 100644
+> --- a/Documentation/translations/it_IT/process/changes.rst
+> +++ b/Documentation/translations/it_IT/process/changes.rst
+> @@ -57,7 +57,7 @@ mcelog                 0.6              mcelog --versio=
+n
+>  mkimage (opzionale)    2017.01          mkimage --version
+>  nfs-utils              1.0.5            showmount --version
+>  openssl & libcrypto    1.0.0            openssl version
+> -pahole                 1.26             pahole --version
+> +pahole                 1.22             pahole --version
+>  pcmciautils            004              pccardctl -V
+>  PPP                    2.4.0            pppd --version
+>  procps                 3.2.0            ps --version
+> @@ -149,12 +149,6 @@ Dalla versione 5.2, quando viene impostato CONFIG_DE=
+BUG_INFO_BTF, il sistema di
+>  compilazione genera BTF (BPF Type Format) a partire da DWARF per vmlinux=
+. Pi=C3=B9
+>  tardi anche per i moduli. Questo richiede pahole v1.22 o successivo.
+>
+> -Dalla versione 7.0, le kfunc annotate con KF_IMPLICIT_ARGS richiedono pa=
+hole
+> -v1.26 o successivo. Senza questa versione, tali kfunc avranno prototipi =
+BTF
+> -errati in vmlinux, causando il fallimento del caricamento dei programmi =
+BPF con
+> -l'errore "func_proto incompatible with vmlinux". Molte kfunc in sched_ex=
+t sono
+> -interessate da questo problema.
+> -
+>  A seconda della distribuzione, lo si pu=C3=B2 trovare nei pacchetti 'dwa=
+rves' o
+>  'pahole'. Oppure lo si pu=C3=B2 trovare qui: https://fedorapeople.org/~a=
+cme/dwarves/.
+>
+> --
+> 2.43.0
+>
+>
