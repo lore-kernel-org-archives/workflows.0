@@ -1,137 +1,89 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=170.10.133.124
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.218.44
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793041469;
-	b=vur0xWb+vdFf4pQlDmBl/cx2KCiu5sQdui3vvygixN4y3gmxq+n+ILRkq5IQd9o4ta5b
-	 jKRlFGi9iRhIdLQZvHUowMlK48/YjyilYTCkq4vGoUpEVIesqY4fvq9aEuqbYBhzxA37f
-	 k8+5yxI4/MwYGD7DUxfbkvIqxP1CsisbtPuf5rf3t5UmxoEPwJ/PfWZ/pfHpaD/4l2u7h
-	 1qecdscz5aKvxHwXFZivS2l/v99rCpspSK+rXqVeUzWNN6jGdwqSYG6MtZZNDg6zlLebd
-	 JsfHI4OwuqBZsjwwL2TNrZLELPmqZKqURtNMESCGfWux/Eo1QjP93szmkU62fuhtoqQ==
+	t=1793043614;
+	b=DiGOU0IdrwYlteRPf6KiNw0+alZ2xof+6fk9oJza+TLK6orvS+7KIJ6UPrLe+Ruch0z8
+	 IbaOm675QW+qboq1LJEjrdqXNdma36v/JSIsC6F4DC7866VCTMVCTVUgPuodM58+nNnWI
+	 39gYnlSDGFoCQuXbajwGzCSLrk28HxuTrYY7//Dqy+imCJ4ns079JdUmYwo841UygGtWE
+	 1qBitJxbaeA/PfZK2uTFVAEcQRXbj0Mf2rXc+fh5EaRMWwimlJEIjV4xRw3KjzRhNcDnB
+	 Y5PRyILxGNVj/FSy5p+FQWHX323x4mDEdg+6VZSfFgzkup3B+TUKUv1n27VIA/9IOcg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793041469;
-	h=DMARC-Filter:DKIM-Signature:Received:X-MC-Unique:
-	 X-Mimecast-MFC-AGG-ID:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:
-	 X-Received:Received:Message-ID:Subject:From:To:Cc:Date:In-Reply-To:
-	 References:Content-Type:Content-Transfer-Encoding:User-Agent:
-	 MIME-Version;
-	bh=OD6FHw0+OOnlc+ZpqfgihxN2ml8gDoOZmvF069car6s=;
-	b=2az+NuTa1OcgG407s18vKir9BfNNUV/Nq0HW03864hhiC/ggQSYfVveTmJ4p4bujqk4r
-	 jMg6CsZhEQ6rLrFBmAG9lB0D5tqsGWWrgCC348QxSwaM3h6+He33Mw8/jG24UK1tTgVvZ
-	 Iep2kzFblYSQXYPXoKMKERZ0ZUCHTgiTpxdskWmTX6RDkI3uiVzEwL10EmCBXWfNiQQ4P
-	 mG//eC4M7zxE1H8CfTKROdRgbcFayixTXHkLb3hj97brgQ0CSPhtc1XqOWIHEefYpUUUW
-	 QxsgFViJfBd/DA8n8qM7cCbgpTXnsyHybHk2qZRGkpT7RxKNSFigzVH166Ipz+wmsZA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793043614;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 Received:X-Forwarded-Encrypted:X-Received:MIME-Version:References:
+	 In-Reply-To:From:Date:X-Gmail-Original-Message-ID:X-Gm-Features:
+	 Message-ID:Subject:To:Cc:Content-Type;
+	bh=7lTB3tjbs9LTHpXb2LjFz9J4Bg4PVtZvOGRQvHQqQn8=;
+	b=qHMIaaSp2vKskc3mw5PQeMrbMXIq2DW6pK8txI7abVBjvQ2iv2rnkRP1iRGrBxIxWoVB
+	 SHxDkkcWOQrInbHDpkClApmC3KB7zzTjsq5OTZAafd12YFDJ7MvQDXJc7TJOfKkLXjDDj
+	 JSEtnDriergiJ0CdwcV9ZPfIxsXDio/U4O8R1rUl8iFEnqspDNPwuZhfYWzj/3YswhZj2
+	 zTkSPXykIzkf252Q15f+mXa4hEfFBW2d00xWJ/n4C+VyrxS9A7ZCJgutkCEwQAXf8ZqSO
+	 xjBkAYrrL/cz9LYwf7bYojyOSA446BxQWNJbgPLs/KzZXm5wLULgGw9fhIwvgFJIWRw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=redhat.com;
-	spf=pass smtp.mailfrom=redhat.com;
-	dkim=temperror header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=mimecast20190719 header.b=PiUUVxSr;
-	dkim=pass header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=google header.b=Uh4lJlDw;
-	arc=none smtp.remote-ip=170.10.133.124
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	dmarc=none header.from=linux-foundation.org;
+	spf=pass smtp.mailfrom=linuxfoundation.org;
+	dkim=pass header.d=linux-foundation.org header.i=@linux-foundation.org header.a=rsa-sha256 header.s=google header.b=BzElhsSu;
+	arc=none smtp.remote-ip=209.85.218.44
+Received: from mail-ej1-f44.google.com (mail-ej1-f44.google.com [209.85.218.44])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 956AF606A31D
-	for <workflows@vger.kernel.org>; Mon, 26 Oct 2026 19:04:28 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 956AF606A31D
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0AE0C606A32D
+	for <workflows@vger.kernel.org>; Mon, 26 Oct 2026 19:40:12 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 0AE0C606A32D
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-foundation.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linuxfoundation.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=temperror header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=mimecast20190719 header.b=PiUUVxSr;
-	dkim=pass (2048-bit key, unprotected) header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=google header.b=Uh4lJlDw
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1793041467;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=OD6FHw0+OOnlc+ZpqfgihxN2ml8gDoOZmvF069car6s=;
-	b=PiUUVxSruI8tzW5Pay4Z1WUUa2UW4Xm5+ALjBbOUZDTkIZllXoW5Q1E/mZuBNQ6iAArF9l
-	U5MmGj/vuHxniaZVvYT17sorS9UPmF9A6N3VdYXSFKKbrpXRIQo3p1IQxXKMcv9r3KLX8i
-	svCBFUv7G6gr7UvgLybM3tWOg9SuhXY=
-Received: from mail-qk1-f200.google.com (mail-qk1-f200.google.com
- [209.85.222.200]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-466-5Fd2bgNDMdugrpA2_eGbHQ-1; Mon, 26 Oct 2026 15:04:26 -0400
-X-MC-Unique: 5Fd2bgNDMdugrpA2_eGbHQ-1
-X-Mimecast-MFC-AGG-ID: 5Fd2bgNDMdugrpA2_eGbHQ_1793041465
-Received: by mail-qk1-f200.google.com with SMTP id af79cd13be357-93f3969a2a7so600802585a.2
-        for <workflows@vger.kernel.org>; Mon, 26 Oct 2026 12:04:25 -0700 (PDT)
+	dkim=pass (1024-bit key, unprotected) header.d=linux-foundation.org header.i=@linux-foundation.org header.a=rsa-sha256 header.s=google header.b=BzElhsSu
+Received: by mail-ej1-f44.google.com with SMTP id a640c23a62f3a-c247f6687dcso516283266b.2
+        for <workflows@vger.kernel.org>; Mon, 26 Oct 2026 12:40:12 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=redhat.com; s=google; t=1793041465; x=1793646265; darn=vger.kernel.org;
-        h=mime-version:user-agent:content-transfer-encoding:content-type
-         :references:in-reply-to:date:cc:to:from:subject:message-id:from:to
-         :cc:subject:date:message-id:reply-to:content-type;
-        bh=OD6FHw0+OOnlc+ZpqfgihxN2ml8gDoOZmvF069car6s=;
-        b=Uh4lJlDw0byFqqUZB45mkvAhplQGtJAOtxCEFcArW8Kbd6tiPOhmxWDhRFsu8OvXjU
-         ARLfpzSgZLzEaVBNFdJluNRqBylfuUkbQFp8bNrgXvusROqDnxXSreSBG4TOJuN+uFGP
-         j0Q00R0KWwYSXtvqHmso2pRIXYQW/P4M5vCz7LmDkjqIbwz6/6ldlDNxz0ZpaA4cEyVA
-         Tmsw6Mm/Gdhv0zQEtplv6IY5JrlD1iwYtYZp/B1FduYILhkVQPPFWFzuc/QIPNywaA0X
-         Kl/SRGMju1aiPKAr6COQp+mJsAl8puu53fxt3/MgJsZ6rpbSy0C5Lj3eE7yKx4M84JpT
-         881Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793041465; x=1793646265;
-        h=mime-version:user-agent:content-transfer-encoding:content-type
-         :references:in-reply-to:date:cc:to:from:subject:message-id:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+        d=linux-foundation.org; s=google; t=1793043611; x=1793648411; darn=vger.kernel.org;
+        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
+         :references:mime-version:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=OD6FHw0+OOnlc+ZpqfgihxN2ml8gDoOZmvF069car6s=;
-        b=0yEra9pjtC4hgPOg33TzdnX8KPFlIRNAK2OJx1ps9QoLsqPki9BaG0IXohzV20ZMKw
-         nsPW8hHmbsJ6yF+Wr4akp3j8FcvUwKz4WJY2Jyq8QmFpk8FqlV99f+23i9YC8D4f1wh0
-         xzmH8T6toFR7v/pUKBnjKppK/iPP1PqGsPsioRebMibV+isK382+CV0nCBLnRXVAHPTT
-         2UlEN9PsaBrERkTRSA0A2k4bjr9GhUebi/h7gozMhqa0jD0/RifzroM4W6+rW6XN55cS
-         nQFo8UVUgg5DKwgQtB1MUDSxV577nIhSgsAo3IsBmEz4XOwWpiMhIAaPWDDuz1lKfkKm
-         TpTQ==
-X-Forwarded-Encrypted: i=1; AKwUvBxERDs3t/pg+Lq+fxW/MVtgmHefSQbfCrPasEC5d6eFYWBUwrIQ7ul+13ThgAYfDjUAsIRD9uUX1I0=@vger.kernel.org
-X-Gm-Message-State: AFq9FYKiGOvI/9lLBDmwLi2zbJC9dQ93vu8QUJ+zSUFIhMzNW7t+wENC
-	6vMrtV/NhnOrHNzYiYeMtIEvpA3xUzwDhCD1rtjmoh8m9/3uKZN2kySAWOZJ9+O577qOeZ1TQJ6
-	HOmt/WCwcDibUqMi+L4MhHovJsGXtB5qmo/wz37sokZ4QKsdzsw0jzeSuBRXlnw==
-X-Gm-Gg: AYBFou2YtVAu9/Itlr0yzEsKDLrumP5+he0H4X0cm6o3yddTo+wE7otmMvMPDGJIIEU
-	WNGCIebXzuFJuvyUpGH8i1BNmfYQ3rJupvcA59ayzO1nGVp6KkHxR7eCfIRIOYa80Gf2ATfhYCs
-	nxubyG7fpjY64B3xTLsXh0P3m92C6Gjo3zWinCbVXawUa1mXrS5SAKK3+eS/jJfGLwV1KB6s39o
-	5NuoiR4PM+IBgtgTWBq3TTW8hcjSBRh6HQtKGmA1PGHfkQ6IZjLkxh2bN7IVDUpUl7kTzfdwxSJ
-	5iYvZRl7ylfNpmjBRYqkhp3TQGRBkfeBkoudvVeeV9HEJoYwh7Bro32R+RzUp2VUwbbBJEw=
-X-Received: by 2002:a05:620a:4001:b0:93e:90e0:d2e3 with SMTP id af79cd13be357-940ef946f8dmr1065314985a.39.1793041465188;
-        Mon, 26 Oct 2026 12:04:25 -0700 (PDT)
-X-Received: by 2002:a05:620a:4001:b0:93e:90e0:d2e3 with SMTP id af79cd13be357-940ef946f8dmr1065307685a.39.1793041464544;
-        Mon, 26 Oct 2026 12:04:24 -0700 (PDT)
-Received: from [192.168.8.4] ([100.0.180.93])
-        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-91c47c50495sm79606786d6.24.2026.10.26.12.04.22
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 26 Oct 2026 12:04:23 -0700 (PDT)
-Message-ID: <00636bea8791e75b3b16afef2dc5ee7f2cb8bc0d.camel@redhat.com>
-Subject: Re: [PATCH] docs: remove Assisted-by references
-From: lyude@redhat.com
-To: Troy Benjegerdes <hozer@hozed.org>
-Cc: Theodore Tso <tytso@mit.edu>, "Lorenzo Stoakes (ARM)" <ljs@kernel.org>, 
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>, Krzysztof Kozlowski
- <krzk@kernel.org>, Sasha Levin	 <sashal@kernel.org>, corbet@lwn.net,
- skhan@linuxfoundation.org, 	rdunlap@infradead.org,
- federico.vaga@vaga.pv.it, apw@canonical.com, 	joe@perches.com,
- workflows@vger.kernel.org, linux-doc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, Greg Kroah-Hartman
- <gregkh@linuxfoundation.org>,  Linus Torvalds
- <torvalds@linux-foundation.org>, Justin Stitt <justinstitt@google.com>,
- Carlos Maiolino	 <cem@kernel.org>, Jakub Kicinski <kuba@kernel.org>, Jori
- Koolstra	 <jkoolstra@xs4all.nl>, Brian Foster <bfoster@redhat.com>,
- Christoph Hellwig	 <hch@infradead.org>, David Disseldorp <ddiss@suse.de>,
- Mark Brown	 <broonie@kernel.org>, Jani Nikula <jani.nikula@intel.com>, Jens
- Axboe	 <axboe@kernel.dk>, "David Hildenbrand (Arm)" <david@kernel.org>,
- Vlastimil Babka <vbabka@kernel.org>, "Christian Brauner (Amutable)"
- <brauner@kernel.org>
-Date: Mon, 26 Oct 2026 15:04:22 -0400
-In-Reply-To: <atjjQ0oupQ4pmKHB@false>
-References: <20261009083137.3-1-sashal@kernel.org>
-	 <0914a106-bacf-4d95-854a-bfeefbff62a4@kernel.org>
-	 <asz9AeFe3CutP73z@gremlin>
-	 <20261013123132.GC4214@killaraus.ideasonboard.com>
-	 <as4pAEnLd4H68W4W@gremlin>
-	 <20261013131243.GM56180@killaraus.ideasonboard.com>
-	 <as4xMnT8a75pIw9v@gremlin> <as7uqZn9rQ52USwy@mit.edu>
-	 <4a2c667b14fafad7acef96af2585e41f158fdac0.camel@redhat.com>
-	 <atjjQ0oupQ4pmKHB@false>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.58.3 (3.58.3-2.fc43) 
+        bh=7lTB3tjbs9LTHpXb2LjFz9J4Bg4PVtZvOGRQvHQqQn8=;
+        b=BzElhsSu4kdqUjgDeKk7OuiBroKAFuwlm4RJL1hwaoL1P+IYSlebMHfKT4nNdKjScj
+         jelgJRtSsmAM9NJSc3BkeLxcR03IgUn2vFRV65QCh7u5Nald0Z6wiUgbCk+eNxx291E0
+         CNY1LCawMd3od4vz2c9QmGGGQtbz6oQ0oWvaQ=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1793043611; x=1793648411;
+        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
+         :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=7lTB3tjbs9LTHpXb2LjFz9J4Bg4PVtZvOGRQvHQqQn8=;
+        b=LYZhcVtuRz763VHzHeEwB47uAXWwLXAYBwdPyEyJIphyvP5cLK79HqYXfMKmXon6Ee
+         XpE2Xl94gIDyqaYc9h2NR402RT3mcDnYaieKir4ys06M+rM6H+IiQEvNY/lDaLGY8HrD
+         38xYx2fEKZc+fHHQi2nBiO6Qeb+aACnaHAHP8ZpEI28L46M6Ed7mvYOYI6pkEC54uA8k
+         Ps2PTUrNE+Y725raIl4ZaFCBrjr8XAv0PAl8XzMxTHJUMu+UzJwbPogOo12/3SAiXr3T
+         ZiqyQqzI8s7xgohFqIuEv4B3HoqMHgZOCYJ4gq1KU9Ngb3V+o/oR/zYQpnCnjg+4Ydm9
+         KBqg==
+X-Forwarded-Encrypted: i=1; AKwUvByhU/6f2R18za9/8p1ssR48JZlcy5aRoCGHG8QJrUAhCCmhAtm9zWgn0cMbhW24Q9dMer9tjpX8UcE=@vger.kernel.org
+X-Gm-Message-State: AFq9FYI1G7XT+59/IO4byHuPimzKDwcjSQgJwAPDcaslBhtmej+68vNU
+	xsTHB/9KZa3DQGDBKNrXUznFuU9r6BeIpS1gg+lJrRHlybOq5hrSgZbeliRIzOWr3dii1e1oCSY
+	haIvyjoY=
+X-Gm-Gg: AYBFou3WQPF/We5UT0V4GeSpiupCmEJokHf0D6lF1LY/RQDwKTSMQPvDD+xEEN09H4h
+	fcvpp+7aTqfkOAutzpYTlxJ6mDXlAKESBPaCJfSkxLKKufCy883tBDB4vCNWD3CIw29rrtCvccd
+	MSQEatPiK65kAQmtqES46nJPii7xhLPCufBQkIjhSh5Bj1yXSkdGn3qSyppv27iX59HazJaDU1J
+	+5Kg3fYYvPwh30wJCMA2sSLGDQaTyIHxrmvJ7sPsz+wjsl+oAv7n7Q511R4tbvw28mY1We+CZ6k
+	51PfEs3dBIWtQQkHpj74j85GNVFVhRmxt5LAD9SOQgZOhkJQJ/wwhwbyfqLE1tHR7MQoo4ok4Jk
+	ezPnLDsbz0mYHddU8KbjneDw2AB1UeR91DVohENxooxmUW4HKCCdn4CF39reBQOFwkOzcUNUqFM
+	roXmLomScwkdMgCz2tSzvd8ZIjmMAI5NffPVtK5gppF7dP9LLxt2s3O+TgwDq0CF7VVn9ryYN9+
+	1mKsvwIoBeLJpPs0sLapeGKmHtCe+MG1xTYD5w0FLGLdN0CzLp5aiEMnMvXNZEIIp5JEsLr95cP
+	NVdm96GssIPlUMqMjIzcn64t2AHGhg==
+X-Received: by 2002:a17:907:72c7:b0:c46:7643:ae91 with SMTP id a640c23a62f3a-c46bdbeff8emr838201266b.8.1793043611394;
+        Mon, 26 Oct 2026 12:40:11 -0700 (PDT)
+Received: from mail-ej1-f47.google.com (mail-ej1-f47.google.com. [209.85.218.47])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-c46bd524266sm363016066b.38.2026.10.26.12.40.09
+        for <workflows@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 26 Oct 2026 12:40:10 -0700 (PDT)
+Received: by mail-ej1-f47.google.com with SMTP id a640c23a62f3a-c247f6687dcso516277466b.2
+        for <workflows@vger.kernel.org>; Mon, 26 Oct 2026 12:40:09 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AKwUvBwwgPorOn07lZJOUqUNkl/OZyrt0O/pjBwudYYocU6G2L+eOC0V1jFhvV8wL6nbjSQFTgxPhaiHuEU=@vger.kernel.org
+X-Received: by 2002:a17:907:868c:b0:c2d:c98f:4824 with SMTP id
+ a640c23a62f3a-c46bdd91e31mr838852466b.30.1793043609404; Mon, 26 Oct 2026
+ 12:40:09 -0700 (PDT)
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Post: <mailto:workflows@vger.kernel.org>
@@ -141,137 +93,78 @@ List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:workflows+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
+References: <20261009083137.3-1-sashal@kernel.org> <0914a106-bacf-4d95-854a-bfeefbff62a4@kernel.org>
+ <asz9AeFe3CutP73z@gremlin> <20261013123132.GC4214@killaraus.ideasonboard.com>
+ <as4pAEnLd4H68W4W@gremlin> <20261013131243.GM56180@killaraus.ideasonboard.com>
+ <as4xMnT8a75pIw9v@gremlin> <as7uqZn9rQ52USwy@mit.edu> <4a2c667b14fafad7acef96af2585e41f158fdac0.camel@redhat.com>
+ <atjjQ0oupQ4pmKHB@false> <00636bea8791e75b3b16afef2dc5ee7f2cb8bc0d.camel@redhat.com>
+In-Reply-To: <00636bea8791e75b3b16afef2dc5ee7f2cb8bc0d.camel@redhat.com>
+From: Linus Torvalds <torvalds@linux-foundation.org>
+Date: Mon, 26 Oct 2026 09:39:52 -1000
+X-Gmail-Original-Message-ID: <CAHk-=wgm4tZBd68PxaQiGeComxa9Us-SC5P2s6UG1Dwu8n_38Q@mail.gmail.com>
+X-Gm-Features: AclHuK8CltFtaxoX082v5F7FHYz_r6xWqul5HdmUaOSix11A_HqM4exVwrrtVNw
+Message-ID: <CAHk-=wgm4tZBd68PxaQiGeComxa9Us-SC5P2s6UG1Dwu8n_38Q@mail.gmail.com>
+Subject: Re: [PATCH] docs: remove Assisted-by references
+To: lyude@redhat.com
+Cc: Troy Benjegerdes <hozer@hozed.org>, Theodore Tso <tytso@mit.edu>, 
+	"Lorenzo Stoakes (ARM)" <ljs@kernel.org>, Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
+	Krzysztof Kozlowski <krzk@kernel.org>, Sasha Levin <sashal@kernel.org>, corbet@lwn.net, 
+	skhan@linuxfoundation.org, rdunlap@infradead.org, federico.vaga@vaga.pv.it, 
+	apw@canonical.com, joe@perches.com, workflows@vger.kernel.org, 
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Justin Stitt <justinstitt@google.com>, 
+	Carlos Maiolino <cem@kernel.org>, Jakub Kicinski <kuba@kernel.org>, Jori Koolstra <jkoolstra@xs4all.nl>, 
+	Brian Foster <bfoster@redhat.com>, Christoph Hellwig <hch@infradead.org>, David Disseldorp <ddiss@suse.de>, 
+	Mark Brown <broonie@kernel.org>, Jani Nikula <jani.nikula@intel.com>, Jens Axboe <axboe@kernel.dk>, 
+	"David Hildenbrand (Arm)" <david@kernel.org>, Vlastimil Babka <vbabka@kernel.org>, 
+	"Christian Brauner (Amutable)" <brauner@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 
-On Wed, 2026-10-21 at 16:07 +0000, Troy Benjegerdes wrote:
-> On Mon, Oct 19, 2026 at 12:32:21PM -0400, lyude@redhat.com=C2=A0wrote:
-> > On Tue, 2026-10-13 at 23:23 -0400, Theodore Tso wrote:
-> > >=20
-> > > Using AI-assited priotization may have some collateral damange
-> > > because
-> > > it might not get the prioritization correct.=C2=A0 But ultimately, if
-> > > we
-> > > get a flood of patches from newcomers, the choices is either to
-> > > (a)
-> > > load-shed, or (b) burn out.=C2=A0 And of the two, (a) is the better o=
-f
-> > > two
-> > > bad choices.
-> >=20
-> > Why is there so much talk around trying to automate portions of the
-> > review process with non-deterministic tooling (don't get me wrong,
-> > things like Sashiko help) and not "we really kind of have a problem
-> > not
-> > having enough maintainers"?
->=20
-> It *is* possible to make a deterministic LLM, and this is why I think
-> it
-> is critical to my personal future to have an LLM that can actually be
-> understood by a human instead of a random number generator casino
-> that
-> sometimes puts "4" in your private key.
+On Mon, 26 Oct 2026 at 09:04, <lyude@redhat.com> wrote:
+>
+> On Wed, 2026-10-21 at 16:07 +0000, Troy Benjegerdes wrote:
+> >
+> > It *is* possible to make a deterministic LLM, and this is why I think
+> > it
+> > is critical to my personal future to have an LLM that can actually be
+> > understood by a human instead of a random number generator casino
+> > that
+> > sometimes puts "4" in your private key.
+>
+> I hate to break it to you but that is literally not how large language
+> models work.
 
-I hate to break it to you but that is literally not how large language
-models work. Random selection against weights that affect probability
-are literally how these systems work. This isn't to say that models
-cannot call down to deterministic tools, something that is quite common
-for things like Claude to do (less embarrassing miscounts of the letter
-r in strawberry). And that can give the impression that suddenly
-they're deterministic. But the part that is the model is still
-inherently probabilistic.
+More importantly than that - the whole "deterministic" part is a total
+red herring.
 
-To fix that would mean abandoning current LLM approaches. It's not a
-bug, it's literally how models work - they take input and transform it
-to what looks to be the most likely output to follow - in other words
-it is predicting tokens. The likelihood of whether one thing is chosen
-over another is determined by weights, which by their vary nature are
-probabilities.
+We shouldn't even reply to that idiotic argument.
 
-On top of that, if you were to try to suddenly introduce determinism
-into LLMs most of the workflows that people are using them for simply
-wouldn't work. It's not at all unusual for LLMs to only end up at the
-correct solution for a problem by more or less brute forcing it until
-it arrives at an answer that looks correct. If LLMs were not
-probabilistic, this approach wouldn't work because it would come up
-with the same 'solution' to a problem every time it makes an attempt -
-which would mean if it doesn't get the solution right the first time it
-simply never will. That's why LLMs are so incredibly resource hungry,
-you are basically brute forcing intelligence.=20
+Why? Nobody is arguing that we should stop take human patches because
+"they aren't deterministic".
 
-Someone could do something differently in the future, but right now
-every single industry leader is following the same idea of "if we can
-keep adding computers infinitely we can do anything" with the idea that
-models will simply become perfect by providing them enough training
-data.
+So anybody who thinks we shouldn't use LLM as tools because of that
+reason is just being dishonest. It's just a disguise for "I don't like
+AI". It's not an argument, it's a complete strawman.
 
->=20
-> What this means for this discussion is a clear process and social
-> expectation on the core OS kernel development community that humans
-> who
-> use this kind of technology for an open source project make a
-> machine-
-> readable note in the commit message on what proprietary tools have
-> been
-> used.
->=20
-> "Assisted by: Claude"
-> "Assisted by: GNU/LLM/Linux"
-> "Assisted by: <redacted>"
-> "Assisted by: Debian"
->=20
-> All of these tags say way more than a simple binary flag for "LLM was
-> used".
+We have had non-deterministic tools in the past. One trivial example
+of that is just different compiler versions that have slightly
+different instruction weights or just different rules. Even when they
+are individually deterministic the end result is effectively that
+different people will get different results.
 
-From a maintainer standpoint "claude was used for something somewhere
-at some part of the process" is not at all a useful piece of
-information. It tells me nothing about how the person writing the patch
-used the tool to actually create the patch. And outside of that
-specific question, there is quite literally no relevance. No
-maintainers actually care what operating system patches were written
-on, because that doesn't affect the actual output of the code that is
-being given to us. The same goes for whether or not it was proprietary
-tooling, the kernel has never at any point in its history been 100%
-written without proprietary tools. On top of that, it again doesn't
-make any practical difference to the code that maintainers receive. In
-that regard, I'd even go so far as to say the LLM in question either
-doesn't actually make a difference. Regardless of people's opinions on
-the quality of the output of one model vs. another, a maintainer still
-needs to read the code and understand it to the best of their ability.
-Even if one model was more likely to spit out bad code, in theory none
-of that is going to matter -if- the person writing it actually did
-understand everything in the code that they sent out and looked through
-all of it.
+And not all tools have even been individually deterministic - actual
+real non-deterministic behavior exists in non-LLM tools either becasue
+they have timing issues or are explicitly using random numbers as a
+way to get their results: Monte Carlo simulations is a very real
+thing.
 
-In reality, I don't particularly agree with the idea that people can
-handle that kind of review. I think it's very easy for us to feel like
-we can, but more often then not I regularly see that's not actually the
-case with people submitting LLM generated code beyond a certain size.
-And this is in part due to the fact that if you did actually review all
-of the code the LLM spits out, you wouldn't actually be saving time.
-And in addition to the fact that I have always seen a very clear
-difference in the understanding I and most maintainers have around code
-they've reviewed vs. code that they've actually written. I would be
-naive if I said I could understand a reasonably sized patch or patch
-series (like, hundreds or thousands of lines of code) at the same level
-as a person who wrote it. I can understand the jist of it, and I can
-understand most of it, but the portion that reviewers miss is intent -
-we have to ask the author why they did X/Y/Z, but the author (usually)
-knows that.
+And yes, non-determinism adds a wrinkle to things and it's something
+that needs to be taken into account (and people often add things like
+explicit seeds to avoid it when they need explicit determinism from
+otherwise non-deterministic algorithms). So non-determinism is
+something that should be weighed as a factor against what else the
+tools brings you.
 
-This is a big reason I advocated for just clarifying -what- the tool
-was actually used for. When I'm getting a patch that was entirely
-written by an LLM, I now have to review it with the understanding that
-we don't have an author to ask questions or retrieve intent from. I
-can't understand what someone was attempting to accomplish if they
-don't accomplish it correctly, which can lead to substantially more
-review work. But this is only the case with code that is _entirely
-written_ by an LLM. I think it's quite different when someone say,
-writes a patch by hand while using Claude for answering questions
-around the codebase they are working on, or if they used Claude for
-finding security vulnerabilties or subtle bugs that lend themselves to
-the kind of pattern matching LLMs excel at.
+But it's not actually an argument against LLM's.
 
-Which was why I suggested "Reported-by", "Co-authored-by", etc. the LLM
-model in use might not matter, but how the person interacted with it to
-get the work that they sent me does matter quite a lot. I don't get
-that information from a simple "Assisted-by".
-
+              Linus
