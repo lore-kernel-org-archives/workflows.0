@@ -1,97 +1,95 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=195.121.94.186
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.160.169
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792963968;
-	b=rtUJ3/I1ZMmjUWdS0YDUTsmwQDWtjSKIVOkjwjKFpArzi6vnBCE4znG14vcHhc0C8ORx
-	 ufUnrudaPmToyvvC2XGXVaHRQluakvXIgFgfgk+V8THXUqP/QGrZoBnx6DXq3ARNc0O4N
-	 ngoEvWjtjjHkCpUqXlQsfQNoxrtB46Zhc5i8WTvW3lNpakz2BGJ6VCYIc3afqyILrEjd9
-	 iJfKimrpGhaPxnOge/YIcYh5EQVsFpxtVAuHtLZd6lCtqOYBEeRagPNvfUr+EcMRgkBYB
-	 mHekPsP0XVNI9UQnTqDV+6dmvRXq421oZBkLEFHmb57wE0DOA/M8qUF8QxZ5O3BTD4A==
+	t=1792978208;
+	b=kgGfvPmv8s8UHIJgQfVRW8G9WePHhHmMllSQ/WKw9IGmHpmkbp2hSfWnZ5D9jExXtWPL
+	 jlY8ktkjL5ACuMj7QihZO9LaAscStReRttw+YzJDhfUisfoQuyIz0rYOiTsunFLXWzHw0
+	 //Id2sBoheR5WIZy3ZrJTDIqnp4F6ycGGH0ehr7MgOV7byzrUpKVqNrn7Wbwcnmv5OH16
+	 F0SO6JRtwDgCnnqdE8dD7Vz5JAWgND+JfQQfzYRqL2PNZSw9O8L066o7IRIBwRhQmLlIy
+	 /zENE11n4ZPBXPbg9s9mOvWH56LI2+IK7fbgwZy7AZ0qLoRdv27dlesZy7AuXOclejQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792963968;
-	h=DMARC-Filter:X-KPN-MessageId:Received:Received:DKIM-Signature:
-	 X-KPN-MID:X-CMASSUN:X-KPN-VerifiedSender:Received:Date:From:To:Cc:
-	 Message-ID:In-Reply-To:References:Subject:MIME-Version:Content-Type:
-	 Content-Transfer-Encoding:X-Priority:Importance:X-Originating-IP;
-	bh=5vuSnrcKwQeIRn0wbWhYdGvFkzDXojcWcGjlh6QDcMQ=;
-	b=L3vlveQxhbPZAIXyTvwLFHqaR1aDwzhH7DIeZLe1tHLxTZU4svg4LA+49//DxHRPi0vx
-	 mVxx4h9Xf8sXgCEg+yR9BxvtMzQQSDD++BiqvP8cU01z0SoWTQstqg2HzMkNA4nywAn83
-	 IlP3tbuUKdSjSYHti3z5vVo3/Px6QeqO8N8GAxYaqrAK6e2Qa7sYvIiGN2YNK5aANQ34O
-	 xnGYeRQg/Gbli+bPUt7mEbt9SrbNKjkrT7TvNZGDDEKkbInuNMpuvL8px0mmgSZ0UraDH
-	 +uQRap+paMb6z9WidzK8IT79vlr/B9lV1LC+3YG3W4i4Srhq+phGF1VX4dyRdCimxCQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1792978208;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 Content-Type:Content-Transfer-Encoding:MIME-Version;
+	bh=OLucmKFZvG1tvT3qcDSQQ2CfWxg9+UtyealuVWZ2qVk=;
+	b=AEDSsR12LQpNL1GuONg0PMcXNQ2CMPf7y5GSmm1AoHrt6TBRdc9quwAkONJq90+qgH2i
+	 pFKTzNWbU6KjIrIZ1jz1MgToeI7tzKjz848S77tTG1Eaj0XPt/FpDZ1LdcMCnAAGTb9WO
+	 hujT9cWrm8iVu3OQkbl1s0AmrmosWi8MCmLAn8LFdzkXxArw5Iouv7616g2PJkqz7tRrG
+	 zTbFfJKOvc7ul88BaYNAABEFcS43YzHhWv5tTtllobom0NyAtokj82VZ1ivi2tHa8AJIr
+	 5t2tSU6oj1smB4Ivu8OnARxI/YfPlYCqFT1KG/nI3QNrG5xFVIT5HIS4pSkWQyBMlig==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=xs4all.nl;
-	spf=pass smtp.mailfrom=xs4all.nl;
-	arc=none smtp.remote-ip=195.121.94.186
-Received: from ewsoutbound.kpnmail.nl (ewsoutbound.kpnmail.nl [195.121.94.186])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	dmarc=pass header.from=gmail.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=db06y5rc;
+	arc=none smtp.remote-ip=209.85.160.169
+Received: from mail-qt1-f169.google.com (mail-qt1-f169.google.com [209.85.160.169])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2F52D606A31B
-	for <workflows@vger.kernel.org>; Sun, 25 Oct 2026 21:32:36 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 2F52D606A31B
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=xs4all.nl
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=xs4all.nl
-X-KPN-MessageId: 957011bd-d0bb-11f1-87e5-00505699b430
-Received: from mta.kpnmail.nl (unknown [10.31.161.190])
-	by ewsoutbound.so.kpn.org (Halon) with ESMTPS
-	id 957011bd-d0bb-11f1-87e5-00505699b430;
-	Sun, 25 Oct 2026 22:32:30 +0100 (CET)
-Received: from mtaoutbound.kpnmail.nl (unknown [10.128.135.189])
-	by mta.kpnmail.nl (Halon) with ESMTP
-	id 956ec94e-d0bb-11f1-a8ab-0050569977a2;
-	Sun, 25 Oct 2026 22:32:30 +0100 (CET)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E78B6606A322
+	for <workflows@vger.kernel.org>; Mon, 26 Oct 2026 01:30:07 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org E78B6606A322
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=db06y5rc
+Received: by mail-qt1-f169.google.com with SMTP id d75a77b69052e-5366ae57896so26965581cf.3
+        for <workflows@vger.kernel.org>; Sun, 25 Oct 2026 18:30:07 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=xs4all.nl; s=xs4all01;
-	h=content-type:mime-version:subject:message-id:to:from:date;
-	bh=5vuSnrcKwQeIRn0wbWhYdGvFkzDXojcWcGjlh6QDcMQ=;
-	b=H3LyxcazLjO3BsnaA/eVkplsL+87/CmawTLYkHaxYk/dFOV0AArOCWWmMM9siWMYX+QVYW4fXMdoz
-	 n+y1CYUr1kLJkx+afjXan79gwEP+f3Bm7qLWvdmwa/QDJr7qtNZPa3C5OF8NkySQjjmSyTr1pkuu60
-	 fJWOZT8Lq4Yi+M90VWLg0k2yj9eZtQoe0R1V6XKXzSwLKHwt5LiEuzrDP3IganmEq4SrfeGHfVHWpn
-	 y07BfxOnHxLL9fTdYZcSjRwa8xmGSuRYdHeTh+IE9423XM8ZY4olu3EHPioZc8kgxs7Zff0hO3BNYE
-	 fn5gf0VyY/TowodKJaUzqb7pBjHgKFA==
-X-KPN-MID: 33|ewbb4jy8pZhqwJOE/4BRNgw3degIzkXnoW8litV1V+IUNVtk2goIwP9dd+dxvN0
- 3wsQCfDGArapfOl4Vp+ZnZEJ/n2ql7zr+sPIY5GEKWPU=
-X-CMASSUN: 33|sa/DoRaLLkvYyhWgxj8o6+RtIBFbDgoUcwEDZcjXQXI5rhTaWxTQKQX6mY0/ihE
- XcmKn7Ys1ssMhmsXjlSQamw==
-X-KPN-VerifiedSender: Yes
-Received: from cpxoxapps-mh03 (cpxoxapps-mh03.personalcloud.so.kpn.org [10.128.135.209])
-	by mtaoutbound.kpnmail.nl (Halon) with ESMTPSA
-	id 9562e720-d0bb-11f1-90df-00505699eff2;
-	Sun, 25 Oct 2026 22:32:30 +0100 (CET)
-Date: Sun, 25 Oct 2026 22:32:30 +0100 (CET)
-From: Jori Koolstra <jkoolstra@xs4all.nl>
-To: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>,
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Krzysztof Kozlowski <krzk@kernel.org>, Sasha Levin <sashal@kernel.org>,
-	corbet@lwn.net, skhan@linuxfoundation.org, rdunlap@infradead.org,
-	federico.vaga@vaga.pv.it, apw@canonical.com, joe@perches.com,
-	workflows@vger.kernel.org, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org, Justin Stitt <justinstitt@google.com>,
-	Carlos Maiolino <cem@kernel.org>, Jakub Kicinski <kuba@kernel.org>,
-	Brian Foster <bfoster@redhat.com>,
-	Christoph Hellwig <hch@infradead.org>,
-	David Disseldorp <ddiss@suse.de>, Mark Brown <broonie@kernel.org>,
-	Jani Nikula <jani.nikula@intel.com>,
-	Linus Torvalds <torvalds@linux-foundation.org>,
-	Jens Axboe <axboe@kernel.dk>,
-	"David Hildenbrand (Arm)" <david@kernel.org>,
-	Vlastimil Babka <vbabka@kernel.org>,
-	"Christian Brauner (Amutable)" <brauner@kernel.org>
-Message-ID: <345522644.2279143.1792963950889@kpc.webmail.kpnmail.nl>
-In-Reply-To: <atuDosjEibZI9exi@gremlin>
-References: <20261009083137.3-1-sashal@kernel.org>
- <0914a106-bacf-4d95-854a-bfeefbff62a4@kernel.org>
- <asz9AeFe3CutP73z@gremlin>
- <20261013123132.GC4214@killaraus.ideasonboard.com>
- <as4pAEnLd4H68W4W@gremlin>
- <20261013131243.GM56180@killaraus.ideasonboard.com>
- <as4xMnT8a75pIw9v@gremlin>
- <20261013173240.GK4214@killaraus.ideasonboard.com>
- <atI_TSQXzAQFWBfx@gremlin>
- <20261020211532.GD15441@killaraus.ideasonboard.com>
- <atuDosjEibZI9exi@gremlin>
-Subject: Re: [PATCH] docs: remove Assisted-by references
+        d=gmail.com; s=20251104; t=1792978207; x=1793583007; darn=vger.kernel.org;
+        h=mime-version:content-transfer-encoding:content-type:message-id:date
+         :references:in-reply-to:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=OLucmKFZvG1tvT3qcDSQQ2CfWxg9+UtyealuVWZ2qVk=;
+        b=db06y5rc/a42Q7I6gZJqHn+6RdhZMkCe/PM9bPSIkdzdKIQhT6awBXpLvTCqXMFoas
+         vpdrgYSILQX6pa54FHjgkevhT0qw3vOv7aSYEbQ9kISBjZHIWOApblEsWdkQmN6fLDCk
+         W24B5RsU3rGvAf0IivQNlEx9/t6cNsuLl8yuZxDFKTzIMJoEtBNayYZmAA82jEd8Qd07
+         WLcOpzJBZ1ttIyv9gx4mwMIdcqToXkb+C1ma90FuzfTAC2kL+RjBEThxU4bAZuzQSInS
+         TiQlkuu+Cs+eQO0ocaFK76BeQh/XfL0G6SA9Seh5Cl/7aXXbcPfIvztM8BV9n58h/Na5
+         xQpA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1792978207; x=1793583007;
+        h=mime-version:content-transfer-encoding:content-type:message-id:date
+         :references:in-reply-to:subject:cc:to:from:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=OLucmKFZvG1tvT3qcDSQQ2CfWxg9+UtyealuVWZ2qVk=;
+        b=I/xcfX1uBE6BJ8jKmcnBAhAzotO3h17PvH9pzE7za+kVpWc9lsgzB808NcsYqfuaU9
+         W3GP9yMsMyuSsv+j0Ss+bdgHGao++7ODLMfp7ic21cVLS4z/R+3ywk6e2tanNW8oSGKg
+         c+sjcaQDdJ8ihIC/A7wJDrdNUkx6INtxuWKYuo0O+fW7epFP84KkGpChFIKsqQN+7O5z
+         4FixtUPi2Mlb5Vvf5e0l2CLhGSeqtsxn+IzFXD8qtr85Yd4wqhv0mNDe68AFenfiBTvI
+         Fey9qaU2d17XbIUW/UEPw8K59XDuiLW8hCLT8P3esHW+fampnGfo1e5ZZF4cqq6TTJxI
+         KW4w==
+X-Forwarded-Encrypted: i=1; AKwUvBx+yUxOnOETaRztRrX2Iob0+RangleYYyv1ft0rLgt6el3GhYtFyEiYrflYEYkxVpRTbDMk7Ap4sC8=@vger.kernel.org
+X-Gm-Message-State: AFq9FYLMjfiQjwGmUp6mnxCzd4pRDbpDbTcnjRKRwSVCspRNb0zZoKVx
+	cO9m5uU+xH5HA565ULEPOx73E5UKJlJurvUj9coSgD0oBm5DS5Q5DRc=
+X-Gm-Gg: AYBFou0fZvrNvJ718FZyYLIx7cjG3Rj3HehAJVORhZCaSBK8P8+41pT8K8UUMfUtJvR
+	mnUiNfpDEX+SvsJYI/3oX4P8ioNWhPmo2KL2oCnvUHBSLSfdj3wjZFzObYgAQKcpDgUHBXSDR2l
+	pHJwyGHhwaKisDEG90iUI+Jgh4VL91rdJsfO4Xehagjl2GWWqyPWmHPMbaEyiZMVYMp+lerNO4I
+	zkT6KPOweD86SJvxjQUdW4Kqb0Ya8pv9TIC7+d29WThfyiAplEadGAIW6G5HQamSw7yLkXuH2I9
+	BChL7OwcqCWjm7pgkkdL8rKP5f3ElXJopltxZIgpjWYnDhZxcIIkk6vZmDEOOL8QD7pGESk0Mae
+	KjCnLsirfzAa6LqvwkvQAzsumUMEhQTBJC01rw6iV+BXUGXwpvRU3X5dFtZ1CDqZpkwZGGynoIR
+	RzkmpJte6VgwC+BmdQBC6z0AZeU9e6XfUewMQtj3QNaxKHuJAhpRIKdhls7Hp3n8RPbCYfC90KY
+	VQIxYBlnqOYHb3DwFq0xAmDfkZUPgO7YvbAgfRi/tv6cE1sliKbuTslNV60T1To8x7kPmUCLHvr
+	cy9Mm3QqByd3c+yhGtGw3qVigQO83X53IJ52ZF41uLEXrzQ968eiRxDoGsJ0/SFqLGRTxmSR1cl
+	JlfqRrP9CNVMcc3s87d4+xoYm3H1UM92SHeIoo7xekw==
+X-Received: by 2002:a05:622a:5c6:b0:536:5c86:cfd8 with SMTP id d75a77b69052e-5383b5e681amr81425591cf.12.1792978206784;
+        Sun, 25 Oct 2026 18:30:06 -0700 (PDT)
+Received: from [127.0.1.1] (207-237-119-98.s2383.c3-0.nyr-cbr1.nyr.ny.cable.rcncustomer.com. [207.237.119.98])
+        by smtp.gmail.com with ESMTPSA id d75a77b69052e-5383970a2basm44270051cf.18.2026.10.25.18.30.03
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 25 Oct 2026 18:30:03 -0700 (PDT)
+From: Eugenio Zuccarelli <eugenio.zuccarelli@gmail.com>
+To: danielmaraboo@gmail.com
+Cc: brendan.higgins@linux.dev, david@davidgow.net, corbet@lwn.net, raemoar63@gmail.com, skhan@linuxfoundation.org, rdunlap@infradead.org, linux-kselftest@vger.kernel.org, kunit-dev@googlegroups.com, workflows@vger.kernel.org, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] Documentation: kunit: document --summary and --failed options
+In-Reply-To: <CAMAsx6cniehFSgKz0+FRbGV=A=TGvogwx87xcqhiZNQGfeFFYQ@mail.gmail.com>
+References: <179250646543.2190262.8632957027583518623@gmail.com> <CAMAsx6cniehFSgKz0+FRbGV=A=TGvogwx87xcqhiZNQGfeFFYQ@mail.gmail.com>
+Date: Mon, 26 Oct 2026 01:30:03 -0000
+Message-ID: <179297820301.2598507.8486986636667612321@gmail.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Post: <mailto:workflows@vger.kernel.org>
@@ -101,69 +99,18 @@ List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:workflows+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-X-Priority: 3
-Importance: Normal
 
+Hi Daniel,
 
-> Op 23-10-2026 12:44 EDT schreef Lorenzo Stoakes (ARM) <ljs@kernel.org>:
->=20
-> Again, to me, it's just a scaling issue - nobody can read hundreds or
-> thousands of mails a day effectively, and maintainers and reviewers are
-> past capacity even now.
->=20
-> And agreed, we need talented young people coming up and it kills me that
-> they might be discouraged both by 'AI will take over so what's the point'
-> and the hordes of 'competing' people sending slop.
->=20
+Thanks for checking the entries against kunit.py and kunit_parser.py.
 
-There's a striking parallel with the mathematics community in this regard.
-They are dealing with a similar problem where the old way used to be you
-make a name for yourself by proving a hard theorem (Linux equivalent:
-you make a name for yourself with sweeping patchsets.) That does not
-really work as well anymore as a signal for competency (at least in maths):
+On the indentation: the continuation lines in the patch as sent use two
+spaces, matching the --json and --junit items (see the raw message on
+lore). It may have lost a space on the way to your tree, but please let
+me know if you still see the warnings with the original.
 
-"Among the mathematicians I have spoken with, the prevailing sentiment
-is that this traditional mechanism of recognition has effectively collapsed
-in a matter of weeks. A strong mathematical result, by itself, can no
-longer be taken as convincing evidence of a student=E2=80=99s independent
-mathematical abilities."[1]
+On Assisted-by: thanks, I had missed that docs-next dropped it. v2
+follows in reply, with the tool use described in the changelog instead.
 
-> Perhaps there are ways and means of getting talented new people involved
-> via side-channel, though.
->=20
-> I did the 'eudyptula challenge' many years ago, which was a sort of boot
-> camp for kernel developers (with a lot of 'are you patient enough' bits :=
-)
->=20
-> That can't work in identical form anymore because of AI (sigh), but perha=
-ps
-> we can figure out some AI-proof version of this?
->=20
-
-Would it be worthwhile to organize some sort of informal discussion on what
-such channels might be and how they can be organized in an LLM-resistant
-fashion? It would be interesting and useful to share and collect ideas on
-how the talent pipeline should take shape in the LLM-era, so that the commu=
-nity
-can ensure, also in the future, that talented and motivated people are cont=
-inued
-to be brought in and not drowned out by slop or other unwanted hurdles, suc=
-h as
-having access to very expensive tooling (a concern that I share with Lauren=
-t.)
-
-You and Ted have views on this; Shuah runs the kernel mentorship program; a=
-nd I know
-Greg also helps people get exposed to the kernel through various means. The=
-n
-there's GSoC and Outreachy, etc.
-
-I guess a lot of these people will be at LSFMMBPF?
-
-Best,
-Jori.
-
-[1]: https://terrytao.wordpress.com/2026/10/18/will-it-be-a-golden-age-or-a=
--dark-age-for-mathematics-and-science/#more-18496
+Thanks,
+Eugenio (Jay)
