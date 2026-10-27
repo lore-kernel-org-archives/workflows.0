@@ -1,69 +1,65 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793127441;
-	b=uGAU+sSRweL+/1w6VYIXAn/TOMdm3WhzI6jANua5TbzjS3W6ScxJ7Xjy7HXSFCfU0tKZ
-	 tutOj/cfntDaeEpTRqwon9raDe+IGbYacLaWvQoFTEbbooB02pqVhktdPcYSUkdd5nv0A
-	 /HdaTFhBQMYDpI5T9dlZp3s90ow0sGyCpZeAorKvCUv+AyG071eIJBLsHgHQTruDxaQym
-	 nO4rlVzXvutTZMRqlbd8F+T0Szj5gurhpifJWWF3iYX11Pp8evaoLvs1tzfDuuFv4yUL0
-	 QDJA1MJgS3/SMCjCcGsBNO5WRNqPzvkgVJgycIL40Pk2z2cQdbDsXzeg2waBEuG7+9Q==
+	t=1793131037;
+	b=vlMB7Uf900WrTBnHInIZ9/0O8Bp9PGjemCje5yQHr+jDDB4whXFMHxGrr8Ki0ROJ1468
+	 N+aUTkbw64EMo4y4nd+c0sJeD+DVdLUMyVNczIpRqaJwlt+UWXIMW0/T0O4o2/1jFo0eC
+	 iwJBXdAxDByJzoL+f4AkGJydUdGQGPr6ncdtMRE9qk9p5Bnx8H3dHtMl/Otj7yYkR++It
+	 rU9mdehnekBwKWbVVq0LtyftJ9xX4KY2dPzXLSzAtHKQBaq+r7V1BW1a3dLmcsQkQFfQ/
+	 9ic0Rhs9NUZXwsjqY79nv1yYa7ftUjlKbN90Lx00LDV3OBmqiNBksPZGwPCl20mt9ag==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793127441;
-	h=Received:DKIM-Signature:Received:Date:From:To:Cc:Subject:Message-ID:
-	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To:
-	 X-Cookie;
-	bh=RqMmeEuAURO9PC7K8VIbJDFKl16EvOusSLDd6yaNy/0=;
-	b=0vbMMFVlP8u1cGnf4Q4iNBj4x9pGoScXDrymZj0//MTGjuz5+8jmMxao6xgTMW4WTXho
-	 KW6OCy7PktWJxczqiqP/in8SBNLhAljc8Qbvf7/zDkg4q+29hFr24HlGHoy/Y0pDQQ69E
-	 FG8ydS3/jZyxQm+ec0cFT2MGVLvEXie+ukJ1XJeEjZBCBky/Cwwyq9xdW9H8e5MplPUfP
-	 nA8lJ9zSRSXNkwKWaMhc37OmP0AY++S30MF/h0ZS2PDzkGd+LfC23n2QmuM/mMiri8cOx
-	 Z0KK0IOVKRHCYUzxtqJ9k91F9qxsSv7ugc1OlOEuq9uASOGNhm+968Kb6jP9MmhlK2A==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793131037;
+	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
+	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
+	bh=MjCOMTfDinep5vhJGuYRekQuBK53NYbLjZwxUltG/Hg=;
+	b=4B3Xp+rY8bOUolu6xqjgwp916dHlj7tb4p1/sCT/krJTGHR84uwfxl6q4FOGkN1SHoJI
+	 YWIo7pel90Ya4KcYdrucz0+Ao/BBlK5hQKBixHw9y2aiRbGAu/zGFRgV1Gz5taDINmgN3
+	 uDQr7uFOixupQ5/7Dt3wqwuCyekhxl1VFVXuOcC1Jp2i1WNNP8KYxpnviT31VvvAt4SJS
+	 LT0IUVwRBlE+rvMdU2hJPBYjaZ7rnbnWFcOq8PC3zY3/Lppghf3VTXptnNdeiDbFV+LFZ
+	 ub/7A3yjF9/4kuZsE14UZNhj0K9x5qp+pQYBJt/Y+eVUTQzOQ4pXXP1+IL6FAoHqMOQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Ety8LAqE;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=YfO+CnhS;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C23D0606A31A;
-	Tue, 27 Oct 2026 18:57:20 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E94E5606A326;
+	Tue, 27 Oct 2026 19:57:16 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Ety8LAqE
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2B21E1F01825;
-	Tue, 27 Oct 2026 18:57:20 +0000 (UTC)
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=YfO+CnhS
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 31E401F031E4;
+	Tue, 27 Oct 2026 19:57:16 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793127440;
-	bh=RqMmeEuAURO9PC7K8VIbJDFKl16EvOusSLDd6yaNy/0=;
+	s=k20260515; t=1793131036;
+	bh=MjCOMTfDinep5vhJGuYRekQuBK53NYbLjZwxUltG/Hg=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=Ety8LAqEcAa967NA02YPHq3pDtDRLD25aw5Fy9U2Uu1l2e8ondDp5I2b5CNuuvZje
-	 dZInfatQjOo3p4phkJQfDjYrUhVwuLQUJTK24HoBlmE6ifgTLDsMxBU/bAePa9ehWr
-	 59FElkuNKod4lCB0avnEu+Csf5CO/qu9en60j7A9+UaJ6f9/bSIeYrJOxwVXv/whaj
-	 l9T2NHSBSGMvN/ZLxRm4ZFdi4rMemvsMnKRnOPJH903KA12IZ/+6ETOoIFiwzorqiV
-	 bQCT+9PetC7w4CU7EIywcjyR+YOYNw+SK0mrsJ/OOP4lg4fGsjrUfAqH0vrE2g6TdT
-	 cCTNJp96rHxqg==
-Received: by traversing.sirena.org.uk (Postfix, from userid 1000)
-	id 77D171FB712B; Tue, 27 Oct 2026 18:57:17 +0000 (GMT)
-Date: Tue, 27 Oct 2026 18:57:17 +0000
-From: Mark Brown <broonie@kernel.org>
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc: Geert Uytterhoeven <geert@linux-m68k.org>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Eric Biggers <ebiggers@kernel.org>, linux-doc@vger.kernel.org,
-	workflows@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
+	b=YfO+CnhSfb0ZtYrj2CML1pC1tIRO+z2avoDHlsH3Pg7Jh1XtdZihUbWne5MH13ZEr
+	 ndmOcwHWKJwE19Z8Gpl/t+QdOA78SYAaGtvABPhHc4tbAf8qGDUCmGbqJ2uzgRvUNC
+	 D5WMOCaDUWyjlTtD2oj8Qh3LzsCFncpf1YVp58L+Lgji6+E26NoBuB/VyP9Ndwsmgv
+	 tQ4hUOoI/M+eT962RzEcA0MuZla8CLe5YRl+zCwSwNE5bMGGVvwfa18N0/kPdJxm0l
+	 5hMU665s0mhzzyh+64GbMKE4QFaA8fJNFb0EunDnNQNqIBlLseJsL0qxIQl9xTSErt
+	 3jWa767pCRbgQ==
+Date: Tue, 27 Oct 2026 19:57:14 +0000
+From: Eric Biggers <ebiggers@kernel.org>
+To: Krzysztof Kozlowski <krzk@kernel.org>
+Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	linux-doc@vger.kernel.org, workflows@vger.kernel.org,
+	Jonathan Corbet <corbet@lwn.net>,
 	Shuah Khan <skhan@linuxfoundation.org>,
 	Randy Dunlap <rdunlap@infradead.org>, linux-kernel@vger.kernel.org,
 	Konstantin Ryabitsev <konstantin@linuxfoundation.org>
 Subject: Re: [PATCH] docs: submitting-patches: Require base tree information
-Message-ID: <auD0DXpvKayLQJNy@sirena.org.uk>
-References: <aea2328d-4ea8-45bc-922e-9c1fed94083f@kernel.org>
+Message-ID: <20261027195714.GA2508049@google.com>
+References: <20261021063927.GA31908@sol>
+ <d5d0801e-371c-4836-8b4a-26bff33df46f@kernel.org>
+ <20261021064940.GC31908@sol>
+ <aea2328d-4ea8-45bc-922e-9c1fed94083f@kernel.org>
  <20261021163242.GB325924@killaraus.ideasonboard.com>
  <73d01869-b536-4fcd-a139-6f9d0a043347@kernel.org>
  <20261026104056.GH15441@killaraus.ideasonboard.com>
- <CAMuHMdV7Mz0WgaNP_B8FG6OxLBqqnWwMqWJKNFBDkF2i=55fVQ@mail.gmail.com>
- <20261026145343.GC1001933@killaraus.ideasonboard.com>
- <CAMuHMdXdOAYifLgmeguqMwE4kkyJ8NDbA4niZkuEUMYBPxBBSw@mail.gmail.com>
- <20261026201905.GC2005298@killaraus.ideasonboard.com>
- <at-9VwE3BL_3OXNP@sirena.org.uk>
- <20261027123310.GB1829830@killaraus.ideasonboard.com>
+ <3f518c8c-2950-458e-95fb-5b282db4c384@kernel.org>
+ <20261027122952.GB2133989@killaraus.ideasonboard.com>
+ <8230fb00-b1a4-47f0-b9de-5d0fa42e9465@kernel.org>
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Post: <mailto:workflows@vger.kernel.org>
@@ -73,48 +69,49 @@ List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:workflows+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="PeFWeuB8IhHv6OUB"
-Content-Disposition: inline
-In-Reply-To: <20261027123310.GB1829830@killaraus.ideasonboard.com>
-X-Cookie: Whoever dies with the most toys wins.
-
-
---PeFWeuB8IhHv6OUB
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <8230fb00-b1a4-47f0-b9de-5d0fa42e9465@kernel.org>
 
-On Tue, Oct 27, 2026 at 02:33:10PM +0200, Laurent Pinchart wrote:
-> On Mon, Oct 26, 2026 at 08:51:35PM +0000, Mark Brown wrote:
+On Tue, Oct 27, 2026 at 03:31:36PM +0100, Krzysztof Kozlowski wrote:
+> >> Since this step is pointless - it would be linux-next
+> >> (assuming in the first place that this is what the author wanted here!)
+> >> - it is a waste of time for me and potential resubmit of series, just to
+> >> fulfill requirement which brings no benefits. So I have downside and I
+> >> see no upside for my case, when you require the base.
+> >>
+> >> This might be affecting others as well, but now speaking about my
+> >> workflow - I have a lot of independent cleanups, which I stack on top of
+> >> each other, sometimes series, sometimes not, but stacking is important
+> >> so when I run `make W=1` it passes.
+> >>
+> >> What's more important, I reject the entire reasoning/cause of this
+> >> change, which claimed you cannot review and therefore accept such
+> >> patches. It's simply not true.
+> > 
+> > That's not my claim.
+> 
+> That's the claim from commit msg. And wording should rather be "which
+> claimed one cannot review".
 
-> > This isn't insurmountable, you can cherry pick the
-> > changes over to a clean branch or something, but there's new failure
-> > modes introduced by being explicit about the commit (the number of times
-> > I've had to unwind a series apply in b4 because it paid attention to an
-> > unsuitable sender specified base...).
+Emailed patches include only 3 lines of context by default.  That's
+simply not enough for a proper review in most cases.  For a proper
+review patches usually have to be applied, which often fails especially
+if it's an old patch.  (Caveat: as usual, the frequency of this varies
+by subsystem.  So some people encounter them more than others.  Just
+because you might not experience this much doesn't mean others don't...)
 
-> I've seen that too. So far it has bothered me less than not having base
-> information. With an unsuitable base I can apply the patches ignoring
-> the base, while with missing base I have to ask the submitter. The
-> latter interrupts review. Your mileage may vary though, depending on how
-> often you hit either case.
+base-commit (and optional prerequisite-patch-id) can prevent that in
+most cases.  That's the point.  And it helps for applying patches for
+any other reason, like testing, or resuming work on on old patchset.
 
-Some of it is a consequence of how I handle these situations - if I
-can't work out how to apply the patch against something I'm likely to
-apply the patch to I'll just ask the submitter to rebase before I get
-terribly far into things, if I get as far as pulling the patch in before
-I notice b4 used a weird base (usually picked up from the submitter) and
-I didn't override it then that's pretty cumbersome to unwind.
+It seems like your concern is that people would bureaucratically ignore
+patches without base-commit even when they apply cleanly to "something
+obvious"?  That is not what I intended for this at all.  This is all
+about getting more patches to include base tree information.
 
---PeFWeuB8IhHv6OUB
-Content-Type: application/pgp-signature; name="signature.asc"
+I also don't think your interpretation is consistent with the actual
+commit message or diff of this patch.  Regardless, I'd also be glad to
+clarify the wording.  Do you have any specific wording suggestions?
 
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQReagvpf3TrrA7BoYYv73Ows9A4iQUCauD0CgAKCRAv73Ows9A4
-iaDKAQDIAEH03940sQ4djk54qH3DuSYiPFU18cab4RMX2YVPGwD9ExVKvoZ3d1QW
-sek5YtqiFy0Db7uBC5mhDvNlc3XXAA8=
-=BGxh
------END PGP SIGNATURE-----
-
---PeFWeuB8IhHv6OUB--
+- Eric
