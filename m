@@ -1,65 +1,75 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=18.9.28.11
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793131037;
-	b=vlMB7Uf900WrTBnHInIZ9/0O8Bp9PGjemCje5yQHr+jDDB4whXFMHxGrr8Ki0ROJ1468
-	 N+aUTkbw64EMo4y4nd+c0sJeD+DVdLUMyVNczIpRqaJwlt+UWXIMW0/T0O4o2/1jFo0eC
-	 iwJBXdAxDByJzoL+f4AkGJydUdGQGPr6ncdtMRE9qk9p5Bnx8H3dHtMl/Otj7yYkR++It
-	 rU9mdehnekBwKWbVVq0LtyftJ9xX4KY2dPzXLSzAtHKQBaq+r7V1BW1a3dLmcsQkQFfQ/
-	 9ic0Rhs9NUZXwsjqY79nv1yYa7ftUjlKbN90Lx00LDV3OBmqiNBksPZGwPCl20mt9ag==
+	t=1793150111;
+	b=TCpi6qBmBPc0az5/tTaHS2h9uhWAXCUs+icXIBuYA84IISXdNzJPdZp0yTPcn5jr/XtV
+	 BWKgBq7l8c/lnAyAYEns5xLwjinyubbDXxHoZNS8NrwsDTe+9UTrN/ZnYl+wKSjeZ1JQq
+	 /POh7WQ35M7HQSo5NHtKUo6leDTGJ6NL3Odr4FjE+npja2Qno151wkQjMtZbYyFK0Zt+V
+	 /wOj5yIbEdUneavrlD5c2e+8wZl+k1UCvtrT2lCRIkMqy+FtANO57zij98WNJ/W6DC94q
+	 beET2gJ5RysNY9Anm4Q3kSsasxqE0plUz2RatlCO9aX7vIorTsjAryvdouY809RT+tA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793131037;
-	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
-	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
-	bh=MjCOMTfDinep5vhJGuYRekQuBK53NYbLjZwxUltG/Hg=;
-	b=4B3Xp+rY8bOUolu6xqjgwp916dHlj7tb4p1/sCT/krJTGHR84uwfxl6q4FOGkN1SHoJI
-	 YWIo7pel90Ya4KcYdrucz0+Ao/BBlK5hQKBixHw9y2aiRbGAu/zGFRgV1Gz5taDINmgN3
-	 uDQr7uFOixupQ5/7Dt3wqwuCyekhxl1VFVXuOcC1Jp2i1WNNP8KYxpnviT31VvvAt4SJS
-	 LT0IUVwRBlE+rvMdU2hJPBYjaZ7rnbnWFcOq8PC3zY3/Lppghf3VTXptnNdeiDbFV+LFZ
-	 ub/7A3yjF9/4kuZsE14UZNhj0K9x5qp+pQYBJt/Y+eVUTQzOQ4pXXP1+IL6FAoHqMOQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793150111;
+	h=DMARC-Filter:Received:DKIM-Signature:Received:Date:From:To:Cc:
+	 Subject:Message-ID:References:MIME-Version:Content-Type:
+	 Content-Disposition:In-Reply-To;
+	bh=bm7wec5B1UFJK2Enj5zENUBnAS6DiTmj+CBBwH6eJIY=;
+	b=MArDhFIMm2/cZhZCoQnuSJjY+NoC1EiiXXj2l7b+h7+D4n6BHQYS5lJcgpAgaiGsFk9I
+	 Hdfiw3SMn6XbtvQ3v7u3fkzOAg5/iMV6zYtE9AQfDH5AfsQQQhnv7dPnyB9FXVyRDg49h
+	 y7AC88E5Qmfzno1E53RSZBiFx25avhqzXCjUOTmSytg0p1YTO0K5hh58SEy1AZvnfo9mG
+	 AJblbQVfmtKsUmeOblgxmiT7MO9e+mRcBKBbSGATQHgcUea33UNPkulIa/6KOIYgk+pBq
+	 wg1nbu2s+ItLZQGbAbm+EyNWTKEHUZ0bC2bEKJtFY90+L/ga5Y/OyRPj9lD+Z1sWsHQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=YfO+CnhS;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	dmarc=pass header.from=mit.edu;
+	spf=pass smtp.mailfrom=mit.edu;
+	dkim=pass header.d=mit.edu header.i=@mit.edu header.a=rsa-sha256 header.s=outgoing header.b=QWCEa5r6;
+	arc=none smtp.remote-ip=18.9.28.11
+Received: from outgoing.mit.edu (outgoing-auth-1.mit.edu [18.9.28.11])
+	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E94E5606A326;
-	Tue, 27 Oct 2026 19:57:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E46E8606A321
+	for <workflows@vger.kernel.org>; Wed, 28 Oct 2026 01:15:10 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org E46E8606A321
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=mit.edu
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mit.edu
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=YfO+CnhS
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 31E401F031E4;
-	Tue, 27 Oct 2026 19:57:16 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793131036;
-	bh=MjCOMTfDinep5vhJGuYRekQuBK53NYbLjZwxUltG/Hg=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=YfO+CnhSfb0ZtYrj2CML1pC1tIRO+z2avoDHlsH3Pg7Jh1XtdZihUbWne5MH13ZEr
-	 ndmOcwHWKJwE19Z8Gpl/t+QdOA78SYAaGtvABPhHc4tbAf8qGDUCmGbqJ2uzgRvUNC
-	 D5WMOCaDUWyjlTtD2oj8Qh3LzsCFncpf1YVp58L+Lgji6+E26NoBuB/VyP9Ndwsmgv
-	 tQ4hUOoI/M+eT962RzEcA0MuZla8CLe5YRl+zCwSwNE5bMGGVvwfa18N0/kPdJxm0l
-	 5hMU665s0mhzzyh+64GbMKE4QFaA8fJNFb0EunDnNQNqIBlLseJsL0qxIQl9xTSErt
-	 3jWa767pCRbgQ==
-Date: Tue, 27 Oct 2026 19:57:14 +0000
-From: Eric Biggers <ebiggers@kernel.org>
-To: Krzysztof Kozlowski <krzk@kernel.org>
-Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	linux-doc@vger.kernel.org, workflows@vger.kernel.org,
-	Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Randy Dunlap <rdunlap@infradead.org>, linux-kernel@vger.kernel.org,
-	Konstantin Ryabitsev <konstantin@linuxfoundation.org>
+	dkim=pass (2048-bit key, unprotected) header.d=mit.edu header.i=@mit.edu header.a=rsa-sha256 header.s=outgoing header.b=QWCEa5r6
+Received: from macsyma.thunk.org ([104.133.198.41])
+	(authenticated bits=0)
+        (User authenticated as tytso@ATHENA.MIT.EDU)
+	by outgoing.mit.edu (8.14.7/8.12.4) with ESMTP id 69S1ENuL016217
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Tue, 27 Oct 2026 21:14:25 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mit.edu; s=outgoing;
+	t=1793150069; bh=bm7wec5B1UFJK2Enj5zENUBnAS6DiTmj+CBBwH6eJIY=;
+	h=Date:From:Subject:Message-ID:MIME-Version:Content-Type;
+	b=QWCEa5r6aHnQVDNXR26SZ1h5zufpgEkvKqpUqIXTkQq5YbtavWp5uXTRxqh7u4ucN
+	 5WZxNprEspfbmtUVcSg9evG1NB/veAHJql0TU9SSNsdoBrUT1diZGb3Y3Z59CNQTjc
+	 3drrpsVmiGadf2cYndUxZgbIiExpy+GzfIOJBovWkBTKSKcwel2d2dFAnY8WWt3EV/
+	 ELfTsRZ72+Mg+53LkySENxC2Xbh1mNp5PXFdmWIVAEhkzqGGUVfBdyHLdAJHddGEne
+	 rIXFXXpimKsi5sjTRYOZqcPc8l1dT3mAmcGBKgZQ2Ar5yL+KI4pGLVwFGLd74ByGrY
+	 cnMMzeLteGG7w==
+Received: by macsyma.thunk.org (Postfix, from userid 15806)
+	id 9FF442321DDD; Tue, 27 Oct 2026 21:14:22 -0400 (EDT)
+Date: Tue, 27 Oct 2026 21:14:22 -0400
+From: "Theodore Tso" <tytso@mit.edu>
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: Geert Uytterhoeven <geert@linux-m68k.org>, Rob Herring <robh@kernel.org>,
+        Krzysztof Kozlowski <krzk@kernel.org>,
+        Eric Biggers <ebiggers@kernel.org>, linux-doc@vger.kernel.org,
+        workflows@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
+        Shuah Khan <skhan@linuxfoundation.org>,
+        Randy Dunlap <rdunlap@infradead.org>, linux-kernel@vger.kernel.org,
+        Konstantin Ryabitsev <konstantin@linuxfoundation.org>
 Subject: Re: [PATCH] docs: submitting-patches: Require base tree information
-Message-ID: <20261027195714.GA2508049@google.com>
-References: <20261021063927.GA31908@sol>
+Message-ID: <auFH8o9FbxprB40A@mit.edu>
+References: <20261020212235.1143086-1-ebiggers@kernel.org>
+ <363b228a-7e96-481a-b70f-195ba55d025e@kernel.org>
+ <20261021063927.GA31908@sol>
  <d5d0801e-371c-4836-8b4a-26bff33df46f@kernel.org>
  <20261021064940.GC31908@sol>
  <aea2328d-4ea8-45bc-922e-9c1fed94083f@kernel.org>
- <20261021163242.GB325924@killaraus.ideasonboard.com>
- <73d01869-b536-4fcd-a139-6f9d0a043347@kernel.org>
- <20261026104056.GH15441@killaraus.ideasonboard.com>
- <3f518c8c-2950-458e-95fb-5b282db4c384@kernel.org>
- <20261027122952.GB2133989@killaraus.ideasonboard.com>
- <8230fb00-b1a4-47f0-b9de-5d0fa42e9465@kernel.org>
+ <CAL_JsqLA2F0oB=7LsoxZe-=AboOJu7FotpMACNsuV==jGWB8nw@mail.gmail.com>
+ <CAMuHMdX22CEnzQr8MuVftdVK23=ZpGoomGQuM-H8pw=x-Fsi-A@mail.gmail.com>
+ <20261027122346.GA2133989@killaraus.ideasonboard.com>
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Post: <mailto:workflows@vger.kernel.org>
@@ -71,47 +81,55 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <8230fb00-b1a4-47f0-b9de-5d0fa42e9465@kernel.org>
+In-Reply-To: <20261027122346.GA2133989@killaraus.ideasonboard.com>
 
-On Tue, Oct 27, 2026 at 03:31:36PM +0100, Krzysztof Kozlowski wrote:
-> >> Since this step is pointless - it would be linux-next
-> >> (assuming in the first place that this is what the author wanted here!)
-> >> - it is a waste of time for me and potential resubmit of series, just to
-> >> fulfill requirement which brings no benefits. So I have downside and I
-> >> see no upside for my case, when you require the base.
-> >>
-> >> This might be affecting others as well, but now speaking about my
-> >> workflow - I have a lot of independent cleanups, which I stack on top of
-> >> each other, sometimes series, sometimes not, but stacking is important
-> >> so when I run `make W=1` it passes.
-> >>
-> >> What's more important, I reject the entire reasoning/cause of this
-> >> change, which claimed you cannot review and therefore accept such
-> >> patches. It's simply not true.
-> > 
-> > That's not my claim.
+On Tue, Oct 27, 2026 at 02:23:46PM -0500, Laurent Pinchart wrote:
+> > The problem boils down to how to present work that touches multiple
+> > target trees, and where some parts depend on other work that is
+> > not yet finished. Do you post it as single series, so people get an
+> > overview? Do you split it in multiple small series (which may still
+> > have interdependencies), so everybody looses context?
 > 
-> That's the claim from commit msg. And wording should rather be "which
-> claimed one cannot review".
+> There's no one-size-fits-them-all solution to this problem. What I want
+> in those cases is information provided by the person posting the patches
+> about the dependencies and where to find them. I think there's value in
+> specifying that information in a machine-parseable way.
 
-Emailed patches include only 3 lines of context by default.  That's
-simply not enough for a proper review in most cases.  For a proper
-review patches usually have to be applied, which often fails especially
-if it's an old patch.  (Caveat: as usual, the frequency of this varies
-by subsystem.  So some people encounter them more than others.  Just
-because you might not experience this much doesn't mean others don't...)
+The problem is that "one size fits all" and "machine-parseable way"
+are in tension with one another.  One approach might be that the
+patche series fragments might be sent to different subsystem mailing
+lists and reiewers, but the cover letter might include a pointer to a
+unified git branch which has all of the patches touching all of the
+different pieces.
 
-base-commit (and optional prerequisite-patch-id) can prevent that in
-most cases.  That's the point.  And it helps for applying patches for
-any other reason, like testing, or resuming work on on old patchset.
+Another approach might be to post it as a single series, but different
+mailing lists and reviewers get cc'ed on the various patches in that
+series --- and everyone gets cc'ed on the cover letter which also has
+a pointer to the unified git branch.
 
-It seems like your concern is that people would bureaucratically ignore
-patches without base-commit even when they apply cleanly to "something
-obvious"?  That is not what I intended for this at all.  This is all
-about getting more patches to include base tree information.
+A lot of this really depends on whether you are asking for reviews, or
+whether you are asking people to apply the patch series in their
+subsystem trees.  In the case where there are a large number of
+interdependencies, they probably can't do that via patch series
+anyway, and it might be easier just to get relevant ack'ed by and then
+send to Linus with an explanation that you've gotten acks from all of
+the relevant reviewers.
 
-I also don't think your interpretation is consistent with the actual
-commit message or diff of this patch.  Regardless, I'd also be glad to
-clarify the wording.  Do you have any specific wording suggestions?
+In truth, this case is actually pretty rare.  The more common case is
+where there is a single set of changes that multiple patch series
+might depend upon.  For example, there might be an set of iomap
+changes which will go on one branch, and then various file systems
+(xfs, ext4, btrfs, etc.) might pull in that common dependency branch
+with the iomap changes, and then put their ext4 changes on top of
+those.
 
-- Eric
+In that case, what's important is not just the base commit id, but an
+explanation of where to find that base commit.  Normally that just
+goes in the cover letter, in human readable form, because I don't
+think we have a lot of automation that tries to deal with that, as a
+subsystem maintianer, reading the cover letter is just fine from my
+perspective.  But if someone wants to propsoe extending the base
+commit with a repo and branch or tag where the commit can be found, I
+guess we could do that.
+
+       	      	       	      		     	   - Ted
