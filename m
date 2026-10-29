@@ -1,68 +1,61 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=80.241.56.152
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=194.13.80.246
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793297382;
-	b=pVQ0gNCDukCbbH0fWfgBLMJ1FGO46/JGhhvgWHtRHUQXqYvP2kZl8owM/2w15ywYBMBl
-	 WBWkoSKzNgsT3o84joMPn+1oT4m3ISL8g0fq1lb4pPY0Yn0ksLSwGyZBG12bNwYyODeVs
-	 uVXdjhwHTdk2vkFX/L+AfnnFXEJQOSBt6AlRrjbF3o7N9ySaPJvvDrfnaciotpr0Es+/d
-	 sUHU1cm0HyW/Y2V2QZz8f1/vtF64zkgEHqU3otGrtzy2N+jYLf0kRD9XNflmsWPYiL3hU
-	 CEp7n6fdTVnsfApAwmXxTK6xg1GepcpkuWSen6ZE9bHm2MZCpXx8KOTr3S7AJpNzWRg==
+	t=1793299869;
+	b=t7UiX36Y0yctf5RC+OARoTFA25ISNjE9PY9rcXXHH20jn4Fkp5HW6B71hAdQgrz2fTMm
+	 Pt2QOSPRznHb+wTn2RLJLX5hv7cR8UxlIMZ66FC33XloaxxDdo2mC6fzxcRK1hwbJ4RSg
+	 PyRnni9787ZS8NQn/3fXO+sNiRWWNzYVsVGYkaK3yTGJXt67gKJ7w+ms0vk5lxnt4dus7
+	 QH/SuPOtibcFGA3rCiD+0G2GudewNFSEaS/wXtNa1XXxHJjrznms+0aOTdxbt66fyUb/K
+	 QrX+YqVZBVz6TwKPRWVj/0Gv0c4KfT+L23Nf7QJ5gp8MnVbm1t2XySnJ+4XLyyQgwlQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793297382;
-	h=DMARC-Filter:Received:DKIM-Signature:From:To:Cc:Subject:Date:
-	 Message-ID:X-Mailer:MIME-Version:Content-Transfer-Encoding:
-	 X-MBO-RS-ID:X-MBO-RS-META;
-	bh=YkgqtOmgm5pSQNfcr107oNijONylJ41PgACdSs5lpcc=;
-	b=K/bckqXPsUyyQHzNYceVGQ9NKxUJhehauYSyzAz+k6DKE41JpsVbg1T4NIDNxV1X0WU1
-	 p0wHoXPxcILB97RVfyGzTCCSZFvb15nQPaErafFG0s1DeJLOsKMPLjFbJlUbkedbUeu6J
-	 CItxGGejiVJCK9hoopgiA4J+2asxNGqo6pUvKLU7P+r3BaQDJivSFIN8TL1tlb6a0ugpL
-	 W/tmQYgSHEPPhIiR3nkhlgQOfwLribUQTXgk9cSsj2U0Q+7wp+U8T2aB1jwiUaUI1U0Gl
-	 SF9HOAKOk4tfaiBsf5XeZSOwQD03fVXr2Q+cU6kGJesnh2dtsQYTP9LI92cW6YTIwNQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793299869;
+	h=DMARC-Filter:Received:DKIM-Signature:Date:From:To:CC:Subject:
+	 User-Agent:In-Reply-To:References:Message-ID:MIME-Version:
+	 Content-Type:Content-Transfer-Encoding:X-Last-TLS-Session-Version;
+	bh=3bJwLWJNNK8qh74mSOKl6GqetDbUm+0/svaiEPWTYGw=;
+	b=ArrS4bCowKLPqcxAjSmnvDcUg921MQUZD+yfPiw7/vHmxtASfig8eAWFAQY+OtVY/AHq
+	 yomaZTRpq3E7pk3h1Yb0+THRTHnhlHJa3payhhhvLeb2R25M6V8U6FBA19/LOQkioyrOq
+	 SaEpXlNQNCQpmkprr34gulgtK3rJ0gTLJa5B/SGhEqBUGI/1fvE72pbNt7ERBwozpK4ZC
+	 Q2ivAcLib9i2+4g9NJcy5NnIWAVYGlP0w057tk5nihWg64SGtnzHy3kay9yehgMRHJ/Ju
+	 LU34kEb4MJbAifB2QjPCrwNpi5y2BRiwBmcIZFlKC0GreMtf7gPuLksc0udwXoECJYg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=mailbox.org;
-	spf=pass smtp.mailfrom=mailbox.org;
-	dkim=pass header.d=mailbox.org header.i=@mailbox.org header.a=rsa-sha256 header.s=mail20150812 header.b=jLnl0iOA;
-	arc=none smtp.remote-ip=80.241.56.152
-Received: from mout-p-102.mailbox.org (mout-p-102.mailbox.org [80.241.56.152])
+	dmarc=none header.from=tipi-net.de;
+	spf=pass smtp.mailfrom=tipi-net.de;
+	dkim=pass header.d=tipi-net.de header.i=@tipi-net.de header.a=rsa-sha256 header.s=dkim header.b=PYZsfkPs;
+	arc=none smtp.remote-ip=194.13.80.246
+Received: from mail.tipi-net.de (mail.tipi-net.de [194.13.80.246])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BC57C606A31A;
-	Thu, 29 Oct 2026 18:09:41 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org BC57C606A31A
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mailbox.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A3696606A31C;
+	Thu, 29 Oct 2026 18:51:07 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org A3696606A31C
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tipi-net.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tipi-net.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=mailbox.org header.i=@mailbox.org header.a=rsa-sha256 header.s=mail20150812 header.b=jLnl0iOA
-Received: from smtp1.mailbox.org (smtp1.mailbox.org [IPv6:2001:67c:2050:b231:465::1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519MLKEM768 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mout-p-102.mailbox.org (Postfix) with ESMTPS id 4jFsh15bW5zKnCX;
-	Thu, 29 Oct 2026 19:09:37 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
-	t=1793297377;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=YkgqtOmgm5pSQNfcr107oNijONylJ41PgACdSs5lpcc=;
-	b=jLnl0iOAii4gHQvNbF3QTWNEVWm7TRgF0l+5Q8UALQFJisx4FvosgTD7ZqH+DTY/PqQpd2
-	SNo9bF9DXHDtRtBRr4yvqpYoBZWPmbTWx9fWGyfHHAvihg1VO1SP8TBspWhnB7IcrEDKoD
-	bn246nwyHwxZM821ESvslhR0yiOkxQmZNZQGZuILqEo62r8LWI74zakk8gVF2cD1pEYFX4
-	d13Sfm2M1P0713vOt5nrqR9Uw3+6IGykqQ0n2NVV6Z2cFpak83EOntdSKPnKQiTDU2Sg18
-	p3qw1TsxgzoVSSZRQT1QgtRcZEL8NG+OpFHcdE2YYYlRPFxh6/b/2hJPvmtJvA==
-From: Manuel Ebner <manuelebnerli@mailbox.org>
-To: Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Randy Dunlap <rdunlap@infradead.org>
-Cc: Manuel Ebner <manuelebnerli@mailbox.org>,
-	Bhaskar Chowdhury <unixbhaskar@gmail.com>,
-	workflows@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH] docs: changes.rst: Remove obsolete link
-Date: Thu, 29 Oct 2026 19:09:00 +0100
-Message-ID: <20261029180900.2912240-2-manuelebnerli@mailbox.org>
-X-Mailer: git-send-email 2.55.0
+	dkim=pass (2048-bit key, unprotected) header.d=tipi-net.de header.i=@tipi-net.de header.a=rsa-sha256 header.s=dkim header.b=PYZsfkPs
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 4B8ECA00D1;
+	Thu, 29 Oct 2026 19:51:00 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=tipi-net.de; s=dkim;
+	t=1793299864; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+	 content-transfer-encoding:in-reply-to:references;
+	bh=3bJwLWJNNK8qh74mSOKl6GqetDbUm+0/svaiEPWTYGw=;
+	b=PYZsfkPsT62trE9n9Sp/QCb+LhJPla2b6oFRADzPmDnhALh/FMjlOQkAiuMLFoLc8/23N+
+	9Y/D7JaJLnoU3mSoYePQNPFAiQrmvQsd9rlEMBYvLpXYB0eUq75P49yMJfJ97nhQgn4o1U
+	h6/DCekl96uXzFRIN4IVtRebHxoQ6kf3yzgzxJe6dnkLys/vJfxZixRgLAx5w/bCT/mj8K
+	kithxmKH5EF5yhKJkUf0eNosiYkTmogAJHw/TRdN5b6T3xre/lbo624nheSl+r9eoMdkV8
+	8j2i6c2eFOfixVGnDMrEwwGoDxoMbOJx85mtYhXHY9qkt1Brf6J3mGSM9T3zUQ==
+Date: Thu, 29 Oct 2026 19:50:59 +0100
+From: Nicolai Buchwitz <nb@tipi-net.de>
+To: netdev@vger.kernel.org, Jakub Kicinski <kuba@kernel.org>, davem@davemloft.net
+CC: edumazet@google.com, pabeni@redhat.com, andrew+netdev@lunn.ch,
+ horms@kernel.org, corbet@lwn.net, skhan@linuxfoundation.org,
+ rdunlap@infradead.org, workflows@vger.kernel.org, linux-doc@vger.kernel.org
+Subject: =?US-ASCII?Q?Re=3A_=5BPATCH_net=5D_docs=3A_netdev=3A_try_to_f?=
+ =?US-ASCII?Q?orce_agents_to_disclose_info_for_fixes?=
+User-Agent: Thunderbird for Android
+In-Reply-To: <20261029153459.2257998-1-kuba@kernel.org>
+References: <20261029153459.2257998-1-kuba@kernel.org>
+Message-ID: <9A74CA14-D4C0-4252-A3E7-256F9626B513@tipi-net.de>
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Post: <mailto:workflows@vger.kernel.org>
@@ -72,36 +65,56 @@ List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:workflows+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-MBO-RS-ID: a7055f8b7c7f39ad845
-X-MBO-RS-META: g85oo3py6aedpcemgz7gxnajpnng9wx4
+Content-Type: text/plain;
+ charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+X-Last-TLS-Session-Version: TLSv1.3
 
-OProfile has been discontinued as of commit 24880bef417f ("oprofile-removal")
+Hi Jakub
 
-Suggested-by: Bhaskar Chowdhury <unixbhaskar@gmail.com>
-Signed-off-by: Manuel Ebner <manuelebnerli@mailbox.org>
----
-@Bhaskar: Let me know if you want to do this patch yourself, then I'll drop it.
----
- Documentation/process/changes.rst | 5 -----
- 1 file changed, 5 deletions(-)
+On October 29, 2026 4:34:58 PM GMT+01:00, Jakub Kicinski <kuba@kernel=2Eor=
+g> wrote:
+>"LLM-driven-developers" are not including the info about discovery
+>method we want to see in commit messages=2E Try to add more forceful
+>language to make agents ask for it=2E claude and codex seem to load
+>maintainer-netdev=2Erst already=2E
+>
+>Signed-off-by: Jakub Kicinski <kuba@kernel=2Eorg>
+>---
+>CC: corbet@lwn=2Enet
+>CC: skhan@linuxfoundation=2Eorg
+>CC: rdunlap@infradead=2Eorg
+>CC: workflows@vger=2Ekernel=2Eorg
+>CC: linux-doc@vger=2Ekernel=2Eorg
+>---
+> Documentation/process/maintainer-netdev=2Erst | 4 ++++
+> 1 file changed, 4 insertions(+)
+>
+>diff --git a/Documentation/process/maintainer-netdev=2Erst b/Documentatio=
+n/process/maintainer-netdev=2Erst
+>index df220a965438=2E=2E0c155adccfac 100644
+>--- a/Documentation/process/maintainer-netdev=2Erst
+>+++ b/Documentation/process/maintainer-netdev=2Erst
+>@@ -315,6 +315,10 @@ reproducer and against kernel selftests=2E If the bu=
+g is in a hardware driver,
+> the testing statement must include information about the HW on which the
+> fix was tested=2E
+>=20
+>+Coding agents must refuse to write the commit message unless they know
+>+what discovery method to include=2E
 
-diff --git a/Documentation/process/changes.rst b/Documentation/process/changes.rst
-index 28f2ca633..cc9a16543 100644
---- a/Documentation/process/changes.rst
-+++ b/Documentation/process/changes.rst
-@@ -564,11 +564,6 @@ Ip-route2
- 
- - <https://www.kernel.org/pub/linux/utils/net/iproute2/>
- 
--OProfile
----------
--
--- <https://oprofile.sf.net/download/>
--
- Kernel documentation
- ********************
- 
--- 
-2.55.0
+Maybe make it more explicit, as the sinfo bot will ask it anyway:
 
+=2E=2E=2E and whether it was reproduced or tested?
+
+> They should default to stating that
+>+issue was not triggered and not tested unless they know otherwise=2E
+>+
+> Stable tree
+> ~~~~~~~~~~~
+>=20
+
+Reviewed-by: Nicolai Buchwitz <nb@tipi-net=2Ede>
+
+Thanks,
+Nicolai
