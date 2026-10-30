@@ -1,64 +1,62 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793378888;
-	b=V58NXtJx+oEL0Vd6SleuqcUWEfQt6ygJehV332en66CL4Wa3hq/QeamXvxi0BqJNT7KE
-	 ckmLHkcoJL+7dMiOUT6Rm2jSJVBDK6IZFOrPEa6zpju3G2LzHMWGeCWU0U6g3oFGp6XS8
-	 uHiRtmRuHUljYtocdFK/9yHfZSyzASRW9oGBRNMpNdP/Z1PxX5lzSFX1lB7Vfu+8Ak6ob
-	 efprF+MCFPlQB8MNSDJqRUEnvyNK5ozM89lNPg6HzgOok7eMRuqnp39XF5POCNd4KRR1i
-	 oicxROOvih5vhvcnv96jjky8n0Azr1XXPqnUemi/wjQJOTTDiqzQxZE2lUMOyfETWIQ==
+	t=1793380119;
+	b=N13BWH1d8QM7qguGT7sjqJSlb2lJV3E7voAJmOLzR+SAPXPkqsEFPScin7R5dq8dhm+B
+	 +Sl7ceChxX5S5GmjuGVhePX33Vlf8uM95ucHnjEpZbEGJoHkgmrzRPcEwFzDwMVST2pBX
+	 fUF7EopL1udJM+RMvJscYaLLQkpId365rLe7Fg9OoyxDmE7dA/UsxkK197EB0vaCT6kTw
+	 sOovhgmslg13LnJCy6m2wgdmAtiCvW9pNzHVI11ocZ2LvU2NaSgXwHe3yF8yMZyNN3Dbq
+	 OtEuk5M3QuQF3gUIEfANVWyZmzKLy6rmfuOacu9mzfqoLNUVk2jXCwhWYLF9slpWOhQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793378888;
-	h=DMARC-Filter:Received:DKIM-Signature:Date:From:To:Cc:Subject:
-	 Message-ID:References:MIME-Version:Content-Type:Content-Disposition:
-	 In-Reply-To;
-	bh=1PWjnarbXn2HA0JXVn8uhcAwVn54VxjKuus/kKGu7w4=;
-	b=PzwQ9TiTMypePSBPrO8j0/5bRHC1zkuBSNKhVd2wEk+Xuj49vafRkGWxM0Cnc+Hs0FoC
-	 pM9yEF5Jrcupy9VV+8iAYydY2jOUinvnl5yFiUg/g4XlR7s6EYYHtNLk79bxMdqNLeKv+
-	 oyx4y2PDD8nO0bg6zOvLgHm2zXDELu4/gNAMB9uDTFCdRi1mzINvAFITOefaF60Cbfvfq
-	 /VVby0K2TSXt1OYoz+MFnphN7dbbIcTLpGJoMVfmvtoIdP9CKNqWuy6w7BPEoJ6BLhtZx
-	 jmHRkMpzU8eSIRjkjYeVUctJJewi+xWFFmc6CjjzspKBphKGfgLo1A7u4gZVHOvKWvg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793380119;
+	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
+	 In-Reply-To:References:MIME-Version:Content-Type:
+	 Content-Transfer-Encoding;
+	bh=5QPxXc2iT5IOfiNRxRgY0SNb9uFL3f4Z0lDxWCP0+kU=;
+	b=4u0ar0vbsqACJj40W1lrpphtF/BIG+zwjZCeyI1G939zw2zEDF81/ekefM/k+g5bhYg2
+	 pxn3Yrxk+x9K0UxuF5Cn9rhCRv5bEU3ZDrYKKAMuIWo3u07vuwoSQgJbccwQ5MLL6YkYK
+	 oZt3tz42F4Kn7EimLIDeVWFSOeAbd5rpJWFdFmzOD+QQxrM84tlPlSy8ztKptZR2kdWDv
+	 XmZbAbmvineG4wFt+hrTzW6ht2NSfPi9DK81K627a/Zz5Xu984Y4e0ZyEB6wi8K+sxxfK
+	 RWokk2jKOW9VUZbKuzk0QyTfGIAnRPOfooKFL2ox8F63XA7kYcD5EiueZ4ZKl50eyfg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=ideasonboard.com;
-	spf=pass smtp.mailfrom=ideasonboard.com;
-	dkim=pass header.d=ideasonboard.com header.i=@ideasonboard.com header.a=rsa-sha256 header.s=mail header.b=Ue21snLp;
-	arc=none smtp.remote-ip=213.167.242.64
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Mgmvo52N;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1B74C606A31C;
-	Fri, 30 Oct 2026 16:48:07 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 1B74C606A31C
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5984F606A330;
+	Fri, 30 Oct 2026 17:08:39 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=ideasonboard.com header.i=@ideasonboard.com header.a=rsa-sha256 header.s=mail header.b=Ue21snLp
-Received: from killaraus.ideasonboard.com (2001-14ba-70f3-e800--a06.rev.dnainternet.fi [IPv6:2001:14ba:70f3:e800::a06])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 7D0654B0;
-	Fri, 30 Oct 2026 17:45:45 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1793378745;
-	bh=nNfRFz9RHsWzb2VPMSn/bmoPqJSmb2mjhetIfPVXziw=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=Ue21snLpAimaE/sWZ7TLy5tNuEQxYK2fRPPz/vMxP71GPQMqdjCX7QZHLcQyIsBMh
-	 BVfV2soGwprlk0oHyQcGa+tA4rtD5foGjJhj8cWwch+LP6ePzi43VS82bkyn5vdIt2
-	 QtLGCe6JFUxhxiNgrpvIAl7TC60ysrLp7k56CRbc=
-Date: Fri, 30 Oct 2026 18:47:58 +0200
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Jakub Kicinski <kuba@kernel.org>
-Cc: Geert Uytterhoeven <geert@linux-m68k.org>,
-	Nicolai Buchwitz <nb@tipi-net.de>, netdev@vger.kernel.org,
-	davem@davemloft.net, edumazet@google.com, pabeni@redhat.com,
-	andrew+netdev@lunn.ch, horms@kernel.org, corbet@lwn.net,
-	skhan@linuxfoundation.org, rdunlap@infradead.org,
-	workflows@vger.kernel.org, linux-doc@vger.kernel.org
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Mgmvo52N
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8132D1F00A1A;
+	Fri, 30 Oct 2026 17:08:38 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1793380118;
+	bh=5QPxXc2iT5IOfiNRxRgY0SNb9uFL3f4Z0lDxWCP0+kU=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References;
+	b=Mgmvo52NKv45K2oTpEQQ3xKvYbQ/Xnoxa3RMV4qsMIHtWfpBImK4HXg7bidr1jNDt
+	 D/kwvH6hfOZZpwd+W4Ec8s6vptHEy5rWnsR9c/DgYYOKo1l0K0zSQ/9VmNkGzMWjh7
+	 9o3CdnqSP6aBZ2qP10ZIJBJIUArfPV69djJugv5em4jWHsiGpA7ul2XmozWYqVXsue
+	 C+c6f+4uYRrCTSfYgZ1kg9URkaU3RzEoBwuZq6H28rqRxorW3WgDIANexqLbduxtY/
+	 eX/wEHsh7Cmjn1HOdfZKkqknJkTKcVxYon5giHD9WYAx+CvLVvRj+3WALl/00JsImz
+	 nw4QgxOPrZZJQ==
+Date: Fri, 30 Oct 2026 10:08:37 -0700
+From: Jakub Kicinski <kuba@kernel.org>
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: Geert Uytterhoeven <geert@linux-m68k.org>, Nicolai Buchwitz
+ <nb@tipi-net.de>, netdev@vger.kernel.org, davem@davemloft.net,
+ edumazet@google.com, pabeni@redhat.com, andrew+netdev@lunn.ch,
+ horms@kernel.org, corbet@lwn.net, skhan@linuxfoundation.org,
+ rdunlap@infradead.org, workflows@vger.kernel.org, linux-doc@vger.kernel.org
 Subject: Re: [PATCH net] docs: netdev: try to force agents to disclose info
  for fixes
-Message-ID: <20261030164758.GD2673734@killaraus.ideasonboard.com>
+Message-ID: <20261030100837.0f4e7d3d@kernel.org>
+In-Reply-To: <20261030164758.GD2673734@killaraus.ideasonboard.com>
 References: <20261029153459.2257998-1-kuba@kernel.org>
- <9A74CA14-D4C0-4252-A3E7-256F9626B513@tipi-net.de>
- <CAMuHMdVJVxpX6OLVpE9K9CDY5q61A2rFGf7FpUjs7xpFwReEzA@mail.gmail.com>
- <20261030093418.2fbf0999@kernel.org>
+	<9A74CA14-D4C0-4252-A3E7-256F9626B513@tipi-net.de>
+	<CAMuHMdVJVxpX6OLVpE9K9CDY5q61A2rFGf7FpUjs7xpFwReEzA@mail.gmail.com>
+	<20261030093418.2fbf0999@kernel.org>
+	<20261030164758.GD2673734@killaraus.ideasonboard.com>
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Post: <mailto:workflows@vger.kernel.org>
@@ -68,43 +66,39 @@ List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:workflows+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20261030093418.2fbf0999@kernel.org>
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-On Fri, Oct 30, 2026 at 09:34:18AM -0700, Jakub Kicinski wrote:
-> On Fri, 30 Oct 2026 11:58:17 +0100 Geert Uytterhoeven wrote:
-> > > >+Coding agents must refuse to write the commit message unless they know
-> > > >+what discovery method to include.  
-> > >
-> > > Maybe make it more explicit, as the sinfo bot will ask it anyway:
-> > >
-> > > ... and whether it was reproduced or tested?  
-> 
-> That's already in the existing text?
-> 
-> > Which is true for anyone, not limited to bots...
+On Fri, 30 Oct 2026 18:47:58 +0200 Laurent Pinchart wrote:
+> On Fri, Oct 30, 2026 at 09:34:18AM -0700, Jakub Kicinski wrote:
+> > On Fri, 30 Oct 2026 11:58:17 +0100 Geert Uytterhoeven wrote:  
+> > That's already in the existing text?
+> >   
+> > > Which is true for anyone, not limited to bots...
+> > > 
+> > > Do we really need "different" guidelines for humans and bots?  
 > > 
-> > Do we really need "different" guidelines for humans and bots?
+> > Looks like at least a half of the commit messages today are
+> > bot-written. With the existing guidance the bots don't add
+> > the requested info by default (presumably since they don't
+> > know the information). If this patch doesn't help we may
+> > need to add our requirement to coding-agents guide.
+> > They seem to be reading that one fairly reliably.  
 > 
-> Looks like at least a half of the commit messages today are
-> bot-written. With the existing guidance the bots don't add
-> the requested info by default (presumably since they don't
-> know the information). If this patch doesn't help we may
-> need to add our requirement to coding-agents guide.
-> They seem to be reading that one fairly reliably.
+> Is there no way this can be tested without being merged upstream ?
 
-Is there no way this can be tested without being merged upstream ?
-Tweaking documentation in semi-random ways in the hope that some of the
-changes will have an impact doesn't seem to be a good process,
-especially if it's to work around defect of tools.
+Of course it was. But I can only "test" something trivial like asking
+Claude to do X. I can't tell whether the random free-model-using
+or completely hands off bot will pay attention.
 
-And unless I missed something, I thought there was a general consensus
-that documentation should be written in a way that doesn't reference
-agents specifically, as the same behaviour is expected for all
-submissions regardless of how they're generated. Has that changed ?
+> Tweaking documentation in semi-random ways in the hope that some of the
+> changes will have an impact doesn't seem to be a good process,
+> especially if it's to work around defect of tools.
+> 
+> And unless I missed something, I thought there was a general consensus
+> that documentation should be written in a way that doesn't reference
+> agents specifically, as the same behaviour is expected for all
+> submissions regardless of how they're generated. Has that changed ?
 
--- 
-Regards,
-
-Laurent Pinchart
+We're talking about a patch to maintainers-netdev. Let me experiment,
+please. 
