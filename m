@@ -1,76 +1,109 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.215.197
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.128.48
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793639703;
-	b=2ULUdaz6RzRoGzDGutVpOE5YZvERz8Kp1o7sqkyN3uaCP1prWCYTZ0xPumOUBmb9Q5Lc
-	 2G/KmFjn51w6u4t+MkXtINNfnE6UNG5NtJKlJwtTzADIv+Xt4isELB/KDA+GKv2h7PO1l
-	 dmBWfsuLaLMtsg7EouY2xQyTuM1ZeC3i2QJEmXGRmxvQ3n4FUpXoyk+fnwxk51vXXYbQa
-	 U7MxT/vUCP0lKej2qatOgShRdDgDt1oY0hQeC03EAgO7pu/EGEdK/KXa7pZaL8qV94acF
-	 cI1+b3K/8l/uaKQ5F9NuOv/ptyuBg3f4rL2MCDsrFvDeSHQbmQqdRxsV5TIDlIp/ACQ==
+	t=1793639828;
+	b=bQYjmLNSCg/ZfvoLX1aBP3wJMM4VgzrINt+wBtm3UuOJXAJF9vtc4phg1nF52EBOAIGa
+	 sGkMg0WnxQNMi8L/2A+JwZnqhVPLmblluKcEyZi0e1OKTnLbd9BCvW/9pH1USmNrs2zCM
+	 D5mD780pDNPKzGb9ai5sNNmvFHaFg/aQx2n54L6oBq5pZali8FWaLqqlhZzyoTXS0EBFJ
+	 VqYUip1/OQ2EC06OTLjrJEPRlBUTfa0SaDc7FSlu/mXSBgirD4BXENfehdqy59oCMGTFj
+	 LdkTTNMXXgZGXo/eRetB+3TaFgTfd+oC92epoSTEcsW4H+5wz9a55SZ2AVJ3GK9eG/w==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793639703;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793639828;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Received:Date:In-Reply-To:
-	 Mime-Version:References:Message-ID:Subject:From:To:Cc:Content-Type:
-	 Content-Transfer-Encoding;
-	bh=CyOa6Yxm6Bk3EDjTqUxDBcTk56bz4sW1WrhYk3lu8Rk=;
-	b=egXcw+xkf0IEk6u70csyDMaY2So8tYr0co8C+ZEk1vZZoft6pc58O84CcCjyRSbVTypP
-	 33A3p1VbhloyYBgvtakysKAI67PHLTQY/OU2Xt5sJhELBz43ZUI2ha001YycmO+hFFJYo
-	 cTPLOmtwsQI+lEl7p7kZSrEZWNDfWDZg+SKP7cDYXDS6fkbKuue+z0WXUnBKGLWGCTCRL
-	 VHQ0t4LGL1lTV0xaIsvGZmiBYMKMj7BF6L+K04W73VT9NnADJ3gR8DmRcIlMDq0iqM/gE
-	 8J5k+TuPiewYdBG1+QPC+CpNsbOOfjhRn6yzCjtJoAkuxu37hxL570BSiYxQW1eF5qQ==
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:X-Mailer:
+	 MIME-Version:Content-Type:Content-Transfer-Encoding;
+	bh=SFahV0/vxBo8Msro1Eu75lAzfkd06yG1u2ac/bBpjVI=;
+	b=EnonhvOxtf3SXhicDJqP0QREOQDHFiH501HbAwhMFcTKGTehv+JL7xkRKJfN7b0I30jL
+	 QGnPHVS+po4SE0zgq7la5PBrt9g0xdpzcxOlqeISqsG7RFH0df6lncoiR241FRAmXOCy2
+	 iKZXH2PJHo7OrfJkWBDI/sw0oFtutHJDU2XwogJl/cabKpBvdwFglDwSVTrwFIqVpqLGA
+	 8qti/Tm4/HfVqLviJaGvZLQH/Fk6Gav476QMEawf4f3VqwO2Dz8cWV107fp194dBRgs9s
+	 BsyxTy7bLxadfHpKIqHKL6jWFS8IS5Te66euHCAGFy+g8ZeF8Cckw0WWrqugFaJqraQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=google.com;
-	spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com;
-	dkim=pass header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20260707 header.b=lVw2hdJ7;
-	arc=none smtp.remote-ip=209.85.215.197
-Received: from mail-pg1-f197.google.com (mail-pg1-f197.google.com [209.85.215.197])
+	dmarc=pass header.from=gmail.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=e02g4fCQ;
+	arc=none smtp.remote-ip=209.85.128.48
+Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 72406606A91C
-	for <workflows@vger.kernel.org>; Mon,  2 Nov 2026 17:15:03 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 72406606A91C
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F2CAE606B0E0
+	for <workflows@vger.kernel.org>; Mon,  2 Nov 2026 17:17:07 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org F2CAE606B0E0
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20260707 header.b=lVw2hdJ7
-Received: by mail-pg1-f197.google.com with SMTP id 41be03b00d2f7-cd633da24f8so3500171a12.2
-        for <workflows@vger.kernel.org>; Mon, 02 Nov 2026 09:15:03 -0800 (PST)
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=e02g4fCQ
+Received: by mail-wm1-f48.google.com with SMTP id 5b1f17b1804b1-4a4d7ae1ae9so31637545e9.1
+        for <workflows@vger.kernel.org>; Mon, 02 Nov 2026 09:17:07 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20260707; t=1793639703; x=1794244503; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:cc:to:from:subject
-         :message-id:references:mime-version:in-reply-to:date:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=CyOa6Yxm6Bk3EDjTqUxDBcTk56bz4sW1WrhYk3lu8Rk=;
-        b=lVw2hdJ7qQLXteU91SozDPhlOzjbMw6EJzgSr+UeMLO4nB5+/ENixgH5FU0NIqLS5F
-         CebTtnVgUPR+4vs6BOGMvCrepu5JF6LuKrEm1v4DU1RbL6AiASZxR+SIJh60nFSax3m7
-         OyzWvYHbDo3l8HRDBJ1m0bVCdA/EqwaHJ6DimVxJMCEgJmnI/pHbCUQPkCIpPhfzjrBR
-         HORjsL1SoSF3Hzs8qJKBfuvbQulr5pHgYCOSoJjlW1dCwP8pv7YBNGUfewZxj5lHbY8T
-         VhdROJGjQ6i73RMoFgWMIGbQopRCC+lTmRRqqss9XZasD4UrtdmmSULUUC8J/blDzX86
-         jPNw==
+        d=gmail.com; s=20260707; t=1793639826; x=1794244626; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:mime-version:references
+         :in-reply-to:message-id:subject:cc:to:from:date:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=SFahV0/vxBo8Msro1Eu75lAzfkd06yG1u2ac/bBpjVI=;
+        b=e02g4fCQxkQkLe3YLNorchFbvDGrVQ0zAYrBcmD+d25JC5l7qEzj/rJ0D8uONqKNxM
+         QJSm69L+fzTv2M/y9fziOIOboQE22ZPtQRBsCF1qKffVgCSJHI/4BlluDN1l5IKq6zKc
+         PNXRebCD6dFkDgbrYg6T6J2CVJyAyvnyBQm080Xvx4AjdUb70jOZGRdDlOkNgWwE9q7q
+         v4V00nND/8oh8IV8qrTQMrCqUt1qvBB0oKX8X46dlNNVIz+9SYOSqg8ZB3mv/EAEM+e1
+         uhW73RVZEFVYLZh96+R+yN3RgKbI8p8W8QXXq3uXaMVKaa8u0l0XNP3mBKkdWhT7RnRV
+         lrTg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793639703; x=1794244503;
-        h=content-transfer-encoding:content-type:cc:to:from:subject
-         :message-id:references:mime-version:in-reply-to:date
+        d=1e100.net; s=20260707; t=1793639826; x=1794244626;
+        h=content-transfer-encoding:content-type:mime-version:references
+         :in-reply-to:message-id:subject:cc:to:from:date:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=CyOa6Yxm6Bk3EDjTqUxDBcTk56bz4sW1WrhYk3lu8Rk=;
-        b=kyFWHqKDvsmGp06fUrJ1KmZ9WnVnl7O8476XIqea9n4VaMvK0j8C/Z7Flk52jQE8D9
-         5tNfG20Dp9WEHIq+F8yYoB4jG6w23Z7VKHazrxsmR3UkuIcARBO+lHDiUzPiQ1GiICQL
-         e/5Hbtcn8KT5PfT9Z2aySfg+JV8uyDaUTpK/1cZJyP0nMlxV8YBfMZGULLEPXwmCmQJR
-         Lsqrdl5/KMzsrUHE85Zd87z7jJXeV2/f+22KF5rD7BvvXcYr8FMdb0pjaAyujB73dUyx
-         9ZifONx3lICmDNT9I4DEGSLhYlEq6oKohaDmWr1oHXLn+zVubmVE3cPJmFamTA5durQL
-         7yPQ==
-X-Forwarded-Encrypted: i=1; AKwUvBwo3dm7fL0Uj7zqTLTrw4yn+VzfyGTQdOTNgeXXcDaK8J+Pd88RTavp0TJB6kb3yGMuI4PPvRonAAg=@vger.kernel.org
-X-Gm-Message-State: AFq9FYI17Rw1VvpF6HGLLNsOp4wavDIgt2zlI0NP4vmw0SjWauyfKGrX
-	X4cmx34JYiw7Eqx/18SEd6Xp42N0jlJ9R57ggc8FpWqV7mwpcaWbCWID2lXMmu93qHsDrkpNs91
-	aFwL9tw==
-X-Received: from pgvf6.prod.google.com ([2002:a65:6286:0:b0:cc7:d071:a17f])
- (user=seanjc job=prod-delivery.src-stubby-dispatcher) by 2002:a05:6a20:9145:b0:3e2:1160:6d20
- with SMTP id adf61e73a8af0-3e928a80f31mr10111167637.3.1793639702622; Mon, 02
- Nov 2026 09:15:02 -0800 (PST)
-Date: Mon, 2 Nov 2026 09:15:01 -0800
-In-Reply-To: <CAJZ5v0hDHcN9RN743sGhhDNESz0zwVDfBOJYvfTDwQv_STq4rA@mail.gmail.com>
+        bh=SFahV0/vxBo8Msro1Eu75lAzfkd06yG1u2ac/bBpjVI=;
+        b=cgiYz5ZMtroCB0uhs0uDCkmIP/d87ImZR/5nRKj8mijTwPeb3H/sEWrWkHjwm8W9rQ
+         MMXALjNvoppT9aPV0FHohkzcu+4EHF+y70gFddvm188MxeK3B7Zl61bO/ayamzs+g7lO
+         NsHzm44GIEPHvcSJB7U9urr83Nw7ziYvCY4w3gJAKwCBg475k20ebFEjjsfaBpYyIZsT
+         k1vGukueW15/gHYm9Q2YS+8uxpuMI0fgFNwzeMoxzA+qso/bqSLJYpYNo9E1FcFLCOPP
+         J2VdmkwFJLQggs4RoMH3PNhWqrYTFLq2+IdRYnnXTDqvXl38YcYm23UT7pcXMT2I4OM/
+         vbyA==
+X-Forwarded-Encrypted: i=1; AKwUvByP40aCVyo3psHTsI6DDa7kRJAzu8Gv61YBxN0x4gRA5QE8X70VT/D09LUnK31uDSm00vXJ/2zOOQU=@vger.kernel.org
+X-Gm-Message-State: AFq9FYI++siVyIZmx9W2MamPNxDddmS4EieW27YihRYYT5Yi9hlXaD+I
+	kU9x+tUfBDP8avzgcc6s958TKtLMtOcPZaZc5Xwggfa7pptDExiRy0mR
+X-Gm-Gg: AYBFou2V6t7v8Alb3MRPArsVWJelG8iMEJ0r/8eCxLOFwOu6yIfDQQxR1uNMSck964d
+	LpESQcWkz1Fdscd7ddG7FjvvnAa+5szovWPY9h8YscMbpeswD6l6nAEpB4mPEnyC+1aG+iV+Vlx
+	ZXF9L4VhOQZS6lPjozZChEv1WY8YHbGwNRVYdp8vCSGHxaVCUoBnbTEKxYSppxm6rvErbQdqOAP
+	dGodXMBY58xbgMRDYuSk8Eq9wTB7HYupDpw5dTnhMSh1ZZTfw32/t6CJz+pEdY+aewIlnmnF/ye
+	u+TisseB92UqgnXK7v9Itrf0Zij6W/5/5Sz2navToG59GzYjyvvuXth6d5CbwvH+W1Whsf0CTxI
+	wTUGmN1N7TVlDRvPw9bj3awTgy67Zz6/uSwVhjGaDAWybqu2M+ff4Dso6eXq1EgHZc177vYBejU
+	rmlYQuckXbB+ASOHEYhUp7iVFaGpkxbrvfCXRX5cWKGJa4RwAYX1+fAmlCRLVoTSiPzs7r3VaMG
+	sS+wUbe1B4KLSifsOJoLu3B2KHPFJIeJ8tPbaZ+4wozumk4GmhrpFGW+GzLvg1Xi7PW0Tbq8HIu
+	88KtbsyGj6yyapif/ZqBKw+kupGeq3eGBDEZtmjMQDW2JsoMAG/xluHyHoemrs7i
+X-Received: by 2002:a05:600c:a49:b0:49f:e701:51c8 with SMTP id 5b1f17b1804b1-4ac17ffb2ffmr250686375e9.9.1793639826380;
+        Mon, 02 Nov 2026 09:17:06 -0800 (PST)
+Received: from pumpkin (82-69-66-36.dsl.in-addr.zen.co.uk. [82.69.66.36])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4b2a9fafe08sm1311345e9.3.2026.11.02.09.17.05
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 02 Nov 2026 09:17:06 -0800 (PST)
+Date: Mon, 2 Nov 2026 17:17:04 +0000
+From: David Laight <david.laight.linux@gmail.com>
+To: Geert Uytterhoeven <geert@linux-m68k.org>
+Cc: Jonathan Corbet <corbet@lwn.net>, "Rafael J. Wysocki (Intel)"
+ <rafael@kernel.org>, Konstantin Ryabitsev <konstantin@linuxfoundation.org>,
+ Joe Perches <joe@perches.com>, Shuah Khan <skhan@linuxfoundation.org>,
+ Randy Dunlap <rdunlap@infradead.org>, linux-kernel@vger.kernel.org,
+ users@kernel.org, Federico Vaga <federico.vaga@vaga.pv.it>, Akira Yokosawa
+ <akiyks@gmail.com>, Carlos Bilbao <carlos.bilbao@kernel.org>, Avadhut Naik
+ <avadhut.naik@amd.com>, Alex Shi <alexs@kernel.org>, Yanteng Si
+ <si.yanteng@linux.dev>, Dongliang Mu <dzm91@hust.edu.cn>, Chen-Yu Yeh
+ <chenyou910331@gmail.com>, Weijie Yuan <wy@wyuan.org>,
+ workflows@vger.kernel.org, linux-doc@vger.kernel.org, Petr Pavlu
+ <petr.pavlu@suse.com>
+Subject: Re: [PATCH v2 0/2] get_maintainer: stop sending every patch to LKML
+Message-ID: <20261102171704.2911cf20@pumpkin>
+In-Reply-To: <CAMuHMdXe1xxk2ZFJ=yr=7z1DUs3oRNfzHw1Ls1hftcGnmoNwrA@mail.gmail.com>
+References: <20261020-get-maintainer-the-rest-fallback-v2-0-162aea473488@linuxfoundation.org>
+	<20261102093206.50b6c9ad@pumpkin>
+	<20261102-smiling-binturong-of-gaiety-f64c1f@meerkat>
+	<CAJZ5v0iOJ1r1OvYhV_KJSnHOJL+oVUrbOXizLk0kbGNiep7a6w@mail.gmail.com>
+	<87a4nrfgjm.fsf@trenco.lwn.net>
+	<20261102150535.6c5689f6@pumpkin>
+	<CAMuHMdXe1xxk2ZFJ=yr=7z1DUs3oRNfzHw1Ls1hftcGnmoNwrA@mail.gmail.com>
+X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; arm-unknown-linux-gnueabihf)
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Post: <mailto:workflows@vger.kernel.org>
@@ -79,62 +112,46 @@ List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:workflows+owner@vger.kernel.org>
 Precedence: list
-Mime-Version: 1.0
-References: <20261020-get-maintainer-the-rest-fallback-v2-0-162aea473488@linuxfoundation.org>
- <20261102093206.50b6c9ad@pumpkin> <20261102-smiling-binturong-of-gaiety-f64c1f@meerkat>
- <CAJZ5v0iOJ1r1OvYhV_KJSnHOJL+oVUrbOXizLk0kbGNiep7a6w@mail.gmail.com>
- <87a4nrfgjm.fsf@trenco.lwn.net> <CAJZ5v0hDHcN9RN743sGhhDNESz0zwVDfBOJYvfTDwQv_STq4rA@mail.gmail.com>
-Message-ID: <aujFFczvri8ME1Jy@google.com>
-Subject: Re: [PATCH v2 0/2] get_maintainer: stop sending every patch to LKML
-From: Sean Christopherson <seanjc@google.com>
-To: "Rafael J. Wysocki (Intel)" <rafael@kernel.org>
-Cc: Jonathan Corbet <corbet@lwn.net>, Konstantin Ryabitsev <konstantin@linuxfoundation.org>, 
-	David Laight <david.laight.linux@gmail.com>, Joe Perches <joe@perches.com>, 
-	Shuah Khan <skhan@linuxfoundation.org>, Randy Dunlap <rdunlap@infradead.org>, 
-	linux-kernel@vger.kernel.org, users@kernel.org, 
-	Federico Vaga <federico.vaga@vaga.pv.it>, Akira Yokosawa <akiyks@gmail.com>, 
-	Carlos Bilbao <carlos.bilbao@kernel.org>, Avadhut Naik <avadhut.naik@amd.com>, 
-	Alex Shi <alexs@kernel.org>, Yanteng Si <si.yanteng@linux.dev>, 
-	Dongliang Mu <dzm91@hust.edu.cn>, Chen-Yu Yeh <chenyou910331@gmail.com>, Weijie Yuan <wy@wyuan.org>, 
-	workflows@vger.kernel.org, linux-doc@vger.kernel.org, 
-	Petr Pavlu <petr.pavlu@suse.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
+MIME-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-On Mon, Nov 02, 2026, Rafael J. Wysocki (Intel) wrote:
-> On Mon, Nov 2, 2026 at 3:34=E2=80=AFPM Jonathan Corbet <corbet@lwn.net> w=
-rote:
-> >
-> > "Rafael J. Wysocki (Intel)" <rafael@kernel.org> writes:
-> >
-> > > So it occurred to me that it might be actually better to stop sending
-> > > messages directly to LKML subscribers and only make it available for
-> > > download somewhere and as a Lore archive.
+On Mon, 2 Nov 2026 17:24:51 +0100
+Geert Uytterhoeven <geert@linux-m68k.org> wrote:
+
+> On Mon, 2 Nov 2026 at 16:49, David Laight <david.laight.linux@gmail.com> wrote:
+> > On Mon, 02 Nov 2026 07:34:37 -0700
+> > Jonathan Corbet <corbet@lwn.net> wrote:  
+> > > "Rafael J. Wysocki (Intel)" <rafael@kernel.org> writes:  
+> > > > So it occurred to me that it might be actually better to stop sending
+> > > > messages directly to LKML subscribers and only make it available for
+> > > > download somewhere and as a Lore archive.
+> > > >
+> > > > Is there really anyone depending on receiving all of the LKML traffic every day?  
 > > >
-> > > Is there really anyone depending on receiving all of the LKML traffic=
- every day?
+> > > * raises hand
+> > >
+> > > Some of us crazy people really do depend on it, yes.  
 > >
-> > * raises hand
-> >
-> > Some of us crazy people really do depend on it, yes.
+> > I certainly scan it.
+> > It is also useful to have an archived local copy that can be searched.  
+> 
+> Indeed. Sorry to say that, but Gmail web interface search is still
+> much more effective than lore web interface search.
 
-+1, e.g. it's how I found out about this proposed change.  FWIW, I don't ac=
-tually
-need (or want) to receive *all* LKML traffic; I probably only truly consume=
- less
-than 1% of the mails, via heavy filtering.  But AFAIK, there isn't an alter=
-native
-way to arbitrarily choose what traffic is important to me.
+You can't possibly look at lkml on any kind of web mail.
+Although I have setup an smtp server in the last (20 years ago) I'm back
+to the older scheme of doing hourly fetchmail pull from elsewhere.
+(and lkml isn't fetched from this gmail address...)
+I'm currently using claws as an mua, works moderately well apart from a small
+memory leak and its insistence on putting each email in its own file.
+But I can (and have) searched for things 'I know are there somewhere' using grep.
 
-> Exceptions would be straightforward to make though I suppose.
->=20
-> So really my question would be how many people there are who depend on
-> receiving all of the LKML traffic every day via SMTP.  And I honestly
-> think that not everybody subscribed to it.  Probably not even 10% of
-> those people.
+David
 
-There are quite a few subsystems that use linux-kernel@vger.kernel.org as t=
-heir
-one and only list, including (almost?) all of the subsystems that are route=
-d through
-the tip tree (x86@ isn't a subscribable mailing list).
+> 
+> Gr{oetje,eeting}s,
+> 
+>                         Geert
+> 
+
