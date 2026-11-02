@@ -1,64 +1,94 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.215.178
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793606728;
-	b=AfdzXl74FNZTdhoULaUtM1a6CfXDfB/rEPhLW9RJtIyBW1OGIfZtjJQf8c9R1yzjp36N
-	 4Eai/JKkKGuS8hvaGCDEJfhXnLa445kV8nVs6f6SwwUdp2Z2fnJxZ1+I14l4S/3hi+E76
-	 rUO2P+oHFDW2rEJIyoR3LoVA4urjijwNIV9TvS8rBNuQbImtefsJfTPEb9Dt90byHk8mM
-	 NXYTI1mSwSoEW47qZgy9jymmCtLixmNPDyOqd4lcujf5uwZBDGtgywLgAIblppcDQ/BB6
-	 j7LGPGZiCIgFf4LyuMUj0xbpTxopRCMFgk0wqC0a5eEzHlExjglQ4nWHwr6VbdZehuw==
+	t=1793608686;
+	b=4USzyIX8eE5u1Zf9THCSRHUyj0Sn+/sJf5gso/RuGa0/vemt8r56hGuQO15AoaLocVoQ
+	 Bj/Ky5nIiyyVFyecbY56Exq1s4X6tZ98v48l32YzZ9LGY/XW9qau8hiYJS2OrNwkmlm/l
+	 9461vVtrPpkqTzG/Ep3FbcHT0LZ7zfIxAAVKNx4SIYhSR31UtpDCo910NJzltgfx6sh53
+	 CpQoRCLvCbybQ0rzkMYx9p2eSCwNy8Sg/C+H8agmtBKdUojVW0ZU2UYjaphe2ndQvO6e7
+	 D12WcnUiAsiTVcS0xB9xwPwWKLU3RELt298M2ZiIRpSSdEmSLAvzyRD3o1tUSS29+Qw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793606728;
-	h=Received:DKIM-Signature:Received:Date:Message-ID:From:To:Cc:Subject:
-	 In-Reply-To:References:User-Agent:MIME-Version:Content-Type:
-	 X-SA-Exim-Connect-IP:X-SA-Exim-Rcpt-To:X-SA-Exim-Mail-From:
-	 X-SA-Exim-Scanned;
-	bh=s3MVvxzGnSWvttHCkz12dBX/2TzSeRqwx2B+vBpsohA=;
-	b=dzbrT7mwtF0AvQelfAEUNWkbjP6y6NV3pA+VwOhjtF9JFBrSFh4kcW0SCcQV2lWGLbLW
-	 WNiAzB0ibHVrTUI9lBaGbUllOa43MOzM4/07S/GgXg/n0y3Jr16dXGJ4kTeoG113PEBUY
-	 xavJXSZWeDsym2SpNDmmKgZusHenr19liRyNUMuQluQcHdnd0kkdIdaSuhckwuKuvAQKO
-	 IEJXi355fK+LBD0swS6d33k0NC9b4AEL3ZwGHxhw9PrzVxY2K9DAcCzML5bSgRrSvgnWK
-	 o/ZFp5B8YR48WrxLcgq/I5BAP88bZFDLcGN0uZFkPVn/1QRfR8z7SjJo3v5yYz2PrBg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793608686;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:In-Reply-To:References:
+	 MIME-Version:Content-Transfer-Encoding;
+	bh=8d0vDitzezDWa7J6bkNN1sM4Lg1Dh0lgOVgctT1VpEs=;
+	b=zev7jkmPwEtnSOiMRLOupDLm4PF3rTYhnn8Alzb0jqfv35G2vMTQ2EcQvnyVjVzzwxV1
+	 KOvP/YeyZrgeddIvjGlwdX7JFtOFXgB/jN8ePDzjqoAQK36ZTKLHJSJZ5yqDRDGoSd+2+
+	 rEp0uX3HbNFdVXUFOu9f6+SR+fGhNQO7PKe7Ra7y9g40WncBKDV9BQOvYYFtvqCGoDrap
+	 QmLvRCD7JgLxHsCYiD/iBtbQfW7zbLCji5ikpU2I+2To6nZSXiwtzVokwszMz263ljNHM
+	 vCg/klpDNrr0KEgIw5JqxtL5xOvQdpPgUONFoH3s7im4cJ53oYWdHAV7ERvut05eo1g==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=AR6KG4f6;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	dmarc=pass header.from=gmail.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=ZrsJKdvD;
+	arc=none smtp.remote-ip=209.85.215.178
+Received: from mail-pg1-f178.google.com (mail-pg1-f178.google.com [209.85.215.178])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 717C9606A326;
-	Mon,  2 Nov 2026 08:05:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 643C1606A329
+	for <workflows@vger.kernel.org>; Mon,  2 Nov 2026 08:38:06 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 643C1606A329
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=AR6KG4f6
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 047321F000C1;
-	Mon,  2 Nov 2026 08:05:28 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793606728;
-	bh=s3MVvxzGnSWvttHCkz12dBX/2TzSeRqwx2B+vBpsohA=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References;
-	b=AR6KG4f6xIXaHUlSombXmoSQ3IvLm0GY8dPAquP6rdFe+3aO/0eJ/SyIZX18LyxEA
-	 oPhCDuI8dM4a1KeoQdYB8PpxAL50hgODsXNIG5Ym19gtekg3Yr3cZWWe+RhYohzB9g
-	 7OSHewDoFxYPaUJUPLsxc4k1knuZiHL55xm0f72hKmfloHJMrwybTLcK45oIprHLyb
-	 my/qQh3w5ZW21XTNdKICi8B6RQtTl8BlwIdkMVE8ZOIT4+sL0ef/Vf0bdxZ1oIwKY2
-	 zSit37Mkx1ls5d6VKOIZJFa0RXAuERrEocaENfN9F1FY0asgN8o3rYYEJpE9dl0xqs
-	 zs4zSuOmYeSHA==
-Received: from sofa.misterjones.org ([185.219.108.64] helo=goblin-girl.misterjones.org)
-	by disco-boy.misterjones.org with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.98.2)
-	(envelope-from <maz@kernel.org>)
-	id 1xNn2j-00000009iDv-2tka;
-	Mon, 02 Nov 2026 08:05:25 +0000
-Date: Mon, 02 Nov 2026 08:05:25 +0000
-Message-ID: <86ik2f3bga.wl-maz@kernel.org>
-From: Marc Zyngier <maz@kernel.org>
-To: Krzysztof Kozlowski <krzk@kernel.org>
-Cc: Matthias Goergens <matthias.goergens@gmail.com>,
-	Oliver Upton <oupton@kernel.org>,
-	Fuad Tabba <fuad.tabba@linux.dev>,
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=ZrsJKdvD
+Received: by mail-pg1-f178.google.com with SMTP id 41be03b00d2f7-cc4c02ddd62so1348248a12.0
+        for <workflows@vger.kernel.org>; Mon, 02 Nov 2026 00:38:06 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20260707; t=1793608686; x=1794213486; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=8d0vDitzezDWa7J6bkNN1sM4Lg1Dh0lgOVgctT1VpEs=;
+        b=ZrsJKdvDf3wSjGkdXQOysAvdloIM9KYRnDXm+0wOiWS0uikOgM1KqCpoJEYqwbxZk+
+         xkqunbMOpYJB64pTmQJymcXkuHxOg6jSGWrE6dIrZSmUDVT3rYmaUIMiZy7/i9QqAWRy
+         hEL2Z5u/HKyG2GRuzE/AQD1mOn+XtY0599THDMTh8a/nrWwpHVVQimI7IMrlxxUGHv65
+         hry+t4HYRYGPjHBZDeue/d+i1FnjE+i9e2LNGjSrrAdPDbAVeazDGEYSe5zX2FR8AxFv
+         M13C4q77GkhZiXGkcyv8FoMDHMjW6TsrqGp3zWEDJOGqzl3mdGc5Xc0GCaIAoQXXsOVJ
+         hbkg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1793608686; x=1794213486;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to:content-type;
+        bh=8d0vDitzezDWa7J6bkNN1sM4Lg1Dh0lgOVgctT1VpEs=;
+        b=m7MNdGeIl7tt/T4xbpnhXqXZFo9PaqEKHT4oZstSIaiRTwZOwBJa1GDhEXLqrvVgmJ
+         rcV/vtNzw5q7qXFRNQMIs/ZIn46j+xaM28fZPGi4RNu36JxO+AEXT//EvTaCLY2Qo5ug
+         UwFx9HxOTffjvQ3hpu7VoAd/WavCu6Co9doZM0pY5hCQoz+EnpYYu+4H7H5k6rVkz+Eu
+         Xpu2pcTYTE65oPJx+9Z7s08w6YTcCtSUIaKCKBKGKfL2OPRc3zDBG0/tjJYHr5N01Jb5
+         xLg3dBa3icc23pcNZaOys1gyc6Argg510x/CYd3EEIT7Ui+PpkH1Mi0xAkQ+IPWT9Hta
+         CA2A==
+X-Forwarded-Encrypted: i=1; AKwUvBz9jUZs1ygKkJ6kRAgX/ET/mraLcy24xFscpAlVBnC6grFRPAL8VT29j262U//a/7IA4kX2er5g/BQ=@vger.kernel.org
+X-Gm-Message-State: APuU4Z8Og78ZQo0dwaG1Csr8GIvV6aV7MsQ5k8uclmqMscoBUP1pLUP+
+	2NrG47TOsYXCrARUU7Gp9YuDjhoddG6p8wMjFUQchmbAn9Tos2FbETL8
+X-Gm-Gg: AYBFou1COK8vVkTFffeKTa+X3bPtuFpzdnLkzZzvHNFbcCz/k1XTlQWMbPwxnqPL6Eh
+	ABESCHANvSBdTGmZ1g8Rwpcte2+Jbkb1LG37ZP9X9bOqKr9bSokeVV0siZ5UkfK6w8KAmP+GoqC
+	lTdd3qE3KQdmUe3IGi8tG4EvRaoiszQtwoq2arsOgc8zPcHA85vIRRu+W6N7SDfRq/hgOEmUDqS
+	zuDSWsytFq/vsKJa55LLmtEt+4GDPIrcuvpnFjtnC2QS3uZyHFlIaNHIlh4zgXaxJcc3vUKZ+Nj
+	CZh1HvdlzqydMPF+etCgoI7gOTsAP1gb0f0c5wWRNftnlJiibmFOQr33VhUaCe4YGLO9xsS1Ig7
+	iZQrxrJaefrlM2VC3GfPKitgLT4lSqt/BqTZXBmJSDYr/LAv/TDlO4503YVcDIydyH5TWMRdLxQ
+	E/eYIKaRi2eGFipiudIoNcInqBUzNJdUJUa5oKP2VCR+/gSpjRAgIRhmD93AOXmcUOnZ0f5dK/q
+	PXnG0lP7b5dnrgHBrTf76iglYW67a5jNOUVVi/k/5oh/B8ijmaGXpXMRoLtbEjlsWYW19GFdvpE
+	FwQNIBbxk1UgGeh/kigdxJ4LbmsGFsOdHqeBZZq6H8oHDzP5UT4CWRoRU81cvaKZ5mZ5e1Yu2oe
+	cQ8Ay2gEij8Xz2OQmYy+qMnB0gktZTnxv2O9hmJtui3fSrc9Q25vH8MOoPhmh5ZZqXPEsLNoO5o
+	LLn/35vAiVuNpp6A==
+X-Received: by 2002:a17:90b:5648:b0:3ad:93b4:718f with SMTP id 98e67ed59e1d1-3ae89879b52mr8145082a91.65.1793608685557;
+        Mon, 02 Nov 2026 00:38:05 -0800 (PST)
+Received: from spider.bream-herring.ts.net ([103.6.151.236])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3ae85f3e087sm7861463a91.1.2026.11.02.00.38.01
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 02 Nov 2026 00:38:05 -0800 (PST)
+From: Matthias Goergens <matthias.goergens@gmail.com>
+To: Wei-Lin Chang <weilin.chang@arm.com>,
+	Marc Zyngier <maz@kernel.org>,
+	Oliver Upton <oupton@kernel.org>
+Cc: Fuad Tabba <fuad.tabba@linux.dev>,
 	Joey Gouly <joey.gouly@arm.com>,
 	Steffen Eiden <seiden@linux.ibm.com>,
 	Suzuki K Poulose <suzuki.poulose@arm.com>,
-	Zenghui Yu
- <yuzenghui@huawei.com>,
+	Zenghui Yu <yuzenghui@huawei.com>,
 	Jonathan Corbet <corbet@lwn.net>,
 	Shuah Khan <skhan@linuxfoundation.org>,
 	kvmarm@lists.linux.dev,
@@ -68,12 +98,11 @@ Cc: Matthias Goergens <matthias.goergens@gmail.com>,
 	linux-kernel@vger.kernel.org,
 	workflows@vger.kernel.org
 Subject: Re: [PATCH v2] Documentation/process: Add a maintainer entry profile for KVM/arm64
-In-Reply-To: <8ffc41d7-b032-481c-9643-a87847b8452b@kernel.org>
-References: <20261030083351.3040604-1-matthias.goergens@gmail.com>
-	<8ffc41d7-b032-481c-9643-a87847b8452b@kernel.org>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) SEMI-EPG/1.14.7 (Harue)
- FLIM-LB/1.14.9 (=?UTF-8?B?R29qxY0=?=) APEL-LB/10.8 EasyPG/1.0.0 Emacs/30.1
- (aarch64-unknown-linux-gnu) MULE/6.0 (HANACHIRUSATO)
+Date: Mon,  2 Nov 2026 16:37:59 +0800
+Message-ID: <20261102083759.1561867-1-matthias.goergens@gmail.com>
+X-Mailer: git-send-email 2.56.0
+In-Reply-To: <6urqt376s23fcyr5pchfrrowvjoo6acg5xt4ujkft7gww6sagj@jxz5rqihtkja>
+References: <20261030083351.3040604-1-matthias.goergens@gmail.com> <6urqt376s23fcyr5pchfrrowvjoo6acg5xt4ujkft7gww6sagj@jxz5rqihtkja>
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Post: <mailto:workflows@vger.kernel.org>
@@ -82,51 +111,20 @@ List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:workflows+owner@vger.kernel.org>
 Precedence: list
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-X-SA-Exim-Connect-IP: 185.219.108.64
-X-SA-Exim-Rcpt-To: krzk@kernel.org, matthias.goergens@gmail.com, oupton@kernel.org, fuad.tabba@linux.dev, joey.gouly@arm.com, seiden@linux.ibm.com, suzuki.poulose@arm.com, yuzenghui@huawei.com, corbet@lwn.net, skhan@linuxfoundation.org, kvmarm@lists.linux.dev, linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org, rdunlap@infradead.org, linux-kernel@vger.kernel.org, workflows@vger.kernel.org
-X-SA-Exim-Mail-From: maz@kernel.org
-X-SA-Exim-Scanned: No (on disco-boy.misterjones.org); SAEximRunCond expanded to false
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
-On Mon, 02 Nov 2026 07:16:47 +0000,
-Krzysztof Kozlowski <krzk@kernel.org> wrote:
-> 
-> On 30/10/2026 09:33, Matthias Goergens wrote:
-> > +
-> > +If your series depends on something else that is not yet in mainline, such as
-> > +another series under review, say so in the cover letter and name exactly what
-> > +it applies on top of.
-> > +
-> > +Use ``git format-patch --base`` so that the base commit is recorded in the
-> > +patches.
-> 
-> You should rather encourage usage of b4, which does above for you.
-
-No. People use whatever they want to use, and we don't have to be
-prescriptive.
-
+On Sat, 31 Oct 2026 21:03:17 +0000, Wei-Lin Chang wrote:
+>> +Minor problems are often fixed up by the maintainers when applying; if they
+>> +say "no need to resend", don't.
 >
-> ...
-> 
-> > +
-> > +Security issues
-> > +---------------
-> > +
-> > +Bugs that let a guest attack its host, or a nested guest attack its guest
-> > +hypervisor, should be reported as described in
-> > +Documentation/process/security-bugs.rst.
-> 
-> Do we need to repeat standard stuff in every maintainer profile? Above
-> is quite obvious, so maybe skip it which would make the document shorter
-> increasing the chances anyone will read it.
+> The second half of this is a little silly :P
+> What about just:
+>
+> Minor problems are often fixed up by the maintainers when applying; ask
+> if you are unsure whether to resend.
 
-I'm perfectly happy to have this here. Most people will only read the
-one document they need to (if any). And I really doubt that the
-mention of a nested guest escape is that common (as a basic grep would
-have shown you).
+Agreed, that reads better.  I'll use your wording in v3.
 
-	M.
-
--- 
-Without deviation from the norm, progress is not possible.
+Thanks,
+Matthias
