@@ -1,63 +1,67 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=45.79.88.28
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793636630;
-	b=YUWWcKKSv1S/ZDD0xSZplpf9rQOnSzNB8NWQF99FWrgV21CKBJYa72nKDF17kwp1kzeT
-	 TRfJLH+PoREt+Qj2UutXL7f0bBeKbdr0gjNgjtPWwM6tdqhIcrWW9KUAfUNb9dOK+1+bX
-	 b/pek1vpOaPJkhFv1kvEzyiq1DPbZsHEeD9dt8pCgxNMz2CM/1gdJmU/iAQsdbOwqGbt5
-	 6wVH+JCdYLQRBpIy9331QWhsSBi+vcOJDivZQD8jwghVSq4NvZ3GFiQ7aATe7oDSMAY3m
-	 LkI0F9ffEN22epsypZYdkylvIYBui5jAz8D2mgW3tYqeLrah2dG7LX92c6F8IGdUWmQ==
+	t=1793636677;
+	b=TgFrWXzCEjsMBX8xUptkB1TA0osA7SCzBBozIpnxQiJ7fi2+OXjg0Hma9ZGxIudvdygJ
+	 XUX/20J7o4mMHtXP7lAzPl6Zw0VL80ZJiV4k+x1QpSjXA+69SoJtKxAneHmfTfKBSJ+fL
+	 4sw1O0rQlHVfhyGqN4/pp4l+szGNjwYjTJdkHgluDJUUiEYOSNNJRFXxxF4CDljhEcKnG
+	 KRkzS0ePLw9DUCxX7txqioGdBb0bnW0j7RpspKF2ZnnOywyDtOKOhdNRhQaxiZHqKhqWN
+	 2DdeMFJ24uki0s37/1KHuJM7L0EgUymUtubpStBwD4pZp64Ne1PytLd23esJNLF2KDQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793636630;
-	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
-	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
-	bh=KDWgrUHj+jyBRVnwgShPCYRfQjALrFqYZse5PQHakOo=;
-	b=Yq2D6CNBAp9J2Ul74rYCjFIjFyODT8cNQEHVa7d+5yA7floqz4P50nKIONwWmg5djLKh
-	 fW7EIrazlJYaNuGSzmD+DHZq80WLtD3HWUxGfkVJP+7es9Fcw8XoPmp6o924Uy6qC/FMN
-	 EWoeu6aWpWdSBNNjp4nqBnFLAVVGOW6U7/xBIUIXfetqMoNoyzg6oCQGNmAPDQtUwx1SR
-	 1Wvqs35AsraZV7ZrypEH5xFICpUmJrALLOqtIMzmhcsxExneNjRTCWPkXB1lAJWw8W5Bv
-	 gFTzseEUYNklAPHv1Om81sTIwcGDlSor9U1GW9lAHDVxvO6NXwGXSJEX+UMBfVYidgw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793636677;
+	h=DMARC-Filter:DKIM-Filter:DKIM-Signature:Received:From:To:Cc:Subject:
+	 In-Reply-To:References:Date:Message-ID:MIME-Version:Content-Type;
+	bh=4q7osnzMdJWEM2zxqfnHVAD5rHiZ7BTrhZ4d1nRLsQQ=;
+	b=ruszxYeCipgbIRX5bvM1f7Py5kYrlGGQvVIpYlOljbr4v+h1i5TWNpUB5Upy/4N1QMgL
+	 H9qS7XQrl4mNrNA6nKTKoX8mMzxCdskT2YR1GmtLrh9KsJFFQeB8PcExhUypBNAf2rAdr
+	 XVjeJDZuqU4YZV555YDDbL9UzsTukvEw0dcC+LxuTnB2ePGyRUcVzf5D1Yt0uf0Xnn4K4
+	 erqmQ98HB/GBEpeyfpImw5Ca/53Qkvhsb84zosVAnWPe08OYik8f554PUD207sJlhdRK+
+	 Uw33+SHDWFLNn2Qq3aA290vRrfYz+6USwF8g3Wsh4F1r03BzPTHsTzh72qigGGgYjgQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=linuxfoundation.org header.i=@linuxfoundation.org header.a=rsa-sha256 header.s=korg header.b=N4QGgROO;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	dmarc=pass header.from=lwn.net;
+	spf=pass smtp.mailfrom=lwn.net;
+	dkim=pass header.d=lwn.net header.i=@lwn.net header.a=rsa-sha256 header.s=20201203 header.b=bPcuwsdW;
+	arc=none smtp.remote-ip=45.79.88.28
+Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9FBD9606A91B;
-	Mon,  2 Nov 2026 16:23:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BA4E0606A918;
+	Mon,  2 Nov 2026 16:24:36 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org BA4E0606A918
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.a=rsa-sha256 header.s=korg header.b=N4QGgROO
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9C4811F00A16;
-	Mon,  2 Nov 2026 16:23:47 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linuxfoundation.org;
-	s=korg; t=1793636629;
-	bh=KDWgrUHj+jyBRVnwgShPCYRfQjALrFqYZse5PQHakOo=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=N4QGgROOAfJ2oyv4NefUAOAWFVTHcPhWBmF2J4fJcWm44VGcGK6nSdfqcLcE+lmdP
-	 P5CJib2Na+yoM6X3wGnmm1w6HDBxLw/sDQL/zTGDHkLGP0TehnGXLl5BZQl75oOTKQ
-	 XkxlXjPGnNrjay2IyAPtUWGE7ovnFHwvkEiq1tRM=
-Date: Mon, 2 Nov 2026 11:23:45 -0500
-From: Konstantin Ryabitsev <konstantin@linuxfoundation.org>
-To: Joe Perches <joe@perches.com>
-Cc: Jonathan Corbet <corbet@lwn.net>, 
-	David Laight <david.laight.linux@gmail.com>, "Rafael J. Wysocki (Intel)" <rafael@kernel.org>, 
-	Shuah Khan <skhan@linuxfoundation.org>, Randy Dunlap <rdunlap@infradead.org>, 
-	linux-kernel@vger.kernel.org, users@kernel.org, Federico Vaga <federico.vaga@vaga.pv.it>, 
-	Akira Yokosawa <akiyks@gmail.com>, Carlos Bilbao <carlos.bilbao@kernel.org>, 
-	Avadhut Naik <avadhut.naik@amd.com>, Alex Shi <alexs@kernel.org>, Yanteng Si <si.yanteng@linux.dev>, 
-	Dongliang Mu <dzm91@hust.edu.cn>, Chen-Yu Yeh <chenyou910331@gmail.com>, 
-	Weijie Yuan <wy@wyuan.org>, workflows@vger.kernel.org, linux-doc@vger.kernel.org, 
-	Petr Pavlu <petr.pavlu@suse.com>
-Subject: Re: [PATCH v2 0/2] get_maintainer: stop sending every patch to LKML
-Message-ID: <20261102-rapid-vigilant-heron-4dabf3@meerkat>
-References: <20261020-get-maintainer-the-rest-fallback-v2-0-162aea473488@linuxfoundation.org>
- <20261102093206.50b6c9ad@pumpkin>
- <20261102-smiling-binturong-of-gaiety-f64c1f@meerkat>
- <CAJZ5v0iOJ1r1OvYhV_KJSnHOJL+oVUrbOXizLk0kbGNiep7a6w@mail.gmail.com>
- <87a4nrfgjm.fsf@trenco.lwn.net>
- <20261102150535.6c5689f6@pumpkin>
- <87wlqvdylf.fsf@trenco.lwn.net>
- <762ca14700309938ddd1b8ecb1a8767fb07b719c.camel@perches.com>
+	dkim=pass (2048-bit key, unprotected) header.d=lwn.net header.i=@lwn.net header.a=rsa-sha256 header.s=20201203 header.b=bPcuwsdW
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net B6DC940430
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
+	t=1793636675; bh=4q7osnzMdJWEM2zxqfnHVAD5rHiZ7BTrhZ4d1nRLsQQ=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+	b=bPcuwsdWhAVosB2pKGpbGSUPuR7i/EiMgoTJG57+PT45Umbv9EhZbYI/THDOW3Jk5
+	 QqfxwV6/tOHk/KyhKWnPAiCkzvR14eulu6KYFKKHHar2Aeq5n1rZ7kUp3BpMkLEgy/
+	 C5yrFLfBjRzxJeOx/KaRvF8nZYMcRtY7mIjrZIT5FjR3I11h3pFAIg9V8GL0rR+0Q4
+	 Uf7uaWzTkrXfw8+TmUidO/0jwRFZlCaGm6x+51PEbs1e+phrcbQlrA5UcxZ5nK1azY
+	 Syp9sVyLv3q7ONu/fvbzUc0Lzvxn5ZyfCpHEfONU+R+pSabVocyVTdjHyQXeecT+pg
+	 6votB0Cud6OOg==
+Received: from localhost (mdns.lwn.net [45.79.72.68])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (prime256v1) server-signature ECDSA (prime256v1) server-digest SHA256)
+	(No client certificate requested)
+	by ms.lwn.net (Postfix) with ESMTPSA id B6DC940430;
+	Mon,  2 Nov 2026 16:24:35 +0000 (UTC)
+From: Jonathan Corbet <corbet@lwn.net>
+To: Sasha Levin <sashal@kernel.org>
+Cc: Shuah Khan <skhan@linuxfoundation.org>, Randy Dunlap
+ <rdunlap@infradead.org>, workflows@vger.kernel.org,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, Bradley Morgan
+ <brads@mainlining.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Thorsten Leemhuis <linux@leemhuis.info>, "Michael S. Tsirkin"
+ <mst@redhat.com>, Dan Carpenter <error27@gmail.com>
+Subject: Re: [PATCH v4] docs: submitting-patches: say which commit a Fixes
+ tag names
+In-Reply-To: <20261020142534.3533478-1-sashal@kernel.org>
+References: <20261020142534.3533478-1-sashal@kernel.org>
+Date: Mon, 02 Nov 2026 09:24:34 -0700
+Message-ID: <87cxsncibh.fsf@trenco.lwn.net>
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Post: <mailto:workflows@vger.kernel.org>
@@ -67,20 +71,38 @@ List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:workflows+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <762ca14700309938ddd1b8ecb1a8767fb07b719c.camel@perches.com>
+Content-Type: text/plain
 
-On Mon, Nov 02, 2026 at 08:10:57AM -0800, Joe Perches wrote:
-> MAINTAINERS/get_maintainers is public and requires
-> senders generating the correct mailto: entries.
-> 
-> Maybe undo that and make lore/vger create all the
-> to/cc entries using a single kernel mailing address.
+Sasha Levin <sashal@kernel.org> writes:
 
-The trouble I have with this approach is if we're down, nobody would get any
-patches. The messy approach of sticking everyone into to/cc has built-in
-resilience that continues to function even if someone knocked kernel.org off
-the map.
+> The description of the Fixes: tag does not say which commit to name when
+> a later commit made an older bug reachable, or when more than one commit
+> introduced the same bug, and both questions come up regularly. The
+> commit that blame points at is also often one that only moved the code.
+>
+> Say that the tag names the commit that introduced the bug, that a
+> later commit that exposed it gets a tag too, as handling-regressions.rst
+> already asks for the commit causing a regression, and that each commit
+> that introduced the bug separately gets its own tag. Say that the tags
+> tell the stable team which trees need the fix, and that trees without
+> any of the tagged commits do not.
+>
+> Link: https://lore.kernel.org/r/c3ce794d-1ac2-4ef3-9e5c-1e171bd77a89@leemhuis.info
+> Link: https://lore.kernel.org/r/20261013003535-mutt-send-email-mst@kernel.org
+> Link: https://lore.kernel.org/r/atCI4q2HvqVXOag1@stanley.mountain
+> Link: https://lore.kernel.org/r/bcef59f8-33fe-4bbe-8429-307630dc6bb5@leemhuis.info
+> Assisted-by: LLM
+> Signed-off-by: Sasha Levin <sashal@kernel.org>
+> ---
+> v4:
+>  - Split out of the agents skills series, where this was patch 2/7 of v3:
+>    https://lore.kernel.org/r/20261016152828.3765695-3-sashal@kernel.org
+>  - Take Thorsten's rewording. A later commit that exposed the bug now
+>    gets a Fixes: tag too, as handling-regressions.rst already asks.
+>
+>  Documentation/process/submitting-patches.rst | 8 ++++++++
+>  1 file changed, 8 insertions(+)
 
--K
+Applied, thanks.
+
+jon
