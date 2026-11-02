@@ -1,62 +1,67 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=45.79.88.28
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793636441;
-	b=EpgBMXYuo3NRAutSgwpKag8D9D4CkltU8RYJOjCTmbloHIgUqdh1KVFm1g5RNg7LtT0A
-	 QQMFe/P38hXzO+vaA0Gs7Xdo5tlH/FVWNXwUQW+iB5rfJzq5ieRemMMGLppkANex5witS
-	 OSAtWUO19gSG1DkGvWkgFdeKGtnuLsrSfbrUWf6c0aMHSJpPyrR30Ul5uWvKKviFYdvMm
-	 JMIZpUpDHkWUKPykVIi3ojirEPckgm7KVFKsLRJoKizjI7C4cvAfuzmgdNqAzUFRIFXls
-	 Oe1t3NcfWr9dmNY09pGVlJ6jyedQMaavc7HFhI6J5h58yhBpT3TAkoz69s2KxwcTzwg==
+	t=1793636470;
+	b=zePnik80oXEs9H1MuJXg03ZJRCwZRHcn19S14M4dJT/M9bp0hzpnlLndnePPzuyPR9BC
+	 NxhdcpbbwE878NpD08NkuQlhG35vNrXhPSM5k3HH7ay679JTW6WnVaGCg7Vwb4E2ZSfO9
+	 qXmuIr8tZswSvKddvy7paQ99lM1UJB9ZiONmgyvWlIW8WlmLPaXVXU8Xp8+Cz017ykvzo
+	 OIuBo27zAW9rIVdurJ/p6KCGxrgWccxVEfJvaIsoAZd3mlI1+fWV0ZkI1aw3IqduNml0z
+	 gMvtFWh4xFovsIBTR/5BAh8f+VkEQfdoZjYTeuUnDyFwpfmzTSWSJ91wB9FIY+GshCA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793636441;
-	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
-	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
-	bh=tMCUd/PiRvvryn3P2Alsdrnn8ebAo+kqYgr1gYojjfA=;
-	b=K4jdV3l/kJG1Sw9OvMmk+EzW8YhMbkupjAZGJ1FHL55Retkl0lNw2JsWpqkIJOk08s8Y
-	 Tp5Gj3udJMzwYN2YyNz099OaIXigx5nch9yjY43CcDrhr8QPJnrhnamIUA7g2BM5v84g4
-	 n8orLDaTi10RzuQjKJnkWWcxSc52FsWSJ15p3s4NK/bSJRUaNoEApAnS3eGlwa99RZEhe
-	 RxZ/hlvfOAdVWt4e/Upr2RiXPQJ0QYTU3QrWhEzeOvyjvG9gzrnXlu8f6TuvGogK4Fy59
-	 +Dlmo4JbfoYnKmDarQ59kZ4gYUxSxVesdO+ORcXCVOp3h/HQZHftDCvJRSHiGSc74QQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793636470;
+	h=DMARC-Filter:DKIM-Filter:DKIM-Signature:Received:From:To:Cc:Subject:
+	 In-Reply-To:References:Date:Message-ID:MIME-Version:Content-Type;
+	bh=pieKe5GiYH0kpv6II+hMND4COk8Q1hrQzu0fIwGjl0w=;
+	b=dwYTY2ja9NCRZ6NowWBspy513o1weD9+LR0vTYu20FE10YfHh85HXbbuWHKc3+qEJxjq
+	 kUIQ86W6Z1pNnkse+8QLgOtm0ZVf4g19HGquHOxiUaaST362lcyn8doa81a6KTMXuJZ0K
+	 9VA1mtzPoBdn5hpwtj9cc1APEd/KDBRC4djXIdsqgxveCtoWPDTgJgfbzFSa4GqNPYAl/
+	 EYZeD1CuA2m2l3Kpwaa1hGOrUyDiC9VbTQI5tDWFF1yQoxctNfbb+9jfWiYESz/4K6a7R
+	 9N+fNknKs6pN9pFzgVmxrx8KLFm65uoKPc7g62smRDku88zjN60gkFW+ijw2k9OwyoQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=linuxfoundation.org header.i=@linuxfoundation.org header.a=rsa-sha256 header.s=korg header.b=w+JySMGk;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	dmarc=pass header.from=lwn.net;
+	spf=pass smtp.mailfrom=lwn.net;
+	dkim=pass header.d=lwn.net header.i=@lwn.net header.a=rsa-sha256 header.s=20201203 header.b=kczmzPau;
+	arc=none smtp.remote-ip=45.79.88.28
+Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5776A606AB84;
-	Mon,  2 Nov 2026 16:20:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8357A608440D;
+	Mon,  2 Nov 2026 16:21:10 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 8357A608440D
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.a=rsa-sha256 header.s=korg header.b=w+JySMGk
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 74B001F00A16;
-	Mon,  2 Nov 2026 16:20:39 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linuxfoundation.org;
-	s=korg; t=1793636441;
-	bh=tMCUd/PiRvvryn3P2Alsdrnn8ebAo+kqYgr1gYojjfA=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=w+JySMGkb0uYzwkd3pGh8N0Wfah9GlbT7XB21hTbI171Co8UJAdjM8+nRiytlHm/G
-	 pas1G//hGZhAicjL5E3y5QJJO1+n3J9QnWMDmKBkpdCeSbpUL/wEYQmQr3/ipSuGzR
-	 VtpxNbpQWwwxA+vC6g+RnGjwVZSdw8m7JBkVHPlE=
-Date: Mon, 2 Nov 2026 11:20:37 -0500
-From: Konstantin Ryabitsev <konstantin@linuxfoundation.org>
-To: Jonathan Corbet <corbet@lwn.net>
-Cc: David Laight <david.laight.linux@gmail.com>, 
-	"Rafael J. Wysocki (Intel)" <rafael@kernel.org>, Joe Perches <joe@perches.com>, 
-	Shuah Khan <skhan@linuxfoundation.org>, Randy Dunlap <rdunlap@infradead.org>, 
-	linux-kernel@vger.kernel.org, users@kernel.org, Federico Vaga <federico.vaga@vaga.pv.it>, 
-	Akira Yokosawa <akiyks@gmail.com>, Carlos Bilbao <carlos.bilbao@kernel.org>, 
-	Avadhut Naik <avadhut.naik@amd.com>, Alex Shi <alexs@kernel.org>, Yanteng Si <si.yanteng@linux.dev>, 
-	Dongliang Mu <dzm91@hust.edu.cn>, Chen-Yu Yeh <chenyou910331@gmail.com>, 
-	Weijie Yuan <wy@wyuan.org>, workflows@vger.kernel.org, linux-doc@vger.kernel.org, 
-	Petr Pavlu <petr.pavlu@suse.com>
-Subject: Re: [PATCH v2 0/2] get_maintainer: stop sending every patch to LKML
-Message-ID: <20261102-nostalgic-foamy-moose-f9c07b@meerkat>
-References: <20261020-get-maintainer-the-rest-fallback-v2-0-162aea473488@linuxfoundation.org>
- <20261102093206.50b6c9ad@pumpkin>
- <20261102-smiling-binturong-of-gaiety-f64c1f@meerkat>
- <CAJZ5v0iOJ1r1OvYhV_KJSnHOJL+oVUrbOXizLk0kbGNiep7a6w@mail.gmail.com>
- <87a4nrfgjm.fsf@trenco.lwn.net>
- <20261102150535.6c5689f6@pumpkin>
- <87wlqvdylf.fsf@trenco.lwn.net>
+	dkim=pass (2048-bit key, unprotected) header.d=lwn.net header.i=@lwn.net header.a=rsa-sha256 header.s=20201203 header.b=kczmzPau
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net A572240430
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
+	t=1793636469; bh=pieKe5GiYH0kpv6II+hMND4COk8Q1hrQzu0fIwGjl0w=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+	b=kczmzPauziu1bkmTcGHrvTNYebY2GJg/E/hfOUZGjBMhcHjCAIn/SZ9y8V4tiJawY
+	 5ybJf68LIw7PPf1oP6xZNB1JVjIw/WpZExYWQJfzprvJsRJ54V1++jVFEoiJ5vUnMX
+	 1AmvXNXekCbTNrrNr/myXOnc+BAFwy2pQitwJVfKS5SwKngqTBG+e9+VznbfoPGPAD
+	 3hV8v7ZIZh5/oYRKrHklrgLuocl1VqoXhZb5s342SFkRnswNEQmobMqMn+4wm2EZGF
+	 ncCHvWJCKAg9FOy0uZB8FYSemm6PtLwiO+6zeNeQphMTWuH3P2gmjEGDCoCpXa5anI
+	 gVG0cihvsCZzQ==
+Received: from localhost (mdns.lwn.net [45.79.72.68])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (prime256v1) server-signature ECDSA (prime256v1) server-digest SHA256)
+	(No client certificate requested)
+	by ms.lwn.net (Postfix) with ESMTPSA id A572240430;
+	Mon,  2 Nov 2026 16:21:09 +0000 (UTC)
+From: Jonathan Corbet <corbet@lwn.net>
+To: Mark Severson <gr3yf0x87@skyn3tlab.com>, Federico Vaga
+ <federico.vaga@vaga.pv.it>
+Cc: Shuah Khan <skhan@linuxfoundation.org>, Randy Dunlap
+ <rdunlap@infradead.org>, Ihor Solodrai <ihor.solodrai@linux.dev>, Eduard
+ Zingerman <eddyz87@gmail.com>, workflows@vger.kernel.org,
+ linux-doc@vger.kernel.org, bpf@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2] docs: changes.rst: set the pahole minimum back to 1.22
+In-Reply-To: <20261022014811.2803450-1-gr3yf0x87@skyn3tlab.com>
+References: <20261022013432.2638010-1-gr3yf0x87@skyn3tlab.com>
+ <20261022014811.2803450-1-gr3yf0x87@skyn3tlab.com>
+Date: Mon, 02 Nov 2026 09:21:08 -0700
+Message-ID: <87pkwncih7.fsf@trenco.lwn.net>
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Post: <mailto:workflows@vger.kernel.org>
@@ -66,20 +71,41 @@ List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:workflows+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <87wlqvdylf.fsf@trenco.lwn.net>
+Content-Type: text/plain
 
-On Mon, Nov 02, 2026 at 08:47:40AM -0700, Jonathan Corbet wrote:
-> > I certainly scan it.
-> > It is also useful to have an archived local copy that can be searched.
-> 
-> In truth...public-inbox is quite nice for the searching part of things;
-> I tend to use that rather than going into the email stream directly.
+Mark Severson <gr3yf0x87@skyn3tlab.com> writes:
 
-Also, we now provide and maintain kgl, which lets you merge both worlds -- you
-can both search AND push things into your inbox.
+> Commit fd5425b67355 ("docs, resolve_btfids: Document kfunc BTF
+> annotation emission") removed the paragraph saying that kfuncs annotated
+> with KF_IMPLICIT_ARGS need pahole v1.26, because resolve_btfids now
+> emits the kfunc BTF annotations that pahole used to produce. That
+> paragraph was the reason the requirements table lists pahole 1.26, and
+> the table was left unchanged. The text below the table and
+> lib/Kconfig.debug (DEBUG_INFO_BTF depends on PAHOLE_VERSION >= 122)
+> both still say 1.22.
+>
+> Set the table back to 1.22, in the English document and in the Italian
+> translation, which carries the same table, and remove the Italian
+> translation's copy of the paragraph that the English document no longer
+> has.
+>
+> Checked by building linux-next 20261021 with pahole v1.25 and
+> CONFIG_DEBUG_INFO_BTF=y: in the vmlinux BTF,
+> bpf_task_work_schedule_signal has four arguments and the bpf_kfunc decl
+> tag, and bpf_task_work_schedule_signal_impl keeps the
+> struct bpf_prog_aux * argument, as Documentation/bpf/kfuncs.rst
+> describes for KF_IMPLICIT_ARGS.
 
-https://korgalore.docs.kernel.org/en/latest/
+I've applied this patch, but removed that last paragraph, which doesn't
+really belong in the permanent changelog.
 
--K
+> Fixes: fd5425b67355 ("docs, resolve_btfids: Document kfunc BTF annotation emission")
+> Assisted-by: Claude
+
+This line is no longer required, so I took it out as well.
+
+> Signed-off-by: Mark Severson <gr3yf0x87@skyn3tlab.com>
+
+Thanks,
+
+jon
