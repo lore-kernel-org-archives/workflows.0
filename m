@@ -1,55 +1,79 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793643916;
-	b=VC1YAnpFPTqPpl8qXyjWiRZ6LHNVNdqvpo24RCGGq2qk3Eqp7ygy9c8CA3NGugk802b0
-	 3+icmuPwpq+vrAyKL8Ku0inJovfv+4GOfDvNj6aGff04Kei4mCx51cYnpxwbzjw4I54ux
-	 BbwHNiVra5lluQ7OGFF2t6TZMN0VnuFX/to23pMTP8VY0g1M2FzVRM7+tr0wMLFgLNUCB
-	 jdvfdQlByXfHmF+3iQ2Ygnqp22k/DZ6f1VRe+2HLBdoMI9t2Wp/OhJ/vupCjLcKRgGwyN
-	 FjeyU13U8uM+BTgGoZkgB/G5k8AXjIkFj5EUc8eqgk8yoz6/UGNkDAdKSL451SYEQww==
+	t=1793645952;
+	b=OtspCJU/MjjJQdYsvu25HDPtZNTEYyEpF4IfHPNormfz+uhLpWh/V2NMCKS+Vnut6jkQ
+	 jZxcVSapMveJ7WImyutQbMNFcSqhr9VFLXEwkBg5IJY6vpcfKLdr9hdEkkqbO/aLimESn
+	 3+u7xG35HgFz/OZFOBk/8WahLjKM0Pm4wT/VliIBKKjBOjbYwwtV5QlP53xaJImodJZmT
+	 Y/qwIIYcub1CPsnAmrB8gkBErd61v0swY3cIKP0WxPo2sxDbKikrVT386vgXz2x5xfWjN
+	 zqf1f0mlkueMA0SelXYSVy7EQIqbtJEnbGpM2UOSq2hH5zM6ariv+qNwBhwXLfHTYgg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793643916;
-	h=Received:DKIM-Signature:Received:X-Forwarded-Encrypted:
-	 X-Gm-Message-State:X-Received:MIME-Version:References:In-Reply-To:
-	 From:Date:X-Gmail-Original-Message-ID:X-Gm-Features:Message-ID:
-	 Subject:To:Cc:Content-Type:Content-Transfer-Encoding;
-	bh=wAnfPRO2XB0Vl2lUb95pnPuAoh4Mk39LC2HpU1pttzM=;
-	b=Km+/JfHwyH4Sx2KCM++6j3VLx7qfoP8v/hsPxe4xXBcRtZE7ESHEsvb2XTeW15cGkO+t
-	 BTu8B75L19Yta0nKQUJlFh2LWqQl3dTS7G4e5KTHlNX/wWgZD03AlzCEy02SQxf7/sxy9
-	 VzC+IZzC/DCDex560Ud8hcGEQQ++vsxOWf8Pb61q0ThTOrbHryICY//sr+3xTI/ZAjJKJ
-	 I8I2EA2z+rJGdNxn1YCEWHhXIvaVmNjOaToeghoQEE3D/2r0tug373pOYyc57JFYxbigd
-	 dLM+g73S0IW5Z3L6rRu7KQfjsUz5wlaswGylHK3h7UvE2eq+We52DO08BubZXPKruSQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793645952;
+	h=Received:DKIM-Signature:Received:Date:Message-ID:From:To:Cc:Subject:
+	 In-Reply-To:References:User-Agent:MIME-Version:Content-Type:
+	 X-SA-Exim-Connect-IP:X-SA-Exim-Rcpt-To:X-SA-Exim-Mail-From:
+	 X-SA-Exim-Scanned;
+	bh=r9JhDIOHPdsZllQyxUB4H0ZlgUBt8v+L3mtCQBDQk2A=;
+	b=R4plFPXdcM2WNVTeAnwqiuRvf9CUlxmGQqVFmH338iiC0E7C9wuJaOR9oAtETQXwlQoq
+	 jj56NKqyAf0SOpRnwdWilpoeKaEiP6jlzZYCJ/ZjJAGmCBW1RrIg2RlY0u6v5COI97XU0
+	 lccvesQ2xgn3zBVizAxRodDY+E1QU47O4JEhbjljQjMWvlYfj7AZfxDzVftpYnG3gtXTV
+	 aCkdn8KPZwyYZHKz8Zo6AIhx7FLVaO5My/0Jjuubqg4ZXvaz16yYGkJKfrcV1KRz1lLRv
+	 yEoZn6xzJuchTVHlRixyl45W1NXhqW34hrwDNredeXib3wvKsq4kE+wWZnwKf6ruszA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=b7dvbN0Y;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Jkm0dngw;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B15C8606D822
-	for <workflows@vger.kernel.org>; Mon,  2 Nov 2026 18:25:15 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BD756606A326;
+	Mon,  2 Nov 2026 18:59:11 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=b7dvbN0Y
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6DCF61F00A22
-	for <workflows@vger.kernel.org>; Mon,  2 Nov 2026 18:25:15 +0000 (UTC)
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Jkm0dngw
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 856791F00A1D;
+	Mon,  2 Nov 2026 18:59:11 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793643915;
-	bh=wAnfPRO2XB0Vl2lUb95pnPuAoh4Mk39LC2HpU1pttzM=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc;
-	b=b7dvbN0YT7r7/9F4UDjBrbAeME2NWwcHy72kF3wF6lIJu0hBlK3GztXPGVXVsP7tB
-	 5AaA/oIfT21Wlu7Lrn3x4sXQwdHD3oHBrBBmoSxnocRSgfuy6M2aBFhC2ootC0y9RT
-	 3k8xLhFclJMUHXli8TJxrGvkZAXlffeSPWw1DbfckhvzjFt04FXZsVq91UsjwcEYum
-	 BaKbKbOq6N9zJEb54kh6qTKqZBSIFdtUylfsoVbpo9+tNuwroSFpWaP5eTv27gwdJF
-	 Q20PWFL/0gZaV1F1cbk/wQSE2dsZS39xkvLG8GZIlW/jN7si6d943l/Q7vXJSB6YrH
-	 zepiilfbcgJvQ==
-Received: by mail-lf1-f52.google.com with SMTP id 2adb3069b0e04-5bfc2ae6e9dso2668553e87.0
-        for <workflows@vger.kernel.org>; Mon, 02 Nov 2026 10:25:15 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AKwUvBwTBwI1kDy3zXkDo73O72LNpoVgowS2fMouJs8TOb5B2D0poeCm9ALZVLAI25ZKDgMUXZUBaocZ0ko=@vger.kernel.org
-X-Gm-Message-State: APuU4Z+pda/7duUgEhF4gp/g71AXN48NiAcBA3p0MYhx/ALTgPXpEGA3
-	2Hq0HA2fmd5qMG5yQuKzsOITjWlIy7CWOb503d441IbXcuSRTz7rk0E5CTIU55WFMuMf9i5E8z6
-	4gBS0t2PzNlx0xi9fRKZZoTMjkRen5f4=
-X-Received: by 2002:a05:6512:3f01:b0:5bf:9f5e:fe0d with SMTP id
- 2adb3069b0e04-5bfd95605d9mr3713221e87.23.1793643913371; Mon, 02 Nov 2026
- 10:25:13 -0800 (PST)
+	s=k20260515; t=1793645951;
+	bh=r9JhDIOHPdsZllQyxUB4H0ZlgUBt8v+L3mtCQBDQk2A=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References;
+	b=Jkm0dngwCyiFMAtdq8uZCeoHgOKz40OfTyEqYb7LUTXQ0+gLkMQKeojaUUYQXX5JU
+	 3Mff/Cs1Zffhd9g0Ndcxmuysy4EAL5pVaqyBUpdWX/aWNcjBDz6UDplXA8odNelu8v
+	 UZksY6CPr8r/s4XojB2ygsTFW4rkFxpz3PezpoPlXsTQfQ28uqLLr1LzFJXixPaWAj
+	 uFpABQmYM6DAeIbADgO5INNelNYsXyjJPkmIPIlzK9hGphnmbL7rJTu9oRc6eLiPUq
+	 I5bR3ITar9avmfr3Q+FZgFMX+OUin+2LhaXaKJD4urmdYeDGczbQ88Oe/OPOMHNhrX
+	 qIh4WPeketSsw==
+Received: from sofa.misterjones.org ([185.219.108.64] helo=goblin-girl.misterjones.org)
+	by disco-boy.misterjones.org with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.98.2)
+	(envelope-from <maz@kernel.org>)
+	id 1xNxFN-0000000A384-0KTo;
+	Mon, 02 Nov 2026 18:59:09 +0000
+Date: Mon, 02 Nov 2026 18:59:08 +0000
+Message-ID: <868q3b2h6r.wl-maz@kernel.org>
+From: Marc Zyngier <maz@kernel.org>
+To: Matthias Goergens <matthias.goergens@gmail.com>
+Cc: Wei-Lin Chang <weilin.chang@arm.com>,
+	Oliver Upton <oupton@kernel.org>,
+	Fuad Tabba <fuad.tabba@linux.dev>,
+	Joey Gouly <joey.gouly@arm.com>,
+	Steffen Eiden <seiden@linux.ibm.com>,
+	Suzuki K Poulose <suzuki.poulose@arm.com>,
+	Zenghui Yu <yuzenghui@huawei.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	kvmarm@lists.linux.dev,
+	linux-arm-kernel@lists.infradead.org,
+	linux-doc@vger.kernel.org,
+	Randy Dunlap <rdunlap@infradead.org>,
+	linux-kernel@vger.kernel.org,
+	workflows@vger.kernel.org
+Subject: Re: [PATCH v2] Documentation/process: Add a maintainer entry profile for KVM/arm64
+In-Reply-To: <20261102083759.1561867-1-matthias.goergens@gmail.com>
+References: <20261030083351.3040604-1-matthias.goergens@gmail.com>
+	<6urqt376s23fcyr5pchfrrowvjoo6acg5xt4ujkft7gww6sagj@jxz5rqihtkja>
+	<20261102083759.1561867-1-matthias.goergens@gmail.com>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) SEMI-EPG/1.14.7 (Harue)
+ FLIM-LB/1.14.9 (=?UTF-8?B?R29qxY0=?=) APEL-LB/10.8 EasyPG/1.0.0 Emacs/30.1
+ (aarch64-unknown-linux-gnu) MULE/6.0 (HANACHIRUSATO)
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Post: <mailto:workflows@vger.kernel.org>
@@ -58,69 +82,33 @@ List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:workflows+owner@vger.kernel.org>
 Precedence: list
-MIME-Version: 1.0
-References: <20261020-get-maintainer-the-rest-fallback-v2-0-162aea473488@linuxfoundation.org>
- <20261102093206.50b6c9ad@pumpkin> <20261102-smiling-binturong-of-gaiety-f64c1f@meerkat>
- <CAJZ5v0iOJ1r1OvYhV_KJSnHOJL+oVUrbOXizLk0kbGNiep7a6w@mail.gmail.com>
- <87a4nrfgjm.fsf@trenco.lwn.net> <20261102150535.6c5689f6@pumpkin>
- <CAMuHMdXe1xxk2ZFJ=yr=7z1DUs3oRNfzHw1Ls1hftcGnmoNwrA@mail.gmail.com> <20261102-affable-undetectable-beluga-eded3e@meerkat>
-In-Reply-To: <20261102-affable-undetectable-beluga-eded3e@meerkat>
-From: "Rafael J. Wysocki (Intel)" <rafael@kernel.org>
-Date: Mon, 2 Nov 2026 19:25:00 +0100
-X-Gmail-Original-Message-ID: <CAJZ5v0i5NLJATbfH_Djtd1OXPdn1=xmLKGOijZWcDR-DrWrLig@mail.gmail.com>
-X-Gm-Features: AclHuK_xQeaEPyOLHKDm5st6DAiRGDAocoGXGZ-HfdjK_YDhrSOTeeQb9NOxXjc
-Message-ID: <CAJZ5v0i5NLJATbfH_Djtd1OXPdn1=xmLKGOijZWcDR-DrWrLig@mail.gmail.com>
-Subject: Re: [PATCH v2 0/2] get_maintainer: stop sending every patch to LKML
-To: Konstantin Ryabitsev <konstantin@linuxfoundation.org>
-Cc: Geert Uytterhoeven <geert@linux-m68k.org>, David Laight <david.laight.linux@gmail.com>, 
-	Jonathan Corbet <corbet@lwn.net>, "Rafael J. Wysocki (Intel)" <rafael@kernel.org>, Joe Perches <joe@perches.com>, 
-	Shuah Khan <skhan@linuxfoundation.org>, Randy Dunlap <rdunlap@infradead.org>, 
-	linux-kernel@vger.kernel.org, users@kernel.org, 
-	Federico Vaga <federico.vaga@vaga.pv.it>, Akira Yokosawa <akiyks@gmail.com>, 
-	Carlos Bilbao <carlos.bilbao@kernel.org>, Avadhut Naik <avadhut.naik@amd.com>, 
-	Alex Shi <alexs@kernel.org>, Yanteng Si <si.yanteng@linux.dev>, 
-	Dongliang Mu <dzm91@hust.edu.cn>, Chen-Yu Yeh <chenyou910331@gmail.com>, Weijie Yuan <wy@wyuan.org>, 
-	workflows@vger.kernel.org, linux-doc@vger.kernel.org, 
-	Petr Pavlu <petr.pavlu@suse.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-SA-Exim-Connect-IP: 185.219.108.64
+X-SA-Exim-Rcpt-To: matthias.goergens@gmail.com, weilin.chang@arm.com, oupton@kernel.org, fuad.tabba@linux.dev, joey.gouly@arm.com, seiden@linux.ibm.com, suzuki.poulose@arm.com, yuzenghui@huawei.com, corbet@lwn.net, skhan@linuxfoundation.org, kvmarm@lists.linux.dev, linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org, rdunlap@infradead.org, linux-kernel@vger.kernel.org, workflows@vger.kernel.org
+X-SA-Exim-Mail-From: maz@kernel.org
+X-SA-Exim-Scanned: No (on disco-boy.misterjones.org); SAEximRunCond expanded to false
 
-On Mon, Nov 2, 2026 at 6:56=E2=80=AFPM Konstantin Ryabitsev
-<konstantin@linuxfoundation.org> wrote:
->
-> On Mon, Nov 02, 2026 at 05:24:51PM +0100, Geert Uytterhoeven wrote:
-> > > I certainly scan it.
-> > > It is also useful to have an archived local copy that can be searched=
-.
+On Mon, 02 Nov 2026 08:37:59 +0000,
+Matthias Goergens <matthias.goergens@gmail.com> wrote:
+> 
+> On Sat, 31 Oct 2026 21:03:17 +0000, Wei-Lin Chang wrote:
+> >> +Minor problems are often fixed up by the maintainers when applying; if they
+> >> +say "no need to resend", don't.
 > >
-> > Indeed. Sorry to say that, but Gmail web interface search is still
-> > much more effective than lore web interface search.
->
-> Folks, I don't want this to turn into another thread of "me too" response=
-s.
->
-> Yes, I know that some people still use it for a number of legitimate reas=
-ons
-> -- but these are few-and-far-between exceptions. I need this change becau=
-se
-> the current status quo is NOT TENABLE. *Everyone's* quality of life is
-> affected because Gmail's throttling results in (looks) ~350,000 mails in =
-the
-> queue, most of them waiting for Google to graciously allow us to talk to =
-them.
+> > The second half of this is a little silly :P
+> > What about just:
+> >
+> > Minor problems are often fixed up by the maintainers when applying; ask
+> > if you are unsure whether to resend.
+> 
+> Agreed, that reads better.  I'll use your wording in v3.
 
-So honestly, I'd do the drastic thing described below if I were you.
+If that's the only change, I'll fix it when applying.
 
-> So, we either unsubscribe all gmail addresses from LKML and prevent them =
-from
-> resubscribing, or we do something less drastic and revert it to how it wa=
-s
-> supposed to work in the first place -- only patches without a dedicated l=
-ist
-> end up on LKML.
+Thanks,
 
-Because this one depends on people stopping to send stuff to the LMKL
-and that's about changing everyone's habits.  I'm not sure how
-realistic it is TBH.
+	M.
 
-Rafael
+-- 
+Without deviation from the norm, progress is not possible.
