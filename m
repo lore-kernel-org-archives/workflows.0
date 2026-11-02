@@ -1,67 +1,77 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=45.79.88.28
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.222.43
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793636677;
-	b=TgFrWXzCEjsMBX8xUptkB1TA0osA7SCzBBozIpnxQiJ7fi2+OXjg0Hma9ZGxIudvdygJ
-	 XUX/20J7o4mMHtXP7lAzPl6Zw0VL80ZJiV4k+x1QpSjXA+69SoJtKxAneHmfTfKBSJ+fL
-	 4sw1O0rQlHVfhyGqN4/pp4l+szGNjwYjTJdkHgluDJUUiEYOSNNJRFXxxF4CDljhEcKnG
-	 KRkzS0ePLw9DUCxX7txqioGdBb0bnW0j7RpspKF2ZnnOywyDtOKOhdNRhQaxiZHqKhqWN
-	 2DdeMFJ24uki0s37/1KHuJM7L0EgUymUtubpStBwD4pZp64Ne1PytLd23esJNLF2KDQ==
+	t=1793636707;
+	b=nUfA4NYLBLwgHQr8wNTYOa35WHConcnVrZ8Bm9EhCaiaPSAmcyQ5HK6fuOef5gf8l0ST
+	 tg2gFiTTup1vNJsBhGbc7vn4Y+LhFW9RHtbov6OtLDe1vlNg4SdRZdM76LZbDfXbmfiFM
+	 2p8Ncn8Da/SaJ03WBPnARB1+g2USV3hNIvucHfhZRk4xkDJDKE+Tg3kE5/l6+joS4b6jB
+	 do1K6KCIC2TYngwhGWk8E5NceZ1sa/SnFFiPJZuv1K3hQGJ0aJHxtoGm/say5CFFM7+pL
+	 WxjAragyTQhph7S0u7DObZm/V19TSC8X3SImjcuULRwVeS4/YXJLTfvkjPwwMMPCNOw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793636677;
-	h=DMARC-Filter:DKIM-Filter:DKIM-Signature:Received:From:To:Cc:Subject:
-	 In-Reply-To:References:Date:Message-ID:MIME-Version:Content-Type;
-	bh=4q7osnzMdJWEM2zxqfnHVAD5rHiZ7BTrhZ4d1nRLsQQ=;
-	b=ruszxYeCipgbIRX5bvM1f7Py5kYrlGGQvVIpYlOljbr4v+h1i5TWNpUB5Upy/4N1QMgL
-	 H9qS7XQrl4mNrNA6nKTKoX8mMzxCdskT2YR1GmtLrh9KsJFFQeB8PcExhUypBNAf2rAdr
-	 XVjeJDZuqU4YZV555YDDbL9UzsTukvEw0dcC+LxuTnB2ePGyRUcVzf5D1Yt0uf0Xnn4K4
-	 erqmQ98HB/GBEpeyfpImw5Ca/53Qkvhsb84zosVAnWPe08OYik8f554PUD207sJlhdRK+
-	 Uw33+SHDWFLNn2Qq3aA290vRrfYz+6USwF8g3Wsh4F1r03BzPTHsTzh72qigGGgYjgQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793636707;
+	h=DMARC-Filter:Received:X-Google-DKIM-Signature:X-Forwarded-Encrypted:
+	 X-Gm-Message-State:X-Gm-Gg:X-Received:Received:Received:
+	 X-Forwarded-Encrypted:X-Received:MIME-Version:References:In-Reply-To:
+	 From:Date:X-Gmail-Original-Message-ID:X-Gm-Features:Message-ID:
+	 Subject:To:Cc:Content-Type;
+	bh=tQ/DNk7a1iTmjw2NtKHat2WmkFC7lCI9EiNUytx5K+U=;
+	b=KCP5kdodz06garismihJ0BbK9k0XXVMSfuyo9kH7OxVBwMZjG+5flczJaMYO44BA+7Et
+	 cdhkS+6jbn6D/ovoN4h6QmiwHGr0DEoIhraUyMhHqJ4mX4m0a6FDixEliy70C9ckc3Kom
+	 7Wwv6YUl/4ig/ScJ3U+C0DGXIWtLuYd1p2+/KKbAUtc32SfeglP7xOewQ5HuZqRubvz34
+	 AGE8iNiOfkLsgz3nflgNZuREmypxdXGWyDxvdPfaY8vnu01/WlwVtQMEt5X7kxOxRPF/+
+	 I0CB+R/wxWErfPro7c65/gjP7C4olIH7+5pNXEjMb1ePOaOtsFUeANXjaEfDjIem4zA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=lwn.net;
-	spf=pass smtp.mailfrom=lwn.net;
-	dkim=pass header.d=lwn.net header.i=@lwn.net header.a=rsa-sha256 header.s=20201203 header.b=bPcuwsdW;
-	arc=none smtp.remote-ip=45.79.88.28
-Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	dmarc=none header.from=linux-m68k.org;
+	spf=pass smtp.mailfrom=gmail.com;
+	arc=none smtp.remote-ip=209.85.222.43
+Received: from mail-ua1-f43.google.com (mail-ua1-f43.google.com [209.85.222.43])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BA4E0606A918;
-	Mon,  2 Nov 2026 16:24:36 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org BA4E0606A918
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=lwn.net header.i=@lwn.net header.a=rsa-sha256 header.s=20201203 header.b=bPcuwsdW
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net B6DC940430
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-	t=1793636675; bh=4q7osnzMdJWEM2zxqfnHVAD5rHiZ7BTrhZ4d1nRLsQQ=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=bPcuwsdWhAVosB2pKGpbGSUPuR7i/EiMgoTJG57+PT45Umbv9EhZbYI/THDOW3Jk5
-	 QqfxwV6/tOHk/KyhKWnPAiCkzvR14eulu6KYFKKHHar2Aeq5n1rZ7kUp3BpMkLEgy/
-	 C5yrFLfBjRzxJeOx/KaRvF8nZYMcRtY7mIjrZIT5FjR3I11h3pFAIg9V8GL0rR+0Q4
-	 Uf7uaWzTkrXfw8+TmUidO/0jwRFZlCaGm6x+51PEbs1e+phrcbQlrA5UcxZ5nK1azY
-	 Syp9sVyLv3q7ONu/fvbzUc0Lzvxn5ZyfCpHEfONU+R+pSabVocyVTdjHyQXeecT+pg
-	 6votB0Cud6OOg==
-Received: from localhost (mdns.lwn.net [45.79.72.68])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (prime256v1) server-signature ECDSA (prime256v1) server-digest SHA256)
-	(No client certificate requested)
-	by ms.lwn.net (Postfix) with ESMTPSA id B6DC940430;
-	Mon,  2 Nov 2026 16:24:35 +0000 (UTC)
-From: Jonathan Corbet <corbet@lwn.net>
-To: Sasha Levin <sashal@kernel.org>
-Cc: Shuah Khan <skhan@linuxfoundation.org>, Randy Dunlap
- <rdunlap@infradead.org>, workflows@vger.kernel.org,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, Bradley Morgan
- <brads@mainlining.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Thorsten Leemhuis <linux@leemhuis.info>, "Michael S. Tsirkin"
- <mst@redhat.com>, Dan Carpenter <error27@gmail.com>
-Subject: Re: [PATCH v4] docs: submitting-patches: say which commit a Fixes
- tag names
-In-Reply-To: <20261020142534.3533478-1-sashal@kernel.org>
-References: <20261020142534.3533478-1-sashal@kernel.org>
-Date: Mon, 02 Nov 2026 09:24:34 -0700
-Message-ID: <87cxsncibh.fsf@trenco.lwn.net>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 25B20606A918
+	for <workflows@vger.kernel.org>; Mon,  2 Nov 2026 16:25:07 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 25B20606A918
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-ua1-f43.google.com with SMTP id a1e0cc1a2514c-996eeadfbeaso228463241.3
+        for <workflows@vger.kernel.org>; Mon, 02 Nov 2026 08:25:07 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1793636706; x=1794241506;
+        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
+         :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=tQ/DNk7a1iTmjw2NtKHat2WmkFC7lCI9EiNUytx5K+U=;
+        b=GXz3K165mVPZihGHYEb/7/LnAphVJGdFxAj896hR7CiDiWN4dU4yhVk18rJ4SG2msb
+         EADx2ehpNliVrvv4wstZEk756Kro6GeTODus1IHLU5Ejbw20nhhWb9zKuCqS94HPSQIn
+         iQPnTruFnIRBLecXUjhsUaIW+52FYkPoDMv3IVUzr/tf4YrBgkDBVpR2uPgC0iTj6Z7K
+         DlNDD+F8s0Xwd1l2Ml+NQJ3Pm8gqw2lHbyU0GN8Sfm1cRi1jtFKpJD8oTg2rvKB7YBJ8
+         PbTJPHDv8lO2gse/Xs3P7MxgivTBOvrOPBZeuFnCnPGgwo7tkWyeyInKuLgsH0X3yAGl
+         Z0yQ==
+X-Forwarded-Encrypted: i=1; AKwUvBxEMVar7DlMcApBznpJYfR+HpqS5IXLX/78FmNwarlGtebU9ZGOKjT5eXIK8BuQ/2ZEAwEcr4DPyVg=@vger.kernel.org
+X-Gm-Message-State: APuU4Z/AvmFXlAgO3DBzNNTOAIaPkDAes87j9v2VW9jYcux7i+Qa9fj2
+	GLVkrJnRPEoNqZ+R+Ma4kiOj4aPJBZUtKpe9JZo1GAGR0XeDiQNGPnwN/auo8fKXb7w=
+X-Gm-Gg: AYBFou0W/oG0m/OJMBcAGn5GJz8RjoJ88avdZQQERoxkVBz+4856Xj8RXbcsKWVJ5cg
+	p09npBRG9VghagviRWLypnj7vvutegD6by4yX+OL9pvPRbIq0h1ROqU1u8bJwjrOzTgbBsuf8w3
+	r9Vd5KcEgjZ77dUams2PWwxoM2S2kwSNkUMrEY2YpRTUSEX5ov27DWjKBa/WyxzRj6uhgeHugsx
+	f5CvuYgkQ9ERN95O7WXuheeB9QBJSxrIcsqzVDytC/ogcP7HKmdCyvuhqOwj2sHLbB5n9bqvGem
+	LZX3O+Vc//PPmu8R7ko5D6/3pQcy2cyn4PfBCMfQrJVh0YF0wj07G17N6RyJi0HhDUoM3uu3QNw
+	ugucInS8zUXw+Y8c3MSf2iVAcH0aNdiTW/2VAhXU2ERk6MWXEAdXDKTcKpAFwPMHzYn/ma7gTVv
+	lM0OZFkHC1y1s0l/LPWCb/gyBw1oDIFVhh+QgLiMrJF27F4mVEoTS8CBsR/nfCk/Viu7VdAbMyL
+	WhnG/LbXRSFqXUU/prX3zsgBg8Zdwi/MrM0zyPX9O62xtFdulE3bjBgrqiDcF8DFNgNBjyrT05j
+	VOA42zL+IkKgR8n8lW0EOWUXshDpOiO+inqVElhd9mcF91drXeoo2PHW+SO66mGtWWjts1uyUeh
+	wZKkVcw1DEyo=
+X-Received: by 2002:a05:6102:fa0:b0:7c3:9982:67d7 with SMTP id ada2fe7eead31-7d072670942mr4627638137.16.1793636705892;
+        Mon, 02 Nov 2026 08:25:05 -0800 (PST)
+Received: from mail-ua1-f41.google.com (mail-ua1-f41.google.com. [209.85.222.41])
+        by smtp.gmail.com with ESMTPSA id ada2fe7eead31-7d0776a824csm10428642137.11.2026.11.02.08.25.02
+        for <workflows@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 02 Nov 2026 08:25:03 -0800 (PST)
+Received: by mail-ua1-f41.google.com with SMTP id a1e0cc1a2514c-9950a7530d9so773030241.2
+        for <workflows@vger.kernel.org>; Mon, 02 Nov 2026 08:25:02 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AKwUvBxg59NyhoBoew5oo5nXfsm9zh0JCi7M22VScAbQP3RDs+o4dzVUFAUOo7leS3rnyihouElZok/AEPQ=@vger.kernel.org
+X-Received: by 2002:a05:6102:15a2:b0:7cc:776:6c5c with SMTP id
+ ada2fe7eead31-7d07261533cmr4465421137.7.1793636702714; Mon, 02 Nov 2026
+ 08:25:02 -0800 (PST)
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Post: <mailto:workflows@vger.kernel.org>
@@ -71,38 +81,57 @@ List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:workflows+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain
+References: <20261020-get-maintainer-the-rest-fallback-v2-0-162aea473488@linuxfoundation.org>
+ <20261102093206.50b6c9ad@pumpkin> <20261102-smiling-binturong-of-gaiety-f64c1f@meerkat>
+ <CAJZ5v0iOJ1r1OvYhV_KJSnHOJL+oVUrbOXizLk0kbGNiep7a6w@mail.gmail.com>
+ <87a4nrfgjm.fsf@trenco.lwn.net> <20261102150535.6c5689f6@pumpkin>
+In-Reply-To: <20261102150535.6c5689f6@pumpkin>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Mon, 2 Nov 2026 17:24:51 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdXe1xxk2ZFJ=yr=7z1DUs3oRNfzHw1Ls1hftcGnmoNwrA@mail.gmail.com>
+X-Gm-Features: AclHuK-8i5UubVSnw4SQFIo1lFtZYZ1lQPWaRR8ZSWJrkN6Qpqf7rWpkXGAuxvE
+Message-ID: <CAMuHMdXe1xxk2ZFJ=yr=7z1DUs3oRNfzHw1Ls1hftcGnmoNwrA@mail.gmail.com>
+Subject: Re: [PATCH v2 0/2] get_maintainer: stop sending every patch to LKML
+To: David Laight <david.laight.linux@gmail.com>
+Cc: Jonathan Corbet <corbet@lwn.net>, "Rafael J. Wysocki (Intel)" <rafael@kernel.org>, 
+	Konstantin Ryabitsev <konstantin@linuxfoundation.org>, Joe Perches <joe@perches.com>, 
+	Shuah Khan <skhan@linuxfoundation.org>, Randy Dunlap <rdunlap@infradead.org>, 
+	linux-kernel@vger.kernel.org, users@kernel.org, 
+	Federico Vaga <federico.vaga@vaga.pv.it>, Akira Yokosawa <akiyks@gmail.com>, 
+	Carlos Bilbao <carlos.bilbao@kernel.org>, Avadhut Naik <avadhut.naik@amd.com>, 
+	Alex Shi <alexs@kernel.org>, Yanteng Si <si.yanteng@linux.dev>, 
+	Dongliang Mu <dzm91@hust.edu.cn>, Chen-Yu Yeh <chenyou910331@gmail.com>, Weijie Yuan <wy@wyuan.org>, 
+	workflows@vger.kernel.org, linux-doc@vger.kernel.org, 
+	Petr Pavlu <petr.pavlu@suse.com>
+Content-Type: text/plain; charset="UTF-8"
 
-Sasha Levin <sashal@kernel.org> writes:
-
-> The description of the Fixes: tag does not say which commit to name when
-> a later commit made an older bug reachable, or when more than one commit
-> introduced the same bug, and both questions come up regularly. The
-> commit that blame points at is also often one that only moved the code.
+On Mon, 2 Nov 2026 at 16:49, David Laight <david.laight.linux@gmail.com> wrote:
+> On Mon, 02 Nov 2026 07:34:37 -0700
+> Jonathan Corbet <corbet@lwn.net> wrote:
+> > "Rafael J. Wysocki (Intel)" <rafael@kernel.org> writes:
+> > > So it occurred to me that it might be actually better to stop sending
+> > > messages directly to LKML subscribers and only make it available for
+> > > download somewhere and as a Lore archive.
+> > >
+> > > Is there really anyone depending on receiving all of the LKML traffic every day?
+> >
+> > * raises hand
+> >
+> > Some of us crazy people really do depend on it, yes.
 >
-> Say that the tag names the commit that introduced the bug, that a
-> later commit that exposed it gets a tag too, as handling-regressions.rst
-> already asks for the commit causing a regression, and that each commit
-> that introduced the bug separately gets its own tag. Say that the tags
-> tell the stable team which trees need the fix, and that trees without
-> any of the tagged commits do not.
->
-> Link: https://lore.kernel.org/r/c3ce794d-1ac2-4ef3-9e5c-1e171bd77a89@leemhuis.info
-> Link: https://lore.kernel.org/r/20261013003535-mutt-send-email-mst@kernel.org
-> Link: https://lore.kernel.org/r/atCI4q2HvqVXOag1@stanley.mountain
-> Link: https://lore.kernel.org/r/bcef59f8-33fe-4bbe-8429-307630dc6bb5@leemhuis.info
-> Assisted-by: LLM
-> Signed-off-by: Sasha Levin <sashal@kernel.org>
-> ---
-> v4:
->  - Split out of the agents skills series, where this was patch 2/7 of v3:
->    https://lore.kernel.org/r/20261016152828.3765695-3-sashal@kernel.org
->  - Take Thorsten's rewording. A later commit that exposed the bug now
->    gets a Fixes: tag too, as handling-regressions.rst already asks.
->
->  Documentation/process/submitting-patches.rst | 8 ++++++++
->  1 file changed, 8 insertions(+)
+> I certainly scan it.
+> It is also useful to have an archived local copy that can be searched.
 
-Applied, thanks.
+Indeed. Sorry to say that, but Gmail web interface search is still
+much more effective than lore web interface search.
 
-jon
+Gr{oetje,eeting}s,
+
+                        Geert
+
+-- 
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
