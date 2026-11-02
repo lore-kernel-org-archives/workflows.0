@@ -1,55 +1,106 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.128.44
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793630769;
-	b=wM0R3/vrWB3OLEjDno5AYeWGbF+VbazKgnlkmNX/8QLJYyvGvc2VD38fTBHN8gZyL//D
-	 bqrjUfajtyp2rA3i7zoNxX4GJ+AW8sIp2Gz93EBLuLl9TTND7+cjfLeoMbkz2u8feWfhZ
-	 HLaBYqvMvHOeg/+bFEvfVfQHh0RSUsKSgWUESdoE5ERCY+39T/JX7gq5zrHCralonyYKy
-	 Sj7qegMlRZscJmIl0d1IiZZLXqM3rLLOXLF7MO6yXzI7k4Z2YQvDc6iqaKrUWLXAjvTBo
-	 /7Ih4McsnB2YCPGQg36rR38JCHKJ5aUw74fYHvA0iF0b4F/URGDzMLiOsQ2L2rDQIHQ==
+	t=1793631940;
+	b=yLUo9MRg/Lv/u4vfbMp3VkOhXaIRey0iGsABD2tvIyWcCz5Xh+13GilUq0otxMWbEDt4
+	 wAaqT2yUrsGzMZyNGTpHg18rKvMb3hertAPqEYawohO/OdHSMEuyDYYIBjJ++kYjrgunN
+	 tkbdj72vXEeyWs9B0g/Xbj0ewaJ7OMhouXiJCGgS24cvAWaBPd1iJDlytol2iFa+94+lk
+	 Ks49CQSTIDdjawzY5jffs0BNSs8OXMlejT6l6+4lfSGvK246YSGtkbf4cyPoek5TphuKU
+	 zjRmRZLVgYXRIx+bpWb4UwfrZY4BfCaP2Y8BzVnvKYwrPigd18GJ5zizJUF0AophrOQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793630769;
-	h=Received:DKIM-Signature:Received:X-Forwarded-Encrypted:
-	 X-Gm-Message-State:X-Received:MIME-Version:References:In-Reply-To:
-	 From:Date:X-Gmail-Original-Message-ID:X-Gm-Features:Message-ID:
-	 Subject:To:Cc:Content-Type:Content-Transfer-Encoding;
-	bh=SUKxhHcSVcF0g92qt6uBuNHlVjf71GSFnQ9iirM2x5Q=;
-	b=gAyVIwVh/CRGGedFu6OsWL+aDdZL9JVg1ZnDnTQGF8BhJtyDj93/xqr0nXfX5e7uWWbq
-	 spvOdZMAcscQ6sxbjZfDbiPsbJpMYWWnoTeyFKc/R4nMhSExhwuUQAfsDdPYpwq6F7QAB
-	 JdF5rgWFAapWy9xsJE33SKND6viV/oqUnYyg9lexWqUZMymFAAReT3ZbNd/P3EZfCBe/y
-	 77COG4/sm7nnJ1kPf10jZGHQ0yWbKKeRQC+akVb4tq1ESGyaD4kG9TqFaa0aUyYRC6BOc
-	 ff+LXwc/15hg08VKxIK8V938tESKaBpRYDgYh8TEhSo++2C6bKPaFZmsBnsB+n30+XA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793631940;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:X-Mailer:
+	 MIME-Version:Content-Type:Content-Transfer-Encoding;
+	bh=16KmY+5SMzN5j7+9R15dmTI05WFHA1t98OiX21uElTA=;
+	b=gd/RAURDdZIWdyxnBzl9XI34N93gNHOSBchEMYhbxZaskqnFV8w/9HgrK27Jgx9vLPnG
+	 EEvIFwTDiXlGHGFO3DqNoSJeqZfpP4NSpNgQoJDxwHk/rUHEqwLEC4Lmga4FdBqkHLmPU
+	 iga8rAzYRrzdfoXhrUWFyKkdvITi1v05cVFDxKvaYMZxKQ6f2kkuL+NgUzK+H7l3YuxfH
+	 MET2CsK7z1Nntp8htD2JP300A+u49+0b37bBeDbZtdmP1ZUfXr8hdsCoRUTwc85ysOgKz
+	 lFHth23+8XPNbA7/JiFZSnE6Hmq8ZxiWn4oTAHORrRJMqXMC2LzUKaxasjqCWoOYmIg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=ZH61THMA;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	dmarc=pass header.from=gmail.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=UoYunkSY;
+	arc=none smtp.remote-ip=209.85.128.44
+Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 61D0E606C579
-	for <workflows@vger.kernel.org>; Mon,  2 Nov 2026 14:46:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0841A606AE95
+	for <workflows@vger.kernel.org>; Mon,  2 Nov 2026 15:05:39 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 0841A606AE95
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=ZH61THMA
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 408EB1F00A20
-	for <workflows@vger.kernel.org>; Mon,  2 Nov 2026 14:46:09 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793630769;
-	bh=SUKxhHcSVcF0g92qt6uBuNHlVjf71GSFnQ9iirM2x5Q=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc;
-	b=ZH61THMAGUXDu4yNcWSIC6RXVP711+HJOphOcC6zME1sWsnql6apWcnNMNESI44DR
-	 DTgoDb6d3LtMnkb/LSr0e42/GLWM9Fm7e0n9EMjLibjIVLLJPdi4p7/VMU/1l0pTpr
-	 uuj2LOxPkcquO9JnDzfqm/irAvwTSb6QREdTwKrnoX/U3zLMY7pMsXEFFsv+z0wEme
-	 kq3yhpC6Ere9OecvB+oSM2dVXuPwFXEqknOiUxZpE5RjBK2CBZMqeXLZKF1drW9GjF
-	 EKBurmF8XdoaDGeu7KuY8zvL7YYV7xOSF2xfJCYefukZOAwdJ3S3QNhfacHdRSJq15
-	 R0qFgRk9oDs0A==
-Received: by mail-lf1-f49.google.com with SMTP id 2adb3069b0e04-5bccecba199so2805370e87.1
-        for <workflows@vger.kernel.org>; Mon, 02 Nov 2026 06:46:09 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AKwUvBxdvzw226I2BQ/Wk1AyVlA7PIRWm39+YMAxuvyoge2Mkq0EyA3NUcvaTIJjIVWq2xTxmmfYU1N4hTg=@vger.kernel.org
-X-Gm-Message-State: APuU4Z+anEE/dDAxdBTmxOva8wXtmuot3HSaQ6/IOELzBKWN20cAHGUk
-	h9Y1UuG9H2nx3y1AlEFJL4MIoyyTVEyMm3E+Fn8YJhRKrUuC3XXsgMOVL5act6GIqIVZ1k38+B8
-	+vqdGGQ0iaFeJIoH9UyMsr327PM9+aJA=
-X-Received: by 2002:a05:6512:2206:b0:5b4:c00d:23f3 with SMTP id
- 2adb3069b0e04-5bfd9562fa0mr3369285e87.14.1793630767656; Mon, 02 Nov 2026
- 06:46:07 -0800 (PST)
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=UoYunkSY
+Received: by mail-wm1-f44.google.com with SMTP id 5b1f17b1804b1-4a215e64962so28221485e9.1
+        for <workflows@vger.kernel.org>; Mon, 02 Nov 2026 07:05:39 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20260707; t=1793631938; x=1794236738; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:mime-version:references
+         :in-reply-to:message-id:subject:cc:to:from:date:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=16KmY+5SMzN5j7+9R15dmTI05WFHA1t98OiX21uElTA=;
+        b=UoYunkSYxQznh5bFA75G99i2y2WW9E086osI9oKEp6qIqKaUZRR8w4CxHUrPRkqq5S
+         FfmqCJGlVnKa5ovIyVvTW73QdAbq7tDgFU70uuBcb+R92YkXxYaOc6CL8ZMXYWHPP754
+         wnsrxDcNSQBDr4jBTgmIADLNqhAKGAMdasjK3IrK0W6zgen1NiBV5tV2pWpdcjzjLeNI
+         cBi8+BY4ejD39ai1Abt1TdY+LOIdW/wMxJ/Q8fXMJii7S0kVXjVQQPDvpFRIa95v+eWH
+         QOTM3mH0vfW6dScDz4mjR07lz/jXDaBKe8q4rfMgUMR2OvxIGPW1WvDHBlLe8jXj9orb
+         jxVA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1793631938; x=1794236738;
+        h=content-transfer-encoding:content-type:mime-version:references
+         :in-reply-to:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=16KmY+5SMzN5j7+9R15dmTI05WFHA1t98OiX21uElTA=;
+        b=y+NSZAF4XlA2Andgv1/xU2PJftm0bh/vpJW7hMFxkJv/OhFCt5m+OT8AacKpRuHXYR
+         /mTU/xzUam9jIarh0L5+GupL/zRmcRD6znwxSlQiNepai6nrxN1ohWX6f7sOBh6T9mao
+         Z8rClrycpV4wa74uDBMcik/ONDKQUOtbd7GtAvt1EnlUlgRZoZmp96BPfAtnHYwX7ZKy
+         W3fnEbvn53k56dC8zXVcPjf2u35ByrtW8UPl0IvOM0mTyz8qHBKryuk/fy4a2RD2WRC/
+         6Uu9QZ0fWqEpNZx3qKsHlTRtjO7Rv6rD7E54Cwj/tw9l07DrM/HTE9osSi0UwbMkA2eU
+         /woA==
+X-Forwarded-Encrypted: i=1; AKwUvBwgf6v+4/a5LAwkPXwVLZ96JLNAUmNqjXu3Qqzsl2y4bi8sngG0Jx2/PRTvdFmniI370EmCj90DTH4=@vger.kernel.org
+X-Gm-Message-State: AFq9FYKWX9EPCxmFqR4OOcK1nnlSYBNkuj08iIYkt6c8H5xGe1TnGH6K
+	tn8voQGgtlWcjq7B8qAHacK+c8UqEdM27e9TjhWqueRmRYO+CNOtWxvi
+X-Gm-Gg: AYBFou1aajzqwQkiQJefUGiNVKyVI9/UIStac6RBPZcE8gLqoapUbB56KLnwJrLlQV6
+	KmT5YA0gBwmd9h/aG+JKbmgmCcvWiOS5n2+8UN1p/vT+vtQiZR6ZeQ9ywGltugVn7sAdehGo7Zt
+	dmpYWpVc5mc/jJaT429rmaZcSQXZe+p27w0njHCMOK/yYo3LSgX9Kcel+8Tj4rxppGcknanbTbD
+	Q+I5/3S19ANvrcGhcivl7Xcbs3cfiX6x3+wvO0X/U7CPoUzCcyM1vAeWu7To16k8F2pfwHHGne2
+	nF3V2Vf5LgPGimnXCrHmXh0UWaD8WsJlw0lWd24MxjLhF65DGFD8bUSs+9mjsmHirkhxLfzCW9T
+	eDHDAsGdBbefEQbRrqhn8NHcX39DDy4A1uVxYDNOecnXdc5X6AIJhUhx3zI+btSdLCRWWQ/rmli
+	M9IskxmlYznUJVvEkvUo/DCVLntzXn4SY1GYFwoMFgXYTGie56gf7445nuECG3xNBMu4A94OgNt
+	DHzVkiZFNZvaCuPTwxA+RnWcP7LsxJLVE9ul/QIRhFGGEcJVCXsSpDynAIZtmFiubZYopOg5e1v
+	T4/s3RMpg/9Fsp9uOlqpCDBQnZhZec1SJ6nx/GNUbyVUbIj48RkDrJaSVfZ/6GXG
+X-Received: by 2002:a05:600c:83c5:b0:4a1:f377:5c75 with SMTP id 5b1f17b1804b1-4ac19329ea4mr206305535e9.33.1793631938076;
+        Mon, 02 Nov 2026 07:05:38 -0800 (PST)
+Received: from pumpkin (82-69-66-36.dsl.in-addr.zen.co.uk. [82.69.66.36])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4ad414e298bsm128041915e9.2.2026.11.02.07.05.36
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 02 Nov 2026 07:05:37 -0800 (PST)
+Date: Mon, 2 Nov 2026 15:05:35 +0000
+From: David Laight <david.laight.linux@gmail.com>
+To: Jonathan Corbet <corbet@lwn.net>
+Cc: "Rafael J. Wysocki (Intel)" <rafael@kernel.org>, Konstantin Ryabitsev
+ <konstantin@linuxfoundation.org>, Joe Perches <joe@perches.com>, Shuah Khan
+ <skhan@linuxfoundation.org>, Randy Dunlap <rdunlap@infradead.org>,
+ linux-kernel@vger.kernel.org, users@kernel.org, Federico Vaga
+ <federico.vaga@vaga.pv.it>, Akira Yokosawa <akiyks@gmail.com>, Carlos
+ Bilbao <carlos.bilbao@kernel.org>, Avadhut Naik <avadhut.naik@amd.com>,
+ Alex Shi <alexs@kernel.org>, Yanteng Si <si.yanteng@linux.dev>, Dongliang
+ Mu <dzm91@hust.edu.cn>, Chen-Yu Yeh <chenyou910331@gmail.com>, Weijie Yuan
+ <wy@wyuan.org>, workflows@vger.kernel.org, linux-doc@vger.kernel.org, Petr
+ Pavlu <petr.pavlu@suse.com>
+Subject: Re: [PATCH v2 0/2] get_maintainer: stop sending every patch to LKML
+Message-ID: <20261102150535.6c5689f6@pumpkin>
+In-Reply-To: <87a4nrfgjm.fsf@trenco.lwn.net>
+References: <20261020-get-maintainer-the-rest-fallback-v2-0-162aea473488@linuxfoundation.org>
+	<20261102093206.50b6c9ad@pumpkin>
+	<20261102-smiling-binturong-of-gaiety-f64c1f@meerkat>
+	<CAJZ5v0iOJ1r1OvYhV_KJSnHOJL+oVUrbOXizLk0kbGNiep7a6w@mail.gmail.com>
+	<87a4nrfgjm.fsf@trenco.lwn.net>
+X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; arm-unknown-linux-gnueabihf)
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Post: <mailto:workflows@vger.kernel.org>
@@ -59,52 +110,31 @@ List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:workflows+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-References: <20261020-get-maintainer-the-rest-fallback-v2-0-162aea473488@linuxfoundation.org>
- <20261102093206.50b6c9ad@pumpkin> <20261102-smiling-binturong-of-gaiety-f64c1f@meerkat>
- <CAJZ5v0iOJ1r1OvYhV_KJSnHOJL+oVUrbOXizLk0kbGNiep7a6w@mail.gmail.com> <87a4nrfgjm.fsf@trenco.lwn.net>
-In-Reply-To: <87a4nrfgjm.fsf@trenco.lwn.net>
-From: "Rafael J. Wysocki (Intel)" <rafael@kernel.org>
-Date: Mon, 2 Nov 2026 15:45:55 +0100
-X-Gmail-Original-Message-ID: <CAJZ5v0hDHcN9RN743sGhhDNESz0zwVDfBOJYvfTDwQv_STq4rA@mail.gmail.com>
-X-Gm-Features: AclHuK_yfyriuHj9mVCt3qFKAYV5VZ3-f7R0reYuNNLW34rpCvUM-R2wVykBLK8
-Message-ID: <CAJZ5v0hDHcN9RN743sGhhDNESz0zwVDfBOJYvfTDwQv_STq4rA@mail.gmail.com>
-Subject: Re: [PATCH v2 0/2] get_maintainer: stop sending every patch to LKML
-To: Jonathan Corbet <corbet@lwn.net>
-Cc: "Rafael J. Wysocki (Intel)" <rafael@kernel.org>, 
-	Konstantin Ryabitsev <konstantin@linuxfoundation.org>, 
-	David Laight <david.laight.linux@gmail.com>, Joe Perches <joe@perches.com>, 
-	Shuah Khan <skhan@linuxfoundation.org>, Randy Dunlap <rdunlap@infradead.org>, 
-	linux-kernel@vger.kernel.org, users@kernel.org, 
-	Federico Vaga <federico.vaga@vaga.pv.it>, Akira Yokosawa <akiyks@gmail.com>, 
-	Carlos Bilbao <carlos.bilbao@kernel.org>, Avadhut Naik <avadhut.naik@amd.com>, 
-	Alex Shi <alexs@kernel.org>, Yanteng Si <si.yanteng@linux.dev>, 
-	Dongliang Mu <dzm91@hust.edu.cn>, Chen-Yu Yeh <chenyou910331@gmail.com>, Weijie Yuan <wy@wyuan.org>, 
-	workflows@vger.kernel.org, linux-doc@vger.kernel.org, 
-	Petr Pavlu <petr.pavlu@suse.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-On Mon, Nov 2, 2026 at 3:34=E2=80=AFPM Jonathan Corbet <corbet@lwn.net> wro=
-te:
->
+On Mon, 02 Nov 2026 07:34:37 -0700
+Jonathan Corbet <corbet@lwn.net> wrote:
+
 > "Rafael J. Wysocki (Intel)" <rafael@kernel.org> writes:
->
+> 
 > > So it occurred to me that it might be actually better to stop sending
 > > messages directly to LKML subscribers and only make it available for
 > > download somewhere and as a Lore archive.
 > >
-> > Is there really anyone depending on receiving all of the LKML traffic e=
-very day?
->
+> > Is there really anyone depending on receiving all of the LKML traffic every day?  
+> 
 > * raises hand
->
+> 
 > Some of us crazy people really do depend on it, yes.
 
-Exceptions would be straightforward to make though I suppose.
+I certainly scan it.
+It is also useful to have an archived local copy that can be searched.
+I can see a point in not copying all of netdev to lkml, but there is
+little point not copying patches to low-volume lists.
 
-So really my question would be how many people there are who depend on
-receiving all of the LKML traffic every day via SMTP.  And I honestly
-think that not everybody subscribed to it.  Probably not even 10% of
-those people.
+David
 
-Rafael
+> 
+> jon
+
