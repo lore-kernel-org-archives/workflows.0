@@ -1,111 +1,41 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.128.52
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=206.189.79.184
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793647885;
-	b=Q4312f0KU0weBuJP+cgv2jzCBVdzEh03fQo8u4QjluPhHHRboS2lr7rHRBPfHiYEa7gT
-	 vukyuHEyceA1lTMLr1hhCy0TvwbIeGOIhlfmQHrXleHPseZrHA7TBBOd6pV3zCxFS4OHu
-	 tqVqdMQaCGrouvsqp73O0d4kVAe7eaQXmYkMNfh9CcYEz0n2p6M14SoNVb84B6aa5ZH/T
-	 tEqsozrLB9NQ5Ew2Zi8AVobrK4nHdh9aeIUD+SNztKCat8yL5AzlykypkSQo/RQcNu2My
-	 uhFi0ZeYk514QhLFpKd/hqseVQoBONceCEZJecIAnpnRg5b7CPwGs40m1KVPCYpJkFQ==
+	t=1793664985;
+	b=qYuNG/f0FTCa2vCR9u5Is503Leg5xOlQQ25gimnhvVjUHw9ZB2zu/PmjTIMgLktBo+fK
+	 cvTaNH2TWgt1O5ys6JOUJcCnjTATyUt/ZyIYiyywa9oKoMyqR3OxbqzkR0S97lxIcuDdA
+	 cN6D3pZMuXkggOLTfcvktow5FHKew+WIPFhuOVQCKdOM0ayT/P6nNy2tLM2/ZaC9EbUQ4
+	 //1lRS1o22J55NINHjMFdCBpNJrZH5lgwCMKBP5ubwYQVJ7CpZvIxvdzqnqzb8YbUqjXQ
+	 pu+bLIGzR5227ZL4Xl5Rj2VZeD0lUkdMIKOP2MEEElym/YN+is0ArVDTD8qqXsK5XOw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793647885;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:X-Mailer:
-	 MIME-Version:Content-Type:Content-Transfer-Encoding;
-	bh=OHQyuYjFQW3W/4xcSdN8/cZTkkVuQVsRMgUqWbu+rsk=;
-	b=AUhADHYnuYlFafUIrb0yorzalgBLKnFQ3xgK0C7JRLQ/aHVSTCnMFs9zXWLuIH0YPu+5
-	 ZPq4P/OMz8mmgDC9+lvaIuSvVlmVni/JlokkZS6jJx0ipZp6vxqM+3ycT1zVvHKoZ9xmT
-	 TO9lkP9KoXBsK+M/TVF3KepuOmu2CiGoitSV6gVJz3oMWuGYGz0m/m5U5dhf3hkaDquqy
-	 EIwG6KVGruac6Rey2+hndAErYqF7a2R4km/dJbrLuZoQTW5Vtaz506MPMcUds981XLmSw
-	 HeL4lRZNGVnOnAFkvygX1snbUNNz38yDM0qhFtIAJK6j+K9gFRjZsEyG0XzkC/LqM+g==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793664985;
+	h=DMARC-Filter:Received:Received:Message-ID:Date:MIME-Version:
+	 User-Agent:Subject:To:Cc:References:From:In-Reply-To:Content-Type:
+	 Content-Transfer-Encoding:X-CM-TRANSID:X-Coremail-Antispam:
+	 X-CM-SenderInfo;
+	bh=QiqjkBCOMtE2jhYiPZJ8T+B3Yye5QUJH8d9wksbGitw=;
+	b=bOgB7QXS19fRrAnLNfjjetakQXMHXz4sE606/FezONJitJDxG3PBbKFqmaXLeZYxlbuN
+	 UqARfVDHXTxlm5nJe8qNPSAmhmaXJr/3O5dIOUmJ3tHpunTf74F0yZaEGuWmCkHwSodId
+	 JFYx189xbw5IGVCY/CjFD682wtXTYqBlOJmdOjmJCO5eNeYp2zE04grAsnjvgHijymSa4
+	 9m2pe015Uk2NEkrf90D6i16fdf2qarAM1lG5DqMCKw1YkDhposp5/qY9f6zCU9AcJJOaO
+	 sTZNAq48pIbhqZeJoHMxQG4tZbTJLweUW7Rd6D1hiwbV77E+xeqTAgvggMIAPXLCdxw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=gmail.com;
-	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=l73LkrQv;
-	arc=none smtp.remote-ip=209.85.128.52
-Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3C5EE606A329
-	for <workflows@vger.kernel.org>; Mon,  2 Nov 2026 19:31:25 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 3C5EE606A329
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=l73LkrQv
-Received: by mail-wm1-f52.google.com with SMTP id 5b1f17b1804b1-4a5036bbac7so20987635e9.3
-        for <workflows@vger.kernel.org>; Mon, 02 Nov 2026 11:31:24 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1793647883; x=1794252683; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:mime-version:references
-         :in-reply-to:message-id:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=OHQyuYjFQW3W/4xcSdN8/cZTkkVuQVsRMgUqWbu+rsk=;
-        b=l73LkrQvuZciKzRpKr1DfT+CyrRl3sJ4ez5tHIOziCKKoB/NIWjlFJVqceOemEeFiP
-         9SZFYkIhtEQg6AQWUQiCd4HhIzPr6VFPJ+5Vbr01oA7qHVtw0gzlRhch5jJkngznqgv8
-         Innt0EQ5E4l41nWAGtL3GUUDl0QU0hdckMOYKnucV/07iQswTt6jNpTLvLjxUQxSXrbh
-         zYXtDsW1Q2yBmCnUClnpBVLX9t4yeOpGJzwi2YkOZPxnRlK+4t/ju8kpdbOKLVbooiul
-         yi8Ys8kz8IYBi/UvG7xllQbO+R2I006wPSIzT6PGGxF8IEz4JS8+g+mktXlAP4+K8h3v
-         ldFA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793647883; x=1794252683;
-        h=content-transfer-encoding:content-type:mime-version:references
-         :in-reply-to:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=OHQyuYjFQW3W/4xcSdN8/cZTkkVuQVsRMgUqWbu+rsk=;
-        b=wdhgItZ8fpDWCCT04JiaHFYyMEl7HjbAgxYCR65mi/BBl01pT4MByVsCIpuANHvr8j
-         b8zWDxDkXg/gB35EOLMU9AZ4ciN0SbhxZQZlMUyMK95FCWzICROUasYEvL3Kuk+RR7ut
-         kiVxfKsJNYZwEyUtuLXN8Koq1HT5U6I4d9TNqLj0JXetfcx1w5lUrKn6GqqLVUinCLUI
-         xX1HlQxBi/rHCK5tSHv+jMyrNr42qgr8jufBVgjDvT5LyUBdaXyngC0mivgilwvwuvt3
-         2zdiyx0o9aBcBYEdvViQ2UHRJQyavsngir1O6PEPgdqfFC9Jphlu6a20NXZgFqi8gCKW
-         d27g==
-X-Forwarded-Encrypted: i=1; AKwUvBweDyo5ouVOqSCkg4BrN6GbwkoDiqfAewAVnfHaAkg78u4t9thfXaEOpyP0YuYIXk1PC8nakUhwCq8=@vger.kernel.org
-X-Gm-Message-State: AFq9FYIZHnthV5TNqum6ir6QqZwdBJ5jLM4pw3OIvYsIjRB1hJS1pN00
-	RJ1rgz0MB/cDJkFg7S6zjrji33g0Ygb3eW/JJ/OOs9p9OeILyCEnHCQe
-X-Gm-Gg: AYBFou2Ud2w2ZK5lwhgFsgBs6LJSj7x4wUFAIoBCpluC7dh4jCWQdQXNWOEpe9KJ5GR
-	LBlimHGn65L5O3nQxT8KtJqYT0Qaz3Xxvs1JxVxEvMpD3oX7Z7BnGRlGmO1AY2Cd3eE7tkv1dua
-	uxukWlUOJL04rAcU2CfmHMAmHB/c/hymX5DL2/nrbJ8Kg2pSkLCAaA/nzI9O5FQk6mGFa5f7ZAG
-	x8zcb4/0c2IqXVkcNwr4si+Iettd1EskLy4c4fhj857yKlW0I/xv+9VbJTfF6Pkft2MXOGreeTy
-	a02PbwgUrBhP9I76hZ8yFezj3FULV7ANjY2ZNUUNKKtlRZ52PZP+A5BAzkxJRKA+8BE0Nqv9ci6
-	gfTxUZbL8ckaVihawLRWitTctnHxIzUXfNPzkPqS3hVH4IRJ64CXuIC+iNuwS0na2qL9MJZHvPl
-	A2yWWO6AHDQ9w/lmWKohYfZtMzOCnqeA8mfLvIONvk09I9z+U7W5zscuUALC0JJyqUDfEZqmEP6
-	zRLiEjvgMuGYsmFUdiwg14rrZdgB0d+0NBAgoQWAU2xXC0yD+/bniFIGIb+23tx6CWRBb4vRqGS
-	OtE732La5xab+CifD3/mwfjVr2T2FopAGXV+LHGHML5uP50hlB4yqmyN7G3AvGUAXCmhyJJZmM3
-	3/+8WpAFIhw==
-X-Received: by 2002:a05:600c:e555:10b0:4b2:61e5:b2f4 with SMTP id 5b1f17b1804b1-4b261e5b38bmr21493425e9.11.1793647883361;
-        Mon, 02 Nov 2026 11:31:23 -0800 (PST)
-Received: from pumpkin (82-69-66-36.dsl.in-addr.zen.co.uk. [82.69.66.36])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4b2a5372d8bsm9940525e9.0.2026.11.02.11.31.22
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 02 Nov 2026 11:31:22 -0800 (PST)
-Date: Mon, 2 Nov 2026 19:31:20 +0000
-From: David Laight <david.laight.linux@gmail.com>
-To: Konstantin Ryabitsev <konstantin@linuxfoundation.org>
-Cc: Geert Uytterhoeven <geert@linux-m68k.org>, Jonathan Corbet
- <corbet@lwn.net>, "Rafael J. Wysocki (Intel)" <rafael@kernel.org>, Joe
- Perches <joe@perches.com>, Shuah Khan <skhan@linuxfoundation.org>, Randy
- Dunlap <rdunlap@infradead.org>, linux-kernel@vger.kernel.org,
- users@kernel.org, Federico Vaga <federico.vaga@vaga.pv.it>, Akira Yokosawa
- <akiyks@gmail.com>, Carlos Bilbao <carlos.bilbao@kernel.org>, Avadhut Naik
- <avadhut.naik@amd.com>, Alex Shi <alexs@kernel.org>, Yanteng Si
- <si.yanteng@linux.dev>, Dongliang Mu <dzm91@hust.edu.cn>, Chen-Yu Yeh
- <chenyou910331@gmail.com>, Weijie Yuan <wy@wyuan.org>,
- workflows@vger.kernel.org, linux-doc@vger.kernel.org, Petr Pavlu
- <petr.pavlu@suse.com>
-Subject: Re: [PATCH v2 0/2] get_maintainer: stop sending every patch to LKML
-Message-ID: <20261102193120.4c88f066@pumpkin>
-In-Reply-To: <20261102-affable-undetectable-beluga-eded3e@meerkat>
-References: <20261020-get-maintainer-the-rest-fallback-v2-0-162aea473488@linuxfoundation.org>
-	<20261102093206.50b6c9ad@pumpkin>
-	<20261102-smiling-binturong-of-gaiety-f64c1f@meerkat>
-	<CAJZ5v0iOJ1r1OvYhV_KJSnHOJL+oVUrbOXizLk0kbGNiep7a6w@mail.gmail.com>
-	<87a4nrfgjm.fsf@trenco.lwn.net>
-	<20261102150535.6c5689f6@pumpkin>
-	<CAMuHMdXe1xxk2ZFJ=yr=7z1DUs3oRNfzHw1Ls1hftcGnmoNwrA@mail.gmail.com>
-	<20261102-affable-undetectable-beluga-eded3e@meerkat>
-X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; arm-unknown-linux-gnueabihf)
+	dmarc=none header.from=hust.edu.cn;
+	spf=pass smtp.mailfrom=hust.edu.cn;
+	arc=none smtp.remote-ip=206.189.79.184
+Received: from zg8tmja2lje4os43os4xodqa.icoremail.net (zg8tmja2lje4os43os4xodqa.icoremail.net [206.189.79.184])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id EECCC606A326;
+	Tue,  3 Nov 2026 00:16:21 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org EECCC606A326
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=hust.edu.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=hust.edu.cn
+Received: from hust.edu.cn (unknown [172.16.0.50])
+	by app2 (Coremail) with UTF8SMTP id IQEQrMB2nnfTJ+lqELVtAA--.23090S2;
+	Tue, 03 Nov 2026 08:16:19 +0800 (CST)
+Received: from [100.81.40.43] (unknown [10.12.191.55])
+	by gateway (Coremail) with SMTP id _____wA3wz3NJ+lqOfQUAA--.29381S2;
+	Tue, 03 Nov 2026 08:16:16 +0800 (CST)
+Message-ID: <deea3016-1322-4bd2-9c03-05e9e32b486d@hust.edu.cn>
+Date: Tue, 3 Nov 2026 08:16:13 +0800
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Post: <mailto:workflows@vger.kernel.org>
@@ -115,49 +45,105 @@ List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:workflows+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 0/2] get_maintainer: stop sending every patch to LKML
+To: Konstantin Ryabitsev <konstantin@linuxfoundation.org>,
+ Joe Perches <joe@perches.com>, Jonathan Corbet <corbet@lwn.net>,
+ Shuah Khan <skhan@linuxfoundation.org>, Randy Dunlap <rdunlap@infradead.org>
+Cc: linux-kernel@vger.kernel.org, users@kernel.org,
+ Federico Vaga <federico.vaga@vaga.pv.it>, Akira Yokosawa <akiyks@gmail.com>,
+ Carlos Bilbao <carlos.bilbao@kernel.org>, Avadhut Naik
+ <avadhut.naik@amd.com>, Alex Shi <alexs@kernel.org>,
+ Yanteng Si <si.yanteng@linux.dev>, Chen-Yu Yeh <chenyou910331@gmail.com>,
+ Weijie Yuan <wy@wyuan.org>, workflows@vger.kernel.org,
+ linux-doc@vger.kernel.org, Petr Pavlu <petr.pavlu@suse.com>
+References: <20261020-get-maintainer-the-rest-fallback-v2-0-162aea473488@linuxfoundation.org>
+From: Dongliang Mu <dzm91@hust.edu.cn>
+In-Reply-To: <20261020-get-maintainer-the-rest-fallback-v2-0-162aea473488@linuxfoundation.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
+X-CM-TRANSID:IQEQrMB2nnfTJ+lqELVtAA--.23090S2
+Authentication-Results: app2; spf=neutral smtp.mail=dzm91@hust.edu.cn;
+X-Coremail-Antispam: 1UD129KBjvJXoWxCFWrWrWfWw1kXF1xCw1xKrg_yoW5XF4kpF
+	Z0gFnxGa1DtF1fCwn7W3WUCF1Yqa1fCay5GF17Ka1YyFZ0qwnIgrZ2yr43ua4UXF45Cry2
+	qF42qa4UGayUCFJanT9S1TB71UUUUbDqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+	9KBjDU0xBIdaVrnRJUUUQKb7Iv0xC_Kw4lb4IE77IF4wAFc2x0x2IEx4CE42xK8VAvwI8I
+	cIk0rVWrJVCq3wA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK021l84ACjcxK6xIIjx
+	v20xvE14v26w1j6s0DM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r4UJVWxJr1l84ACjcxK
+	6I8E87Iv67AKxVW0oVCq3wA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_GcCE3s1ln4kS14v26r
+	1q6r43M2vYz4IE04k24VAvwVAKI4IrM2AIxVAIcxkEcVAq07x20xvEncxIr21l57IF6xkI
+	12xvs2x26I8E6xACxx1l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj64x0Y40En7xvr7AKxV
+	W8Jr0_Cr1UMcIj6x8ErcxFaVAv8VW8uFyUJr1UMcIj6xkF7I0En7xvr7AKxVW8Jr0_Cr1U
+	McvjeVCFs4IE7xkEbVWUJVW8JwACjcxG0xvEwIxGrwCY1x0262kKe7AKxVWUtVW8ZwCY02
+	Avz4vE-syl42xK82IYc2Ij64vIr41l42xK82IY6x8ErcxFaVAv8VW8uFyUJr1UMxC20s02
+	6xCaFVCjc4AY6r1j6r4UMxCIbckI1I0E14v26r1q6r43MI8I3I0E5I8CrVAFwI0_Jr0_Jr
+	4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67AKxVW8ZVWrXwCIc40Y0x0EwIxG
+	rwCI42IY6xIIjxv20xvE14v26r1I6r4UMIIF0xvE2Ix0cI8IcVCY1x0267AKxVW8JVWxJw
+	CI42IY6xAIw20EY4v20xvaj40_Jr0_JF4lIxAIcVC2z280aVAFwI0_Jr0_Gr1lIxAIcVC2
+	z280aVCY1x0267AKxVW8JVW8JrUvcSsGvfC2KfnxnUUI43ZEXa7IUYHnQ5UUUUU==
+X-CM-SenderInfo: asqsiiirqrkko6kx23oohg3hdfq/
 
-On Mon, 2 Nov 2026 12:56:28 -0500
-Konstantin Ryabitsev <konstantin@linuxfoundation.org> wrote:
 
-> On Mon, Nov 02, 2026 at 05:24:51PM +0100, Geert Uytterhoeven wrote:
-> > > I certainly scan it.
-> > > It is also useful to have an archived local copy that can be searched.  
-> > 
-> > Indeed. Sorry to say that, but Gmail web interface search is still
-> > much more effective than lore web interface search.  
-> 
-> Folks, I don't want this to turn into another thread of "me too" responses.
-> 
-> Yes, I know that some people still use it for a number of legitimate reasons
-> -- but these are few-and-far-between exceptions. I need this change because
-> the current status quo is NOT TENABLE. *Everyone's* quality of life is
-> affected because Gmail's throttling results in (looks) ~350,000 mails in the
-> queue, most of them waiting for Google to graciously allow us to talk to them.
+On 10/20/26 11:35 PM, Konstantin Ryabitsev wrote:
+> LKML has become mostly a firehose of patches that are already going to a
+> subsystem list. The reason is THE REST: it matches every file in the
+> tree, so get_maintainer.pl adds linux-kernel@vger.kernel.org to every
+> single patch. During the week of Oct 1-7, 2026:
+>
+>    - LKML carried 13,641 messages (~1,950/day), 90% of which were also
+>      sent to at least one other list;
+>    - with ~2,100 subscribers, that is about 29 million deliveries per
+>      week for LKML alone.
+>
+> This issue came up during the 2026 Maintainer Summit and the consensus
+> was that "always include linux-kernel for every patch" was never the
+> intent.
+>
+> This series makes THE REST a fallback as initially intended: it is only
+> added for a file when no other matching MAINTAINERS section provides a
+> mailing list that get_maintainer.pl would actually output for it.
+> Patch 2 updates submitting-patches.rst, which currently tells submitters
+> to send every patch to LKML.
+>
+> Several v1 reviewers asked for a catch-all list that would keep carrying
+> every patch for those who want to follow all kernel development. That
+> is a worthwhile discussion, but it is separate from this series, which
+> only restores THE REST to its original role.
+>
+> Translation maintainers are Cc'd because the it_IT, ja_JP, sp_SP, zh_CN
+> and zh_TW versions of submitting-patches.rst carry the same "send every
+> patch to LKML" advice and will need a follow-up update once the English
+> text is settled.
 
-They are actually waiting for gmail to reject them so often they get deleted.
-If you try subscribing a gmail address to lkml it really doesn't work very well.
-Maybe you get 70% of the emails (hard to say) but they all arrive out of order
-and sometimes days late - makes a real mess of patch sets.
+Will update the zh_CN translation once the patchset is accepted.
 
-More interesting would be not sending any patch emails (and replies to) to
-gmail addresses.
-That isn't as harsh as unsubscribing gmail addresses and still leaves the
-gmail addresses getting any 'admin' messages.
+Dongliang Mu
 
-> 
-> So, we either unsubscribe all gmail addresses from LKML and prevent them from
-> resubscribing, or we do something less drastic and revert it to how it was
-> supposed to work in the first place -- only patches without a dedicated list
-> end up on LKML.
-
-Then those of us who want to see most emails (or use local filters) will have
-to subscribe to all the lists we can think of, and then handle the fact that
-we receive multiple copies of emails that get sent to multiple lists.
-
-David
-
-> 
-> -K
+>
+> ---
+> Changes in v2:
+> - Don't count subscribers-only lists (or moderated lists with
+>    --no-moderated) as a destination, since get_maintainer.pl doesn't
+>    output them; v1 sent patches to e.g. fs/squashfs/ to no list at all
+> - Add submitting-patches.rst update describing LKML as the list of last
+>    resort (Petr Pavlu)
+> - Rebase on v7.3
+> - Link to v1: https://patch.msgid.link/20261008-get-maintainer-the-rest-fallback-v1-1-7d26d0b7aa34@linuxfoundation.org
+>
+> ---
+> Konstantin Ryabitsev (2):
+>        get_maintainer: only use THE REST as a fallback
+>        docs: submitting-patches: make LKML a list of last resort again
+>
+>   Documentation/process/submitting-patches.rst |  9 ++++--
+>   scripts/get_maintainer.pl                    | 43 ++++++++++++++++++++++++++++
+>   2 files changed, 49 insertions(+), 3 deletions(-)
+> ---
+> base-commit: c03c1a14507dfaf8b856c2608f9ac216021fc222
+> base-tree: git://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+> change-id: 20261008-get-maintainer-the-rest-fallback-6655e8a648d4
+>
+> Best regards,
+> --
+> Konstantin Ryabitsev <konstantin@linuxfoundation.org>
 
