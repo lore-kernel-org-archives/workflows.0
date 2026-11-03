@@ -1,49 +1,74 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793707209;
-	b=RPDeH74Zer/DgZEc+WdquEVowA5aqKUX1M2SR5qhzh3Tnx9sDafuo8ZAJmcr2Zzoy2Ba
-	 8xVHC8anieDVHwB0yyCUqWOZBFEawQo8rwbEgbkJRD66zZpz9U/darngIW/+aqRQwd+4Y
-	 /68DL3i/Onvg3UGiDOzuDckVVCQ6q9DV3ktJ7XiKO/YWGMOP+YvNqCBN5v4cZx0cAZNrH
-	 yKLxwTIzHwAaTkN2rcektUWlzAixqaXalQ7ctkuL1H+Pwx9eiw4wi+m9zFjQEpbE4IKGr
-	 S8XBY8iKD+y9bhsM0w27IHjSN+egm5eejzqKgWUoTCON1Qs98l0N375nFQk4ip+LE3A==
+	t=1793711182;
+	b=F/Wj4xZ0qRQltI8Q0x7P409DM/rmaRuYQSNw2GzNnuZZOzdOiz6V3XMIAJaIVvSz5yf/
+	 OhBTahbxHHzzSEfw8sfg7b3xFvwZYCkLjFW/xfGE8QjMvB87eeN+fTxdV95qHfOcFxrsE
+	 PnJJXmbC1IqmDvTQfXvgHs3ed4aIONIRglYBC/oaGRkOKBeccRrV9DQ6Yc/hjq7m9qRkj
+	 3hHFvo6TiY6QNeLLlpAwB3tX6gFX6L94vTa7YdQM+B1mew8yH6Zp0xLCXeaVFN5kVIX0M
+	 hDODzs8SagNItkgsMBvYX+2sDwsWQXf794K7HZTkI/pCP/LG3A11wfhZlZlL2o22oGw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793707209;
-	h=Received:DKIM-Signature:Received:Content-Type:MIME-Version:
-	 Content-Transfer-Encoding:Subject:From:Message-Id:Date:References:
-	 In-Reply-To:To:Cc;
-	bh=jV8h0NXn/SxKcAuurxKRg3/+b9VBEbkYMCmTc8z0Vo8=;
-	b=IUqLq9TnMtZCmkvBoxrc6KfJJFkzBjYNUnT4zKk3veBEdQAe8optE529qbsU0fNRNFU9
-	 QXyVxHtrC38m1fJEx0c9zYdwN8mAHZacVD4wjmIdtyVvSAFJl2Wp1hvDgDZfwfkKLGrHv
-	 tLb6+54h39/VBm1RQBDe5aBPNTRYwuWGRMSP8vQyonllU4xE4fdflVeN3X6Z38Y4HF9hY
-	 Su1GrSb0g76nG4RfYW3uzmLmGg6eDn5f7rCYCM4yiOFD45IDDTJTVL5f8/sTzdQFDGIOC
-	 IMxvM0n8+mBFugWP1Ouyw1uVXZcMoD+aGn31wdXXM3cina7aUUf6TUSpEsp3R0zXcuQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793711182;
+	h=Received:DKIM-Signature:Received:From:To:Cc:Subject:Date:Message-ID:
+	 X-Mailer:In-Reply-To:References:MIME-Version:Content-Type:
+	 Content-Transfer-Encoding:X-SA-Exim-Connect-IP:X-SA-Exim-Rcpt-To:
+	 X-SA-Exim-Mail-From:X-SA-Exim-Scanned;
+	bh=3JuamxyQxu19gK7K2J52HPeF5X4ClmNvTcYsIkXxa2k=;
+	b=fWkkrWT7z3BTKl0C+72RtxLSiJySk2rdvzm+o5gloZMVhPv/vm+g4LschuEO2I+xi+/N
+	 CxhYObQkGDNkKdGeRQjs5M3yN8ge9HVPr3t+P56cxgsU2fxpfRuCnminiiAiQkc6uhgH5
+	 xKBkVc8kmuyBjj2cwrGZpo0aNxs9PnvpnU2Sb9D4lBWZTPYefsLaoBzmsN0LSt3aRt2K9
+	 tlhqswalEbfjcZwKQWlstqZ2SNmcWj5ahe03G/qPPBWzuhmGvScRhI+4pE282LnzZpWSe
+	 gxbCzhEwwrx0P1IVNrjlnIqsw/TLl0uz44AJPxCI4P3r2FtXkaGEoiSTzdKTcAOFekA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=WVg02yYI;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=hJoBEkHT;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 53A71606A32C;
-	Tue,  3 Nov 2026 12:00:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3BA00606D836;
+	Tue,  3 Nov 2026 13:06:22 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=WVg02yYI
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CB27E1F00A02;
-	Tue,  3 Nov 2026 12:00:08 +0000 (UTC)
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=hJoBEkHT
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DF5681F00A1F;
+	Tue,  3 Nov 2026 13:06:21 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793707208;
-	bh=jV8h0NXn/SxKcAuurxKRg3/+b9VBEbkYMCmTc8z0Vo8=;
-	h=Subject:From:Date:References:In-Reply-To:To:Cc;
-	b=WVg02yYIgO33RkXCix96WKTfnUqe2hzyK/33E97NQmAMiZjDed9wF4QEezhJBoJt5
-	 eBwpEk6ePqcGElHO1XCuMC93rEet8MwZutoWpSHz5XCyoGIfR5o33bSO4mQvrf5yw7
-	 keNyz3//ngI65L2OATcSHDaP3cQxnOfPR8y3QDWq08JsbmXYYhIXfrmDfwqb320cCu
-	 IqiuEOYIQuD7gxb1Laqmfn3S91sN6CO4su5i2W6T8XhBhm92nszSeC5ulkf5mjj/FH
-	 ED38NNAFoKpJTYKYeUkXrmGzousv0MFUZWbZ+Ekh8bGd8G29YO9ctaWWTRtvYG3KOl
-	 XiIZANAGgehdQ==
-Received: from [10.30.226.235] (localhost [IPv6:::1])
-	by aws-us-west-2-korg-oddjob-rhel9-1.codeaurora.org (Postfix) with ESMTP id B6B2A3805CDD;
-	Tue,  3 Nov 2026 12:00:08 +0000 (UTC)
-Content-Type: text/plain; charset="utf-8"
+	s=k20260515; t=1793711181;
+	bh=3JuamxyQxu19gK7K2J52HPeF5X4ClmNvTcYsIkXxa2k=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References;
+	b=hJoBEkHTLsJStAeM4+S5tYAwvoyqBQk/y8VWaGYAidfKCHGr/Er+/AN4+pmUToqai
+	 buDGt/2W5ShglYzroYSpXWAfO9sWuFYCn8kDkk58Mbl3IMXJH2tohTexX4CbpQaB55
+	 DBju+3Rrihd/cDvoVcmDwUmvz4zdSIAQYU87R+WCp7b0G31pp8N2eFNI2RtdL/QYTS
+	 uAdxFl8xXQ9KSS+hPHitsl/nhnitJ8MCjT4tylohr4Bv340tCb3HnabAzJsSd/Crj7
+	 8bmoRQaE+qWn8oUVBHzNKbOwD54OT67y3zOxG6903poq1YuWjG+mxw0LNJg3Ey6ok5
+	 tDvPUc6VpezDA==
+Received: from sofa.misterjones.org ([185.219.108.64] helo=valley-girl.lan)
+	by disco-boy.misterjones.org with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.98.2)
+	(envelope-from <maz@kernel.org>)
+	id 1xOEDU-0000000ATWs-0ifC;
+	Tue, 03 Nov 2026 13:06:20 +0000
+From: Marc Zyngier <maz@kernel.org>
+To: Oliver Upton <oupton@kernel.org>,
+	Matthias Goergens <matthias.goergens@gmail.com>
+Cc: Fuad Tabba <fuad.tabba@linux.dev>,
+	Joey Gouly <joey.gouly@arm.com>,
+	Steffen Eiden <seiden@linux.ibm.com>,
+	Suzuki K Poulose <suzuki.poulose@arm.com>,
+	Zenghui Yu <yuzenghui@huawei.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	kvmarm@lists.linux.dev,
+	linux-arm-kernel@lists.infradead.org,
+	linux-doc@vger.kernel.org,
+	Randy Dunlap <rdunlap@infradead.org>,
+	linux-kernel@vger.kernel.org,
+	workflows@vger.kernel.org
+Subject: Re: [PATCH v2] Documentation/process: Add a maintainer entry profile for KVM/arm64
+Date: Tue,  3 Nov 2026 13:05:40 +0000
+Message-ID: <179371111286.2844725.14445338385718888809.b4-ty@b4>
+X-Mailer: git-send-email 2.47.3
+In-Reply-To: <20261030083351.3040604-1-matthias.goergens@gmail.com>
+References: <20261030083351.3040604-1-matthias.goergens@gmail.com>
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Post: <mailto:workflows@vger.kernel.org>
@@ -53,44 +78,33 @@ List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:workflows+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Subject: Re: [PATCH net] docs: netdev: try to force agents to disclose info
- for
- fixes
-From: patchwork-bot+netdevbpf@kernel.org
-Message-Id: 
- <179370720733.1083709.17569222025256007017.git-patchwork-notify@kernel.org>
-Date: Tue, 03 Nov 2026 12:00:07 +0000
-References: <20261029153459.2257998-1-kuba@kernel.org>
-In-Reply-To: <20261029153459.2257998-1-kuba@kernel.org>
-To: Jakub Kicinski <kuba@kernel.org>
-Cc: davem@davemloft.net, netdev@vger.kernel.org, edumazet@google.com,
- pabeni@redhat.com, andrew+netdev@lunn.ch, horms@kernel.org, corbet@lwn.net,
- skhan@linuxfoundation.org, rdunlap@infradead.org, workflows@vger.kernel.org,
- linux-doc@vger.kernel.org
+X-SA-Exim-Connect-IP: 185.219.108.64
+X-SA-Exim-Rcpt-To: oupton@kernel.org, matthias.goergens@gmail.com, fuad.tabba@linux.dev, joey.gouly@arm.com, seiden@linux.ibm.com, suzuki.poulose@arm.com, yuzenghui@huawei.com, corbet@lwn.net, skhan@linuxfoundation.org, kvmarm@lists.linux.dev, linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org, rdunlap@infradead.org, linux-kernel@vger.kernel.org, workflows@vger.kernel.org
+X-SA-Exim-Mail-From: maz@kernel.org
+X-SA-Exim-Scanned: No (on disco-boy.misterjones.org); SAEximRunCond expanded to false
 
-Hello:
-
-This patch was applied to netdev/net.git (main)
-by Paolo Abeni <pabeni@redhat.com>:
-
-On Thu, 29 Oct 2026 08:34:58 -0700 you wrote:
-> "LLM-driven-developers" are not including the info about discovery
-> method we want to see in commit messages. Try to add more forceful
-> language to make agents ask for it. claude and codex seem to load
-> maintainer-netdev.rst already.
+On Fri, 30 Oct 2026 16:33:51 +0800, Matthias Goergens wrote:
+> KVM/arm64 has no P: entry in MAINTAINERS, so nothing tells a contributor
+> that the kvmarm tree is used for integration only, or what the
+> maintainers expect patches to be based on.  Marc Zyngier said a profile
+> would help.
 > 
-> Signed-off-by: Jakub Kicinski <kuba@kernel.org>
+> Add one covering the trees, the base for patches, the submit checklist,
+> key cycle dates and review cadence, and point the KVM/arm64 entry at it.
 > 
 > [...]
 
-Here is the summary with links:
-  - [net] docs: netdev: try to force agents to disclose info for fixes
-    https://git.kernel.org/netdev/net/c/f56daaadfeca
+Applied to fixes, thanks!
 
-You are awesome, thank you!
+[1/1] Documentation/process: Add a maintainer entry profile for KVM/arm64
+      commit: 0e086eebb3f38c392789dde6f0731f6555d793c5
+
+Cheers,
+
+	M.
 -- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/patchwork/pwbot.html
+Without deviation from the norm, progress is not possible.
 
 
