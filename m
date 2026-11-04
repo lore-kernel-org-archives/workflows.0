@@ -1,101 +1,64 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.219.47
-ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1793712981;
-	b=d3mG0lWsQyYH43efvT/k5jSCQ4fBJvcMolyBS+TucWOdw8+8rAk/46jDsRtPhDzGfBPV
-	 hIL6q3yLfzwHxYwrD/d66yBOEYXysXqMWUHurreDdUdz5Up7K+bWAHxChsymfyAxUu79h
-	 4uA9DiUKbS9YlD+UafTVsk60Mv02XYo3AkbltseYOqbMvigJztiCwgT88Z+ph/ssoMGYP
-	 gQgdvjAcNgueSBhQlPRr3P7L6j5LFauRU+4qJBUBCP1JRFdR6bZe26kcEtwSM5vCuMXJY
-	 fMJmN/685i3MdFfMSKvoaU95wfRWFpOZo4P9L3rdOkAofsaNA+84fsehbghp3wHlcyA==
-ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793712981;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:
-	 MIME-Version:References:In-Reply-To:From:Date:X-Gm-Features:
-	 Message-ID:Subject:To:Cc:Content-Type;
-	bh=ikJEpPagqLDcSvl56L4kMDPutR5qorTqhJ9vg9tYiGk=;
-	b=l8xV7HViqV2/syfD4iVtuonKgds6QAUSPnM08dWn4v5yr+DZd2LmZ1S8qb4BFxLmvBN/
-	 aTW9PSnYnxk8Y/Lc/33bIWQvczeZvBxMQfywkcvyWEkeh2PE/kxu2OK+suzAVFtlDx9wy
-	 1+XqIw4sbllm0Xhq3bTBynQbt6JI48g0pHrAKWCyWdl8IqeDT7TvetplHUQoOjBwFqfRp
-	 IYatnwhW57iAzf+EOscVcFieB+Pbunai7jRP3UXFaLHLYsb7wmqefdHIn6xDhGcRM0Xi9
-	 EJo3nYWH+/82+6lPYfISA8G4+30KoWf0MiFIx4KiELIA7WZnDv2sS0U8X0ezOIBz1mg==
-ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=gmail.com;
-	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=mTiqMTLG;
-	arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.219.47
-Received: from mail-qv1-f47.google.com (mail-qv1-f47.google.com [209.85.219.47])
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=95.215.58.166
+ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
+	t=1793759506;
+	b=4vk3DMK6XzcVT7LzxJ3demLOQZuOY39KoDyIjyBNZyGiyFfScf6GVYT2uorZscxMv0Zw
+	 cw9lZHWpquKQ5EiDTJI1OUSAY4vPgqu4tcMeEVY8WyQqPkRSuW6TNeS0QDy25NQOmhozi
+	 D/POXfOuhWYojjlg0BVxOI6wvEVb+9/H/pUFpxEcI7k9HNmBP4OAB1RkJ087o+woPmB5U
+	 fAYXTkg2A7noPKfZ7Eqfx9UzPPyGr1YjVOPPVt9W6iiOEJZj30/aK1Tjwkukl42rP32kN
+	 MKN/X7JenxLASOhv3Hq1mFLvCLUferO8EbAil6oZ6xpf3iTbGmVbf2k3nXSzjXTRGVA==
+ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793759506;
+	h=DMARC-Filter:X-Envelope-To:DKIM-Signature:X-Envelope-To:Received:
+	 X-Mizu-Trace-ID:X-Migadu-Flow:Date:From:To:Cc:Subject:Message-ID:
+	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
+	bh=KpIailOT6zTz1ZDOWVRUyepJuCxKy7Kcrt65ylPjS+s=;
+	b=UuglTHDS7MxgBaOq74jApRtXg96ODO0F5w75k9ZPzB2ago5VRQUOb2vppZA+u381FpR0
+	 hQELhswdJxwGbcyu9BJJuXhzKwvWuXqGkWXsGdrGfxVkH8ELEI7TaOla4EcRs9Q9fZl3D
+	 zJQuG65K81/3hLxs26dqGuogmZO5OfzzXd7UCuyNFMRAZ+kaFp2nptdSTvSeHfe6uN4vf
+	 hmwzBv5fJvY+QXurXvDCa9v1bQM4QjgtiIYjGkbdGIxrxLOwg8qK0SoRAzv5BvzYR2BqG
+	 RdMlTz0IKPT13VZTQkQ9pzGT0DGkVmK+Q1X16Rdut0WgxPYifLLzgrYS7f46I0Qcpig==
+ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=wyuan.org;
+	spf=pass smtp.mailfrom=wyuan.org;
+	dkim=pass header.d=wyuan.org header.i=@wyuan.org header.a=rsa-sha256 header.s=key1 header.b=jgwYbQXA;
+	arc=none smtp.remote-ip=95.215.58.166
+Received: from mta1.migadu.com (out-166.mta1.migadu.com [95.215.58.166])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7021C606A333
-	for <workflows@vger.kernel.org>; Tue,  3 Nov 2026 13:36:21 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 7021C606A333
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9A1A8606A331
+	for <workflows@vger.kernel.org>; Wed,  4 Nov 2026 02:31:43 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 9A1A8606A331
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=wyuan.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=wyuan.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=mTiqMTLG
-Received: by mail-qv1-f47.google.com with SMTP id 6a1803df08f44-91c719669a8so44373656d6.0
-        for <workflows@vger.kernel.org>; Tue, 03 Nov 2026 05:36:21 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1793712980; cv=none;
-        d=google.com; s=arc-20260327;
-        b=TfFLB0FVYXL1MYa1yoCeqkPz1VlhpWlfZ9IWNsUWYkQkbK1W38byrg5ilmdnAs377g
-         yQLUSK1qAiJkXFFIdrigRm4BODBWaQ93CcbA9hTieEN0TvN2AGhlWN+MhOPBhPxPaEtK
-         uDR165vL9giyF9hxo9FWhFYs61onIMZNFa/zlK4/IBqf52QD1tLivLiPdZQ/9CTfYELX
-         WM5h9YKcEBT5A/T/t/cO+7SCpFW/RPyTULK/7Mgw5K99uTm/e9MiYyfkbzl14xKoOdwk
-         66CpYlZwfNTHGVKql5KanxdN6stMyso729+b99DDeoTKGLOHigA0uJ53C5IVTlbAzzS6
-         XRyA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=ikJEpPagqLDcSvl56L4kMDPutR5qorTqhJ9vg9tYiGk=;
-        fh=Iky4N6IgGyx8WE94G1I4XaKGVTVwa4L75JVlqTDuuA4=;
-        b=RyR/Ke1kgXUquQX3EEFmCOVJOivJszA4XrKdylId+DJ/pFQT9xdTyT+EA2isNqANiY
-         JVj3j9ZapnFRe8MJ44Ycr/YbsEs9wkiE+wKdt0UZEpiVoIrq5au4/OD7xdougWFn/o+/
-         Iz8Ma+0tztNfx5KygDmHRXkiaLYImdnuNqiFqKsYKcLJlH7q8gKxK0BUhrDEtf/D/euW
-         jOVGmXzpYNAR3lyzzg5RgN4DnxVMGGWsxLCI7pCLAjdtlNJobZeZOxDBTdlawHepD0p7
-         wnCB/KrYe36gAJ30uVse0R6koyHvSe4dCnBHGMis6R9RkLwsN4WEgioU+ooSw5pWPMWY
-         xa4g==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1793712980; x=1794317780; darn=vger.kernel.org;
-        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
-         :references:mime-version:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=ikJEpPagqLDcSvl56L4kMDPutR5qorTqhJ9vg9tYiGk=;
-        b=mTiqMTLGajkWWb+Lh90vdyb22P9zGDoS9RIl2x3eEIc2oxpQiO23S4a/09qDHuRwJC
-         juy2fNpkC6uqd0BnNYrLeFxirqbBRZ1Cvg4xk7zZw8vE/ESCCvJWA5f0qD5MytDxiCJS
-         I34jlBPhNYRlCzz2V+Ua5UenSvr+w5JBxV809qOwXk2X+WivVoF5Kamf/LdkNCOoCzza
-         C+TmmByNYKrqCeEIhKRYZGnPi0SLgcEmFRYzQjh5u8BXM33aN3e9aV9vEuBgILrOIRlV
-         8mjGwfpWBiuOaCKIRlbkjVhhuokuQb07aIiBqr8XaU3bAEpt8gJhjxIRpbitlHFFQVM5
-         WRHw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793712980; x=1794317780;
-        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
-         :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=ikJEpPagqLDcSvl56L4kMDPutR5qorTqhJ9vg9tYiGk=;
-        b=1YFhPzDof/mSoQJIcGOFWS4IU7GAJ/FCYSGJVBBdraDM1p+be07U8ce54HeJ4gKADT
-         cPbIBEnWSSNyNR8y+U9eI0gicgihZijhqx0jYv+38rIlsyU7PWFL6eJVZVRdN1Dccmgz
-         5BWCwAH4uwhM9j0wLZkmlgDokEAOrFIZ/HsgSOCQwRXYtQrqV6Izw/o9DA8w0CzuoDEz
-         tqVbALyJKfAmLz7/0tzb2QKBQY8buvd1bXokpn3FrYjbknJ4N190edjWvgzb5v2X4K4t
-         ZGorSf5V4oxTdYBM3ghszTLhzzm8EQ2zpuXJ5Be7MLOWl+gX/mkX6saydALZtlYg1w8M
-         tqBQ==
-X-Forwarded-Encrypted: i=1; AKwUvBy2FqyFTbjfA7lBn95G6/f7IeMp+Uqusmjm6oPwVFh215fog3wEP/71kPK7h4l3t2+Dj5esfjTXVRA=@vger.kernel.org
-X-Gm-Message-State: APuU4Z9uUur2JoWcC5HTKotOW3pZFTvNVZSFbcsU6fEwbpv1epGA6vms
-	PikiBmC5m9ShE2mdzxEzkGNQX3m0ZsIq3cZimd1wOXGQsZXTPktftpwocbBX3p7L77cJsNuTrjI
-	DzJmPuOnf9HQpxclEMnMS+OWNddPTEVI=
-X-Gm-Gg: AYBFou3TNwqUYOOrx8wDUjjzkmenVKjc+gwPyaja0sVmLTaKL81/Kb7xNp9iU1TnayG
-	xpXj7UK4tVtkSRlJho7kleL2dULnZrcFJf+dSOSbff6yakfGEKm7sMXwEArbVyCrWCcFKtUCES4
-	WWSPpqBSb5EIaLwHArRLxVzjVxVn1oxFx6SAmvKZ3SsXiKvta5eDaBQEa51x1TkmZKF/9We1LGJ
-	zbR+lPuJRcRYvQJGvhK9E2QIrs5pdp8iFx5crv1ssxxk5qIfwjCjnKV+HMsXuwE4UV4ZY/KMg7y
-	KqlOk6GchI5y1ASvi4leAZbv4Kd6hzrX/06/HtoPSXfpTsDykqtOILBLlZdLwvEYB7ReBZ+DcUs
-	kcgzKMIENNJeQwMVvWvrKp+2VxbKqKbF0n7Gslap9i2eMwf1YUp2WGORGP8tZHEIUrYrYSIa5cf
-	eqwg1JcRzp7rwJgDUgbJ+mNbmlwMMz246Vxf20NrOnzpLiirdnGjb5IVxu3k+D4BJomLVCxzSxj
-	SrgCLV/B/VZX7e5sCu8abo=
-X-Received: by 2002:a05:6214:2249:b0:91b:5d3a:f135 with SMTP id
- 6a1803df08f44-91ca4b7fa7emr216830276d6.52.1793712980412; Tue, 03 Nov 2026
- 05:36:20 -0800 (PST)
+	dkim=pass (2048-bit key, unprotected) header.d=wyuan.org header.i=@wyuan.org header.a=rsa-sha256 header.s=key1 header.b=jgwYbQXA
+X-Envelope-To: workflows@vger.kernel.org
+DKIM-Signature: a=rsa-sha256; bh=KW0TeR7Ixk8cNAO1ivyvwa7MNW21jOj+tAZvidZp44c=;
+ c=simple/simple; d=wyuan.org;
+ h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
+ t=1793759501; v=1; x=1794364301;
+ b=jgwYbQXAXLbxmOSrpOepTXcYjyFyPffS7XkQBHtiqK90teaF++xFyFm5ed1iNC6u4w0aOdZQ
+ y+heNAds2YjbfPXy3LLs/1RruLkFFcBe5ed3ACyCmmiBht1agzUHxptjYNi1Fo/k72rBPq5hQ4b
+ JifbHDl7c8lLP4SpRBB0x3hUjdODVnBG4NWW7C8YusBHc9aKSPdSPaE8ffzPROcpfW/uzi77Lfx
+ auCINhuJF5yqfnQio/uhPVNZoWDvubGB38+cakutUiqvESJghqbSvY4f+hPk3CYs6Gscw6pdSSX
+ ZpRtj5vZJVU0zinTxPf9dwB0gqAsg8EwS6sT0TAXnBRxQ==
+X-Envelope-To: workflows@vger.kernel.org
+Received: by smtp.migadu.com with ESMTPS id 36fd9caadc958bcc;
+	Wed, 04 Nov 2026 02:31:41 +0000
+X-Mizu-Trace-ID: 36fd9caadc958bcc
+X-Migadu-Flow: FLOW_OUT
+Date: Wed, 4 Nov 2026 10:31:33 +0800
+From: Weijie Yuan <wy@wyuan.org>
+To: Weijie Yuan <kernel@wyuan.org>
+Cc: Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Randy Dunlap <rdunlap@infradead.org>, workflows@vger.kernel.org,
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] docs: submitting-patches: use git switch to create
+ branches
+Message-ID: <auqZBQbcfn7mMRIN@wyuan.org>
+References: <ardqGdjnd7kC1B-E@wyuan.org>
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Post: <mailto:workflows@vger.kernel.org>
@@ -105,24 +68,51 @@ List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:workflows+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-References: <20261029180900.2912240-2-manuelebnerli@mailbox.org>
-In-Reply-To: <20261029180900.2912240-2-manuelebnerli@mailbox.org>
-From: Daniel Pereira <danielmaraboo@gmail.com>
-Date: Tue, 3 Nov 2026 10:36:09 -0300
-X-Gm-Features: AclHuK-5QE5RUaf-W6zbQ7a-8WdeKO-KxqeRSBAxVd9f-wJkyCdpMx_t9-dgL3E
-Message-ID: <CAMAsx6dX8rWtX=uCqpz+LR9NDScWYLQvopDHTs_0MRVu=1qBtg@mail.gmail.com>
-Subject: Re: [PATCH] docs: changes.rst: Remove obsolete link
-To: manuelebnerli@mailbox.org
-Cc: corbet@lwn.net, skhan@linuxfoundation.org, rdunlap@infradead.org, 
-	unixbhaskar@gmail.com, workflows@vger.kernel.org, linux-doc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <ardqGdjnd7kC1B-E@wyuan.org>
 
-On Thu, Oct 29, 2026 03:09 PM, Manuel Ebner <manuelebnerli@mailbox.org> wrote:
-> OProfile has been discontinued as of commit 24880bef417f ("oprofile-removal")
+Weijie Yuan <kernel@wyuan.org> writes:
 
+> From: Weijie Yuan <wy@wyuan.org>
+> 
+> Git has been promoting "git switch" since git.git commit 328c6cb853d7
+> (doc: promote "git switch"), and the command is no longer experimental
+> as of Git 2.51.0.
+> 
+> Suggested-by: Nguyen Duc Thinh <ducthinh100812@gmail.com>
+> Signed-off-by: Weijie Yuan <wy@wyuan.org>
+> ---
+>  Documentation/process/submitting-patches.rst | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+> 
+> diff --git a/Documentation/process/submitting-patches.rst b/Documentation/process/submitting-patches.rst
+> index 4c28a239e8cb..63a5550bd490 100644
+> --- a/Documentation/process/submitting-patches.rst
+> +++ b/Documentation/process/submitting-patches.rst
+> @@ -866,7 +866,7 @@ automatically include the base tree information in your submission by
+>  using the ``--base`` flag. The easiest and most convenient way to use
+>  this option is with topical branches::
+>  
+> -    $ git checkout -t -b my-topical-branch master
+> +    $ git switch -t -c my-topical-branch master
+>      Branch 'my-topical-branch' set up to track local branch 'master'.
+>      Switched to a new branch 'my-topical-branch'
+>  
+> @@ -882,7 +882,7 @@ notice that it will have the ``base-commit:`` trailer at the very
+>  bottom, which provides the reviewer and the CI tools enough information
+>  to properly perform ``git am`` without worrying about conflicts::
+>  
+> -    $ git checkout -b patch-review [base-commit-id]
+> +    $ git switch -c patch-review [base-commit-id]
+>      Switched to a new branch 'patch-review'
+>      $ git am patches.mbox
+>      Applying: First Commit
+> -- 
+> 2.55.0.1055.g20c0e7c0fb.dirty
 
-Reviewed-by: Daniel Pereira <danielmaraboo@gmail.com>
+Junio's <xmqqwlqt4lwj.fsf@gitster.g> reminds me of this patch.  It seems
+to have got lost in the flood of patches.  Any feedback would be much
+appreciated, while this is only a minor cleanup. :-)
 
-Thanks,
-Daniel
+Thanks.
