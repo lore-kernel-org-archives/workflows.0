@@ -1,45 +1,65 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=95.215.58.162
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793852997;
-	b=zUnNuHltkS9e8Y+jEz2ezgaXdU9j15aLeL10ueEPIDThtsj7XPb68njawP+LHyfSiVAT
-	 AlXJU2PNt3G1gQQEoynAB5ryuAwug6/EW7tEvX96Mi3cuBKkNtdZdfX7Lzt1PzSHyu0SH
-	 J0YRgOd7j63YkTz/+7ZoK5y7tpGMe+RgtA0X9qYrPCAxm5n2Ysce7BWeyI+Pz5uFwuzLU
-	 O7fAf3k3phESUvbA19dIaEwBIQNOlSj10jpP7TZtzRVL1Tkb3/T/xGaLQ193MSNoJvvOe
-	 BYBfeAHKOOJ3QlYVuuRJiNsZ/K/hjMtDLyLeJ7rfgKgzvfc92bP6cT8X0y0p7cXuyAg==
+	t=1793866456;
+	b=ArT203NuWvTF50CFcRzLRFJfSieqfqnQQPVvQu5z5RkgmgBSTWGlfUb7wQSfmk4Gu2cQ
+	 80rg/ao0XZ3ZfNtsTR9HMXPkYPMinD8cOGisAY9Q7HTZQANfcJ8gMtUqSmoysYOfPWc42
+	 z/YYJQCxoNKWkyucp12/aR5x61tWlAwzNLNgqc948BoiMXVaHU40FBbke90tMujqW/OMZ
+	 sWszI+5a5oqEV+K5axbS80YCLp7xBOsM0Q4K0nBJzu/a8DAMuuvwyuS71KJBeIcp9tTgJ
+	 P7f0gc4hTHcDVTimh171PquYwdxYNb0tFJveFT2MDq32aFK8KpDBX7yEfVCim6SeOpg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793852997;
-	h=Received:DKIM-Signature:MIME-Version:Content-Type:
-	 Content-Transfer-Encoding:Subject:From:To:Cc:In-Reply-To:References:
-	 Date:Message-Id:X-Mailer:X-Developer-Signature:X-Developer-Key;
-	bh=KPAE/pf5spCt8tF+n7sHzxlhCQ7JpQ1fLOMEjct2Pr4=;
-	b=LfrJUDInLbGSNc7qMo+mwV7b1Fa3CnUZISjw4dt3QONJi8vjqFTScQBWhKcHt+k7DhJa
-	 CVn/uMGfV0BlSx+i2l3uEkwy0s8Orv852SjRnoBm29aKG8tKGVJkR9I8fx3GNUzmwtPl+
-	 AvK5uOlfHqDVHgLxlmfUBQADtEWNfMD93qZMkprz3Q0dV5iYOoF7CHdfNmuN0VUnWgct+
-	 xff6GDkOkhfiIlwNJdbvVDjPrYADP/IBIjLgYFLqjqXj3IGROTWI6DaWbdAF1GdDy3PKe
-	 aJJ468Zc/IVeJmZBmM0KweGHYCu2dy/byQU1dbW/4yp9AdSntn+Rx4w7dqWyXecCbJQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793866456;
+	h=DMARC-Filter:X-Envelope-To:DKIM-Signature:X-Envelope-To:Received:
+	 X-Mizu-Trace-ID:X-Migadu-Flow:Date:From:To:Cc:Subject:Message-ID:
+	 References:MIME-Version:Content-Type:Content-Disposition:
+	 Content-Transfer-Encoding:In-Reply-To;
+	bh=TkaECXsVtU0hjyy+7F+JpUYOHJpZDHbqaeIlxPMeZyg=;
+	b=Y1OQzr5EQdRtKZL0CI77y81efNNyTjyVUMn9iRc/uXFA8dXx7Uiyg68TA9KLUwZaCKlA
+	 4cNhmut2QG5/Tdls8Q5cuzdXBJ271WXV416h6IwATndMUWbTC8WmUe1T9ks4HIywTtpaT
+	 xLyv/3mzeKkp26g+g7uutNF2yQ3ku6sJ6gKt+UghfSJthTjKmyG/cxynocr36se38dMHj
+	 R+SJgJoLxeisRpSphxZNaV3h5S+ZUEzUYq07/mNIVfpUDsbwx1WS5byiwGiAXiYx9ncBT
+	 7iyf2ws9PWty/nu9ZQjQlWGNsA2Tr+fg7ENtbhhGXA91IdgkzdC6TgryMLz7OvixhhA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=nnW1KUcH;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	dmarc=pass header.from=wyuan.org;
+	spf=pass smtp.mailfrom=wyuan.org;
+	dkim=pass header.d=wyuan.org header.i=@wyuan.org header.a=rsa-sha256 header.s=key1 header.b=ArSknsDs;
+	arc=none smtp.remote-ip=95.215.58.162
+Received: from mta1.migadu.com (out-162.mta1.migadu.com [95.215.58.162])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BD5F3606A31B;
-	Thu,  5 Nov 2026 04:29:56 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3431B606A31B
+	for <workflows@vger.kernel.org>; Thu,  5 Nov 2026 08:14:14 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 3431B606A31B
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=wyuan.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=wyuan.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=nnW1KUcH
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 742131F000C1;
-	Thu,  5 Nov 2026 04:29:54 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793852996;
-	bh=KPAE/pf5spCt8tF+n7sHzxlhCQ7JpQ1fLOMEjct2Pr4=;
-	h=Subject:From:To:Cc:In-Reply-To:References:Date;
-	b=nnW1KUcHDyqhxCdLaCIf0P6zIXDgT0qimcY/G1Wi3jqu5KPta4IlSe7KvxzStMJWE
-	 ZmJ3UWpqpPxJWX6h7GknaqjOmOT8GdQ03kxOMuJfp8ZSz2MU0huCiXQrGBc9FTb08s
-	 H3QKxUiJQMmZWtjZGiXxU7WpW94aH8bHzKPYDNLJ04418w8fPZvHxjwNOOFbzMmLKI
-	 fe41DkyMi8OHOpWgiL8OYZcXSQmmFYncMRO4K2SlzvbIy4eb4nRzaHv2uwLcf8ffe4
-	 AHpphWhqAtXEuaEj8SsaxV94xjX1nUK3FBPMvviiY9r0SURBXkN0M6Bd68wcq+jhf/
-	 m1lALSSqPIKlQ==
+	dkim=pass (2048-bit key, unprotected) header.d=wyuan.org header.i=@wyuan.org header.a=rsa-sha256 header.s=key1 header.b=ArSknsDs
+X-Envelope-To: workflows@vger.kernel.org
+DKIM-Signature: a=rsa-sha256; bh=4tinfFEcV9unlh2pf9AfUW9AM0Ic67022tp7zkWq5dU=;
+ c=simple/simple; d=wyuan.org;
+ h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
+ t=1793866453; v=1; x=1794471253;
+ b=ArSknsDsx4G8+489tToEYTgv4+lryCCLWFIvN2rT8jkgNwg6iGi5rZq0JdTE3OFNEZ1zfG7S
+ ahtcLYd6B6aK9l232ZbqnHAF/Iht+eZAOH9GpVNfRPDFtmK1/z8mmYrSMZ4aSj8UTLbyj3Tesvf
+ juhzrtf/CY5SND+Ugvs2SAVwj62Hbn9BtvzPlJOw0AdMcUwkS0eAfQeBB8RPrskMD1B2vFVGWiO
+ xZueR0hVXibQMHBwod88dBRMJmyXkj8+f6GxsQaoeZ43dKS9xpENfhSkfGoQ4HbSbFacENIy2jo
+ BEMOnYmDeKSZgnnIPSt1KEuiEiQYVTsw1OLEaBtYsOFow==
+X-Envelope-To: workflows@vger.kernel.org
+Received: by smtp.migadu.com with ESMTPS id c6365a1ec836b2cf;
+	Thu, 05 Nov 2026 08:14:13 +0000
+X-Mizu-Trace-ID: c6365a1ec836b2cf
+X-Migadu-Flow: FLOW_OUT
+Date: Thu, 5 Nov 2026 16:14:05 +0800
+From: Weijie Yuan <wy@wyuan.org>
+To: Oscar Alejandro =?iso-8859-1?Q?S=E1nchez?= Lucero <aleszlucero@gmail.com>
+Cc: Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Randy Dunlap <rdunlap@infradead.org>, workflows@vger.kernel.org,
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v3] doc: process: clarify scope of applying-patches as
+ legacy reference
+Message-ID: <auw6zV_H7rrO2wwp@wyuan.org>
+References: <20261104-doc-patch-fix-v3-1-f71cc8ded7d9@gmail.com>
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Post: <mailto:workflows@vger.kernel.org>
@@ -49,52 +69,70 @@ List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:workflows+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Subject: Re: [PATCH 1/2] scripts: add --registry option to container tool
-From: Nathan Chancellor <nathan@kernel.org>
-To: Guillaume Tucker <gtucker@gtucker.io>
-Cc: Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nsc@kernel.org>, 
- Jonathan Corbet <corbet@lwn.net>, Miguel Ojeda <ojeda@kernel.org>, 
- =?utf-8?q?Onur_=C3=96zkan?= <work@onurozkan.dev>, linux-doc@vger.kernel.org, 
- workflows@vger.kernel.org, linux-kbuild@vger.kernel.org, 
- linux-kernel@vger.kernel.org
-In-Reply-To: <06ee7c694c3e9716bff5c9b1b8e9dc95cc0b38d3.1791751900.git.gtucker@gtucker.io>
-References: <06ee7c694c3e9716bff5c9b1b8e9dc95cc0b38d3.1791751900.git.gtucker@gtucker.io>
-Date: Wed, 04 Nov 2026 21:29:46 -0700
-Message-Id: <179385298671.826739.5987343385077824329.b4-review@b4>
-X-Mailer: b4 0.17-dev
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1042; i=nathan@kernel.org;
- h=from:subject:message-id; bh=ZBL3o99fNPmo9r7pegdnSdndLZN3q1BXEi5XkfHaaAM=;
- b=owGbwMvMwCUmm602sfCA1DTG02pJDFlv2OyvTDbQS9vxsP5Zrlj9Aov106YWz3sTqD1xt1GSm
- UjFrhaHjlIWBjEuBlkxRZbqx6rHDQ3nnGW8cWoSzBxWJpAhDFycAjCRj3WMDI9muF9YssyAvfFg
- lPzVvXfvrm+8o+uysJpxRp3B7qwJu68x/DNeFXSdUelA5xymI1dk2WetEbv0INJQ7vhDPX7vy4a
- XXvEDAA==
-X-Developer-Key: i=nathan@kernel.org; a=openpgp;
- fpr=2437CB76E544CB6AB3D9DFD399739260CB6CB716
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20261104-doc-patch-fix-v3-1-f71cc8ded7d9@gmail.com>
 
-> Add a --registry / -R command line argument to the container tool to
-> specify an altnerative image registry and support it in the TOML
-> configuration file accordingly.
+Oscar Alejandro Sánchez Lucero <aleszlucero@gmail.com> writes:
+
+> The applying-patches.rst document describes the manual manipulation of
+> source trees using the traditional 'patch' and 'diff' utilities. While
+> technically accurate for non-Git or constrained environments, it can
+> create friction for new contributors seeking the primary Git-based
+> workflows.
 > 
-> This uses a mechanism based on regular expressions to parse the
-> container registry and image names and construct the final one based
-> on a set of priority rules.  A registry can be included directly in an
-> image name; an empty string means a local image.  It can then be
-> overridden by explicitly specifying a registry name via the CLI option
-> or the TOML file, with the CLI option taking precedence as always.
+> Update the opening note to explicitly state that this document serves
+> as a reference for legacy or constrained workflows. Provide a direct
+> cross-reference to howto.rst to steer contributors toward the standard
+> Git infrastructure.
 > 
-> Signed-off-by: Guillaume Tucker <gtucker@gtucker.io>
+> Signed-off-by: Oscar Alejandro Sánchez Lucero <aleszlucero@gmail.com>
+> ---
+> Signed-off-by: AleSZLucero <aleszlucero@gmail.com>
+> ---
+> Changes in v3:
+> - EDITME: describe what is new in this series revision.
+> - EDITME: use bulletpoints and terse descriptions.
+> - Link to v2: https://lore.kernel.org/r/20261104-doc-patch-fix-v2-1-3601fc35c505@gmail.com
+> 
+> Changes in v2:
+> - EDITME: describe what is new in this series revision.
+> - EDITME: use bulletpoints and terse descriptions.
+> - Link to v1: https://lore.kernel.org/r/20261104-doc-patch-fix-v1-1-617cb9f4cd47@gmail.com
+> ---
 
-Hi Guillaume,
+You may want to modify the EDITMEs. ;-)
 
-I don't have any real strong opinions on the patch itself (although
-Sashiko seems to have its usual complaints about validation and such)
-but I am not sure the commit message or documentation make it very clear
-why it is useful to support this. In theory, the registry can be added
-to the image parameter, is that not sufficient?
+>  Documentation/process/applying-patches.rst | 11 ++++++++---
+>  1 file changed, 8 insertions(+), 3 deletions(-)
+> 
+> diff --git a/Documentation/process/applying-patches.rst b/Documentation/process/applying-patches.rst
+> index c269f5e1a0a3..59d16b4e0889 100644
+> --- a/Documentation/process/applying-patches.rst
+> +++ b/Documentation/process/applying-patches.rst
+> @@ -8,8 +8,14 @@ Original by:
+>  
+>  .. note::
+>  
+> -   This document is obsolete.  In most cases, rather than using ``patch``
+> -   manually, you'll almost certainly want to look at using Git instead.
+> +   This document focuses on the legacy method of manually manipulating source 
+> +   trees using the traditional ``patch`` and ``diff`` utilities. 
+> +
+> +   For the standard Git-based workflow used to clone the repository and work 
+> +   with kernel patches, please refer to Documentation/process/howto.rst.
+> +
+> +   The information below is maintained as a reference for constrained 
+> +   environments or legacy workflows where Git infrastructure is unavailable.
 
--- 
-Cheers,
-Nathan
+Yes, further explained the note added by Jon.
 
+But I guess Jon's commit message is clear enough? --
+
+"This is ancient stuff and we don't do things this way anymore.  In the
+absence of simply deleting the document, at least add a warning to it."
+(commit 67972a539e9f, "docs: Add a warning to applying-patches.rst")
+
+It seems that there is no that great necessity for revisions, from my
+perspective of reading experience. Thanks.
