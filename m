@@ -1,63 +1,63 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=95.215.58.205
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=194.117.254.33
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793867662;
-	b=sTkd4OCT/SQ8T0msrTJNt6ks8ol+AI8oLT68D7Et4ma83qIm09ysPaX7IY2wnEM+VKkY
-	 QPY+BHYR6COK+zqlVkWEvb1zGc8pcc3Yld/Q51J9CpVEDy4TElCivtNi1CfFy8vopyRNC
-	 lrvmCIVENT069hzPPi6CmImnOEhf0k3LoWF6jP67XsoYJx2JvXNOQK0TzoZxYb75Rsz8o
-	 7sidp3he6eBzWYdpzkLDufGQENaLPK8SL0gEYy2JLejqZOOo0ERtgru579sPqh6cdJ38f
-	 yWPyXzn+UsdTjMtVeia2gB2nhOKCroTv8kV9nL+V4r+/OKaR8MVlO5QkV4pCTjx5vsw==
+	t=1793868625;
+	b=DKpl0g9P7bqgsIw2CdYmtvB+NmrYNKFZWhow4ZRtDrov3++FrcYtDIvAFTaT+rkjS3pA
+	 Xj9q/nKU0ZQzqVnQV9BAvlr1YFJ0143T1WO4rZcCEIE1msGfITzgb3o3NxU6jZbCcxaZd
+	 DbG57Wh99EjubAVoUs7PTsP0YY9etX+gzFs7x0fK8OlD+W5ohcZDFFQtMXBm4Vg3WFKc4
+	 Xs8JNWOF+k8qiC/pdmaZ09MNTgxOZWbDnM1gpd5M/RdK9pEaMRzMA+gk7BjOo2wCExjsA
+	 HGpExQfllUZ2wtHwIE2vvvOOazGZQXX7AKdPMk1gKSzn8gfyECA+RPbAMlOPXEkKBSg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793867662;
-	h=DMARC-Filter:X-Envelope-To:DKIM-Signature:X-Envelope-To:Received:
-	 X-Mizu-Trace-ID:X-Migadu-Flow:Date:From:To:Cc:Subject:Message-ID:
-	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
-	bh=cnhqM65tjsKZGGJY/TXRPudsFhxJteMdDEVDYcPFQSc=;
-	b=U6USwsEjqLQmcJ615KB985h8nAWRej6QGdF4WLrF7vEK8l7gXAmY3cYC0f3J2UiiQEeN
-	 T6h/FXgdxr1/dS7Q3IzgD6YSEwJP1VO3v7pZRG2AoKiFnv3NCx9DQy4LUv+Pk/9TWefdG
-	 4zP8yXHP0Y4sWFZr8pSh+ATlPXN5n733EA/fapkCMYoFhv4d8jXw1CygeYv0/39A7M+Vo
-	 AEhPDyH8BLxpBGVy7C86/HGFgBeyK0dlxOLtVc9mV9S1BbCeJ7msEIjozHxvgtuc6WbEr
-	 oY/9QVsErsbAPpa7+6aDnzn82uOh+oQQ497OJvDknMToL683gNW85DVt1MkzGD4ebjQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793868625;
+	h=DMARC-Filter:DKIM-Signature:Received:Received:X-UD-Smtp-Session:Date:
+	 From:To:Cc:Subject:Message-ID:References:MIME-Version:Content-Type:
+	 Content-Disposition:In-Reply-To;
+	bh=i09FKaWoTqtKsFXZIJxb/id6UZzTo17qjziWu87IOTI=;
+	b=OI+LyWWLNZrChx/fpIybxqjBnsxFz6oIaglD4rWa6hj0H8Y/QZn8DhOcNkuM4MrHTtQ9
+	 PQMNR129/bv0/RZWw4n2o0vYCjdHduc9hBMJt24wFP5M3zVlIdKnbe1IjuNY5Xs7/imcO
+	 eT5MCtd2FGdrkQUk1/ZRZ4aOl/mLxrRa0GrFd6t97mhDv2QCl10B1L9JeN1gdw5mkV8LM
+	 pIWXOFrfY93oZdMvzKA+9DDCfJQv44IMRH4HaSlqTD2pn+W4kcvlysB/j9rwiZxexjBtk
+	 TJJXt4cLK/64imGQVuJFSVvyHploEd07xhCR/99xHSeyAgI3m5oCGUYZC9JHLjNgT+g==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=wyuan.org;
-	spf=pass smtp.mailfrom=wyuan.org;
-	dkim=pass header.d=wyuan.org header.i=@wyuan.org header.a=rsa-sha256 header.s=key1 header.b=noWlk7ff;
-	arc=none smtp.remote-ip=95.215.58.205
-Received: from mta1.migadu.com (out-205.mta1.migadu.com [95.215.58.205])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	dmarc=none header.from=sang-engineering.com;
+	spf=pass smtp.mailfrom=sang-engineering.com;
+	dkim=pass header.d=sang-engineering.com header.i=@sang-engineering.com header.a=rsa-sha256 header.s=k1 header.b=BSuAcfX0;
+	arc=none smtp.remote-ip=194.117.254.33
+Received: from mail.zeus03.de (zeus03.de [194.117.254.33])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 11DA7606A32C
-	for <workflows@vger.kernel.org>; Thu,  5 Nov 2026 08:34:19 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 11DA7606A32C
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=wyuan.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=wyuan.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AE109606A31B
+	for <workflows@vger.kernel.org>; Thu,  5 Nov 2026 08:50:24 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org AE109606A31B
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sang-engineering.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=wyuan.org header.i=@wyuan.org header.a=rsa-sha256 header.s=key1 header.b=noWlk7ff
-X-Envelope-To: workflows@vger.kernel.org
-DKIM-Signature: a=rsa-sha256; bh=zClrcHGLDzT23aIyNgtsDXJndZr3lkUPgSp0Qa+dhfg=;
- c=simple/simple; d=wyuan.org;
- h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
- t=1793867656; v=1; x=1794472456;
- b=noWlk7ffB+Dzl6UKHGgE4HtHCybgrJIBH3aDepc5o/Ozko5Kyi39D2aOx2NBqeaaKQ1WMrGQ
- f0UWAftglynJikvNw5HB16mFmy9p3HxfLJa4ugmNmq/mxjdUEmGB+wdWm9e5syYFpWmwxnIGwV+
- Ke3oRw3vJQSaitGmfHEXsBrjrF3BD4Bf8Rco2ZCLLa0jCT+OtB8fBuY5Wx2gKeOsHzUnagZDzIv
- Fhm6EIDgbu4MAmsQwWpf5knSZpD4bYFB1EkT/EG1mqvxHkIA71mki0qjEgKsoJfR4T7XOgS0OPb
- s1VGEzCbXGYAAOxfYs+P8SvMROtIyB/+8JNoJbDYEjFTA==
-X-Envelope-To: workflows@vger.kernel.org
-Received: by smtp.migadu.com with ESMTPS id 2606b68ee5890bc3;
-	Thu, 05 Nov 2026 08:34:12 +0000
-X-Mizu-Trace-ID: 2606b68ee5890bc3
-X-Migadu-Flow: FLOW_OUT
-Date: Thu, 5 Nov 2026 16:34:02 +0800
-From: Weijie Yuan <wy@wyuan.org>
+	dkim=pass (2048-bit key, unprotected) header.d=sang-engineering.com header.i=@sang-engineering.com header.a=rsa-sha256 header.s=k1 header.b=BSuAcfX0
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	sang-engineering.com; h=date:from:to:cc:subject:message-id
+	:references:mime-version:content-type:in-reply-to; s=k1; bh=i09F
+	KaWoTqtKsFXZIJxb/id6UZzTo17qjziWu87IOTI=; b=BSuAcfX0CNLkKQs4idDV
+	9bc6Kj4bL1r9/LHXlpPoDPeFZRhlnv2TmWBsLltrIY4fhrJw6xfyRPKNSk54SBT/
+	FJnSasVB+LNWDxWJ8C+1M4Fa4NdaedAuWTQyCNKBmiVQGc2nvJgiG9RAdEHlDPBD
+	ydR8t1n8vrVv7yLuYqcp+07XmspQO2ADP2suN5qxp6tfAh/Y3FtLygWuYij+Oy23
+	0B+b7rGJndz8IxmkfUPVZPsuXy9qV7rFdwkV9Flc3mFbUWKS31d3bN/++InbHBqX
+	7cYcp9TDygZCKByg2LDy3aFlEtJkWz4/+SXMuvZxIYGGLdSCILFATg35IEkYTIjQ
+	jA==
+Received: (qmail 1073366 invoked from network); 5 Nov 2026 09:50:22 +0100
+Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 5 Nov 2026 09:50:22 +0100
+X-UD-Smtp-Session: l3s3148p1@O3b4lYNfeq/AwtcC
+Date: Thu, 5 Nov 2026 10:50:21 +0200
+From: Wolfram Sang <wsa+renesas@sang-engineering.com>
 To: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
 Cc: Jonathan Corbet <corbet@lwn.net>,
 	Shuah Khan <skhan@linuxfoundation.org>,
 	Randy Dunlap <rdunlap@infradead.org>, workflows@vger.kernel.org,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] docs: submitting-patches: Clarify half-baked review tags
-Message-ID: <auw_egkhHADKXL90@wyuan.org>
-References: <20261104171744.439209-2-krzysztof.kozlowski@oss.qualcomm.com>
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+	Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Subject: Re: [PATCH v2] docs: submitting-patches: Clarify half-baked review
+ tags
+Message-ID: <auxDTdfMVS3yazCk@shikoro>
+References: <20261105082729.19622-2-krzysztof.kozlowski@oss.qualcomm.com>
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Post: <mailto:workflows@vger.kernel.org>
@@ -69,82 +69,31 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20261104171744.439209-2-krzysztof.kozlowski@oss.qualcomm.com>
+In-Reply-To: <20261105082729.19622-2-krzysztof.kozlowski@oss.qualcomm.com>
 
-Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com> writes:
 
-> Refactoring of driver subsystems or some core driver parts often come
-> with change of the actual drivers.  If that happens within one patch,
-> people giving "Reviewed-by" tag only to piece of the patch, like one
-> driver, and ignoring entire rest including the main concept of the
-> patch, are not really reviewing "the patch".
-> 
-> As explained in Submitting Patches document, the "Reviewer's statement
-> of oversight" is for patch:
-> 
->   (a) I have carried out a technical review of this patch to
->       evaluate its appropriateness and readiness for inclusion into
->       the mainline kernel.
-> 
-> The sentence is complete, meaning it does not allow implicit variations
-> "this patch or part of this patch".
+> +If the reviewer checks only a piece of the patch, leaving the rest unreviewed,
+> +then more appropriate is Acked-by tag or adding a "# subpart-name" marker
 
-Agreed.
+"... is an Acked-by ..."?
 
-> Reviewing pieces of patch while ignoring the main part of it, is
-> much closer to Acknowledgment, thus Ack, and "Reviewed-by" credit should
-> not be applicable.
+> +after the Reviewed-by tag:
+> +
+> +	Reviewed-by: I Did Not Read Everything <foo@example.org> # bar, baz
 
-But in this case, I suspect that your "Acked-by" trailer will still be
-interpreted as an ack of the entire patch in future git logs, rather
-than a partial ack and/or a partial review.
+How about being more specific?
 
-IMO, it would be better to clearly specify which specific parts I
-reviewed, like "Reviewed-by: foo # for part a". But if there were no
-such usage, I would actually think it would be better not to give
-any type of trailers.
+ +	Reviewed-by: Driver X author <foo@example.org> # for Driver X
 
-> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
-> 
-> ---
-> 
-> And let me even bring a better example. Imagine a patch, doing massive
-> refactoring of core SPI stuff, 1000 lines of code, complex locking and
-> also simultaneously updates drivers to the new API changed in here.
-> 
-> Reviewing that 1000 lines of code in core SPI with complex locking takes
-> someone 30 minutes. He gives Rb tag, gets credit.
-> 
-> Now another person comes, looks at a SINGLE line in one driver he is
-> responsible for and gives Rb tag. For 10 seconds job of looking at one
-> changed call in one driver.
+TBH, I think the above is even better than a generic "Acked-by" which is
+basically "Yeah, I didn't look in detail but the general approach looks
+fine". Which is not what the above says. The above says: "I didn't check
+the general approach, but assuming it is okay, the changes to my driver
+are correct". If I get a couple of those, then I know which parts have
+been reviewed and which have not. A list of generic Acked-bys will not
+provide that information. So, actually, I think even the Acked-by should
+have the "# subpart name" once only a part of the patch has been looked
+at. Ack/Rev is then describing the thoroughness of that look.
 
-Yup, therefore, we better suggest that the latter should not give out
-any trailers, or explicitly state which parts I have reviewed.
+Do you get what I mean?
 
-That said, my understanding of these is not as profound as yours.
-
-Thanks.
-
-> ---
->  Documentation/process/submitting-patches.rst | 2 ++
->  1 file changed, 2 insertions(+)
-> 
-> diff --git a/Documentation/process/submitting-patches.rst b/Documentation/process/submitting-patches.rst
-> index f271d7413f72..d2aa31bdee1e 100644
-> --- a/Documentation/process/submitting-patches.rst
-> +++ b/Documentation/process/submitting-patches.rst
-> @@ -585,6 +585,8 @@ serves to give credit to reviewers and to inform maintainers of the degree of
->  review which has been done on the patch.  Reviewed-by: tags, when supplied by
->  reviewers known to understand the subject area and to perform thorough reviews,
->  will normally increase the likelihood of your patch getting into the kernel.
-> +If the reviewer checks only piece of the patch, leaving the rest unreviewed,
-> +then more appropriately is Acked-by tag.
->  
->  Both Tested-by and Reviewed-by tags, once received on mailing list from tester
->  or reviewer, should be added by author to the applicable patches when sending
-> -- 
-> 2.53.0
-> 
-> 
-> 
