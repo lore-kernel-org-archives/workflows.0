@@ -1,78 +1,78 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=100.103.45.18
 ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1793906061;
-	b=noA9bM0dY/iaVvpwFYt7xrcC1+JuBAHFTyL9bNB00X5OF+GPNPKYOrFQ6kWK8Z2e6TBR
-	 qtYKvvttsrgw6r9Ibcpmy2y8duSuE/8J2Jm89jrWenXIDIrn8rceeuIPOWRr0uGwznChJ
-	 aVaW45+GOxrpv6f0K1uh1EkNG1Zju0LRPrRv6NnOPsKH/eht6DAY+TlzEe8J7n3H9xWm3
-	 UTxlCEfjzDrg+QfADnZpfkk3k8miMu47r3JGSWn+/9PneaCNZJIrGr3TwTmsd+b8+NSai
-	 UiZ/rKCHSyEzLTwbZm+5VEsed7XX3jWsEjh3HUg2RHS3haIDm3st44QPRbKuVur5UXg==
+	t=1793906114;
+	b=FDKcvtAu7Ib/9yyQjMAhmSbnv5qZNKHuOC+rBRkQgAhvy38olBRcq+JMF4u8xm4CjUa3
+	 9qgppJ9UhlDeaXncCJlcjrJ0k0KArmZns6GTLwUfK/76NihcMcwt4pARapN0TzprRX83y
+	 6n99Idz9nrw1UxnPgG7bHL8bMuChyXHCGVR7Ul7ZkPve7fLRLL1foUD7Eq36hEXkNgu99
+	 iEFkV86PjYl9NnlpJgj/3K4T1RxkOp9ktM3NxNradPljDE8ugb0S7hAJCn37hzESmvCCd
+	 4puWI3GEo789eG7oW/UkhtlIiHMOJVfHMiN+6HldIqUtfMSH3DpQ25178H4zuj5HqWw==
 ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793906061;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793906114;
 	h=Received:DKIM-Signature:Received:From:Date:Subject:MIME-Version:
 	 Content-Type:Message-Id:X-B4-Tracking:X-Change-ID:To:Cc:X-Mailer:
 	 X-Developer-Signature:X-Developer-Key:X-Endpoint-Received:
 	 X-Original-From:Reply-To:Content-Transfer-Encoding;
-	bh=LzkxII8lAiBQbIMBPyJuv54STnicmUncYENK25TQp/k=;
-	b=WgjcSEAj0ZZbPsgeXwfW+pdThfbImB+vs3fn0zyVroKo0r3zTarKabrzWSHlxwyEz4Cr
-	 o1dDLVwibw46udsAQ7s6q5gzZOkpm4/cCzNJTtGOZEC2fLn3uWyH1JBEyUdwivgOsmA/F
-	 Zqe0mKbx5SaZ3yhm4nv/tF0ws7SfMio+03z+MxaE6SG245OLsIVrcsLZfaQ6r52yQMQ0v
-	 XQuprXXifH9jpZydH/mfy0Bh38ZNe0Zp4m09WrecqicQd1loowkz+Oi7XZLb1b/ressoz
-	 WoVIlTHlybzwu4HXg0QRcDH0RwXlBa/lpSPGgFfBxR00xZNnp4WGnzysxL28FNMjWpg==
+	bh=MpkkzqM49PBx0OBrKa1vrz682hROHV6z9UgJRkS0jW8=;
+	b=xgLEk9SVnzhICRv7+WhRSzhtuV8PUY4Zmd9B7bY/2O69IwQCW5MUV0kbG8GuLK91Li+u
+	 cUVnUhrYTk1p6UW0scZf5/Wm005Hmfj8a/ShEJmUTtxoRLi5BAxAXUrUQOD6AxcLICxjQ
+	 TDQYdaFu5RZD3XZ7b/bq/FpKPmGqgn57o3ULVTiIZpG2Q85NGxddFJAPsRdYQN0wfgdXh
+	 X9pxFQ4gVSwz+GVAIP2H6GAUbonpkDiixRAVvKbaAa/UUkNuqVovUAp9EyMuzYRdFAucX
+	 A8Ub/5cXDQ3/+4ZGBRpLj5yNpDmVhfjTLKBkpmqy8QtDOFmiQT0yEVI4GbxhaNEJ2Pg==
 ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=KfgWkv9z;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=M5eYWgdW;
 	arc=pass header.oldest-pass=0 smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CC46E606A32C;
-	Thu,  5 Nov 2026 19:14:20 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 70853606A328;
+	Thu,  5 Nov 2026 19:15:13 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=KfgWkv9z
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=M5eYWgdW
 Authentication-Results: smtp.kernel.org; arc=none smtp.remote-ip=100.80.115.77
 ARC-Seal: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256; cv=none;
-	t=1793906060;
-	b=eReEQwdP01SYFCeBQtyn+NZcGsjSvhCjEg5mw2/8TjEYSNdBGqoInrX5LC7reriUroZg
-	 vEe7jBC8zUojbLDaDYGPCnAZGugWJqSegRQzqtfYLj+qeERQmr1Zd2C9+P2ddAzZY0bek
-	 UahVTtTrPyhPG5uUS6EUu3AzMfNks+j8q5qmGwL9kJUE1VFc+33UmrtaK9AeQLmtwHM/i
-	 E0cDWeaeqMP20CrKp8aPVqlfKwQyULd+8mkp2cD/r85nrZwjUjRR9MT8ciFzplms+RsC8
-	 LMLREv7Khr63rzfLqCgpOOyFPIs/f4LCeysmIYnZPFPmD5hZnllGfvQic0t6DgX0pXg==
+	t=1793906113;
+	b=z7jUqkpry17ZyMXbfxTKx7QnCCB/VV95RT2LKjdGuLuQBCO1d/UopkLhQ7rf5WMIclKa
+	 TImhb3AJ3dhvZ3s2G715xIjJo/bDDKQqTeUI3Gi7og54kaBb4uLt/3J/VXFyFl2lq49l5
+	 HfroS+yDfbDnuSTmAxZargbxok6R5JXu6AJWt3vMd9Vkf6fiMvYxk0Jjsl44aAX1hynAS
+	 7QoOBlJIOAX6I6RC32ZRME+0p/aWc5FmKWrh5Jazsujp1G+PdOj3ZgYgVoS53PgyHxywv
+	 cYfmcCEEwFjTmhsifEm2KY/pMWBUw7K95+EbzFbbmGC98k3lA1b+A5WuxH8tGveNwdg==
 ARC-Message-Signature: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256;
-	c=relaxed/relaxed; t=1793906060;
+	c=relaxed/relaxed; t=1793906113;
 	h=DKIM-Signature:Received:From:Date:Subject:MIME-Version:Content-Type:
 	 Message-Id:X-B4-Tracking:X-Change-ID:To:Cc:X-Mailer:
 	 X-Developer-Signature:X-Developer-Key:X-Endpoint-Received:
 	 X-Original-From:Reply-To:Content-Transfer-Encoding;
-	bh=LzkxII8lAiBQbIMBPyJuv54STnicmUncYENK25TQp/k=;
-	b=pVXqXC7kHMRZIWPjtCxb6k89ZBwZJWLdLGXRlFsknfGLfDqGlIIgfG0NBbwRtvpueURc
-	 aY5A1KLxOj3bgBXHwIw5ftdKN5lamwxQDA7k0wi7KoLLxvwvWTWN3KItZEvr5rsPYnIbp
-	 kJy7njQ+th8m0sERKwZASzAT5p8mUnEF+B174Nr5dcsqxa6GM2SEloyllzuXln0w3DMhf
-	 MUqa7L40q0KRBbPtKsw18eIHDwAQ3ukd68QaW14lcj2v1dpgTGSz+ZiWqQL1xqNQuEY2C
-	 0lKA+MTo6CjqiGLjaVYEIdeAPNEMOs2E1GvhYwH2KM5I5qLxikPDHMqOYMCzrNyq1jA==
+	bh=MpkkzqM49PBx0OBrKa1vrz682hROHV6z9UgJRkS0jW8=;
+	b=sGyyC5OidUD6snVbZlxzaALQrUU7gTODXzKroWhAHiHs86JzvxpNe/Ew/iAajRDcVFgV
+	 CsaZa8TuL84yTI87UpIPPnpXTl+yCipZtnqCRd5J5nAPonxNUOW78WD48cmnj6vxlAE3M
+	 4vOhDvw18ZZXpZqQFWslGgi7A1RkDic83urwtCJoLZ4GUpECCpfpE4r0d1ttu4CzYxWo9
+	 zfz/aHteDGnKtK5f84WZsCeaEM5HW1TrKLXNYqbWQ9eD/GRE5qlnTxJ5RhfWEyg5iXqmk
+	 4s+SbS5LBNsU5e1FL1NYfc/+IHO1/clT8OtN58ySK6g3gGeddrsS3PW9VShHfB4WaDg==
 ARC-Authentication-Results: i=1; smtp.kernel.org; 
 	arc=none smtp.remote-ip=100.80.115.77
 Received: from lkml.kernel.org (nexus.subspace.kernel.org [100.80.115.77])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.kernel.org (Postfix) with ESMTPS id DAF401F0093A;
-	Thu,  5 Nov 2026 19:14:19 +0000 (UTC)
+	by smtp.kernel.org (Postfix) with ESMTPS id 330481F000C1;
+	Thu,  5 Nov 2026 19:15:13 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793906060;
-	bh=LzkxII8lAiBQbIMBPyJuv54STnicmUncYENK25TQp/k=;
+	s=k20260515; t=1793906113;
+	bh=MpkkzqM49PBx0OBrKa1vrz682hROHV6z9UgJRkS0jW8=;
 	h=From:Date:Subject:To:Cc:Reply-To;
-	b=KfgWkv9zDU/KRv8ddBjGXcA1g1pZL2YGElH+Mq056F8yr2L1P3AwusHlqajXELXFq
-	 PhAXUOSRFg7LKZG5hrlwDeF43yBLMv/rkTvaYVKI+08QThn5lboSGeWz263TGi+1uC
-	 +/Zms82ZgFPgNgmZLzLDgT0g3KPRKJiLuBGXJmeFouF1I3zUyntfFJCQBY2aIotyGr
-	 sPz8FLB2C0O3uiEyI9emQ+7U3oet12hIpozW1JZxHE+eBXjzbpUL6pUUx6UXszReI+
-	 DBdVJWxMYZLrCMANsq0m2p8mjEuBqQVxEhkix+wE8RbWWd5yKTZypsHZj5Xgi/ONTQ
-	 Ql7/WVpYCYCbw==
+	b=M5eYWgdWZ/dMzIQEiVrUqbSuFBYNoc/9QOtxMWVd5nDrmHiKaTUbLSmRrkWneDOc/
+	 oqAMHrFq2Uh/TZpqXr0K9IqplchuEduyIzur8XDWjcrIsNviegOHNZuLBenTtKuYhF
+	 uogAX2tT1zzH8Lmx2LH+dFNrfzuq93DgkeL5m8JtvlgMtM9o8vm2KYvBlh4ZBDIv/D
+	 HwZZJPfn4a1EvGENPRaeA7ihDnR43Vfvxqq4kCO9FUy6vymqhQehf5Hod5glTjVOvX
+	 +ygKPXGAKdtkF+MENvRjY6TGKMIkEwkPj/ZO4sHJb6uW/n34SLUIV9y5UWyT4oqP1y
+	 QEsTIMtDmh7SQ==
 Received: from nexus.subspace.kernel.org (localhost [IPv6:::1])
-	by lkml.kernel.org (Postfix) with ESMTP id 3619D4735C;
-	Thu,  5 Nov 2026 19:14:19 +0000 (UTC)
+	by lkml.kernel.org (Postfix) with ESMTP id B8223473D0;
+	Thu,  5 Nov 2026 19:15:12 +0000 (UTC)
 From: =?utf-8?q?Oscar_Alejandro_S=C3=A1nchez_Lucero_via_B4_Relay?= <devnull+aleszlucero.gmail.com@kernel.org>
-Date: Thu, 05 Nov 2026 13:14:05 -0600
-Subject: [PATCH v4] doc: process: clarify scope of applying-patches as
+Date: Thu, 05 Nov 2026 13:15:09 -0600
+Subject: [PATCH v5] doc: process: clarify scope of applying-patches as
  legacy reference
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
@@ -84,23 +84,24 @@ List-Owner: <mailto:workflows+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
-Message-Id: <20261105-doc-patch-fix-v4-1-3eb49e363f64@gmail.com>
-X-B4-Tracking: v=1; b=H4sIAAAAAAAC/33MSwqDMBSF4a1Ixk3JzUNrR91H6UBvbjRQjaiEF
- nHvjY5KoQ7Pge9f2ESjp4lds4WNFP3kQ5+GPmUM26pviHubNpNC5gBCcxuQD9WMLXf+xYXUQDV
- RKY1myQwjpXvv3R9pt36aw/je8xG2918pAgeeQ4F16TRaXdyarvLPM4aObaUoD7VMWuUCHCqDR
- phfrQ61StoVgHixZAtbfut1XT+8xyF6JgEAAA==
+Message-Id: <20261105-doc-patch-fix-v5-1-0658a9e3e235@gmail.com>
+X-B4-Tracking: v=1; b=H4sIAAAAAAAC/33NQQ6CMBCF4auYrq3ptNMirryHcQHTqTQRMGCIh
+ nB3CytCIss3yffPKHruIvfichhFx0PsY9ukYY8HQVXRPFhGn7bQSjsAhdK3JF/FmyoZ4kcqjcA
+ lc64timReHafz0rvd065i/26775IfYL7+Kw0gQTrIqMwDksfs+qiL+DxRW4u5NOhdrZM2TkEgY
+ 8kqu9VmV5ukQwZEZ88+8/lW41rbrcb5N5eYs3EmOFzraZp+ZndC12QBAAA=
 X-Change-ID: 20261104-doc-patch-fix-0241ebee9254
 To: Jonathan Corbet <corbet@lwn.net>, 
  Shuah Khan <skhan@linuxfoundation.org>, 
- Randy Dunlap <rdunlap@infradead.org>, aleszlucero@gmail.com
+ Randy Dunlap <rdunlap@infradead.org>
 Cc: workflows@vger.kernel.org, linux-doc@vger.kernel.org, 
- linux-kernel@vger.kernel.org
+ linux-kernel@vger.kernel.org, 
+ =?utf-8?q?Oscar_Alejandro_S=C3=A1nchez_Lucero?= <aleszlucero@gmail.com>
 X-Mailer: b4 0.14.3
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1793906058; l=2347;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1793906112; l=2566;
  i=aleszlucero@gmail.com; s=20261104; h=from:subject:message-id;
- bh=uXAeXMYJHBZaq18If5t37B8wZb2wghKi5aFBALJmnDg=;
- b=khlWhtgm3JIArww2rBqs4kYMf3N+eC2YdcxDXdzbYFWUnNfeTTQyzy1t2hsgJBvRo1GCKxf/v
- dsCfLkNF+lxBh4wxMs4RfXEp8j7W1aFBbPcZfL18pwyTeNb48bsR6Ia
+ bh=EN6cekPPb56Q6tXd+PLg1flIaO+HFXQJ6iP8RFMTeKI=;
+ b=lhaJ3a9bk8+wmSU718Ox11hg+qBPbvt1otVm9sRmn2ZoJ7xbVw10r6GPtZ/275iFiALezSOS0
+ /QA6NppvzZFCRLwcDnTfTjMEniJJDmJaocC7ccajgfBKSS505VDhD5k
 X-Developer-Key: i=aleszlucero@gmail.com; a=ed25519;
  pk=zRzEBMID7l1FXqr2CjfnlIn++3m3N05FuNYb5zPA3cw=
 X-Endpoint-Received: by B4 Relay for aleszlucero@gmail.com/20261104 with
@@ -128,6 +129,11 @@ Update the applying-patches.rst document to clarify that it serves as a
 reference for legacy or constrained workflows where Git infrastructure
 is unavailable, redirecting new contributors to standard Git-based tools.
 ---
+Changes in v5:
+- EDITME: describe what is new in this series revision.
+- EDITME: use bulletpoints and terse descriptions.
+- Link to v4: https://lore.kernel.org/r/20261105-doc-patch-fix-v4-1-3eb49e363f64@gmail.com
+
 Changes in v4:
 - Restored missing blank line, cleaned template markers, dropped duplicated alias, and updated links across versions v1 to v4.
 ---
