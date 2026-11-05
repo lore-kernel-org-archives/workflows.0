@@ -1,47 +1,79 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
-ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793895779;
-	b=VBrWnz1GiWWYq7ldSXsvdJimPenAxhwL4SSCmk5+h36U33zBFUrXOWyjdjOQMr/pbQQB
-	 oB0OpaL5wzfJz7pDQsVvUB4gg4h+/iO7BK6fI10+ov6Pz+56np3NyuvE9u4fIF2LD5yhE
-	 ZF459jGKLXkh6XutifxlzaySM3ur5XckAmcBp6kGE4x4xPsOUORUQKexNDA6ZGH7dtlI2
-	 ixiaNo/kMrafcl4jv9dDRL9irVbbjTJjQg0OU2bUlI2LAoHAC4jJPoOoEbw8sVQ7g74ai
-	 q2Jaew6EIWFGDqVXV4leyjIlTL6W4FEcC9McvLyqdrgSxrZ6F6Gazq9LfHgG++x9gpQ==
-ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793895779;
-	h=Received:DKIM-Signature:Message-ID:Date:MIME-Version:User-Agent:
-	 Subject:To:Cc:References:From:Content-Language:Autocrypt:In-Reply-To:
-	 Content-Type:Content-Transfer-Encoding;
-	bh=xMDJFgFKzazRN3fNKaGMf9eLHRyozGcCxfZ52PEAG88=;
-	b=wOdCxc9FQMu4++XrhmrP9/D0UzJ/Zc7lZ1fUPj4cWETYSywmeYQ/N6H4jBxQjNWKbdfe
-	 myOKXCVDbAjvmMUrHFZwPPSOpU0qjubq7keOYPwi5hpt8IYxUWLO8tEW6zOo1wAs8gDD2
-	 V4lRirQZnGHfup4M22RbKmvYnSJk96zeJwxnQDusnznFowfd60hVlJILsx0Bs3LuJ5AzM
-	 D/U8upiKAkP+92qmnYh0pE1dciIbgTBVfQh9MrcGgJXGUkdEV/szZ7++wKB+Ot7x4Leks
-	 OScLL4OjmwuvD1Bza3lIqjJMYsN7mkzTrvQHaVBITcUoQoGfvIoxyU9FYarjipBZHeA==
-ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=ZuqqyZqY;
-	arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=100.103.45.18
+ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
+	t=1793906061;
+	b=noA9bM0dY/iaVvpwFYt7xrcC1+JuBAHFTyL9bNB00X5OF+GPNPKYOrFQ6kWK8Z2e6TBR
+	 qtYKvvttsrgw6r9Ibcpmy2y8duSuE/8J2Jm89jrWenXIDIrn8rceeuIPOWRr0uGwznChJ
+	 aVaW45+GOxrpv6f0K1uh1EkNG1Zju0LRPrRv6NnOPsKH/eht6DAY+TlzEe8J7n3H9xWm3
+	 UTxlCEfjzDrg+QfADnZpfkk3k8miMu47r3JGSWn+/9PneaCNZJIrGr3TwTmsd+b8+NSai
+	 UiZ/rKCHSyEzLTwbZm+5VEsed7XX3jWsEjh3HUg2RHS3haIDm3st44QPRbKuVur5UXg==
+ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793906061;
+	h=Received:DKIM-Signature:Received:From:Date:Subject:MIME-Version:
+	 Content-Type:Message-Id:X-B4-Tracking:X-Change-ID:To:Cc:X-Mailer:
+	 X-Developer-Signature:X-Developer-Key:X-Endpoint-Received:
+	 X-Original-From:Reply-To:Content-Transfer-Encoding;
+	bh=LzkxII8lAiBQbIMBPyJuv54STnicmUncYENK25TQp/k=;
+	b=WgjcSEAj0ZZbPsgeXwfW+pdThfbImB+vs3fn0zyVroKo0r3zTarKabrzWSHlxwyEz4Cr
+	 o1dDLVwibw46udsAQ7s6q5gzZOkpm4/cCzNJTtGOZEC2fLn3uWyH1JBEyUdwivgOsmA/F
+	 Zqe0mKbx5SaZ3yhm4nv/tF0ws7SfMio+03z+MxaE6SG245OLsIVrcsLZfaQ6r52yQMQ0v
+	 XQuprXXifH9jpZydH/mfy0Bh38ZNe0Zp4m09WrecqicQd1loowkz+Oi7XZLb1b/ressoz
+	 WoVIlTHlybzwu4HXg0QRcDH0RwXlBa/lpSPGgFfBxR00xZNnp4WGnzysxL28FNMjWpg==
+ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=KfgWkv9z;
+	arc=pass header.oldest-pass=0 smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CDC64606A31B;
-	Thu,  5 Nov 2026 16:22:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CC46E606A32C;
+	Thu,  5 Nov 2026 19:14:20 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=ZuqqyZqY
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3C0021F000C1;
-	Thu,  5 Nov 2026 16:22:55 +0000 (UTC)
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=KfgWkv9z
+Authentication-Results: smtp.kernel.org; arc=none smtp.remote-ip=100.80.115.77
+ARC-Seal: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256; cv=none;
+	t=1793906060;
+	b=eReEQwdP01SYFCeBQtyn+NZcGsjSvhCjEg5mw2/8TjEYSNdBGqoInrX5LC7reriUroZg
+	 vEe7jBC8zUojbLDaDYGPCnAZGugWJqSegRQzqtfYLj+qeERQmr1Zd2C9+P2ddAzZY0bek
+	 UahVTtTrPyhPG5uUS6EUu3AzMfNks+j8q5qmGwL9kJUE1VFc+33UmrtaK9AeQLmtwHM/i
+	 E0cDWeaeqMP20CrKp8aPVqlfKwQyULd+8mkp2cD/r85nrZwjUjRR9MT8ciFzplms+RsC8
+	 LMLREv7Khr63rzfLqCgpOOyFPIs/f4LCeysmIYnZPFPmD5hZnllGfvQic0t6DgX0pXg==
+ARC-Message-Signature: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256;
+	c=relaxed/relaxed; t=1793906060;
+	h=DKIM-Signature:Received:From:Date:Subject:MIME-Version:Content-Type:
+	 Message-Id:X-B4-Tracking:X-Change-ID:To:Cc:X-Mailer:
+	 X-Developer-Signature:X-Developer-Key:X-Endpoint-Received:
+	 X-Original-From:Reply-To:Content-Transfer-Encoding;
+	bh=LzkxII8lAiBQbIMBPyJuv54STnicmUncYENK25TQp/k=;
+	b=pVXqXC7kHMRZIWPjtCxb6k89ZBwZJWLdLGXRlFsknfGLfDqGlIIgfG0NBbwRtvpueURc
+	 aY5A1KLxOj3bgBXHwIw5ftdKN5lamwxQDA7k0wi7KoLLxvwvWTWN3KItZEvr5rsPYnIbp
+	 kJy7njQ+th8m0sERKwZASzAT5p8mUnEF+B174Nr5dcsqxa6GM2SEloyllzuXln0w3DMhf
+	 MUqa7L40q0KRBbPtKsw18eIHDwAQ3ukd68QaW14lcj2v1dpgTGSz+ZiWqQL1xqNQuEY2C
+	 0lKA+MTo6CjqiGLjaVYEIdeAPNEMOs2E1GvhYwH2KM5I5qLxikPDHMqOYMCzrNyq1jA==
+ARC-Authentication-Results: i=1; smtp.kernel.org; 
+	arc=none smtp.remote-ip=100.80.115.77
+Received: from lkml.kernel.org (nexus.subspace.kernel.org [100.80.115.77])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	(No client certificate requested)
+	by smtp.kernel.org (Postfix) with ESMTPS id DAF401F0093A;
+	Thu,  5 Nov 2026 19:14:19 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793895778;
-	bh=xMDJFgFKzazRN3fNKaGMf9eLHRyozGcCxfZ52PEAG88=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To;
-	b=ZuqqyZqYufBnJTrLk9I13o76dGxrA9q8K0wkvEyjlIoPmbK0279ig7A92ZtWH1zVb
-	 HypMbsWxOelezgFjEXSsewOTXFoXy7sA3d753Ho0GUIZAfpkuiD9y8JQKFEbMrzjxo
-	 SGoEgVogDt1ZZ78ex8rsx1oqUR2KeLYE4BnYd8RhToncO11cP0B4cA95lZmyCLLClS
-	 gCBpbPnd9Po6Tz7jh0ZXfSpZz3FIf5JH8WloZEPn01O4vUZa2Rbc+I5spYA/UvMuwj
-	 TYrDRimvObpg/zXi+6ao+JBS80hxSoxXOv6rjTlLODOnU9a9+nQLI9pLmpfHeRPP+p
-	 0Xm7YtxwII7pQ==
-Message-ID: <3d535c77-eca2-4774-a327-e301a4f6c34d@kernel.org>
-Date: Thu, 5 Nov 2026 17:22:53 +0100
+	s=k20260515; t=1793906060;
+	bh=LzkxII8lAiBQbIMBPyJuv54STnicmUncYENK25TQp/k=;
+	h=From:Date:Subject:To:Cc:Reply-To;
+	b=KfgWkv9zDU/KRv8ddBjGXcA1g1pZL2YGElH+Mq056F8yr2L1P3AwusHlqajXELXFq
+	 PhAXUOSRFg7LKZG5hrlwDeF43yBLMv/rkTvaYVKI+08QThn5lboSGeWz263TGi+1uC
+	 +/Zms82ZgFPgNgmZLzLDgT0g3KPRKJiLuBGXJmeFouF1I3zUyntfFJCQBY2aIotyGr
+	 sPz8FLB2C0O3uiEyI9emQ+7U3oet12hIpozW1JZxHE+eBXjzbpUL6pUUx6UXszReI+
+	 DBdVJWxMYZLrCMANsq0m2p8mjEuBqQVxEhkix+wE8RbWWd5yKTZypsHZj5Xgi/ONTQ
+	 Ql7/WVpYCYCbw==
+Received: from nexus.subspace.kernel.org (localhost [IPv6:::1])
+	by lkml.kernel.org (Postfix) with ESMTP id 3619D4735C;
+	Thu,  5 Nov 2026 19:14:19 +0000 (UTC)
+From: =?utf-8?q?Oscar_Alejandro_S=C3=A1nchez_Lucero_via_B4_Relay?= <devnull+aleszlucero.gmail.com@kernel.org>
+Date: Thu, 05 Nov 2026 13:14:05 -0600
+Subject: [PATCH v4] doc: process: clarify scope of applying-patches as
+ legacy reference
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Post: <mailto:workflows@vger.kernel.org>
@@ -51,95 +83,85 @@ List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:workflows+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2] docs: submitting-patches: Clarify half-baked review
- tags
-To: =?UTF-8?B?SsO8cmdlbiBHcm/Dnw==?= <jgross@suse.com>,
- Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Cc: Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
- Randy Dunlap <rdunlap@infradead.org>, workflows@vger.kernel.org,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
- Wolfram Sang <wsa+renesas@sang-engineering.com>
-References: <20261105082729.19622-2-krzysztof.kozlowski@oss.qualcomm.com>
- <auxKHF7U1x_Ozwpm@ashevche-desk.local>
- <37ae7a7d-5d1d-4571-b5aa-a793f058407c@suse.com>
- <a470cb65-4301-4b19-88fc-3555dff68b4c@kernel.org>
- <f5ac5472-da79-4ac5-82de-36b2f5978f45@suse.com>
- <76b98471-ae9b-4ff3-8337-b50d75c4b7de@kernel.org>
- <128f8491-d7d6-4b8d-85e5-20ce9ac506d6@suse.com>
-From: Krzysztof Kozlowski <krzk@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=krzk@kernel.org; keydata=
- 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
-In-Reply-To: <128f8491-d7d6-4b8d-85e5-20ce9ac506d6@suse.com>
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset="utf-8"
+Message-Id: <20261105-doc-patch-fix-v4-1-3eb49e363f64@gmail.com>
+X-B4-Tracking: v=1; b=H4sIAAAAAAAC/33MSwqDMBSF4a1Ixk3JzUNrR91H6UBvbjRQjaiEF
+ nHvjY5KoQ7Pge9f2ESjp4lds4WNFP3kQ5+GPmUM26pviHubNpNC5gBCcxuQD9WMLXf+xYXUQDV
+ RKY1myQwjpXvv3R9pt36aw/je8xG2918pAgeeQ4F16TRaXdyarvLPM4aObaUoD7VMWuUCHCqDR
+ phfrQ61StoVgHixZAtbfut1XT+8xyF6JgEAAA==
+X-Change-ID: 20261104-doc-patch-fix-0241ebee9254
+To: Jonathan Corbet <corbet@lwn.net>, 
+ Shuah Khan <skhan@linuxfoundation.org>, 
+ Randy Dunlap <rdunlap@infradead.org>, aleszlucero@gmail.com
+Cc: workflows@vger.kernel.org, linux-doc@vger.kernel.org, 
+ linux-kernel@vger.kernel.org
+X-Mailer: b4 0.14.3
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1793906058; l=2347;
+ i=aleszlucero@gmail.com; s=20261104; h=from:subject:message-id;
+ bh=uXAeXMYJHBZaq18If5t37B8wZb2wghKi5aFBALJmnDg=;
+ b=khlWhtgm3JIArww2rBqs4kYMf3N+eC2YdcxDXdzbYFWUnNfeTTQyzy1t2hsgJBvRo1GCKxf/v
+ dsCfLkNF+lxBh4wxMs4RfXEp8j7W1aFBbPcZfL18pwyTeNb48bsR6Ia
+X-Developer-Key: i=aleszlucero@gmail.com; a=ed25519;
+ pk=zRzEBMID7l1FXqr2CjfnlIn++3m3N05FuNYb5zPA3cw=
+X-Endpoint-Received: by B4 Relay for aleszlucero@gmail.com/20261104 with
+ auth_id=1410
+X-Original-From: =?utf-8?q?Oscar_Alejandro_S=C3=A1nchez_Lucero?= <aleszlucero@gmail.com>
+Reply-To: aleszlucero@gmail.com
 Content-Transfer-Encoding: 8bit
 
-On 05/11/2026 16:59, Jürgen Groß wrote:
-> On 05.11.26 16:53, Krzysztof Kozlowski wrote:
->> Reviewing pieces of the patch while ignoring the main part of it, is
->> much closer to Acknowledgment, thus Ack, and "Reviewed-by" credit should
->> not be applicable.
-> 
-> I disagree with:
-> 
->  >> Reviewing pieces of the patch while ignoring the main part of it, is
->  >> much closer to Acknowledgment, thus Ack, and "Reviewed-by" credit should
->  >> not be applicable.
-> 
-> And I agree with Andy's statement:
-> 
->  >> TL;DR: As a reviewer for the piece in question I have done my part fully. It's
->  >> not my issue that the piece is bundled into a single patch. We have options:
->  >> 1) ask to split (and review as standalone piece);
->  >> 2) add (partial) Rb with the pointers of what exactly has been reviewed;
->  >> 3) ignore (silent agreement with the respective subsystem maintainer's opinion);
->  >> 4) ...something I forgot?..
->  >>
->  >> (even partial) Rb != Ack.
+From: Oscar Alejandro Sánchez Lucero <aleszlucero@gmail.com>
 
-So the patch contents is fine, but commit msg is not? OK, thank you.
+The applying-patches.rst document describes the manual manipulation of
+source trees using the traditional 'patch' and 'diff' utilities. While
+technically accurate for non-Git or constrained environments, it can
+create friction for new contributors seeking the primary Git-based
+workflows.
+
+Update the opening note to explicitly state that this document serves
+as a reference for legacy or constrained workflows. Provide a direct
+cross-reference to howto.rst to steer contributors toward the standard
+Git infrastructure.
+
+Signed-off-by: Oscar Alejandro Sánchez Lucero <aleszlucero@gmail.com>
+---
+Update the applying-patches.rst document to clarify that it serves as a
+reference for legacy or constrained workflows where Git infrastructure
+is unavailable, redirecting new contributors to standard Git-based tools.
+---
+Changes in v4:
+- Restored missing blank line, cleaned template markers, dropped duplicated alias, and updated links across versions v1 to v4.
+---
+ Documentation/process/applying-patches.rst | 10 ++++++++--
+ 1 file changed, 8 insertions(+), 2 deletions(-)
+
+diff --git a/Documentation/process/applying-patches.rst b/Documentation/process/applying-patches.rst
+index c269f5e1a0a3..70142c8ec9a3 100644
+--- a/Documentation/process/applying-patches.rst
++++ b/Documentation/process/applying-patches.rst
+@@ -8,8 +8,14 @@ Original by:
+ 
+ .. note::
+ 
+-   This document is obsolete.  In most cases, rather than using ``patch``
+-   manually, you'll almost certainly want to look at using Git instead.
++   This document focuses on the legacy method of manually manipulating source 
++   trees using the traditional ``patch`` and ``diff`` utilities. 
++
++   For the standard Git-based workflow used to clone the repository and work 
++   with kernel patches, please refer to Documentation/process/howto.rst.
++
++   The information below is maintained as a reference for constrained 
++   environments or legacy workflows where Git infrastructure is unavailable.
+ 
+ A frequently asked question on the Linux Kernel Mailing List is how to apply
+ a patch to the kernel or, more specifically, what base kernel a patch for
+
+---
+base-commit: 05441d697f7f9a927264f4058cbbc6a03dfcac9d
+change-id: 20261104-doc-patch-fix-0241ebee9254
 
 Best regards,
-Krzysztof
+-- 
+Oscar Alejandro Sánchez Lucero <aleszlucero@gmail.com>
+
+
