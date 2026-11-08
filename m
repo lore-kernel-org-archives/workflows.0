@@ -1,55 +1,93 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=216.40.44.13
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.219.46
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794104301;
-	b=JyVF8xebBjIztVMQXMMHFBJy2oVDT5jkfbtoPatfzhKt4Plyw22Bfkz70Gof+Gk4QNKM
-	 qzt6JcYqfkiKNXk3FGO0bPyV8ugYdglz3giLoSWoOl7QQ/kYbrGrk+SkM8Y7CU+JmuCDK
-	 tR228mtmCYvg9uJ+d4aSGr/MbOfBbx2gEwb4dNXy28/6EHh32q8Lh2EcNMCOe9we1wLhY
-	 sSSs4P8agnIQx+NnC0gAtYG+tmHIMg4jy3CUQp8ar99SkwwznvfVAXHOE1VokoTRxX1C5
-	 w5l87mzncat4zU44eQqPCFqkSjhPtaipg4ccUiZzjFSdDsq9NB4ALgvFp6Y6pziuwGQ==
+	t=1794175629;
+	b=tghSxZS5CGqc3lTrLc9i1UP+h3fdO0tY/J+9uUu4OHY3VNmFhYm42xyTDrZsZZbwLioB
+	 mQl9Ov6VIkKfCWjXsyZyk+Hzzt1ybg2ajhxQJaoJrYYYcq3WjqGfraiM37jIht8QHGoEO
+	 3na+hePCf8z+4zGvbkordb8KUyOvc/G38u6rgl3A5+RiQ87gtVyKxtSk+rl0SpbEraYNQ
+	 4Sqwlh2EUE233v0RQUQFF4Cbryr6kLPmzydzyOPh6euy7QqHnuKbwfuYXAtoiXmMZ9Vvh
+	 8uz6HIciU54Kmbi8eA4Lp2+EBiDI8ansJLsJYNPFVwIvfeSsqFbYoNbT467L0qm6eiQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794104301;
-	h=DMARC-Filter:Received:Received:Message-ID:Subject:From:To:Cc:Date:
-	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:
-	 User-Agent:MIME-Version:X-Spam-Status:X-Rspamd-Server:
-	 X-Stat-Signature:X-Rspamd-Queue-Id:X-Session-Marker:X-Session-ID:
-	 X-HE-Tag:X-HE-Meta;
-	bh=zYs3QAZ6lNxQw33r9L272lZm+etPpYC/6UsCgxidEY0=;
-	b=DYGRxf8prIirSSYBjgqWjXBeaS/+pfvFfqEiweaynAXrBGAm32zAStqRbR4ehW4l/ne4
-	 9bPFiv7IWB+d9Ur1Umqwqjd5AX389E9gyZjx2cXxG09BJqb7G4Jvx6N2FBu5GtbGdr8IA
-	 JBzzxuVgTRia4JC0ndWdD84Epmumawe+zDoVdqYdDE8YPVuD/mwG1ZKKlf6iLuMyKiNgV
-	 6NwFs6ZMOJJs2ixuwbnSFn+mBstXYTcBiX2S4LZf23gKQF8ccV/ZTk/goV+PE+VNXc6FW
-	 R/HN+iBqG5+vcJRXRBAQacO75z2mOz1YY00rVW4mrMOmed7MfYeuj9ydOG66dSDXqFA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794175629;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 From:To:Subject:In-Reply-To:References:Date:Message-ID:Content-Type:
+	 Content-Transfer-Encoding:MIME-Version;
+	bh=fskAnZVKzc8hUGA1+pTPLWvHFMaE6t+Q83bw3SAfWr4=;
+	b=COfq/hVs1EpV5wR6WD0D3RpEV+/rKLGFrjY0qvlRosZz/3uLtFUxwSEttdST4GdCuJx1
+	 AkGQsw3hYQXBAY8lTIHSwJBTsk4SIgzOFqnMl+aAaBQqF1TsjUKQ46AQZ3cISkY0edJDH
+	 e/vzY/1HRVhd1cgSpVv50Xmot3LRRedeEOfcmHZ8t+KPR8ucGEv87ru/RJofT+tl7ka+J
+	 A4C3ehfegNcT39ddL5VvytzikGSyB9B948T1FvYy4zbd0sZ/rmOtqVkDGT/HfiTd6//Cy
+	 flb0fi0rJHiKKwDw8q5ZQAIpiGOUffNbC6B/9U2BouebR70x3fMe+pZsmjdTyoNDBCA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=none header.from=perches.com;
-	spf=pass smtp.mailfrom=perches.com;
-	arc=none smtp.remote-ip=216.40.44.13
-Received: from relay.hostedemail.com (smtprelay0013.hostedemail.com [216.40.44.13])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	dmarc=pass header.from=gmail.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=DMkSfkrI;
+	arc=none smtp.remote-ip=209.85.219.46
+Received: from mail-qv1-f46.google.com (mail-qv1-f46.google.com [209.85.219.46])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5B715606A31A;
-	Sun,  8 Nov 2026 02:18:21 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 5B715606A31A
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=perches.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=perches.com
-Received: from omf19.hostedemail.com (lb01a-stub [10.200.18.249])
-	by unirelay05.hostedemail.com (Postfix) with ESMTP id A2684402D7;
-	Sun,  8 Nov 2026 02:18:19 +0000 (UTC)
-Received: from [HIDDEN] (Authenticated sender: joe@perches.com) by omf19.hostedemail.com (Postfix) with ESMTPA id 8004020025;
-	Sun,  8 Nov 2026 02:18:17 +0000 (UTC)
-Message-ID: <5f6243cd0c0d26e89d9ef17abb68fcec240fa3dd.camel@perches.com>
-Subject: Re: [PATCH] docs: checkpatch: Fix DEVICE_ATTR_WO macro name
-From: Joe Perches <joe@perches.com>
-To: Mauro Codella <mauro.codella@pm.me>
-Cc: corbet@lwn.net, skhan@linuxfoundation.org, rdunlap@infradead.org, 
-	workflows@vger.kernel.org, linux-doc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org
-Date: Sat, 07 Nov 2026 18:18:16 -0800
-In-Reply-To: <20261107230208.326769-1-mauro.codella@pm.me>
-References: <20261107230208.326769-1-mauro.codella@pm.me>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.60.2 (3.60.2-3.fc44) 
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CBD04606A322
+	for <workflows@vger.kernel.org>; Sun,  8 Nov 2026 22:07:08 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org CBD04606A322
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=DMkSfkrI
+Received: by mail-qv1-f46.google.com with SMTP id 6a1803df08f44-91eb3fea2a9so2774526d6.3
+        for <workflows@vger.kernel.org>; Sun, 08 Nov 2026 14:07:08 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20260707; t=1794175627; x=1794780427; darn=vger.kernel.org;
+        h=mime-version:content-transfer-encoding:content-type:message-id:date
+         :references:in-reply-to:subject:to:from:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=fskAnZVKzc8hUGA1+pTPLWvHFMaE6t+Q83bw3SAfWr4=;
+        b=DMkSfkrIvh1J0HmyqnldyergtJCpVvzbM5wCx8OJ2o23lhtd7XoP/mungBoCmsSuqV
+         M+rYApkY8E0axtbaa8c13yvk09njje6q4WLdVpJlBRrKUkSiA5bVzZwBO1ycKC4sqJIB
+         R+Nkm8BWTmhQ1/h+bNlpkJ0sR92QwIqusM2bsN8SVZr+JR1VvGLQqBKIdo5z1FOoj/OM
+         abdkoH7n1mm4fwCKsW85apwhJYw/e2R3cVgrjcPJxPubj9JnXKEZ427TWvB9z3Pc3D6z
+         6V7XaK1/XyDyfSxMPSZ5S1XB3652vVtep5CjHsJygTDjnHK8tdBGZOY0VaHvLr8eor7U
+         iBHA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1794175627; x=1794780427;
+        h=mime-version:content-transfer-encoding:content-type:message-id:date
+         :references:in-reply-to:subject:to:from:x-gm-gg:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=fskAnZVKzc8hUGA1+pTPLWvHFMaE6t+Q83bw3SAfWr4=;
+        b=tRc4r/+m8ymNJE/1skBtdynUtay4UMRzB7CBnUt3R6L8tzn8ZnkPckiDIyFP6iGKma
+         ToAapMMBJm9FD7QexmvgCV71oGzBmrVOzFe+IJOfReNZqrY/6fpI69mk0Va4syA8egBs
+         Ig8WkkbK9PVeZG110tW5ZdpCov0MWUjgAPTtmPK7oihYFZ/kiQzkioEfrbTSQqHIyA4C
+         9IKslY9oFUxVRuYhfXLA42R3SNl7WBrW1Y7Bd0dhcKyi6ep48Y6mEzpc4HniaNk8xN5S
+         BclQc4pt52ui0pZof1pyHD1IxgEkgtwzn18zSbbgcroezO3RONf7QGycXw7pBf32t2ez
+         PcDA==
+X-Forwarded-Encrypted: i=1; AL+hErEeaWgUtl7Li+rUayySgpbRooeByaRXAZPys9agEWfum+ZANUgcVdR7GCB4pd1vbbplIvPVZNT2BpU=@vger.kernel.org
+X-Gm-Message-State: APuU4Z/25pcSqYFwHXVmYjTsgnLh3K1qsfEJPDhg6hDweecziolPJJdN
+	ZeUbzeOwEMCyHsEY79fhHJWw0pEnVkzrELBZwjUR5o+phFJ1F46ZZvg=
+X-Gm-Gg: AYBFou0hcbv23Hoamh1jTkaXnS80rr4ONWRu+G5Z8AoAPqJA5lcSDTdEo5qI0SYls6u
+	rKfMkBDda6YJBkqg3Gwz0XcvCBXCh0Glyfhv9zPbyWXYNU+yIMylQc58JqFKR2QHY5D/gdtClqw
+	2z7uF+YRFMhk/tdtqHW1JB4HoPuHVpYPsOGZj07hlvuE9Q8/PPkSOlBq2OC5gYiI/Qi00+ZzHgu
+	k2sWh9FZTHclzWwsadXZ4vS58N0FfGztiAZXnx8zyW/E1n/VU07S98dsjnkM316hwfqlNQox/7b
+	4gYfYCPPffPq64usCRedMFl1fs0hG1GW/y/lqN0WeYEZokbGtiGNfAGNUtYJ54a9bCYZ6Q5bJgG
+	rN1/H9kYCxLCuKXY2cxH3d6sq7Sjz6fjSdUKdKyeD/ePFxtkra87sqy72QNxvmaawdSB6HDmUBo
+	91uZvJia/5E9/dYbtvfyYNfZWXCVOSoiEodFihHSUM4zfGgt0Pqbml5PelCy1ZQ94lfAUSRmIq0
+	ayqOS08LoazcyHIxTg52+ntIqhpPuAgyXeuolJcA9OVaYd7bXFyYcQc/lSUI+0JFl5QEuynOjJ6
+	nrdSMdI2BGC3YqhhKAXS0a2ZvcJ2HcBuamrD0DpidvpuYMOMHWWtSug59UFZqycYHoMw6ASNx3U
+	qVjeUIR1tbDjWX9D87h8LO4CJVyLPPYA5ZHCzg4mOb0/n6Zga6a9DAevKxpEo96PKb+PzBnM=
+X-Received: by 2002:a05:620a:1a03:b0:93e:3824:4123 with SMTP id af79cd13be357-947848e90admr386631985a.65.1794175627456;
+        Sun, 08 Nov 2026 14:07:07 -0800 (PST)
+Received: from [127.0.1.1] (207-237-119-98.s2383.c3-0.nyr-cbr1.nyr.ny.cable.rcncustomer.com. [207.237.119.98])
+        by smtp.gmail.com with ESMTPSA id af79cd13be357-94782d93650sm306944185a.23.2026.11.08.14.07.05
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 08 Nov 2026 14:07:06 -0800 (PST)
+From: Eugenio Zuccarelli <eugenio.zuccarelli@gmail.com>
+To: linux-kselftest@vger.kernel.org, workflows@vger.kernel.org, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2] Documentation: kunit: document --summary and --failed options
+In-Reply-To: <179297820302.2598507.5712076951623488183@gmail.com>
+References: <179250646543.2190262.8632957027583518623@gmail.com> <CAMAsx6cniehFSgKz0+FRbGV=A=TGvogwx87xcqhiZNQGfeFFYQ@mail.gmail.com> <179297820302.2598507.5712076951623488183@gmail.com>
+Date: Sun, 08 Nov 2026 22:07:05 +0000
+Message-ID: <179417562518.1641291.6757389780804092916@gmail.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Post: <mailto:workflows@vger.kernel.org>
@@ -59,43 +97,11 @@ List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:workflows+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-X-Rspamd-Server: rspamout06
-X-Stat-Signature: nbzfgxs4gfzk87ipjedsdoyhbfn89jcr
-X-Rspamd-Queue-Id: 8004020025
-X-Session-Marker: 6A6F6540706572636865732E636F6D
-X-Session-ID: U2FsdGVkX1/G7ID+oJeKiuAmf8anonTtQyANb73atyg=
-X-HE-Tag: 1794104297-59469
-X-HE-Meta: U2FsdGVkX1/z9+anuCWnk9Eh+BcS4MQBRihKN84RhuF1u6P/XAFFHyQM0RfxCGK+a/UEsbzxZRWCZr4GKVTO3pxMLl2bMFrUHs3/kN17YcGSibPKZePqSlfff2vDynj3bWNPEgzBdUu2he4QsSNuLBhmG7OlTvQSUBOJ5wR3ZEhNyK2NsulztTVXwoGYx8Qgw19J2FZ8Mjfpu8ju+ektthSphrc7JBv7DRpc3QeexWDq/yGDpJlID8xH1LP1DIiTUAPd0SUINIKotJZELJOXwUU0TfLhof361EtFwFr1ZJESBNiDghMaItri0zuTrwWjV58HIHSiAWjZ+bGlAZQAo3BDoKk6WJkCmJtlsUGE31BDrxZnSxVSek1kT9qSMPwRxI9QhDSFFhxbVEhQR6i7TL2pLIP9LmNpuL2537oUsQQ+v1ldqoXZHWaNsdhrqNNJMULm+FTv/UE=
 
-On Sat, 2026-11-07 at 23:02 +0000, Mauro Codella wrote:
-> The DEVICE_ATTR_WO section refers to DEVICE_AATR_WO, which does not
-> exist. Correct the spelling to match the macro in include/linux/device.h.
+Hi David, Brendan,
 
-Thanks.
+Gentle ping on this v2, which has Daniel's Reviewed-by. Is it okay to
+pick up for the kunit tree, or is there anything you would like changed?
 
-Acked-by: Joe Perches <joe@perches.com>
-
->=20
-> Signed-off-by: Mauro Codella <mauro.codella@pm.me>
-> ---
-> AI assistance: Codex identified the typo and drafted the fix and commit
-> message. I reviewed the change and ran checkpatch.
->=20
->  Documentation/dev-tools/checkpatch.rst | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->=20
-> diff --git a/Documentation/dev-tools/checkpatch.rst b/Documentation/dev-t=
-ools/checkpatch.rst
-> index 6139a08c3..f8ab22c18 100644
-> --- a/Documentation/dev-tools/checkpatch.rst
-> +++ b/Documentation/dev-tools/checkpatch.rst
-> @@ -389,7 +389,7 @@ API usage
->      See: https://www.kernel.org/doc/html/latest/driver-api/driver-model/=
-device.html#attributes
-> =20
->    **DEVICE_ATTR_WO**
-> -    The DEVICE_AATR_WO(name) helper macro can be used instead of
-> +    The DEVICE_ATTR_WO(name) helper macro can be used instead of
->      DEVICE_ATTR(name, 0200, NULL, name_store);
-> =20
->      Note that the macro automatically appends _store to the
+Thanks,
+Eugenio
