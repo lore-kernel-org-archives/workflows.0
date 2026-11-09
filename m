@@ -1,47 +1,47 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=51.159.59.229
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794211418;
-	b=bBPJprUgBtY6KGsY6+RawUgikLxRrPP3ikrKFDOeHLOgjVRp3ey3T2OhqyeE4A2CTfkH
-	 /EOLwmFadPw9zAKew148AG+Baz0kTd9DIxL7psvcFl6Ub5+KoZU4N4USED/ucc5DrMZTH
-	 YWqET+Ma2AQQSU0LN6WN8xXRIJjnHlNOUwcwKMvLnTJ02Ow1hhvjUZXbDO3rNrutsUzUB
-	 HSoydyOId2r4wT69gsTh8P1bEJuex9CVslTvBx1au8wlpRi1RVR3o0+KdHedipp/G9SgO
-	 XKd74ErQHRxwsKthTvMI+PcZvzPP8ZdYwcP+Z3YDSuKSN+tIu1EuNT1T4esRo941RRQ==
+	t=1794211420;
+	b=n6HzAHESblVW1ZNJMijveuRresJbI8zPKlq4qnSAghkCbiOeNQJJ6frLZqIVG+scxyqh
+	 /NCjdMx0KD3yNqPveOuF2Ddr4m4iI3nwZRDFrpL/pQTt2MnqHOR4/SSM3UQarpD2p3D8w
+	 ppiKhBAO+TCdOsnzj8vRj1epxF47cWBz+Dra8ENIxCMjlu1MAUChRBucJPgbkLCBCKTIj
+	 vqzvIjkjYX4cG5vvhu04mfRaIO8XT9MZMjBe/j++krQlTi3glz1cW8/JXBxZzYmZvZ4Yv
+	 LHpj6JXhz98mJafEx8L0KUeGX/5czEcYaHGOKdRcGNzZqyAgB3GI4VGAVTWksbWG0hQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794211418;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794211420;
 	h=DMARC-Filter:DKIM-Signature:Received:From:To:Cc:Subject:Date:
 	 Message-ID:X-Mailer:In-Reply-To:References:MIME-Version:
 	 Content-Transfer-Encoding;
-	bh=nCwei3yxV3B2umLK1h2qgJbCXfxvzK2XX8vQpRVad2g=;
-	b=QFJOnG2spAMdPz3JafRfIweDZoNXbDX0+DL0jrIdGBkjOUT/0JnMh2joi85GZ+KnzFw3
-	 VYgjEjRUxt3C1DmLt2D3zQc6veKNtpX5Zf0nm1QMV0UHObpaRE7YurwQF+/G/EEyR3/3b
-	 kX0StpW46PQj8qvEbd0Xax/4G1PhBjN6MgUHZI0K0+eSI64O7q6xyMFzarMayFeZBwWZ2
-	 U2HhbGDG4esAcLQp4wNQSHpqJmToTXQ+LfyGPGOLh6OCMapB0JP7TGs2tZB0XAbc6ePVj
-	 D+FIntgFFAUMUivGA6VWM3RrLE23gH5LBmf+4QIjTvK2VnlmAH+uLTlIZxBwjycMS7w==
+	bh=riezwqPrJE1vkjepQ5ZLKTc1XEAXtVQQ57dUWUKKQnA=;
+	b=leHlDOLEYI968VdVY88oOyMJ1LEKgX2cC8xQdjptnNWByWbppVZ8kn87UjEQPLCsna9n
+	 A5Q5PU1tGXQkxziQU1DkSGvYuY4OZo/fTpaeL2qGkRfrH7TyDFtODCL0yrRM4d8TbiqLn
+	 Sn3YF1LmD3crbWr5rHMchrwH+Yc9bQP8pyd9g7BSWdMTQeupIWyoyuSukAwWA9bgN+6FL
+	 1/RRziMseFsVBtLo1haRRZcZIq9uqkgsSEI0FU4vYF4nOYE6BqLCRFiTEXWAq9iIv2y4W
+	 Z4pKYXAOisAeqZjpwvC6lCsF15RkEdoQ7eG5/vwFaeQJGVU2PVcFhwwO04Vo4ZfJtCQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=1wt.eu;
 	spf=pass smtp.mailfrom=1wt.eu;
-	dkim=pass header.d=1wt.eu header.i=@1wt.eu header.a=rsa-sha256 header.s=mail header.b=n3eIxTdT;
+	dkim=pass header.d=1wt.eu header.i=@1wt.eu header.a=rsa-sha256 header.s=mail header.b=ILQEXiap;
 	arc=none smtp.remote-ip=51.159.59.229
 Received: from mta1.formilux.org (mta1.formilux.org [51.159.59.229])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6381B606A323;
-	Mon,  9 Nov 2026 08:03:37 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 6381B606A323
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C24F2606EE94;
+	Mon,  9 Nov 2026 08:03:39 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org C24F2606EE94
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=1wt.eu
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=1wt.eu
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=1wt.eu header.i=@1wt.eu header.a=rsa-sha256 header.s=mail header.b=n3eIxTdT
+	dkim=pass (1024-bit key) header.d=1wt.eu header.i=@1wt.eu header.a=rsa-sha256 header.s=mail header.b=ILQEXiap
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=1wt.eu; s=mail;
-	t=1794211413; bh=nCwei3yxV3B2umLK1h2qgJbCXfxvzK2XX8vQpRVad2g=;
+	t=1794211414; bh=riezwqPrJE1vkjepQ5ZLKTc1XEAXtVQQ57dUWUKKQnA=;
 	h=From:Message-ID:From;
-	b=n3eIxTdTwnvTAZJ2goCeFbsaKIDk3nIpbd7Bu7wPyIpf3X+CoH9sndrKsdt23PTx+
-	 Jl3PU8O+PLTNJ1gniCafXwTB2v3pHYEX9/xsah86ryjNXKKmdOI22NAoH8RdRKJDEE
-	 kM/cLgKoyReqFinxfJi4CsMDsiV5Az12gcFYicQ4=
+	b=ILQEXiapRQcdJ3azEHy1K2aOFK8gl7K1/7E5iVEdoIGfpYl3DXy41Ab0JEC1Q84iW
+	 NAdc40yMCm/kwWIrNdrTXYjMijyZ7ffyfPFPkujcwEVhg7SYOZsJtoQLcWbU5ymtd1
+	 eqHyzfOWmEd2v58H6/FVC4kjkDfWhCUCGLhVkGrM=
 Received: from 1wt.eu (ded1.1wt.eu [163.172.96.212])
-	by mta1.formilux.org (Postfix) with ESMTP id DA936C095B;
-	Mon, 09 Nov 2026 09:03:33 +0100 (CET)
+	by mta1.formilux.org (Postfix) with ESMTP id 7861DC0963;
+	Mon, 09 Nov 2026 09:03:34 +0100 (CET)
 From: Willy Tarreau <w@1wt.eu>
 To: Jonathan Corbet <corbet@lwn.net>
 Cc: skhan@linuxfoundation.org, Randy Dunlap <rdunlap@infradead.org>,
@@ -50,9 +50,9 @@ Cc: skhan@linuxfoundation.org, Randy Dunlap <rdunlap@infradead.org>,
         gregkh@linuxfoundation.org, "David S. Miller" <davem@davemloft.net>,
         Eric Dumazet <edumazet@kernel.org>, Jakub Kicinski <kuba@kernel.org>,
         Paolo Abeni <pabeni@redhat.com>, Simon Horman <horms@kernel.org>
-Subject: [PATCH 04/14] docs: threat-model: clarify the case of automatically mounted file systems
-Date: Mon,  9 Nov 2026 09:02:30 +0100
-Message-ID: <20261109080240.29444-5-w@1wt.eu>
+Subject: [PATCH 09/14] docs: security-bugs: reports left unanswered for 7 days will be dropped
+Date: Mon,  9 Nov 2026 09:02:35 +0100
+Message-ID: <20261109080240.29444-10-w@1wt.eu>
 X-Mailer: git-send-email 2.52.0
 In-Reply-To: <20261109080240.29444-1-w@1wt.eu>
 References: <20261109080240.29444-1-w@1wt.eu>
@@ -67,44 +67,44 @@ Precedence: list
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Bugs triggered by crafted file system images are among the most
-frequently reported non-security issues, often with the argument that
-some desktop environments automatically mount removable media without
-checking them.
+Between 5 and 10% of the questions or requests sent by the security
+team or maintainers to reporters never receive any response. The doc
+only said that such reports "may be abandoned", without any indication
+of time, and team members keep collection of unresponded threads in
+their boxes just due to this.
 
-Let's state that automatic mounting of unchecked file systems does not
-change the analysis: an automounter is expected to check a file system
-before mounting it, otherwise it is at fault, and if the check does not
-detect the issue, the file system checker is at fault (this doesn't void
-the need to handle the kernel side of the report). Fixes should then be
-directed to these tools. The only exception remains drivers specifically
-documented as being hardened against hostile inputs, as already stated
-for non-conforming devices and media.
+Let's say that reports for which requests remain unanswered for 7 days
+will most likely be dropped. This matches the maximum embargo duration,
+which is how long the security team considers it reasonable to keep an
+issue private. Also remind that concurrent reports may cause the same
+bug to be addressed by someone else who will then receive the credit
+in this case.
 
 Reviewed-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Signed-off-by: Willy Tarreau <w@1wt.eu>
 ---
- Documentation/process/threat-model.rst | 7 ++++++-
- 1 file changed, 6 insertions(+), 1 deletion(-)
+ Documentation/process/security-bugs.rst | 8 ++++++++
+ 1 file changed, 8 insertions(+)
 
-diff --git a/Documentation/process/threat-model.rst b/Documentation/process/threat-model.rst
-index 72cb36dd383d6..b82d5d168b4c3 100644
---- a/Documentation/process/threat-model.rst
-+++ b/Documentation/process/threat-model.rst
-@@ -234,7 +234,12 @@ The following classes of problems are not considered as vulnerabilities:
-     image: mounting a block device is a privileged operation (see above), and
-     the administrator is responsible for the media they mount. This includes
-     issues that are resolved, mitigated, or detected by running a filesystem
--    consistency check (fsck) on the image prior to mounting.
-+    consistency check (fsck) on the image prior to mounting. Automatic
-+    mounting of unchecked file systems (e.g. removable media mounted by a
-+    desktop environment) does not change this: an automounter is expected to
-+    check a file system before mounting it, otherwise it is at fault, and if
-+    the check does not detect the issue, the file system checker is at fault.
-+    In such cases, fixes should be directed to these tools.
+diff --git a/Documentation/process/security-bugs.rst b/Documentation/process/security-bugs.rst
+index 11c385630855e..f19c712bc8e7b 100644
+--- a/Documentation/process/security-bugs.rst
++++ b/Documentation/process/security-bugs.rst
+@@ -383,6 +383,14 @@ run additional tests.  Reports where the reporter does not respond promptly
+ or cannot effectively discuss their findings may be abandoned if the
+ communication does not quickly improve.
  
-   * bugs whose reproduction requires hardware modification or emulation,
-     including fake USB devices that pretend to be another one, or devices
++In practice, a report for which questions or requests from the security team
++or the maintainers remain unanswered for 7 days will most likely be dropped.
++This matches the maximum embargo duration described below, which is how long
++the security team considers it reasonable to keep an issue private.  Given the
++number of reports handled in parallel, the same bug may also end up being fixed
++later after being reported by someone else, in which case credit can no longer
++be guaranteed.
++
+ Messages sometimes get lost, especially those containing attachments or HTML.
+ Since the report is private, you have no other way to know whether it was
+ delivered than to ask. However, some subsystems have a long report queue, some
 -- 
 2.52.0
 
