@@ -1,76 +1,110 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.218.46
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=205.220.180.131
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794321626;
-	b=gxcGMkR+fZPqtj+IpPCmA06Xg4wHs5YDW/NnCqFHNQkuPdPuq7XsmN1OPJitkhELxFsx
-	 0QBqAyshvjaGIj4uhGC/65NAm2sClQqfd3v/loyDDzbIqDGOlYeX5QVek5qxLxkUo6y5h
-	 3SJ66ai+ydDNyze02MFPqtK2QpoiI106hMPsy9QILJbf8DCnWNHVcgszG22wtDESfJ92f
-	 gK+PtNz4c2fPqjz671dVk+MujYjjj2lu6uXrrQmk+Opz3Zbcn+T1fm7ojPFPlN5vm+HUT
-	 xwyiPG5iVRMtBZldoaUViNkiL+pCn/yHkyTlJfMYxtbIBHLxVUR/Q2+hogt3E4B4gGQ==
+	t=1794333394;
+	b=TH4aCwA9TasylXlNjgFtcTWrBCRgmcW+5d98tcquomSWLH+g+0c8kj8z3JDhdAxtI+mv
+	 1faYpDHYppSqw0khcmL1hgOu38nyCY82b1mnqAZqfwXRVvDscMXvDyEotNjRatzCQ5Qlc
+	 9T38icdkSgCIM+24cG6LUk4bhpipSqHsjsARJK/KK0ITJzRHk6Flf68J6v35QiskqXBU2
+	 omQooyZaeUtjmTJA8Ua8YMJApf+binvpZJoAoQJvvfjryv8NBdQVd79U3ZS6y/dW9EZRe
+	 j92uNYP1eMd7dhf1tgB6PzM1GflJg8ERGbztwTux1+pWGThcEy7CTcEwyk9LviOm7Nw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794321626;
-	h=DMARC-Filter:Received:X-Google-DKIM-Signature:X-Forwarded-Encrypted:
-	 X-Gm-Message-State:X-Gm-Gg:X-Received:Received:Received:
-	 X-Forwarded-Encrypted:X-Received:MIME-Version:References:In-Reply-To:
-	 From:Date:X-Gmail-Original-Message-ID:X-Gm-Features:Message-ID:
-	 Subject:To:Cc:Content-Type;
-	bh=NdsGEmcnwDERcnYVwxnzF5K4RGP76a4vobMfRThtHus=;
-	b=RtfCkEYFqtvi3XtJ7vF3V9LVTrKLgENREbPgEl/18InHQgIAAm0luTskqHjxmA9tUC/X
-	 XDKm+9ykX5eTZAP6f6wQXrqIVF2Pp3c1ael+r9t0Ro46cLaMVu4iNT49GDf6/mq0j/JuB
-	 R/sVkBwYdKMtd/D7JPz7lgUnwr12aBSnzUyPoR3CK9k12t+cGrrhfXK/aTXQzveBvAFYE
-	 lOsi6SpdsD8INB18TNWn4oARoOHv8Apmkt4jUt8QnMmi8Vga5TBzOmM8/Gs97MDMvN7Yw
-	 BLZzBuqUg1A7FF0r54RX5yH19B+sWJS6owBVyKhmqG9H6eJH9s30yqGlu3p14xmA/5w==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794333394;
+	h=DMARC-Filter:Received:DKIM-Signature:Received:Received:
+	 DKIM-Signature:X-Google-DKIM-Signature:X-Forwarded-Encrypted:
+	 X-Gm-Message-State:X-Gm-Gg:X-Received:X-Received:Received:Message-ID:
+	 Date:MIME-Version:User-Agent:Subject:To:Cc:References:From:
+	 Content-Language:In-Reply-To:Content-Type:Content-Transfer-Encoding:
+	 X-Proofpoint-GUID:X-Proofpoint-Spam-Info:X-Proofpoint-ORIG-GUID:
+	 X-Proofpoint-Spam-Details-Enc:X-Authority-Analysis:
+	 X-Proofpoint-Virus-Version:X-Proofpoint-Spam-Details;
+	bh=dZUI5Qe+6KbAscqoiebvNwhOHw4y5pnZE9XdJ3jmNes=;
+	b=Vck/KeYjhh8strMIJ1+hSkCVGOSOz58SIQJz6clYjwr9wDOqwLoPN8NPzOR2mRkA4AnW
+	 wSN0++HTE9rX/4nhWZIqrGb5klR3IgtzIS+vUCsCdPGixXxiFP6/jEFDD2z4Ag5MTu/NM
+	 ENGEIn+UVT4r3pX02S4oLVVnSYYx+6PgwQPztOwM1z856EmwVga7METdvXg6ACclg8NS4
+	 wUfY6xw6HnzU0kkT+TnX1ss0/9b5eF5uwBxsL60Bl5p+d6u6KbEUpzbP/G69ibCy9lshP
+	 ToDP1Gu0GxZTs58qiBhXQXJ+4w5Eo7wQyEhgXcfIlx8DeL7FMTgpk0XBrbDCnhEtl3Q==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=none header.from=linux-m68k.org;
-	spf=pass smtp.mailfrom=gmail.com;
-	arc=none smtp.remote-ip=209.85.218.46
-Received: from mail-ej1-f46.google.com (mail-ej1-f46.google.com [209.85.218.46])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	dmarc=pass header.from=oss.qualcomm.com;
+	spf=pass smtp.mailfrom=oss.qualcomm.com;
+	dkim=pass header.d=qualcomm.com header.i=@qualcomm.com header.a=rsa-sha256 header.s=qcppdkim1 header.b=lSWZn6aO;
+	dkim=pass header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.a=rsa-sha256 header.s=google header.b=kmab1KoT;
+	arc=none smtp.remote-ip=205.220.180.131
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3A203606A325
-	for <workflows@vger.kernel.org>; Tue, 10 Nov 2026 14:40:26 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 3A203606A325
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-ej1-f46.google.com with SMTP id a640c23a62f3a-c4cb6834eaaso319624866b.2
-        for <workflows@vger.kernel.org>; Tue, 10 Nov 2026 06:40:25 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C829E606C696
+	for <workflows@vger.kernel.org>; Tue, 10 Nov 2026 17:56:33 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org C829E606C696
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.a=rsa-sha256 header.s=qcppdkim1 header.b=lSWZn6aO;
+	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.a=rsa-sha256 header.s=google header.b=kmab1KoT
+Received: from pps.filterd (m0279870.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 6AAF0Dh23713629
+	for <workflows@vger.kernel.org>; Tue, 10 Nov 2026 17:56:33 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	dZUI5Qe+6KbAscqoiebvNwhOHw4y5pnZE9XdJ3jmNes=; b=lSWZn6aOLce+tvG3
+	WgvAUUKkWfeSDc2aOw8DZAnZlOmoT/1P1xsn6I2RsYmtlPQj7OVcZAbZWUYnmT+2
+	dpTYQB18HK+4vUO/BbL6MmLr9ugAplJ6OMa8jrHjuIAADR2JOlYFl7iSpv6BJrpL
+	VqScEwwntSwSrW0yrsJjWjZUXuQ0nfobMOpv7nGLC5TUJEmuDZb8Ju814jHM2nIm
+	oUcBs5XVI8xNXND+/Oq4wrFk38A4bAFwKCK4a09+p1x/wwykwxBqc5GIUdECnsnZ
+	Jyw4gl9zoZHZYGsekG3RVxOeioQt+lYS1iULO6KpNKfjgpAuvsAPl4iicCFR1WQ5
+	qggyBg==
+Received: from mail-dy1-f197.google.com (mail-dy1-f197.google.com [74.125.82.197])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4huvtdaymg-1
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+	for <workflows@vger.kernel.org>; Tue, 10 Nov 2026 17:56:32 +0000 (GMT)
+Received: by mail-dy1-f197.google.com with SMTP id 5a478bee46e88-36f26e6abe9so3732316eec.0
+        for <workflows@vger.kernel.org>; Tue, 10 Nov 2026 09:56:32 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=oss.qualcomm.com; s=google; t=1794333392; x=1794938192; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:in-reply-to:content-language
+         :from:references:cc:to:subject:user-agent:mime-version:date
+         :message-id:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=dZUI5Qe+6KbAscqoiebvNwhOHw4y5pnZE9XdJ3jmNes=;
+        b=kmab1KoT+l9vG+osWCGvAlZP8IonuFgVVlG/l7bTCIiCII3CXnc7ed3C99+J9mD9eq
+         0roUdcre6+v7lrKbSOfGU6VsIePLE7buJv1Fr+swxSaU7XghkUVmKoTk7SEMrbO596lV
+         DiSZj9jTC5JYvJNCquftsruKt0hCRs6k5inzEVnqIqOmT7l9iQMYr5BW72jGMXQ24xd0
+         McgtQvjk6eyJzD330iRmca3QvyWVaYQdrl+7QOjtp8vqqS5ngNPMIn/oCHhAqZ5lZD0H
+         54tNFXOESsOq7dM7UT4PGXp0efHdpF7/jmSFa0TetJi5bAY6K2hDJN+8SQLSvFPLjnD9
+         uPIQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794321624; x=1794926424;
-        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
-         :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=NdsGEmcnwDERcnYVwxnzF5K4RGP76a4vobMfRThtHus=;
-        b=jtCir1G3H2Fulfs6cTT5dzKyybpKjGvbU1MaE+Pfe9pXAREDQoBXZI2NH/+0M80Ufk
-         N4MTr0nViDI1vMAX6GfPD6SE0lCE/o06vbjaVqTyOluTpMy4aVJUAjc6V5IZYDKAHxep
-         W3J7HqXZ36NdmwpdSBOwT2D3v8zDAGFRrer2Wl+XaOAzGT0Py6rDCXGwd9b2ce0i0TsB
-         BS7J8OKasSpAbx18m4pP6Z9baLnK9yQatV6NDYDOZ9Vw1w4icXWcKOkxm94bGR9BE5jm
-         JPlwm7LxrYKEiBU1NXp63UHPjdqSMIq3+T2LyAb952IfYmmOBiGAPMzerRs1COhQe0ip
-         adiA==
-X-Forwarded-Encrypted: i=1; AL+hErGhnkRKUHd0DkS8adiSjzPiK3kURzHbzavgtysp1QjCKBQJAKS6795iQSqNc53WN1F3f6RyYy3OY2o=@vger.kernel.org
-X-Gm-Message-State: APuU4Z8WGtEvUlhZ3mv2d6zH4H+2KRny5ua1QEXwU2CqANULrrjRATgU
-	6KzT+vP/+ish/NZlX1cXX8L6cE+m0dQ+WuN3fYZd39mlQuc59MHcqIOBivuwBTxOYao=
-X-Gm-Gg: AYBFou0AYkEf1++wWwX96cnPBZU0qaBotUO/ne27GRKWQGQWk0GOKlMYfjRc0EuG/N7
-	CIfSCERuwWFT4YMg4gK8shNvktYIPhSqZvJXGP/1a5PoOHZeLtzr5nKCAQRgHI9xAVSrQtFAdpc
-	Tdr+no8mSy7CIHoWE6d01fMlYu0jwEjOaAW5eVj5scFkg7qeM3mNRohLxjUo4h5UKpOVrRmVfnT
-	18RCB/MtH8wGEn5UarOoba9xuk0xcIdNPgM7xiHexIfy7AARnYWnHIX6YuC15Pw/9QUFuOTagHR
-	cdpyYJPkAd0ayLW1sRISiYrMDwFHWfURIVGUeM+KCZpkhvhue6xVnEQ1z0A/1x5teIo/AnMOmCv
-	HSXEnq7JCeKFj/kpVHJoP8yil+QY3PxMkRZ9DxWd6zAajHv8Zccae19JM8D0wUKjgbKKiHwAo4Q
-	XlpIXwMEO9u/8BzYR05Zg5XkIAgUZdFXMoxa6MPDXAw2EH8F1OwcUMRG4lxuYtG2Wpx5TRdGYBi
-	nh5miyCypT87CjE25jpdO1ZfduI0EUXoZAXm8HCB+e8Tg3S1m84Bf7NcjjY8HD6tvDtsJ3ksUo1
-	+AWmqhoBBce0MvV9UnnrE5CQXOFmqcKXag7dYLtQICcCbKq6CC533eSHbRu0+GdfjlQ=
-X-Received: by 2002:a17:906:f58d:b0:c46:7ec3:fdfc with SMTP id a640c23a62f3a-c5049655093mr304084266b.34.1794321624365;
-        Tue, 10 Nov 2026 06:40:24 -0800 (PST)
-Received: from mail-ed1-f54.google.com (mail-ed1-f54.google.com. [209.85.208.54])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-c504a3a6d65sm114763066b.8.2026.11.10.06.40.20
-        for <workflows@vger.kernel.org>
+        d=1e100.net; s=20260707; t=1794333392; x=1794938192;
+        h=content-transfer-encoding:content-type:in-reply-to:content-language
+         :from:references:cc:to:subject:user-agent:mime-version:date
+         :message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=dZUI5Qe+6KbAscqoiebvNwhOHw4y5pnZE9XdJ3jmNes=;
+        b=Pb5npd6loqZvfstSzLqt5o8Tk1d3znzmV17lJ+fGWVo5IfO+DK/ZWXGHAYCBFcPrLR
+         K2ouadsIZy+IoNOUIqlkpMMA5aAk7rep2vkMrU0sau8Yw25ttl4rq6+hSm6W7NX9oJOt
+         1a8o8UUh25hjXg33oDN7baz1T5u1rlwdLX9m0inxAyQOfEcAMTvmcrkOFxNSMUcQ6KWK
+         XF3NPgJsPiwgV6L7BAdi4TxmxMQGjy1zBHMTo6BIcu4AyZp4VFYyPYBFCuDsYCLblMug
+         rchiCSsHyyPyHzCblgyizfq66kis/T1A3tf21AdnuNFFUllC0w5GjXJugjY35EznD9BY
+         iyUg==
+X-Forwarded-Encrypted: i=1; AL+hErGY0lc8FhLKgJIYn2T1F/OFEkPE6nzLfqQblkUDAL1EXfdWPhVv8JYMLmTbQLLGfBulTxy6RW3/GtM=@vger.kernel.org
+X-Gm-Message-State: APuU4Z8EcjKnsTshsSym5JtBY6jnHJV6DTSBIAnXsWmjyxIg0UqdEJoS
+	iN/Smbayl0o2M2kdeycn6o4GGvGsXQGUWtbgMo63rgyDVXfA2/iUUqSwZcWePvFpJ/VQr5d6PcN
+	uH6RBDR9YLNiwxHL7BvOuqZjg22ClqA7Sp6k9tRXmVGnL5FOE4SjIN3fu1WN3oFs=
+X-Gm-Gg: AYBFou0buYSsusYl5p1jROw3tO1gnRgf/uEy4cmxi3yxWCeRzJgTxQdRZVE5chvF/cG
+	y9JjuyGWHw3Rv+1Ya1XOyU4DvWTKEG1eknC4b380gMjuKCc+pafympaxgH+z2KdMfL1z/h/xpSn
+	RCs5SJE8Pp096tWUrrRC8f+dmBm+9qtdn64FluAA6XMeYNy73irh5BpcJEzLFn/HdPI4LVUWNJz
+	6wQQO3jg37YF+gzhw3ESZS1PcMWKx9yT3pC2J4CBKDwZ9TGfa/bEcLn83zENRDe+iBbumSV38pD
+	Zek5rJYoYFag4uVJIOk2YtluWkoUWL1C3I6lNjJ7wiFh/PWFVUuriIDtGlF3vOQfskzIPDbRmbC
+	VYX5Pg6wEFw802JSyngZIZT2YE36UDIoT5ZtcUNHQx2s7bRDfQWd2w31PLAFFt1RcXgYOqsqRnI
+	8=
+X-Received: by 2002:a05:7301:e22:b0:35c:ba31:6fef with SMTP id 5a478bee46e88-37686c3af76mr31638eec.36.1794333391495;
+        Tue, 10 Nov 2026 09:56:31 -0800 (PST)
+X-Received: by 2002:a05:7301:e22:b0:35c:ba31:6fef with SMTP id 5a478bee46e88-37686c3af76mr31586eec.36.1794333390890;
+        Tue, 10 Nov 2026 09:56:30 -0800 (PST)
+Received: from [10.0.0.50] ([76.133.89.231])
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-375212ec002sm9766790eec.26.2026.11.10.09.56.29
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 10 Nov 2026 06:40:20 -0800 (PST)
-Received: by mail-ed1-f54.google.com with SMTP id 4fb4d7f45d1cf-6b571979178so2872216a12.2
-        for <workflows@vger.kernel.org>; Tue, 10 Nov 2026 06:40:20 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AL+hErG1hoeezHGN1nFmmAqye3xNTdG8M/J120FW32a2QhQ3rKq6NbX7h5Q+nxXwFOx0JVPhgnsP4qkioDk=@vger.kernel.org
-X-Received: by 2002:aa7:d78b:0:b0:6b5:9150:edf3 with SMTP id
- 4fb4d7f45d1cf-6b756b12aeemr1910612a12.43.1794321620553; Tue, 10 Nov 2026
- 06:40:20 -0800 (PST)
+        Tue, 10 Nov 2026 09:56:30 -0800 (PST)
+Message-ID: <7e7b67ac-7d7d-4769-be74-c064241d5426@oss.qualcomm.com>
+Date: Tue, 10 Nov 2026 09:56:29 -0800
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Post: <mailto:workflows@vger.kernel.org>
@@ -80,61 +114,81 @@ List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:workflows+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-References: <20261110141429.149451-2-krzysztof.kozlowski@oss.qualcomm.com>
-In-Reply-To: <20261110141429.149451-2-krzysztof.kozlowski@oss.qualcomm.com>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Tue, 10 Nov 2026 15:40:06 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdWOgiYZmK52--Dcuat-gHtW-GOhiQfHBoSDMcefWzUx+A@mail.gmail.com>
-X-Gm-Features: AclHuK-vciKQvIOU3wexWocdK7lSDvoS7oWEizuJMJhyo6occ__o2qwUAjcDY0U
-Message-ID: <CAMuHMdWOgiYZmK52--Dcuat-gHtW-GOhiQfHBoSDMcefWzUx+A@mail.gmail.com>
-Subject: Re: [PATCH v3] docs: submitting-patches: Clarify partial review tags
-To: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
-Cc: Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
-	Randy Dunlap <rdunlap@infradead.org>, workflows@vger.kernel.org, 
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	Andy Shevchenko <andriy.shevchenko@linux.intel.com>, 
-	Wolfram Sang <wsa+renesas@sang-engineering.com>
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH RESEND] wifi: ath11k: release the rproc reference on
+ teardown
+To: Wentao Liang <vulab@iscas.ac.cn>
+Cc: Jeff Johnson <jjohnson@kernel.org>, linux-wireless@vger.kernel.org,
+        ath11k@lists.infradead.org, linux-kernel@vger.kernel.org,
+        workflows@vger.kernel.org
+References: <20261103102915.1341148-1-vulab@iscas.ac.cn>
+ <a39b1918-5d04-452b-8b5a-0703963f4587@oss.qualcomm.com>
+ <179430684554.3011466.3431045638041318447@iscas.ac.cn>
+From: Jeff Johnson <jeff.johnson@oss.qualcomm.com>
+Content-Language: en-US
+In-Reply-To: <179430684554.3011466.3431045638041318447@iscas.ac.cn>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Proofpoint-GUID: HX9KSFO8DuzBLtCm_jNCsc_z9OYj8Hot
+X-Proofpoint-Spam-Info: AW1haW4tMjYxMTEwMDA3MSBTYWx0ZWRfX37EDz0AgSNVL
+ wW0o8UxQJOlCR9Zm8T5kx+Q5gM9mJY+1wwzcXUrOG3So/UL1xI26/BkzO/vml5ki1M0T5q4+BBO
+ 53aMUcP5RtdcofOqOqW93x7IB1TI59I=
+X-Proofpoint-ORIG-GUID: HX9KSFO8DuzBLtCm_jNCsc_z9OYj8Hot
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYxMTEwMDA3MSBTYWx0ZWRfX5c7Id+Ioor7O
+ tf/37zTjBMybyq0FWbNnwXjvbc9fMs2nXlC3wvqnn33iXZ/rrrb5mofDway214wymOtCoWgQ8nR
+ v7KtNjA9ycYg/BBkCUDlYOO8jqvDhh/b1GfERIu1Pv5uFqJ+sQBtImtbxODe6yOyCd3okxWE/vl
+ qBehnTBh/ZWkImQrKkavlvNPLIdrogFYM7bVSjZikTSnoKF3umyYmpKH+stZpbQdf2DgLVQAMkR
+ R8WXbAFZeuvfZO2pa/G1VwcduUbaj/yuOzhwHEZ3SUl1dFdm8wXs8xOmwLwDmKl/OknhZeoN1Iq
+ N8qPOZghlXo2FKdC0Io4I3wq2p0x7+n86p4kMRY+IdK5Q13Sdo4GP7DS9oHshCdsUHiDRWWah3u
+ fglvmhxpzGjmaXNE7sVKmsGv4wvk9SryKqR+6+UuE+Qgb34Oj0pFDgTFldXU4ZjOjcs3GR6guOG
+ r95EuleyVpDKBh6I94w==
+X-Authority-Analysis: v=2.4 cv=ArR7T+9P c=1 sm=1 tr=0 ts=6af35ad0 cx=c_pps
+ a=Uww141gWH0fZj/3QKPojxA==:117 a=6LbA7P6A7bvUEkAB8wivVw==:17
+ a=IkcTkHD0fZMA:10 a=zJRp6_cAMcgA:10 a=s4-Qcg_JpJYA:10
+ a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=gowsoOTTUOVcmtlkKump:22
+ a=VwQbUJbxAAAA:8 a=iW0bIAoc0toShNrrW9YA:9 a=QEXdDO2ut3YA:10
+ a=PxkB5W3o20Ba91AHUih5:22
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.138,FMLib:17.12.100.49
+ definitions=2026-11-10_05,2026-11-06_01,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ bulkscore=0 clxscore=1015 spamscore=0 priorityscore=1501 impostorscore=0
+ malwarescore=0 phishscore=0 suspectscore=0 adultscore=0 lowpriorityscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2611040001 definitions=main-2611100071
 
-On Tue, 10 Nov 2026 at 15:36, Krzysztof Kozlowski
-<krzysztof.kozlowski@oss.qualcomm.com> wrote:
-> Refactoring of driver subsystems or some core driver parts often come
-> with change of the actual drivers.  If that happens within one patch,
-> people giving "Reviewed-by" tag only to piece of the patch, like one
-> driver, and ignoring the rest including the main concept of the patch,
-> are not really reviewing "the patch".
->
-> As explained in the Submitting Patches document, the "Reviewer's
-> statement of oversight" is for patch as in "entire patch" meaning:
->
->   (a) I have carried out a technical review of this patch to
->       evaluate its appropriateness and readiness for inclusion into
->       the mainline kernel.
->
-> The sentence is explicit, exhaustive and complete, meaning it does not
-> allow implicit variations like: "this patch or part of this patch".
->
-> Reviewing pieces of the patch while ignoring the main part of it, is
-> much closer to Acknowledgment, thus Ack or at least "Reviewed-by" should
-> be followed by '# subpart' suffix.
->
-> Reviewed-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
-> ---
-> Changes in v3:
-> 1. Minor commit msg adjustments
-> 2. Use  Driver X author <foo@example.org> # for Driver
-> 3. Tag
+On 11/10/2026 2:34 AM, Wentao Liang wrote:
+> Hi Jeff,
+> 
+> I'm sorry for taking so long to reply and for the confusion and extra
+> work caused by sending patches from a shared address and failing to
+> follow up on review feedback.
+> 
+> To keep the existing discussions clear, I'll continue to reply from
+> vulab@iscas.ac.cn under my own name in the threads for patches I
+> submitted. I will not send any new patches or revisions.
+> 
+> For context on this submission, static analysis flagged the candidate,
+> and we used DeepSeek and GPT-6.1 Sol to assist with reviewing it and
+> preparing the fix.
+> 
+> Again, I'm sorry for the confusion and the extra work this caused.
+> 
+> Wentao
 
-Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+I am not going to accept any patches from vulab@iscas.ac.cn since the git
+commit history shows that has been (ab)used by multiple folks in their SOBs,
+and hence IMO violates the DCO:
+    Signed-off-by: Haotian Zhang <vulab@iscas.ac.cn>
+    Signed-off-by: Wentao Liang <vulab@iscas.ac.cn>
+    Signed-off-by: WenTao Liang <vulab@iscas.ac.cn>
+    Signed-off-by: Xu Wang <vulab@iscas.ac.cn>
+    Signed-off-by: Zishun Yi <vulab@iscas.ac.cn>
 
-Gr{oetje,eeting}s,
+If you want to contribute to the drivers I maintain, submit your patches with
+an e-mail address that is unique to you. I have already rejected all patches
+from vulab@iscas.ac.cn assigned to me in patchwork.kernel.org.
 
-                        Geert
+/jeff
 
--- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
 
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
