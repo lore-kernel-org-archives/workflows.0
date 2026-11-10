@@ -1,79 +1,50 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.175.65.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=159.226.251.25
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794267853;
-	b=Ivkm8k9eZhHmn28V9aH74inF3X8elrHgykBbUn/efmm2vbbqJ2Eb4ZurmrToiykHXqcc
-	 A4P+XCy5zTHiYxPOc5Wmax2BAD2rkT55BWVO3WZyO1/yTdsGqw9WL8vZTwNgu11LBsgv2
-	 hXYqNlIHQQbkvnw+6Jz2xp12v1j/ZbVDV6mcsqBUFc1fFXsZIWPk/WiPJM3GcbIKQQ/cj
-	 Y/rcjZlv6SON4DTLEqfyHdPJW5S1xs0QExJ8ODkY6ibD1CySZOWfwnJN+JyvzSMt2sLgB
-	 lV1UK+CoHd7COEBGITyPEGf87OHZOEsfiqG1FTqsNcxF44N9WaFCy3ZDXwlYwKaWSwg==
+	t=1794306855;
+	b=Zfb6Vpm0yG0U2Ui6VawzrKEnj6u1E3+U1SUH0Py6urs2gGSdJSVtzXZ4wWR93Tph0M+Y
+	 41ns8kaPyTNrm6BMMBPQ7y1LlLh4HQK8ne8eVvrTTUAphQ7XyGsuLZt6p0/XGf/3WzocT
+	 tGD0G54xp1taX8UhBaThlpTokycrdlmhoTGimqwYVx4+wNt//Rd6bPGhZEiZ1DWm65HKv
+	 S6LFActzD+u5Au0En//WcPQrG6Z96lGJyuICGG0adcfe2D1CtCGNgLUGd4EafCVApWlBt
+	 FxycM/0VJXpSIHoXRv2vtb+wnvAmXhQ7/T6CLAO8qZ6AXzGsxKVohBXBN+nbQiBACBg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794267853;
-	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
-	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
-	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Date:From:To:Cc:
-	 Subject:Message-ID:References:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To:Organization;
-	bh=VTYsujH/2i+pZaUFBaQShsz6g7HDH9a0QHiDGCHGrpk=;
-	b=SDjmAOc+Sv6WTh/mp1TVj6V0zscmiVBZG/4UtGFina9s+xA3HHVZSJiw8p0Nb89HYV9s
-	 Uj1/XnpFezczVfz5pbuiXE6VIYDvFOgawpJz9y/fcQZD1nzJ8H+1oQIBGEb3xVE5Q1AX4
-	 zfFfjeTNulT5op9bsfYAdXSean/1ENF4KX7rMyy5yU0BN5IvgpvphEZTtFJwKvKVoVvch
-	 HPg+2xoswy9+14gBWZxiAfrsaoDeyGeTp/4eQueQD6F4yVJSBi+SaGhRac7TR0zu9GEMu
-	 l6pd59jOiffdR2Hem2zp79IhMXkfW90oVB2ZBgOnwpox6PiLKGdW70io/vIVqDqYvog==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794306855;
+	h=DMARC-Filter:Received:From:To:Cc:Subject:In-Reply-To:References:
+	 Content-Type:Content-Transfer-Encoding:MIME-Version:Date:Message-ID:
+	 X-CM-TRANSID:X-Coremail-Antispam:X-Originating-IP:X-CM-SenderInfo;
+	bh=uMsKrHrfZchhh/m6IXY34VKZHA3ZjPvsm6XnygmGsDE=;
+	b=gKbAg9UGQvWGviEuADqoHFCjVfiWae/JliRb48NCN9rZelT92Gw99CFu3y1TKeJnwHxh
+	 qF97AT+/t3DpOmJ3OANy79J25PnE873tLyaArDtZiEsAMgeFd6zxNyLQ4VoTaKSSgQMl5
+	 IfRCJEZiOMXI+fSzLhE8GsUavZutLxKu+f/LWCqzx3JaLM4MuWvEKzc+x2vr7wfcDWXeS
+	 t1eYBfEYbVHoMfAD9KtL60iVKxWG89gYG7VT57AIIYDEwCeEu68qq5ZrTkiaF20ZwYYzs
+	 Okma4IBglEuNu5E645g24Nk/+wDxLvbn2laD13PUXxbIVT5BPXWt4dKvJ4LVqMn8Itg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=linux.intel.com;
-	spf=pass smtp.mailfrom=linux.intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=L26DDjVO;
-	arc=none smtp.remote-ip=198.175.65.18
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
-	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
+	dmarc=none header.from=iscas.ac.cn;
+	spf=pass smtp.mailfrom=iscas.ac.cn;
+	arc=none smtp.remote-ip=159.226.251.25
+Received: from cstnet.cn (smtp25.cstnet.cn [159.226.251.25])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A7E44606A332;
-	Mon,  9 Nov 2026 23:44:06 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org A7E44606A332
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=L26DDjVO
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1794267848; x=1825803848;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=74IdmHguen7oHs9DAol0kSdVMDVpC/KiYZ9ossuOfXQ=;
-  b=L26DDjVOZjHyU9fqKKwjPVljMatlr1wNrWdyaxrYRQmHS5BcxDYpZKs3
-   P4FLwq+r5NlWU053/wmzBoGnkrj5lZ5DVOyv6Rq5GV4VXrLC6pyjUKOeT
-   eCADk/m3vXQWV2imu/T+rO7PcdO4/H1iW1sX+fpf/nJaZEeB/rm8kNhvy
-   wOYdGT+1cU93lo8mDyHxhxWt4oLxe7/q0CZKhKeShXtwDXANQTdztKfY+
-   edxxce3MzoGo7/oPMTQt8LCy7sH47WWedVOOOFn+w8RYUtqp7mat70DnB
-   sRnbzGd6JjciaL6sF3Yi0pLNjx7BlqFCwDwNmZy67Cd+pgNtSW3ZMECMX
-   g==;
-X-CSE-ConnectionGUID: IFC9jpU6SgKYzqMRcHxhoQ==
-X-CSE-MsgGUID: xx85g/uNSnKbGeQYb9Pdbg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11961"; a="3017234"
-X-IronPort-AV: E=Sophos;i="6.27,204,1787036400"; 
-   d="scan'208";a="3017234"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Nov 2026 15:44:06 -0800
-X-CSE-ConnectionGUID: 11Gf6DjgTwOBBqqcFPUK3g==
-X-CSE-MsgGUID: 3ezS08zrS8aeUrL5ZSK7LQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.27,204,1787036400"; 
-   d="scan'208";a="7866722"
-Received: from amilburn-desk.amilburn-desk (HELO localhost) ([10.245.244.144])
-  by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Nov 2026 15:44:05 -0800
-Date: Tue, 10 Nov 2026 01:44:01 +0200
-From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
-Cc: Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Randy Dunlap <rdunlap@infradead.org>, workflows@vger.kernel.org,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-	Wolfram Sang <wsa+renesas@sang-engineering.com>
-Subject: Re: [PATCH v2] docs: submitting-patches: Clarify half-baked review
- tags
-Message-ID: <avJawTDWSpuZ2j_b@ashevche-desk.local>
-References: <20261105082729.19622-2-krzysztof.kozlowski@oss.qualcomm.com>
- <avJaVvGszUvANR-5@ashevche-desk.local>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3EBA5606A31C;
+	Tue, 10 Nov 2026 10:34:12 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 3EBA5606A31C
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iscas.ac.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=iscas.ac.cn
+Received: from [172.100.0.8] (unknown [36.110.52.2])
+	by APP-05 (Coremail) with SMTP id zQCowADnf7US8_Jqc87HAA--.1727S2;
+	Tue, 10 Nov 2026 18:33:54 +0800 (CST)
+From: Wentao Liang <vulab@iscas.ac.cn>
+To: Jeff Johnson <jeff.johnson@oss.qualcomm.com>
+Cc: Jeff Johnson <jjohnson@kernel.org>, linux-wireless@vger.kernel.org,
+ ath11k@lists.infradead.org, linux-kernel@vger.kernel.org,
+ workflows@vger.kernel.org
+Subject:
+ Re: [PATCH RESEND] wifi: ath11k: release the rproc reference on teardown
+In-Reply-To: <a39b1918-5d04-452b-8b5a-0703963f4587@oss.qualcomm.com>
+References: <20261103102915.1341148-1-vulab@iscas.ac.cn>
+ <a39b1918-5d04-452b-8b5a-0703963f4587@oss.qualcomm.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Post: <mailto:workflows@vger.kernel.org>
@@ -83,43 +54,40 @@ List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:workflows+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <avJaVvGszUvANR-5@ashevche-desk.local>
-Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
- krs, Bertel Jungin Aukio 5, 02600 Espoo
+Date: Tue, 10 Nov 2026 10:34:05 -0000
+Message-ID: <179430684554.3011466.3431045638041318447@iscas.ac.cn>
+X-CM-TRANSID:zQCowADnf7US8_Jqc87HAA--.1727S2
+X-Coremail-Antispam: 1UD129KBjDUn29KB7ZKAUJUUUUU529EdanIXcx71UUUUU7v73
+	VFW2AGmfu7bjvjm3AaLaJ3UjIYCTnIWjp_UUUYs7k0a2IF6F4UM7kC6x804xWl1xkIjI8I
+	6I8E6xAIw20EY4v20xvaj40_Wr0E3s1l1IIY67AEw4v_Jr0_Jr4l8cAvFVAK0II2c7xJM2
+	8CjxkF64kEwVA0rcxSw2x7M28EF7xvwVC0I7IYx2IY67AKxVW8JVW5JwA2z4x0Y4vE2Ix0
+	cI8IcVCY1x0267AKxVW8JVWxJwA2z4x0Y4vEx4A2jsIE14v26rxl6s0DM28EF7xvwVC2z2
+	80aVCY1x0267AKxVW0oVCq3wAS0I0E0xvYzxvE52x082IY62kv0487Mc02F40EFcxC0VAK
+	zVAqx4xG6I80ewAv7VC0I7IYx2IY67AKxVWUAVWUtwAv7VC2z280aVAFwI0_Cr1j6rxdMc
+	vjeVCFs4IE7xkEbVWUJVW8JwACjcxG0xvEwIxGrwCF04k20xvY0x0EwIxGrwCF04k20xvE
+	74AGY7Cv6cx26r48ZrWUJr1UMxAqzxv26xkF7I0En4kS14v26r126r1DMxC20s026xCaFV
+	Cjc4AY6r1j6r4UMI8I3I0E5I8CrVAFwI0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWl
+	x4CE17CEb7AF67AKxVWUAVWUtwCIc40Y0x0EwIxGrwCI42IY6xIIjxv20xvE14v26r1j6r
+	1xMIIF0xvE2Ix0cI8IcVCY1x0267AKxVWUJVW8JwCI42IY6xAIw20EY4v20xvaj40_Jr0_
+	JF4lIxAIcVC2z280aVAFwI0_Jr0_Gr1lIxAIcVC2z280aVCY1x0267AKxVW8JVW8JrUvcS
+	sGvfC2KfnxnUUI43ZEXa7IUb_-PUUUUUU==
+X-CM-SenderInfo: pyxotu46lvutnvoduhdfq/1tbiCRIHA2ry1-1guAAAs1
 
-On Tue, Nov 10, 2026 at 01:42:22AM +0200, Andy Shevchenko wrote:
-> On Thu, Nov 05, 2026 at 09:27:30AM +0100, Krzysztof Kozlowski wrote:
-> > Refactoring of driver subsystems or some core driver parts often come
-> > with change of the actual drivers.  If that happens within one patch,
-> > people giving "Reviewed-by" tag only to piece of the patch, like one
-> > driver, and ignoring the rest including the main concept of the patch,
-> > are not really reviewing "the patch".
-> > 
-> > As explained in the Submitting Patches document, the "Reviewer's
-> > statement of oversight" is for patch as in "entire patch" meaning:
-> > 
-> >   (a) I have carried out a technical review of this patch to
-> >       evaluate its appropriateness and readiness for inclusion into
-> >       the mainline kernel.
-> > 
-> > The sentence is explicit and complete, meaning it does not allow
-> > implicit variations like: "this patch or part of this patch".
-> > 
-> > Reviewing pieces of the patch while ignoring the main part of it, is
-> > much closer to Acknowledgment, thus Ack, and "Reviewed-by" credit should
-> > not be applicable.
-> 
-> FWIW,
-> Reviewed-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-> And yes, I have read the whole email, including comments.
+Hi Jeff,
 
-(even with the commit message that I partially disagree with, the documentation
- update at least allows a way out for the cases we are disputing)
+I'm sorry for taking so long to reply and for the confusion and extra
+work caused by sending patches from a shared address and failing to
+follow up on review feedback.
 
--- 
-With Best Regards,
-Andy Shevchenko
+To keep the existing discussions clear, I'll continue to reply from
+vulab@iscas.ac.cn under my own name in the threads for patches I
+submitted. I will not send any new patches or revisions.
 
+For context on this submission, static analysis flagged the candidate,
+and we used DeepSeek and GPT-6.1 Sol to assist with reviewing it and
+preparing the fix.
+
+Again, I'm sorry for the confusion and the extra work this caused.
+
+Wentao
 
