@@ -1,110 +1,62 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=205.220.180.131
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=194.117.254.33
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794333394;
-	b=TH4aCwA9TasylXlNjgFtcTWrBCRgmcW+5d98tcquomSWLH+g+0c8kj8z3JDhdAxtI+mv
-	 1faYpDHYppSqw0khcmL1hgOu38nyCY82b1mnqAZqfwXRVvDscMXvDyEotNjRatzCQ5Qlc
-	 9T38icdkSgCIM+24cG6LUk4bhpipSqHsjsARJK/KK0ITJzRHk6Flf68J6v35QiskqXBU2
-	 omQooyZaeUtjmTJA8Ua8YMJApf+binvpZJoAoQJvvfjryv8NBdQVd79U3ZS6y/dW9EZRe
-	 j92uNYP1eMd7dhf1tgB6PzM1GflJg8ERGbztwTux1+pWGThcEy7CTcEwyk9LviOm7Nw==
+	t=1794339724;
+	b=M9fQGnqhh/xyKaNTPPVCLX+aWB+af+Z30MV/d9Bc6KlzVApW4yelpb9/57sWRwBYDjws
+	 qq8aUya//lv5lo1eM/u5uhnjBwDyr5oq67bjZrNqPcfiBc/sIIGvt74Otec75W/gceLrH
+	 HK9i8fmRh03VhlgZPeVdvDGHq6uw2rAfRMOOcpQ8ivLqMj7oFtIfP0/DLQfEEkE8tsev3
+	 DU5k9lN12AyZMXFDK3R57/RqBWc3C/NQyrRnDIyq7l24VMAAQypEauu0H1tZNrimx0k40
+	 ns9LW8fDNpNtsD4pTDrBQTTR2W8P9KlGp25jr5l4gUemDnEWGR66dtepkmlYXoTtxlg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794333394;
-	h=DMARC-Filter:Received:DKIM-Signature:Received:Received:
-	 DKIM-Signature:X-Google-DKIM-Signature:X-Forwarded-Encrypted:
-	 X-Gm-Message-State:X-Gm-Gg:X-Received:X-Received:Received:Message-ID:
-	 Date:MIME-Version:User-Agent:Subject:To:Cc:References:From:
-	 Content-Language:In-Reply-To:Content-Type:Content-Transfer-Encoding:
-	 X-Proofpoint-GUID:X-Proofpoint-Spam-Info:X-Proofpoint-ORIG-GUID:
-	 X-Proofpoint-Spam-Details-Enc:X-Authority-Analysis:
-	 X-Proofpoint-Virus-Version:X-Proofpoint-Spam-Details;
-	bh=dZUI5Qe+6KbAscqoiebvNwhOHw4y5pnZE9XdJ3jmNes=;
-	b=Vck/KeYjhh8strMIJ1+hSkCVGOSOz58SIQJz6clYjwr9wDOqwLoPN8NPzOR2mRkA4AnW
-	 wSN0++HTE9rX/4nhWZIqrGb5klR3IgtzIS+vUCsCdPGixXxiFP6/jEFDD2z4Ag5MTu/NM
-	 ENGEIn+UVT4r3pX02S4oLVVnSYYx+6PgwQPztOwM1z856EmwVga7METdvXg6ACclg8NS4
-	 wUfY6xw6HnzU0kkT+TnX1ss0/9b5eF5uwBxsL60Bl5p+d6u6KbEUpzbP/G69ibCy9lshP
-	 ToDP1Gu0GxZTs58qiBhXQXJ+4w5Eo7wQyEhgXcfIlx8DeL7FMTgpk0XBrbDCnhEtl3Q==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794339724;
+	h=DMARC-Filter:DKIM-Signature:Received:Received:X-UD-Smtp-Session:Date:
+	 From:To:Cc:Subject:Message-ID:References:MIME-Version:Content-Type:
+	 Content-Disposition:In-Reply-To;
+	bh=Pqtl4npWkphouNTE/kHIzbcAETdRulwAMb+Ntlny9Ss=;
+	b=l/bkU6qCZMqAUI8FfiCtwrKDJQjE3T0Ils5fIVRUWimfnI8724twv5hJRws+F4zlFszR
+	 wIcecG7eRxnI/DEa6sBozBTypftnIzK39I2qJPhU18JKl39DJOkP3xyrJJEOh6+e+gdr6
+	 m+VvpFJXiHX+DF2RQsxVzJ9UlEN/bDsNVWNS/0KRZ0pyMx2MPqVJzZ5unzcHAZQLTsNM7
+	 e+FAL7W9STx/SaSmi2Q66LgYBmmUEkvMebAc8tDDeCATeJ4PCwxOJQVCnwedBaTNSK+vb
+	 mqxYUmQgxc5N0e1+mSTcINp3vHMVoVRmlrRWghZSzBo1kGJHTx4JaS6tVNx697KCf/Q==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=oss.qualcomm.com;
-	spf=pass smtp.mailfrom=oss.qualcomm.com;
-	dkim=pass header.d=qualcomm.com header.i=@qualcomm.com header.a=rsa-sha256 header.s=qcppdkim1 header.b=lSWZn6aO;
-	dkim=pass header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.a=rsa-sha256 header.s=google header.b=kmab1KoT;
-	arc=none smtp.remote-ip=205.220.180.131
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+	dmarc=none header.from=sang-engineering.com;
+	spf=pass smtp.mailfrom=sang-engineering.com;
+	dkim=pass header.d=sang-engineering.com header.i=@sang-engineering.com header.a=rsa-sha256 header.s=k1 header.b=QWWCNMYD;
+	arc=none smtp.remote-ip=194.117.254.33
+Received: from mail.zeus03.de (zeus03.de [194.117.254.33])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C829E606C696
-	for <workflows@vger.kernel.org>; Tue, 10 Nov 2026 17:56:33 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org C829E606C696
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oss.qualcomm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D52C6606A323
+	for <workflows@vger.kernel.org>; Tue, 10 Nov 2026 19:41:55 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org D52C6606A323
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sang-engineering.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.a=rsa-sha256 header.s=qcppdkim1 header.b=lSWZn6aO;
-	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.a=rsa-sha256 header.s=google header.b=kmab1KoT
-Received: from pps.filterd (m0279870.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 6AAF0Dh23713629
-	for <workflows@vger.kernel.org>; Tue, 10 Nov 2026 17:56:33 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	dZUI5Qe+6KbAscqoiebvNwhOHw4y5pnZE9XdJ3jmNes=; b=lSWZn6aOLce+tvG3
-	WgvAUUKkWfeSDc2aOw8DZAnZlOmoT/1P1xsn6I2RsYmtlPQj7OVcZAbZWUYnmT+2
-	dpTYQB18HK+4vUO/BbL6MmLr9ugAplJ6OMa8jrHjuIAADR2JOlYFl7iSpv6BJrpL
-	VqScEwwntSwSrW0yrsJjWjZUXuQ0nfobMOpv7nGLC5TUJEmuDZb8Ju814jHM2nIm
-	oUcBs5XVI8xNXND+/Oq4wrFk38A4bAFwKCK4a09+p1x/wwykwxBqc5GIUdECnsnZ
-	Jyw4gl9zoZHZYGsekG3RVxOeioQt+lYS1iULO6KpNKfjgpAuvsAPl4iicCFR1WQ5
-	qggyBg==
-Received: from mail-dy1-f197.google.com (mail-dy1-f197.google.com [74.125.82.197])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4huvtdaymg-1
-	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <workflows@vger.kernel.org>; Tue, 10 Nov 2026 17:56:32 +0000 (GMT)
-Received: by mail-dy1-f197.google.com with SMTP id 5a478bee46e88-36f26e6abe9so3732316eec.0
-        for <workflows@vger.kernel.org>; Tue, 10 Nov 2026 09:56:32 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=oss.qualcomm.com; s=google; t=1794333392; x=1794938192; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:in-reply-to:content-language
-         :from:references:cc:to:subject:user-agent:mime-version:date
-         :message-id:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=dZUI5Qe+6KbAscqoiebvNwhOHw4y5pnZE9XdJ3jmNes=;
-        b=kmab1KoT+l9vG+osWCGvAlZP8IonuFgVVlG/l7bTCIiCII3CXnc7ed3C99+J9mD9eq
-         0roUdcre6+v7lrKbSOfGU6VsIePLE7buJv1Fr+swxSaU7XghkUVmKoTk7SEMrbO596lV
-         DiSZj9jTC5JYvJNCquftsruKt0hCRs6k5inzEVnqIqOmT7l9iQMYr5BW72jGMXQ24xd0
-         McgtQvjk6eyJzD330iRmca3QvyWVaYQdrl+7QOjtp8vqqS5ngNPMIn/oCHhAqZ5lZD0H
-         54tNFXOESsOq7dM7UT4PGXp0efHdpF7/jmSFa0TetJi5bAY6K2hDJN+8SQLSvFPLjnD9
-         uPIQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794333392; x=1794938192;
-        h=content-transfer-encoding:content-type:in-reply-to:content-language
-         :from:references:cc:to:subject:user-agent:mime-version:date
-         :message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=dZUI5Qe+6KbAscqoiebvNwhOHw4y5pnZE9XdJ3jmNes=;
-        b=Pb5npd6loqZvfstSzLqt5o8Tk1d3znzmV17lJ+fGWVo5IfO+DK/ZWXGHAYCBFcPrLR
-         K2ouadsIZy+IoNOUIqlkpMMA5aAk7rep2vkMrU0sau8Yw25ttl4rq6+hSm6W7NX9oJOt
-         1a8o8UUh25hjXg33oDN7baz1T5u1rlwdLX9m0inxAyQOfEcAMTvmcrkOFxNSMUcQ6KWK
-         XF3NPgJsPiwgV6L7BAdi4TxmxMQGjy1zBHMTo6BIcu4AyZp4VFYyPYBFCuDsYCLblMug
-         rchiCSsHyyPyHzCblgyizfq66kis/T1A3tf21AdnuNFFUllC0w5GjXJugjY35EznD9BY
-         iyUg==
-X-Forwarded-Encrypted: i=1; AL+hErGY0lc8FhLKgJIYn2T1F/OFEkPE6nzLfqQblkUDAL1EXfdWPhVv8JYMLmTbQLLGfBulTxy6RW3/GtM=@vger.kernel.org
-X-Gm-Message-State: APuU4Z8EcjKnsTshsSym5JtBY6jnHJV6DTSBIAnXsWmjyxIg0UqdEJoS
-	iN/Smbayl0o2M2kdeycn6o4GGvGsXQGUWtbgMo63rgyDVXfA2/iUUqSwZcWePvFpJ/VQr5d6PcN
-	uH6RBDR9YLNiwxHL7BvOuqZjg22ClqA7Sp6k9tRXmVGnL5FOE4SjIN3fu1WN3oFs=
-X-Gm-Gg: AYBFou0buYSsusYl5p1jROw3tO1gnRgf/uEy4cmxi3yxWCeRzJgTxQdRZVE5chvF/cG
-	y9JjuyGWHw3Rv+1Ya1XOyU4DvWTKEG1eknC4b380gMjuKCc+pafympaxgH+z2KdMfL1z/h/xpSn
-	RCs5SJE8Pp096tWUrrRC8f+dmBm+9qtdn64FluAA6XMeYNy73irh5BpcJEzLFn/HdPI4LVUWNJz
-	6wQQO3jg37YF+gzhw3ESZS1PcMWKx9yT3pC2J4CBKDwZ9TGfa/bEcLn83zENRDe+iBbumSV38pD
-	Zek5rJYoYFag4uVJIOk2YtluWkoUWL1C3I6lNjJ7wiFh/PWFVUuriIDtGlF3vOQfskzIPDbRmbC
-	VYX5Pg6wEFw802JSyngZIZT2YE36UDIoT5ZtcUNHQx2s7bRDfQWd2w31PLAFFt1RcXgYOqsqRnI
-	8=
-X-Received: by 2002:a05:7301:e22:b0:35c:ba31:6fef with SMTP id 5a478bee46e88-37686c3af76mr31638eec.36.1794333391495;
-        Tue, 10 Nov 2026 09:56:31 -0800 (PST)
-X-Received: by 2002:a05:7301:e22:b0:35c:ba31:6fef with SMTP id 5a478bee46e88-37686c3af76mr31586eec.36.1794333390890;
-        Tue, 10 Nov 2026 09:56:30 -0800 (PST)
-Received: from [10.0.0.50] ([76.133.89.231])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-375212ec002sm9766790eec.26.2026.11.10.09.56.29
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 10 Nov 2026 09:56:30 -0800 (PST)
-Message-ID: <7e7b67ac-7d7d-4769-be74-c064241d5426@oss.qualcomm.com>
-Date: Tue, 10 Nov 2026 09:56:29 -0800
+	dkim=pass (2048-bit key, unprotected) header.d=sang-engineering.com header.i=@sang-engineering.com header.a=rsa-sha256 header.s=k1 header.b=QWWCNMYD
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	sang-engineering.com; h=date:from:to:cc:subject:message-id
+	:references:mime-version:content-type:in-reply-to; s=k1; bh=Pqtl
+	4npWkphouNTE/kHIzbcAETdRulwAMb+Ntlny9Ss=; b=QWWCNMYDGBox/JT2AfaP
+	Gw5F1mJYcpz3xFj7cax/hxHCr0IHvNVEJ+00CPZmkOGGXzEY6i5p2WwbnFjRpRGZ
+	nMx2MGFuvkSzhldqAFgylB8vrzUQQrtodFGLAh17OOhd6BOcTYBT7gpq/bzfPJJn
+	SFLj5xdrPFE4kdTpw5ueDc0ZtTXhKnV7jBPj9J2/+HyONAWFBbdlgchZ7ldmQjpS
+	bcLVBbnN/kSRBtDmcLhbb/MHRXe7OIlIBb27APdtFsDQotP+g3qUHjQd5vlUhoNw
+	Kgb31cLkJemTwzxKL/+p2y7RipS0f5USd/K9mIc5ghb25zNiZZMsAiS6xBMxgYcb
+	YQ==
+Received: (qmail 346477 invoked from network); 10 Nov 2026 20:41:46 +0100
+Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 10 Nov 2026 20:41:46 +0100
+X-UD-Smtp-Session: l3s3148p1@h2bMRPFfjtwujnsO
+Date: Tue, 10 Nov 2026 20:41:43 +0100
+From: Wolfram Sang <wsa+renesas@sang-engineering.com>
+To: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
+Cc: Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Randy Dunlap <rdunlap@infradead.org>, workflows@vger.kernel.org,
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+	Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Subject: Re: [PATCH v3] docs: submitting-patches: Clarify partial review tags
+Message-ID: <avNzd2dKIP2jY0t9@shikoro>
+References: <20261110141429.149451-2-krzysztof.kozlowski@oss.qualcomm.com>
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Post: <mailto:workflows@vger.kernel.org>
@@ -114,81 +66,33 @@ List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:workflows+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH RESEND] wifi: ath11k: release the rproc reference on
- teardown
-To: Wentao Liang <vulab@iscas.ac.cn>
-Cc: Jeff Johnson <jjohnson@kernel.org>, linux-wireless@vger.kernel.org,
-        ath11k@lists.infradead.org, linux-kernel@vger.kernel.org,
-        workflows@vger.kernel.org
-References: <20261103102915.1341148-1-vulab@iscas.ac.cn>
- <a39b1918-5d04-452b-8b5a-0703963f4587@oss.qualcomm.com>
- <179430684554.3011466.3431045638041318447@iscas.ac.cn>
-From: Jeff Johnson <jeff.johnson@oss.qualcomm.com>
-Content-Language: en-US
-In-Reply-To: <179430684554.3011466.3431045638041318447@iscas.ac.cn>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Proofpoint-GUID: HX9KSFO8DuzBLtCm_jNCsc_z9OYj8Hot
-X-Proofpoint-Spam-Info: AW1haW4tMjYxMTEwMDA3MSBTYWx0ZWRfX37EDz0AgSNVL
- wW0o8UxQJOlCR9Zm8T5kx+Q5gM9mJY+1wwzcXUrOG3So/UL1xI26/BkzO/vml5ki1M0T5q4+BBO
- 53aMUcP5RtdcofOqOqW93x7IB1TI59I=
-X-Proofpoint-ORIG-GUID: HX9KSFO8DuzBLtCm_jNCsc_z9OYj8Hot
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYxMTEwMDA3MSBTYWx0ZWRfX5c7Id+Ioor7O
- tf/37zTjBMybyq0FWbNnwXjvbc9fMs2nXlC3wvqnn33iXZ/rrrb5mofDway214wymOtCoWgQ8nR
- v7KtNjA9ycYg/BBkCUDlYOO8jqvDhh/b1GfERIu1Pv5uFqJ+sQBtImtbxODe6yOyCd3okxWE/vl
- qBehnTBh/ZWkImQrKkavlvNPLIdrogFYM7bVSjZikTSnoKF3umyYmpKH+stZpbQdf2DgLVQAMkR
- R8WXbAFZeuvfZO2pa/G1VwcduUbaj/yuOzhwHEZ3SUl1dFdm8wXs8xOmwLwDmKl/OknhZeoN1Iq
- N8qPOZghlXo2FKdC0Io4I3wq2p0x7+n86p4kMRY+IdK5Q13Sdo4GP7DS9oHshCdsUHiDRWWah3u
- fglvmhxpzGjmaXNE7sVKmsGv4wvk9SryKqR+6+UuE+Qgb34Oj0pFDgTFldXU4ZjOjcs3GR6guOG
- r95EuleyVpDKBh6I94w==
-X-Authority-Analysis: v=2.4 cv=ArR7T+9P c=1 sm=1 tr=0 ts=6af35ad0 cx=c_pps
- a=Uww141gWH0fZj/3QKPojxA==:117 a=6LbA7P6A7bvUEkAB8wivVw==:17
- a=IkcTkHD0fZMA:10 a=zJRp6_cAMcgA:10 a=s4-Qcg_JpJYA:10
- a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=gowsoOTTUOVcmtlkKump:22
- a=VwQbUJbxAAAA:8 a=iW0bIAoc0toShNrrW9YA:9 a=QEXdDO2ut3YA:10
- a=PxkB5W3o20Ba91AHUih5:22
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.138,FMLib:17.12.100.49
- definitions=2026-11-10_05,2026-11-06_01,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- bulkscore=0 clxscore=1015 spamscore=0 priorityscore=1501 impostorscore=0
- malwarescore=0 phishscore=0 suspectscore=0 adultscore=0 lowpriorityscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2611040001 definitions=main-2611100071
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20261110141429.149451-2-krzysztof.kozlowski@oss.qualcomm.com>
 
-On 11/10/2026 2:34 AM, Wentao Liang wrote:
-> Hi Jeff,
+On Tue, Nov 10, 2026 at 03:14:30PM +0100, Krzysztof Kozlowski wrote:
+> Refactoring of driver subsystems or some core driver parts often come
+> with change of the actual drivers.  If that happens within one patch,
+> people giving "Reviewed-by" tag only to piece of the patch, like one
+> driver, and ignoring the rest including the main concept of the patch,
+> are not really reviewing "the patch".
 > 
-> I'm sorry for taking so long to reply and for the confusion and extra
-> work caused by sending patches from a shared address and failing to
-> follow up on review feedback.
+> As explained in the Submitting Patches document, the "Reviewer's
+> statement of oversight" is for patch as in "entire patch" meaning:
 > 
-> To keep the existing discussions clear, I'll continue to reply from
-> vulab@iscas.ac.cn under my own name in the threads for patches I
-> submitted. I will not send any new patches or revisions.
+>   (a) I have carried out a technical review of this patch to
+>       evaluate its appropriateness and readiness for inclusion into
+>       the mainline kernel.
 > 
-> For context on this submission, static analysis flagged the candidate,
-> and we used DeepSeek and GPT-6.1 Sol to assist with reviewing it and
-> preparing the fix.
+> The sentence is explicit, exhaustive and complete, meaning it does not
+> allow implicit variations like: "this patch or part of this patch".
 > 
-> Again, I'm sorry for the confusion and the extra work this caused.
+> Reviewing pieces of the patch while ignoring the main part of it, is
+> much closer to Acknowledgment, thus Ack or at least "Reviewed-by" should
+> be followed by '# subpart' suffix.
 > 
-> Wentao
+> Reviewed-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
 
-I am not going to accept any patches from vulab@iscas.ac.cn since the git
-commit history shows that has been (ab)used by multiple folks in their SOBs,
-and hence IMO violates the DCO:
-    Signed-off-by: Haotian Zhang <vulab@iscas.ac.cn>
-    Signed-off-by: Wentao Liang <vulab@iscas.ac.cn>
-    Signed-off-by: WenTao Liang <vulab@iscas.ac.cn>
-    Signed-off-by: Xu Wang <vulab@iscas.ac.cn>
-    Signed-off-by: Zishun Yi <vulab@iscas.ac.cn>
-
-If you want to contribute to the drivers I maintain, submit your patches with
-an e-mail address that is unique to you. I have already rejected all patches
-from vulab@iscas.ac.cn assigned to me in patchwork.kernel.org.
-
-/jeff
-
+Reviewed-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
 
