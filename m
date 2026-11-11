@@ -1,62 +1,59 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=194.117.254.33
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794339724;
-	b=M9fQGnqhh/xyKaNTPPVCLX+aWB+af+Z30MV/d9Bc6KlzVApW4yelpb9/57sWRwBYDjws
-	 qq8aUya//lv5lo1eM/u5uhnjBwDyr5oq67bjZrNqPcfiBc/sIIGvt74Otec75W/gceLrH
-	 HK9i8fmRh03VhlgZPeVdvDGHq6uw2rAfRMOOcpQ8ivLqMj7oFtIfP0/DLQfEEkE8tsev3
-	 DU5k9lN12AyZMXFDK3R57/RqBWc3C/NQyrRnDIyq7l24VMAAQypEauu0H1tZNrimx0k40
-	 ns9LW8fDNpNtsD4pTDrBQTTR2W8P9KlGp25jr5l4gUemDnEWGR66dtepkmlYXoTtxlg==
+	t=1794361466;
+	b=zG4FGi6oTjX5FBf1G1VADhPUyt1/fM/inTceJ7viBixlIbb361K22sO88tVv3WTAOGRc
+	 DqaMhQR8DKHb2Q8axBIAgD2/zGL33lsw660PGUpe2cUICZwngGkxb5MdCqmPOZvbOol6Q
+	 b8xV2fK4zEO73dpXpWikMUH7iANuBi5Fw/v8lZ5sJs6J0QhdW7N6llZ9dwmrTDyVJ8uKu
+	 WR837i6ZwqbtB9Ierd08Pfp7Iy6MIVHeyW4vsL4lIm8lmYSyOXYU3fKR3hoc4SubfVpo1
+	 wErcXcr94L3S8zpEGZsvdxSW2kWRRi/ijVy4aLWOD7SwERGyDxyRy3qxsFzo7ij6Ybw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794339724;
-	h=DMARC-Filter:DKIM-Signature:Received:Received:X-UD-Smtp-Session:Date:
-	 From:To:Cc:Subject:Message-ID:References:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To;
-	bh=Pqtl4npWkphouNTE/kHIzbcAETdRulwAMb+Ntlny9Ss=;
-	b=l/bkU6qCZMqAUI8FfiCtwrKDJQjE3T0Ils5fIVRUWimfnI8724twv5hJRws+F4zlFszR
-	 wIcecG7eRxnI/DEa6sBozBTypftnIzK39I2qJPhU18JKl39DJOkP3xyrJJEOh6+e+gdr6
-	 m+VvpFJXiHX+DF2RQsxVzJ9UlEN/bDsNVWNS/0KRZ0pyMx2MPqVJzZ5unzcHAZQLTsNM7
-	 e+FAL7W9STx/SaSmi2Q66LgYBmmUEkvMebAc8tDDeCATeJ4PCwxOJQVCnwedBaTNSK+vb
-	 mqxYUmQgxc5N0e1+mSTcINp3vHMVoVRmlrRWghZSzBo1kGJHTx4JaS6tVNx697KCf/Q==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794361466;
+	h=Received:DKIM-Signature:From:To:Cc:Subject:Date:Message-ID:X-Mailer:
+	 MIME-Version:X-Developer-Signature:X-Developer-Key:
+	 Content-Transfer-Encoding;
+	bh=LifNoRV7SktPTHrTSGN1uZI1OD1Mn4gFn1T8NUEC7Ls=;
+	b=WUsFeg0AsJeGElWhPNwN9cTeotRHdVZI3kSLld7PSoX2iw6b5Ap3/9ZYyCoBqS8c4Lcp
+	 jfFsPCXIHNtrKDwLt17jOsdQdnk7jv/BXsE8VmWZaL5C1kKYDWhlyAu033eVU3C0hb15q
+	 rX800oThE43tE9xXEQMxQwhLP8eFxDK0b03EGoyzV2su1fVev4lUUDxDOVHCp1pRkYeoU
+	 rzYCRp32rojwFmFDnEoYA4otHfhlTCvw4siekddDVFV+dA39LdTbmXuQ8Zwa+6mwL9yN5
+	 FgKpJXDpY9TFRXOsXaa98QjIelCKeqx8sU0lnu414skLwzOEHbYt3PIL6Z3Hy94jJCw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=none header.from=sang-engineering.com;
-	spf=pass smtp.mailfrom=sang-engineering.com;
-	dkim=pass header.d=sang-engineering.com header.i=@sang-engineering.com header.a=rsa-sha256 header.s=k1 header.b=QWWCNMYD;
-	arc=none smtp.remote-ip=194.117.254.33
-Received: from mail.zeus03.de (zeus03.de [194.117.254.33])
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=ZIzMTeSn;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D52C6606A323
-	for <workflows@vger.kernel.org>; Tue, 10 Nov 2026 19:41:55 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org D52C6606A323
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sang-engineering.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 36456606A320;
+	Wed, 11 Nov 2026 01:44:25 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=sang-engineering.com header.i=@sang-engineering.com header.a=rsa-sha256 header.s=k1 header.b=QWWCNMYD
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	sang-engineering.com; h=date:from:to:cc:subject:message-id
-	:references:mime-version:content-type:in-reply-to; s=k1; bh=Pqtl
-	4npWkphouNTE/kHIzbcAETdRulwAMb+Ntlny9Ss=; b=QWWCNMYDGBox/JT2AfaP
-	Gw5F1mJYcpz3xFj7cax/hxHCr0IHvNVEJ+00CPZmkOGGXzEY6i5p2WwbnFjRpRGZ
-	nMx2MGFuvkSzhldqAFgylB8vrzUQQrtodFGLAh17OOhd6BOcTYBT7gpq/bzfPJJn
-	SFLj5xdrPFE4kdTpw5ueDc0ZtTXhKnV7jBPj9J2/+HyONAWFBbdlgchZ7ldmQjpS
-	bcLVBbnN/kSRBtDmcLhbb/MHRXe7OIlIBb27APdtFsDQotP+g3qUHjQd5vlUhoNw
-	Kgb31cLkJemTwzxKL/+p2y7RipS0f5USd/K9mIc5ghb25zNiZZMsAiS6xBMxgYcb
-	YQ==
-Received: (qmail 346477 invoked from network); 10 Nov 2026 20:41:46 +0100
-Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 10 Nov 2026 20:41:46 +0100
-X-UD-Smtp-Session: l3s3148p1@h2bMRPFfjtwujnsO
-Date: Tue, 10 Nov 2026 20:41:43 +0100
-From: Wolfram Sang <wsa+renesas@sang-engineering.com>
-To: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
-Cc: Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Randy Dunlap <rdunlap@infradead.org>, workflows@vger.kernel.org,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-	Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Subject: Re: [PATCH v3] docs: submitting-patches: Clarify partial review tags
-Message-ID: <avNzd2dKIP2jY0t9@shikoro>
-References: <20261110141429.149451-2-krzysztof.kozlowski@oss.qualcomm.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=ZIzMTeSn
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C60DA1F0089F;
+	Wed, 11 Nov 2026 01:44:25 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1794361465;
+	bh=LifNoRV7SktPTHrTSGN1uZI1OD1Mn4gFn1T8NUEC7Ls=;
+	h=From:To:Cc:Subject:Date;
+	b=ZIzMTeSnrQm6D5dPUybw6ao4W71JgmV+DYGUdOnHU2lPFxViq/FIjuEAYOZMrWcKa
+	 S+aumn/vcz0S8wOaVDn+tcw5ojeobA49bh52MyH2wPsUgvxq7kcAT5yxRWeMO0WXYl
+	 DHXwNBOHEK3x0rvGDPueREbNZePr4RA0lM6bEopISbAJoNx2xTpA1C3TecCJFT6Fbh
+	 uYuMa5eVS/BQz0Y25KUuPlCGrXz+Kd/grmZb1ZlQ0NsIUu8sokcfjAAaBmo3YsuLz0
+	 lzFb40vGBY9+Qq+FBdRt8K5BBapeF/2L8e376lLmRSSHEtTd7hyEn8lk6Ex3KoekDT
+	 ujYgMtQzXQ1QQ==
+From: Kees Cook <kees@kernel.org>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: Kees Cook <kees@kernel.org>,
+	CVE Assignment Team <cve@kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Randy Dunlap <rdunlap@infradead.org>,
+	workflows@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-hardening@vger.kernel.org
+Subject: [PATCH] docs: cve: Describe how security fixes reach users
+Date: Tue, 10 Nov 2026 17:44:23 -0800
+Message-ID: <20261111014419.i.586-kees@kernel.org>
+X-Mailer: git-send-email 2.55.0
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Post: <mailto:workflows@vger.kernel.org>
@@ -66,33 +63,61 @@ List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:workflows+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20261110141429.149451-2-krzysztof.kozlowski@oss.qualcomm.com>
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2769; i=kees@kernel.org; h=from:subject:message-id; bh=ILuSC5xkMM88EJHPOsa8/MlHGCWyInFl9QnagAiYRp4=; b=owGbwMvMwCVmps19z/KJym7G02pJDFmfT5R9+b7j3mGzTPk5i+2PX3fPWDHr5bVp1d/m5DcEB SdtaH7wsKOUhUGMi0FWTJElyM49zsXjbXu4+1xFmDmsTCBDGLg4BWAik3Yy/I8TdvHm8Qw5GVz1 8OJVpukWKlMt8/w/yxR+7v327rDS0kJGhpOeb0W6jG/pVTqFaRw8++H5sy8c+uZRd1Y+ibDa92a tKDsA
+X-Developer-Key: i=kees@kernel.org; a=openpgp; fpr=A5C3F68F229DD60F723E6E138972F4DFDC6DC026
+Content-Transfer-Encoding: 8bit
 
-On Tue, Nov 10, 2026 at 03:14:30PM +0100, Krzysztof Kozlowski wrote:
-> Refactoring of driver subsystems or some core driver parts often come
-> with change of the actual drivers.  If that happens within one patch,
-> people giving "Reviewed-by" tag only to piece of the patch, like one
-> driver, and ignoring the rest including the main concept of the patch,
-> are not really reviewing "the patch".
-> 
-> As explained in the Submitting Patches document, the "Reviewer's
-> statement of oversight" is for patch as in "entire patch" meaning:
-> 
->   (a) I have carried out a technical review of this patch to
->       evaluate its appropriateness and readiness for inclusion into
->       the mainline kernel.
-> 
-> The sentence is explicit, exhaustive and complete, meaning it does not
-> allow implicit variations like: "this patch or part of this patch".
-> 
-> Reviewing pieces of the patch while ignoring the main part of it, is
-> much closer to Acknowledgment, thus Ack or at least "Reviewed-by" should
-> be followed by '# subpart' suffix.
-> 
-> Reviewed-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
+Recent threads on kernel-hardening proposed new mechanisms for
+mitigating kernel CVEs while waiting for distributions to ship their
+fixes. The CVE documentation does not say how fixes reach users, or
+whose job it is to get them into a vendor's kernel. Add a section that
+does, summarizing the answers given in those threads.
 
-Reviewed-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
+Link: https://lore.kernel.org/all/2026110719-zipping-silliness-2443@gregkh/
+Link: https://lore.kernel.org/all/2026111052-spectator-legwarmer-4c1e@gregkh/
+Signed-off-by: Kees Cook <kees@kernel.org>
+---
+ Documentation/process/cve.rst | 30 ++++++++++++++++++++++++++++++
+ 1 file changed, 30 insertions(+)
+
+diff --git a/Documentation/process/cve.rst b/Documentation/process/cve.rst
+index 5e2753eff729..d16b5c2bf7ba 100644
+--- a/Documentation/process/cve.rst
++++ b/Documentation/process/cve.rst
+@@ -119,3 +119,33 @@ assigned to all fixes for all issues, but sometimes we will fail to
+ notice fixes, therefore assume that some changes without a CVE assigned
+ might be relevant to take.
+ 
++Getting security fixes
++======================
++
++Fixes for security issues reach users the same way as every other
++fix: through the stable and longterm kernel releases listed at
++https://kernel.org/releases.html.  These are released frequently, each
++one tested as a whole by many community members.  The CVE assignment team
++announces these fixes on the linux-cve-announce mailing list,
++and only once a fix is in a stable kernel tree, so the fix is already
++available when its CVE is announced, and no vendor learns of a CVE before
++anyone else (except for the very rare case of :ref:`embargoed flaws
++<process/security-bugs:Disclosure and embargoed information>`,
++which do not include :ref:`AI-discovered flaws
++<process/security-bugs:What qualifies as a security bug>`).
++All of this is available to everyone, at no cost.
++
++The best response to a CVE, and the quickest way to receive its fix, is
++to run one of those kernels and keep updating it.  A kernel version
++that is no longer supported there only gets a fix after someone
++backports it, and that work is done outside the kernel community.
++
++If your kernel comes from a Linux distribution or another vendor,
++getting fixes into it is that vendor's responsibility.  The kernel
++developers and stable maintainers publish the fixes, but they do not
++integrate them into each vendor's kernel.  If fixes reach you later
++than you need them, raise it with your vendor, particularly if you pay
++them for support, since keeping your kernel up to date and secure is
++part of what that support provides.  If your vendor cannot keep up,
++some distributions follow the stable releases closely and ship their
++fixes promptly, also at no cost.
+-- 
+2.55.0
 
