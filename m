@@ -1,81 +1,66 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=18.9.28.11
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=45.79.88.28
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794494601;
-	b=R45hTjDP553bxwm1e+OVnxHbk12S1usjqrquLHN+WLIb7e8Z6WYmdhX2m83CQuCiRq7t
-	 wof8+ZqiUuD/IEAqb+6SKy4aMc2IT1+uVw6wwBuQlk2CPb97xl/B8R8t8/XcPqMozxb2K
-	 UEZtJkZGF7XMSE8NJIOdPsAwHannBmRwdBWhMnoIoIt0d6T5kYwb1xjDviiKzSLBGbw47
-	 QoX0x9g7N6YaQtOr3AcitQLbs5y0faRZr0nqiC25k/9kG6kORcqgk9nYMAEUpGenJyGzW
-	 2Q7ZcZhrRTJ0n+AqepU+H+/OzRnrY30c6tXIHXFNVgdbTOvFhD6h4PIWiZuILEWDJEg==
+	t=1794494921;
+	b=CQhMMZWl9ifqsKffBgZoUddp9KaJWcOvX2M94BJdEDwgbIUZ9fP6GzJ8Cj1MQ4rlhe3B
+	 /bVq0At6TFKnzRHyaf/IUvnQLEh85pn0LqfdvDVb0rypjPxwDvvBbjpizu+C90j6aBVv9
+	 v0h9qJ6m10aB/+0kQS1im0S9G7/kgxdWfa/iThYi5DbsrdvfiwAtYLBOj3FK8KAuAEEmJ
+	 lllUgMwGzQK+M22FSHNXXr6NwfKIueozvyvu6cVSbUqIXKoJtQ2spkjhiG0mOF4S5vSPG
+	 RhmCn2jdAkzczxvKXWImZ1myxKOjiJKPwnQBhTjlXEtNiLkZI0Z5MMqorUy3D39BUQw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794494601;
-	h=DMARC-Filter:Received:DKIM-Signature:Received:Date:From:To:Cc:
-	 Subject:Message-ID:References:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To;
-	bh=doRR2hlsDqY4KYCxE3inoPjG+grnCS2sG965WCAyZas=;
-	b=HzwIe6LuU8Sd0yCla0FTtiQ3TSK7M9OQIlwui58+uc3mchyZ1kLoQ9mWhZXzIsunbR8c
-	 4YbvNn2pKbhDOw5XAazyBquMHkomurV9bFwsBmqiMwz/OALfzA7HtOaY5wXcP/xhE9HZd
-	 CCWvoiXOddEwUDTXGOCWP1BPxn9GSjy9OIocoNVRFVJAPahgkH3hrUYOIny5/3iZCTgEA
-	 m+E+DLmWB5xG3g+Z+aSTd/lr1XHcxzBTSm/TDb4W4tInl05YV4cxoSL9KRD9SYWk7hMK6
-	 6HFjy1JxtUE8afpLF9pUvWpFkgDrBR0z3bMMQChofwFrBGXrFgYvtSQZfEEpuBm8A6Q==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794494921;
+	h=DMARC-Filter:DKIM-Filter:DKIM-Signature:Received:From:To:Cc:Subject:
+	 In-Reply-To:References:Date:Message-ID:MIME-Version:Content-Type;
+	bh=X8IIACO//pLnyNoft075EvxEI1VedbxVA+QpkQ+am14=;
+	b=5VSYSRq0eZUTHXRr8n5VILlHZ3hii67uOvwQLbRdp91Q7Z1GnpjaxAVOoknNeyrfLi7X
+	 AKaMnbWQL8QwYkylpRGwgHPW/uSILGyudwc3jVAlSyYrwXvHLQfQEGrLgaAXZ4eIWv28P
+	 o4ngacD5D1YcXR7/dOXhF+MJNiPOnR/B8JxI1VOUL04xLGTdda4OF9fwofXzmzNAk8/5B
+	 VveDPh3WSLSFyR2Bn0Th2FsQaOw2nG5P537ppjStIaKiYk4mcIXMdLHkfRsY94ABhi4n4
+	 +gIL9KVU2pOHngfdXPNZemsQ3yLERg7x8RLVvsvPaBITp/iR7AyMtiyNc/bL7n6yIGQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=mit.edu;
-	spf=pass smtp.mailfrom=mit.edu;
-	dkim=pass header.d=mit.edu header.i=@mit.edu header.a=rsa-sha256 header.s=outgoing header.b=PCpUqHRW;
-	arc=none smtp.remote-ip=18.9.28.11
-Received: from outgoing.mit.edu (outgoing-auth-1.mit.edu [18.9.28.11])
-	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
+	dmarc=pass header.from=lwn.net;
+	spf=pass smtp.mailfrom=lwn.net;
+	dkim=pass header.d=lwn.net header.i=@lwn.net header.a=rsa-sha256 header.s=20201203 header.b=Cb+A75Qg;
+	arc=none smtp.remote-ip=45.79.88.28
+Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A9CB3606A335
-	for <workflows@vger.kernel.org>; Thu, 12 Nov 2026 14:43:20 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org A9CB3606A335
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=mit.edu
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mit.edu
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A2D8B606A338;
+	Thu, 12 Nov 2026 14:48:40 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org A2D8B606A338
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=mit.edu header.i=@mit.edu header.a=rsa-sha256 header.s=outgoing header.b=PCpUqHRW
-Received: from macsyma.thunk.org (pool-173-48-111-191.bstnma.fios.verizon.net [173.48.111.191])
-	(authenticated bits=0)
-        (User authenticated as tytso@ATHENA.MIT.EDU)
-	by outgoing.mit.edu (8.14.7/8.12.4) with ESMTP id 6ACEgZrS029468
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Thu, 12 Nov 2026 09:42:36 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mit.edu; s=outgoing;
-	t=1794494561; bh=doRR2hlsDqY4KYCxE3inoPjG+grnCS2sG965WCAyZas=;
-	h=Date:From:Subject:Message-ID:MIME-Version:Content-Type;
-	b=PCpUqHRWzITexZeciyh8kmVbkihYGX8mwUkz4BDsbPPLX+qgXZSgK0siPFYDtsNvw
-	 vhi19YCkVdpN2IOIuCQkUbTABBSJH34jKgUk1v7pcRSM1aF+AI/t36ClaWCrfW2JJN
-	 FcvflnJ9GzeSyh+wHskHLh8VisHyED/GCv1zGigO8l7ebgLy4JiNG3DwOYnQyWrVta
-	 EQI9zCjNPdNU2JePDhpFJerpbV/T9UDaDhfs+O06B95xIv8USzHrU41itNr13pVwFh
-	 S4khQLaNAECVY8NIwKjwYoV0mGOMtac6jtKQmU3og6QNRrEW6ISyYhUHAEkjw/6H5q
-	 +6t7Ei0rd0G3g==
-Received: by macsyma.thunk.org (Postfix, from userid 15806)
-	id CC8FE26E540E; Thu, 12 Nov 2026 09:42:35 -0500 (EST)
-Date: Thu, 12 Nov 2026 09:42:35 -0500
-From: "Theodore Tso" <tytso@mit.edu>
-To: Krzysztof Kozlowski <krzk@kernel.org>
-Cc: workflows@vger.kernel.org, ksummit@lists.linux.dev,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Jonathan Corbet <corbet@lwn.net>,
-        Shuah Khan <skhan@linuxfoundation.org>,
-        Randy Dunlap <rdunlap@infradead.org>, Mark Brown <broonie@kernel.org>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Leon Romanovsky <leon@kernel.org>,
-        Konstantin Ryabitsev <konstantin@linuxfoundation.org>,
-        Thorsten Leemhuis <linux@leemhuis.info>,
-        "Michael S. Tsirkin" <mst@redhat.com>, Kees Cook <kees@kernel.org>,
-        Geert Uytterhoeven <geert@linux-m68k.org>,
-        Dan Carpenter <error27@gmail.com>, Miguel Ojeda <ojeda@kernel.org>,
-        Alexei Starovoitov <alexei.starovoitov@gmail.com>,
-        Julia Lawall <julia.lawall@inria.fr>, SJ Park <sj@kernel.org>,
-        Bradley Morgan <brads@mainlining.org>, Sasha Levin <sashal@kernel.org>,
-        stable@vger.kernel.org
-Subject: Re: [PATCH v5 0/6] agents: add skills for Fixes tags, stable tags,
- similar bugs, and commit messages
-Message-ID: <avXOSg4jOlzBY1r5@mit.edu>
-References: <20261111225940.1573565-1-tytso@mit.edu>
- <9c5f5976-ebed-48f3-94ab-1121231af6e1@kernel.org>
- <avXCcPYM9VAP0JHf@mit.edu>
- <31a56051-bd63-4a39-9cad-2c9afcd98340@kernel.org>
+	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.a=rsa-sha256 header.s=20201203 header.b=Cb+A75Qg
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 3BB5940904
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
+	t=1794494920; bh=X8IIACO//pLnyNoft075EvxEI1VedbxVA+QpkQ+am14=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+	b=Cb+A75QgnDGA5Wt7FdnL0DDTgTAx9jo/pf1OPq/TqEgx467iDTHTsK+PH0QolZggX
+	 SwiRZ9YnQYAcq8pnRrLQ5Hh+28FUyHddlQUO9wpLUYe1xXS2YXvAIUq4ev7uTiTh23
+	 nzQcDUKDtvjj1VPAnf9PKdX+U4hSxxiAVNnWNRIxiloVsS131nhpH1GgSaG2bkw7PE
+	 LxaZKMfYjVm6eU/X/Ab7kDUe6EW7TRBynKcmHo3GZakPiAxMmgMxFonFh4or23Mk2m
+	 fqOjbZI8A7HOJ6oXNwflT/OdU+HhZjVnCyR+nGRoejV/SKLvGCoHZkYuzgIcWCw0sU
+	 bRrsVh0jgW+MQ==
+Received: from localhost (mdns.lwn.net [45.79.72.68])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (prime256v1) server-signature ECDSA (prime256v1) server-digest SHA256)
+	(No client certificate requested)
+	by ms.lwn.net (Postfix) with ESMTPSA id 3BB5940904;
+	Thu, 12 Nov 2026 14:48:39 +0000 (UTC)
+From: Jonathan Corbet <corbet@lwn.net>
+To: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>, Shuah Khan
+ <skhan@linuxfoundation.org>, Randy Dunlap <rdunlap@infradead.org>,
+ workflows@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+Cc: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>, Andy
+ Shevchenko <andriy.shevchenko@linux.intel.com>, Wolfram Sang
+ <wsa+renesas@sang-engineering.com>
+Subject: Re: [PATCH v3] docs: submitting-patches: Clarify partial review tags
+In-Reply-To: <20261110141429.149451-2-krzysztof.kozlowski@oss.qualcomm.com>
+References: <20261110141429.149451-2-krzysztof.kozlowski@oss.qualcomm.com>
+Date: Thu, 12 Nov 2026 07:48:36 -0700
+Message-ID: <87cxsa6r7f.fsf@trenco.lwn.net>
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Post: <mailto:workflows@vger.kernel.org>
@@ -85,27 +70,33 @@ List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:workflows+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <31a56051-bd63-4a39-9cad-2c9afcd98340@kernel.org>
+Content-Type: text/plain
 
-On Thu, Nov 12, 2026 at 02:49:09PM -0500, Krzysztof Kozlowski wrote:
-> 
-> Specification is also documentation, just like for example specification
-> for our ABI. It's also located in Documentation directory.
+Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com> writes:
 
-Source and header files can also contain documentation.  But we don't
-put them in the Documentation directory because they do not contain
-*exclusively* documentation.
+> Refactoring of driver subsystems or some core driver parts often come
+> with change of the actual drivers.  If that happens within one patch,
+> people giving "Reviewed-by" tag only to piece of the patch, like one
+> driver, and ignoring the rest including the main concept of the patch,
+> are not really reviewing "the patch".
+>
+> As explained in the Submitting Patches document, the "Reviewer's
+> statement of oversight" is for patch as in "entire patch" meaning:
+>
+>   (a) I have carried out a technical review of this patch to
+>       evaluate its appropriateness and readiness for inclusion into
+>       the mainline kernel.
+>
+> The sentence is explicit, exhaustive and complete, meaning it does not
+> allow implicit variations like: "this patch or part of this patch".
+>
+> Reviewing pieces of the patch while ignoring the main part of it, is
+> much closer to Acknowledgment, thus Ack or at least "Reviewed-by" should
+> be followed by '# subpart' suffix.
+>
+> Reviewed-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
 
-If the complaint is that it is visible when we run "ls", one
-compromise might be to put the skills in .agents/skills.  This is a
-cross-harness standard which is supported by some code harneses
-(Google Antigravity, Github Copilot, etc.).  Some harneses (including
-Claude Code, Opencode) don't, but people who use these harneses can
-solve it by installing their own symlink from .claude/skills,
-.opencode/skills, etc. to the right place.
+Applied, thanks.
 
-Cheers,
-
-						- Ted
+jon
