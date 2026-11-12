@@ -1,54 +1,54 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794514340;
-	b=dGzHwbZxwrq27+kbeXwYSh7fbL6VTB6s475PaD2GFyOLD84cahUk3XckPaQPJ0G+FGgL
-	 gfvpFm/Ywl8+0WJqMk0vIZWJ7o3fFn5KIhUF8y9PbazVDkKKNgJtQJBc8Qsu8fMNeWTUo
-	 QMjaDcTmcgKuVWnVHIxi5YHrRlj/S+G+MXo6qxJ/6bNd1O0MYzy8J67n28m3YMI2lG9cm
-	 ZcO/gFAgc1gsQRRyCQlWpCCjZx0PDrpCgIr2tOuIRUgNGQJzDlgtLp9uNdo+/Y8y0Uaf8
-	 JTijOgIY2NPEEm2oiOcZIIVM8SQ7kyW1mRR8LtFDTgB4BuUf623fFAJzQBUSdijIucQ==
+	t=1794514707;
+	b=H00w/YEO7Sr5r8m8tS9h0GDY2G7sobH2uQ6NBn3FeKz4kn0ci4jfTmVi7CechKnjo35X
+	 ZjFSDGnxVIYMVrfWEkaHsGPw74Dh9eSKXL50dK+9iiDW89mf7fYL2h298jGDZIsUGQKcA
+	 Dv1MoulkBXvrB3+yJPqipsYqJdRq1YqBeWpun5YU+zhqmIvu2dZ4oEO2dEbQk9sFNGo3H
+	 DEUfR/yMz7MoVFq+xGGjxzJoL2Sn0ASdZAVCk9Cr+fq6jzo12kTCAA7JmG1jTyEaSBvTK
+	 9BN5RpvC0e1jyRsqDs74lJKyUGdKRaLhCeCAuOQE+4B3y+W5hkUybiEOq8kdaoi8Plw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794514340;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794514707;
 	h=Received:DKIM-Signature:Received:X-Gm-Message-State:X-Received:
 	 MIME-Version:References:In-Reply-To:From:Date:
 	 X-Gmail-Original-Message-ID:X-Gm-Features:Message-ID:Subject:To:Cc:
 	 Content-Type:Content-Transfer-Encoding;
-	bh=eakRgnWHv93CEQPpJprbZeATRfmw83XT/BkhRlCQLg8=;
-	b=vI/3P1U0o948Z+CAFZySd4qzhASMXQotBocNhCEMCyBk9KtxVdkMcK8FsgAcB1/i/5e0
-	 r7jZY0aYwrSHW1X2bdlfACejS00jkAbif1osEXnpxlPIh7Nhm9V9hc2VWGJ+E5rZqnDd1
-	 xCKhFfRefIFSZNmsLYJgl3tCBfbrYpxqG8BqY5aN3laLpCXhmx1Ueh3pRQiG6xEyx+Z4J
-	 1WfKBd6C23wjsNlBSvESuCH1iZoau7gMxp8rRL6HWUNdLvKEH85nsNdJvUh0glRdzABzd
-	 6gkwSpijhswcT2nCfXUzLh8ZwYqMQbVljGPqGcOLTVSjQa2QxM0YytQxcEGMDLsPT7A==
+	bh=PELjK/L9jce4ay8aMBxnTmm3MZS6/0vTv4b1DOTHnXs=;
+	b=3b+JJzqB47yHb/4OkjFEoyOSsik+P3gi5Sl8/fp2malAuBU3EhW9uGSCyd95Hz47YWE7
+	 eLFgoLfq3Ondx5yVXJtwjLSAFHAEDJZ8j3du+DBfZU2chWwk4lVoBLHejr2lkXH3VzRbB
+	 fElvrQ/AoJu1sTw2tW4QBY7iBL7T2YOH1aFfDfyLay3mpmDGzbreIRzbSzfiEpy0CxlSV
+	 3c0Shon0P24D6f2Bu0A7TX5R7B/AI+cGhEGH6m/ekHJi4UI8suEsFFRSzZP2wdeI2uedw
+	 Yh02kU6Cykfs96H3lpM0ukUtLGIpTSF2HYvLBn5plQFtB9uf6TJ7N4ddIwKE+lhOGFA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=bSHbJVnv;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=RV51zSWA;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 04314606A880
-	for <workflows@vger.kernel.org>; Thu, 12 Nov 2026 20:12:19 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C095F606A331
+	for <workflows@vger.kernel.org>; Thu, 12 Nov 2026 20:18:27 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=bSHbJVnv
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id AAC581F000D4
-	for <workflows@vger.kernel.org>; Thu, 12 Nov 2026 20:12:19 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=RV51zSWA
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6BE521F000D3
+	for <workflows@vger.kernel.org>; Thu, 12 Nov 2026 20:18:27 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794514339;
-	bh=eakRgnWHv93CEQPpJprbZeATRfmw83XT/BkhRlCQLg8=;
+	s=k20260515; t=1794514707;
+	bh=PELjK/L9jce4ay8aMBxnTmm3MZS6/0vTv4b1DOTHnXs=;
 	h=References:In-Reply-To:From:Date:Subject:To:Cc;
-	b=bSHbJVnvKo5zci/a1AG3EHF0wmI3lxnUuv9gNNDuCIUa9Xii0VLak9IqJNPLZgz07
-	 Ep6uTeYWFnkORVWYYXWAyg7SZgXCKfvNk6z/NhDifM4Id8WAepGw8vhSpVItzOqscD
-	 TF2VhaDh2DH2yMOTWY94XPcZy9echX8uG/ncBVHz+DJB5Pr9MgK8ft8ydYXyix3mve
-	 hWrCBu+M9W+3Ln+9mf4dO2kVpEd9Z//hls+ej6fWmz+gownoDGd2DyLr0VO7cJstov
-	 /3YNA8WdNblZK+OsyjcZjgG5Ukde7JElh2g3+Jlod2YdTbI5vfAxx3cuANNhpcxa16
-	 a74kXQpbTvR9w==
-Received: by mail-lj1-f179.google.com with SMTP id 38308e7fff4ca-3ae1fd4252fso1650431fa.0
-        for <workflows@vger.kernel.org>; Thu, 12 Nov 2026 12:12:19 -0800 (PST)
-X-Gm-Message-State: APuU4Z8usZhTzzTGPBg4UIsiduOP3MiEPKOrgSyXPpLJAlqCHfRZAXgI
-	VT4rsM3VFchy/VYRX4H7qRvFn2xJnHhULMkdhiBWo/hP1gfaho+NQoPZ0ruuPrzTTqi2A5fNfHR
-	0zNBvl6oNfjH+7O1g0bdytnya4dYV2lg=
-X-Received: by 2002:a05:6512:1325:b0:5c1:4c83:ae37 with SMTP id
- 2adb3069b0e04-5c1705faa61mr179985e87.2.1794514338096; Thu, 12 Nov 2026
- 12:12:18 -0800 (PST)
+	b=RV51zSWAeX3l/5mLe0fPRliGyDx+PvZFURqVBlheSHcmcZOr7xCw/H2ruJIbBadKZ
+	 FHLR/OWlUbeu4rGlh0xRIygVUxNlxHYE+bp6HXrNkc1Ipb+2P3nm8Kc/0SyV7ISGh4
+	 TuE1gaetH5yPGzok2F9hb+btdrpFYQn/7EdW+GfsBVzhuGLxg5l94MAeni55Fgqs75
+	 ZHYbDDjM9jg0y/L7yxQKaxx7tEtYWK3HxSCep7gzYUxXot783rYRC7J5k84FZzeC3T
+	 zkrDiT/RxHgLEBWbdDFqUsbl4XfNwD+qAaJQ8hPoNDWh7rbOnMd2x5Ji/iXdG5l/WS
+	 B6Y/Zk1OMzQXg==
+Received: by mail-lf1-f41.google.com with SMTP id 2adb3069b0e04-5be3d5927ceso241890e87.3
+        for <workflows@vger.kernel.org>; Thu, 12 Nov 2026 12:18:27 -0800 (PST)
+X-Gm-Message-State: APuU4Z+vXjA7/094izMifn2TK+mZAVsaM3Fwq4SRamU3Cy452BD2Zn7K
+	SdvjoDP//Zs5NY9/hbNEzAXUEgwwg1rYNFJPlOuxQWFQjvBXlj2vCt0y/7uhV3CayHPscok0C7k
+	CYMCPicMwz0rLNQIKsK9pS/niZhchq0U=
+X-Received: by 2002:a05:6512:1292:b0:5bc:f2fb:f50c with SMTP id
+ 2adb3069b0e04-5c1709cd3afmr151270e87.53.1794514705799; Thu, 12 Nov 2026
+ 12:18:25 -0800 (PST)
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Post: <mailto:workflows@vger.kernel.org>
@@ -58,26 +58,27 @@ List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:workflows+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-References: <20261111225940.1573565-1-tytso@mit.edu> <20261111225940.1573565-2-tytso@mit.edu>
-In-Reply-To: <20261111225940.1573565-2-tytso@mit.edu>
+References: <20261111225940.1573565-1-tytso@mit.edu> <20261111225940.1573565-3-tytso@mit.edu>
+In-Reply-To: <20261111225940.1573565-3-tytso@mit.edu>
 From: "Rafael J. Wysocki (Intel)" <rafael@kernel.org>
-Date: Thu, 12 Nov 2026 21:12:06 +0100
-X-Gmail-Original-Message-ID: <CAJZ5v0jQh5o8rT0EDZ+zMXmPn8i0Dz+FoRK92OeYGeHbzrf4Lw@mail.gmail.com>
-X-Gm-Features: AclHuK89jLhFcAKrJXWTO7te7t_zZMTV5xHcIHChc6as7m7NjdEkpvKrRplXSrU
-Message-ID: <CAJZ5v0jQh5o8rT0EDZ+zMXmPn8i0Dz+FoRK92OeYGeHbzrf4Lw@mail.gmail.com>
-Subject: Re: [PATCH v5 1/6] agents: add infrastructure for agent resources
+Date: Thu, 12 Nov 2026 21:18:12 +0100
+X-Gmail-Original-Message-ID: <CAJZ5v0iaHqEkr+WqHLfJ6qYaC6n73BCo0NiKgQhf466Cr_RQzA@mail.gmail.com>
+X-Gm-Features: AclHuK-IiYj--CiaJbtqzk4cWOHkMMr3R1ChUBdeGcZceIdAKYSCedVswaPimxM
+Message-ID: <CAJZ5v0iaHqEkr+WqHLfJ6qYaC6n73BCo0NiKgQhf466Cr_RQzA@mail.gmail.com>
+Subject: Re: [PATCH v5 2/6] agents: add a skill to determine Fixes tags
 To: "Theodore Ts'o" <tytso@mit.edu>
 Cc: workflows@vger.kernel.org, ksummit@lists.linux.dev, 
-	Sasha Levin <sashal@kernel.org>, Bradley Morgan <brads@mainlining.org>, linux-doc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>, 
-	Shuah Khan <skhan@linuxfoundation.org>, Randy Dunlap <rdunlap@infradead.org>, 
-	Mark Brown <broonie@kernel.org>, Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
+	Sasha Levin <sashal@kernel.org>, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
+	Randy Dunlap <rdunlap@infradead.org>, Mark Brown <broonie@kernel.org>, 
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
 	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Leon Romanovsky <leon@kernel.org>, 
 	Konstantin Ryabitsev <konstantin@linuxfoundation.org>, Thorsten Leemhuis <linux@leemhuis.info>, 
 	"Michael S. Tsirkin" <mst@redhat.com>, Kees Cook <kees@kernel.org>, 
 	Geert Uytterhoeven <geert@linux-m68k.org>, Dan Carpenter <error27@gmail.com>, 
 	Miguel Ojeda <ojeda@kernel.org>, Alexei Starovoitov <alexei.starovoitov@gmail.com>, 
-	Julia Lawall <julia.lawall@inria.fr>, SJ Park <sj@kernel.org>, stable@vger.kernel.org
+	Julia Lawall <julia.lawall@inria.fr>, SJ Park <sj@kernel.org>, 
+	Bradley Morgan <brads@mainlining.org>, stable@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
@@ -86,76 +87,129 @@ e:
 >
 > From: Sasha Levin <sashal@kernel.org>
 >
-> Add agents/ as a home for skills and other resources for
-> coding assistants. Describe the skill layout in coding-assistants.rst,
-> together with the rule that skills only inspect and report, and add a
-> MAINTAINERS entry covering the directory.
+> Blame and existing Fixes tags can point to code movement instead of the
+> change that introduced a bug. Add a skill that sends the agent to the
+> description of the Fixes: tag in submitting-patches.rst, and adds the
+> checks agents tend to skip: pinning down the bug before searching,
+> following the code past moves and refactors, comparing each candidate
+> with its parent, tagging a later commit that only exposed the bug as
+> well, handling merges, reverts, backports and bugs older than the Git
+> history, and taking the commit ID and subject from the commit rather
+> than typing them.
+>
+> If the origin cannot be established, the skill returns no tag. Point the
+> bug-fix procedure in coding-assistants.rst at the skill.
 >
 > Signed-off-by: Sasha Levin <sashal@kernel.org>
-> Reviewed-by: Bradley Morgan <brads@mainlining.org>
-> Link: https://patch.msgid.link/20261020161642.3713052-2-sashal@kernel.org
+> Link: https://patch.msgid.link/20261020161642.3713052-3-sashal@kernel.org
 > Signed-off-by: Theodore Ts'o <tytso@mit.edu>
 
-Fine with me, so
+Looks reasonable to me.
 
 Acked-by: Rafael J. Wysocki (Intel) <rafael@kernel.org>
 
 > ---
->  Documentation/process/coding-assistants.rst | 14 ++++++++++++++
->  MAINTAINERS                                 |  6 ++++++
->  2 files changed, 20 insertions(+)
+>  Documentation/process/coding-assistants.rst |  8 ++++-
+>  agents/skills/find-fixes/SKILL.md           | 39 +++++++++++++++++++++
+>  2 files changed, 46 insertions(+), 1 deletion(-)
+>  create mode 100644 agents/skills/find-fixes/SKILL.md
 >
 > diff --git a/Documentation/process/coding-assistants.rst b/Documentation/=
 process/coding-assistants.rst
-> index 509dbf23a099..b8f2c74e46fc 100644
+> index b8f2c74e46fc..ca1cc255606b 100644
 > --- a/Documentation/process/coding-assistants.rst
 > +++ b/Documentation/process/coding-assistants.rst
-> @@ -19,6 +19,20 @@ For guidelines on content generated by AI coding assis=
-tants see:
->
->  * Documentation/process/generated-content.rst
->
-> +Agent resources
-> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> +
-> +Skills for coding assistants live under ``agents/skills/``, one director=
-y per
-> +skill with a ``SKILL.md`` entry point in the `Agent Skills format
-> +<https://agentskills.io/specification>`_. Each skill points at the proce=
-ss
-> +documents that apply to its task and adds only what assistants tend to g=
-et
-> +wrong.
-> +
-> +Skills inspect and report. They do not change files, create commits or t=
-ags,
-> +or send mail. A skill returns its result with the evidence for it, or sa=
-ys what
-> +is missing. Do not fill a missing result with a guess or a placeholder, =
+> @@ -33,6 +33,11 @@ or send mail. A skill returns its result with the evid=
+ence for it, or says what
+>  is missing. Do not fill a missing result with a guess or a placeholder, =
 and do
-> +not finalize the work until it is resolved.
+>  not finalize the work until it is resolved.
+>
+> +The following skills are available:
+> +
+> +* agents/skills/find-fixes/SKILL.md determines the Fixes tag of a bug fi=
+x, or
+> +  checks an existing one.
 > +
 >  Licensing and Legal Requirements
 >  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
 =3D=3D=3D=3D=3D=3D=3D=3D
 >
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index 222b7fc2c3aa..eb348cc9588f 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -734,6 +734,12 @@ F: Documentation/filesystems/afs.rst
->  F:     fs/afs/
->  F:     include/trace/events/afs.h
->
-> +AGENT RESOURCES
-> +M:     Sasha Levin <sashal@kernel.org>
-> +L:     workflows@vger.kernel.org
-> +S:     Maintained
-> +F:     agents/
+> @@ -78,7 +83,8 @@ these steps:
+>     another one. The fix must not add build warnings and must pass the
+>     checkpatch.pl checks (see submitting-patches.rst).
+>  6. Commit the working fix with a detailed message describing the problem=
+, the
+> -   solution and a Fixes tag. Do not add a Signed-off-by tag.
+> +   solution and a Fixes tag determined with the find-fixes skill.  Do no=
+t
+> +   add a Signed-off-by tag.
+>  7. Identify the maintainers and lists using scripts/get_maintainer.pl.
+>     Documentation/process/security-bugs.rst shows how to do that.
+>  8. Indicate what could not be done. If the fix could not be built or tes=
+ted, or
+> diff --git a/agents/skills/find-fixes/SKILL.md b/agents/skills/find-fixes=
+/SKILL.md
+> new file mode 100644
+> index 000000000000..12b6ea83876d
+> --- /dev/null
+> +++ b/agents/skills/find-fixes/SKILL.md
+> @@ -0,0 +1,39 @@
+> +---
+> +# SPDX-License-Identifier: GPL-2.0-only
+> +name: find-fixes
+> +description: >-
+> +  Determine the bug-introducing commit and return a verified Fixes tag f=
+or
+> +  a Linux kernel fix. Use when preparing or reviewing bug-fix patches,
+> +  drafting their commit messages, or checking an existing Fixes tag.
+> +---
 > +
->  AGPGART DRIVER
->  M:     David Airlie <airlied@redhat.com>
->  L:     dri-devel@lists.freedesktop.org
+> +# Determine a Fixes tag
+> +
+> +Read the description of the Fixes: tag in
+> +Documentation/process/submitting-patches.rst. It says which commit to na=
+me
+> +and how to format the tag. Follow the rules for skills in
+> +Documentation/process/coding-assistants.rst.
+> +
+> +- First establish exactly which bug the fix addresses: the failure, how =
+it is
+> +  triggered and the code involved. Trace only that bug. If the search le=
+ads
+> +  to a different bug or subsystem, go back to the fix.
+> +- Name a commit from the history of the tree the fix applies to. A stabl=
+e
+> +  backport of that commit, or a commit that exists only on another branc=
+h, is
+> +  not a valid tag.
+> +- Treat blame output, an existing Fixes tag and a bisection result as le=
+ads,
+> +  not answers. Follow the code back through moves, renames, file splits =
+and
+> +  older implementations to the commit that made it wrong.
+> +- For each candidate, compare the commit with its parent and explain why=
+ the
+> +  code was correct before and wrong after. Keep apart the commit that ad=
+ded
+> +  the code, the commit that made it wrong, and a later commit that only =
+made
+> +  the bug reachable, which gets a tag of its own.
+> +- Check each parent of a merge, whether the bug was reverted and later
+> +  reintroduced, and whether a backport differs from its upstream commit.
+> +- If the bug is already present in the first commit of the Git history, =
+name
+> +  that commit: Fixes: 1da177e4c3f4 ("Linux-2.6.12-rc2"). Confirm that th=
+e bug
+> +  exists there instead of using it as a default. A shallow clone boundar=
+y is
+> +  not an introducing commit; report the limit instead.
+> +
+> +Take the commit ID and subject from the commit itself instead of typing =
+them.
+> +Return the tags with that explanation and the candidates you rejected. I=
+f the
+> +origin cannot be established, return no tag and say what is missing.
 > --
 > 2.53.0
 >
