@@ -1,54 +1,45 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794515154;
-	b=D93PC8mhxHrcnE9pEMWEPtBp6OF9YQX1oQIU1C7qIECvnnGt7NCg0vtnXs5zamWpyrFy
-	 VwjFBiB45bUuvkrPNXrl7Hhr5N9xoKAngxHfpC6VRaKKVOyjFrGZ2cCkGVpePr8OH401v
-	 FnbHrrTq/2tduxCeljYcg4srG9CeoT/VRCG5lzKbb7PdV+2EqtZ5+xAVsOVAIQL4GziW3
-	 Vt8OCZ6DnC9Kg/Jz3HopeAXw9iNNrqpWCYwwG6ku1ah3o3e17SGC5UiEILjdDSEsJfGN4
-	 dFRcjS6FuLx/GNfovXqb6CTTokc4vcUivzCyYLGWjr0dYvWcaAhezw5msH4AlbgsLTg==
+	t=1794530740;
+	b=M3IXdfIjFUfz2DWJbLSGlGJQa/Ad91ZAA47ZU2jvr2hnWlw9j53l0K3nnjskTM2vZCk4
+	 zTAglS/+8DnNf4eF9fN7G5DmLY0cWD4w7EwPsusg5N+q+QlfzefPO3JMsih64dE4EsVOK
+	 UeAvegwMhmXGSoHBzLe2Xp8ZC8PDTctEaTUGMzHFZgZS58oLTCEYn4ri2sf1h5ZbFNUf1
+	 jBcDj2ZcMKNeKRCYM8VNR/U9kcGrQ8WmTy+jmVBIu9Boa7s2wL1pIRCajfBLyf/4lgRts
+	 rF9wY0pnCXO+DE61G/0cDBmniM84EON/we+bBRbRh4r7UOPr+dzsQ6bZsxU4Eyp7dSA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794515154;
-	h=Received:DKIM-Signature:Received:X-Gm-Message-State:X-Received:
-	 MIME-Version:References:In-Reply-To:From:Date:
-	 X-Gmail-Original-Message-ID:X-Gm-Features:Message-ID:Subject:To:Cc:
-	 Content-Type:Content-Transfer-Encoding;
-	bh=rM527yu1D13pZ28TgOT2AsaYTjNbfnhY4LASaW1TbCY=;
-	b=S6v0i0oL+0y+IZ9d0G57SJFsuWNa96lObxI7U00x78Nni1fw+oBAWfH4OjGqmie/m68v
-	 r0s4LG6FDFuXYGsDO7sNghTdGx6oDNKHAsLxzyW9jOdBdhLfOtULOKgCVU8qFpJE48E33
-	 HcUTh0pe3O5ZTqJDQSIVzZIPqlAc5ZzsGsPIt9hOcYN3n6b1PnuFflCuTlflt99Fn2hx7
-	 skR4USE0Ux4kbziXZUrnRbVSGceWT9jVAs5AKwKv8EXYmUJvA4nDf8kQZDKXMjLD3esYI
-	 zmBUFZqBN6ZaAj6dzjJSuY+NpTgBGy0YdhvgF3AlXIcF0XvfZ4vzzvbsFPDU75sibbQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794530740;
+	h=Received:DKIM-Signature:MIME-Version:Content-Type:
+	 Content-Transfer-Encoding:Subject:From:To:Cc:In-Reply-To:References:
+	 Date:Message-Id:X-Mailer:X-Developer-Signature:X-Developer-Key;
+	bh=Ew+mFBtkvyHaX4L3mOy9ZGheiU3yA4UH3r5Gz26alrc=;
+	b=i5roRZj1ywaJp6S4NhGGgN6Gvj00bYNcWkfxwv1F/tLNKeVGqS3M4ZScFygxPaOuc50h
+	 CwkV02wRhDlyAnlDI4qj4S5Fa8YwgUPm9l+9tiR2BqdUexcLTQVGNT6tn9gCFuxlJV0za
+	 5/xfcbD2AqqIB+ayxXUfv7b1htth8eIVkzLB8/cqmdeVWcwbCnV5WlZktfCr3Wh8x04G4
+	 BIUg7aB+IaUDLBYQlI12sBZsyh6KcFNM3SEA6aMzBr3GKrnoYlQ3cbWXZ0TSW8Hiz4i/E
+	 fQ33nlPFc4gXwhmhRk+BxfkZ5mUhwWxeFF4kxvFCcAc+v0MOKIKeewYnKUM7n91VZlw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=nr0eumB+;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=OCYOcQ+V;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8EAEE606A881
-	for <workflows@vger.kernel.org>; Thu, 12 Nov 2026 20:25:54 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B3B61606A31C;
+	Fri, 13 Nov 2026 00:45:40 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=nr0eumB+
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 36B511F000CF
-	for <workflows@vger.kernel.org>; Thu, 12 Nov 2026 20:25:54 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=OCYOcQ+V
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 98F651F000C5;
+	Fri, 13 Nov 2026 00:45:36 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794515154;
-	bh=rM527yu1D13pZ28TgOT2AsaYTjNbfnhY4LASaW1TbCY=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc;
-	b=nr0eumB+TAgvimd9aoSfe4jg5d8Am6Zqh5Wuyxig7fP3qU26RNovxlhslzUZ+/zIJ
-	 Uex5ZC9XAIt+zm5EEatw5M8DUH6378Z5ZS51/XS47G558GsufR3rGjY8MSyWWZ7tOk
-	 DRSOVtrCzK2QNqCnvHHGk4LnYg+yHfiXZZSfMMltH0Poa7fZ3wOzeT2tG2VD7rk9+J
-	 +lSihpGEvY9fsuIRSwuk3y/qQ2SXj44FESvb1aiVZML3Fmqd1x1EZTvMwyNEqrQdIW
-	 f4f++CSs/5Qo2m9lB88HGcbfsAqdWHTVEtgEyNFpbpMGWgGK2GyqjhU+Qb612Vj8XJ
-	 c0Fkt2rt3qGGw==
-Received: by mail-lf1-f43.google.com with SMTP id 2adb3069b0e04-5c126fa1e3aso172561e87.2
-        for <workflows@vger.kernel.org>; Thu, 12 Nov 2026 12:25:54 -0800 (PST)
-X-Gm-Message-State: APuU4Z8zzSMcDZAF3QxeFXmizBGsmLTIlhm8VHdQVhw9jmIwXv2ccyJ8
-	m9Qn0S3hU5wPmistGhfa1fZ5mxAq8JkdszR+JMjvlxAYYW0fqMBzgMp1aWvNsJN+ibK0UHtDIZC
-	b37T+lB80Adr8MeByPoJPGRR4i6MYoYQ=
-X-Received: by 2002:a05:6512:398f:b0:5bf:e540:8606 with SMTP id
- 2adb3069b0e04-5c1709d8e46mr173072e87.59.1794515152658; Thu, 12 Nov 2026
- 12:25:52 -0800 (PST)
+	s=k20260515; t=1794530740;
+	bh=Ew+mFBtkvyHaX4L3mOy9ZGheiU3yA4UH3r5Gz26alrc=;
+	h=Subject:From:To:Cc:In-Reply-To:References:Date;
+	b=OCYOcQ+VJQ0nWkSSupczoGkT7Yef/ZfSiq9KKKyQnIDexKNJgpi8PmAoDrQpXwvgF
+	 6qalZHJqwbKu+eGep31ztL/IzaojTLv/BIGJh4UwGZqZAXHAqjUdujcwQiXFreIXfg
+	 mfpu2DJ+QT4B3Yz/4frgZfIkF81uSMb2m837Omy5cSRdcsI5YGLNwMNiOvVI1IPCQA
+	 ZudpZRRzGsWqSWFirrUD5fY21eMIxh00ELa+CqWgg0Mfiy5vtEF9gUmv/G9NO30mTT
+	 SsdTGagxzuZAqp/fu+KDtPTOGoYg6X1NSyOsboDl63tflr/TjxDzShQTooGNUXWfhw
+	 f5Sug0462K5Xw==
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Post: <mailto:workflows@vger.kernel.org>
@@ -58,177 +49,98 @@ List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:workflows+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-References: <20261111225940.1573565-1-tytso@mit.edu> <20261111225940.1573565-6-tytso@mit.edu>
-In-Reply-To: <20261111225940.1573565-6-tytso@mit.edu>
-From: "Rafael J. Wysocki (Intel)" <rafael@kernel.org>
-Date: Thu, 12 Nov 2026 21:25:40 +0100
-X-Gmail-Original-Message-ID: <CAJZ5v0g=9eo26EwabnKBS-qM+YV4gTqZO4bO3EwpSr1N3SLDWg@mail.gmail.com>
-X-Gm-Features: AclHuK8AK-YCIRGgFSyL8HURcsSl3PSuZZQrLFmJgc1XyrQkd4ueYU159Gy5kxo
-Message-ID: <CAJZ5v0g=9eo26EwabnKBS-qM+YV4gTqZO4bO3EwpSr1N3SLDWg@mail.gmail.com>
-Subject: Re: [PATCH v5 5/6] agents: add a skill to write commit messages
-To: "Theodore Ts'o" <tytso@mit.edu>
-Cc: workflows@vger.kernel.org, ksummit@lists.linux.dev, 
-	Sasha Levin <sashal@kernel.org>, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
-	Randy Dunlap <rdunlap@infradead.org>, Mark Brown <broonie@kernel.org>, 
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Leon Romanovsky <leon@kernel.org>, 
-	Konstantin Ryabitsev <konstantin@linuxfoundation.org>, Thorsten Leemhuis <linux@leemhuis.info>, 
-	"Michael S. Tsirkin" <mst@redhat.com>, Kees Cook <kees@kernel.org>, 
-	Geert Uytterhoeven <geert@linux-m68k.org>, Dan Carpenter <error27@gmail.com>, 
-	Miguel Ojeda <ojeda@kernel.org>, Alexei Starovoitov <alexei.starovoitov@gmail.com>, 
-	Julia Lawall <julia.lawall@inria.fr>, SJ Park <sj@kernel.org>, 
-	Bradley Morgan <brads@mainlining.org>, stable@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Subject: Re: [PATCH v2 02/20] kbuild: unify static coverage instrumentation
+ as COVERAGE_PROFILE
+From: Nathan Chancellor <nathan@kernel.org>
+To: Sasha Levin <sashal@kernel.org>
+Cc: linux-kernel@vger.kernel.org, Alexander Potapenko <glider@google.com>, 
+ Andrew Morton <akpm@linux-foundation.org>, 
+ Andrey Konovalov <andreyknvl@gmail.com>, Chuck Wolber <chuck@wolber.net>, 
+ Dmitry Vyukov <dvyukov@google.com>, Jonathan Corbet <corbet@lwn.net>, 
+ kasan-dev@googlegroups.com, linux-doc@vger.kernel.org, 
+ linux-kbuild@vger.kernel.org, Marco Elver <elver@google.com>, 
+ Masami Hiramatsu <mhiramat@kernel.org>, 
+ Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nsc@kernel.org>, 
+ Peter Oberparleiter <oberpar@linux.ibm.com>, 
+ Peter Zijlstra <peterz@infradead.org>, Randy Dunlap <rdunlap@infradead.org>, 
+ Shuah Khan <skhan@linuxfoundation.org>, Thomas Gleixner <tglx@kernel.org>, 
+ workflows@vger.kernel.org, Konstantin Khorenko <khorenko@virtuozzo.com>
+In-Reply-To: <20261103015238.3780910-3-sashal@kernel.org>
+References: <20261103015238.3780910-1-sashal@kernel.org>
+ <20261103015238.3780910-3-sashal@kernel.org>
+Date: Thu, 12 Nov 2026 17:45:18 -0700
+Message-Id: <179453071828.814257.7183190179491150551.b4-review@b4>
+X-Mailer: b4 0.17-dev
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2607; i=nathan@kernel.org;
+ h=from:subject:message-id; bh=sUhiWgHmxEGxdGgWqPkGj9bsJrQRKZaRFqCuUxknUv4=;
+ b=owGbwMvMwCUmm602sfCA1DTG02pJDFnfYpcmTbrfpm2V/6p3o29g7nazz+1FYskLUvXEjzwJf
+ D+d9fivjlIWBjEuBlkxRZbqx6rHDQ3nnGW8cWoSzBxWJpAhDFycAjCRF2EM/6tDA6fL97xlNg33
+ 8/Xj/X3j8GPn/JIl/3Zf1p/nmLjLYz0jw45ZG02E12t/XXF515q0tLg189g/uXvPs3ys4ZY/s6L
+ EkxEA
+X-Developer-Key: i=nathan@kernel.org; a=openpgp;
+ fpr=2437CB76E544CB6AB3D9DFD399739260CB6CB716
 
-On Thu, Nov 12, 2026 at 12:00=E2=80=AFAM Theodore Ts'o <tytso@mit.edu> wrot=
-e:
->
-> From: Sasha Levin <sashal@kernel.org>
->
-> Assistants are asked to commit a fix with a detailed message, and the
-> find-fixes and stable-tag skills leave their tags for that message, but
-> nothing says how to write it. Messages written by assistants tend to be
-> long, and Linus recently asked that pull request text written with an
-> LLM be less verbose and prefer the imperative voice.
->
-> Add a skill that sends the agent to the parts of submitting-patches.rst,
-> 5.Posting.rst and the maintainer documentation that cover commit
-> messages, cover letters and pull requests, and to the P: profiles of the
-> changed files. It adds what agents get wrong: stating only what the
-> change and the supplied sources support, keeping the text short and in
-> the imperative mood, and adding no tags that were not supplied.
->
-> When a semantic patch found the bug, the message includes it, or its path
-> when it is under scripts/coccinelle/, so that reviewers and the
-> Coccinelle developers can see it and run it again.
->
-> Point the bug-fix procedure in coding-assistants.rst at the skill.
->
-> Link: https://lore.kernel.org/r/CAHk-=3DwgXU50=3DKgZNZc1JDxsSxg9Z+DjG1_2y=
-U-fNXpZtUe4XDw@mail.gmail.com
-> Link: https://lore.kernel.org/r/50531bd9-f3ea-2d45-7b3a-a96a446a8fcc@inri=
-a.fr
+> The gcov plumbing is written for a single coverage implementation: the
+> per-object and per-directory knobs are called GCOV_PROFILE, the flags
+> are CFLAGS_GCOV, and every dependency on "coverage instrumentation is
+> present" spells it as GCOV_KERNEL. Make this generic so that further
+> coverage implementations can share it instead of growing parallel
+> copies:
+> 
+>  - The coverage implementation becomes a choice ("Code coverage
+>    measurement"), with gcov as its only member besides "None" for now.
+>    COVERAGE_KERNEL is set whenever one is selected. allyesconfig and
+>    allmodconfig keep selecting gcov through a COMPILE_TEST default.
+> 
+>  - GCOV_PROFILE_ALL becomes COVERAGE_PROFILE_ALL. The old symbol is
+>    kept as a transitional one so that existing configurations keep
+>    profiling the entire kernel.
+> 
+>  - GCOV_PROFILE[_obj.o] becomes COVERAGE_PROFILE[_obj.o] tree-wide,
+>    with unchanged precedence (object, then directory, then
+>    COVERAGE_PROFILE_ALL). Out-of-tree modules that use GCOV_PROFILE
+>    need the same rename.
+> 
+>  - scripts/Makefile.gcov sets CFLAGS_COVERAGE instead of CFLAGS_GCOV.
+> 
+>  - The per-subsystem opt-ins GCOV_PROFILE_{NETFILTER,IPSET,IPVS,RDS,
+>    AMDGPU,URING,FTRACE} become COVERAGE_PROFILE_*, again with the old
+>    names kept as transitional symbols. The rds selftest is updated.
+> 
+>  - Dependencies that are about instrumented code rather than about
+>    gcov (LTO, the KCFI integer normalization workaround, the longest
+>    symbol KUnit test, the per-subsystem opt-ins and objtool's
+>    --no-unreachable) now use COVERAGE_KERNEL.
+> 
 > Signed-off-by: Sasha Levin <sashal@kernel.org>
-> Link: https://patch.msgid.link/20261020161642.3713052-6-sashal@kernel.org
-> Signed-off-by: Theodore Ts'o <tytso@mit.edu>
 
-Looks reasonable to me.
+Reviewed-by: Nathan Chancellor <nathan@kernel.org>
 
-Acked-by: Rafael J. Wysocki (Intel) <rafael@kernel.org>
+Sashiko's comment around tools/testing/selftests/net/rds/config.sh seems
+relevant though.
 
-> ---
->  Documentation/process/coding-assistants.rst |  9 +++--
->  agents/skills/commit-message/SKILL.md       | 45 +++++++++++++++++++++
->  2 files changed, 51 insertions(+), 3 deletions(-)
->  create mode 100644 agents/skills/commit-message/SKILL.md
->
-> diff --git a/Documentation/process/coding-assistants.rst b/Documentation/=
-process/coding-assistants.rst
-> index c2f9b71650c1..f0bae6bfe9a0 100644
-> --- a/Documentation/process/coding-assistants.rst
-> +++ b/Documentation/process/coding-assistants.rst
-> @@ -41,6 +41,8 @@ The following skills are available:
->    returns its stable tag, or checks an existing one.
->  * agents/skills/find-siblings/SKILL.md looks for the same bug elsewhere =
-in the
->    tree.
-> +* agents/skills/commit-message/SKILL.md writes, rewrites or reviews a co=
-mmit
-> +  message or cover letter, and writes the text of a pull request.
->
->  Licensing and Legal Requirements
->  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D
-> @@ -87,9 +89,10 @@ these steps:
->     another one. The fix must not add build warnings and must pass the
->     checkpatch.pl checks (see submitting-patches.rst). Then look for the =
-same
->     bug elsewhere with the find-siblings skill.
-> -6. Commit the working fix with a detailed message describing the problem=
-, the
-> -   solution, a Fixes tag determined with the find-fixes skill, and a sta=
-ble
-> -   tag if the stable-tag skill calls for one.  Do not add a Signed-off-b=
-y tag.
-> +6. Commit the working fix with a message written with the commit-message=
- skill,
-> +   describing the problem, the solution, a Fixes tag determined with the
-> +   find-fixes skill, and a stable tag if the stable-tag skill calls for =
-one. Do
-> +   not add a Signed-off-by tag.
->  7. Identify the maintainers and lists using scripts/get_maintainer.pl.
->     Documentation/process/security-bugs.rst shows how to do that.
->  8. Indicate what could not be done. If the fix could not be built or tes=
-ted, or
-> diff --git a/agents/skills/commit-message/SKILL.md b/agents/skills/commit=
--message/SKILL.md
-> new file mode 100644
-> index 000000000000..c75f028c56da
-> --- /dev/null
-> +++ b/agents/skills/commit-message/SKILL.md
-> @@ -0,0 +1,45 @@
-> +---
-> +# SPDX-License-Identifier: GPL-2.0-only
-> +name: commit-message
-> +description: >-
-> +  Write, rewrite or review the commit message for a Linux kernel change =
-or
-> +  the cover letter for a patch series, and write the signed tag and pull
-> +  request text for a subsystem pull. Use when committing or preparing
-> +  patches, when asked to improve or check a commit message, or when
-> +  preparing a pull request for an upstream maintainer.
-> +---
+> [ ... 622 lines skipped ... ]
+> +config COVERAGE_PROFILE_ALL
+> +	bool "Profile entire kernel"
+> +	depends on !COMPILE_TEST
+> +	depends on GCOV_KERNEL && ARCH_HAS_GCOV_PROFILE_ALL
+> +	default GCOV_PROFILE_ALL
+> +	help
+> +	  This option activates coverage instrumentation for the entire kernel.
 > +
-> +# Write a commit message
+> +	  If unsure, say N.
 > +
-> +Read "Describe your changes", the sections on tags, "The canonical patch
-> +format" and "Commentary" in Documentation/process/submitting-patches.rst=
-, and
-> +Documentation/process/5.Posting.rst for cover letters. Follow the mainta=
-iner
-> +profiles, the `P:` entries in MAINTAINERS, for the changed files; they t=
-ake
-> +precedence. Follow the rules for skills and for attribution in
-> +Documentation/process/coding-assistants.rst, and
-> +Documentation/process/generated-content.rst when a tool found the proble=
-m.
-> +When editing someone else's message, also follow
-> +Documentation/maintainer/modifying-patches.rst.
-> +
-> +- State only what the diff and the sources you were given support, such =
-as a
-> +  bug report, a crash log, test results, or the list discussion found wi=
-th
-> +  `lei q` on lore.kernel.org. If the reason for the change is not known,
-> +  return no message and say what is missing.
-> +- Take the Fixes and stable tags from the find-fixes and stable-tag skil=
-ls.
-> +  Add other tags only when they were supplied or given on the list. Neve=
-r add
-> +  a Signed-off-by.
-> +- If a semantic patch found the bug, include it in the message between
-> +  `// <smpl>` and `// </smpl>` lines. For one under scripts/coccinelle/,=
- give
-> +  its path instead.
-> +- Use the imperative mood and keep the message as short as its content
-> +  allows. Leave out markdown, labels such as "Root cause:", intensifiers=
-, a
-> +  restatement of the subject, and the story of the investigation.
-> +- Check the result with `scripts/checkpatch.pl --no-signoff`.
-> +
-> +For the signed tag and email of a pull request, follow
-> +Documentation/maintainer/pull-requests.rst,
-> +Documentation/maintainer/rebasing-and-merging.rst and
-> +Documentation/maintainer/messy-diffstat.rst. Summarize what the pull con=
-tains
-> +and why from the commit messages in the range, in the same voice, withou=
-t
-> +repeating the shortlog. Ask the caller for conflict resolutions and test=
-ing
-> +that the history does not show.
-> --
-> 2.53.0
->
->
+> +	  Note that a kernel compiled with profiling flags will be significantly
+> +	  larger and run slower. Also be sure to exclude files from profiling
+> +	  which are not linked to the kernel image to prevent linker errors.
+
+Can you remove this sentence either in this change or a prerequisite
+one? It is not needed after commit 9c2d1328f88a ("kbuild: provide
+reasonable defaults for tool coverage").
+
+-- 
+Cheers,
+Nathan
+
