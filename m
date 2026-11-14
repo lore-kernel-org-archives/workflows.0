@@ -1,55 +1,62 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=51.159.59.229
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794682495;
-	b=qnq+0HWrKTBuxTPQiv8C+a25I51P/Zi//PHWGzxVShrY7W8OPGJpP7iTpTQnhZm/tQG0
-	 rdK56fxxFUxzbr1kIHn6k8wzyl3a/Rx46yGlrEF/HdE3P/p5psL6i91P+WfIPVUT39jBJ
-	 Gp6M3S5MXvmV0w/6N0ccbwqBZZtWhvynXmU6G/9e9z76jkthVR4bj8eoel6f2z4y3pzPK
-	 JxS7p1Yeheldt4/W8FRf4t1/T6vzrLvux+zhgLoJITctq8O/E6UTnmlycPT1h6XpPjKE4
-	 dvJlSoiTnMmUKhMOM8zt0an0zEjqBpBEwrAWSpDegXEkc1h9VLrQWCHJJ/0idoqBEmQ==
+	t=1794682858;
+	b=4u2BcNjlkI58/fbvRDjDf0MyVfooBB19V8E352iaDAnmxkOO06/EC15khVrbZCZ4/ZKH
+	 PWyR92OKSOY9vhKmn/jwzQy4y9ashB/rTTFB4/89x7ncNjyH7nXqjKTws7wkzAZQoFzlY
+	 /k6Pb/I7ZqzFBjwnxXMjCbBM6mFhFM/1kfTRjFNKL2r30OR2RIQUZPfpnvhNFSIHh7EUr
+	 evkOgZSLRsXP/twVXfzYBkl2X3H3PyReMrLhSkJOo5q57he8nTb+hnob/p+psDLxAvH7Q
+	 U1Tygsy6nIrrsIHP6CMITSc0s1xkP1qJoevvoJd1fck2814fEGu+7xSfpCCzv+5nveA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794682495;
-	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
-	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
-	bh=09Hma9V4IARPkRb3a7jpTHqq+0whdMizS7F304+jas4=;
-	b=MQJEUjP3r0kAb5ae7BAoPBGmfpwZ2VqvXW5+xf7UW5oP2O8dCoI4bajOuz9PBLbt4K2j
-	 BVf3mawPRSljTXme0n1x2I+6KcaizM/r+rq+YxaYI+lmHVlLAl5zc7jIupEvzuh3DF/eo
-	 q+Fe1DE8rDNgaUP3c/0nIdxEy1JBp07TIHdXCqF7wcDMUm6uwljjusJXPlC1MgvlZeo19
-	 u+aXC8CiMuWViHbAWLo8nr60FN11dFLeeFlUJKWse1dFOGf842uXRgmsdzspQZOhqwuI8
-	 FzxGVnISeS9XTvmyxQ0hwgQteva1Auk1YOuHTFioXG2Uy6jIn2J4gOER7vCbudrsiSQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794682858;
+	h=DMARC-Filter:DKIM-Signature:Received:From:To:Cc:Subject:Date:
+	 Message-ID:X-Mailer:In-Reply-To:References:MIME-Version:
+	 Content-Transfer-Encoding;
+	bh=PpyIN9dgNCqcZNJmMZOkfWMDQoTLKiHYAG5EAb8Z1Yo=;
+	b=roAOEs9BEm63NPKnE7lJUUiJYPzATFq8saVAW3sZSzHunDzDEeilyr7qC0z3n3xHk0VQ
+	 6AVMByLF+J7Gbosab03W/e2okN1c3K1UOsqJw5kLu924iBTO3YwyN4PHcewJizNPUgpHV
+	 yAgFr8HGGOC3nUk9eudRU0hwY7RBMw12cwhhia5Jyo49rgNTOOdHZNf4ELMYrGAVVVDTZ
+	 mgOrDReCkL5h+o44b93DXYCoHAVRH3ZwgKEx4VPMDXJj65vIlUhrAtpM6YUnqLKhe+BEf
+	 ip/jsC0sDuAy2kOLRFFxFxSLOR2QApe/0Mo5yHTsGIWPA8nvQKWsG7xepSZJT2BX3Dw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=F1enGvJk;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	dmarc=pass header.from=1wt.eu;
+	spf=pass smtp.mailfrom=1wt.eu;
+	dkim=pass header.d=1wt.eu header.i=@1wt.eu header.a=rsa-sha256 header.s=mail header.b=jZafHkuH;
+	arc=none smtp.remote-ip=51.159.59.229
+Received: from mta1.formilux.org (mta1.formilux.org [51.159.59.229])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7D44F606A327;
-	Sat, 14 Nov 2026 18:54:55 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 17997606A881;
+	Sat, 14 Nov 2026 19:00:47 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 17997606A881
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=1wt.eu
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=1wt.eu
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=F1enGvJk
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A3F7B1F000C4;
-	Sat, 14 Nov 2026 18:54:52 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794682495;
-	bh=09Hma9V4IARPkRb3a7jpTHqq+0whdMizS7F304+jas4=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=F1enGvJkNNZApK5ODBg9ykcGIE5gubTnRhI9ub/a8gKjvjrbnX8Zcf3USTAt+nQdL
-	 q9blSES1HmmlWw2OcS5uJ21zulBR2Q6xqqw8ylAgtKyzvJ2vJnD/Fy0lmgh1baSqqQ
-	 Z39mbPb0I2HhOavBGvJGOzrC+Z5h55Bv8sBksfh+/02w9h8RikR2hDZPBItBguqbhN
-	 SwPXZI4AdqvB+UVD27z6oRVjyUK/8QGQ1USYQzQ0BEjzD8FecIC/yOOdGh5NAkprsF
-	 Xg2FE2LLwMrlYW2OdjKXhoUb3hS6osxr+Reh0+S+HI8bTqOeo+V2yOuPJD6XxCTytN
-	 1wKctlGWnf4hQ==
-Date: Sat, 14 Nov 2026 18:54:49 +0000
-From: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>
-To: "Vlastimil Babka (SUSE)" <vbabka@kernel.org>
-Cc: Manuel Ebner <manuelebnerli@mailbox.org>, 
-	Carlos Bilbao <carlos.bilbao@kernel.org>, Jonathan Corbet <corbet@lwn.net>, 
-	Shuah Khan <skhan@linuxfoundation.org>, Randy Dunlap <rdunlap@infradead.org>, workflows@vger.kernel.org, 
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] kernel-docs: Update book info
-Message-ID: <aviuWHgghr8wivll@gremlin>
-References: <20261114124813.1056807-3-manuelebnerli@mailbox.org>
- <37d65eb3-f4b1-4e45-87c5-5378d5355541@kernel.org>
+	dkim=pass (1024-bit key, unprotected) header.d=1wt.eu header.i=@1wt.eu header.a=rsa-sha256 header.s=mail header.b=jZafHkuH
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=1wt.eu; s=mail;
+	t=1794682837; bh=PpyIN9dgNCqcZNJmMZOkfWMDQoTLKiHYAG5EAb8Z1Yo=;
+	h=From:Message-ID:From;
+	b=jZafHkuHQS8HAKsCipAvGRRzSPBD7+9b2UIXRxeaoSj7g/IxK45I76zXw80hRKMp7
+	 sxe8KeKAlaK05Xo9BOptvkF0FVbRM+Qj2Q0zJ1Rs5HHNwUZNcNLjtayJFvBeRzQHLo
+	 vWETNxpGeGDJV3EimnZnyV7v+1Roj5/O5r4sYT3A=
+Received: from 1wt.eu (ded1.1wt.eu [163.172.96.212])
+	by mta1.formilux.org (Postfix) with ESMTP id 4809AC0960;
+	Sat, 14 Nov 2026 20:00:37 +0100 (CET)
+From: Willy Tarreau <w@1wt.eu>
+To: Jonathan Corbet <corbet@lwn.net>
+Cc: skhan@linuxfoundation.org, Randy Dunlap <rdunlap@infradead.org>,
+        workflows@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, netdev@vger.kernel.org,
+        gregkh@linuxfoundation.org, Johan Hovold <johan@kernel.org>,
+        "David S. Miller" <davem@davemloft.net>,
+        Eric Dumazet <edumazet@kernel.org>, Jakub Kicinski <kuba@kernel.org>,
+        Paolo Abeni <pabeni@redhat.com>, Simon Horman <horms@kernel.org>
+Subject: [PATCH v2 09/14] docs: security-bugs: reports left unanswered for 7 days will be dropped
+Date: Sat, 14 Nov 2026 20:00:09 +0100
+Message-ID: <20261114190014.17826-10-w@1wt.eu>
+X-Mailer: git-send-email 2.52.0
+In-Reply-To: <20261114190014.17826-1-w@1wt.eu>
+References: <20261114190014.17826-1-w@1wt.eu>
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Post: <mailto:workflows@vger.kernel.org>
@@ -59,51 +66,47 @@ List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:workflows+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <37d65eb3-f4b1-4e45-87c5-5378d5355541@kernel.org>
+Content-Transfer-Encoding: 8bit
 
-On Sat, Nov 14, 2026 at 07:28:10PM +0100, Vlastimil Babka (SUSE) wrote:
-> replace Lorenzo's address with a working one...
+Between 5 and 10% of the questions or requests sent by the security
+team or maintainers to reporters never receive any response. The doc
+only said that such reports "may be abandoned", without any indication
+of time, and team members keep collection of unresponded threads in
+their boxes just due to this.
 
-Thanks :) yeah ljs@kernel.org is the email I use for the kernel in general now!
+Let's say that reports for which requests remain unanswered for 7 days
+will most likely be dropped. This matches the maximum embargo duration,
+which is how long the security team considers it reasonable to keep an
+issue private. Also remind that concurrent reports may cause the same
+bug to be addressed by someone else who will then receive the credit
+in this case.
 
->
-> On 11/14/26 13:48, Manuel Ebner wrote:
-> > Update info about Lorenzo's 'The Linux Memory Manager'. The source is:
-> > https://nostarch.com/linux-memory-manager
-> >
-> > CC: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
-> > Signed-off-by: Manuel Ebner <manuelebnerli@mailbox.org>
+Reviewed-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Reviewed-by: Johan Hovold <johan@kernel.org>
+Signed-off-by: Willy Tarreau <w@1wt.eu>
+---
+ Documentation/process/security-bugs.rst | 8 ++++++++
+ 1 file changed, 8 insertions(+)
 
-Thanks for this! LGTM so:
+diff --git a/Documentation/process/security-bugs.rst b/Documentation/process/security-bugs.rst
+index 82ece82ecfb75..992c8d8d9b1c1 100644
+--- a/Documentation/process/security-bugs.rst
++++ b/Documentation/process/security-bugs.rst
+@@ -382,6 +382,14 @@ run additional tests.  Reports where the reporter does not respond promptly
+ or cannot effectively discuss their findings may be abandoned if the
+ communication does not quickly improve.
+ 
++In practice, a report for which questions or requests from the security team
++or the maintainers remain unanswered for 7 days will most likely be dropped.
++This matches the maximum embargo duration described below, which is how long
++the security team considers it reasonable to keep an issue private.  Given the
++number of reports handled in parallel, the same bug may also end up being fixed
++later after being reported by someone else, in which case credit can no longer
++be guaranteed.
++
+ Messages sometimes get lost, especially those containing attachments or HTML.
+ Since the report is private, you have no other way to know whether it was
+ delivered than to ask. However, some subsystems have a long report queue, some
+-- 
+2.52.0
 
-Reviewed-by: Lorenzo Stoakes (ARM) <ljs@kernel.org>
-
-> > ---
-> >  Documentation/process/kernel-docs.rst | 6 +++---
-> >  1 file changed, 3 insertions(+), 3 deletions(-)
-> >
-> > diff --git a/Documentation/process/kernel-docs.rst b/Documentation/process/kernel-docs.rst
-> > index c67ac12cf7..dd5bef154d 100644
-> > --- a/Documentation/process/kernel-docs.rst
-> > +++ b/Documentation/process/kernel-docs.rst
-> > @@ -79,11 +79,11 @@ Published books
-> >
-> >        :Author: Lorenzo Stoakes
-> >        :Publisher: No Starch Press
-> > -      :Date: February 2025
-> > -      :Pages: 1300
-> > +      :Date: Spring 2027
-> > +      :Pages: 1350
-> >        :ISBN: 978-1718504462
-> >        :Notes: Memory management. Full draft available as early access for
-> > -              pre-order, full release scheduled for Fall 2025. See
-> > +              pre-order, full release scheduled for Spring 2027. See
-> >                https://nostarch.com/linux-memory-manager for further info.
-> >
-> >      * Title: **Practical Linux System Administration: A Guide to Installation, Configuration, and Management, 1st Edition**
->
-
---
-Cheers, Lorenzo
