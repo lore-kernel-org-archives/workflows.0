@@ -1,46 +1,45 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=51.159.59.229
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794682862;
-	b=CSbY4o3PKPJbsDmDbSmXeVYSmUYjaaNhNG0uzTf7QFG+tUXTFhe8IQ8nQk0Klmj3SZKG
-	 LYDmSVHisCuwO5uQqPOPxaVY+JhoN4ePlPkKiXpN/4skVbAXzWLh4aYLWSb7+QjA7ou6t
-	 66J3g1tGjEIm5Uio2rCJ/0t/g3zNds6A7yS5Hsr/UGB74Uz6ccHSswVhnI+e2IHl4oMMU
-	 DQFGhr0zi2tF2CA4w5OqA9pfgs3shoAIsTPBZitsUYm1qS72OdAcQ+EyUY7SkhE1yOSol
-	 UiFo156zmAC4bKW9TlPgSOw+y/yyuUJB99lDWPbAo3Ngp+bTPNmPAtccr1A9xY1I4dw==
+	t=1794682858;
+	b=jeatvrKVr/ZXcRoCQDN5+AGeUuIpP0SCAMkvknINXpYuXlVfApcSn8cDmc9J8oUWQioA
+	 0xte//itZBSQe6m1zxes44871dNjuUhNt/2U9vCles9fxDQ2m1GqdjG+OPHu9l9CAxOBZ
+	 NrvPAcz1SFAsDPKWXpc0ybkjuQGLAtk/vuNJyDHDcBRf5KFJRjf4Mcl07+Y8gRiwdbPO8
+	 OAQhtPJMsiyzfbY1NHFIhXywQOlOeaF3HwQURXDVYpqBaeDmGIcp83Ty2KaTTcDm/tD1F
+	 11AcPBgdRh2KjbAr9fgkyJ3SkZP96nqBnXk4Q3BGaTzcOqKua1MYxKJNjXvaA6qk6Lw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794682862;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794682858;
 	h=DMARC-Filter:DKIM-Signature:Received:From:To:Cc:Subject:Date:
-	 Message-ID:X-Mailer:In-Reply-To:References:MIME-Version:
-	 Content-Transfer-Encoding;
-	bh=c18JGNzOhB1PzPYNsnyLPyd49MDAaAHmqGrgcMmZwRo=;
-	b=IuAYzyukkQAxmWbBylZrhw53HAEf6w2spe1EspQDb275GTERlmGFviU/9+UkyeZKsJC4
-	 KZ9iqsKJxs6seF4TFDTH6tVdnS7zhndREeMyaEWQGFxSlyjnl2Ws0Ry2emTt5ONMAM8EU
-	 Jk66WiA6lSTo60TQMqLgAWUznEFbolHZ+UcFaDWbG9a3PiWR5noif/AgMOQB565qfVmbt
-	 ZBD7ZIzJ0/YB1+/1XAx3ITEz0h1wHMJ9T1dKQJkoy/T0XH2P0AlGAzrlDzulDpi3MJIGG
-	 4OnbRYa9ktkVXHjNtQulena2S9hAyPq6+rO0NMMJU4yx7NmYwbSc/sZKYGNE4XzuRJw==
+	 Message-ID:X-Mailer:MIME-Version:Content-Transfer-Encoding;
+	bh=HrpSgkNeKUnB3ra6VtwJ8vLJ84rrOK16D8diOtzFrr0=;
+	b=Y5vQpiGknMx+RXiwdy7tHWtUFtrYDS2hrt1QXXPEpXwAldHqgu8IGyc22iiseRMRgSuH
+	 JiFgW5ocxNlpoVEWZcVNtRmOk6l0oeJmqf6UFD1n2btnTUob4cc3QArjB4SQpJwL13iEO
+	 XQeFZyPLMzgTODJWmA4rZg5BK8A8kF2T8Df+An+th3i/yDJgbbfhoxZvw96cffQtd2fS/
+	 9xRe4FERkox+CrjaZD5w1NUtwIGl6/hYMUVNSonpxdvNV+b67iqFCWHb8aSvXYGxl+Zx5
+	 5EvzNDDQvNCddJF/9oUMHCA3xnduE5z9qVDADNINfNv9x86/do1/PNNzYzA+VvNt/RQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=1wt.eu;
 	spf=pass smtp.mailfrom=1wt.eu;
-	dkim=pass header.d=1wt.eu header.i=@1wt.eu header.a=rsa-sha256 header.s=mail header.b=TbGprxzs;
+	dkim=pass header.d=1wt.eu header.i=@1wt.eu header.a=rsa-sha256 header.s=mail header.b=FJc7YS5A;
 	arc=none smtp.remote-ip=51.159.59.229
 Received: from mta1.formilux.org (mta1.formilux.org [51.159.59.229])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5126C60A2622;
-	Sat, 14 Nov 2026 19:01:00 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 5126C60A2622
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0BAB3606A33A;
+	Sat, 14 Nov 2026 19:00:45 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 0BAB3606A33A
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=1wt.eu
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=1wt.eu
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=1wt.eu header.i=@1wt.eu header.a=rsa-sha256 header.s=mail header.b=TbGprxzs
+	dkim=pass (1024-bit key) header.d=1wt.eu header.i=@1wt.eu header.a=rsa-sha256 header.s=mail header.b=FJc7YS5A
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=1wt.eu; s=mail;
-	t=1794682837; bh=c18JGNzOhB1PzPYNsnyLPyd49MDAaAHmqGrgcMmZwRo=;
+	t=1794682837; bh=HrpSgkNeKUnB3ra6VtwJ8vLJ84rrOK16D8diOtzFrr0=;
 	h=From:Message-ID:From;
-	b=TbGprxzsPYXn7CnhSpEPI0c81hFTzxFaaV3rvLYVFBatuqR+f8jX5S41xaSgBgRUW
-	 zh/U+OfLPB3siJbeFvpZ4E4R3yMBBjEEVii1mznOdQr+CKzL+g1yQ7/z2iqr5tAWPD
-	 8swxfWecSbkojYDig5S3hToFvPHHoCIFPWpbhXO8=
+	b=FJc7YS5AUZCYp0nF86kLMXAfGswwXfFdeta7OW3IGSUoE1MWvaiwf/2XrjE1C4WQC
+	 NquHPxXr1RBTlDiMmouX/2pYBLNpGoPf/6RSBlQYwAHjwxMBThDIBpOQyw6z/Q/4Z8
+	 VoBV9coKviGeoIG5KuT5FizI40oycrAeU3JVXW/g=
 Received: from 1wt.eu (ded1.1wt.eu [163.172.96.212])
-	by mta1.formilux.org (Postfix) with ESMTP id B1CC1C0966;
+	by mta1.formilux.org (Postfix) with ESMTP id 2D5ACC095C;
 	Sat, 14 Nov 2026 20:00:37 +0100 (CET)
 From: Willy Tarreau <w@1wt.eu>
 To: Jonathan Corbet <corbet@lwn.net>
@@ -51,12 +50,10 @@ Cc: skhan@linuxfoundation.org, Randy Dunlap <rdunlap@infradead.org>,
         "David S. Miller" <davem@davemloft.net>,
         Eric Dumazet <edumazet@kernel.org>, Jakub Kicinski <kuba@kernel.org>,
         Paolo Abeni <pabeni@redhat.com>, Simon Horman <horms@kernel.org>
-Subject: [PATCH v2 10/14] docs: security-bugs: add a section for maintainers receiving reports
-Date: Sat, 14 Nov 2026 20:00:10 +0100
-Message-ID: <20261114190014.17826-11-w@1wt.eu>
+Subject: [PATCH v2 00/14] security-bugs doc updates
+Date: Sat, 14 Nov 2026 20:00:00 +0100
+Message-ID: <20261114190014.17826-1-w@1wt.eu>
 X-Mailer: git-send-email 2.52.0
-In-Reply-To: <20261114190014.17826-1-w@1wt.eu>
-References: <20261114190014.17826-1-w@1wt.eu>
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Post: <mailto:workflows@vger.kernel.org>
@@ -68,60 +65,70 @@ Precedence: list
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Now that reports are expected to be more commonly sent directly to
-maintainers, some of them will receive security reports for the first
-time and may not know what to do with them, or worry about having to
-deal with them alone.
+Hi,
 
-Let's add a short section reminding them that they are not alone, and
-that they are welcome to ask the security team for help at any time.
+Here comes the v2 of a new batch of updates for the security bugs
+doc, essentially to make it more readable and to address some of
+its apparent contradictions for those not reading it entirely. Some
+additions were made to explain how to send a patch and a reproducer
+separately, and to ask that first-time reporters send a single report
+at once first.
 
-Reviewed-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Reviewed-by: Johan Hovold <johan@kernel.org>
-Signed-off-by: Willy Tarreau <w@1wt.eu>
----
- Documentation/process/security-bugs.rst | 21 ++++++++++++++++++++-
- 1 file changed, 20 insertions(+), 1 deletion(-)
+The first patch looks big, it only reorders paragraphs to fix the
+current mess resulting from minimal and incremental updates we've
+done over the last 6 months in reactions to some repeated mistakes
+found in reports. This accumulation has resulted in certain topics
+being discussed in a somewhat inconsistent way at different places
+in the document.
 
-diff --git a/Documentation/process/security-bugs.rst b/Documentation/process/security-bugs.rst
-index 992c8d8d9b1c1..791a78964a9d3 100644
---- a/Documentation/process/security-bugs.rst
-+++ b/Documentation/process/security-bugs.rst
-@@ -5,7 +5,8 @@ Security bugs
- 
- Linux kernel developers take security very seriously.  As such, we'd
- like to know when a security bug is found so that it can be fixed and
--disclosed as quickly as possible.
-+disclosed as quickly as possible. If you are a maintainer and received
-+a report, there is a section dedicated to you below.
- 
- What qualifies as a security bug
- --------------------------------
-@@ -403,6 +404,24 @@ do not ask for proper receipt before this delay. This will not make your report
- be processed faster, will add extra load on maintainers and all you risk is
- your future messages being ignored.
- 
-+For maintainers receiving a report
-+----------------------------------
-+
-+If you maintain some code in the kernel and received a security report, don't
-+panic, you're not alone! The wording of AI-generated reports these days tends
-+to sound scary, but just stick to technical facts and proceed like you would
-+with any other bug report. Feel free to share the report with other maintainers
-+who you think can help you, telling them upfront that the report is private.
-+Many other reports are being handled by other maintainers at any instant, do
-+not start to worry that the security of the whole kernel suddenly depends on
-+your ability to provide a quick fix. Do not let reporters dictate conditions
-+that are not compatible with what this document describes. If you have any
-+question or doubt, be it about the validity of the report, its impact, the
-+process to follow, difficult interactions with a reporter, or even if you've
-+mistakenly leaked part of the report to a public list (yes, this happens), just
-+ask the security team for help, for example by replying to the report with the
-+security team in Cc:, or by forwarding it to them if you're seeking advice.
-+
- Disclosure and embargoed information
- ------------------------------------
- 
+Aside this big patch (which only reorders, doesn't change a word,
+which can be verified with "git show --color-moved", there are 13
+small patches each touching a single paragraph.
+
+Interestingly, I discovered that the list's address was still present
+in historic areas of the netdev doc and in submitting-patches, which
+could be an explanation for the non-negligible amount of reports we
+receive showing proofs that the doc was never read, so I've fixed
+that as well.
+
+Changes since v1:
+  - drop the security section in netdev doc instead of trying to fix it
+    (as suggested by Jakub)
+  - few grammatical fixes and from Johan
+  - added the Johan's reviewed-by
+
+Thanks!
+Willy
+
+--
+Willy Tarreau (14):
+  docs: security-bugs: reorganize the document without changing its
+    contents
+  docs: security-bugs: clarify when to Cc the security team
+  docs: security-bugs: never publish reproducers of bugs with a security
+    impact
+  docs: threat-model: clarify the case of automatically mounted file
+    systems
+  docs: security-bugs: explain how to send a fix that can be applied
+  docs: security-bugs: do not send archives or binary attachments
+  docs: security-bugs: first-time reporters must send a single report
+    first
+  docs: security-bugs: explain what to do when a report gets no response
+  docs: security-bugs: reports left unanswered for 7 days will be
+    dropped
+  docs: security-bugs: add a section for maintainers receiving reports
+  docs: security-bugs: explain why directly sent reports add extra work
+  docs: security-bugs: explain why AI-found bugs are handled publicly
+  docs: submitting-patches: defer to security-bugs.rst for security
+    fixes
+  docs: netdev: drop references to the securit list in the doc
+
+ Documentation/process/maintainer-netdev.rst  |  12 -
+ Documentation/process/security-bugs.rst      | 409 +++++++++++++------
+ Documentation/process/submitting-patches.rst |  10 +-
+ Documentation/process/threat-model.rst       |  23 +-
+ 4 files changed, 300 insertions(+), 154 deletions(-)
+
 -- 
 2.52.0
 
