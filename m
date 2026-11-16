@@ -1,64 +1,61 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=51.159.59.229
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794859309;
-	b=NFHuDSRxx9Ft63KPRt5zEJOA210Hq7BsINwZSoZL7j2CJRdbLfj+idQy1EfSqegPuLIm
-	 K6wQK90bhgXOaAOXH75Xp2HHiworpxWJ1Ni8jb8xqn94cPYLf6Vsp8JT5YjHrXWGQvPJm
-	 kRfCdxe4JFGaEgbdoJl3Jw4djw6+0ZBEcTbVcGr/hCrkE98W4boyDN9iVgTei+QLjoFPq
-	 bnlwB2wMsp+IS7OxEnXgWGxRp0ztD0CcNpYkLrazGuruM7PFEbM0i0oxb9DWQTxjbPPtN
-	 Esyr9RaSjoM0QAzKdrtjsGs0923F7OtmpD2Da3DOcln6W6nxFeIW2oi51clV9U6XSUw==
+	t=1794859518;
+	b=wE4e2WGo6RfiQqS4b+76zKSTujJofFwPV/Zptab9NdymeeYVIZlahyNRS8h5UEHXCZNQ
+	 mXHVFHV0YSQFRnQUsJIFCCQx2njvRsuMlOrmpWPCOdX2KvpfQDCGCmjd1hV0qMBXl+AcU
+	 NP0XWX0h/xrfpbhUVnNYlGBx6cP0SDkV4q/N5QDoxHO0RCB/BaRkpDJO7TDOTYPqhBWnp
+	 yLRkjpLiSd+/JBumvCTXmJbNUzdfnWwLkFsCOkyVcj0mzszmzmwtY+FeIuebdKLRwlEku
+	 PGs0fRiec3tMaawmMS50TbTUIvNpyP+n9ydMhqFQdijpa59hrqju2NzBS2S5y4PP4OQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794859309;
-	h=DMARC-Filter:DKIM-Signature:Received:Date:From:To:Cc:Subject:
-	 Message-ID:References:MIME-Version:Content-Type:Content-Disposition:
-	 In-Reply-To;
-	bh=BYQI4k2YlNhinRECPNarKD969t6u+tmjOYMybhqbmkw=;
-	b=X+T5oOsnq7a8x1i0CFgEffZgy4gdtTysa6CVyvX3DEzerJCL/jA+YJfbHqd8PJ09aSO6
-	 XbLTrVcERbP0pQZTfjrTuHhkNKbR5lxZZf7qfbMOM8o4n/CF9PFPohQeXBIVmVg0i751n
-	 BUcb2tG2Lqkz8rJFIM02L9b+IOT+GJktKtLZqClJOXNhPtegLX51hprl6YSXh7oQ5Kaed
-	 4N8Pbz8M0JRoIzyYHh7YjNdCsjrc2fL6SSwIYxhjNzgNSp+KQ3XgWfyyC0Wyks6cFXuaV
-	 zMD+zBqN6qExcZ9esF6ErPgtNELeny6TFUhGal7EdAcvFu6tAN3MdFZ+eVDmcT6tA6g==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794859518;
+	h=Received:DKIM-Signature:From:To:Cc:Subject:Date:Message-ID:X-Mailer:
+	 MIME-Version:Content-Transfer-Encoding;
+	bh=tRQeWuvmYi/U57BdSGyz2zs88m1YVfY13PrWPpE4BR8=;
+	b=UuLy8K4bfKIaK0AjQYzFcc8YI55LOJX8CsHK5t9JDj+OREAvx8Wc80KMiEELPaLRi7R/
+	 zZixKChMHoVC4YtguxUfugvnSyuBiLUoYjCTHCQUjlTZXxV6C83QDKYuTbVZqPz1OOpxx
+	 nOBo2pj3paKG+3YKviw+ia1LkHQgsexjvMw4PNqMKaEwgJ63M98EB7Qxz2Tex87n85g8f
+	 ZG9gi75N1dMzRWE03b825ZxjhN8SYpTkrDMJbYMeg8Uxz8RrMJGAS5Rf0AFH3o90CzKm6
+	 0lknCRDlNbZlCJZ3K07XLlgUPPK5L1UhuIzKdS/HokVZper/wxdUdHOu9FKbq3yH+Ow==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=1wt.eu;
-	spf=pass smtp.mailfrom=1wt.eu;
-	dkim=pass header.d=1wt.eu header.i=@1wt.eu header.a=rsa-sha256 header.s=mail header.b=l93QHocs;
-	arc=none smtp.remote-ip=51.159.59.229
-Received: from mta1.formilux.org (mta1.formilux.org [51.159.59.229])
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=bHx1DP11;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AFE95606A31C;
-	Mon, 16 Nov 2026 20:01:48 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org AFE95606A31C
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=1wt.eu
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=1wt.eu
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BBB22606A88E;
+	Mon, 16 Nov 2026 20:05:18 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=1wt.eu header.i=@1wt.eu header.a=rsa-sha256 header.s=mail header.b=l93QHocs
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=1wt.eu; s=mail;
-	t=1794859306; bh=BYQI4k2YlNhinRECPNarKD969t6u+tmjOYMybhqbmkw=;
-	h=From:Message-ID:From;
-	b=l93QHocsQSWskrLVdkeS9aDHS7mw+f4rfV11pvb4wJoG1CUtOqKPnZehlvZwhJND9
-	 6UddRLR8DrxwO20MgiZ8NnGya9LsrPIlAWF/f4bO3RFdRZ/B4YkUHoKSI9kuKj8qaZ
-	 Wyqk9IB7zYMc/VbGtwWduLOl/jyE6xPaDLpCaOz4=
-Received: from 1wt.eu (ded1.1wt.eu [163.172.96.212])
-	by mta1.formilux.org (Postfix) with ESMTP id 81C02C094A;
-	Mon, 16 Nov 2026 21:01:46 +0100 (CET)
-Date: Mon, 16 Nov 2026 21:01:46 +0100
-From: Willy Tarreau <w@1wt.eu>
-To: Andrew Morton <akpm@linux-foundation.org>
-Cc: Sasha Levin <sashal@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
-        Shuah Khan <skhan@linuxfoundation.org>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        "Theodore Ts'o" <tytso@mit.edu>, David Hildenbrand <david@kernel.org>,
-        workflows@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] docs: submitting-patches: ask bug fixes for their
- user-visible impact
-Message-ID: <avthKmdjADe0-P3M@1wt.eu>
-References: <20261116191436.188098-1-sashal@kernel.org>
- <20261116113453.013103c694ad966c56ddeb31@linux-foundation.org>
- <20261116195205.335116-1-sashal@kernel.org>
- <20261116115859.0e89464677cf765681cf35d7@linux-foundation.org>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=bHx1DP11
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 338E91F000C6;
+	Mon, 16 Nov 2026 20:05:17 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1794859518;
+	bh=tRQeWuvmYi/U57BdSGyz2zs88m1YVfY13PrWPpE4BR8=;
+	h=From:To:Cc:Subject:Date;
+	b=bHx1DP11wCI6xVH5jaqP1uVDSdtlFWU/1Ei7vF/ZMAdTjXTcmnkYtIRhMAc5rao5K
+	 Zuo45tplMCK3pHmlRaUH9phIq9TZKektfkutyLr4cIOMveQSV+g9yhuPPgUXa902fI
+	 TG5z1IbyzmMjU+MZerLr2Zzi7HIP4NrF77+JhP4v6DvyN+NlO9h956yTIncTKVXLQL
+	 e7ddWaEB959Vh5EvsKWn0etAMV3O2nr3vSAi1b5VpDUyx1YV0dO7LJS3beA6qLRTAe
+	 Q8xrwph9AiGVS5fwnaqevnFRChMGoDQclZRvhCxdFLjP8iof2hybcy+3pPFC+VO03L
+	 qfgvUOBb7Zm0A==
+From: Sasha Levin <sashal@kernel.org>
+To: Jonathan Corbet <corbet@lwn.net>
+Cc: Sasha Levin <sashal@kernel.org>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Willy Tarreau <w@1wt.eu>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Randy Dunlap <rdunlap@infradead.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Theodore Ts'o <tytso@mit.edu>,
+	David Hildenbrand <david@kernel.org>,
+	workflows@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH v2] docs: submitting-patches: ask bug fixes for their user-visible impact
+Date: Mon, 16 Nov 2026 15:05:15 -0500
+Message-ID: <20261116200515.352387-1-sashal@kernel.org>
+X-Mailer: git-send-email 2.53.0
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Post: <mailto:workflows@vger.kernel.org>
@@ -68,71 +65,102 @@ List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:workflows+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20261116115859.0e89464677cf765681cf35d7@linux-foundation.org>
+Content-Transfer-Encoding: 8bit
 
-On Mon, Nov 16, 2026 at 11:58:59AM -0800, Andrew Morton wrote:
-> On Mon, 16 Nov 2026 14:52:05 -0500 Sasha Levin <sashal@kernel.org> wrote:
-> 
-> > 
-> > Willy pointed out the other side of this: ask an LLM for the worst case
-> > and it'll stack up every config option, module and USB emulator needed
-> > to get there, while for backports you also want to know whether
-> > innocent users are affected at all.
-> > 
-> > I think both fit if we ask about the two cases separately. Something
-> > like this on top?
-> > 
-> > diff --git a/Documentation/process/submitting-patches.rst b/Documentation/process/submitting-patches.rst
-> > --- a/Documentation/process/submitting-patches.rst
-> > +++ b/Documentation/process/submitting-patches.rst
-> > @@ -63,14 +63,26 @@ from upstream, so include anything that could help route your change
-> >  downstream: provoking circumstances, excerpts from dmesg, crash
-> >  descriptions, performance regressions, latency spikes, lockups, etc.
-> >  
-> > -For a bug fix, this means saying what the bug does to a running system:
-> > -the worst that a user can see, and what it takes to trigger it.  An
-> > -account of what the code does wrong is not a substitute, as it leaves
-> > -every reader to work the consequences out again.  If the bug was found
-> > -by review or by a tool and has never been seen to happen, say so.  If
-> > -it has no effect that a user could notice, say that too.  Maintainers
-> > -and the people looking after stable trees decide from this whether the
-> > -fix needs to be backported.
-> > +For a bug fix, this means saying what the bug does to a running system.
-> > +An account of what the code does wrong is not a substitute, as it leaves
-> > +every reader to work the consequences out again.  Cover two cases:
-> > +
-> > +- Users who are not looking for the bug.  Say what a normal workload is
-> > +  likely to run into, and separately what the worst case is and what it
-> > +  takes to get there: configuration, hardware, privileges, timing.  If
-> > +  the bug was found by review or by a tool and has never been seen to
-> > +  happen, say so.  If it has no effect that a user could notice, say
-> > +  that too.
-> > +
-> > +- Someone triggering the bug on purpose.  Say whether an unprivileged
-> > +  user could do it and what that would take.  A race that no normal
-> > +  workload loses can still be won by a program that retries it on every
-> > +  CPU for an hour.  If that makes the bug a vulnerability under
-> > +  Documentation/process/threat-model.rst, follow
-> > +  Documentation/process/security-bugs.rst.
-> > +
-> > +Maintainers and the people looking after stable trees decide from this
-> > +whether the fix needs to be backported.
-> >  
-> >  Quantify optimizations and trade-offs.  If you claim improvements in
-> >  performance, memory consumption, stack footprint, or binary size,
-> > 
-> > If that works for both of you I'll fold it into a v2.
-> 
-> Looks good, thanks.  Still
-> Acked-by: Andrew Morton <akpm@linux-foundation.org>
-> 
-> Of course we don't have to get this perfect.  Close enough is good
-> enough.  Deploy it, observe effects, fine-tune later.
+"Describe your changes" already asks for the user-visible impact of a
+change, but changelogs for fixes still tend to say what the code does,
+why that's wrong and what the patch changes, and stop there. Whoever
+has to decide if the fix needs backporting is left to work out what
+the bug does to a running system.
 
-Agreed, looks great to me as well.
+Say what that means for a bug fix, in two parts. For users who aren't
+looking for the bug: what a normal workload is likely to run into, and
+separately the worst case and what it takes to get there. For someone
+triggering it on purpose: whether an unprivileged user could do it and
+what that would take, since a race that no real workload loses can
+still be won by a program written to win it. Give the paragraph a
+label so people can be pointed at it.
 
+Coding assistants are told to commit a fix with a message that
+describes the problem and the solution. Add the user-visible impact to
+that list and point them at the section.
+
+Suggested-by: Andrew Morton <akpm@linux-foundation.org>
+Link: https://lore.kernel.org/r/20261111171055.527b4bf3da705367bc78a64c@linux-foundation.org
+Signed-off-by: Sasha Levin <sashal@kernel.org>
+Acked-by: Andrew Morton <akpm@linux-foundation.org>
 Reviewed-by: Willy Tarreau <w@1wt.eu>
+---
+Changes since v1:
+- Split the bug-fix paragraph into users who aren't looking for the bug
+  and someone triggering it on purpose (Andrew, Willy).
 
-Willy
+v1: https://lore.kernel.org/r/20261116191436.188098-1-sashal@kernel.org
+
+ Documentation/process/coding-assistants.rst  |  6 +++--
+ Documentation/process/submitting-patches.rst | 23 ++++++++++++++++++++
+ 2 files changed, 27 insertions(+), 2 deletions(-)
+
+diff --git a/Documentation/process/coding-assistants.rst b/Documentation/process/coding-assistants.rst
+index 509dbf23a099b..ef01ce8d0ff91 100644
+--- a/Documentation/process/coding-assistants.rst
++++ b/Documentation/process/coding-assistants.rst
+@@ -63,8 +63,10 @@ these steps:
+    re-running a complete analysis; drop any fix that doesn't work and try
+    another one. The fix must not add build warnings and must pass the
+    checkpatch.pl checks (see submitting-patches.rst).
+-6. Commit the working fix with a detailed message describing the problem, the
+-   solution and a Fixes tag. Do not add a Signed-off-by tag.
++6. Commit the working fix with a detailed message describing the problem, its
++   user-visible impact (see "Describe your changes" in
++   Documentation/process/submitting-patches.rst), the solution and a Fixes
++   tag. Do not add a Signed-off-by tag.
+ 7. Identify the maintainers and lists using scripts/get_maintainer.pl.
+    Documentation/process/security-bugs.rst shows how to do that.
+ 8. Indicate what could not be done. If the fix could not be built or tested, or
+diff --git a/Documentation/process/submitting-patches.rst b/Documentation/process/submitting-patches.rst
+index 9cd19a71e96ec..e5f2181e4d663 100644
+--- a/Documentation/process/submitting-patches.rst
++++ b/Documentation/process/submitting-patches.rst
+@@ -51,6 +51,8 @@ motivated you to do this work.  Convince the reviewer that there is a
+ problem worth fixing and that it makes sense for them to read past the
+ first paragraph.
+ 
++.. _user_visible_impact:
++
+ Describe user-visible impact.  Straight up crashes and lockups are
+ pretty convincing, but not all bugs are that blatant.  Even if the
+ problem was spotted during code review, describe the impact you think
+@@ -61,6 +63,27 @@ from upstream, so include anything that could help route your change
+ downstream: provoking circumstances, excerpts from dmesg, crash
+ descriptions, performance regressions, latency spikes, lockups, etc.
+ 
++For a bug fix, this means saying what the bug does to a running system.
++An account of what the code does wrong is not a substitute, as it leaves
++every reader to work the consequences out again.  Cover two cases:
++
++- Users who are not looking for the bug.  Say what a normal workload is
++  likely to run into, and separately what the worst case is and what it
++  takes to get there: configuration, hardware, privileges, timing.  If
++  the bug was found by review or by a tool and has never been seen to
++  happen, say so.  If it has no effect that a user could notice, say
++  that too.
++
++- Someone triggering the bug on purpose.  Say whether an unprivileged
++  user could do it and what that would take.  A race that no normal
++  workload loses can still be won by a program that retries it on every
++  CPU for an hour.  If that makes the bug a vulnerability under
++  Documentation/process/threat-model.rst, follow
++  Documentation/process/security-bugs.rst.
++
++Maintainers and the people looking after stable trees decide from this
++whether the fix needs to be backported.
++
+ Quantify optimizations and trade-offs.  If you claim improvements in
+ performance, memory consumption, stack footprint, or binary size,
+ include numbers that back them up.  But also describe non-obvious
+
+base-commit: 2138148bf44fd84d3e0a863f0e8cb3627cdcc606
+-- 
+2.53.0
+
