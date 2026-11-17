@@ -1,52 +1,60 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794919687;
-	b=QruwmnGUxQR3peFSdlcNj8zTmv4kLn+g8MajyHJ/+0JJGEVqMwW8+MK5aTXrteyXRm4q
-	 kx1SX9YwAq/PumKFzzAy1tbV5a+q9AlDAULBaBbJW3kcEQB3AG01uLbC7X9kq73bw3Uzx
-	 V6wsfjkofVBFpir7os4qiZDuXoEU6GiXN3PaejKp1FyCdXsuUu+qlCzmAu/99pFX25RMf
-	 PJWcOKjmFrFu9rw/d+uxtutcoBzua5tUPDteMZ4P2h50/ZZKbimQxlFmnPkVUuBP3HFVk
-	 r4wh8KxSAgwKq80t6Ck0iG8jWjDx2AP7ZtS9dPNoGgJ1Gw6Ik0DFnm/OrwGM0q5G2zA==
+	t=1794928070;
+	b=WkZ0PVK7tZ3pngsVOEoPxDO0IDO1BGcBWcjD0D1iKw01De3qudp6vFByZbsrXQ7oVCxM
+	 PX/3tPZtM0Iq5huKWSx397FeEQ7ATe/ZF2bn4SbFBva/TY+O2Syt+kTZDfX6MjPIRD3jf
+	 xE0hqe4OntQtsiOpiv0+6Jg+CPJwnX8446Fz1mO6V0MnYkuv+4gfye2b1JlbnRnHb0X6L
+	 tQUqLw6h99Op1ktJn9pYzGnX4vxyzgScQ/qtCV3aUwnUlUNbZsQNShw2r68iB9UBjiMgs
+	 xV7efiXWmux0LmzvjwXC+sn4eB9OQp7tJfyExZx5hoD5OGwU4eRHx5wP29AxdUgFD2Q==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794919687;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794928070;
 	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
 	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
-	bh=h+LNhrt9j/b/RBbUIJw2rBJ8YAb7yE512bAtckM4qj8=;
-	b=Ie0JmaF3T0QS1hlarbB4s4VOYHddA+hLfZG1dIvQcmGv7NVpWR36oCww28BKzR77Ctqa
-	 fpqjpb6rxxWcPNVRmSij/c475+LOf3LolhDc5LdkFrNVArL5wug6LFgNmzsh3DcIXSY9y
-	 cDZPv0uMEy/QrztKELih1UAodwvLMz5s/vH6AYkRXS41Gzc6U5x0uuqPJSbfgt+wKjGza
-	 kHqa+iixoOczAYgm0D4zE9x7kyyxWH1Xm06xVjniY7HcTeY+4jNWxAZoQ/PX/UbZgKsnq
-	 4cj0tC3Vfq/I8Cg52FO1riVayBVPr9ky9pUl1V9w++/lYAUi1+apNjLiHOhLBcpOgqQ==
+	bh=ZPn2FXf8wRtQPu/fYDQbD47IkGLvCOhsivsvxNGUt5I=;
+	b=KFATVB2qhNNj/uQaPkVVh2z4L2Xyj9kSlnaIBBSQ3TV6N6V8Z1CXh+p+maEPQuGAY23i
+	 DoSx39FwFc++I2PnCSuwqL4QZd/0JplM1C6pZNSyGnC/AIrhn6LAn14RWu20/z0zMxDRA
+	 4yy3ByIZZQGrLjNjfG8uC175aaj3mPJBiKGkMbU4sr/FnNkcQfaMf+t+tzLlZGqSiWDSG
+	 ihQFzQJzTp3BfXyC64dwoxNzxKfd7/VLhi21xftQ1/w1NX9ZDm/VhnLEoSvnvYoou1DBd
+	 f4O6kAhshjAgB08AY2VLLvTsakIX9DCUoZ9zKVf3ugZgl91N6unJM1dDQnZL5E3JMBQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=oGMLG9M2;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=SRRHrh85;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 34C2B606A31C;
-	Tue, 17 Nov 2026 12:48:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A4C8C606A31C;
+	Tue, 17 Nov 2026 15:07:50 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=oGMLG9M2
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CE0B21F000C5;
-	Tue, 17 Nov 2026 12:48:05 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=SRRHrh85
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3FA471F000C5;
+	Tue, 17 Nov 2026 15:07:50 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794919686;
-	bh=h+LNhrt9j/b/RBbUIJw2rBJ8YAb7yE512bAtckM4qj8=;
+	s=k20260515; t=1794928070;
+	bh=ZPn2FXf8wRtQPu/fYDQbD47IkGLvCOhsivsvxNGUt5I=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=oGMLG9M29TDqNoeM+yuPjKo5c4seh1igfIH9fgAYAGpOoHF+2aJgNXbh9vXAiyMuM
-	 AfmRvGTOA6liS3jHoUkorFO1IJDf6loVBLdA8cR1acVeSqc0RRyja8jk+rEKYaBWAJ
-	 q2wskywmb7FHcjm3j8rNDvT1xvvReG8aYtbCTCdKpdVfK7dU5h7rZiP8RL2z3T+IvC
-	 Ild3az7V+Iagp0CtQJsmhxZc2ymG/O8rm4qTA5E8+NUIrgIc6PdlSrKjsvQqrlA/X4
-	 hzEj6D0JkRX19QaRx1u48HD+eqj4wnYC2nvL3LOKeCDsPoQc46EdSB/mev/AQU/QDK
-	 rmFCD2svCgKzQ==
-Date: Tue, 17 Nov 2026 11:37:42 +0200
-From: Leon Romanovsky <leon@kernel.org>
-To: Qu Wenruo <wqu@suse.com>
-Cc: linux-btrfs@vger.kernel.org, workflows@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
-Subject: Re: [PATCH] btrfs: add a per-subsystem agent file
-Message-ID: <20261117093742.GC124972@unreal>
-References: <df1c1fa031ba7e66486348dc37d1a7be53c18e43.1794894953.git.wqu@suse.com>
+	b=SRRHrh857S6A3MqguuuG8FaD+W/SmXP+TWQNtuZUkaI+h4FRpt+EB4ggsZ1Bu/fxp
+	 Irxg+EGPmQeDlfAHUkVFdmaCeeVaUV31q7qXBCjAyfhrY+bDRAsMQK7DPvRwOJqcJE
+	 7QgXLCG3Z7IWKLzs96d5zsF/9OAzD1/RYFfCJWd7U6SlPzbacrhIU8EzRzsBp+GkiT
+	 s0w20s5rijZiv4hImBq8lrMN6U7gaIp1iNfuFSlCgjFLpJO4CKq7TCHLJ/UU6eruj4
+	 NP9sdGXf4IMJxcuyW8j+G4ska7It28NGsN4cMf9ex6n25E5KPNniFGetM6qO61mP5i
+	 irzZjDVR5c4yg==
+Date: Tue, 17 Nov 2026 10:07:49 -0500
+From: Sasha Levin <sashal@kernel.org>
+To: Leon Romanovsky <leon@kernel.org>
+Cc: Jonathan Corbet <corbet@lwn.net>,
+	Andrew Morton <akpm@linux-foundation.org>, Willy Tarreau <w@1wt.eu>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Randy Dunlap <rdunlap@infradead.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Theodore Ts'o <tytso@mit.edu>, David Hildenbrand <david@kernel.org>,
+	workflows@vger.kernel.org, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2] docs: submitting-patches: ask bug fixes for their
+ user-visible impact
+Message-ID: <avxtxScVa9KvUH_K@laps>
+References: <20261116200515.352387-1-sashal@kernel.org>
+ <20261117092723.GA124972@unreal>
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Post: <mailto:workflows@vger.kernel.org>
@@ -56,188 +64,70 @@ List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:workflows+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=us-ascii; format=flowed
 Content-Disposition: inline
-In-Reply-To: <df1c1fa031ba7e66486348dc37d1a7be53c18e43.1794894953.git.wqu@suse.com>
+In-Reply-To: <20261117092723.GA124972@unreal>
 
-On Tue, Nov 17, 2026 at 04:28:18PM +1030, Qu Wenruo wrote:
-> I believe btrfs is not the most affected sub-system, but a lot of
-> newbies without common senses are doing more harm than help.
-> E.g. wasting a lot of human review time on very low value fixes, filled
-> with long paragraphs and useless test steps/results.
-> 
-> So it would be better to let those agents to stop being stupid and
-> follow the more common practices here, and hopefully those newbies can
-> build some common sense.
-> 
-> I hope the agent file is clear and short enough, that is not only
-> readable for LLMs, but also for humans who want to be long term
-> contributers.
-> 
-> Signed-off-by: Qu Wenruo <wqu@suse.com>
-> ---
-> Reason for RFC:
-> 
-> Some practices are my personal preferences, like prefer ASCII charts
-> over long paragraphs, and short sentences/paragraphs.
+On Tue, Nov 17, 2026 at 11:27:23AM +0200, Leon Romanovsky wrote:
+>On Mon, Nov 16, 2026 at 03:05:15PM -0500, Sasha Levin wrote:
+>> "Describe your changes" already asks for the user-visible impact of a
+>> change, but changelogs for fixes still tend to say what the code does,
+>> why that's wrong and what the patch changes, and stop there. Whoever
+>> has to decide if the fix needs backporting is left to work out what
+>> the bug does to a running system.
+>>
+>> Say what that means for a bug fix, in two parts. For users who aren't
+>> looking for the bug: what a normal workload is likely to run into, and
+>> separately the worst case and what it takes to get there. For someone
+>> triggering it on purpose: whether an unprivileged user could do it and
+>> what that would take, since a race that no real workload loses can
+>> still be won by a program written to win it. Give the paragraph a
+>> label so people can be pointed at it.
+>>
+>> Coding assistants are told to commit a fix with a message that
+>> describes the problem and the solution. Add the user-visible impact to
+>> that list and point them at the section.
+>>
+>> Suggested-by: Andrew Morton <akpm@linux-foundation.org>
+>> Link: https://lore.kernel.org/r/20261111171055.527b4bf3da705367bc78a64c@linux-foundation.org
+>> Signed-off-by: Sasha Levin <sashal@kernel.org>
+>> Acked-by: Andrew Morton <akpm@linux-foundation.org>
+>> Reviewed-by: Willy Tarreau <w@1wt.eu>
+>> ---
+>> Changes since v1:
+>> - Split the bug-fix paragraph into users who aren't looking for the bug
+>>   and someone triggering it on purpose (Andrew, Willy).
+>>
+>> v1: https://lore.kernel.org/r/20261116191436.188098-1-sashal@kernel.org
+>>
+>>  Documentation/process/coding-assistants.rst  |  6 +++--
+>>  Documentation/process/submitting-patches.rst | 23 ++++++++++++++++++++
+>>  2 files changed, 27 insertions(+), 2 deletions(-)
+>
+>Sasha,
+>
+>Since you're already making changes in that area, could you add a sentence
+>asking reporters to provide the full dmesg stack trace?
 
-It looks like general descriptions to me and can fit other subsystems too.
+In this doc, we already ask them not to [1] :)
 
-Thanks
+>Many AI-generated patches reduce it to one or two lines, which gives no
+>indication of whether the report is genuine or fabricated. Early in the AI
+>era, I saw some completely fabricated stack traces.
 
-> 
-> But I guess some of btrfs developers may not even agree on my
-> preferences.
-> 
-> Thus feed back from well known btrfs developers are always appreciated.
-> ---
->  fs/btrfs/AGENTS.md | 136 +++++++++++++++++++++++++++++++++++++++++++++
->  1 file changed, 136 insertions(+)
->  create mode 100644 fs/btrfs/AGENTS.md
-> 
-> diff --git a/fs/btrfs/AGENTS.md b/fs/btrfs/AGENTS.md
-> new file mode 100644
-> index 000000000000..d527b862d9bc
-> --- /dev/null
-> +++ b/fs/btrfs/AGENTS.md
-> @@ -0,0 +1,136 @@
-> +Btrfs patch guidelines
-> +======================
-> +
-> +These rules apply to any code, commit message or cover letter touching
-> +fs/btrfs. They come on top of the top-level AGENTS.md and
-> +Documentation/process/coding-assistants.rst.
-> +
-> +Code comments
-> +-------------
-> +
-> +* Add a comment only when the code is not obvious by itself, e.g. a locking
-> +  rule, an ordering requirement or a non-trivial reason for a workaround.
-> +* Keep it as short and simple as possible, but do not cut the reasoning a
-> +  reader needs, e.g. for locking rules or races.
-> +* Do not restate what the code does. Do not narrate the change, and do not
-> +  add comments like "fix for ..." or "new helper to ...".
-> +* Remove any comment that does not carry information, but only in the lines
-> +  being added or touched. Do not drop unrelated existing comments.
-> +* Add kernel-doc only for complex functions. Do not bother for simple helpers
-> +  whose function and parameter names are self-explaining.
-> +
-> +Commit messages and cover letters
-> +---------------------------------
-> +
-> +Human readability comes first. A reviewer should be able to understand the
-> +problem and the fix from the message.
-> +
-> +* Use short and simple sentences. One idea per sentence.
-> +* Skip filler and long background.
-> +* Prefer a small chart or call trace over a long paragraph, see "Visual aids"
-> +  below.
-> +* Drop any sentence the reviewer does not need to understand the change.
-> +* Do not use the [BUG], [CAUSE] and [FIX] section tags for simple bugs. Write
-> +  plain paragraphs instead. Keep the tags only for complex bugs, where the
-> +  symptom, the cause and the fix each need several paragraphs.
-> +* Follow the style of well-known btrfs developers:
-> +  * The subject starts with "btrfs: ", is lower case after that, and is
-> +    imperative and specific, e.g. "btrfs: fix use-after-free when ...".
-> +  * Keep lines within 75 columns. Quoted text (dmesg, error messages, stack
-> +    traces) has no limit and must not be folded.
-> +  * Check `git log -- fs/btrfs` for recent examples before drafting.
-> +
-> +Visual aids
-> +-----------
-> +
-> +Prefer anything that makes the message easier for a human to read. An ASCII
-> +chart is a good choice when it explains the problem faster than prose, e.g.:
-> +
-> +* A race. Show the race window, do not describe it in prose only.
-> +* An error handling bug in a function, seen from several call sites.
-> +* A call chain across layers, where the bug only shows on a certain path.
-> +* The order of steps in a transaction commit or a log replay.
-> +
-> +Chart rules:
-> +
-> +* Function names only, no file paths or line numbers.
-> +* Show only the functions that matter.
-> +* Describe a state or outcome with plain text under the function name.
-> +* For a race, use one column per racing context (CPU, task, endio), side by
-> +  side.
-> +
-> +Follow the style of the examples below.
-> +
-> +Example, a race:
-> +
-> +```
-> + CPU0 (endio)                       CPU1 (fsync)
-> + end_bbio_data_write()
-> + |-btrfs_folio_clear_writeback()
-> + |                                  btrfs_sync_file()
-> + |                                  |-filemap_fdatawait_range()
-> + |                                  | Returns after writeback finished
-> + |                                  |
-> + |                                  \-test_and_clear_bit(COW_WRITE_ERROR)
-> + |                                    Still 0, skips waiting
-> + \-set_bit(COW_WRITE_ERROR)
-> +   Too late.
-> +```
-> +
-> +Example, an error handling bug, from commit c9583ada8cc4. The callee cleans up
-> +on error, then the caller cleans up again:
-> +
-> +```
-> + btrfs_do_readpage()
-> + |-submit_extent_page()
-> + | \-submit_one_bio()
-> + |   \-btrfs_submit_data_bio()
-> + |     \-bio_endio()
-> + |       Calls end_page_read() and unlock_extent().
-> + |
-> + \-end_page_read() and unlock_extent()
-> +   Cleaned up again, the subpage reader count underflows.
-> +```
-> +
-> +Versioned patches
-> +-----------------
-> +
-> +* Always provide the full history, not only the changes of the last version.
-> +* List every version, newest first, e.g.:
-> +
-> +  ```
-> +  v3:
-> +  - Rename the helper to xxx()
-> +  - Add a missing lock in yyy()
-> +
-> +  v2:
-> +  - Fix the build failure on 32-bit
-> +  ```
-> +
-> +* Put the history in the cover letter, or after the "---" line for a single
-> +  patch. Do not put it in the commit message body.
-> +* For a series, keep the cover letter history complete. For a patch changed
-> +  in a later version, also keep that patch's own history after its "---" line.
-> +
-> +Sashiko review
-> +--------------
-> +
-> +Sashiko posts AI-generated review for patches sent to the mailing list. The
-> +btrfs list is at https://sashiko.dev/#/?list=org.kernel.vger.linux-btrfs
-> +
-> +* The submitter should check Sashiko for bug reports on the posted patches.
-> +* If a report is valid, address it in a newer version.
-> +* If a report is wrong, it can be ignored. A reply on the mailing list only
-> +  makes sense when the report is complex or the reason is not obvious.
-> +
-> +Testing steps
-> +-------------
-> +
-> +* For minor and simple bugs, there is no need to add any testing steps. This
-> +  applies to the commit message and to the text after the "---" line.
-> +* A minor bug is one that does not affect normal use cases, e.g. an
-> +  unlikely error path, a corner case that needs fault injection, a tracepoint
-> +  or a debug-only problem.
-> +* Testing steps are only appropriate for a complex bug that can be hit in
-> +  normal use or have a deep impact, and also when they help the reviewer to
-> +  reproduce it.
-> -- 
-> 2.56.0
-> 
-> 
+Is it still an issue? We could add something explicit in coding-assistants.rst,
+like:
+
+   Evidence
+   ========
+
+   Every claim an AI assistant makes about the kernel's behavior at runtime,
+   including backtraces, log excerpts, test results and measurements, **MUST** be
+   backed by an observation from a real run.
+
+
+[1] https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/Documentation/process/submitting-patches.rst#n760
+
+-- 
+Thanks,
+Sasha
