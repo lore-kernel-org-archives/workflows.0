@@ -1,53 +1,54 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=216.40.44.15
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=95.215.58.134
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795014780;
-	b=iMD3l+tf0v2Xwamr/1cIJfh9zWVBcjBCod7RYrzJZu+qaNjQD6pb81q8Wsb/sph/JwYB
-	 x5jc8b2dU+dn1VzTuaX3rvE0HwS6YPy9PHb8/gHOnQZ14AMkZ3BaxnDdJ/Oglg/8jIc+N
-	 WA5X0NSi/BAhVRfuf7mdfxCKIbp0hfUc88Z328rXO8oYuXQ5ruxDUykSL+EQAdIOsZkRg
-	 E275BMhpofiw/Rt8j/ktJF8jJxoUspTebMBCopeYSanKplW37Kkt1yoCYqC3otJPCZwT6
-	 WbMsLI7LS0KPXm7fhjIyrbleRO+CsE4YszfaCWOvUKD0RC9zep9Grydyx5X4suwzcBQ==
+	t=1795014824;
+	b=dTtSTzwhS3qSv1rMy0qaOvzwOawlcCUJgpQCc623aAVbWwxj9J9yuVb6rvsmJXwzHJxl
+	 1H/T2njgJO2pmtpQ1JvPgMdoU6B3M8Rs6HQW7rrbgQQLsjAP8ZZMqTEjiLrUQ9t+XME3D
+	 soyjL44sD3x073qG8gLVOrLkIhrZ3QSCzvaXcVpHDBNqgHdMPIjTsb/iJJ3q98tBKzd1P
+	 1F+SFbbgs/xwlmTkOdwa3sF7D0u4KiWBVdsfSdzeb7yhSCJXHKnMVDyTt6IHRGbiTWxOr
+	 WGt/5P3k9EcFCgwGi8fz8Z7gZmP3c+t3jH2P8j08Yz6RfdAo5MzZFD6SKN5SYL5sCoQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795014780;
-	h=DMARC-Filter:Received:Received:Date:From:To:Cc:Subject:Message-ID:
-	 X-Mailer:MIME-Version:Content-Type:Content-Transfer-Encoding:
-	 X-Rspamd-Server:X-Rspamd-Queue-Id:X-Stat-Signature:X-Spam-Status:
-	 X-Session-Marker:X-Session-ID:DKIM-Signature:X-HE-Tag:X-HE-Meta;
-	bh=TfseWjp/y0m0GsJqgMqK/PH4XjF0H6tZrUT+yotvQvk=;
-	b=wCLxuAEqHVNrZK6E3k/mm4N5Zg4QbM38SzJjhAkyRzdx6T98a0/R21ZBuCutZTrRe2tV
-	 B2mzOvDF9HtfoWLdhKbBMTJrdtwoBPRqxflev8pYzbqAXJaIfO2w7ZAl8/FwX7t4ThsPy
-	 mOQVoA6BjZq97m5vep5g1T/3UwaF1jhAVjMuxyczOHer1yXMcl6bm2LvTjjh/jhT7udhi
-	 Hv2h3RPNoAy2ZxBk8wR8vK3ABdQMZw97B89PbIiBr6Aj901LL3PCPUErV3wnKshz+UtQY
-	 V+GyW+/4smDkC5q4oXP734mNPmtipsGnl0aNjqOWAwtSKVw3tMVcsq5Q4lgSOOE/WBw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795014824;
+	h=DMARC-Filter:X-Envelope-To:DKIM-Signature:X-Envelope-To:Received:
+	 X-Mizu-Trace-ID:X-Migadu-Flow:Message-ID:Date:MIME-Version:User-Agent:
+	 Subject:To:Cc:References:Content-Language:From:In-Reply-To:
+	 Content-Type:Content-Transfer-Encoding;
+	bh=g2iLF+agFOr+5qfKvMC8Xc/GyatOwNTMKNF1bh2bdjo=;
+	b=wvHmgcbpsLPqvOQeDz9mcMsWUiD1Ru1KGIKOJyCZnBvCW1P0k3GIMLXdcUGURXnYomwA
+	 B80tllTj3NYbWAVTfzlo72J81v7I41v61teoZGR5PzN8+3RRmcD/rKX0RkwpowWH0Q9wI
+	 IBSO47sbpidrZkw5NUYna8mFOCBxAJQ7mhIpGRxX2iWIXvt2LVxu6bz3UugO0ZDEQ+EY5
+	 0w8HTfr6Xc3PUm4C/GoXEfN0lmJ9G6j7VX4ffGzQFx+fbLqJYQ3mI1/T/RUcWjskexsW/
+	 9Ky9lXYHsj2ndwqaoiL0h8/L98qWJD76ktbY+wmRkZmdURvkZVXzpvjONip2+p2goig==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=goodmis.org;
-	spf=pass smtp.mailfrom=goodmis.org;
-	dkim=pass header.d=goodmis.org header.i=@goodmis.org header.a=rsa-sha256 header.s=dkim1 header.b=06e0ZH9Q;
-	arc=none smtp.remote-ip=216.40.44.15
-Received: from relay.hostedemail.com (smtprelay0015.hostedemail.com [216.40.44.15])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	dmarc=pass header.from=linux.dev;
+	spf=pass smtp.mailfrom=linux.dev;
+	dkim=pass header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=G3jyXppC;
+	arc=none smtp.remote-ip=95.215.58.134
+Received: from mta1.migadu.com (out-134.mta1.migadu.com [95.215.58.134])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 198E8606A332;
-	Wed, 18 Nov 2026 15:12:58 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 198E8606A332
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=goodmis.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=goodmis.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 65C84606A320
+	for <workflows@vger.kernel.org>; Wed, 18 Nov 2026 15:13:43 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 65C84606A320
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=goodmis.org header.i=@goodmis.org header.a=rsa-sha256 header.s=dkim1 header.b=06e0ZH9Q
-Received: from omf19.hostedemail.com (lb01a-stub [10.200.18.249])
-	by unirelay04.hostedemail.com (Postfix) with ESMTP id 982A81A07C8;
-	Wed, 18 Nov 2026 15:12:51 +0000 (UTC)
-Received: from [HIDDEN] (Authenticated sender: rostedt@goodmis.org) by omf19.hostedemail.com (Postfix) with ESMTPA id DC2C42002C;
-	Wed, 18 Nov 2026 15:12:49 +0000 (UTC)
-Date: Wed, 18 Nov 2026 10:12:48 -0500
-From: Steven Rostedt <rostedt@goodmis.org>
-To: workflows@vger.kernel.org, stable <stable@vger.kernel.org>, LKML
- <linux-kernel@vger.kernel.org>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Sasha Levin
- <sashal@kernel.org>
-Subject: Can we get stable patches in a digest mode?
-Message-ID: <20261118101248.6b90b25f@gandalf.local.home>
-X-Mailer: Claws Mail 3.20.0git84 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+	dkim=pass (1024-bit key, unprotected) header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=G3jyXppC
+X-Envelope-To: workflows@vger.kernel.org
+DKIM-Signature: a=rsa-sha256; bh=h45+YJ4kOROsdNUEmNnHaz4GNgM/EKN9DOgOJ5uwQ8Q=;
+ c=simple/simple; d=linux.dev;
+ h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
+ t=1795014821; v=1; x=1795619621;
+ b=G3jyXppCZgoid61RQ8NDedy0MoUyfE4vTHR6888w7r8bSUBza9EEKFv8RQfdXHO/YciNrwFe
+ UKcSQAAziDqZkQJb3U/Xwb0Bgw/EeiiBCHsiDFzoXFoV6+cC67khw19Hex6X+FdMwOfETk/oEE+
+ zuhEsSRSXtlulGe3othizhGc=
+X-Envelope-To: workflows@vger.kernel.org
+Received: by smtp.migadu.com with ESMTPS id bedab4fb268803f4;
+	Wed, 18 Nov 2026 15:13:41 +0000
+X-Mizu-Trace-ID: bedab4fb268803f4
+X-Migadu-Flow: FLOW_OUT
+Message-ID: <7f651049-f0dd-4053-a666-ea1c5d49669e@linux.dev>
+Date: Wed, 18 Nov 2026 23:13:29 +0800
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Post: <mailto:workflows@vger.kernel.org>
@@ -57,54 +58,109 @@ List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:workflows+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 5/7] mm/page_ext: allocate page extensions early for
+ SPARSEMEM
+To: Mike Rapoport <rppt@kernel.org>
+Cc: Alexander Potapenko <glider@google.com>,
+ Andrew Morton <akpm@linux-foundation.org>, Marco Elver <elver@google.com>,
+ Dmitry Vyukov <dvyukov@google.com>, Chris Down <chris@chrisdown.name>,
+ David Hildenbrand <david@kernel.org>, "Liam R . Howlett"
+ <liam@infradead.org>, Vlastimil Babka <vbabka@kernel.org>,
+ Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>,
+ Johannes Weiner <hannes@cmpxchg.org>,
+ Brendan Jackman <brendan.jackman@linux.dev>, Zi Yan <ziy@nvidia.com>,
+ Joerg Roedel <joerg.roedel@amd.com>, Lu Baolu <baolu.lu@linux.intel.com>,
+ Pranjal Shrivastava <praan@google.com>,
+ Ketan <ketan.kishore@oss.qualcomm.com>, Mostafa Saleh <smostafa@google.com>,
+ Muchun Song <songmuchun@bytedance.com>,
+ Sang-Heon Jeon <ekffu200098@gmail.com>, Jonathan Corbet <corbet@lwn.net>,
+ Shuah Khan <skhan@linuxfoundation.org>, Randy Dunlap
+ <rdunlap@infradead.org>, Sashiko <sashiko-bot@kernel.org>,
+ kasan-dev@googlegroups.com, workflows@vger.kernel.org,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, linux-mm@kvack.org
+References: <20261117120627.50601-1-songmuchun@bytedance.com>
+ <20261117120627.50601-6-songmuchun@bytedance.com>
+ <av20jiGZH5uYV6LT@kernel.org>
+Content-Language: en-US
+From: Muchun Song <muchun.song@linux.dev>
+In-Reply-To: <av20jiGZH5uYV6LT@kernel.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-X-Rspamd-Server: rspamout03
-X-Rspamd-Queue-Id: DC2C42002C
-X-Stat-Signature: fm3io1anhosccks6yakk5i76iu9hkt6m
-X-Session-Marker: 726F737465647440676F6F646D69732E6F7267
-X-Session-ID: U2FsdGVkX197UQXQkyfjZ99N138g2bYcXXMQIvp3lZo=
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=goodmis.org; h=date:from:to:cc:subject:message-id:mime-version:content-type:content-transfer-encoding; s=dkim1; bh=TfseWjp/y0m0GsJqgMqK/PH4XjF0H6tZrUT+yotvQvk=; b=06e0ZH9QLAVxcIVv02EjC/xkA0HQnNIurr9POgFq2AZcFZCWZIeqZlEZvZzVy+2wyM6BTr056wUNsuTIvxUhXFeuot4zvrS1SfukgLRVw1QONgH2+54DlK10uG/y47vF5fMOwefEGFhdECcczR9bG57puF0vtC2cO/pED8rHkeQ=
-X-HE-Tag: 1795014769-581673
-X-HE-Meta: U2FsdGVkX19piUO7eIfGQJIS39DbtEZDUDpnvSnofIdrQzL6O5StAfS3/PM2lcyMW8IHZU5TnZffAx97zBL8VDnQF80pEdUrXEsia5YrknDWLKbGsoL/PC2toJDn8sD2EFgV0F+l3aKBUSdLj3/nV1mZo4LgeKQjq6xvFjVBwzp+BeE28mLBpVXo+Yxv9TRLWPHCAFhVjgF2oVxUVOACSssUnA9ggs5a6oeaP68e9xQ1jiVdu8BseUzLwslhLpqBbfX+TkXzLOupp8+1dxCv2ACfr8Y28Qqdlb0vD+p9+frjC11vx7fnOrcUBBImTUI0
 
-Hi,
 
-With all the AI patches that have been coming my way where I apply them and
-they have a Cc to stable a new issue has arose. As AI finds bugs from the
-beginning of time (when the code was first introduced decades ago) these
-patches are applicable to go back through all the currently maintained
-stable releases.
 
-Each release a patch is backported to will be emailed out. Thus, if you
-have a fix that affects all stable releases, you will get an email for each
-of those releases:
+On 2026/11/18 22:22, Mike Rapoport wrote:
+> On Tue, Nov 17, 2026 at 08:06:25PM +0800, Muchun Song wrote:
+>> KMSAN needs page extensions when kmsan_init_shadow() installs per-page
+>> metadata, before memblock_free_all() releases memory to the buddy
+>> allocator.  FLATMEM makes page extensions available by this point,
+>> whereas SPARSEMEM initializes them later in boot.
+>>
+>> Allocate boot-time SPARSEMEM page extensions from memblock to match
+>> FLATMEM's initialization timing.  This gives early clients the same
+>> page_ext availability guarantee across both memory models, while runtime
+>> memory hotplug continues to use vmalloc.
+>>
+>> Signed-off-by: Muchun Song <songmuchun@bytedance.com>
+> Reviewed-by: Mike Rapoport (Microsoft) <rppt@kernel.org>
 
-  5.10, 5.15, 6.1, 6.6, 6.12, 6.18, 7.3
+Thanks for reviewing.
 
-That is 7 emails for a single fix that went upstream. When I have 20 AI
-fixes of old code, that means I'm likely to get 140 emails for them. To
-make matters worse, some of these fixes will have dependency patches that
-get backported as well, and I get emailed on those too!
+>
+> with a nit below
+>
+>> ---
+>> v2:
+>> - Allocate all boot-time SPARSEMEM page extensions from memblock
+>>    (suggested by Mike Rapoport)
+>> - Keep memblock allocations above DMA and suppress per-section free
+>>    messages (suggested by Chris Down)
+>> ---
+>>   include/linux/page_ext.h |   9 +--
+>>   mm/mm_init.c             |   4 --
+>>   mm/page_ext.c            | 119 +++++++++++++++++++--------------------
+>>   3 files changed, 60 insertions(+), 72 deletions(-)
+>>
+>> +static __ref void *alloc_page_ext(size_t size, int nid)
+>>   {
+>>   	void *addr;
+>>   
+>> +	if (!slab_is_available()) {
+>> +		addr = memblock_alloc_try_nid(size, PAGE_SIZE, __pa(MAX_DMA_ADDRESS),
+>> +					      MEMBLOCK_ALLOC_ACCESSIBLE, nid);
+>> +		if (addr)
+>> +			memmap_boot_pages_add(size / PAGE_SIZE);
+> I think it should be DIV_ROUND_UP().
 
-I actually like to know what patches are being backported to stable. But
-honestly, I don't care which stables they are being backported to. It would
-be really nice to have a way to say "this patch is being backported to
-these stable releases" and not a separate email for each release.
-
-Now I want to say I really appreciate the time that Greg and Sasha spend on
-doing these backports, and I hate to ask them to do any more work than they
-already do. But because I get so many emails for stable backports I tend to
-ignore all of them as there are too many of them to see if there is an
-issue where one of them should not be backported.
-
-Yesterday I added a filter to simply filter out the stable patches into
-their own folder, but that means I'm pretty much guaranteed to ignore them
-completely.
-
-Does anyone else have any ideas on how to improve the situation without
-causing too much work for anyone?
+size is currently page-aligned by init_section_page_ext(), so both forms are
+equivalent here. Is the suggestion to avoid relying on this caller-side
+invariant and make it more robust? If so, I'll use DIV_ROUND_UP() for both
+accounting calls.
 
 Thanks,
+Muchun
 
--- Steve
+>
+>> +		return addr;
+>> +	}
+>> +
+>>   	addr = vzalloc_node(size, nid);
+>>   	if (addr)
+>> -		memmap_pages_add(DIV_ROUND_UP(size, PAGE_SIZE));
+>> +		memmap_pages_add(size / PAGE_SIZE);
+> And here too.
+>
+>>   
+>>   	return addr;
+>>   }
+>> @@ -304,7 +300,7 @@ static int __meminit init_section_page_ext(unsigned long pfn, int nid)
+>>   	if (section->page_ext)
+>>   		return 0;
+>>   
+>> -	table_size = page_ext_size * PAGES_PER_SECTION;
+>> +	table_size = PAGE_ALIGN(page_ext_size * PAGES_PER_SECTION);
+>>   	base = alloc_page_ext(table_size, nid);
+>>   
+>>   	/*
+
