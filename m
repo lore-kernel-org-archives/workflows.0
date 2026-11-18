@@ -1,51 +1,51 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=95.215.58.155
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=95.215.58.176
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794971526;
-	b=tVWvZCYeR6GIkebwc7cCo2HQZN3hfcMfvmGhmwhC7hL3+ExDxqxmckjhwrFw+Iy6rHcd
-	 TFzCpD+Z6wJKCXdoqcj+a5FPPxC1OlhxEcJiZvlNm0/c6OemT0nhMEv/dCjEWPB7jZXDo
-	 uE0RzaAkdvuXdYOpMTyFKdT749xSM7AaLNJuQJXOQpV/fGEHeKLVj5hDAaC5HpS/YBCXY
-	 /1tZsyVUWJPg3Om/QTIs8DSgsOsNEFmvzvgFZw+hG7iPlBb0dkXq/gx/LoCUrKd3QYXkg
-	 BIDH3R7LanZucT9uKQPoMcGrMB8/4qB+uF6IQOeRE/KwnM/QVuRUsrdKXo9xpYJM/XA==
+	t=1794971595;
+	b=pOhcXe8tCothAkSSOjhXjuG16NkYVbLUMN0Cuh8ude8ToYTEfwrvz//BVDxeln4K4CI3
+	 XRhEnhcQx6jkUVYbS3f7ZJ9teVgtjRghm1u6/4K+wjZxZW1dW2W5cq8UrNUwDXcdMucB/
+	 3TPPz7dtE9UffZX0WnbPJ+XdR1JHWL4owcDNj2bi1mQbYUIZyRWnTSNjQ/sT/zp7hafuC
+	 X47IKub+g9NwrIqRgXnsMICu1Ytq4oAhO+hjuiI5BGterfgsLRsPY8AK/SrWDMGWS0RPT
+	 kOgNv8jhokqLWLXrV77oxOxfmx2hQSO35YT/Ly9LBPUhcYXuz3NcK0O7e/qxz0BMTmg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794971526;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794971595;
 	h=DMARC-Filter:X-Envelope-To:DKIM-Signature:X-Envelope-To:Received:
 	 X-Mizu-Trace-ID:X-Migadu-Flow:Content-Type:Mime-Version:Subject:From:
 	 In-Reply-To:Date:Cc:Content-Transfer-Encoding:Message-Id:References:
 	 To:X-Mailer;
-	bh=sjYYKwzYzONDWseS/CLLjrX/s6cX0+9HMOg7VEzcoPU=;
-	b=0lyiVDliZi9gNOfYjSlVDyoLwQMouYqW6hes1+7G9dKr3VMCSw7Y4MLUcIwTRXIucwpQ
-	 +pXkFOFhQvz7RDiI3MmRstCBWIfmD1SQGzLpiaEAJzA/QQ5aJSwzm+kXFohgLDpeodl+U
-	 Vcc1OHQzol0GcHqXTH0Smt0VVVKwIV22PM8IlCLQ49KbVApLBwAArRGKYPVoXYaT8G7jx
-	 Pygx3VpmreRB66jjmv4M1ABrt5T0Xw6Eet/mdJ5W738BXql1PPvPSTPxgE6ZxfqDm3UEN
-	 Akjd1S/9irnMApFpgjY5SXHcdx0iECNH/JcBYDS4EHHWRmDoDyBq50S5P/7DOawYLIw==
+	bh=3Nxi0/sOY8+VKqMZ2GbfZhgX5prfn39dCsvQzRiF+fg=;
+	b=33aJs2Qfg2dorct8xBQo0Vn0TYgbCvC5o/E1pKzQbpvVJYoTaI2BR/8fL4jRHq9DRcUJ
+	 fF4ph3HOK2XXa2+2CNITCgItd5oi3uqaCnciU4zQ6W2kd1/BMmkxa4UmWUN7Z+2MnQe/9
+	 5aCw2gyWH1mf4t0yVTomyrlWYC5dLtpdKhkuR7dEZcI/q6ldcPXwc+Y6Kikiu51+DGivw
+	 3/3L8cgiF43iwpfpSGF5HMqGtqPg27ir98YRlF3gishBxcnNggdiAqw6kwH7Q+ToihJjJ
+	 1mC3fKNjIEC0PbEp0ORQFYRoFRmG7MQQfi7DOSyYDdaMfvT+xHNZpXlfaIXu+EbwX6g==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=linux.dev;
 	spf=pass smtp.mailfrom=linux.dev;
-	dkim=pass header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=pPOal3HM;
-	arc=none smtp.remote-ip=95.215.58.155
-Received: from mta1.migadu.com (out-155.mta1.migadu.com [95.215.58.155])
+	dkim=pass header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=oRxZdjUI;
+	arc=none smtp.remote-ip=95.215.58.176
+Received: from mta1.migadu.com (out-176.mta1.migadu.com [95.215.58.176])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2CBAA606A31C
-	for <workflows@vger.kernel.org>; Wed, 18 Nov 2026 03:12:05 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 2CBAA606A31C
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 66841606A325
+	for <workflows@vger.kernel.org>; Wed, 18 Nov 2026 03:13:13 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 66841606A325
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=pPOal3HM
+	dkim=pass (1024-bit key, unprotected) header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=oRxZdjUI
 X-Envelope-To: workflows@vger.kernel.org
-DKIM-Signature: a=rsa-sha256; bh=MbsFGvHGFKuYz+VZCR6SSqqFxh07MvYfS3xKWwR/Cj8=;
+DKIM-Signature: a=rsa-sha256; bh=3Nxi0/sOY8+VKqMZ2GbfZhgX5prfn39dCsvQzRiF+fg=;
  c=simple/simple; d=linux.dev;
  h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
- t=1794971524; v=1; x=1795576324;
- b=pPOal3HMUeQvg2+drPiVNCtsM2ZuSOtxTrB+m9qiILrWbhHI/YQ95VG71a75Nru6vcVXbijf
- h//SOr5Vc2b6lMHqghht3I7qOVx28FRimoyQEQ+T7+3ircBg9vfd0P0VbH6O41se9H0/UlpLvhD
- Zyf4lI7u4LyixosdJeSzGIYQ=
+ t=1794971592; v=1; x=1795576392;
+ b=oRxZdjUIVTFtNpuCG4tHhyT9WhEi06Z6YYJFMbB3a2pWb6wQj8oJ0BZz2H3OTnlIPwVy88J0
+ DtOfhdLKwUjq1hRnRRPR29e4uNGeeAfy37B+hFrmO0+JaxMzLo9XCV2o6xiizEFF9MQnWQprhgK
+ rTzswE73DOWS/gKR/pO/gd6c=
 X-Envelope-To: workflows@vger.kernel.org
-Received: by mta12.migadu.com with ESMTPS id b0d530c3b5bc4025;
-	Wed, 18 Nov 2026 03:12:03 +0000
-X-Mizu-Trace-ID: b0d530c3b5bc4025
+Received: by mta10.migadu.com with ESMTPS id 8fe63967abd7ab38;
+	Wed, 18 Nov 2026 03:13:12 +0000
+X-Mizu-Trace-ID: 8fe63967abd7ab38
 X-Migadu-Flow: FLOW_OUT
 Content-Type: text/plain;
 	charset=us-ascii
@@ -58,11 +58,10 @@ List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:workflows+owner@vger.kernel.org>
 Precedence: list
 Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3901.200.71.1.16\))
-Subject: Re: [PATCH v2 5/7] mm/page_ext: allocate page extensions early for
- SPARSEMEM
+Subject: Re: [PATCH v2 0/7] KMSAN: Move per-page metadata out of struct page
 From: Muchun Song <muchun.song@linux.dev>
-In-Reply-To: <avzsFxVqO27Vf4Db@chrisdown.name>
-Date: Wed, 18 Nov 2026 11:11:46 +0800
+In-Reply-To: <avzsE5wGnXji5u6-@chrisdown.name>
+Date: Wed, 18 Nov 2026 11:12:46 +0800
 Cc: Muchun Song <songmuchun@bytedance.com>,
  Alexander Potapenko <glider@google.com>,
  Andrew Morton <akpm@linux-foundation.org>,
@@ -92,55 +91,35 @@ Cc: Muchun Song <songmuchun@bytedance.com>,
  linux-doc@vger.kernel.org,
  linux-kernel@vger.kernel.org,
  linux-mm@kvack.org
-Content-Transfer-Encoding: 7bit
-Message-Id: <3C50E682-848F-4788-9238-923D5E292DEE@linux.dev>
+Content-Transfer-Encoding: quoted-printable
+Message-Id: <DF4B7F9B-3B1E-4165-BAE4-2E05E86FB034@linux.dev>
 References: <20261117120627.50601-1-songmuchun@bytedance.com>
- <20261117120627.50601-6-songmuchun@bytedance.com>
- <avzsFxVqO27Vf4Db@chrisdown.name>
+ <avzsE5wGnXji5u6-@chrisdown.name>
 To: Chris Down <chris@chrisdown.name>
 X-Mailer: Apple Mail (2.3901.200.71.1.16)
 
 
 
 > On Nov 18, 2026, at 08:06, Chris Down <chris@chrisdown.name> wrote:
-> 
+>=20
 > Hi Muchun,
+>=20
+> Thanks! The changes look great, thanks for working on this.
+>=20
+> I think patch 5 still has some issues and have replied there, but for =
+patches
+> 1-4, 6, and 7, feel free to add:
+>=20
+> Reviewed-by: Chris Down <chris@chrisdown.name>
+> Tested-by: Chris Down <chris@chrisdown.name>
 
-Hi Chris,
-
-Thanks for taking a look.
-
-> 
-> Muchun Song writes:
->> + 	if (!slab_is_available()) {
->> + 		addr = memblock_alloc_try_nid(size, PAGE_SIZE, __pa(MAX_DMA_ADDRESS),
->> +					      MEMBLOCK_ALLOC_ACCESSIBLE, nid);
-> 
-> Hmm, unless I'm mistaken, memblock allocates top-down, and with
-> movablecore= or kernelcore= the top of each node is ZONE_MOVABLE, so this
-> puts the page_ext tables there. It looks like that then offlining those
-> memory blocks would fail with EBUSY because of the reserved pages.
-
-Yes, this is a valid concern. However, early vmemmap backing is also
-allocated from memblock before page_ext and can have the same problem, so
-handling page_ext alone cannot guarantee successful offlining.
-
-Mike's suggestion considerably simplifies the code, and early page_ext is
-only needed by optional debugging and instrumentation users. I would prefer
-to keep this approach.
-
-What do you think?
+Really thanks for your review and test.
 
 Thanks,
 Muchun
 
-> 
-> I can see why Mike suggested always using memblock here, but only KMSAN
-> needs the tables before the buddy allocator is up. So I think this needs
-> to either go back to using memblock only for clients that need it, as v1
-> did, or keep these allocations below ZONE_MOVABLE.
-> 
+>=20
 > Thanks!
-> 
+>=20
 > Chris
 
