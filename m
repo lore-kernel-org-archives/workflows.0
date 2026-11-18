@@ -1,52 +1,51 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795011486;
-	b=TxOeo5lHvQ3FDUwLqu938eXgN6oUuE9+fzojxVJ5LNMvnVGwqwAOBSyTyNtpk+6nY8vo
-	 NlAsNqTBRGsMjXGFEmiwIW+uk+kkVXlFuIIRnp1UqYUXGXcSJPegbxaM3c8fsxTT3en1X
-	 Gyr5qYV47txFxTtyO/6ie+fO1PuO/eZfhRuETR89eRO43s1HcC20R+gWpmd+T+F6trDAa
-	 PlsWghOSv/tET1ZQg3lMjLUW9jaWtO1uA/5IReIqP6OwLM/hfyN7R9iLaDdWKRrKWBzpc
-	 6XLvBfVxFDzZ7F1BB0DKjzZAPFhG67xSKm6FI/t8jaRmHoBSD/4N/r0ARby1WCjqFLQ==
+	t=1795011538;
+	b=WLGGr+YUX4Qlc62rPoGWhJYzieTjHyF1XowkFnF/Uob5eQL8jCjL8J1weyPjizL+SXII
+	 aPbq+9/Sa86l9FjLOjXzycVozbHrzr0DBo0bAYMwGtwIThW6Mpqvhn7H15i0JblCsc42x
+	 vzKGFw1pCWOjaobptn+kszs1X7yAg7E6kIdsBlj45L7sQd2fqXd/DCsY0DYaFifYacAoL
+	 XJKZTtdWktqzMm8AfL0fwR5pp7BzIaWP181K3R2vOJ/+cnk8WTAiEGKvFNxzhtqofnmn3
+	 tij/CM5SQf+/Xmvu/gbvDZ3Nwf51NecOR7ydnsUhujDjGMVEtldWU7gllbTGatfrCYw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795011486;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795011538;
 	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
 	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
-	bh=dw8kfo0jr+5HnxA4ZRVp7iOwPegZqFvAC4q9TGpP07U=;
-	b=p8kX45cbIqVVP4Mo2hOZ6J2cJGl3qZT5YkdkzvZ3kDcasztaMwVRPV5s39K2N+7VUuJW
-	 u/H414OUcxE3cWOyhrBFt3TUNQa+qXipNv8JQmxaoetfH89D2ngJ+e8wfEKImOwdha2UB
-	 piCk1sQ5XJLZyhXJm+9c00+xyoJ716qDhRn9gWYISWFri+gLbVvFJUDnoX7RM+0kOlLZk
-	 3ifOiPKrWMkxoVP4cXSG6N9plC6kk+PWM4j7S6Wkboz/ZE4MkdvvZ4gM3y+A1uS2WshL/
-	 z/L4Qvpey/mTVLXyOWp74WbGw1MZHVojORhDl+ZIwQs1Tlm+mB9ryFxwQF1JyzIG8ig==
+	bh=yspg3RYK6hfplwr2guwVtoc91Gns2znX/lR8zgZBFVs=;
+	b=0KEfnfioFbGpLVAN14/sD0dAhvtwq2A9H4nH4wA00m/ehwk2BrzJP1bOFDExDAsQTUUw
+	 jHaRchFhSkulKaOpgQkJVBanAH07kUYwdIzdBrWBqh1B6OQvS+BeinqjB/WPVZ7kW4+1c
+	 VVLow2t+jCSdZrnqCFnMGkQ8zAHWI6fUyrexAwvSyzKhvKwt/qt6NPhXGK5n6vqL/l0ZA
+	 AZ+RLMOIRn8t3EM9OII/WAlAanb4l42llhKHXasnsaNdItA5fv7TWrxO26I4fWXs4DtZN
+	 2JSuuIeYrAPGf4lC1lmFQkt9ZCKaVY9F2KSFDIbaw0y1WmO5SWJdGSjsbNefoaVxVPA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=hcjoV049;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=TjsgJxsb;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3AAAD606A333;
-	Wed, 18 Nov 2026 14:18:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F12AD60A2609;
+	Wed, 18 Nov 2026 14:18:57 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=hcjoV049
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E360C1F000C4;
-	Wed, 18 Nov 2026 14:17:56 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=TjsgJxsb
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 896811F000C4;
+	Wed, 18 Nov 2026 14:18:48 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795011485;
-	bh=dw8kfo0jr+5HnxA4ZRVp7iOwPegZqFvAC4q9TGpP07U=;
+	s=k20260515; t=1795011537;
+	bh=yspg3RYK6hfplwr2guwVtoc91Gns2znX/lR8zgZBFVs=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=hcjoV049icqMAqOW/hYn+GtbP550DC9ZCxh1djiAIYxD5bhiR5bxmNaKM+xKbb9RD
-	 LAJ9NaCx2SsaUPDUboVSqG/cBj/qhdcP2jLYhO8qlLGLXUaNbEU0t+Lzo56lZb1HCw
-	 w8NIqcNkhyfvPKtmxh0ZZiWN+uwczWz7X2JD+N5xKV8PPc5KOo0hzKhmkiBi9iWmjt
-	 1BwyP9EBC74Rguwwa1WnsKhgFDuovM5D41N78CtFfc7BiSBmENU/E1EyQDGmULe4eL
-	 KCaNQzMe1IOyAVOkSYJuJTFBBH4rrvtXnvtjxAB6YGnO2ryUHBWVI+2w8+WJ2Y9So1
-	 5kucFx7ApUHBQ==
-Date: Wed, 18 Nov 2026 16:17:53 +0200
+	b=TjsgJxsb3omgZC7Y7BqVmG9Ex9ZO4k8c2B1tbSP/96Q0m5xKS+UvBbENGt+SaQib9
+	 9kUbL0e5wLlwJegMYSiSzUPGcows/z3EtystFW8tMA2Izw5ThIzP4oA+E73pK54zhD
+	 pTjJ+HJCkJg8pdSfKAp7mW9qElOyGSzrm+b7bTUN9wUnOrH1Au3oUxHBI9P838qb45
+	 bI41cCj3uoYB0day2lARxxnN8bF0wjB7hlN2wnAaMTIl/RtvRJOlAPdAaNrImCwE8E
+	 Q6CIIgWSCViQL/WRgnaNuQGPB7lDcH8fnD257mcfFw3w4bbDXMb7IlMJIvIb3gKmHF
+	 Jk6E5jDwzWb4A==
+Date: Wed, 18 Nov 2026 16:18:45 +0200
 From: Mike Rapoport <rppt@kernel.org>
-To: Chris Down <chris@chrisdown.name>
-Cc: Muchun Song <muchun.song@linux.dev>,
-	Muchun Song <songmuchun@bytedance.com>,
-	Alexander Potapenko <glider@google.com>,
+To: Muchun Song <songmuchun@bytedance.com>
+Cc: Alexander Potapenko <glider@google.com>,
 	Andrew Morton <akpm@linux-foundation.org>,
 	Marco Elver <elver@google.com>, Dmitry Vyukov <dvyukov@google.com>,
+	Chris Down <chris@chrisdown.name>,
 	David Hildenbrand <david@kernel.org>,
 	"Liam R . Howlett" <liam@infradead.org>,
 	Vlastimil Babka <vbabka@kernel.org>,
@@ -54,7 +53,8 @@ Cc: Muchun Song <muchun.song@linux.dev>,
 	Michal Hocko <mhocko@suse.com>,
 	Johannes Weiner <hannes@cmpxchg.org>,
 	Brendan Jackman <brendan.jackman@linux.dev>,
-	Zi Yan <ziy@nvidia.com>, Joerg Roedel <joerg.roedel@amd.com>,
+	Zi Yan <ziy@nvidia.com>, Muchun Song <muchun.song@linux.dev>,
+	Joerg Roedel <joerg.roedel@amd.com>,
 	Lu Baolu <baolu.lu@linux.intel.com>,
 	Pranjal Shrivastava <praan@google.com>,
 	Ketan <ketan.kishore@oss.qualcomm.com>,
@@ -66,14 +66,11 @@ Cc: Muchun Song <muchun.song@linux.dev>,
 	Sashiko <sashiko-bot@kernel.org>, kasan-dev@googlegroups.com,
 	workflows@vger.kernel.org, linux-doc@vger.kernel.org,
 	linux-kernel@vger.kernel.org, linux-mm@kvack.org
-Subject: Re: [PATCH v2 5/7] mm/page_ext: allocate page extensions early for
- SPARSEMEM
-Message-ID: <av2zkUpYGmGWPx8T@kernel.org>
+Subject: Re: [PATCH v2 4/7] mm/page_ext: use common allocation and
+ initialization entry points
+Message-ID: <av2zxfDZI-ECPByB@kernel.org>
 References: <20261117120627.50601-1-songmuchun@bytedance.com>
- <20261117120627.50601-6-songmuchun@bytedance.com>
- <avzsFxVqO27Vf4Db@chrisdown.name>
- <3C50E682-848F-4788-9238-923D5E292DEE@linux.dev>
- <av1M9itGiTF1Akqi@chrisdown.name>
+ <20261117120627.50601-5-songmuchun@bytedance.com>
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Post: <mailto:workflows@vger.kernel.org>
@@ -85,66 +82,40 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <av1M9itGiTF1Akqi@chrisdown.name>
+In-Reply-To: <20261117120627.50601-5-songmuchun@bytedance.com>
 
-On Tue, Nov 17, 2026 at 11:00:06PM -0800, Chris Down wrote:
-> Hi Muchun,
+On Tue, Nov 17, 2026 at 08:06:24PM +0800, Muchun Song wrote:
+> FLATMEM uses separate page_ext_init_flatmem() and
+> page_ext_init_flatmem_late() entry points, while SPARSEMEM performs its
+> work through page_ext_init().  This exposes the memory model in the
+> generic boot sequence and obscures the allocation and client
+> initialization phases.
 > 
-> Muchun Song writes:
-> > Mike's suggestion considerably simplifies the code, and early page_ext is
-> > only needed by optional debugging and instrumentation users. I would prefer
-> > to keep this approach.
+> Rename the early entry point to page_ext_alloc() and use
+> page_ext_init() for client callbacks in both memory models.  SPARSEMEM
+> keeps its existing late allocation behavior for now; its
+> page_ext_alloc() remains an empty configuration stub.
 > 
-> You're probably right. 
+> This also moves FLATMEM client callbacks from immediately after
+> kmem_cache_init() to after vmalloc_init().  The callbacks still run
+> after the buddy and slab allocators are available, as required by
+> page_owner.
+> 
+> Signed-off-by: Muchun Song <songmuchun@bytedance.com>
 
-I think so :)
-The memap_alloc() that essentially allocates the memory map does 
+Reviewed-by: Mike Rapoport (Microsoft) <rppt@kernel.org>
 
-	memblock_alloc_try_nid_raw(size, align, min_addr,
-				   MEMBLOCK_ALLOC_NOLEAKTRACE, nid);
-
-so we anyway may end up with reserved memory in ZONE_MOVABLE.
-
-Until recently we had memory map allocation before the zones were setup, so
-there wasn't much we could do about it, but ...
-
-> But can I cheekily suggest something in the middle perhaps? :-)
-> 
-> Given the zones are already set up before page_ext_alloc() runs, perhaps
-> you can pass the start of the node's ZONE_MOVABLE as max_addr to
-> memblock_alloc_try_nid() when the node has one. The general idea is:
-> 
->     struct zone *movable = &NODE_DATA(nid)->node_zones[ZONE_MOVABLE];
->     phys_addr_t max_addr = MEMBLOCK_ALLOC_ACCESSIBLE;
-> 
->     if (!zone_is_empty(movable))
->             max_addr = PFN_PHYS(movable->zone_start_pfn);
->     addr = memblock_alloc_try_nid(size, PAGE_SIZE, __pa(MAX_DMA_ADDRESS),
->                                   max_addr, nid);
->     if (!addr && max_addr != MEMBLOCK_ALLOC_ACCESSIBLE)
->             addr = memblock_alloc_try_nid(size, PAGE_SIZE,
->                                           __pa(MAX_DMA_ADDRESS),
->                                           MEMBLOCK_ALLOC_ACCESSIBLE, nid);
-
-... with zone extents known we could take it even further :)
-
-page_ext is treated as the memory map in many ways, so we can allocate the
-early page_ext sections with memmap_alloc().
-And since the latter always runs after zones are set up it could include
-this change.
-
-But I think this should come as a separate series that also could move
-memmap_boot_pages_add to memmap_alloc().
- 
-> I briefly tried that and it seems to work quite nicely.
-> 
-> But I don't object to it even without that, so feel free to add either way:
-> 
-> Reviewed-by: Chris Down <chris@chrisdown.name>
-> 
-> Thanks!
-> 
-> Chris
+> ---
+> v2:
+> - Split the common allocation and initialization entry points into a
+>   preparatory patch
+> - Document the later FLATMEM client callback timing (noted by Chris
+>   Down)
+> ---
+>  include/linux/page_ext.h | 20 +++++---------------
+>  mm/mm_init.c             |  7 +------
+>  mm/page_ext.c            |  5 ++---
+>  3 files changed, 8 insertions(+), 24 deletions(-)
 
 -- 
 Sincerely yours,
