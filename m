@@ -1,47 +1,65 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=51.159.59.229
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795089878;
-	b=x4obz3AvJ3spgq/Tily1jO5Cxn4dnC25OFc53Hr8xpGYzIWy2jmTz2bDGwTID1tgJ6C4
-	 v9XPDnoP4WEAHKSV9te81uXa906Ox3NKoZGvVgZUgPLImHnhnK0WrK9gTHJJPxefGRqej
-	 JPRpTZy2t9wVGOKI6UxouEdxG7uHl9DP4nZTvfK9YCYoMJXZGOIlEWJo3gNQiL1YBqP/y
-	 ptNJwBdk+CaV0QliX24So1OERU7w+0tZKuo+23YxNMtGaAruhbFW2luMOnCEqmIe3GK4X
-	 Dh1pOH/gwnWvrcPpyMObp/yfRtouAQVvg8pAE8c67HdVIptWhZByh/1nbzuqDT8xlAQ==
+	t=1795091696;
+	b=lvMj7fq+vi0nLCFRjMmr9JeMLfFxAwZvhtfOhw8CiDv/95pLLbeembLyWwxlk43tPrbl
+	 EehwyJxoBGHZvHTYgjSF16CLYFq7mVHeW6dS7kH1vxFWBdGoZk+zrbZUsgEYTFhtPxzIl
+	 sTFG9ZGtwsgsTQ1nis6Pbo7b4u2BOIhUAZ/JWR9FV4bVa30PLaPGgARbPXGE4kYzS0phx
+	 6GsBnxdJznmXTNB9qqyo2JotB7U10bYPGiDLqZQPY3ZQC9qlXAydeewQsAdwveEerIzl3
+	 14vaYudtyQgew1X1PqbM9J1Di8CAR9EG6YcGhMZfrhRkIdjp7hapWxXXEEqVi/lP34w==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795089878;
-	h=Received:DKIM-Signature:Message-ID:Date:MIME-Version:User-Agent:
-	 Subject:To:Cc:References:From:Content-Language:Autocrypt:In-Reply-To:
-	 Content-Type:Content-Transfer-Encoding;
-	bh=GOA/J5I9rv5yu70ULErbreyfKmQjDBAfhvcoTjeNzBg=;
-	b=D/2VakVl7yWv+XLeGFibVqCHdHCiehZxYr5nS4lnqJDo0hglbjqmMm914/1qteX7ASYk
-	 DliOM0dj5y4e09DvEhCGAmaZyaA9QHZs7O2MA0fpYW/I1DdKpx03bopT4hCYXYaesZxo/
-	 QdlTcx2aTDF5oBVXzfaaz6Qy9wskqVtJ1EfJN6RmwPMuPhQ1VNOSeNUIlhPpz4qkd4+Im
-	 spzjW8Y9WaiZjMtysW0E5WRS6ap8f22hHWGWoGhQvJNyLF33A1X2FInKG8bZZzJzejb8F
-	 xh4c3wg/nb98kuAJpmKiwk1IdmhE6nBNL01HFp9tueKsaQWR8O9Iy80cpYITbJPz5EA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795091696;
+	h=DMARC-Filter:DKIM-Signature:Received:Date:From:To:Cc:Subject:
+	 Message-ID:References:MIME-Version:Content-Type:Content-Disposition:
+	 In-Reply-To;
+	bh=7s4XTz+4AV9iKI/UFqt2bu0ChWlIJUUvN/YPh7p0cFw=;
+	b=oHjVEiUqUrnma9fI18l1UBpTn6nHagMzaq7XTJlTTVClUnKuvXfWMIl+MBvw3tXJmgW4
+	 C/qBbBKZj+untdc/lTQBbpWZDvEZQnK00c34nNFZjk5i9aBVXs/hmjSe+8SiOV208gsgn
+	 dRm0tWk3HdoAJgT0EoOwIbu8185t1XOZvAf0Fit0rgPKNUUOuCtEQO4RGemurKyrY7k2N
+	 4+fcy/+92LjWH5KOWfq3M93OqLlXRCFB0VbWoD9ZxPjISFfphuW8E68xROUIZkwYmWf1Y
+	 wYwBGRkzdt/wOPKwCfRO2o0C0vukZu82NussACOEdGcoZUGiUDOF0wF81TFMzpdEGfQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=f0gdXj1z;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	dmarc=pass header.from=1wt.eu;
+	spf=pass smtp.mailfrom=1wt.eu;
+	dkim=pass header.d=1wt.eu header.i=@1wt.eu header.a=rsa-sha256 header.s=mail header.b=C4EwaBsB;
+	arc=none smtp.remote-ip=51.159.59.229
+Received: from mta1.formilux.org (mta1.formilux.org [51.159.59.229])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 60AB8606A320;
-	Thu, 19 Nov 2026 12:04:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CB906606A32C;
+	Thu, 19 Nov 2026 12:34:54 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org CB906606A32C
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=1wt.eu
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=1wt.eu
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=f0gdXj1z
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 91BCD1F000C5;
-	Thu, 19 Nov 2026 12:04:34 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795089878;
-	bh=GOA/J5I9rv5yu70ULErbreyfKmQjDBAfhvcoTjeNzBg=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To;
-	b=f0gdXj1zGX2PWbe2LcL561e2/v0+FF+y0FImDUvRGBH7r7LbhsBTMt32sj3tzbyJk
-	 JCTE2rliShI/dO10ApGKdzRQbe1UTso4Phaeel3BTBdC9kbooD58tn30wpV4Ag2c5I
-	 ennwdUNUP1cu/QO7ehHQu4BMXA0qyiRLKXaB1EEdGqLl3UQVIEGExBKsPjnE+Ly954
-	 C2zMsueiQD0sMWX+oHBwSfigYYbt89OFdZ4nMkLfBnyHeqeNatjN/1G5TicV79YGHL
-	 prGsbncuw8UzL4HXV63PrXxp3a7VRBzI53XX/+p5CGmVK1ldWm3FotnaWDqn0geOhV
-	 5kNL5NHbrakpw==
-Message-ID: <04ff90ba-296a-4618-9d25-390f84f856ae@kernel.org>
-Date: Thu, 19 Nov 2026 13:04:32 +0100
+	dkim=pass (1024-bit key, unprotected) header.d=1wt.eu header.i=@1wt.eu header.a=rsa-sha256 header.s=mail header.b=C4EwaBsB
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=1wt.eu; s=mail;
+	t=1795091685; bh=7s4XTz+4AV9iKI/UFqt2bu0ChWlIJUUvN/YPh7p0cFw=;
+	h=From:Message-ID:From;
+	b=C4EwaBsBYM51LVu9WAfTjrzEwH8wo9VnVw7+Q+5rqI1u4dVlGubdridrDdU/VvjRH
+	 j0OlvyzREuMLYJJIp+uMD0oEr3OUcsJ/KD2TBnjYachQ2BnNKTUPETxiQToMe9in0m
+	 8mza/Zssf2oQ4jYCvCh4Gv+ByI7c4exAeDHtf+Ck=
+Received: from 1wt.eu (ded1.1wt.eu [163.172.96.212])
+	by mta1.formilux.org (Postfix) with ESMTP id 9DE6CC04AD;
+	Thu, 19 Nov 2026 13:34:45 +0100 (CET)
+Date: Thu, 19 Nov 2026 13:34:45 +0100
+From: Willy Tarreau <w@1wt.eu>
+To: Leon Romanovsky <leon@kernel.org>
+Cc: Sasha Levin <sashal@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Shuah Khan <skhan@linuxfoundation.org>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        "Theodore Ts'o" <tytso@mit.edu>, David Hildenbrand <david@kernel.org>,
+        workflows@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2] docs: submitting-patches: ask bug fixes for their
+ user-visible impact
+Message-ID: <av7s5eV7Ws9Io3cE@1wt.eu>
+References: <20261116200515.352387-1-sashal@kernel.org>
+ <20261117092723.GA124972@unreal>
+ <avxtxScVa9KvUH_K@laps>
+ <20261117152721.GC162713@unreal>
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Post: <mailto:workflows@vger.kernel.org>
@@ -51,98 +69,39 @@ List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:workflows+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2] docs: submitting-patches: ask bug fixes for their
- user-visible impact
-To: Leon Romanovsky <leon@kernel.org>
-Cc: Sasha Levin <sashal@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
- Andrew Morton <akpm@linux-foundation.org>, Willy Tarreau <w@1wt.eu>,
- Shuah Khan <skhan@linuxfoundation.org>, Randy Dunlap
- <rdunlap@infradead.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Theodore Ts'o <tytso@mit.edu>, David Hildenbrand <david@kernel.org>,
- workflows@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org
-References: <20261116200515.352387-1-sashal@kernel.org>
- <20261117092723.GA124972@unreal>
- <220c5818-ad59-4003-9955-9821d09c0279@kernel.org>
- <20261119111902.GH162713@unreal>
-From: Krzysztof Kozlowski <krzk@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=krzk@kernel.org; keydata=
- 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
-In-Reply-To: <20261119111902.GH162713@unreal>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20261117152721.GC162713@unreal>
 
-On 19/11/2026 12:19, Leon Romanovsky wrote:
-> On Thu, Nov 19, 2026 at 11:13:57AM +0100, Krzysztof Kozlowski wrote:
->>>> v1: https://lore.kernel.org/r/20261116191436.188098-1-sashal@kernel.org
->>>>
->>>>  Documentation/process/coding-assistants.rst  |  6 +++--
->>>>  Documentation/process/submitting-patches.rst | 23 ++++++++++++++++++++
->>>>  2 files changed, 27 insertions(+), 2 deletions(-)
->>>
->>> Sasha,
->>>
->>> Since you're already making changes in that area, could you add a sentence
->>> asking reporters to provide the full dmesg stack trace?
->>
->> If so, then trimmed. We do not need all addresses and registers and the
->> [time markers], but rather the calltrace from decode_stacktrace.sh.
+On Tue, Nov 17, 2026 at 05:27:21PM +0200, Leon Romanovsky wrote:
+> > > Since you're already making changes in that area, could you add a sentence
+> > > asking reporters to provide the full dmesg stack trace?
+> > 
+> > In this doc, we already ask them not to [1] :)
 > 
-> Regarding time markers, I agree. However, addresses are an important part of
-> debugging information. These bugs are rare, but addresses are still useful for
-> identifying incorrect pointer arithmetic or pointer assignments.
+> This is really bad. You assumed they would trim the logs correctly, and I,
+> as the recipient was expected to trust that they were accurate. They are not.
+> 
+> They trim everything, which makes these logs useless to me. As I said, they
+> include AI-generated reports, cases with reproductions that are impossible
+> with upstream code, and reports for completely out-of-tree code. Everything
+> like that was visible in original dump stack and it is lost now.
+> 
+> > 
+> > > Many AI-generated patches reduce it to one or two lines, which gives no
+> > > indication of whether the report is genuine or fabricated. Early in the AI
+> > > era, I saw some completely fabricated stack traces.
+> > 
+> > Is it still an issue?
+> 
+> I don't know about faked, but useless yes, especially in the cases where
+> in-kernel API is involved.
 
-Depending on the case, e.g. some driver lockdep reports don't need them.
-NULL ptr usually as well. The point is that dmesg should be trimmed to
-relevant and useful information. If that includes addresses for that
-particular case, then of course these should stay. But 75% of data here
-in commit like 5b4bd13e0552926648a46c2c9a12a24dfaee3715 is not really
-helping. In the same time undecoded call trace is useless, because these
-addresses depends on the build. The dmesg should simply be the decoded
-stacktrace ONLY for this case.
+The situation completely changed over the last year. LLMs that would
+hallucinate bugs and dmesg in single-turn conversations have been
+replaced with agents/harnesses calling shell commands and able to
+capture contents without inventing them. I agree that we should ask
+them to capture such dmesg which nowadays have no reason to be faked
+anymore.
 
-Best regards,
-Krzysztof
+Willy
