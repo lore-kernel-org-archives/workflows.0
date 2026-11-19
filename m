@@ -1,87 +1,118 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=124.126.103.232
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.216.54
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795063335;
-	b=LIAGhITCHJdSIjJLVoZFvfH+C4Y1XlPSKj+18TU/4vYGOLiRUqpFCUALALpL2vKCDtQy
-	 T0Lqsz6kuXZlFj+IrMnNs5Yx1R1D0QAcipNrWWkepdqehyuyTJxzfNfmUgdoqB4+0wZuo
-	 buKsr2y4UPxqfEeXremVPwIZvWiAmXxDyAOS6sS17o8D+FRDLmsdenPItQju7DydsH4sU
-	 nPemaSJ3SbFiVuE+87pWSGXC7psF2VKP4qMBdh8QJ5BViEF8PC1TAYLLC2MmHMvSJVbEu
-	 areDGeWmv5lKshd91Xyussew8VSVdz+niYscNRD+/539fC646C9ThFoZ6XobmIR33/Q==
+	t=1795071555;
+	b=eRzDCWYJ9RQ4H5vG8DFvPKF8iK4F7hnI5VwHRc6JepYvbW0oiHa6ZzkIT5S8VFo6yZ6N
+	 obYRAyiXkjy0I5xGmmHTs6mti0Y8B/R9IAzLRj2HPm4aktrwHv1Tb0qZ2XY47X15UFJJ/
+	 7PwIQQ47GzOmWeyoMPJD1eG3tbZt8nZhiqywlFA9Him0x5FM2b9QptOYmM1BE3YF17v7V
+	 6Ujz7eW/uS3yicZ+NyUf9f4IddCXPpM9npxZLbEjye5mzsM6h9wfHWmVDaslDw6bP3Ggc
+	 UVSy77IbhEZQdoo5EADCjjIgTFfm2DpPx6zeRVndOCme23dWhuljwbRPDTijupTJLgA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795063335;
-	h=DMARC-Filter:X-UUID:X-CTIC-Tags:X-CID-P-RULE:X-CID-O-INFO:X-CID-INFO:
-	 X-CID-META:X-CID-BVR:X-CID-BAS:X-CID-FACTOR:X-CID-RHF:X-UUID:X-User:
-	 Received:From:To:Cc:Subject:Date:Message-Id:X-Mailer:MIME-Version:
+	a=rsa-sha256; c=relaxed/relaxed; t=1795071555;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:MIME-Version:
 	 Content-Transfer-Encoding;
-	bh=1N6ORFJkL8OHQDRhFuDm5MyFcBsRjOJlTytLujErTJ8=;
-	b=Zq4/xnR+ATl4mD0vxlQD3aVCXSusayyi9VuIVuTw3cU7G7zKys08vJgA6ZhcxjGuQgz2
-	 Yu5AVSejoHGFJq9dh1LJIMqMFt2QAQVOWIeGBnxl1Z/6hv2D2PkYARGY12tDszpmXuYXq
-	 6/3+gi+HHOwdW43DoHzzeGuxfARm29ryHCXv9+GdKdXkcN0iBdIQZzA00k4x8zzHDrX/2
-	 cgbYTDrngc02GzxN1W7Xxfl/fw96Lx4/SwgAYvckKmdov1h3FolEOpkavr5bBTQP/AeZo
-	 LvQPJmGn9/Qe0QpUGXPAoDHOZEjAlNLhDgXl9aThZ9VUF2B3xsQzzqfvSX2eeo9k3Dw==
+	bh=EpkpAe8MEN5BuQD0iXz34+1elSDBS0pp25xEYHL3/ks=;
+	b=vmToHcHuBdRCtBMUlrNj07rhMLXLTzFauvl762RDo/WxgxB5HYlKWT9mkIltmhnIhxiU
+	 y2lrfbBT6zQN6I3STjKqv1LtsKaeSsJ4JfMX5WMm7nigxF5tyipf2aQLvs7omRwKei52z
+	 xpXzjPfhEOBjzAFvR45/IEfywBVvLqOnt/PBrKWqGF9X8gsbF9g6b87Mz2ZFNzmtzg/NZ
+	 odP6p5zv+DSgPvIlLRqi5OkxTGwhelklW9E9I5gSfIIMS4DNgelw75fJ6M7SwWsHmhqdK
+	 Yf3/vXLHOAn85YAtRoT2Cne5tV3/BjKAVJ2jkww2HLMA3NEVVTDSSWOsjHlvLf0Mkbw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=none header.from=kylinos.cn;
-	spf=pass smtp.mailfrom=kylinos.cn;
-	arc=none smtp.remote-ip=124.126.103.232
-Received: from mailgw.kylinos.cn (mailgw.kylinos.cn [124.126.103.232])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	dmarc=pass header.from=bytedance.com;
+	spf=pass smtp.mailfrom=bytedance.com;
+	dkim=pass header.d=bytedance.com header.i=@bytedance.com header.a=rsa-sha256 header.s=google header.b=Rn8IstEl;
+	arc=none smtp.remote-ip=209.85.216.54
+Received: from mail-pj1-f54.google.com (mail-pj1-f54.google.com [209.85.216.54])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 73C72606A320;
-	Thu, 19 Nov 2026 04:42:12 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 73C72606A320
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kylinos.cn
-X-UUID: 9010fab4e3d311f19a56ed5b684f684d-20261119
-X-CTIC-Tags:
-	HR_CC_COUNT, HR_CC_DOMAIN_COUNT, HR_CC_NAME, HR_CC_NO_NAME, HR_CTE_8B
-	HR_CTT_MISS, HR_DATE_H, HR_DATE_WKD, HR_DATE_ZONE, HR_FROM_NAME
-	HR_SJ_LANG, HR_SJ_LEN, HR_SJ_LETTER, HR_SJ_NOR_SYM, HR_SJ_PHRASE
-	HR_SJ_PHRASE_LEN, HR_SJ_WS, HR_TO_COUNT, HR_TO_DOMAIN_COUNT, HR_TO_NO_NAME
-	IP_TRUSTED, SRC_TRUSTED, SA_TRUSTED, SA_EXISTED, SN_TRUSTED
-	SN_EXISTED, SPF_NOPASS, DKIM_NOPASS, DMARC_NOPASS, CIE_BAD
-	CIE_GOOD, CIE_GOOD_SPF, GTI_FG_BS, GTI_RG_INFO, GTI_C_BU
-	AMN_GOOD, ABX_MISS_RDNS
-X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.3.19,REQID:7f829265-45ec-46fb-9d7b-b2ab952949f4,IP:15,
-	URL:0,TC:0,Content:-5,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTIO
-	N:release,TS:10
-X-CID-INFO: VERSION:1.3.19,REQID:7f829265-45ec-46fb-9d7b-b2ab952949f4,IP:15,UR
-	L:0,TC:0,Content:-5,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION:
-	release,TS:10
-X-CID-META: VersionHash:7db8b62,CLOUDID:5d009eda91ff5590d01ee8f1e154d214,BulkI
-	D:26111912420581S1QX7F,BulkQuantity:0,SF:10|38|66|78|102|127|153|850|865|8
-	98,TC:nil,Content:0|15|50|99|100|101|102|113|153,EDM:-3,IP:-2,URL:0,File:n
-	il,RT:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0,OSA:0,AV:0,LES:1,SPR:NO,DKR:
-	0,DKP:0,BRR:0,BRE:0,ARC:0
-X-CID-BVR: 2,SSN|SDN
-X-CID-BAS: 2,SSN|SDN,0,_
-X-CID-FACTOR: TF_CID_SPAM_SNR
-X-CID-RHF: D41D8CD98F00B204E9800998ECF8427E
-X-UUID: 9010fab4e3d311f19a56ed5b684f684d-20261119
-X-User: yijiangshan@kylinos.cn
-Received: from localhost.localdomain [(116.128.244.171)] by mailgw.kylinos.cn
-	(envelope-from <yijiangshan@kylinos.cn>)
-	(Generic MTA with TLSv1.3 TLS_AES_256_GCM_SHA384 256/256)
-	with ESMTP id 581581377; Thu, 19 Nov 2026 12:42:01 +0800
-From: Jiangshan Yi <yijiangshan@kylinos.cn>
-To: brendan.higgins@linux.dev,
-	david@davidgow.net,
-	corbet@lwn.net
-Cc: raemoar63@gmail.com,
-	brgl@kernel.org,
-	skhan@linuxfoundation.org,
-	rdunlap@infradead.org,
-	linux-kselftest@vger.kernel.org,
-	kunit-dev@googlegroups.com,
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DE506606A325
+	for <workflows@vger.kernel.org>; Thu, 19 Nov 2026 06:59:14 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org DE506606A325
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=bytedance.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bytedance.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=bytedance.com header.i=@bytedance.com header.a=rsa-sha256 header.s=google header.b=Rn8IstEl
+Received: by mail-pj1-f54.google.com with SMTP id 98e67ed59e1d1-3b08a162d4bso1104143a91.3
+        for <workflows@vger.kernel.org>; Wed, 18 Nov 2026 22:59:14 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=bytedance.com; s=google; t=1795071554; x=1795676354; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=EpkpAe8MEN5BuQD0iXz34+1elSDBS0pp25xEYHL3/ks=;
+        b=Rn8IstElCPGCJXfmKbA2/cCAR9Ln8L3tdEsLJTVvjD32rri1ZAD8W3XEEDtJxYDlKT
+         Ic2tzXcdG1z7WmGAYft0HUoPrd62eRdzvjIkmFg9OuwgnLH3qbxu66d8QD1u7iZ5ITOU
+         ngIR/cA0VHv8xfo18aNjjUi1ZiD3BhE//91Jmwh86iHEQeVWbC1P7K3YfQww6wogHhUi
+         nJIy6HUgla1oFRXGDS2clN2+Qus3Fv1sBU1xadxteaXndpRDAh9d4i0OF3dtWD9aPvOL
+         J3BYXzMQ11K7eFWTAst4mj5vCvrxmjsSPe+ZDvlzP40vVyvD18/tdGGSziddZsQ6jFa3
+         NWeg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1795071554; x=1795676354;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=EpkpAe8MEN5BuQD0iXz34+1elSDBS0pp25xEYHL3/ks=;
+        b=sTZ9oba0vQpeEr113woBh/FKtuvOiTJbOjBaTvm0QMsi3HOocE0N+N4OPGWr37mu2C
+         Q9FgdWgR6jhqwB4fg+8oAj0TqJuH7LOu7xN7iGAcon/E6lcbra2lOoMn2xdhYFxaacfH
+         gjRjOxP1qSxQGaDVFgsDE7Z0VbPMmPA+RJwuk3yxWjZeWAtuI186w2u2L7gX96yCe2N7
+         OX9M81UY0GkGAQbfCLmw9GAI9a+NGDyrOxTX8HqUWY18LSEHLe2etMxOkRS7UlbIOODk
+         aaT+bcLw8bV+NFeDKdMn8+BERV4pqNcedS+aQ+90MQVCHRxzfFYDfCatNGUgcRbje1nM
+         1/Tw==
+X-Forwarded-Encrypted: i=1; AL+hErF7mxBTm4lYSIE2EJS28aNv13iGX2S6XsKqPz2lPtAngWSXyXlZGptI0R6elUSzqRwJrk8ZAX9uCSU=@vger.kernel.org
+X-Gm-Message-State: APuU4Z+aVw4yGdESq/U86IAXuTGvyIWGbO0G9lBYaB38GaeAjB5j0vDD
+	4a5sy5bOiyWsYvZJmHoeS7NnJSeGhGkwvTc1H+GSeIRC4y+o6ex8Tuqv6oB6KeZ+B00=
+X-Gm-Gg: AZFdTZf/8tRmpwrkWoSPDP7MBvUuiVqPFV5idh1TT3yKVqc/2S8sGRfVx0PXw4tqQIw
+	4anuDQNxiCU/ITnmbDnukEff4nvjHVSqWye5M6WvyOc/b3sPIkDzHGTYTHCMSdZeljVBbsQyJ+o
+	/7cEjTgv3wtBjmCFQXe3Dk3eu0RzXmqO7NOp5cJ2qnR75qbI/hG/7yimy3TN0iu5zLyUQupB6u/
+	fdPa+bgQvYweimmxrzTLnAwFVm5O9dKwcGs/Vr+Fsk4PkOlILEhPevKLJesghGoAx+9TioBCPAq
+	4VpfUNRCPVxYgVtC1EpkvXg2ShCedRWZCZYNyJFSPpBTde4mYTpORJ2dGfSdd4Gp3ldwy12oHfC
+	AQWOO6I5DopYMOaziQ/25U5R1TDgD4Hqq2XoAYVWizlTmtrHAUHdp6IEBy53y2FDOvH6gEuwHT1
+	0EnCSnedAPMzC8QLAugzfWKwv+GXIZV5+L1czXonV/6qritsul4Qjea4yWeUDHUc657Kx84B/rD
+	MaqbVxLxBSqinUnXXd5sVioamK4fIEXcFCekutkUoOgX+9U9B1mp8CnNyq6nshMsOsjKHwws5/7
+	wnK/mcc9Qh9Bg3NeNIcxb9RfTKm693ecJVMeMKNmXbpT0ZoPeLHWrAtyP1Q=
+X-Received: by 2002:a17:90a:d60f:b0:3b0:a7b5:c037 with SMTP id 98e67ed59e1d1-3b3d063e959mr4839420a91.1.1795071553983;
+        Wed, 18 Nov 2026 22:59:13 -0800 (PST)
+Received: from G6L4RL2QG9 ([2408:8440:c38:5ca5:3175:932a:757b:716a])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3b402e75223sm597488a91.4.2026.11.18.22.58.52
+        (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
+        Wed, 18 Nov 2026 22:59:13 -0800 (PST)
+From: Muchun Song <songmuchun@bytedance.com>
+To: Alexander Potapenko <glider@google.com>,
+	Andrew Morton <akpm@linux-foundation.org>
+Cc: Marco Elver <elver@google.com>,
+	Dmitry Vyukov <dvyukov@google.com>,
+	Chris Down <chris@chrisdown.name>,
+	David Hildenbrand <david@kernel.org>,
+	"Liam R . Howlett" <liam@infradead.org>,
+	Vlastimil Babka <vbabka@kernel.org>,
+	Mike Rapoport <rppt@kernel.org>,
+	Suren Baghdasaryan <surenb@google.com>,
+	Michal Hocko <mhocko@suse.com>,
+	Johannes Weiner <hannes@cmpxchg.org>,
+	Brendan Jackman <brendan.jackman@linux.dev>,
+	Zi Yan <ziy@nvidia.com>,
+	Muchun Song <muchun.song@linux.dev>,
+	Joerg Roedel <joerg.roedel@amd.com>,
+	Lu Baolu <baolu.lu@linux.intel.com>,
+	Pranjal Shrivastava <praan@google.com>,
+	Ketan <ketan.kishore@oss.qualcomm.com>,
+	Mostafa Saleh <smostafa@google.com>,
+	Sang-Heon Jeon <ekffu200098@gmail.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Randy Dunlap <rdunlap@infradead.org>,
+	Sashiko <sashiko-bot@kernel.org>,
+	kasan-dev@googlegroups.com,
 	workflows@vger.kernel.org,
 	linux-doc@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
-	13667453960@163.com,
-	Jiangshan Yi <yijiangshan@kylinos.cn>
-Subject: [PATCH] kunit: fix debugfs run file usage message path
-Date: Thu, 19 Nov 2026 12:41:35 +0800
-Message-Id: <20261119044135.158943-1-yijiangshan@kylinos.cn>
-X-Mailer: git-send-email 2.25.1
+	linux-mm@kvack.org,
+	Muchun Song <songmuchun@bytedance.com>
+Subject: [PATCH v3 0/7] KMSAN: Move per-page metadata out of struct page
+Date: Thu, 19 Nov 2026 14:58:05 +0800
+Message-ID: <20261119065812.89959-1-songmuchun@bytedance.com>
+X-Mailer: git-send-email 2.54.0
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Post: <mailto:workflows@vger.kernel.org>
@@ -93,48 +124,86 @@ Precedence: list
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The usage message for the debugfs run file points to
-/sys/kernel/debugfs/kunit/<suite>/run, but debugfs is mounted at
-/sys/kernel/debug, so the printed path does not exist. Use
-/sys/kernel/debug/kunit/<suite>/run, matching the comments
-elsewhere in the file.
+This series fixes a KMSAN metadata-loss bug triggered when boot-time
+gigantic HugeTLB pages reinitialize their page descriptors after
+kmsan_init_shadow(). KMSAN currently stores each page's shadow and
+origin pointers in struct page, so the later initialization drops the
+metadata mappings and leaves their backing pages unreachable.
 
-Also fix the same wrong path in the documentation.
+Preserving the pointers around the HugeTLB initialization would add
+KMSAN-specific state handling to the memmap path. Moving
+kmsan_init_shadow() later is not viable either, because it allocates
+metadata from memblock while gigantic page descriptors are initialized
+after memblock teardown.
 
-Fixes: c72a870926c2 ("kunit: add ability to run tests after boot using debugfs")
-Fixes: e9f0e21ceb65 ("Documentation: Add debugfs docs with run after boot")
-Signed-off-by: Jiangshan Yi <yijiangshan@kylinos.cn>
----
- Documentation/dev-tools/kunit/run_manual.rst | 2 +-
- lib/kunit/debugfs.c                          | 2 +-
- 2 files changed, 2 insertions(+), 2 deletions(-)
+Move the metadata pointers to page_ext instead. page_ext storage is
+independent of struct page contents and is made available before
+kmsan_init_shadow(), so later page-descriptor initialization cannot
+erase the mappings.
 
-diff --git a/Documentation/dev-tools/kunit/run_manual.rst b/Documentation/dev-tools/kunit/run_manual.rst
-index 98e8d5b28808..59c3313a6d15 100644
---- a/Documentation/dev-tools/kunit/run_manual.rst
-+++ b/Documentation/dev-tools/kunit/run_manual.rst
-@@ -87,7 +87,7 @@ the ``/sys/kernel/debug/kunit/<test_suite>/run`` file:
- 
- .. code-block :: bash
- 
--	echo "any string" > /sys/kernel/debugfs/kunit/<test_suite>/run
-+	echo "any string" > /sys/kernel/debug/kunit/<test_suite>/run
- 
- As a result, the test suite runs and the results are printed to the kernel
- log.
-diff --git a/lib/kunit/debugfs.c b/lib/kunit/debugfs.c
-index 442b2ceb955b..fd39395e2a95 100644
---- a/lib/kunit/debugfs.c
-+++ b/lib/kunit/debugfs.c
-@@ -126,7 +126,7 @@ static int debugfs_print_run(struct seq_file *seq, void *v)
- 	struct kunit_suite *suite = (struct kunit_suite *)seq->private;
- 
- 	seq_puts(seq, "Write to this file to trigger the test suite to run.\n");
--	seq_printf(seq, "usage: echo \"any string\" > /sys/kernel/debugfs/kunit/%s/run\n",
-+	seq_printf(seq, "usage: echo \"any string\" > /sys/kernel/debug/kunit/%s/run\n",
- 			suite->name);
- 	return 0;
- }
+The series first decouples KMSAN metadata access from its storage, then
+makes page_ext safe and available during early boot, and finally moves
+the metadata pointers. The move also shrinks struct page from 80 to 64
+bytes on x86-64 KMSAN builds, allowing HugeTLB Vmemmap Optimization to
+be used with KMSAN.
+
+v3:
+- Fix page_ext client alignment on 32-bit architectures by using u64
+  alignment as the cap (reported by Sashiko).
+- Open-code the lowest power-of-two factor and use a local for the u64
+  alignment (suggested by Andrew Morton and Mike Rapoport).
+- Use DIV_ROUND_UP() for page_ext accounting instead of relying on the
+  caller's size alignment (suggested by Mike Rapoport).
+- Simplify the page_ext alignment commit message.
+- Collect Reviewed-by and Tested-by tags from Chris Down for patches
+  1-4, 6, and 7, and Reviewed-by for patch 5.
+- Collect Reviewed-by tags from Mike Rapoport for patches 3-5.
+- Rebase onto mm/mm-new.
+
+v2: https://lore.kernel.org/20261117120627.50601-1-songmuchun@bytedance.com/
+- Fetch shadow and origin through one masked metadata resolver
+  (suggested by Chris Down).
+- Add a fix for pre-existing page_ext client misalignment.
+- Use vmalloc for runtime SPARSEMEM page_ext backing
+  (suggested by Mike Rapoport).
+- Unify page_ext allocation and initialization entry points and document
+  the later FLATMEM callback timing (noted by Chris Down).
+- Allocate all boot-time SPARSEMEM page_ext from memblock
+  (suggested by Mike Rapoport).
+- Keep memblock allocations above DMA and suppress per-section free
+  messages (suggested by Chris Down).
+- Inline the unchecked page_ext lookup while keeping page_ext.c
+  instrumented (suggested by Chris Down).
+- Update the KMSAN metadata documentation and describe HVO enablement
+  (suggested by Chris Down).
+- Expand the series from three to seven patches.
+- Drop all v1 Reviewed-by tags because the affected patches were
+  substantially reworked and split.
+
+v1: https://lore.kernel.org/20261114104150.58424-1-songmuchun@bytedance.com/
+
+Muchun Song (7):
+  kmsan: encapsulate per-page metadata access
+  mm/page_ext: fix client data alignment
+  mm/page_ext: always use vmalloc for section page extensions
+  mm/page_ext: use common allocation and initialization entry points
+  mm/page_ext: allocate page extensions early for SPARSEMEM
+  mm/page_ext: inline unchecked page extension lookup
+  kmsan: fix metadata loss during HugeTLB struct page reinitialization
+
+ Documentation/dev-tools/kmsan.rst |   8 +-
+ include/linux/kmsan.h             |   2 +
+ include/linux/mm.h                |  12 +-
+ include/linux/mm_types.h          |  12 --
+ include/linux/page_ext.h          |  61 +++++++--
+ lib/Kconfig.kmsan                 |   1 +
+ mm/kmsan/shadow.c                 | 199 +++++++++++++++++++--------
+ mm/mm_init.c                      |  11 +-
+ mm/page_ext.c                     | 221 ++++++++++++------------------
+ 9 files changed, 290 insertions(+), 237 deletions(-)
+
+
+base-commit: 3dfc09a9493ddaa5e7722a29165d8450b55b4d3f
 -- 
-2.25.1
+2.54.0
 
