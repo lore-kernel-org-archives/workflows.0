@@ -1,83 +1,83 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.216.47
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.215.178
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795071579;
-	b=tUvl9TkuyIymlbl1Hhp4E2NuTfpA4CzJ2+gdc8zIS9THa2bfWUJcDodjjKDXZSZeRMhi
-	 NcXBEdNdFm80wYLfc7p5ucpvCKnXt9t6zsK/MvzT4K3hEwrkELRbQGZrUKunB6q+TRqme
-	 zLumUFwC7D1v/UMrjBqOlmjjw+tybWI7rrtWPH6wyF2EWSZFyMDzISmziwA72YGpvK4yB
-	 4iD1+hWXiIZx0LD2hhto1hID9Y/eaYhVx5Wa0ZuubjfA9qo/CoqG3zfJkchaUYRsuoRU0
-	 zPi9FqRM5w16XgQ8SzCx05vnZd36hwGaEYYSVCkq8+DkudswlkOUqol4rFhjkTvAnfA==
+	t=1795071600;
+	b=Wyir/gFijdtnV09l3GYxVGtnVvZis1Hxv67UzVBg2zj/2qudEWnS7wvbBeRaCwKDVkJW
+	 t036e2TteHM7uNug8XrZMHQP9+Hsc7S9G40ZTMpnZ95r2WLrbD78Bc1My/6yMBXQiBF+o
+	 xL1nhRknc+53PluLY04p5VOuwgDrTlC8E+RLd22BaQSg0OOo99Rvbjgud8aYILX/XyLFy
+	 NBxXP7UN7WAlwVbeCsfQPC8qEnKFl0qkUwMjWWBAnpbAL2MBKVchOD6O4AU+9jZ5Kd55d
+	 jffH9K9dk+MLDD6CTNBlpV3By9vTO8ZMWExWM7jQ/dbsU4yB+5oZccTDAeZxLrUvlEw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795071579;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795071600;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
 	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:In-Reply-To:References:
 	 MIME-Version:Content-Transfer-Encoding;
-	bh=Ogi5GWES8zQkjfKNxeO+iNnJsM3bnylk9LsOSYEUFgo=;
-	b=1DOIosErRRJf/Lini/3hwz+YW5aNcnLxEm0Nx99JQUlDVjTwPELrUaMwx26u/Ve3+5ap
-	 2mI8SoO6WZ0BseKoyUR2U9iMVcJ920bbFGEVWMVItB1nFqbLQ0MsXsM4ErkoFcz1COBRs
-	 p8cTjBVStpBThsxSsUFjlmR75L1ej0lBqahQ0ACr5KejMF4pfxgpqRaOXF0zsEKy3B0om
-	 THpndDLJSbwXAj8JSWgQzKhkKyLK4zoGIhj6bUC9SC+2ucoyXPMGQfEcEqXEHo0bfnktB
-	 PnxJzLhZN3pIrcVIZ1HdFM7Xkm0dpp/k138Tpg1/p3uJ/4ZiK/hxl/j4zN6u+yn+6Xw==
+	bh=niVF9RygUWyckhWxTzwkqqzSpVkRZGJqdyALrrQwo64=;
+	b=eaJirNN9iK/YcsVs/JXqlQ3qduErXn7+nBkgzIDS2bxPLb5WlL1Rohjusbu05aKfvSux
+	 WlyLtPzGSgm2e/Nwg8EBSvKZTK46g3AyIN1QVRYofp3SRtehX9fWOpM30tCcLE5u/d7v6
+	 7aB/ppOMaaK7C5Y8aoBrHWeJGxsqOT2Cgx0EbIInwzsFdWkditXtOwbOdFmLRhZveLXTP
+	 VnnopeVabE31olUBfVbND5hsHjJzCPkQCZdgTO8+AeSk12nVr/Kdy8AqcY2yU8ztucXSz
+	 0gv3H1h4YUlS+/EGmiokktaDvFs6ERh3igrk1Bqlfj9sbJbZYo2mSWls/WuSC9UfAUA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=bytedance.com;
 	spf=pass smtp.mailfrom=bytedance.com;
-	dkim=pass header.d=bytedance.com header.i=@bytedance.com header.a=rsa-sha256 header.s=google header.b=CUHOUuAi;
-	arc=none smtp.remote-ip=209.85.216.47
-Received: from mail-pj1-f47.google.com (mail-pj1-f47.google.com [209.85.216.47])
+	dkim=pass header.d=bytedance.com header.i=@bytedance.com header.a=rsa-sha256 header.s=google header.b=jaYX+PaY;
+	arc=none smtp.remote-ip=209.85.215.178
+Received: from mail-pg1-f178.google.com (mail-pg1-f178.google.com [209.85.215.178])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4FF39606A33F
-	for <workflows@vger.kernel.org>; Thu, 19 Nov 2026 06:59:38 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 4FF39606A33F
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5325D606A32F
+	for <workflows@vger.kernel.org>; Thu, 19 Nov 2026 07:00:00 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 5325D606A32F
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=bytedance.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bytedance.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bytedance.com header.i=@bytedance.com header.a=rsa-sha256 header.s=google header.b=CUHOUuAi
-Received: by mail-pj1-f47.google.com with SMTP id 98e67ed59e1d1-3ac9f49b984so434118a91.1
-        for <workflows@vger.kernel.org>; Wed, 18 Nov 2026 22:59:38 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=bytedance.com header.i=@bytedance.com header.a=rsa-sha256 header.s=google header.b=jaYX+PaY
+Received: by mail-pg1-f178.google.com with SMTP id 41be03b00d2f7-cde4b4e936fso308524a12.1
+        for <workflows@vger.kernel.org>; Wed, 18 Nov 2026 23:00:00 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=bytedance.com; s=google; t=1795071577; x=1795676377; darn=vger.kernel.org;
+        d=bytedance.com; s=google; t=1795071600; x=1795676400; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=Ogi5GWES8zQkjfKNxeO+iNnJsM3bnylk9LsOSYEUFgo=;
-        b=CUHOUuAiPPu8G4zGY+9gfCbbxXqMcpIk3ZiJ/WOXd8JqIHjWc+ihgujztwz8sntflK
-         Bs49ZJJFMjZ76F3hNcWA03svmaJqyQah5zLmW9p6febaxouS/M3GeD0ydc+ncC5sJgHM
-         sgLw/wrO28GHsklOBBKhr7Z9wgV9WTID2deMfUxFa8DbegvIyblxSWIh7PfDHxepJ4hq
-         2UHtA85GdJ5CI8MBElLUbaGcA6UDV4Jldyc5/f91p3+yrkN6M1f3fNCnG4X6YezP71Bi
-         GAsVZel/ZCKN3wHk1rd9kZMxm4SGGmLGfO9lAaZj2h4RF9S5deja0c41oiZKQJyNqFhJ
-         T+gA==
+        bh=niVF9RygUWyckhWxTzwkqqzSpVkRZGJqdyALrrQwo64=;
+        b=jaYX+PaY0Pd1nWO7YguC8xp2UHhePRxfQ8T4E6KJVrWyOWB1Mztp3a+GkHGI3YSrge
+         Jb7E8OBTkaAArGQKY0XMgk/kgRwdua8Wb2W5XoE4gvpFXQ+ltGNrxOBTxfJrbaUZRcb0
+         yKeWVBmraLb0bqpYf3vE629ijv/Ps929NSvRWAYsdHKjGGvXyX23I5LDrU+Cmxf4T0Xw
+         qw71n8er31QigiZqRh4MxGUVEtSVqjCZhV0LO88E36IdKOHVtLiTfyML8ltZ6/4eevw4
+         dSbf8kjR1hIIKj8274yqgO8eNAShMsWB/TEz3BfJNT1DiBTUXaWAax/OVBEjlD09rJ1d
+         YUyA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1795071577; x=1795676377;
+        d=1e100.net; s=20260707; t=1795071600; x=1795676400;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=Ogi5GWES8zQkjfKNxeO+iNnJsM3bnylk9LsOSYEUFgo=;
-        b=hdq86SNsvFNNbNJSubnTFv8hKAMi5kYtZdCONtgvXBAkXO7A8mXCYwRFTa7lpb8d2J
-         tCXOAUgRcxspwyxdK0ojj0l+XINc3NY9Iq71gp2sww2uckpMT32l2XJvOrx0agd4Hrpc
-         R1pKdClfzCG3i2j07ixvyZuyRddA4wYaIHUTBTCVHlUEvEHN4O0FQiNrfhBf88YWyirH
-         7zwme/DbfkxH2K/MArud2LcGU4ZeyGV6Tigk5My2IlGM4EtnvpPim4kxPn2imD1GMjlm
-         40clGF0k4/hHpJtRAPmfDCkeZMElQRKQ+eltEghJlD+73loEoEep0pXjfk3D06/2QDYv
-         X2iA==
-X-Forwarded-Encrypted: i=1; AL+hErElJHeUHnNZora2jGQbmg504t9t7Xc1CD2OHBejlhp4f2dOjf9Z6EukqoDnp2YgQZBKfpvElzdE+zA=@vger.kernel.org
-X-Gm-Message-State: APuU4Z/y3Z91fT26Dt0g/hY+WWDrsF/9H7Y3wCvXwzfEgJH9Nuf9tpXL
-	Fzjv7YOl8H/mZYltWWddmFS2epxyQWcrwbJpuogdjKyK5hy1ueti9eCWcaXtG6wuAvU=
-X-Gm-Gg: AZFdTZfl5QidZSuRWefDRiRoIyRwbE1nD0C8sbre2fpGn1LDBlfvi39hHS2cbTfZB0u
-	lleWdnB6jAbgVdfRf8ahGxZyFAu+xKA1RrJchnjhVwsb/XdPI2NAKgUNZL9xOWiM5M8d0gjkP7g
-	HWThDiezj4V6WBBU+pkq0USmGPrjfWlfSMggLNMrHzY5DF1FAEECwPDqoqksEB9BjzpUPvy3tYH
-	EMmh22XAtpw6b+jBwR6NxGS1ZfXG2akfSJ5dziB3SonX0Z3JSAwz7bSmjzTmq489xg141YSYKcE
-	Wo1Elypu13vy9Fk1ULhKHQAJFdKh22jskRr5bb2sfDy+FCJROjQWc6j1KI2bT9VYBkdXA1MiSFb
-	XMizyslr4iFDeTeqNeC00VsbAn0s8QjFJLBDuHgbbZoXc+Nq10R0m7W1Z+yfdYqdNWatk3CPoJr
-	YrliJcHZ0TiCiFkUTkCv95RAlpxB52mCggjdtHXpjKdfuK7+l4ySqzBTPb5ZCUcKZdvO4JpomX4
-	i1Ek+fgxxHfXDo2NmS9EmfJxSEEBNb9Gs7TSlJq4+2f64Y3WLmOGK46/9O+YTMtxNjojm7QXw4N
-	+xLwfcfcrBsqPxbl0r7GTSWF0ZXs/OurB0YVsxYhXTx91jC224irlQXXWmo=
-X-Received: by 2002:a17:90b:4b8b:b0:3a0:d7f2:5a58 with SMTP id 98e67ed59e1d1-3b409d9bfacmr158793a91.3.1795071577008;
-        Wed, 18 Nov 2026 22:59:37 -0800 (PST)
+        bh=niVF9RygUWyckhWxTzwkqqzSpVkRZGJqdyALrrQwo64=;
+        b=ITwtyaJhM9R7HYeDGc4G1pBVTlFTvajaXNqdvQca0jsqm79d0fue0jEniGwBeOYNv+
+         SLUo/yc4spbllTNXtl+Yph2VJrJn0ZUnK+8aI209VULdclIAC9SvA7DvZ9r89W9XSlb6
+         2+O26/4lNuG0TclKLmR66W8qM0faGxDvrWpFz+0kdcxUZrOBAu0UOXD83wtzTp3ZZ8LK
+         XI2vF0mfYJhg1SetTe6WTSYdO+85/0xHb6Pn1Hr4Tp2B9FtiattgjeNIKXpI13aiCbY6
+         5JAAiOC+G6K0L+La+1SWQDFE+36tPtGtL/ccP0mn72jGVbKiBV9LVUDIZFA4ehsxfIb9
+         kUOg==
+X-Forwarded-Encrypted: i=1; AL+hErF+7xqRm9U02Bd2VaQOe9IqkAkRjqMpXwnJrojMwogFOVo0dIYDF/8p7+LI92R00SML2LfxNP9ijb0=@vger.kernel.org
+X-Gm-Message-State: APuU4Z8eHWsYdmoIvBzanulP6ZuWOJPeWhW0QFw94KxIU9jq/Ks2I+Uh
+	4cW46wiJjAAvbk775rkDUZ5OnQCeNiRs9PbcXJ+P4Ayo8op96y1ZZBosjqAysCiwWQY=
+X-Gm-Gg: AZFdTZdtBC+bZL8UrOgTWxmUAgL4DZCZCFRAaBYbmT/MGoh3qDmJAynEKIlLIyJjr3I
+	HFtJk7Xe7ev1EHIXRWhJSJ2UE3tiO6PBr277oR/8ufeMtiqFd23AlhqyNM6q40+YkzAAyk4ohjI
+	aAZutNDzwCQc5ZcailO4BewM6B8SccL06j6Owjr3SbH57cR8zwMcVBbtulO/fqObyHqTLo0KfEV
+	re9TIWg90rCwOTpwHuzpFAY3GgQzx6hEWwgyR4HZUoLPRS7nrJr/m1lJHOmnvDWlAb6ZPsHz2Ej
+	wYv69ThOjy3OYX2txL5Gf//kIhwj3yu5ToiGERYC+XiBJSOyi+hs8tOsR8NjCH+IRBMjf4qyBuc
+	dzJ1afvIYd4si2BSySsAXUQghzVl4NSQl3nnpebr4ENeSmDdwISJbe4Ew2MmhmLKBOGaJI/7u8K
+	rSihrQY9m6ou0GgRLJEBfAuOL0ClzuPJDWDZrGVodzD5vgQQ77pNthUkuTRm7vlyjqeJbNdVju6
+	J2x6W8f6zcv6/Nkh1pzAtUye9AUbyClxARz9v+bZaJC3vxTY5D2H9aw+aHgwXND29cIrPhrtN+p
+	q1ecvmqCTSeU/iSOEdnuyfq1TsBov8gNwbLuwdZD0etiilvY0JxJI6HzQSA=
+X-Received: by 2002:a17:90b:498e:b0:3ac:9ad9:6afe with SMTP id 98e67ed59e1d1-3b40a32d9c3mr134496a91.39.1795071599193;
+        Wed, 18 Nov 2026 22:59:59 -0800 (PST)
 Received: from G6L4RL2QG9 ([2408:8440:c38:5ca5:3175:932a:757b:716a])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3b402e75223sm597488a91.4.2026.11.18.22.59.14
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3b402e75223sm597488a91.4.2026.11.18.22.59.38
         (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
-        Wed, 18 Nov 2026 22:59:36 -0800 (PST)
+        Wed, 18 Nov 2026 22:59:58 -0800 (PST)
 From: Muchun Song <songmuchun@bytedance.com>
 To: Alexander Potapenko <glider@google.com>,
 	Andrew Morton <akpm@linux-foundation.org>
@@ -110,9 +110,9 @@ Cc: Marco Elver <elver@google.com>,
 	linux-kernel@vger.kernel.org,
 	linux-mm@kvack.org,
 	Muchun Song <songmuchun@bytedance.com>
-Subject: [PATCH v3 1/7] kmsan: encapsulate per-page metadata access
-Date: Thu, 19 Nov 2026 14:58:06 +0800
-Message-ID: <20261119065812.89959-2-songmuchun@bytedance.com>
+Subject: [PATCH v3 2/7] mm/page_ext: fix client data alignment
+Date: Thu, 19 Nov 2026 14:58:07 +0800
+Message-ID: <20261119065812.89959-3-songmuchun@bytedance.com>
 X-Mailer: git-send-email 2.54.0
 In-Reply-To: <20261119065812.89959-1-songmuchun@bytedance.com>
 References: <20261119065812.89959-1-songmuchun@bytedance.com>
@@ -127,324 +127,99 @@ Precedence: list
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-KMSAN directly accesses page->kmsan_shadow and page->kmsan_origin
-throughout the shadow implementation. This couples these users to
-storing the metadata pointers in struct page, requiring every access
-site to change when the storage moves elsewhere.
+page_ext lays out client payloads consecutively without aligning their
+offsets or the final entry size. This happened to work while the active
+payload sizes kept the stride naturally aligned, but IOMMU debug page
+allocation added a four-byte payload after data requiring eight-byte
+alignment.
 
-Introduce helpers that get and set both metadata page pointers as a pair
-and convert the existing users to them.
+When page owner and IOMMU debug page allocation are both enabled on
+x86-64, struct page_ext, struct page_owner, and the IOMMU payload use
+8, 64, and 4 bytes respectively. This produces a 76-byte entry stride,
+leaving struct page_ext and page_owner data in every other entry only
+four-byte aligned instead of eight-byte aligned.
 
-kmsan_get_shadow_origin_ptr() is the main metadata lookup path for
-compiler-instrumented memory accesses and requires both pointers. For
-page-backed addresses, resolve the backing page once and obtain the
-metadata pair through one lookup instead of calling the single-metadata
-path twice. This also avoids duplicate lookups after moving the metadata
-storage out of struct page.
+Align each client offset and round the final entry size to the largest
+active alignment so every page_ext entry preserves the alignment
+required by all active clients.
 
-No functional change is intended.
-
+Fixes: 466ae6978a5b ("iommu: Add page_ext for IOMMU_DEBUG_PAGEALLOC")
 Signed-off-by: Muchun Song <songmuchun@bytedance.com>
 Reviewed-by: Chris Down <chris@chrisdown.name>
 Tested-by: Chris Down <chris@chrisdown.name>
 ---
 v3:
+- Cap client alignment at u64 alignment to preserve 64-bit alignment on
+  32-bit architectures (reported by Sashiko)
+- Open-code the lowest power-of-two factor for readability (suggested by
+  Andrew Morton)
+- Use a local for the u64 alignment (suggested by Mike Rapoport)
+- Simplify the commit message to focus on the alignment guarantee
 - Collect Reviewed-by and Tested-by from Chris Down
 
 v2:
-- Use one page metadata lookup for shadow and origin pointers (suggested
-  by Chris Down)
+- New patch to fix the existing page_ext client alignment bug
 ---
- mm/kmsan/shadow.c | 166 +++++++++++++++++++++++++++++++---------------
- 1 file changed, 111 insertions(+), 55 deletions(-)
+ mm/page_ext.c | 26 ++++++++++++++++++++++++++
+ 1 file changed, 26 insertions(+)
 
-diff --git a/mm/kmsan/shadow.c b/mm/kmsan/shadow.c
-index 0c88d89bf0d6..300b48818af1 100644
---- a/mm/kmsan/shadow.c
-+++ b/mm/kmsan/shadow.c
-@@ -9,6 +9,7 @@
- 
- #include <asm/kmsan.h>
- #include <asm/tlbflush.h>
-+#include <linux/bits.h>
- #include <linux/cacheflush.h>
- #include <linux/memblock.h>
- #include <linux/mm_types.h>
-@@ -20,29 +21,46 @@
- #include "../vmalloc.h"
- #include "kmsan.h"
- 
--#define shadow_page_for(page) ((page)->kmsan_shadow)
-+#define KMSAN_META_MASK_SHADOW		BIT(0)
-+#define KMSAN_META_MASK_ORIGIN		BIT(1)
- 
--#define origin_page_for(page) ((page)->kmsan_origin)
-+struct page_metadata {
-+	struct page *shadow;
-+	struct page *origin;
-+};
- 
--static void *shadow_ptr_for(struct page *page)
-+static inline struct page_metadata get_page_metadata(struct page *page)
- {
--	return page_address(shadow_page_for(page));
-+	return (struct page_metadata) {
-+		.shadow = page->kmsan_shadow,
-+		.origin = page->kmsan_origin,
-+	};
+diff --git a/mm/page_ext.c b/mm/page_ext.c
+index b679a8c1f7d7..39a4464fc979 100644
+--- a/mm/page_ext.c
++++ b/mm/page_ext.c
+@@ -116,8 +116,27 @@ static int __init setup_early_page_ext(char *str)
  }
+ early_param("early_page_ext", setup_early_page_ext);
  
--static void *origin_ptr_for(struct page *page)
-+static inline void set_page_metadata(struct page *page, struct page_metadata meta)
- {
--	return page_address(origin_page_for(page));
-+	page->kmsan_shadow = meta.shadow;
-+	page->kmsan_origin = meta.origin;
- }
- 
--static bool page_has_metadata(struct page *page)
-+static inline void *shadow_ptr_for(struct page_metadata meta)
- {
--	return shadow_page_for(page) && origin_page_for(page);
-+	return page_address(meta.shadow);
++static inline size_t page_ext_data_alignment(size_t size)
++{
++	const size_t align = __alignof__(u64);
++
++	if (!size)
++		return 1;
++
++	/* u64 has the strictest alignment required by page_ext clients. */
++	if (IS_ALIGNED(size, align))
++		return align;
++
++	/*
++	 * A type's size is a multiple of its natural alignment, so its
++	 * lowest set bit is at least that alignment.
++	 */
++	return size & -size;
 +}
 +
-+static inline void *origin_ptr_for(struct page_metadata meta)
-+{
-+	return page_address(meta.origin);
-+}
-+
-+static inline bool page_has_metadata(struct page_metadata meta)
-+{
-+	return meta.shadow && meta.origin;
- }
- 
- static void set_no_shadow_origin_page(struct page *page)
+ static bool __init invoke_need_callbacks(void)
  {
--	shadow_page_for(page) = NULL;
--	origin_page_for(page) = NULL;
-+	set_page_metadata(page, (struct page_metadata) {});
- }
++	size_t max_align = 1;
+ 	int i;
+ 	int entries = ARRAY_SIZE(page_ext_ops);
+ 	bool need = false;
+@@ -126,6 +145,7 @@ static bool __init invoke_need_callbacks(void)
+ 		if (page_ext_ops[i]->need()) {
+ 			if (page_ext_ops[i]->need_shared_flags) {
+ 				page_ext_size = sizeof(struct page_ext);
++				max_align = __alignof__(struct page_ext);
+ 				break;
+ 			}
+ 		}
+@@ -133,11 +153,17 @@ static bool __init invoke_need_callbacks(void)
  
- /*
-@@ -79,11 +97,56 @@ static struct page *virt_to_page_or_null(void *vaddr)
- 		return NULL;
- }
- 
-+static __always_inline
-+struct shadow_origin_ptr __kmsan_get_metadata(void *address, unsigned int mask)
-+{
-+	struct shadow_origin_ptr ret = {};
-+	struct page_metadata meta;
-+	struct page *page;
-+	u64 addr = (u64)address;
-+	u64 origin_addr = ALIGN_DOWN(addr, KMSAN_ORIGIN_SIZE);
+ 	for (i = 0; i < entries; i++) {
+ 		if (page_ext_ops[i]->need()) {
++			size_t align;
 +
-+	if (kmsan_internal_is_vmalloc_addr(address) ||
-+	    kmsan_internal_is_module_addr(address)) {
-+		if (mask & KMSAN_META_MASK_SHADOW)
-+			ret.shadow = (void *)vmalloc_meta(address, KMSAN_META_SHADOW);
-+		if (mask & KMSAN_META_MASK_ORIGIN)
-+			ret.origin = (void *)vmalloc_meta((void *)origin_addr,
-+							  KMSAN_META_ORIGIN);
-+		return ret;
-+	}
-+
-+	if (mask & KMSAN_META_MASK_SHADOW) {
-+		ret.shadow = arch_kmsan_get_meta_or_null(address, KMSAN_META_SHADOW);
-+		if (!ret.shadow)
-+			goto lookup_page;
-+	}
-+	if (mask & KMSAN_META_MASK_ORIGIN)
-+		ret.origin = arch_kmsan_get_meta_or_null((void *)origin_addr,
-+							 KMSAN_META_ORIGIN);
-+	if (ret.shadow || ret.origin)
-+		return ret;
-+
-+lookup_page:
-+	page = virt_to_page_or_null(address);
-+	if (!page)
-+		return ret;
-+	meta = get_page_metadata(page);
-+	if (!page_has_metadata(meta))
-+		return ret;
-+
-+	if (mask & KMSAN_META_MASK_SHADOW)
-+		ret.shadow = shadow_ptr_for(meta) + offset_in_page(addr);
-+	if (mask & KMSAN_META_MASK_ORIGIN)
-+		ret.origin = origin_ptr_for(meta) + offset_in_page(origin_addr);
-+
-+	return ret;
-+}
-+
- struct shadow_origin_ptr kmsan_get_shadow_origin_ptr(void *address, u64 size,
- 						     bool store)
- {
- 	struct shadow_origin_ptr ret;
--	void *shadow;
- 
- 	/*
- 	 * Even if we redirect this memory access to the dummy page, it will
-@@ -95,12 +158,10 @@ struct shadow_origin_ptr kmsan_get_shadow_origin_ptr(void *address, u64 size,
- 		goto return_dummy;
- 
- 	KMSAN_WARN_ON(!kmsan_metadata_is_contiguous(address, size));
--	shadow = kmsan_get_metadata(address, KMSAN_META_SHADOW);
--	if (!shadow)
-+	ret = __kmsan_get_metadata(address, KMSAN_META_MASK_SHADOW |
-+					    KMSAN_META_MASK_ORIGIN);
-+	if (!ret.shadow)
- 		goto return_dummy;
--
--	ret.shadow = shadow;
--	ret.origin = kmsan_get_metadata(address, KMSAN_META_ORIGIN);
- 	return ret;
- 
- return_dummy:
-@@ -124,46 +185,36 @@ struct shadow_origin_ptr kmsan_get_shadow_origin_ptr(void *address, u64 size,
-  */
- void *kmsan_get_metadata(void *address, bool is_origin)
- {
--	u64 addr = (u64)address, off;
--	struct page *page;
--	void *ret;
--
--	if (is_origin)
--		addr = ALIGN_DOWN(addr, KMSAN_ORIGIN_SIZE);
--	address = (void *)addr;
--	if (kmsan_internal_is_vmalloc_addr(address) ||
--	    kmsan_internal_is_module_addr(address))
--		return (void *)vmalloc_meta(address, is_origin);
--
--	ret = arch_kmsan_get_meta_or_null(address, is_origin);
--	if (ret)
--		return ret;
--
--	page = virt_to_page_or_null(address);
--	if (!page)
--		return NULL;
--	if (!page_has_metadata(page))
--		return NULL;
--	off = offset_in_page(addr);
-+	struct shadow_origin_ptr ret;
-+	unsigned int mask;
- 
--	return (is_origin ? origin_ptr_for(page) : shadow_ptr_for(page)) + off;
-+	mask = is_origin ? KMSAN_META_MASK_ORIGIN : KMSAN_META_MASK_SHADOW;
-+	ret = __kmsan_get_metadata(address, mask);
-+	return is_origin ? ret.origin : ret.shadow;
- }
- 
- void kmsan_copy_page_meta(struct page *dst, struct page *src)
- {
-+	struct page_metadata dst_meta, src_meta;
-+
- 	if (!kmsan_enabled || kmsan_in_runtime())
- 		return;
--	if (!dst || !page_has_metadata(dst))
-+	if (!dst)
- 		return;
--	if (!src || !page_has_metadata(src)) {
-+	dst_meta = get_page_metadata(dst);
-+	if (!page_has_metadata(dst_meta))
-+		return;
-+	if (src)
-+		src_meta = get_page_metadata(src);
-+	if (!src || !page_has_metadata(src_meta)) {
- 		kmsan_internal_unpoison_memory(page_address(dst), PAGE_SIZE,
- 					       /*checked*/ false);
- 		return;
++			align = page_ext_data_alignment(page_ext_ops[i]->size);
++			page_ext_size = ALIGN(page_ext_size, align);
+ 			page_ext_ops[i]->offset = page_ext_size;
+ 			page_ext_size += page_ext_ops[i]->size;
++			max_align = max(max_align, align);
+ 			need = true;
+ 		}
  	}
++	page_ext_size = ALIGN(page_ext_size, max_align);
  
- 	kmsan_enter_runtime();
--	__memcpy(shadow_ptr_for(dst), shadow_ptr_for(src), PAGE_SIZE);
--	__memcpy(origin_ptr_for(dst), origin_ptr_for(src), PAGE_SIZE);
-+	__memcpy(shadow_ptr_for(dst_meta), shadow_ptr_for(src_meta), PAGE_SIZE);
-+	__memcpy(origin_ptr_for(dst_meta), origin_ptr_for(src_meta), PAGE_SIZE);
- 	kmsan_leave_runtime();
- }
- EXPORT_SYMBOL(kmsan_copy_page_meta);
-@@ -171,19 +222,18 @@ EXPORT_SYMBOL(kmsan_copy_page_meta);
- void kmsan_alloc_page(struct page *page, unsigned int order, gfp_t flags)
- {
- 	bool initialized = (flags & __GFP_ZERO) || !kmsan_enabled;
--	struct page *shadow, *origin;
-+	struct page_metadata meta;
- 	depot_stack_handle_t handle;
- 	int pages = 1 << order;
- 
- 	if (!page)
- 		return;
- 
--	shadow = shadow_page_for(page);
--	origin = origin_page_for(page);
-+	meta = get_page_metadata(page);
- 
- 	if (initialized) {
--		__memset(page_address(shadow), 0, PAGE_SIZE * pages);
--		__memset(page_address(origin), 0, PAGE_SIZE * pages);
-+		__memset(shadow_ptr_for(meta), 0, PAGE_SIZE * pages);
-+		__memset(origin_ptr_for(meta), 0, PAGE_SIZE * pages);
- 		return;
- 	}
- 
-@@ -191,7 +241,7 @@ void kmsan_alloc_page(struct page *page, unsigned int order, gfp_t flags)
- 	if (kmsan_in_runtime())
- 		return;
- 
--	__memset(page_address(shadow), -1, PAGE_SIZE * pages);
-+	__memset(shadow_ptr_for(meta), -1, PAGE_SIZE * pages);
- 	kmsan_enter_runtime();
- 	handle = kmsan_save_stack_with_flags(flags, /*extra_bits*/ 0);
- 	kmsan_leave_runtime();
-@@ -200,7 +250,7 @@ void kmsan_alloc_page(struct page *page, unsigned int order, gfp_t flags)
- 	 * to just fill the origin pages with @handle.
- 	 */
- 	for (int i = 0; i < PAGE_SIZE * pages / sizeof(handle); i++)
--		((depot_stack_handle_t *)page_address(origin))[i] = handle;
-+		((depot_stack_handle_t *)origin_ptr_for(meta))[i] = handle;
- }
- 
- void kmsan_free_page(struct page *page, unsigned int order)
-@@ -238,8 +288,10 @@ int kmsan_vmap_pages_range_noflush(unsigned long start, unsigned long end,
- 		goto ret;
- 	}
- 	for (int i = 0; i < nr; i++) {
--		s_pages[i] = shadow_page_for(pages[i]);
--		o_pages[i] = origin_page_for(pages[i]);
-+		struct page_metadata meta = get_page_metadata(pages[i]);
-+
-+		s_pages[i] = meta.shadow;
-+		o_pages[i] = meta.origin;
- 	}
- 	prot = PAGE_KERNEL;
- 
-@@ -289,10 +341,12 @@ void __init kmsan_init_alloc_meta_for_range(void *start, void *end)
- 		page = virt_to_page_or_null((char *)start + addr);
- 		shadow_p = virt_to_page((char *)shadow + addr);
- 		set_no_shadow_origin_page(shadow_p);
--		shadow_page_for(page) = shadow_p;
- 		origin_p = virt_to_page((char *)origin + addr);
- 		set_no_shadow_origin_page(origin_p);
--		origin_page_for(page) = origin_p;
-+		set_page_metadata(page, (struct page_metadata) {
-+			.shadow = shadow_p,
-+			.origin = origin_p,
-+		});
- 	}
- }
- 
-@@ -302,7 +356,9 @@ void kmsan_setup_meta(struct page *page, struct page *shadow,
- 	for (int i = 0; i < (1 << order); i++) {
- 		set_no_shadow_origin_page(&shadow[i]);
- 		set_no_shadow_origin_page(&origin[i]);
--		shadow_page_for(&page[i]) = &shadow[i];
--		origin_page_for(&page[i]) = &origin[i];
-+		set_page_metadata(&page[i], (struct page_metadata) {
-+			.shadow = &shadow[i],
-+			.origin = &origin[i],
-+		});
- 	}
+ 	return need;
  }
 -- 
 2.54.0
