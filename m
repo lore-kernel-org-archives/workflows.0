@@ -1,83 +1,83 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.216.54
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.215.169
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795071688;
-	b=xqjDPBd74bhui2/IVkikIZRiy7gRLWi6HYwWcfK+G/YsBvy6/3Bx3SIq6JA9hXBKZHj4
-	 Rh5ku/brJ6xo1iG4vc/ESSqmc8ITUrxKr71AuPQCQZyH/l30azYm2wDG8XnZHHBDXjckB
-	 oxicYZ9wXnmGcBVRySs9aqIesYbnVnwaW5dxJ+t0Lct8myxS3Gh2FMuYQi9QqVv2h3IYB
-	 KUZvgN9OvBr1LIupcx7cE5o/FSsP8mfofjKRjYOquqjR8YLZkxGJDaPQ51mr36SGHwyk1
-	 Jojv61gCz29BZqwdPKZ8vQ/Tye7wqrUkHOij3HYlybpXSrj0yxcY7YLT9ekH5um9wig==
+	t=1795071711;
+	b=x3orImPdixxcueGr2laaL/09ja8a7e4kq9Uk382vMbmMwmy417kIu4GKFCylMW5F43zn
+	 gvWB7d7S2I3ikwoKW3oZRm1PnATB5JBZTOnADzA+QJNcrdsR3Ak0gDz+MfdQlQZhXrQX9
+	 3Bfn211o9NmaXAdyphYfq5ArA80QSN976XcMORhcuzRcs9qlTub0YOWLTh8i5wHLWt2tU
+	 3cbHZARysa9M9yeSG+w12g6muGpxdUObyBdfBLgLYbgpoDnSHs8JWx8Q7hGgrSKC5Cn5w
+	 cbhpklaT9X1w9C2vsqEnBkA0M+WUJq+5P/K5C6NSRGsf/uiYTPC91zeRlwfin646zjA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795071688;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795071711;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
 	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:In-Reply-To:References:
 	 MIME-Version:Content-Transfer-Encoding;
-	bh=PqykPPsR7vG8RbNReH5m+C9K46mE2LkFenHsUlsFdp0=;
-	b=oFaF5O5reLEiHiVyfPa7areHCpC3k5ab01Xbo3h3GFP99Xseq+BEA8BJnYYxtWlUz9WU
-	 L0O9Pbes1oS4CNdZ7GUmZQwtcq5JES9wW77brFSh3NMN/aCD/FoKLvrXaNJLcux8i4def
-	 zqw2U2/J3icmHUuOeeUzri/zFJtXxfYdm1eXpYjL9CG0oz9GYNlzfIe4m7cBreXcdNXcq
-	 2Q66fJ/xfqfgl2lOrFtzxoOsaf7hmvGaa87pFQD+/WHEIl0dy6b0wTP8sAIbHQ4nLi3FZ
-	 ErT09lkm3lrpbMof8UK9PbOUhx0R/U0AtRmZG8MK6MyNoHUbpBdRkj7C7TrYekZKMhw==
+	bh=Wa6FffWSifqy9byjf3TnSCSaUIR9pC+Hc3W0NorYeDA=;
+	b=asO56hXKHy4q9p4CwblY/wh9RthV2VxX0SGbeY0M9/+Dedk2cfXe18d7G+nQ5U34kYJl
+	 8wFMTwjGfzURUcTT6HjCswPVB/Gwy465eR+FsIw8/A9fhL+ZOVQ9DdkiIwW59UDmsRcOF
+	 yXx2VIM6gkwz1INAp4DDfJwEc7EIAfaY+i1iJNsUvzVLfAjZAYYlyfmisnAwpFVyoA4pb
+	 EpHPdaIpaKG5PH684HyTiv/JPVaBMbmwEuSBJ/NsQIm+QddDkMfqiI4MFT11FWGLLJz6C
+	 3zGzYsHPaYvyLrUX/2sIV79taqFBOmwpWcxUky9ckcFQxITjwcywgOcLMJrguhFtjLA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=bytedance.com;
 	spf=pass smtp.mailfrom=bytedance.com;
-	dkim=pass header.d=bytedance.com header.i=@bytedance.com header.a=rsa-sha256 header.s=google header.b=YBmgBfyO;
-	arc=none smtp.remote-ip=209.85.216.54
-Received: from mail-pj1-f54.google.com (mail-pj1-f54.google.com [209.85.216.54])
+	dkim=pass header.d=bytedance.com header.i=@bytedance.com header.a=rsa-sha256 header.s=google header.b=OWxGc8ul;
+	arc=none smtp.remote-ip=209.85.215.169
+Received: from mail-pg1-f169.google.com (mail-pg1-f169.google.com [209.85.215.169])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 22393606A337
-	for <workflows@vger.kernel.org>; Thu, 19 Nov 2026 07:01:27 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 22393606A337
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BC3B4606A325
+	for <workflows@vger.kernel.org>; Thu, 19 Nov 2026 07:01:50 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org BC3B4606A325
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=bytedance.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bytedance.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bytedance.com header.i=@bytedance.com header.a=rsa-sha256 header.s=google header.b=YBmgBfyO
-Received: by mail-pj1-f54.google.com with SMTP id 98e67ed59e1d1-3b3a9a4a765so1091603a91.0
-        for <workflows@vger.kernel.org>; Wed, 18 Nov 2026 23:01:27 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=bytedance.com header.i=@bytedance.com header.a=rsa-sha256 header.s=google header.b=OWxGc8ul
+Received: by mail-pg1-f169.google.com with SMTP id 41be03b00d2f7-cd62c570b5dso1523304a12.2
+        for <workflows@vger.kernel.org>; Wed, 18 Nov 2026 23:01:50 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=bytedance.com; s=google; t=1795071687; x=1795676487; darn=vger.kernel.org;
+        d=bytedance.com; s=google; t=1795071710; x=1795676510; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=PqykPPsR7vG8RbNReH5m+C9K46mE2LkFenHsUlsFdp0=;
-        b=YBmgBfyOjqXoVMkfsmSdgPgEbZzY/nsu1UPcgSHwFef3FtMLNDU9R/blryNFWek7no
-         AdibTYYCN24EDLJnPzPsP/kUExAzP5oYdvNl6Ubm7GEGTjO1bU97xGZHEcJ9VWZJZxUt
-         XPhwNpkwK1qKlt2DmjR1s/X3dUxdmhwtDPXWsImmN8z12ndz3iQzdCIR3CfHNh0UbHpC
-         JXgcB+XE26kwkihBmjYPNEOXSeHsQxFi41tzLppZ8whEMIzFbfglwJb4LVg13xtCVsvq
-         7o4xQo+EvO3Wr6+3QXnL5+sRK2PXxdzskuTQYo1dPow7v9BS1tFRNj9M8PLSfidZiXjc
-         mEKw==
+        bh=Wa6FffWSifqy9byjf3TnSCSaUIR9pC+Hc3W0NorYeDA=;
+        b=OWxGc8ulAKiSoE29y2RfI3mhfCrDbDKt04aHs9njeS6LMiH8YaOX6ncJxzOtdqrCC7
+         pH6Wv7jy2hyhJLJ9u4NEfyMmzE/+gILHTOPrq37A4MOwyqz7ZhuaUgygMAf+KlCUzBNw
+         /Pb57ziIKcNgY18Js14OZgu5Lbk+/ijfLrvhE0iImzsy5zJtY/1WCwNrn97koYob/d7a
+         GlthzItKBlfAkUV0GSko4rxNTM9lC0u/yuqxPFl8vdFx2tNJU/5vByqOzSN+mP5di6eZ
+         DcvzqKVTC8ysvcB7hDpSW26M9btMB9DNofHgMd0sZ+L9GkzcdZtXlajbz0G3FjZX/quL
+         4Qxg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1795071687; x=1795676487;
+        d=1e100.net; s=20260707; t=1795071710; x=1795676510;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=PqykPPsR7vG8RbNReH5m+C9K46mE2LkFenHsUlsFdp0=;
-        b=zfRjWIYgm1w2vZMPBwlRRAQObII2kx+6utkUuzJ+NokTgEEb0XqQ0U0vATtNMnn1tJ
-         zVgQApqR1Srzy9NujSZZLh90dieFb5RNnHYAX5dc/9UITQFlJZ/5IGnf/9FQtoaHKnQH
-         O6cb++VsucKHudL5sm5Oy2SW192JQaL4pg/2+L5H+rBkz6OjomvcaBA8rDzX82vKwFVD
-         54XHbw15deYAaXCfJDFT045JFE0zUHptCyrsJRxwM74kTq3fd8RasChR1Ddl3NiFa6+J
-         21iPc72U21mGf9WmkzJKG1lmmrbGRmhNpTZhClpv3mAtct3YO8xB9eeVLYiTHg0Whvyy
-         z8Ig==
-X-Forwarded-Encrypted: i=1; AL+hErG08w1ORSHyGhWdcLMGTwgNJDWrl1f9yeKF27pvLjR9dzgMcIyfvHKiRTEZZq+2ieMKzVIDs6T0DAc=@vger.kernel.org
-X-Gm-Message-State: APuU4Z/1Z4EjJ4oMaof+umuFsWvX+uAmTuIkszAuhs2sJaoQbLX2bRom
-	hvaadA2T7BfvWZRUJuM9fWPpxGDG12yqWwSnVWYMNWAYXQP1uc5jZeo1FCG7A7nrnI4=
-X-Gm-Gg: AZFdTZdFXBI9690RET7z4t8HXzve+OSlrFNNkLtbfAyBbomVZ/XCrbo007tvaJHvFNn
-	HHwaaZw+aGPG+bsrf6Q1NNY0jlu2yCT9hqYQZBkcvxfORVIXuVVAO2tnWF8nVKBHvuXrzg5Jind
-	eVh8cwnPFcQEofQ59Z02jDz7gT77SYUuyeHio6alENgDmalQwjNGO/FLdH5tx7xxtAX9LFfuM7M
-	wP41X+fFkTP4U5hFLmLj/jji0M+BGE6HMlzSH8lQtTRHBTuS6cSl//o52pCx3U8I9c0uGu7E+BU
-	nB28Voo8KqWvOowxIZulAWhPLDvWmuoiUQ5Vq3J58FMpuOk1bnfdRplgTPSXWm9SmaBMCTawENS
-	a6/4ATayA7DYovxoSPvQRt6sTwlEduMrXn2bO4AlpG3i0+qSEkgVT+p6V3lHJ5tHivNlIqAguig
-	CcHei+a6nqZSV0BOZ/XFPm4tkS4n0PJf3UXFRUjesMizD6d41cXzNPK9rD9y7KAyLFmgWDymmnV
-	zHNqM1J/CWJY2z+6gS9FwIqMmlbS7PBzSVsJDl8en92oeioM6wCgWrACIvvY2HiKBo/N2d69r/h
-	zIX2Iy2QlcAO/d19KYpPZ1oXlIgDA/qTum0/Ge4tAnZmRCbLDopp6K2UnkY=
-X-Received: by 2002:a17:90b:2ec8:b0:3ab:c80:9370 with SMTP id 98e67ed59e1d1-3b3d0759d8fmr4252956a91.20.1795071686861;
-        Wed, 18 Nov 2026 23:01:26 -0800 (PST)
+        bh=Wa6FffWSifqy9byjf3TnSCSaUIR9pC+Hc3W0NorYeDA=;
+        b=wYRsNWtvJpAGvl17Tdvet7a6UY+CT6uCgKcIO3zCzKuGHFD9fVeJLvAO7x2Ly3cuPn
+         4YHcw2TW72Y4TXsPFEZasAPZ6fPTwZF0fWuWrrpHuWBzENlvrO4l/Ek30CFEbzodbeCD
+         i6bA3upOwhfeIZY8GHXLu2FJqVTCTKLM8FhQYFt1WDXaptzfAW86M20zTb+1YmeZt25e
+         r7SQ5jiKRAQ2d5Rp9wPSHY8QiXVw3KNrTn77MCN7r9urzFs5fm8ItOBdwonV/zlmToqr
+         igB0XtDeLli1QDK2WxKgwSi+yzJtky2o/u2PHuQsneJmvmJhxLO1nAJ2GBYgXBza/5UA
+         Ykzw==
+X-Forwarded-Encrypted: i=1; AL+hErE9RpNW3uOEjRTxeNaj1D+7xIMWgQVym9gB2wsoCe+KufbnhAvS5m2KYLDnVh53d7WGDJJ3901yK6M=@vger.kernel.org
+X-Gm-Message-State: APuU4Z9KG3Kqj8Acnq38NjkHtNmul/qURoXZs9DLhoIZI98AS+ewWbG5
+	BJLdkUVzQfoG9Ur0sdOSlFSorA0xWekGN2iS1kGtbFpm0Akt03KwoQxXie+bXaawrYA=
+X-Gm-Gg: AZFdTZf4VFnan3ZS9yYjOWK/Msma8efinif/hUxylQxhSHWVC8zth1bb2Q3ZMqTorhk
+	AVAtunWp9/M3GOaeBIFc83gGX56etDwAJ2hnSs/rdpIx9rI8IAtcNwrR8DyyBJ6uK9bm0vWFjYc
+	w3NusLcYUOegXbJOe+RV1KMqny/iI+awGx14NxSZAgSQxki0WbefUZSINzrqYHfcY5znxDW6T55
+	IQywUchyLcjEcj86vF+kpyClYTYggU/0QJCGZTdaLPnZOpLvGxY0G9KkV23Zs0PXBRf2ctRlYU6
+	8hYbLHxL3/VlAvkc1Ae4lbsnmJba/CdKRac6GVlS9eim3rLW8mChQ9BBcoBLmdWUFVP6Hjm17/u
+	7ob2Hb+WLDgGvxj/faHH9+hxAzDAdZbYBaP5aL8oY92aTACnbngbo68D6GdS1riqZGGPPxx+8L3
+	UfkftYIhQoCcFD97xIVlimBMCjAfR2PFM7kLyfdWmyi5/IWTs4M4CX5IiHHGAkIFYREdyZkInGj
+	2xmNGvjImj8XXUeJ7RG8PmBzFXiB9shtaX4mji7RnqW+LNp1P055nE2vpMjonhIbesVm9vL7IJf
+	fkMI7mJCzEfBq1tlGv7vN5QJXd5eS9S//Xx1eKZjKdJcrBV1Qii/g4/47CA=
+X-Received: by 2002:a17:90a:ec88:b0:3b4:a63:d57a with SMTP id 98e67ed59e1d1-3b40a63da9fmr231139a91.1.1795071709630;
+        Wed, 18 Nov 2026 23:01:49 -0800 (PST)
 Received: from G6L4RL2QG9 ([2408:8440:c38:5ca5:3175:932a:757b:716a])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3b402e75223sm597488a91.4.2026.11.18.23.01.05
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3b402e75223sm597488a91.4.2026.11.18.23.01.27
         (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
-        Wed, 18 Nov 2026 23:01:26 -0800 (PST)
+        Wed, 18 Nov 2026 23:01:49 -0800 (PST)
 From: Muchun Song <songmuchun@bytedance.com>
 To: Alexander Potapenko <glider@google.com>,
 	Andrew Morton <akpm@linux-foundation.org>
@@ -110,9 +110,9 @@ Cc: Marco Elver <elver@google.com>,
 	linux-kernel@vger.kernel.org,
 	linux-mm@kvack.org,
 	Muchun Song <songmuchun@bytedance.com>
-Subject: [PATCH v3 6/7] mm/page_ext: inline unchecked page extension lookup
-Date: Thu, 19 Nov 2026 14:58:11 +0800
-Message-ID: <20261119065812.89959-7-songmuchun@bytedance.com>
+Subject: [PATCH v3 7/7] kmsan: fix metadata loss during HugeTLB struct page reinitialization
+Date: Thu, 19 Nov 2026 14:58:12 +0800
+Message-ID: <20261119065812.89959-8-songmuchun@bytedance.com>
 X-Mailer: git-send-email 2.54.0
 In-Reply-To: <20261119065812.89959-1-songmuchun@bytedance.com>
 References: <20261119065812.89959-1-songmuchun@bytedance.com>
@@ -127,14 +127,24 @@ Precedence: list
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The KMSAN runtime needs an unchecked page extension lookup that can be
-inlined into its uninstrumented compilation unit while page_ext.c remains
-instrumented.
+KMSAN stores each page's shadow and origin pointers in struct page.
+Boot-time gigantic HugeTLB pages are reinitialized after
+kmsan_init_shadow() installs these pointers, dropping the mappings and
+leaving the allocated metadata pages unreachable.
 
-Provide an inline lookup for this use case while keeping the existing RCU
-checks for other callers.
+Move the pointers to page_ext, whose boot-time storage is available
+before kmsan_init_shadow() and survives struct page reinitialization.
+Use the inline unchecked lookup under notrace preemption so metadata
+lookup cannot recurse through instrumented hooks.
 
+This shrinks struct page from 80 to 64 bytes on x86-64 KMSAN builds,
+making its size a power of two and allowing HugeTLB Vmemmap Optimization
+with KMSAN.
+
+Fixes: fde1c4ecf916 ("mm: hugetlb: skip initialization of gigantic tail struct pages if freed by HVO")
 Signed-off-by: Muchun Song <songmuchun@bytedance.com>
+Reported-by: Sashiko <sashiko-bot@kernel.org>
+Closes: https://sashiko.dev/#/bug/linux-ac161ba4-30cc-4bd3-b93c-ab7af8a6f64f
 Reviewed-by: Chris Down <chris@chrisdown.name>
 Tested-by: Chris Down <chris@chrisdown.name>
 ---
@@ -142,191 +152,227 @@ v3:
 - Collect Reviewed-by and Tested-by from Chris Down
 
 v2:
-- Add a preparatory patch that inlines the unchecked lookup (suggested
+- Update __mm_zero_struct_page() for the smaller struct page.
+- Keep the unchecked lookup inline in KMSAN and leave page_ext.c
+  instrumented (suggested by Chris Down)
+- Document page_ext metadata storage and KMSAN HVO support (suggested
   by Chris Down)
-- Use a PFN interface to avoid architecture header-order dependencies
+- Use the common boot-time page_ext allocation instead of need_early
 ---
- include/linux/page_ext.h | 46 ++++++++++++++++++++++++++++++
- mm/page_ext.c            | 60 +++-------------------------------------
- 2 files changed, 50 insertions(+), 56 deletions(-)
+ Documentation/dev-tools/kmsan.rst |  8 +++---
+ include/linux/kmsan.h             |  2 ++
+ include/linux/mm.h                | 12 +++------
+ include/linux/mm_types.h          | 12 ---------
+ lib/Kconfig.kmsan                 |  1 +
+ mm/kmsan/shadow.c                 | 45 ++++++++++++++++++++++++++-----
+ mm/page_ext.c                     |  4 +++
+ 7 files changed, 52 insertions(+), 32 deletions(-)
 
-diff --git a/include/linux/page_ext.h b/include/linux/page_ext.h
-index d00320106a58..166f8be11564 100644
---- a/include/linux/page_ext.h
-+++ b/include/linux/page_ext.h
-@@ -64,7 +64,14 @@ static inline bool early_page_ext_enabled(void)
- void page_ext_alloc(void);
- void page_ext_init(void);
+diff --git a/Documentation/dev-tools/kmsan.rst b/Documentation/dev-tools/kmsan.rst
+index 0dc668b183f6..5330d21d141d 100644
+--- a/Documentation/dev-tools/kmsan.rst
++++ b/Documentation/dev-tools/kmsan.rst
+@@ -376,13 +376,11 @@ Metadata allocation
  
-+static __always_inline struct page_ext *page_ext_entry(void *base, unsigned long index)
-+{
-+	return base + page_ext_size * index;
-+}
-+
- #ifdef CONFIG_SPARSEMEM
-+#define PAGE_EXT_INVALID	0x1
-+
- static inline bool page_ext_iter_next_fast_possible(unsigned long next_pfn)
- {
- 	/*
-@@ -73,11 +80,50 @@ static inline bool page_ext_iter_next_fast_possible(unsigned long next_pfn)
- 	 */
- 	return next_pfn % PAGES_PER_SECTION;
- }
-+
-+static __always_inline bool page_ext_invalid(struct page_ext *page_ext)
-+{
-+	return !page_ext || (((unsigned long)page_ext & PAGE_EXT_INVALID) == PAGE_EXT_INVALID);
-+}
-+
-+static __always_inline struct page_ext *__page_ext_lookup(unsigned long pfn)
-+{
-+	struct mem_section *section = __pfn_to_section(pfn);
-+	struct page_ext *page_ext = READ_ONCE(section->page_ext);
-+
-+	/*
-+	 * The sanity checks the page allocator does upon freeing a page can
-+	 * reach here before the page_ext arrays are allocated when feeding a
-+	 * range of pages to the allocator for the first time during bootup or
-+	 * memory hotplug.
-+	 */
-+	if (page_ext_invalid(page_ext))
-+		return NULL;
-+	return page_ext_entry(page_ext, pfn);
-+}
- #else
- static inline bool page_ext_iter_next_fast_possible(unsigned long next_pfn)
- {
- 	return true;
- }
-+
-+static __always_inline struct page_ext *__page_ext_lookup(unsigned long pfn)
-+{
-+	int nid = pfn_to_nid(pfn);
-+	struct page_ext *base = NODE_DATA(nid)->node_page_ext;
-+	unsigned long index;
-+
-+	/*
-+	 * The sanity checks the page allocator does upon freeing a page can
-+	 * reach here before the page_ext arrays are allocated when feeding a
-+	 * range of pages to the allocator for the first time during bootup or
-+	 * memory hotplug.
-+	 */
-+	if (unlikely(!base))
-+		return NULL;
-+	index = pfn - round_down(node_start_pfn(nid), MAX_ORDER_NR_PAGES);
-+	return page_ext_entry(base, index);
-+}
- #endif
+ There are several places in the kernel for which the metadata is stored.
  
- extern struct page_ext *page_ext_get(const struct page *page);
-diff --git a/mm/page_ext.c b/mm/page_ext.c
-index cfd20ed72884..63af3d62ed74 100644
---- a/mm/page_ext.c
-+++ b/mm/page_ext.c
-@@ -63,10 +63,6 @@
-  * can utilize this callback to initialize the state of it correctly.
-  */
+-1. Each ``struct page`` instance contains two pointers to its shadow and
+-origin pages::
++1. Each page frame has a corresponding ``struct page_metadata`` entry containing
++two pointers to its shadow and origin pages::
  
--#ifdef CONFIG_SPARSEMEM
--#define PAGE_EXT_INVALID       (0x1)
--#endif
--
- #if defined(CONFIG_PAGE_IDLE_FLAG) && !defined(CONFIG_64BIT)
- static bool need_page_idle(void)
- {
-@@ -180,33 +176,7 @@ static void __init invoke_init_callbacks(void)
- 	}
- }
+-  struct page {
+-    ...
++  struct page_metadata {
+     struct page *shadow, *origin;
+-    ...
+   };
  
--static inline struct page_ext *get_entry(void *base, unsigned long index)
--{
--	return base + page_ext_size * index;
--}
--
- #ifndef CONFIG_SPARSEMEM
--static struct page_ext *lookup_page_ext(const struct page *page)
--{
--	unsigned long pfn = page_to_pfn(page);
--	unsigned long index;
--	struct page_ext *base;
--
--	WARN_ON_ONCE(!rcu_read_lock_held());
--	base = NODE_DATA(page_to_nid(page))->node_page_ext;
--	/*
--	 * The sanity checks the page allocator does upon freeing a
--	 * page can reach here before the page_ext arrays are
--	 * allocated when feeding a range of pages to the allocator
--	 * for the first time during bootup or memory hotplug.
--	 */
--	if (unlikely(!base))
--		return NULL;
--	index = pfn - round_down(node_start_pfn(page_to_nid(page)),
--					MAX_ORDER_NR_PAGES);
--	return get_entry(base, index);
--}
--
- static int __init alloc_node_page_ext(int nid)
- {
- 	struct page_ext *base;
-@@ -252,29 +222,6 @@ static int __init __page_ext_alloc(void)
- }
+ At boot-time, the kernel allocates shadow and origin pages for every available
+diff --git a/include/linux/kmsan.h b/include/linux/kmsan.h
+index 7da9fd506b39..08fb79566235 100644
+--- a/include/linux/kmsan.h
++++ b/include/linux/kmsan.h
+@@ -15,12 +15,14 @@
+ #include <linux/types.h>
  
- #else /* CONFIG_SPARSEMEM */
--static bool page_ext_invalid(struct page_ext *page_ext)
--{
--	return !page_ext || (((unsigned long)page_ext & PAGE_EXT_INVALID) == PAGE_EXT_INVALID);
--}
--
--static struct page_ext *lookup_page_ext(const struct page *page)
--{
--	unsigned long pfn = page_to_pfn(page);
--	struct mem_section *section = __pfn_to_section(pfn);
--	struct page_ext *page_ext = READ_ONCE(section->page_ext);
--
--	WARN_ON_ONCE(!rcu_read_lock_held());
--	/*
--	 * The sanity checks the page allocator does upon freeing a
--	 * page can reach here before the page_ext arrays are
--	 * allocated when feeding a range of pages to the allocator
--	 * for the first time during bootup or memory hotplug.
--	 */
--	if (page_ext_invalid(page_ext))
--		return NULL;
--	return get_entry(page_ext, pfn);
--}
--
- static __ref void *alloc_page_ext(size_t size, int nid)
- {
- 	void *addr;
-@@ -365,7 +312,7 @@ static void __free_page_ext(unsigned long pfn)
- 		base = (void *)base - PAGE_EXT_INVALID;
- 	WRITE_ONCE(ms->page_ext, NULL);
+ struct page;
++struct page_ext_operations;
+ struct kmem_cache;
+ struct task_struct;
+ struct scatterlist;
+ struct urb;
  
--	base = get_entry(base, pfn);
-+	base = page_ext_entry(base, pfn);
- 	free_page_ext(base);
- }
- 
-@@ -508,7 +455,8 @@ void __init page_ext_init(void)
-  */
- struct page_ext *page_ext_lookup(unsigned long pfn)
- {
--	return lookup_page_ext(pfn_to_page(pfn));
-+	WARN_ON_ONCE(!rcu_read_lock_held());
-+	return __page_ext_lookup(pfn);
- }
+ #ifdef CONFIG_KMSAN
++extern struct page_ext_operations kmsan_ops;
  
  /**
-@@ -527,7 +475,7 @@ struct page_ext *page_ext_get(const struct page *page)
- 	struct page_ext *page_ext;
+  * kmsan_task_create() - Initialize KMSAN state for the task.
+diff --git a/include/linux/mm.h b/include/linux/mm.h
+index 3578f53ea9cc..e04cd6289546 100644
+--- a/include/linux/mm.h
++++ b/include/linux/mm.h
+@@ -134,7 +134,7 @@ extern int mmap_rnd_compat_bits __read_mostly;
+  * define their own version of this macro in <asm/pgtable.h>
+  */
+ #if BITS_PER_LONG == 64
+-/* This function must be updated when the size of struct page grows above 96
++/* This function must be updated when the size of struct page grows above 80
+  * or reduces below 56. The idea that compiler optimizes out switch()
+  * statement, and only leaves move/store instructions. Also the compiler can
+  * combine write statements if they are both assignments and can be reordered,
+@@ -145,18 +145,12 @@ static inline void __mm_zero_struct_page(struct page *page)
+ {
+ 	unsigned long *_pp = (void *)page;
  
- 	rcu_read_lock();
--	page_ext = lookup_page_ext(page);
-+	page_ext = page_ext_lookup(page_to_pfn(page));
- 	if (!page_ext) {
- 		rcu_read_unlock();
- 		return NULL;
+-	 /* Check that struct page is either 56, 64, 72, 80, 88 or 96 bytes */
++	/* Check that struct page is either 56, 64, 72 or 80 bytes */
+ 	BUILD_BUG_ON(sizeof(struct page) & 7);
+ 	BUILD_BUG_ON(sizeof(struct page) < 56);
+-	BUILD_BUG_ON(sizeof(struct page) > 96);
++	BUILD_BUG_ON(sizeof(struct page) > 80);
+ 
+ 	switch (sizeof(struct page)) {
+-	case 96:
+-		_pp[11] = 0;
+-		fallthrough;
+-	case 88:
+-		_pp[10] = 0;
+-		fallthrough;
+ 	case 80:
+ 		_pp[9] = 0;
+ 		fallthrough;
+diff --git a/include/linux/mm_types.h b/include/linux/mm_types.h
+index 1ed35d258d2e..dc73f9f5a51b 100644
+--- a/include/linux/mm_types.h
++++ b/include/linux/mm_types.h
+@@ -208,18 +208,6 @@ struct page {
+ #ifdef LAST_CPUPID_NOT_IN_PAGE_FLAGS
+ 	int _last_cpupid;
+ #endif
+-
+-#ifdef CONFIG_KMSAN
+-	/*
+-	 * KMSAN metadata for this page:
+-	 *  - shadow page: every bit indicates whether the corresponding
+-	 *    bit of the original page is initialized (0) or not (1);
+-	 *  - origin page: every 4 bytes contain an id of the stack trace
+-	 *    where the uninitialized value was created.
+-	 */
+-	struct page *kmsan_shadow;
+-	struct page *kmsan_origin;
+-#endif
+ } _struct_page_alignment;
+ 
+ /*
+diff --git a/lib/Kconfig.kmsan b/lib/Kconfig.kmsan
+index cae1ddcc18e1..015e85c70793 100644
+--- a/lib/Kconfig.kmsan
++++ b/lib/Kconfig.kmsan
+@@ -10,6 +10,7 @@ config KMSAN
+ 	depends on HAVE_ARCH_KMSAN && HAVE_KMSAN_COMPILER
+ 	depends on DEBUG_KERNEL && !KASAN && !KCSAN
+ 	depends on !PREEMPT_RT
++	select PAGE_EXTENSION
+ 	select STACKDEPOT
+ 	select STACKDEPOT_ALWAYS_INIT
+ 	help
+diff --git a/mm/kmsan/shadow.c b/mm/kmsan/shadow.c
+index 300b48818af1..fa2a403d87c2 100644
+--- a/mm/kmsan/shadow.c
++++ b/mm/kmsan/shadow.c
+@@ -13,6 +13,7 @@
+ #include <linux/cacheflush.h>
+ #include <linux/memblock.h>
+ #include <linux/mm_types.h>
++#include <linux/page_ext.h>
+ #include <linux/slab.h>
+ #include <linux/smp.h>
+ #include <linux/stddef.h>
+@@ -24,23 +25,55 @@
+ #define KMSAN_META_MASK_SHADOW		BIT(0)
+ #define KMSAN_META_MASK_ORIGIN		BIT(1)
+ 
++/*
++ * KMSAN metadata for this page:
++ *  - shadow page: every bit indicates whether the corresponding
++ *    bit of the original page is initialized (0) or not (1);
++ *  - origin page: every 4 bytes contain an id of the stack trace
++ *    where the uninitialized value was created.
++ */
+ struct page_metadata {
+ 	struct page *shadow;
+ 	struct page *origin;
+ };
+ 
++static __init bool need_page_metadata(void)
++{
++	return true;
++}
++
++struct page_ext_operations kmsan_ops = {
++	.size	= sizeof(struct page_metadata),
++	.need	= need_page_metadata,
++};
++
+ static inline struct page_metadata get_page_metadata(struct page *page)
+ {
+-	return (struct page_metadata) {
+-		.shadow = page->kmsan_shadow,
+-		.origin = page->kmsan_origin,
+-	};
++	struct page_metadata meta = {};
++	struct page_ext *page_ext;
++
++	/*
++	 * Avoid instrumented preemption debug and tracing hooks while resolving
++	 * KMSAN metadata, as they would recurse back into metadata lookup.
++	 */
++	preempt_disable_notrace();
++	page_ext = __page_ext_lookup(page_to_pfn(page));
++	if (page_ext)
++		meta = *(struct page_metadata *)page_ext_data(page_ext, &kmsan_ops);
++	preempt_enable_no_resched_notrace();
++
++	return meta;
+ }
+ 
+ static inline void set_page_metadata(struct page *page, struct page_metadata meta)
+ {
+-	page->kmsan_shadow = meta.shadow;
+-	page->kmsan_origin = meta.origin;
++	struct page_ext *page_ext;
++
++	preempt_disable_notrace();
++	page_ext = __page_ext_lookup(page_to_pfn(page));
++	if (page_ext)
++		*(struct page_metadata *)page_ext_data(page_ext, &kmsan_ops) = meta;
++	preempt_enable_no_resched_notrace();
+ }
+ 
+ static inline void *shadow_ptr_for(struct page_metadata meta)
+diff --git a/mm/page_ext.c b/mm/page_ext.c
+index 63af3d62ed74..985595bdf420 100644
+--- a/mm/page_ext.c
++++ b/mm/page_ext.c
+@@ -12,6 +12,7 @@
+ #include <linux/rcupdate.h>
+ #include <linux/pgalloc_tag.h>
+ #include <linux/iommu-debug-pagealloc.h>
++#include <linux/kmsan.h>
+ #include <linux/slab.h>
+ 
+ /*
+@@ -87,6 +88,9 @@ static struct page_ext_operations *page_ext_ops[] __initdata = {
+ #ifdef CONFIG_PAGE_TABLE_CHECK
+ 	&page_table_check_ops,
+ #endif
++#ifdef CONFIG_KMSAN
++	&kmsan_ops,
++#endif
+ #ifdef CONFIG_IOMMU_DEBUG_PAGEALLOC
+ 	&page_iommu_debug_ops,
+ #endif
 -- 
 2.54.0
 
