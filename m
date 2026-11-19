@@ -1,47 +1,47 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795083242;
-	b=mllknsZ4C4R6xw2OJt7vwqHdtxkknkXC6G3ooj8oHE84DJ2vFqBTJ07gfbka1PT6w4Ur
-	 7iZ8GPLzTt7fFC76R/QnX55El8ipeHTMaNhRoy85vEM+cJ5KOrxFIfvCYwmIJmqyIyDwl
-	 yPqFFT/j8KzIgLDTrb4H842eeZtdwqX7UaGMGzb+UCDhIKCRQyMx3CVHO2ZBr1OEsG9Mm
-	 NliH4w/h4ZopMHZZtPutiinGee5XXV43ifApKqzw0u2ifvr1e3o6pjbEFX4+iFXLNy4QH
-	 5fayTKXoOW+ufCewsEwSPUtWEReSIgZ2WQCJpd73/552POH2Ymxk7ngLvQ5bINWnR6Q==
+	t=1795083298;
+	b=dT8J0zdEcofn9wZ3Bfd9dL20WBjCe40Z63+F2FUfwyGMizHTb4uyBAOazrAsPNco2xgz
+	 ybDf7qD1OgWMVNKIyjCVlXAeTvcFc3izXdkc38j1F8ypFT5iLy9/pQNn08GeM5lQEEsB0
+	 t/T4VR/NXJrrlgSv/SLlA6ZMNCyYJzreJJM7Hud8DirLsUwvPuM3KfALosXjGsviryaJ+
+	 gJ5Cy3wDZO2eHBKvP4vuGgta4mTznUgVRPmcJBbIkK7fvBJG34rN+Z0RwJ4a38RSGdMpI
+	 ue8SmaNjPc0MyVkxFwAiFa1jp8uRI9bZSUOaukLgTIsf4wfau2FusmH7AuWxLetqO0A==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795083242;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795083298;
 	h=Received:DKIM-Signature:Message-ID:Date:MIME-Version:User-Agent:
-	 Subject:To:Cc:References:From:Content-Language:Autocrypt:In-Reply-To:
+	 Subject:To:References:From:Content-Language:Autocrypt:In-Reply-To:
 	 Content-Type:Content-Transfer-Encoding;
-	bh=DWt3CLOh3ZYbzS8NVJmfBMxyc/YHy7CMAqMHtrI2Wqc=;
-	b=GLwrYGwRL06muHJOSvHFqvIm084wEd9FJL82BH807vcIfyITA03XyCQc5VJo6IsgSmvV
-	 17RHaZKDx/ysn2zq0f58U6HMocq4j02g1oTLQ+/0LBT1BF6+2JZ5npiVimsga1uzt8/B/
-	 ouRF2WKaEyb43kSMDk1nZg6nUsJx8nnPkQmHXmDpNzo7yyBS4scecBhWNxSCgj+MCD3C8
-	 DfUnxcK5GeqeunVWSothBkQ4iKcTrmUqSoTjvBMucNTr/72p0LRCtfkdWXM8sjZE703nT
-	 OhD0MccPc4/hwFja9f3dmWiJrnqfeardJOMH7604+ie/tP2C4q+MMaFuvGUVrYRcehg==
+	bh=UixxAn4PVdz7ONhwrVwixWrDm4qpK/hXCz7pcQQzQgY=;
+	b=AHTBXiKoI7Cqi1S/Ns/DZNckpR5Vzhgoej9MtiDaYCzy9JtincPBwMeD/wJPd0FzYuI9
+	 tJFGtJ2y6xtxPb0Ls/dWtkq9aBejOiH65+miTUk7AvM+9j7teA4jWufa2/7pg7E57IqKA
+	 nrPTQv/LqFy99aBye4bw4dSARy8oUA0JKCOPGQkUX/9HJkAb+FQ7MuD2H54s09Ba+nRFc
+	 7XyYt6Fpf9RxpYFWpRy3EYCoEMEplSLWlsyPIysX5+uI+M5otldjXIOPerqeiapHnXrAF
+	 gOe/BGxwk27WTaY/z3+JnHmXPV47t3I0FnNl8/vda2IsaoLANuEF1Y9Plfck578hnnQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=E3qLMLfb;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b="gOp/uVtO";
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9ACEB606A320;
-	Thu, 19 Nov 2026 10:14:02 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DE506606A320;
+	Thu, 19 Nov 2026 10:14:58 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=E3qLMLfb
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4C3AD1F000C4;
-	Thu, 19 Nov 2026 10:13:59 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=gOp/uVtO
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4AADC1F000C7;
+	Thu, 19 Nov 2026 10:14:57 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795083242;
-	bh=DWt3CLOh3ZYbzS8NVJmfBMxyc/YHy7CMAqMHtrI2Wqc=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To;
-	b=E3qLMLfbJneDL0wnoBI3JVlT+y02b12RXX9KG3nngkyZuspQNMY43k/AiZemdFgmY
-	 rYh9VcIGD3M0dA5CoyIcXfW0WR7+3Yyc0LhYIjjTs3zfwmu2Mj0jK/gRa/K5VgL03p
-	 6zSEYuyMK7NxoTLs6W3x+ntuZe7z+0WygXGiB3gGHZAdvg/iICGjxCUPMocFZmNgGN
-	 mcdqTXeTycylpSpfPZcn9DBEh2eF+Le4SKJIQyptHicLmuXLOQO8fZqbAzyup6vTCm
-	 JVHH1ZhKnxQjcksZR7AqVXIGG4qFzpUbs4CUZt2q+qCDjMGJR6OyXqyRhn4b46MxKT
-	 8IrRgq1MHiheg==
-Message-ID: <220c5818-ad59-4003-9955-9821d09c0279@kernel.org>
-Date: Thu, 19 Nov 2026 11:13:57 +0100
+	s=k20260515; t=1795083298;
+	bh=UixxAn4PVdz7ONhwrVwixWrDm4qpK/hXCz7pcQQzQgY=;
+	h=Date:Subject:To:References:From:In-Reply-To;
+	b=gOp/uVtOn5E+qbwbV9kPojpQHUrHPuTF0CYAdHzAyKUmX/RI5NFh8h6sv5XXY4GjE
+	 5KOKBZyUc1ddZKZP56VQ3mED0CESq4KVse/B2zLjlWHCu/hKRzWqvA6lcN999mYtdl
+	 fyj8cfSS2x3hnK+5VIwlwWK7zmeqH4XSovqgN3LEI1Z3WuWh8b2tuJF9hWUM17qe3j
+	 jbV8XCKt1q9Uc6KYpHeqLUG9X8j/6kgUmR2BeBXP9V76qEaVL9G8C3pq2riy2gOABs
+	 EwPIAC5krkVRQnmdMOTTkr5VR/81ECv29mrs5n5dT4RZ8H9KULXJCBfVaRhS9LiSqG
+	 qvJHAiIJMGwNg==
+Message-ID: <63566373-86cc-4a55-8e09-741f283e6786@kernel.org>
+Date: Thu, 19 Nov 2026 11:14:55 +0100
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Post: <mailto:workflows@vger.kernel.org>
@@ -52,18 +52,11 @@ List-Owner: <mailto:workflows+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2] docs: submitting-patches: ask bug fixes for their
- user-visible impact
-To: Leon Romanovsky <leon@kernel.org>, Sasha Levin <sashal@kernel.org>
-Cc: Jonathan Corbet <corbet@lwn.net>,
- Andrew Morton <akpm@linux-foundation.org>, Willy Tarreau <w@1wt.eu>,
- Shuah Khan <skhan@linuxfoundation.org>, Randy Dunlap
- <rdunlap@infradead.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Theodore Ts'o <tytso@mit.edu>, David Hildenbrand <david@kernel.org>,
- workflows@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org
-References: <20261116200515.352387-1-sashal@kernel.org>
- <20261117092723.GA124972@unreal>
+Subject: Re: [PATCH] btrfs: add a per-subsystem agent file
+To: Qu Wenruo <wqu@suse.com>, linux-btrfs@vger.kernel.org,
+ workflows@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-doc@vger.kernel.org
+References: <df1c1fa031ba7e66486348dc37d1a7be53c18e43.1794894953.git.wqu@suse.com>
 From: Krzysztof Kozlowski <krzk@kernel.org>
 Content-Language: en-US
 Autocrypt: addr=krzk@kernel.org; keydata=
@@ -109,55 +102,26 @@ Autocrypt: addr=krzk@kernel.org; keydata=
  K9bCVaboTA2T77QYkRcRJYSsO1alGX0ome/hMLD1daXlkrNUp1HWa3K4iytLRXjCSIorWiGs
  n+q3krnpXu3TFkA8qtOFZMdnIiFuiq1yLT8hptsV5xh1TA2nsVvSYiaCr3q4s4BKjS/KrLDb
  qoxzw8ISjdUp4pA85vb6YLCmb39NgidD+7PmAr65lBNveIFynTgsja1rRQ4=
-In-Reply-To: <20261117092723.GA124972@unreal>
+In-Reply-To: <df1c1fa031ba7e66486348dc37d1a7be53c18e43.1794894953.git.wqu@suse.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-On 17/11/2026 10:27, Leon Romanovsky wrote:
-> On Mon, Nov 16, 2026 at 03:05:15PM -0500, Sasha Levin wrote:
->> "Describe your changes" already asks for the user-visible impact of a
->> change, but changelogs for fixes still tend to say what the code does,
->> why that's wrong and what the patch changes, and stop there. Whoever
->> has to decide if the fix needs backporting is left to work out what
->> the bug does to a running system.
->>
->> Say what that means for a bug fix, in two parts. For users who aren't
->> looking for the bug: what a normal workload is likely to run into, and
->> separately the worst case and what it takes to get there. For someone
->> triggering it on purpose: whether an unprivileged user could do it and
->> what that would take, since a race that no real workload loses can
->> still be won by a program written to win it. Give the paragraph a
->> label so people can be pointed at it.
->>
->> Coding assistants are told to commit a fix with a message that
->> describes the problem and the solution. Add the user-visible impact to
->> that list and point them at the section.
->>
->> Suggested-by: Andrew Morton <akpm@linux-foundation.org>
->> Link: https://lore.kernel.org/r/20261111171055.527b4bf3da705367bc78a64c@linux-foundation.org
->> Signed-off-by: Sasha Levin <sashal@kernel.org>
->> Acked-by: Andrew Morton <akpm@linux-foundation.org>
->> Reviewed-by: Willy Tarreau <w@1wt.eu>
->> ---
->> Changes since v1:
->> - Split the bug-fix paragraph into users who aren't looking for the bug
->>   and someone triggering it on purpose (Andrew, Willy).
->>
->> v1: https://lore.kernel.org/r/20261116191436.188098-1-sashal@kernel.org
->>
->>  Documentation/process/coding-assistants.rst  |  6 +++--
->>  Documentation/process/submitting-patches.rst | 23 ++++++++++++++++++++
->>  2 files changed, 27 insertions(+), 2 deletions(-)
+On 17/11/2026 06:58, Qu Wenruo wrote:
+> I believe btrfs is not the most affected sub-system, but a lot of
+> newbies without common senses are doing more harm than help.
+> E.g. wasting a lot of human review time on very low value fixes, filled
+> with long paragraphs and useless test steps/results.
 > 
-> Sasha,
+> So it would be better to let those agents to stop being stupid and
+> follow the more common practices here, and hopefully those newbies can
+> build some common sense.
 > 
-> Since you're already making changes in that area, could you add a sentence
-> asking reporters to provide the full dmesg stack trace?
+> I hope the agent file is clear and short enough, that is not only
+> readable for LLMs, but also for humans who want to be long term
+> contributers.
 
-If so, then trimmed. We do not need all addresses and registers and the
-[time markers], but rather the calltrace from decode_stacktrace.sh.
-That's often review feedback, btw, people just paste huge bunch of dmesg
-without thinking what is useful there.
+Then it should be a maintainer profile. We should write docs for humans,
+which can be used by agents. Not the other way around.
 
 Best regards,
 Krzysztof
