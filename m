@@ -1,51 +1,50 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795095997;
-	b=ZOfxzxc7L0cr7GGTUZzN40Bqinni8QpaLjGEOMBILaMLnJjZYtjVCgqUYbkgBBYXfXEi
-	 ZWr44sBJ6I6mH05F1DUci9VKJhyX2vniCTngCLtYH67IPzIUFjsZQNNVHeFWIYhHI7/O+
-	 6CMe6/DWqRJT+0Z/MbSMG4wyrg3rzAZafZFoz20dNhSCRxGHjWNzmwPklTQFcLyE8ujSy
-	 M40Drsj2fRA+7J7QBLERoPUAdtl4rNSk03eIBsllvTMYf/tIsZ1NoOPTXOZ2nHjLtgCB1
-	 N3caLrtfpq/TDnY76Sy2gzxcLiXR90fzqLoblXbi10wFupz7v2sngPfUUN9PJjW0nmg==
+	t=1795097275;
+	b=pRd8l8XeH6oHj3Be6jDLWtvhEceqswEK+fzjCxJ7dqDI3/qhs5jJ3B7exLNMi8AZSO9H
+	 bEzI7OSm1fKMzI65DBJyE9kwHrrghUXcvC6zkHLX3AN5zP1jyR1rg6vrKtwza0PCSyQgg
+	 Kd0bzS9H3xGGpuZaHAW+wHo6X4+1zNWvyKHeo6EJLCTw8WEF7V8NuzfwHzYsyETJzA8zz
+	 Z6nOjfcUS35a1660TVrRmiPElcsGagI2FLrxIQGTLSkRapKyVDkaRytSkYPFGukprDY8f
+	 dYQPQnvqD7ZhWJFRYKVbn1N4X6lbPi0C7aTuCZF4rQAH98DKsULqaG2axDNdcNx57Pw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795095997;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795097275;
 	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
-	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To:
-	 X-Cookie;
-	bh=K6c48fOGAG/eR5AK65D44dlpQvLqtxWSyQFSKksC/vo=;
-	b=bdtxhfVaUj33R1JHDKP9NJMAMN9bKSnlQh+zs1/4NdziyvQRGwf4weYsi4Ake6QGK2PQ
-	 SfdZrO4M/ylhhhU+X5NXQBh+bEM+UMyjgLXCgTpUL4n76IuZ5Q+AHMBvCr6rsclyZyNmY
-	 mTs8AOwOn6fAQBUrEevEGtrEuWMYXr5E/b8V4SD7nhQ2ENqAxVgDX1VyB0dXBu58t30cd
-	 ZGbw9aGIHsz32oA55TURpiPemPnJQAHYeC4vMJ4lT4LS8gtl0YxhTTEljdF37lAG+/R9Y
-	 wn7n2mjfB54rjaAYODNxMvJ/xWOGxCT5drjF9jraeF6DLifnXCM9ZKRvCdvacpWVTwQ==
+	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
+	bh=h4WEBZt8zvJPkIGFlDBBDtrAGaCS/Hic2L8pvEkBCJM=;
+	b=RAmaa64AdlrCPIYsCOljjgv69uquerAJGpio/5edtijIm7XGzftvqINhXjC6K3E9E4XF
+	 ayUxVdLZp5YSRJ5d0IYTI3NNSYOJ0k4tME/ljL38E+AoWlzUnzhEXJ1kGdCD9R0mahUy2
+	 ioKa7mYaR+3W5m8vj/rDTyKx2xUacWW7OpNE+6y9RISmLJO2rup95YFW0tWv7JYIVMb9X
+	 /uhQalk1MYgPWzhnPxVJppVbvMAImXEwUpyDNnQXOI1pofUrNidlWHmMym57FBA/6MiX7
+	 iye7De3/h/d9FELAmaE8eSrRpoba3JnVKg2Vqww9h/Mjp85LGz5jZ0frb283Sbw4kkQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=f1+TuU4u;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=BR6MmYw3;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8D988606A339;
-	Thu, 19 Nov 2026 13:46:37 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6AAC8606A325;
+	Thu, 19 Nov 2026 14:07:55 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=f1+TuU4u
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 642A91F000C5;
-	Thu, 19 Nov 2026 13:46:34 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=BR6MmYw3
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 763A01F000C5;
+	Thu, 19 Nov 2026 14:07:54 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795095997;
-	bh=K6c48fOGAG/eR5AK65D44dlpQvLqtxWSyQFSKksC/vo=;
+	s=k20260515; t=1795097275;
+	bh=h4WEBZt8zvJPkIGFlDBBDtrAGaCS/Hic2L8pvEkBCJM=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=f1+TuU4u5pQY0jlxM4FxicBn9e3x+JEPVAJoBXMJQPCA7r4sIu08tDq/G3USbMOMx
-	 unmVpNXoTEzJCOslI1jCYxOSiTVipGJzd0mU1yu2bG1KsTrdO9fn4hOx3OV3Pc+TYC
-	 EnPqgztpgXWXjDuTlYUH6GD7YCdVacVJlcrS3CZ8MMKD9hqXPn0Twmc2kuAXqlt9bG
-	 AX+eyjaEZPtQoDAlp9cMKEXoLXNcReaFccZ6knlIC+Jcw/MRW0izkof37GZSGwJaY3
-	 1+BWQeEXtoJwhpHGpyrvlxhDjJdh7h9svpGoUGPmi6ndaX37BKm3EqI3OKo2E/6eja
-	 m9ammzn2xPOOw==
-Date: Thu, 19 Nov 2026 13:46:31 +0000
-From: Mark Brown <broonie@kernel.org>
-To: Leon Romanovsky <leon@kernel.org>
-Cc: Krzysztof Kozlowski <krzk@kernel.org>, Sasha Levin <sashal@kernel.org>,
+	b=BR6MmYw31vFoQaf3bfXZOOR30u8VFq0hzmApgVeCIYowgJyGnA33pKhkgxf5XQDxf
+	 4Mus+YH/JRjlIFqE2l7OAj4G7BtMaj9H0ltUjsoH69zjV3dgq525Q90Dr2/PiUUaHP
+	 a3xHM1UNsizW7OJ+W1HomsIdgudbncYBw/ZrRc+HSx4qYmLkPhZ7kRsGMgTUixwcWb
+	 MBWQfgA2H1WHh2ZAzUODQ8OlQGatDt1dizgr8Z9TfFdPf5JUu5RiFuQY94IbHqOdMc
+	 9dnuiNQa3ldR3I9Gsr2Qh9zMcFxHIKxocOQUGw3nxcqI1pblbyvAOtpgBUJhnjL+jc
+	 GakSfd0MetoHQ==
+Date: Thu, 19 Nov 2026 16:07:50 +0200
+From: Leon Romanovsky <leon@kernel.org>
+To: Krzysztof Kozlowski <krzk@kernel.org>
+Cc: Willy Tarreau <w@1wt.eu>, Sasha Levin <sashal@kernel.org>,
 	Jonathan Corbet <corbet@lwn.net>,
-	Andrew Morton <akpm@linux-foundation.org>, Willy Tarreau <w@1wt.eu>,
+	Andrew Morton <akpm@linux-foundation.org>,
 	Shuah Khan <skhan@linuxfoundation.org>,
 	Randy Dunlap <rdunlap@infradead.org>,
 	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
@@ -54,11 +53,15 @@ Cc: Krzysztof Kozlowski <krzk@kernel.org>, Sasha Levin <sashal@kernel.org>,
 	linux-kernel@vger.kernel.org
 Subject: Re: [PATCH v2] docs: submitting-patches: ask bug fixes for their
  user-visible impact
-Message-ID: <2d232c34-b111-4228-a049-6f037370c17e@sirena.org.uk>
+Message-ID: <20261119140750.GL162713@unreal>
 References: <20261116200515.352387-1-sashal@kernel.org>
  <20261117092723.GA124972@unreal>
  <220c5818-ad59-4003-9955-9821d09c0279@kernel.org>
  <20261119111902.GH162713@unreal>
+ <04ff90ba-296a-4618-9d25-390f84f856ae@kernel.org>
+ <av7tY64O34gbJvH_@1wt.eu>
+ <20261119125450.GJ162713@unreal>
+ <6baae2d0-f0d5-4528-b885-220605350349@kernel.org>
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Post: <mailto:workflows@vger.kernel.org>
@@ -68,50 +71,72 @@ List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:workflows+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="Gz+MSdAl/y4DDapf"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20261119111902.GH162713@unreal>
-X-Cookie: I'm into SOFTWARE!
+In-Reply-To: <6baae2d0-f0d5-4528-b885-220605350349@kernel.org>
 
+On Thu, Nov 19, 2026 at 02:16:30PM +0100, Krzysztof Kozlowski wrote:
+> On 19/11/2026 13:54, Leon Romanovsky wrote:
+> > On Thu, Nov 19, 2026 at 01:36:51PM +0100, Willy Tarreau wrote:
+> >> On Thu, Nov 19, 2026 at 01:04:32PM +0100, Krzysztof Kozlowski wrote:
+> >>> On 19/11/2026 12:19, Leon Romanovsky wrote:
+> >>>> On Thu, Nov 19, 2026 at 11:13:57AM +0100, Krzysztof Kozlowski wrote:
+> >>>>>>> v1: https://lore.kernel.org/r/20261116191436.188098-1-sashal@kernel.org
+> >>>>>>>
+> >>>>>>>  Documentation/process/coding-assistants.rst  |  6 +++--
+> >>>>>>>  Documentation/process/submitting-patches.rst | 23 ++++++++++++++++++++
+> >>>>>>>  2 files changed, 27 insertions(+), 2 deletions(-)
+> >>>>>>
+> >>>>>> Sasha,
+> >>>>>>
+> >>>>>> Since you're already making changes in that area, could you add a sentence
+> >>>>>> asking reporters to provide the full dmesg stack trace?
+> >>>>>
+> >>>>> If so, then trimmed. We do not need all addresses and registers and the
+> >>>>> [time markers], but rather the calltrace from decode_stacktrace.sh.
+> >>>>
+> >>>> Regarding time markers, I agree. However, addresses are an important part of
+> >>>> debugging information. These bugs are rare, but addresses are still useful for
+> >>>> identifying incorrect pointer arithmetic or pointer assignments.
+> >>>
+> >>> Depending on the case, e.g. some driver lockdep reports don't need them.
+> >>> NULL ptr usually as well. The point is that dmesg should be trimmed to
+> >>> relevant and useful information. If that includes addresses for that
+> >>> particular case, then of course these should stay. But 75% of data here
+> >>> in commit like 5b4bd13e0552926648a46c2c9a12a24dfaee3715 is not really
+> >>> helping. In the same time undecoded call trace is useless, because these
+> >>> addresses depends on the build. The dmesg should simply be the decoded
+> >>> stacktrace ONLY for this case.
+> >>
+> >> Then just the 2-3 lines capture inline, and the full log attached could
+> >> please everyone ?
+> > 
+> > I don't think so, because this information is also important to preserve in the
+> > Git history. I received offline feedback that the full stack is useful for
+> > backporting and customer support, too. Sometimes the dmesg output is similar
+> 
+> Just like we do not mark commits as fixing CVEs/security issues, which
+> plenty of downstream distros would like us to do, we do not write commit
+> msgs for backporting or customer support. Just look at that commit I
+> pointed out - 5b4bd13e0552926648a46c2c9a12a24dfaee3715 - the addresses
+> are making things less readable and the readability is important.
 
---Gz+MSdAl/y4DDapf
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+I looked, but nothing stood out as distracting. I've been reading these
+stacks for nearly 20 years.
 
-On Thu, Nov 19, 2026 at 01:19:02PM +0200, Leon Romanovsky wrote:
-> On Thu, Nov 19, 2026 at 11:13:57AM +0100, Krzysztof Kozlowski wrote:
+> 
+> If you need something for customers, then that is what Link tag is for.
+> It can point to your bugzilla or email report with everything.
 
-> > That's often review feedback, btw, people just paste huge bunch of dmesg
-> > without thinking what is useful there.
+You missed my point, I'm not asking customers to dig into the kernel. An FAE
+or customer comes to me with a crash, and I need to determine whether it's
+a known issue (and point them to the relevant patch) or a different one.
 
-> It=E2=80=99s still better than AI-generated prose peppered with short, tw=
-o- or
-> three-line stack traces intended to trick me into merging a patch. I=E2=
-=80=99d
-> rather trim the description myself than rely on random submitters to
-> provide exactly the right amount of information=E2=80=94no more, no less.
+Thanks
 
-Honestly, it's generally just as bad - it's usually multiple screenfuls
-of irrelevant noise which doesn't visually fit the format for a
-changelog.  Half the time people put them in the middle of the changelog
-which doesn't help anything.  With the generated changelogs at least you
-know to skim read the whole thing and not trust a word that's in there.
-
---Gz+MSdAl/y4DDapf
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmr+/bcACgkQJNaLcl1U
-h9AgAwf9FryBvv/AjLFiJUm2t+yRQAPDmd+W+LDj7Ux+kVL+2QlvZYudoAQXj2d5
-odV8kewKa2I7e/ZNshnfLrDtOoYEHvO+OW0xIejKpyAWFaYcNbv+2QKh2tYLmAsu
-DXzU5qQKOzIRbECO930rHRPtPe5yflUTkPWIQ095jgizzDn1ubfZgjD+cdK3sX3S
-RjlyKIXJEYHRJBMNIfhkjXjBx4neDuvhFOcQkENAb6sD4H2a+7ui4ffNtIRmO6zY
-2bNI6ZSRel/2Ojj28qvNXheklWCJ8KqTtTNTifu3tE0Bf+8MdG0mOpdmk1giP0f/
-cKOZf9z9qVdiMkfi3DUJaM/N9oL+cg==
-=UiHy
------END PGP SIGNATURE-----
-
---Gz+MSdAl/y4DDapf--
+> 
+> 
+> 
+> Best regards,
+> Krzysztof
+> 
