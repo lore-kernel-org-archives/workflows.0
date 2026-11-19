@@ -1,47 +1,47 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795083155;
-	b=hi/vVsnFEr81SjSzfjOUMm57oIBfAOSgI5lctnZpli8sdnfLZv98hjIAyjXowhdGoRUR
-	 WYMG+X/YMgnTNX1jnxN7Aab7+X2n0nJmnjBmsc3sMMRGlKsEQhP0bOdHnPWf6HNrypbEl
-	 EKoTKpa8MSHCeBBMtiTV0jAe/wDo0CzzxXBsyEqaqj4aQhQenw2HnhXwHbwCIlJ9Io1Dp
-	 wwTM5dzrUTkWz2Ru2EZCdhgg9ZLKwcwKiW4RdEEHYp1RuvMfdqOPdoFPz9b6QzTlFpRUK
-	 /+u60zpf9fRuTai/Wtp5m79zrtgbWqPiL7dWAIepX8qpd3CGFlQxUwq0Zon0NRgwhLA==
+	t=1795083242;
+	b=mllknsZ4C4R6xw2OJt7vwqHdtxkknkXC6G3ooj8oHE84DJ2vFqBTJ07gfbka1PT6w4Ur
+	 7iZ8GPLzTt7fFC76R/QnX55El8ipeHTMaNhRoy85vEM+cJ5KOrxFIfvCYwmIJmqyIyDwl
+	 yPqFFT/j8KzIgLDTrb4H842eeZtdwqX7UaGMGzb+UCDhIKCRQyMx3CVHO2ZBr1OEsG9Mm
+	 NliH4w/h4ZopMHZZtPutiinGee5XXV43ifApKqzw0u2ifvr1e3o6pjbEFX4+iFXLNy4QH
+	 5fayTKXoOW+ufCewsEwSPUtWEReSIgZ2WQCJpd73/552POH2Ymxk7ngLvQ5bINWnR6Q==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795083155;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795083242;
 	h=Received:DKIM-Signature:Message-ID:Date:MIME-Version:User-Agent:
 	 Subject:To:Cc:References:From:Content-Language:Autocrypt:In-Reply-To:
 	 Content-Type:Content-Transfer-Encoding;
-	bh=UgdmzRQCCQtdi5jLGq0W+95K40FqIfN0KQNxDFtfDCM=;
-	b=W+oLbvI9bKY3MxJe66+7GryEQUZS+VKd9Rae71HfZsfr8AEyjENd36oXhiAwgTWDYAEK
-	 H0J8OE9A4bIiMJtaWEd/Udf7DoD/0giZ2JQ2hZ//5xLQ03sxFzYz7BlHmWU0o+6wJ7M3G
-	 532s13820bjnVfY57SWladW72ubt7P/LBX2gLs9YZi2SDgDOzPaKTc7kDb2d9oEIotqnu
-	 4PAsvx2fn8AMbXHDPqs8Pi2YxU6VIBIuIOL6Gk3LXSWWKoLEDtswRl7pVWD30r1yV0jDm
-	 OeI3yctEAomkfPgFIMjh+29BbjA7baGPaxQCh0oU54Hb83VZMjCm/IjgimUycSezwZw==
+	bh=DWt3CLOh3ZYbzS8NVJmfBMxyc/YHy7CMAqMHtrI2Wqc=;
+	b=GLwrYGwRL06muHJOSvHFqvIm084wEd9FJL82BH807vcIfyITA03XyCQc5VJo6IsgSmvV
+	 17RHaZKDx/ysn2zq0f58U6HMocq4j02g1oTLQ+/0LBT1BF6+2JZ5npiVimsga1uzt8/B/
+	 ouRF2WKaEyb43kSMDk1nZg6nUsJx8nnPkQmHXmDpNzo7yyBS4scecBhWNxSCgj+MCD3C8
+	 DfUnxcK5GeqeunVWSothBkQ4iKcTrmUqSoTjvBMucNTr/72p0LRCtfkdWXM8sjZE703nT
+	 OhD0MccPc4/hwFja9f3dmWiJrnqfeardJOMH7604+ie/tP2C4q+MMaFuvGUVrYRcehg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=gu2HGOTm;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=E3qLMLfb;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8B97F606A320;
-	Thu, 19 Nov 2026 10:12:35 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9ACEB606A320;
+	Thu, 19 Nov 2026 10:14:02 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=gu2HGOTm
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D1B741F000C4;
-	Thu, 19 Nov 2026 10:12:32 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=E3qLMLfb
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4C3AD1F000C4;
+	Thu, 19 Nov 2026 10:13:59 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795083155;
-	bh=UgdmzRQCCQtdi5jLGq0W+95K40FqIfN0KQNxDFtfDCM=;
+	s=k20260515; t=1795083242;
+	bh=DWt3CLOh3ZYbzS8NVJmfBMxyc/YHy7CMAqMHtrI2Wqc=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To;
-	b=gu2HGOTmaUVDrAICPvJfUxeAsexxppxvdGh6AzhSY+TmS5NQscx2PkQwb6eP+3RFE
-	 rlnRm7KhB8yFP6vPv3O54F7JL+bjRO/CWW8kFvAOwDtuziuS/RnAVVhxv+NwKjhHgr
-	 D7uB56/vVI0myt8xK4IjS7IP0YOb1uhd/FNRt1/gMOcQFLP9qlsxmIZmK9UxGoVsBr
-	 bwlGKe8KceiZ1KIRvXT7NaJi5LFEWNpocLB9KF3mVg/XsL1wmjXUuVTbPlZnGWku7n
-	 qp/lQZH8kgHUZlXE4U6nJPgW6Cl+Iy6oGfuQ/ps70wC/jk3BQ+p1jlT4x5TYFu4f/z
-	 JuyJCyVibpbeA==
-Message-ID: <484501b8-6b6f-4ec2-9324-ddaf52f811c3@kernel.org>
-Date: Thu, 19 Nov 2026 11:12:31 +0100
+	b=E3qLMLfbJneDL0wnoBI3JVlT+y02b12RXX9KG3nngkyZuspQNMY43k/AiZemdFgmY
+	 rYh9VcIGD3M0dA5CoyIcXfW0WR7+3Yyc0LhYIjjTs3zfwmu2Mj0jK/gRa/K5VgL03p
+	 6zSEYuyMK7NxoTLs6W3x+ntuZe7z+0WygXGiB3gGHZAdvg/iICGjxCUPMocFZmNgGN
+	 mcdqTXeTycylpSpfPZcn9DBEh2eF+Le4SKJIQyptHicLmuXLOQO8fZqbAzyup6vTCm
+	 JVHH1ZhKnxQjcksZR7AqVXIGG4qFzpUbs4CUZt2q+qCDjMGJR6OyXqyRhn4b46MxKT
+	 8IrRgq1MHiheg==
+Message-ID: <220c5818-ad59-4003-9955-9821d09c0279@kernel.org>
+Date: Thu, 19 Nov 2026 11:13:57 +0100
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Post: <mailto:workflows@vger.kernel.org>
@@ -54,14 +54,16 @@ MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
 Subject: Re: [PATCH v2] docs: submitting-patches: ask bug fixes for their
  user-visible impact
-To: Sasha Levin <sashal@kernel.org>, Jonathan Corbet <corbet@lwn.net>
-Cc: Andrew Morton <akpm@linux-foundation.org>, Willy Tarreau <w@1wt.eu>,
+To: Leon Romanovsky <leon@kernel.org>, Sasha Levin <sashal@kernel.org>
+Cc: Jonathan Corbet <corbet@lwn.net>,
+ Andrew Morton <akpm@linux-foundation.org>, Willy Tarreau <w@1wt.eu>,
  Shuah Khan <skhan@linuxfoundation.org>, Randy Dunlap
  <rdunlap@infradead.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
  Theodore Ts'o <tytso@mit.edu>, David Hildenbrand <david@kernel.org>,
  workflows@vger.kernel.org, linux-doc@vger.kernel.org,
  linux-kernel@vger.kernel.org
 References: <20261116200515.352387-1-sashal@kernel.org>
+ <20261117092723.GA124972@unreal>
 From: Krzysztof Kozlowski <krzk@kernel.org>
 Content-Language: en-US
 Autocrypt: addr=krzk@kernel.org; keydata=
@@ -107,38 +109,55 @@ Autocrypt: addr=krzk@kernel.org; keydata=
  K9bCVaboTA2T77QYkRcRJYSsO1alGX0ome/hMLD1daXlkrNUp1HWa3K4iytLRXjCSIorWiGs
  n+q3krnpXu3TFkA8qtOFZMdnIiFuiq1yLT8hptsV5xh1TA2nsVvSYiaCr3q4s4BKjS/KrLDb
  qoxzw8ISjdUp4pA85vb6YLCmb39NgidD+7PmAr65lBNveIFynTgsja1rRQ4=
-In-Reply-To: <20261116200515.352387-1-sashal@kernel.org>
+In-Reply-To: <20261117092723.GA124972@unreal>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-On 16/11/2026 21:05, Sasha Levin wrote:
-> "Describe your changes" already asks for the user-visible impact of a
-> change, but changelogs for fixes still tend to say what the code does,
-> why that's wrong and what the patch changes, and stop there. Whoever
-> has to decide if the fix needs backporting is left to work out what
-> the bug does to a running system.
+On 17/11/2026 10:27, Leon Romanovsky wrote:
+> On Mon, Nov 16, 2026 at 03:05:15PM -0500, Sasha Levin wrote:
+>> "Describe your changes" already asks for the user-visible impact of a
+>> change, but changelogs for fixes still tend to say what the code does,
+>> why that's wrong and what the patch changes, and stop there. Whoever
+>> has to decide if the fix needs backporting is left to work out what
+>> the bug does to a running system.
+>>
+>> Say what that means for a bug fix, in two parts. For users who aren't
+>> looking for the bug: what a normal workload is likely to run into, and
+>> separately the worst case and what it takes to get there. For someone
+>> triggering it on purpose: whether an unprivileged user could do it and
+>> what that would take, since a race that no real workload loses can
+>> still be won by a program written to win it. Give the paragraph a
+>> label so people can be pointed at it.
+>>
+>> Coding assistants are told to commit a fix with a message that
+>> describes the problem and the solution. Add the user-visible impact to
+>> that list and point them at the section.
+>>
+>> Suggested-by: Andrew Morton <akpm@linux-foundation.org>
+>> Link: https://lore.kernel.org/r/20261111171055.527b4bf3da705367bc78a64c@linux-foundation.org
+>> Signed-off-by: Sasha Levin <sashal@kernel.org>
+>> Acked-by: Andrew Morton <akpm@linux-foundation.org>
+>> Reviewed-by: Willy Tarreau <w@1wt.eu>
+>> ---
+>> Changes since v1:
+>> - Split the bug-fix paragraph into users who aren't looking for the bug
+>>   and someone triggering it on purpose (Andrew, Willy).
+>>
+>> v1: https://lore.kernel.org/r/20261116191436.188098-1-sashal@kernel.org
+>>
+>>  Documentation/process/coding-assistants.rst  |  6 +++--
+>>  Documentation/process/submitting-patches.rst | 23 ++++++++++++++++++++
+>>  2 files changed, 27 insertions(+), 2 deletions(-)
 > 
-> Say what that means for a bug fix, in two parts. For users who aren't
-> looking for the bug: what a normal workload is likely to run into, and
-> separately the worst case and what it takes to get there. For someone
-> triggering it on purpose: whether an unprivileged user could do it and
-> what that would take, since a race that no real workload loses can
-> still be won by a program written to win it. Give the paragraph a
-> label so people can be pointed at it.
+> Sasha,
 > 
-> Coding assistants are told to commit a fix with a message that
-> describes the problem and the solution. Add the user-visible impact to
-> that list and point them at the section.
-> 
-> Suggested-by: Andrew Morton <akpm@linux-foundation.org>
-> Link: https://lore.kernel.org/r/20261111171055.527b4bf3da705367bc78a64c@linux-foundation.org
-> Signed-off-by: Sasha Levin <sashal@kernel.org>
-> Acked-by: Andrew Morton <akpm@linux-foundation.org>
-> Reviewed-by: Willy Tarreau <w@1wt.eu>
-> ---
+> Since you're already making changes in that area, could you add a sentence
+> asking reporters to provide the full dmesg stack trace?
 
-
-Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
+If so, then trimmed. We do not need all addresses and registers and the
+[time markers], but rather the calltrace from decode_stacktrace.sh.
+That's often review feedback, btw, people just paste huge bunch of dmesg
+without thinking what is useful there.
 
 Best regards,
 Krzysztof
