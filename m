@@ -1,66 +1,61 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=80.241.56.152
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=91.218.175.192
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795262002;
-	b=t4eMeiiIQSFQ5y2q8wNbvIBH/wtkPielc8HoMRIMyLlOJiJfb9HpXBt5eKJt5xof4ZYo
-	 0VGH3AFdJhsdQOOfL+UagvNVu5/zbI00rndBX5++PQvfhRQpVrUjTB9+5S/ddlDa2hJrx
-	 l/d+eoMnvYGFSeBopFfwIApLoMeInNBdwbs5zWXD2q7HKwDO1ptx4//rEvcSdFOyvO3rI
-	 wuERHzRfHAmNL4NLjXULvP0IXzHncBPy/RuBZQgkeFwAG8v0kW4TQhPOb7IjohsRXwTz3
-	 I+WBd1tmWl6A+IgCD+2QJZFwZrfEIgugBVOxZT7UG5WAgwdNmE8imYd+kuJgRmTpsxA==
+	t=1795279176;
+	b=La1AqbGhgFIUJUME6FmX3cEfKpkCyv9YxZaRDyicT7WBy5sP5q7KscG7Kb3G361VeyXL
+	 Pr64FV/dQwkV11eiarjvuYbnw+thYmbJaG0u+ouuPHp7mr95GFX+BcZxRIIv6ZzgX9cVR
+	 kMlSkAsa2r864Qa+pStT8MOOkOWo1bdcL0W8ZnDaYNNfJSMKiB616HJm9q2+uoFdFO35j
+	 TZrI19MOFJa3BM4CFGe1EbQIdhHFJ7K9hdiVtzeHpFFB/s3ECGODQt5Xo/IJ1exmy4uRa
+	 ZXT+XWStpgyNF7DCWAsvjYVQoUYLdhBjYZsAVKMtswbwJCkc6T7NFW+RXz/i/yw5I3g==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795262002;
-	h=DMARC-Filter:Received:DKIM-Signature:From:To:Cc:Subject:Date:
-	 Message-ID:X-Mailer:MIME-Version:Content-Transfer-Encoding:
-	 X-MBO-RS-META:X-MBO-RS-ID;
-	bh=Y2SGzri+nFmiF4XaTK6A3wGQO9yshbm4+8RKCMSJ94I=;
-	b=ZrzUFglsgSkzVbDmqT+84fyAfS+ke5tahSGR5Rr71yhmnrbS28VFqusIu8P9rj9v2TqJ
-	 yxdXkFCbZtzJgrgechcMmsWxS1tLRD7laKFpOw/Hu2cL7SX4W4BblQ56/vylPtA7kse09
-	 6/krkp8esb0tUcN/sIYbfTSrEDb5WR0tiuc6vERRmbMAt82c3VdkVdo7KGlt8zsg2Hmp2
-	 pzg7zooQJs6fY1nRTcQlf4zsYxoWIcbnEA6HtZLrb+v/Owko4oMUHN9y/uK6LmbyOSrsR
-	 nWUxX4Vxg1EEADn+isGqblAwD1HIEO6l5SR6Ufitt6LbbD7RbSE2HzE324+ipJX+U6w==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795279176;
+	h=DMARC-Filter:X-Envelope-To:DKIM-Signature:X-Envelope-To:Received:
+	 X-Mizu-Trace-ID:X-Migadu-Flow:From:To:Cc:Subject:Date:Message-ID:
+	 X-Mailer:MIME-Version:Content-Transfer-Encoding;
+	bh=/FJa0YKrjwZMvH1T3LFx4kvl4FYxJAnVRnSXaDUuM3U=;
+	b=IoTsr2litC7aCH37/c+0Hm+4Epj0l3IyO26CH8l0iR4maHbJ8hgRBkVxd3v3utZO4HlM
+	 I8sxKPKyhO1aOppKrmURDGzjsBnr8w6oQelmnw5M436kaxzzqSnBBP9WCzIVsvQbseR04
+	 aO5TxNcNyfWYFnEexxuoMwAj3T39Ov3yoD1t8XXBvoIY5w6zcsbvnsKw+JPTP2GsWygNj
+	 mOXCG8dkqKOTsG4qc6HNgboOt3VVoiVm2CAzgO8oO0KrJ9oS86iT+hLf4tI1OO7wSjvBL
+	 D0F+8hCChOk0F/bNIWwC2AloDUZqpjMR3I+XRz6Km4wMz5MlSONGYV7cXdXxmJ+74UA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=mailbox.org;
-	spf=pass smtp.mailfrom=mailbox.org;
-	dkim=pass header.d=mailbox.org header.i=@mailbox.org header.a=rsa-sha256 header.s=mail20150812 header.b=IsTcmFr1;
-	arc=none smtp.remote-ip=80.241.56.152
-Received: from mout-p-102.mailbox.org (mout-p-102.mailbox.org [80.241.56.152])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	dmarc=pass header.from=linux.dev;
+	spf=pass smtp.mailfrom=linux.dev;
+	dkim=pass header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=jkvIW6Ig;
+	arc=none smtp.remote-ip=91.218.175.192
+Received: from mta0.migadu.com (out-192.mta0.migadu.com [91.218.175.192])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 097A1606A325;
-	Sat, 21 Nov 2026 11:53:20 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 097A1606A325
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mailbox.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 15A5F606A33A
+	for <workflows@vger.kernel.org>; Sat, 21 Nov 2026 16:39:34 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 15A5F606A33A
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.a=rsa-sha256 header.s=mail20150812 header.b=IsTcmFr1
-Received: from smtp2.mailbox.org (smtp2.mailbox.org [IPv6:2001:67c:2050:b231:465::2])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519MLKEM768 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mout-p-102.mailbox.org (Postfix) with ESMTPS id 4jWrF85rm5zKnDY;
-	Sat, 21 Nov 2026 12:53:16 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
-	t=1795261996;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=Y2SGzri+nFmiF4XaTK6A3wGQO9yshbm4+8RKCMSJ94I=;
-	b=IsTcmFr1A52fr3CSDt28Xz4iWASt+Ac5BQBo69UwNQ/bNpvYFHJMNAcW7ymtGJWlhTIgDM
-	rhoi0rAAWVRpEmaq7gZNpHR6Zp0MctkZ89+o8Htd4I636yMAbohMWq04+H4NTh5Xu1Vqsg
-	Dw3ehNZZWcKArMGoL7GcIsvHLtRF1nuQgQ/6ZD2vR6bW+wsUXVKZPo9t22AoLpe58N38zz
-	1YdC1bbg9L3gQuD9/REw9m9jLtRUV1Ew7X3s91zg84QOPKSfOPaRm/+OSEIrKcaa3TMQr7
-	3sYV86dZUA+lNXsIgRFyYjLbcSN4Bsqg81sYecKmkKMvOfcKCWQp2QLQsivrHA==
-From: Manuel Ebner <manuelebnerli@mailbox.org>
-To: Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Randy Dunlap <rdunlap@infradead.org>
-Cc: Manuel Ebner <manuelebnerli@mailbox.org>,
-	workflows@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH v2] Docs/process/changes: add comment referring to ver_linux
-Date: Sat, 21 Nov 2026 12:52:03 +0100
-Message-ID: <20261121115203.1444513-2-manuelebnerli@mailbox.org>
+	dkim=pass (1024-bit key, unprotected) header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=jkvIW6Ig
+X-Envelope-To: workflows@vger.kernel.org
+DKIM-Signature: a=rsa-sha256; bh=xQSQnIX8raJF/hgFXgzRdEzLlLyIPtrwOYZNaWtJQZs=;
+ c=simple/simple; d=linux.dev;
+ h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
+ t=1795279173; v=1; x=1795883973;
+ b=jkvIW6Ig/pc4wWragxuU1FptBmqEOaeQucYm5LI06IzRlUF2uWEFWydicTNmgrAVFEJrScNi
+ whCww2krSTBkVgZ2hrB5IBhKfh8Vor4lirtx/uXIxAaxWkfrDbT43Zi6gZYDSLYAhGkpecIddHt
+ OKD81Ed5ZNak5SJbIcHKLJkQ=
+X-Envelope-To: workflows@vger.kernel.org
+Received: by smtp.migadu.com with ESMTPS id bd5e0a847ed539e5;
+	Sat, 21 Nov 2026 16:39:33 +0000
+X-Mizu-Trace-ID: bd5e0a847ed539e5
+X-Migadu-Flow: FLOW_OUT
+From: Zenghui Yu <zenghui.yu@linux.dev>
+To: linux-doc@vger.kernel.org,
+	workflows@vger.kernel.org
+Cc: corbet@lwn.net,
+	skhan@linuxfoundation.org,
+	rdunlap@infradead.org,
+	Zenghui Yu <zenghui.yu@linux.dev>
+Subject: [PATCH] docs: submitting-patches: use :ref: links and remove unused anchor
+Date: Sun, 22 Nov 2026 00:39:23 +0800
+Message-ID: <20261121163923.73026-1-zenghui.yu@linux.dev>
 X-Mailer: git-send-email 2.56.0
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
@@ -72,38 +67,64 @@ List-Owner: <mailto:workflows+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-MBO-RS-META: kq9h5pne7zbd94u9cws6zfxk4b19mkad
-X-MBO-RS-ID: cddeddc6df321b02dbb
 
-Add comment to keep ver_linux up to date. This comment does not show up
-in the output of sphinx.
+Convert three plain-text references to the "Tagging people requires
+permission" section into proper :ref: links using the existing
+tagging_people anchor. Remove the explicit_in_reply_to anchor, which is not
+referenced anywhere.
 
-Signed-off-by: Manuel Ebner <manuelebnerli@mailbox.org>
+Signed-off-by: Zenghui Yu <zenghui.yu@linux.dev>
 ---
-[v2]
- fix typos in diff and subject
+ Documentation/process/submitting-patches.rst | 15 ++++++++-------
+ 1 file changed, 8 insertions(+), 7 deletions(-)
 
-[v1]
- https://lore.kernel.org/all/20261121113221.1442278-2-manuelebnerli@mailbox.org/
-
- Documentation/process/changes.rst | 4 ++++
- 1 file changed, 4 insertions(+)
-
-diff --git a/Documentation/process/changes.rst b/Documentation/process/changes.rst
-index 13093c5c26..ffeaa3dce3 100644
---- a/Documentation/process/changes.rst
-+++ b/Documentation/process/changes.rst
-@@ -27,6 +27,10 @@ running a Linux kernel.  Also, not all tools are necessary on all
- systems; obviously, if you don't have any PC Card hardware, for example,
- you probably do not need to concern yourself with pcmciautils.
+diff --git a/Documentation/process/submitting-patches.rst b/Documentation/process/submitting-patches.rst
+index f271d7413f72..7126f25e2ac4 100644
+--- a/Documentation/process/submitting-patches.rst
++++ b/Documentation/process/submitting-patches.rst
+@@ -496,8 +496,9 @@ If a person has had the opportunity to comment on a patch, but has not
+ provided such comments, you may optionally add a ``Cc:`` tag to the patch.
+ This tag documents that potentially interested parties have been included in
+ the discussion. Note, this is one of only three tags you might be able to use
+-without explicit permission of the person named (see 'Tagging people requires
+-permission' below for details).
++without explicit permission of the person named (see
++:ref:`Tagging people requires permission <tagging_people>` below for
++details).
  
-+..
-+   When changing anything in the following table, make sure to update
-+   scripts/ver_linux aswell.
-+
- ====================== ===============  ========================================
-         Program        Minimal version       Command to check the version
- ====================== ===============  ========================================
+ Co-developed-by: states that the patch was co-created by multiple developers;
+ it is used to give attribution to co-authors (in addition to the author
+@@ -545,7 +546,8 @@ followed by a Closes: tag pointing to the report, unless the report is not
+ available on the web. The Link: tag can be used instead of Closes: if the patch
+ fixes a part of the issue(s) being reported. Note, the Reported-by tag is one
+ of only three tags you might be able to use without explicit permission of the
+-person named (see 'Tagging people requires permission' below for details).
++person named (see :ref:`Tagging people requires permission <tagging_people>`
++below for details).
+ 
+ A Tested-by: tag indicates that the patch has been successfully tested (in
+ some environment) by the person named.  This tag informs maintainers that
+@@ -598,8 +600,9 @@ A Suggested-by: tag indicates that the patch idea is suggested by the person
+ named and ensures credit to the person for the idea: if we diligently credit
+ our idea reporters, they will, hopefully, be inspired to help us again in the
+ future. Note, this is one of only three tags you might be able to use without
+-explicit permission of the person named (see 'Tagging people requires
+-permission' below for details).
++explicit permission of the person named (see
++:ref:`Tagging people requires permission <tagging_people>` below for
++details).
+ 
+ A Fixes: tag indicates that the patch fixes a bug in a previous commit. It
+ is used to make it easy to determine where an issue originated, which can help
+@@ -822,8 +825,6 @@ lore.kernel.org archive link) is recommended to help reviewers::
+ See more details on the proper patch format in the following
+ references.
+ 
+-.. _explicit_in_reply_to:
+-
+ Explicit In-Reply-To headers
+ ----------------------------
+ 
 -- 
 2.56.0
 
