@@ -1,97 +1,81 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.160.177
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=195.135.223.130
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795581075;
-	b=PGQUyhIKPprh2egd5ZWB8UrdPRBzgmpyjf+iK0upELq2Ep2V6yljKSnMM4GPEVpY5E5b
-	 86/T0h0dm3WrcnTziUtLPgPPt5YXbSLKudNo4RnKGWJGUL2JYo7h9Mjkclbx9LgL/Ugg7
-	 Ovh3gQUDWbYkX+f5Cig5F5iHZgrDvuG2IJXuc8HGp0HUCgkihA7idRR6OdagKV8YWnEzW
-	 9ge8qoPC+NTAvuGwr4srNUXWR3ffihXJl9DagcoH7E1t+Jey3UNNzqp/sbdSRdY2TL2XU
-	 oDyS0snaEi8jXwHsednE8VQJHrxRhfa3AQNxvVS+Z8UK4DdS7uEEWVMkFQGGuNT9MqQ==
+	t=1795582006;
+	b=Lbr1XMQVPojUZj/NyBLSO1j19h2DiR9dDKnbh+uhddxTt++KgkOw8tLZChosobS/FzDP
+	 j7Rvjf2FLQauKVmgcscuwE2O1holjsS3Sxt1h3TUKORTNu0XGqDwO9gglSp8/w4zXB501
+	 v9AiJwhYOwqFPB1PQU4c6RQaJ45Wz1n5Oi1HjruVpei6T62baB5ujgVy6RC1AxqvIpm/L
+	 WudrPHSxEGAcSKXfbEDEYeJGXBvwbrX2IqvCgQSqt1XHhfuLo4Fqs/SGLq1asB+/alBMh
+	 2zHmyMmubRj7bnr39TMZ6G5TtEPTLr/CpRXEc22CjSBAEF+XN2/fPa7eIc4zy43SJsA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795581075;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 From:Date:Subject:To:Cc:Message-ID:Content-Type:
-	 Content-Transfer-Encoding;
-	bh=LqCAbsFv75X8FpT2kuDVemXn9DMtQ2UrANDaKURHbUU=;
-	b=wXQ/A2ehJWsU/qoHVYwWuZC8/52TmMykXleRPfwEfJFw5+UdlQ+4WSlAWwAfkj24/sm0
-	 60sK5MzP6QUy3pjl8f60u8WB9MRWbpCFxMJSnO0qCWyz1kypqHt+yeRu34hyCOWUW/5xE
-	 gw3CMM2y2jLLpAl3ePCmTmd8OcvDT6fA8Y4XqcLCQS31h8IAcs4qz1Tv7n1EtiJkCcud0
-	 e/FnJGxGyRXiKGGZ1yuQkI/sBkBa09YCr3wU1AH2PsIItvHqVAdaqeHKI/nuc7fkdfirq
-	 JB4jMpsMxkXbOtpIZ+nrpHZe+RkQY1xE8k3gwvxJJbjA489JIMAm9UusDemdWvGps6w==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795582006;
+	h=DMARC-Filter:Received:DKIM-Signature:DKIM-Signature:Received:
+	 Received:From:To:Subject:Date:Message-ID:X-Mailer:MIME-Version:
+	 Content-Transfer-Encoding:X-Spam-Flag:X-Spam-Level:X-Spamd-Result:
+	 X-Spam-Score;
+	bh=pANba8wl/OyGTtYYVOpmrlRZMgySE6JCgtNDwnH0y/k=;
+	b=ZZ8g0xZgbazTxzszk5HTvGL9xAhhpOuaQmeNwdM6wAuXoZPVyP5t1Yo+ywiiCviJpt8l
+	 2/W4hLT8yrCPowtipRne0NAGXcl1Vc/gz1QCmSU2ay4HF1yDukUOtpcXd5yvgBVksLz3H
+	 r8gFtWT7FuZzjtMACHFtHOqTgsS059soFIrjyFXxCUIOfrbdxTx/mlspGCw7r/3Oh6Up+
+	 oLhW+aSzjaRPTKeaExiUyuRjnFxKEPAnJYb9NzS4f2Oq3wf1CV2vCh3OoaIXte1qvOfb8
+	 mIPG+HJ+kDjqkoo9mbTh26Gn61UqelL7UYWwQZK8BgsJSmNlUUfraZbUWB7EDECAw+A==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=gmail.com;
-	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=t9xaBilI;
-	arc=none smtp.remote-ip=209.85.160.177
-Received: from mail-qt1-f177.google.com (mail-qt1-f177.google.com [209.85.160.177])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	dmarc=pass header.from=suse.com;
+	spf=pass smtp.mailfrom=suse.com;
+	dkim=pass header.d=suse.com header.i=@suse.com header.a=rsa-sha256 header.s=susede1 header.b=UNMtE80R;
+	dkim=pass header.d=suse.com header.i=@suse.com header.a=rsa-sha256 header.s=susede1 header.b=M1BTdAXO;
+	arc=none smtp.remote-ip=195.135.223.130
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0BF68606A321
-	for <workflows@vger.kernel.org>; Wed, 25 Nov 2026 04:31:13 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 0BF68606A321
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 57460606A31E;
+	Wed, 25 Nov 2026 04:46:45 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 57460606A31E
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=t9xaBilI
-Received: by mail-qt1-f177.google.com with SMTP id d75a77b69052e-53644ab1f7bso47633651cf.3
-        for <workflows@vger.kernel.org>; Tue, 24 Nov 2026 20:31:13 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1795581073; x=1796185873; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:message-id:cc:to:subject
-         :date:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=LqCAbsFv75X8FpT2kuDVemXn9DMtQ2UrANDaKURHbUU=;
-        b=t9xaBilIOSfrKNfdyYoYv0fqw8MH2K4V/ls2xdv/XMF2Y7q+0FeBKT08Y8d356eHZx
-         ZZrO0XeB7oddmjUFHDeCZuq09o6W4o3F5l679+WsVsjdpvVjrBPpYqTziW7ImtZ350k8
-         p1iBOcySHX2sS+BpiR9BlFHzYvx1Xf5ON00IpOEVWKdWm1jVnlRFvOGGzkWOZ7Fji893
-         S8y5w1WZGalKSlup2KqBhICVzJi2gliF55C2HldJQMjAtm7KkLZy2sC67sVDx8rhKCws
-         c1q3Kwib5FBhJNmqRxDoxocCrWBe2NOGQ4Hdek/jYKrlEBbApxyLcDVCiAAO6dN3AfZl
-         nEug==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1795581073; x=1796185873;
-        h=content-transfer-encoding:content-type:message-id:cc:to:subject
-         :date:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=LqCAbsFv75X8FpT2kuDVemXn9DMtQ2UrANDaKURHbUU=;
-        b=X/Pcf3badbteX4vE1gPR2u7dbFHjKX8VGnjV40ADQUWmvKcgArR3+oxcCU/rcoTv6i
-         HFlC6CQagdqcOzr9u8mJEkoo8evwAYEuKmptV8LoVBhcIFqASvcG0djpr398HfO/zURW
-         y+blTxjMoM5Q6/4h++3/7tpBxEV1Nsbi6/1q9gcS4zNhvJjSUzPJprOV0ISeosqWriHy
-         HolmZQadRmtdF45EX6SgD+L2YSCkXycm1onS5c5FXixOYqKgxPuvCroyA3gxRett/2wQ
-         zLit27UfPgoZ8Cd3WdqZVvTwt4X2Ftg+ybutNZxj1Y82ErwvU24k7pG47Y0aK66tCzKz
-         GRTA==
-X-Forwarded-Encrypted: i=1; AL+hErEP6vUueUnSjjjaT8XPRY/mX67nibIqbRip5OfGtQAJx/RYlvM+GbFVwsU+xjbe+fy/YqMVv44KpCU=@vger.kernel.org
-X-Gm-Message-State: APuU4Z8oOMWeH2M4/Nm4O/QA7td8xHwrDtYlQk+UBI0aKmAd9Dl4KsrJ
-	Or3GyZXSn0f4X2KmnFi7oWYTdPoNvqoeAmPwPGzsaSJJgP72pIxH0Yrtl36ABMY=
-X-Gm-Gg: AZFdTZfTY2ATyWsRiQNHKyJQP528ZEwv9ccSdtnKXuXEyTOkD49k2oQW0cAHigT3WrE
-	FpJUOLLjFE1P6SDje4BRSJeEaSb5RCy3G9tCimEH4eDhxVCkDbZn82ZWwBzf8BhHq5leAVlNEv+
-	VvpldHPAdCMupCl5j0aQD+6pEWVr5CFATG7/w4xRmpRwc226Yf+tlQJmIGRQ17wIpj8bvF27C/T
-	970jfSWPRyCHd9AOzI6K9HMz62LtExXBf1HZQBbLRxlA9gVykN3jfFHhlQPMTKMlqVjz2JxtLav
-	d72TuAkDEOqKjAtukOZRLHUMWltLgnxny9TvDwRvJZo6/sVbtklvHpqf6thbAX5+ivb6H75fMgY
-	QSOo/H7CGF+uLsUsAhOehk3VD8btlQ1asTxqtplj5HcrYim/W7pgwBNVF4JvxgF0eb0MEoZFX3W
-	V5ex2c9QVv6htTePzPC65mMISkAHpkjIqyRCOrnltn+32AFWBS/jpMrsWvpp/+J3mcc7izSmc2K
-	QBmWZnDV8Iiz/+Av7wfPoS+MdsOu8KlmSY7PHPwdUd5ZxKZRb5A5ThrGjddnu7bGhx29EQMkFvw
-	kpVtPPHi3euw5M59nby3aeAkQQtvheSPkRERWnOQTUTYpspI5f99EFWXEMJC1TdD4eso3FDcrk0
-	jF/KrQTNUMFSVjIGDndVN9mwRXC+BNRomwlk7j41zNyQS5eCCBbeRQSp0w1AM/r1jOwXZRbUGOK
-	FzLQj3YHoZgYib5r4=
-X-Received: by 2002:ac8:6545:0:b0:55c:f5a5:3900 with SMTP id d75a77b69052e-55d76aa8574mr311966681cf.62.1795581072923;
-        Tue, 24 Nov 2026 20:31:12 -0800 (PST)
-Received: from [127.0.1.1] (207-237-119-98.s2383.c3-0.nyr-cbr1.nyr.ny.cable.rcncustomer.com. [207.237.119.98])
-        by smtp.gmail.com with ESMTPSA id d75a77b69052e-55d7889f8absm143087821cf.27.2026.11.24.20.31.11
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 24 Nov 2026 20:31:12 -0800 (PST)
-From: Eugenio Zuccarelli <eugenio.zuccarelli@gmail.com>
-Date: Wed, 25 Nov 2026 04:31:11 -0000
-Subject: [PATCH RESEND v2] Documentation: kunit: document --summary and
- --failed
- options
-To: david@davidgow.net, brendan.higgins@linux.dev, corbet@lwn.net
-Cc: danielmaraboo@gmail.com, raemoar63@gmail.com, skhan@linuxfoundation.org,
- rdunlap@infradead.org, linux-kselftest@vger.kernel.org,
- kunit-dev@googlegroups.com, workflows@vger.kernel.org,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Message-ID: <179558107134.36587.13120861622026385297@gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 8bit
+	dkim=pass (1024-bit key) header.d=suse.com header.i=@suse.com header.a=rsa-sha256 header.s=susede1 header.b=UNMtE80R;
+	dkim=pass (1024-bit key) header.d=suse.com header.i=@suse.com header.a=rsa-sha256 header.s=susede1 header.b=M1BTdAXO
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 3840E223A1;
+	Wed, 25 Nov 2026 04:46:42 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
+	t=1795582003; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
+	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
+	bh=pANba8wl/OyGTtYYVOpmrlRZMgySE6JCgtNDwnH0y/k=;
+	b=UNMtE80RBUDC9kO2+x0EegfMLyZ5Yp5xQv60znaH2AbtAZrdr/u3vWJjLRuEmsHmlxFqUc
+	QVpgY0DKWvi/6APbX07O/qrSJBoWLIctFePIqYDLJTBJG/+7L2uaLHU5yFrIac4f8ppZYg
+	54lEtH2FO9yINrhGtV0N8EJrIp0Hy70=
+Authentication-Results: smtp-out1.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
+	t=1795582002; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
+	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
+	bh=pANba8wl/OyGTtYYVOpmrlRZMgySE6JCgtNDwnH0y/k=;
+	b=M1BTdAXO/3vAaHaPJ2yJL6J4bQgRJhXW1CgSaINIPFMVBITqHjsXY2+/QHTzN8oz4EIWN3
+	/5vNuDQcXh7UNYI3VCEw3Msz7AoZuP6l7fzfR7r6lmt3vgwQhN+Nd9XfGyNhpeJFcB/2ui
+	4VwYHnxxPcQK5M+1Q1jeGSE+577IAeY=
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 44548134CA;
+	Wed, 25 Nov 2026 04:46:39 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id JCM2Iy9oBmuHDAAAD6G6ig
+	(envelope-from <wqu@suse.com>); Wed, 25 Nov 2026 04:46:39 +0000
+From: Qu Wenruo <wqu@suse.com>
+To: linux-btrfs@vger.kernel.org,
+	workflows@vger.kernel.org,
+	linux-doc@vger.kernel.org
+Subject: [PATCH] btrfs: add a maintainer entry profile
+Date: Wed, 25 Nov 2026 15:16:21 +1030
+Message-ID: <0037554862c0d9dce3ddafd1238347e4b16a5079.1795581896.git.wqu@suse.com>
+X-Mailer: git-send-email 2.56.1
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Post: <mailto:workflows@vger.kernel.org>
@@ -100,52 +84,228 @@ List-Subscribe: <mailto:workflows+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:workflows+owner@vger.kernel.org>
 Precedence: list
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+X-Spam-Flag: NO
+X-Spam-Level: 
+X-Spamd-Result: default: False [-11.80 / 50.00];
+	SUSE_INTERNAL_BYPASS(-9.00)[];
+	BAYES_HAM(-3.00)[100.00%];
+	MID_CONTAINS_FROM(1.00)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	R_MISSING_CHARSET(0.50)[];
+	NEURAL_HAM_SHORT(-0.20)[-0.997];
+	MIME_GOOD(-0.10)[text/plain];
+	MIME_TRACE(0.00)[0:+];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	ARC_NA(0.00)[];
+	DKIM_SIGNED(0.00)[suse.com:s=susede1];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sashiko.dev:url,btrfs.readthedocs.io:url,imap1.dmz-prg2.suse.org:helo,suse.com:email,agent.md:url];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	RCPT_COUNT_THREE(0.00)[3];
+	RCVD_COUNT_TWO(0.00)[2];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	TO_DN_NONE(0.00)[];
+	RCVD_TLS_ALL(0.00)[]
+X-Spam-Score: -11.80
 
-Commit 062a9dd9bad7 ("kunit: tool: Only print the summary") and commit
-3c67a2c09b3c ("kunit: tool: print failed tests only") added the --summary
-and --failed options to kunit.py, but the matching entries in the
-run_wrapper documentation were never added.
+This new file is mostly based on my personal preferences, focusing on
+how to improve the human readability in the LLM era.
 
-Add descriptions for both options next to the other output options, so
-the documentation lists the arguments the tool actually accepts.
+The new file should also act as a guide for humans that want to be a
+long term contributor to btrfs.
 
-An LLM-based coding assistant helped draft these entries; I checked them
-against kunit.py and kunit_parser.py.
-
-Reviewed-by: Daniel Pereira <danielmaraboo@gmail.com>
-Signed-off-by: Eugenio Zuccarelli <eugenio.zuccarelli@gmail.com>
+Signed-off-by: Qu Wenruo <wqu@suse.com>
 ---
-Resending: no changes since v2 (26 Oct), only Daniel's Reviewed-by added.
+Changelog:
+RFC->v1:
+- Use maintainer entry profile instead of agent.md
 
-Changes in v2:
-- Moved the tool disclosure into the changelog text; the Assisted-by
-  trailer is no longer described in Documentation/process.
+- Further simplfy the content for human readers
 
- Documentation/dev-tools/kunit/run_wrapper.rst | 8 ++++++++
- 1 file changed, 8 insertions(+)
+---
+ Documentation/process/maintainer-btrfs.rst | 154 +++++++++++++++++++++
+ MAINTAINERS                                |   2 +
+ 2 files changed, 156 insertions(+)
+ create mode 100644 Documentation/process/maintainer-btrfs.rst
 
-diff --git a/Documentation/dev-tools/kunit/run_wrapper.rst b/Documentation/dev-tools/kunit/run_wrapper.rst
-index cecc110a..641ab50a 100644
---- a/Documentation/dev-tools/kunit/run_wrapper.rst
-+++ b/Documentation/dev-tools/kunit/run_wrapper.rst
-@@ -327,6 +327,14 @@ command line arguments:
- - ``--junit``: If set, stores the test results in JUnit XML format and prints to `stdout` or
-   saves to a file if a filename is specified.
- 
-+- ``--summary``: If set, prints only the summary line for parsed test
-+  results, rather than the result of every individual test. Does nothing
-+  if ``--raw_output`` is set.
+diff --git a/Documentation/process/maintainer-btrfs.rst b/Documentation/process/maintainer-btrfs.rst
+new file mode 100644
+index 000000000000..5170dd73e655
+--- /dev/null
++++ b/Documentation/process/maintainer-btrfs.rst
+@@ -0,0 +1,154 @@
++.. SPDX-License-Identifier: GPL-2.0
 +
-+- ``--failed``: If set, prints only the tests that failed or crashed, along
-+  with the summary line, once all tests have run. Does nothing if
-+  ``--raw_output`` is set.
++Btrfs patch guidelines
++======================
 +
- - ``--filter``: Specifies filters on test attributes, for example, ``speed!=slow``.
-   Multiple filters can be used by wrapping input in quotes and separating filters
-   by commas. Example: ``--filter "speed>slow, module=example"``.
-
-base-commit: c03c1a14507dfaf8b856c2608f9ac216021fc222
++Human readability comes first. A reviewer should be able to understand the
++problem and the fix from the message and code.
++
++Bloated LLM-generated information only wastes precious human time, no matter
++whether it is in a comment or a commit message.
++
++Code comments
++-------------
++
++* **Necessary comment only**
++
++  Comment is for things that are not obvious by itself, e.g. a locking
++  rule, an ordering requirement or a non-trivial reason for a workaround.
++
++  Keep the comment short if possible.
++
++  Don't repeat what the code does.
++
++* **Add kernel-doc only for complex and/or exported functions**
++
++  If the function and parameter names are self-explaining, don't waste words
++  on the kernel-doc.
++
++Commit messages and cover letters
++---------------------------------
++
++* **Keep it simple**
++
++  Use short and simple sentences, avoid long paragraphs.
++
++  Simple patch for simple bug. Don't write a full [BUG] [CAUSE] [FIX] analysis
++  for something like a simple error handling enhancement.
++
++  And we don't care how you or your LLM found the bug unless it's hit in the
++  real world, so don't put such information even after the "---" line.
++
++* **Prefer visual aids over long sentences**
++
++  See "Visual aids" section below.
++
++* **Follow the style of well-known btrfs developers**
++
++  Check ``git log -- fs/btrfs`` for recent examples before drafting.
++
++Visual aids
++-----------
++
++Prefer visual aids like an ASCII chart over words, e.g.:
++
++* A race. Show the race window, do not describe it in prose only.
++* An error handling bug in a function, seen from several call sites.
++* A call chain across layers, where the bug only shows on a certain path.
++
++Example, a race::
++
++   CPU0 (endio)                       CPU1 (fsync)
++   end_bbio_data_write()
++   |-btrfs_folio_clear_writeback()
++   |                                  btrfs_sync_file()
++   |                                  |-filemap_fdatawait_range()
++   |                                  | Returns after writeback finished
++   |                                  |
++   |                                  \-test_and_clear_bit(COW_WRITE_ERROR)
++   |                                    Still 0, skips waiting
++   \-set_bit(COW_WRITE_ERROR)
++     Too late.
++
++Example, an error handling bug, from commit c9583ada8cc4. The callee cleans up
++on error, then the caller cleans up again::
++
++   btrfs_do_readpage()
++   |-submit_extent_page()
++   | \-submit_one_bio()
++   |   \-btrfs_submit_data_bio()
++   |     \-bio_endio()
++   |       Calls end_page_read() and unlock_extent().
++   |
++   \-end_page_read() and unlock_extent()
++     Cleaned up again, the subpage reader count underflows.
++
++Versioned patches
++-----------------
++
++* **Full history**
++
++  Include all versions, not only the changes of the last version.
++
++* **Newest version first**
++
++  E.g.::
++
++    v3:
++    - Rename the helper to xxx()
++    - Add a missing lock in yyy()
++
++    v2:
++    - Fix the build failure on 32-bit
++
++* **Changelog location**
++
++  Put it in the cover letter for a patch series, or after the "---" line for
++  a single patch.
++
++  Don't put it in the commit message body.
++
++Review
++------
++
++* **Follow the review**
++
++  Don't send a patch and just forget it. If you're not a well known developer,
++  it's uncommon to get merged on the first try.
++
++  One will need to communicate with the reviewers to get at least one review
++  from a well known btrfs developer, before getting the patch merged.
++
++* **Check Sashiko**
++
++  Sashiko posts AI-generated review for patches sent to the mailing list. The
++  btrfs list is at https://sashiko.dev/#/?list=org.kernel.vger.linux-btrfs
++
++  If a report is valid, address it in a newer version.
++
++  If a report is obviously wrong, it can be ignored. If the report is wrong but
++  the reason is not obvious, explaining it on the mailing list can help.
++
++Testing
++-------
++
++* **Run full fstests**
++
++  That's the main test suite we use.
++
++* **Testing procedures and results are only for complex patches**
++
++  Simple fixes shouldn't need a long paragraph on how to verify the fix.
++  Those simple fixes should be explained well by the commit message and code.
++
++  Bloated LLM-generated test procedures and results only waste human time.
++
++Before sending a patch
++----------------------
++
++* **Check the development branch**
++
++* **Check the mailing list**
++
++If your bug was found by an LLM, someone else may have already found, or even
++fixed, it.
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 44540a1eb2b8..55f0b3dca133 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -5838,9 +5838,11 @@ S:	Maintained
+ W:	https://btrfs.readthedocs.io
+ Q:	https://patchwork.kernel.org/project/linux-btrfs/list/
+ C:	irc://irc.libera.chat/btrfs
++P:	Documentation/process/maintainer-btrfs.rst
+ T:	git https://github.com/btrfs/linux.git for-next
+ T:	git git://git.kernel.org/pub/scm/linux/kernel/git/kdave/linux.git for-next
+ F:	Documentation/filesystems/btrfs.rst
++F:	Documentation/process/maintainer-btrfs.rst
+ F:	fs/btrfs/
+ F:	include/linux/btrfs*
+ F:	include/trace/events/btrfs.h
 -- 
-2.34.1
-
+2.56.1
 
