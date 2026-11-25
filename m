@@ -1,64 +1,67 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=45.79.88.28
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795620262;
-	b=Mx+yytExkPiD+HBmAzvym45lYUvUX6nrmeidRa3arpL/7UjSGvNTTjelZeLSmHYmnHQT
-	 uI9ji6hNBCscG0k43gc4fsis2BNGJMC07DO2QbyOggwfyHHDMm3Cc+e/NnYMUqpo81XIY
-	 ECwQODrd+rz502iO+oaZdNNmDK78l19d8pIThsOSPyUBmQArXxIpSVKTg6kYILeGA/pyh
-	 s4vFXZbFGN0fIQ3jetXyGocygEatw15NqOEIy9EHsS8dJGgvNlwNO+LRMaHjl3dDzqm3i
-	 B77Y6ICoMMbw6WvysmVPmDTDYuRmbeVRrLWRd/bM6+DD0JTNgPm/T8KogTeWLjp4o5g==
+	t=1795623730;
+	b=4V68O9EwGfx+z1mnNqTEaIontGEWAYL0vaOZoVNH3ppqyXYsqdCfPO5EdYk7UefW1lrZ
+	 7ScuhlK9lxlPJ0M6h6bESpUnTlndeULPYkLqPS7zaLovt3Dtz9jb7HTwR7UQutOOWcqgZ
+	 i6MQW0qqJei+qrMSBnIITqxojctsMlN9g5d1NwrMCnfs7qfgoBfkpp6j3jHboMOWBAZvr
+	 B4ciZAJNJq0tRG+GRwH4Nb5ebrJCjRolZ913fBgRaYSayh+p7UTwti+DEx7vlUbvPj+QM
+	 sKGeNGXYKv+PAHuV7GxqcShp5skpHcC77pNFm2ODwNdYE6IQdbfQnoGZq1wmv2Vkf4w==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795620262;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795623730;
 	h=DMARC-Filter:DKIM-Filter:DKIM-Signature:Received:From:To:Cc:Subject:
 	 In-Reply-To:References:Date:Message-ID:MIME-Version:Content-Type;
-	bh=BszTx2TV1cfaVUeSJv4bTbWbaiboouVqaL4PeMuZsN0=;
-	b=y7HFoKLovAH1nGKDnUzcFquKRIZo3of+1Cn/8EFa9Uaj/66D1a6yxd5eS304pgGerAuO
-	 p6oKuljXaVMR/8JojkJLymncO5gl+beb/pD3kL+Kl3rtrGm3MvY0BZykJQI6DeMDfPHYB
-	 tMS4Pv5n8nC/U9r5bTqGYKds5h76v9jUkjmSugyUiFsRGdJDf2LrLU9GvPZ3ESWcuACah
-	 wPRY383vZIDPpLo3Rwyp+oxmtTfhCP3fMLAnqXf7QXXK8H3C9wB9H/UICHD4tTLdd0Cfk
-	 4UHvKHz2fAGd+gj5+2JVkKmDDgY3NlThAyt2cMddqPgVwSdFJe+gqGjm5VLEAmFFmcg==
+	bh=swORf6ZkbkssP3sk4dxly7lUzk15uKzGyli1ThbO+fI=;
+	b=Sd9HD1Na0Tk2+RwP4XnvFI3wUyylQ+35JraUckwwJLgV2zzItzvIGIk+nEpRAY7SVwx/
+	 +MvL5BKm7iHnW39mwHhO3bYXe0PPoScy4QEdJVBqbEBt8v74x7ibclrroEcPyAqxyzaOo
+	 7sOTx9EqiFjbo70VC2n9WoprkssT0SC24CsgNKVpGUYncSMZRGAJUPt2uh9wrd0PvP9It
+	 d8t2j993VuoF63/mD1K62FIlQAyY2BfBZ7qreaDerJWH1s16c2rRJLOzGgpq5UeCxEWpi
+	 pO7cX7MRTiPKKhWNSXQsvFw4KKl68O5GAaeuovyVooeOgLyKBmXreUnF7x+9r7cDXsA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=lwn.net;
 	spf=pass smtp.mailfrom=lwn.net;
-	dkim=pass header.d=lwn.net header.i=@lwn.net header.a=rsa-sha256 header.s=20201203 header.b="lT1zvTk/";
+	dkim=pass header.d=lwn.net header.i=@lwn.net header.a=rsa-sha256 header.s=20201203 header.b=hrCp4Gix;
 	arc=none smtp.remote-ip=45.79.88.28
 Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 56CE8606A323;
-	Wed, 25 Nov 2026 15:24:21 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 56CE8606A323
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BB790606A321;
+	Wed, 25 Nov 2026 16:22:09 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org BB790606A321
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.a=rsa-sha256 header.s=20201203 header.b=lT1zvTk/
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 237A1410D8
+	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.a=rsa-sha256 header.s=20201203 header.b=hrCp4Gix
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net F294E410D3
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-	t=1795620260; bh=BszTx2TV1cfaVUeSJv4bTbWbaiboouVqaL4PeMuZsN0=;
+	t=1795623729; bh=swORf6ZkbkssP3sk4dxly7lUzk15uKzGyli1ThbO+fI=;
 	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=lT1zvTk/XDrWEshJ/RMaTkqWUoQzDPT4VtyzSK2TOSWyaLH4betjAejk0TtaQIm9X
-	 AV0X8pOVPwpziYQXgNp31azMbnaEnOrr+LsRFJlatnqvbCSVtfCYI/FQj6L+Xq1faw
-	 OaURqXi6mtg/ktlLRRU+scP5zxdtoTJV+TKjmjIsJrEoapCK3N82lU0riX+m1a8aBC
-	 /uyy3ajvX/9NxF5TushReJwoWRDWLLk4f1CAFPJz+iDfNqkE/B2IOcpqhR0VdKyW72
-	 uNbYuMGteBbwThwZG1HNBbMkarMbp1mQ5/0pQ39MtTjfDGfFspI9YvhQ/t85O9ONyS
-	 kGoptlh0xTC+g==
-Received: from localhost (mdns.lwn.net [45.79.72.68])
+	b=hrCp4GixfliWZptsIouALi5uTnRlTR43WsVChzdqYJjhiPfo2qStMeYnjkMD0IEtY
+	 JV7RL3ZoL5VqOQVNa0D+T4u8NsW1/TVV5BO6sNvvXkM6DqjnTNvvggSZIp7hM1mhI9
+	 gyG4qsvQ5AmhMVzVanc3GmdhzDrpBDyeWH7dtHNO6xm/qFV5FLC+mBslKeg/BHmkJG
+	 81JYC/YF8HTMQCVRyUij6v5C2sLT5G1zuCZoHvv24ayQuhWOfGoBv3XJR/S4e3k04Q
+	 1JRC6AuxEXgqTMXbGbul0SsnSY1nodrRXNFHdj0mRJy921f6rsxlYPmCBwpvleYyU5
+	 fqzWgWDFYcNXQ==
+Received: from localhost (unknown [205.220.129.44])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange ECDHE (prime256v1) server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by ms.lwn.net (Postfix) with ESMTPSA id 237A1410D8;
-	Wed, 25 Nov 2026 15:24:18 +0000 (UTC)
+	by ms.lwn.net (Postfix) with ESMTPSA id F294E410D3;
+	Wed, 25 Nov 2026 16:22:07 +0000 (UTC)
 From: Jonathan Corbet <corbet@lwn.net>
-To: Zenghui Yu <zenghui.yu@linux.dev>, linux-doc@vger.kernel.org,
- workflows@vger.kernel.org
-Cc: skhan@linuxfoundation.org, rdunlap@infradead.org, Zenghui Yu
- <zenghui.yu@linux.dev>
-Subject: Re: [PATCH] docs: submitting-patches: use :ref: links and remove
- unused anchor
-In-Reply-To: <20261121163923.73026-1-zenghui.yu@linux.dev>
-References: <20261121163923.73026-1-zenghui.yu@linux.dev>
-Date: Wed, 25 Nov 2026 08:24:10 -0700
-Message-ID: <877bi1ylwl.fsf@trenco.lwn.net>
+To: Willy Tarreau <w@1wt.eu>
+Cc: skhan@linuxfoundation.org, Randy Dunlap <rdunlap@infradead.org>,
+ workflows@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, netdev@vger.kernel.org,
+ gregkh@linuxfoundation.org, Johan Hovold <johan@kernel.org>, "David S.
+ Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@kernel.org>, Jakub
+ Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, Simon Horman
+ <horms@kernel.org>
+Subject: Re: [PATCH v2 00/14] security-bugs doc updates
+In-Reply-To: <20261114190014.17826-1-w@1wt.eu>
+References: <20261114190014.17826-1-w@1wt.eu>
+Date: Wed, 25 Nov 2026 09:22:00 -0700
+Message-ID: <87zeuwx4nr.fsf@trenco.lwn.net>
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Post: <mailto:workflows@vger.kernel.org>
@@ -70,19 +73,19 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain
 
-Zenghui Yu <zenghui.yu@linux.dev> writes:
+Willy Tarreau <w@1wt.eu> writes:
 
-> Convert three plain-text references to the "Tagging people requires
-> permission" section into proper :ref: links using the existing
-> tagging_people anchor. Remove the explicit_in_reply_to anchor, which is not
-> referenced anywhere.
+> Hi,
 >
-> Signed-off-by: Zenghui Yu <zenghui.yu@linux.dev>
-> ---
->  Documentation/process/submitting-patches.rst | 15 ++++++++-------
->  1 file changed, 8 insertions(+), 7 deletions(-)
+> Here comes the v2 of a new batch of updates for the security bugs
+> doc, essentially to make it more readable and to address some of
+> its apparent contradictions for those not reading it entirely. Some
+> additions were made to explain how to send a patch and a reproducer
+> separately, and to ask that first-time reporters send a single report
+> at once first.
 
-If I were being pedantic, I'd say that the tag removal should really
-have been a separate patch.  But I've applied this, thanks.
+Would you like me to pick this up, or did you have another path in mind?
+
+Thanks,
 
 jon
