@@ -1,48 +1,47 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795704682;
-	b=LHkZ3Cb47jhYGxuq/5CWBHvoY6aLkpNIn8Idyy1ZllhFCy+pbZCLsw1E9v52+qKgxAe8
-	 ZiQR3D4qzbC8iM2yFwe+vP3fkpnpTYQQAbX3r/8Bu1xfRCr+Ox/4zSSsW9AUdHlXvTiLr
-	 zgADEkwLdWnD7Dh2iDFvII8L5H/hqxnMwiQZipXm3vGnqZUfjDrXjRe2NbUe8fXtUmClx
-	 eOn5Zh5NkgFEaxBt2RCmpX2eye0kGtpAi+Qg6mD3y0uljuCSjWKg0pDKsZdFsof0McvWP
-	 6TRSYhKCfsg1ByRcqwyUDVs6Rt1+c6AvP97R4BJelD+vC5rpFD2TFFqdsifuHQ3eORA==
+	t=1795704945;
+	b=fzElpEw7M4IzF9JWdl6qNh5z+ON6cB2+EtXiI3uJpMqykJfUpi+cQrMwH16ne0JqcUJV
+	 e3KB/aEBUiYwBbG0zfSi6pKsKVX1YcHZ+mFxkYqK4eBZ3sxUAUpjiDlhdo9eH+yy4Qq8K
+	 J3nTm38N/fu58SEzY2ghPhDLzm4mvGoCdicsqYfeV5H5sN/XQEF0oxXicAbWiU+vBOFrt
+	 Jg2EzMR+9YmXqiGu5MTG8Q+bI9zZj8ib8fUtyQAX8Kcy+1nCw/o3H0kqMb/NMfS6cUzDI
+	 Ul72PLnSSKtWD+n/gVoFdStKkWzR8wuiouBvfKaoG1AQ4XPztlZmnR6BRLG4DE6Oxtw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795704682;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795704945;
 	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
-	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To:
-	 X-Cookie;
-	bh=8cDwjtU7rN5AjHTXbgsdj8N4xpWB5/rnJA0ria9qGQ8=;
-	b=dXmGyErLyDMsVgS5ePQ5aSh+1tta3+ABjzSQAkSp8Py8K+hk+9hKBHtfHRscwLPpTN+i
-	 1di11W/W55nOdDysr7FwFd9W3yBqYGLOv15nWHJImV/4wSCJZuSmP82TH6bgjCkNQnN6x
-	 6UYCIIurxo52Docq+rCfTv8cxFgnwwHPhjeXUalCW6bTGfrJlu3FVE0Ed/ww3rGGt0y8G
-	 jbf/QVZpY3ovUg2QZLAQJzVqNHplt608UC8sVo334WEYPNJnmhkmSFH1ynXGBf01P/+r8
-	 VDYEx675/zzpo9JV7dQT1Pu8Tgw3W//3YUabq//PTg2e6hUyzn2oQfdFU9+AXk3JH6w==
+	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
+	bh=gNpU21ZWUiHpMFkWQ48piVkXt/cRxdpLpRnLeAHgyoI=;
+	b=AsfXsUeOfFqw9QPM0F2t8niqesXaglT2xVU8yc25RUZksZuYO2OLgzyW+BDylZpGbxY5
+	 OS4JjnzxHle5Nz9zLxleK/Le7cuk1gP1Aqiu6A8S7SfuQifwdZnJWb3DTWmx19IzdWb/b
+	 +GtIeaQCcTtXB4dxFP1ltGWkMYf07Gim6pwQLGbuc8OX+1WLDbInicI6/Z96n57UoNQ/5
+	 5LBkvRlcR48zCk/V4ek5ZBq5zyJAg45AkRPMuvqs8PKtULhg981akwF+ES12qynrsPjR3
+	 QUJz08/DK7YUOeRTkqD/HCGdeHWGQAKmgFtPyXxwNbbhO1b25+2rhr//AJTDoWLzg4A==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=ctU6b3mB;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=cHZrqLpK;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DFFF3606A31C;
-	Thu, 26 Nov 2026 14:51:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 61B32606A31E;
+	Thu, 26 Nov 2026 14:55:45 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=ctU6b3mB
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5D9661F000D2;
-	Thu, 26 Nov 2026 14:51:18 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=cHZrqLpK
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id EDF001F000D2;
+	Thu, 26 Nov 2026 14:55:43 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795704681;
-	bh=8cDwjtU7rN5AjHTXbgsdj8N4xpWB5/rnJA0ria9qGQ8=;
+	s=k20260515; t=1795704944;
+	bh=gNpU21ZWUiHpMFkWQ48piVkXt/cRxdpLpRnLeAHgyoI=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=ctU6b3mBxvMDTa4T+HpsxkismU0GkEqyOENp2dwQQOgI2Uj2hzhcJ/q/Ut1TkDXwm
-	 1dxFQQUw3zKbHAUPRBppbvZcLIsAoyvW1WiYvl/uQojc2uF+usMWOCQfsz3wV2oOTs
-	 3sGYGGq7Pg/9zbz/8FEJzBYT4VH0XwTi/PwhMsPX/7ACo/h6Y3faUx4GI1imFP8qsb
-	 suklrC8J4WWm/JdYueu+z7WT06cw1EcL/VgW0LWK2TABy0vZSULYYHqCbrqY+bhbBI
-	 SEOxtoyOjS5aR7yK4IK/rOlCAGZEsrWZBB/hCMamxJ9YBPEq3eJ3fayXo8+tp1oD0H
-	 mboHWqsrmXZvg==
-Date: Thu, 26 Nov 2026 14:51:15 +0000
-From: Mark Brown <broonie@kernel.org>
-To: Leon Romanovsky <leon@kernel.org>
+	b=cHZrqLpKus9VAAECABKx0U6mZiBK6w1+ssC+3mrViB9MQer40IOzq+lvm58sAmbQY
+	 W5NgV1GU5/oWjhwrarmIIZrAYVKnjJ8JdguLgIjhVPUHjtPOHGrvjAOLURBX8QvaF9
+	 bj3jqqgEqIaEPJxbwNG8e8RgnNOxOCv6ZuqwfxqcUC2mepK+KQC75KPP745bCwu4Ys
+	 iQ8of56zeJPUjNNmpKGmbiOX3R388FUjxLintw/xm+lSH3QrMINZq3C+SVjhnBQb0W
+	 7DXpJhC26j8JONLKpR0JfShcgllLR2SudJkMi/h4hqLjjEUj5G62Dc310Cnk9MCQdj
+	 COlRIH45cJXdA==
+Date: Thu, 26 Nov 2026 16:55:41 +0200
+From: Leon Romanovsky <leon@kernel.org>
+To: Mark Brown <broonie@kernel.org>
 Cc: Jonathan Corbet <corbet@lwn.net>,
 	Shuah Khan <skhan@linuxfoundation.org>,
 	Randy Dunlap <rdunlap@infradead.org>, workflows@vger.kernel.org,
@@ -50,7 +49,7 @@ Cc: Jonathan Corbet <corbet@lwn.net>,
 	Geert Uytterhoeven <geert@linux-m68k.org>
 Subject: Re: [PATCH] docs: submitting-patches: Limit backtrace trimming to
  timestamps
-Message-ID: <b8f8e83a-10f0-4aa9-b850-adc0fb23e7f2@sirena.org.uk>
+Message-ID: <20261126145541.GS774860@unreal>
 References: <20261126-backtrace-timestamps-v1-1-0a645b25e5ae@kernel.org>
  <d4848afd-a23a-4119-ac09-1fe5e4681e3a@sirena.org.uk>
  <20261126125959.GL774860@unreal>
@@ -58,6 +57,7 @@ References: <20261126-backtrace-timestamps-v1-1-0a645b25e5ae@kernel.org>
  <20261126133042.GM774860@unreal>
  <8836d5ee-b800-49e3-a866-327041384b40@sirena.org.uk>
  <20261126144740.GR774860@unreal>
+ <b8f8e83a-10f0-4aa9-b850-adc0fb23e7f2@sirena.org.uk>
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Post: <mailto:workflows@vger.kernel.org>
@@ -67,37 +67,16 @@ List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:workflows+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="7UY3ps6s1cZNOpfC"
-Content-Disposition: inline
-In-Reply-To: <20261126144740.GR774860@unreal>
-X-Cookie: Sank heaven for leetle curls.
-
-
---7UY3ps6s1cZNOpfC
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <b8f8e83a-10f0-4aa9-b850-adc0fb23e7f2@sirena.org.uk>
 
-On Thu, Nov 26, 2026 at 04:47:40PM +0200, Leon Romanovsky wrote:
+On Thu, Nov 26, 2026 at 02:51:15PM +0000, Mark Brown wrote:
+> On Thu, Nov 26, 2026 at 04:47:40PM +0200, Leon Romanovsky wrote:
+> 
+> > I can try to work around this using the maintainer's profile, but can we at least
+> > agree to remove the example from the documentation? It does more harm than good.
+> 
+> Yes, that is quite outdated.
 
-> I can try to work around this using the maintainer's profile, but can we at least
-> agree to remove the example from the documentation? It does more harm than good.
-
-Yes, that is quite outdated.
-
---7UY3ps6s1cZNOpfC
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmsIR2MACgkQJNaLcl1U
-h9CWWwf/VDKjEkXWDUkvCgEg0ysV2KNaer8r8H/3Jfcma315cx9xaLM/zRLMKsj7
-tUBNI1mrttHxJZ24DC7XvZ9z7IsjRrh9nnD4LrLXY0F2PanbXnUjVtm+yP7+tEA6
-5or1Ny7kZti4sgAxyLh52+wNAW6BDRc1nhLK0rcEEHs71XI6cMnIxNZ/txgm3oge
-pETQhnYeV6gsoGg6lCOc91Gbb7hqSCtreU9ww4su3kpcLoLayEWCPpNJuNBKWgcs
-/eRa53Sz4hqPpbGuCPl3WznagpJo61QdMyfY0JGVyYn9hR5d5iYOgTLAjniK4MS5
-MvoNQQJJo2IoYDYtRJAqZgU6QzH4EA==
-=yVnA
------END PGP SIGNATURE-----
-
---7UY3ps6s1cZNOpfC--
+Great, I'll send v2.
