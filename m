@@ -1,44 +1,44 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795713570;
-	b=oFRoEPj6usUXVXrDV5SQOpjvi52Xwc5PT7zE0bXPbiD63j03bHU1bpMepE9wWImmvujM
-	 XX7gGbF+hpoo3Fc6IPw9uu803DM1fuMYq8n5A2dVm9S6S2mDac8D8eCrEK+21UFpW1gzb
-	 4VWUIgaA0jfuVbaJYQ/JIxOJi1qmJ/ipAzTpsRh8vXKEwP1SUUQ2hE0pLii3fnc5nP+b8
-	 iXY3WOEeaqjeaUQTUC0fOPkgAdhN2A9zK3Dyoz6hRIab+/mp6IpvVYGT8w4BVTEE6HEW3
-	 gcQex7J1GH7rg0R3YwOexRQUpa2ujbb4pBd7LoM+6Bh4hjeevYAkffNBf+RJIapsSYg==
+	t=1795713573;
+	b=FVeNbWqp+CDzijVBcwLkiVxFH05qWWXG2S+MRnQtdaa7Zgh40Ewuvq1avhpDOLnPRDii
+	 wiBzuqHKzCU2FgcvWNlibYWfUFDwyg0ACTnCCBgopqJKM60sAGpyheb0VCAsg8krdvZAR
+	 d9sRtTt0EJu6BaDzHNQd5fT50sGxdBroOooHbEKSQCLm2uCy34zcviGlTkq7fuWUgOktR
+	 kyqdBzpHqK/sKxFqNN/Ac1Tl4NSS/ieGW6lM/wlV+ZVkOMpJkdFdAl9UnmkrzBI/5aCRY
+	 vn5zekLKc4IAgJOscaQGCWeV4SUySNADN9BTFGXw+VQUz/VGt4pkfGiXtQQ0J5DREsQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795713570;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795713573;
 	h=Received:DKIM-Signature:From:To:Cc:Subject:Date:Message-ID:X-Mailer:
-	 MIME-Version:Content-Transfer-Encoding;
-	bh=oSy2smLc3cNbTuqMdwegN2l5C49OxKMBQCUYEQkVoUo=;
-	b=gN9ZwAsRl45RdZL6jid8zph5udqQCCn/oHRDB2zhON30Wej/Qbi1Mc7YsocoOTt6+mdI
-	 q6LuVevpQg/KwCB9fDkkMLdzGLY85A5813VWqjuAkj3e/EcJ+3aMtk5u2sjZ3vfZbU2g+
-	 TdkJfdSd5BSmrdGAyTzyoFH12oXTPZ+4siZoIGf68/kVT8ZZwyFYI4Uhkw7KotuvhxXJd
-	 SCRo4tWn73lZ1fmnN4R5qLkdOHavcS9uVNQsfT7m+Dv1UcQ1BZ9/q/aLBsvpumyexCGEk
-	 1ab14z1V8W3In5qnQrB/QWkm9fIi3ieUt7ipm3zLuhyq/idn0VqvrGwZjQO2Vh0MnpA==
+	 In-Reply-To:References:MIME-Version:Content-Transfer-Encoding;
+	bh=DPnOnHKLK8khpk5xKoTeQ5iPnwMY3CVcKZpPvk4R/Nk=;
+	b=QYzg3lp37oz+OTCAZNd2zfZFbTpzVsb64FHfvZyvUbB5HWM0LEOulKvqgmwxzGz8UJ2l
+	 f2LCqjnArLEbUahhz2fdYMjvPjEw9O2LmYeFGYV+fwjbTUxKeJNrR51j136AyJvfMsvym
+	 uwyuAgQnvJW0NQydjuvzs8mSUSMyYOGReyAMygsXOz5DvWFETZZIgVSIybzsWFikXoiXI
+	 ESalTAgZF39v9MwbmKyVQ/NPEbW6HkOIQrBaMW9gE9zeB22NHds2bQbKxZoGfRW/O3SpY
+	 9OojyCHDisHXuVbmkK39n+NciEFIYxM4HCV3CNViKVVzay4wzGXX6bMNNkksEJe0E9g==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=UmRWgeKR;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=mJ9eItCN;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F2336606A31C;
-	Thu, 26 Nov 2026 17:19:29 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EAD8F606A31C;
+	Thu, 26 Nov 2026 17:19:32 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=UmRWgeKR
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7FB111F000C0;
-	Thu, 26 Nov 2026 17:19:27 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=mJ9eItCN
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1D4851F000D1;
+	Thu, 26 Nov 2026 17:19:30 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795713569;
-	bh=oSy2smLc3cNbTuqMdwegN2l5C49OxKMBQCUYEQkVoUo=;
-	h=From:To:Cc:Subject:Date;
-	b=UmRWgeKRj4DvIvaRNu1iZI/R0f19ezl7i4Zt8PH+IfgoPGiYLw151aOaZUmyWrzOB
-	 Xjcvf/0hLWnwEub2FPU75PZaYXPIMdkd4UNCUl0dlX46BqRndiHo7hru8y5j9LFeZh
-	 pF6/OPmjwHo1elLrVQr+Ka9ycEQ4gVwTm3EB5vLN0F8MLCozwmaDBskJBw89e5q0mM
-	 Msx24JFRNZ2HOw3x6IYBMG4Rryb30Inc6L5NmmHYVvaYHvqcDbQvCHR1RB1RJ+PcDC
-	 aXllP5nFm3SBN1EaH5InqZsyweKzAOCqmq1OI5diu7zEHA39+zXdNJ5PvF44zC1Sba
-	 ZIRQWqww80pVw==
+	s=k20260515; t=1795713572;
+	bh=DPnOnHKLK8khpk5xKoTeQ5iPnwMY3CVcKZpPvk4R/Nk=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References;
+	b=mJ9eItCNFg3ql+Qd01AlEJ9/YIMrNIkqxxDv2l/GUJ97xyemQcB1tipi4u8dt/aHL
+	 AQj8a3vcX1KUhDarIozeqgoY1CeQc2Mw27ssDzjAHBrXj3SqBRjaBSZM+fdmtvxpaF
+	 ym0C6IRnqgN95BsXCPeJEfmE7O4d6Y7yvM/6uyQTvWAqmAIBbu5jQ+WTPktt6nVoZ0
+	 +6O1G5KY+d0uC9drvXQcay5xfwF6XDJJrotjbC6JyabhgG543hv3EnTG+gq8U31Gx0
+	 gBoYa0/hqJcpOv6ttql+Z1t/9wf9dhTyO8zEiy4C66e3ZGtEAR2eyZ2tx+QXAsiauc
+	 45nzJ8q2oaCEw==
 From: Sasha Levin <sashal@kernel.org>
 To: Jonathan Corbet <corbet@lwn.net>
 Cc: Sasha Levin <sashal@kernel.org>,
@@ -64,10 +64,12 @@ Cc: Sasha Levin <sashal@kernel.org>,
 	workflows@vger.kernel.org,
 	linux-doc@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH 0/2] docs: ask AI-assisted patches for short changelogs and a cover letter
-Date: Thu, 26 Nov 2026 12:19:23 -0500
-Message-ID: <20261126171926.2766137-1-sashal@kernel.org>
+Subject: [PATCH 1/2] docs: coding-assistants: ask for short changelogs and a cover letter
+Date: Thu, 26 Nov 2026 12:19:24 -0500
+Message-ID: <20261126171926.2766137-2-sashal@kernel.org>
 X-Mailer: git-send-email 2.53.0
+In-Reply-To: <20261126171926.2766137-1-sashal@kernel.org>
+References: <20261126171926.2766137-1-sashal@kernel.org>
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Post: <mailto:workflows@vger.kernel.org>
@@ -79,94 +81,166 @@ Precedence: list
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Commit messages written by AI coding assistants are too long, and
-maintainers keep saying so. Greg: "LLMs love to write a lot. Please
-always rewrite the changelog text to be sane and concise." [1] Linus,
-on a pull request text that read like an LLM's: "you can tell it to be
-a bit less verbose" [2]. Marc [3], Eric [4], Hans [5], Andrew [6] and
-Jonathan [7] are a few more examples from this year, from different
-subsystems. security-bugs.rst already carries a paragraph on the length
-of AI-generated reports. The messages read like a copy of the
-assistant's analysis, and what a reader needs is buried in them.
+Commit messages written by AI coding assistants are too long.
+Maintainers keep asking for them to be cut down [1][2][3][4]: they read
+like a copy of the assistant's analysis and bury what a reader needs.
+When an assistant does trim, the opposite problem shows. A few lines of
+a backtrace do not tell a reviewer how the failure was produced, and
+Leon Romanovsky showed a case where only the full log revealed that the
+crash came from an out-of-tree module written to provoke it [5]. Willy
+Tarreau suggested a short quote in the changelog plus the full log
+attached [6].
 
-When an assistant does trim, the opposite problem shows: a few lines of
-a backtrace do not tell a reviewer how the failure was produced. Leon
-showed a case where only the full log revealed that the crash came from
-an out-of-tree module written to provoke it [8], and Willy suggested a
-short quote in the changelog plus the full log attached [9].
+Give each kind of content its place. Add a "Commit message" section
+that asks for a message that is to the point, and point it at "Patch
+formatting and changelogs" in 5.Posting.rst, which asks for "the most
+direct and concise way possible". Step 6 of the procedure asked for a
+"detailed" message, which reads as a request for length: drop the word
+and refer to the new section.
 
-This series gives each kind of content its place. Patch 1 tells coding
-assistants to keep the commit message to the point and to put the
-evidence into a cover letter, which every patch or series they prepare
-has to come with, a single patch included. It lists seven items that
-the cover letter has to contain at a minimum. Patch 2 names the cover
-letter in security-bugs.rst and keeps the reproducer out of it there,
-as the cover letter goes to a public list with the patch.
+Everything else goes into a cover letter. Require one for every patch
+or series prepared with an AI assistant, a single patch included, and
+list what it has to contain: the base commit and whatever was added to
+the tree to trigger the problem, how the problem was found, whether it
+was seen to happen, the reproducer, how the change was tested, the
+complete output that shows the problem, and what could not be done. The
+output has to be the captured one, unedited, and whatever the commit
+message quotes has to come from it. The items are a minimum: what a
+cover letter usually holds can be added to them. Make writing the cover
+letter a step of the bug fixing procedure, and say that a patch without
+it is not finished.
 
-The cover letter stays in the list archive, and the Link: tag or the
-patch-id of the applied commit leads back to it. The full log can then
-be found from the git history without being part of it.
+security-bugs.rst does not allow a reproducer on a public list. For a
+bug that is or may be a vulnerability the cover letter therefore only
+says that one exists, and the cover letter step comes after the step
+that tells a vulnerability from a regular bug.
 
-What follows is an example of such a cover letter, written for this
-series. The seven items are about both patches unless one is named.
+The cover letter is posted with the patch and stays in the list
+archive. The Link: tag of the applied commit, or a lore search for its
+patch-id, leads from the commit to the thread, so the full log can be
+found from the git history without being part of it.
 
-1. Based on docs-next d3b70c91af11 ("docs: ioctl-number: update DRM
-   entries") plus "docs: submitting-patches: ask bug fixes for their
-   user-visible impact" [10], which changes the same step 6 as patch 1.
-   Nothing else was added. No architecture or configuration, these are
-   documentation changes.
-
-2. The problem was reported on the list, in the mails [1] to [9] above.
-   No tool found it. The text of both patches was written with an AI
-   coding assistant, Claude Code.
-
-3. Not a kernel failure. The problem is in the patches that reach the
-   lists: [1] to [7] are replies to such patches and pull requests, and
-   [8] has an example of what a trimmed log can hide.
-
-4. No reproducer.
-
-5. scripts/checkpatch.pl on both patches: 0 errors, 0 warnings.
-   "make SPHINXDIRS=process htmldocs" from an empty output directory,
-   with and without the patches: exit 0 both times and the same 57
-   warnings, none of them new.
-   One trial of an earlier draft of patch 1, from before the paragraph
-   on vulnerabilities was added: Claude Code with Claude Sonnet 5.5 was
-   given a tree with the text applied, at the parent of 8e83fac77aa97
-   ("bootconfig: Fix xbc_verify_tree() to check subkeys of valued
-   keys"), and was asked to fix that bug, with no mention of cover
-   letters. It produced a [PATCH 0/1] with the seven items in order,
-   the captured outputs copied byte for byte, and a commit message of
-   16 lines.
-
-6. Nothing failed, so there is no output to show.
-
-7. Not done: a full "make htmldocs", only Documentation/process was
-   built. One trial with one assistant says little about the others,
-   and the vulnerability case and patch 2 were not tried at all.
-
-[1] https://lore.kernel.org/r/2026073057-moustache-unfixable-5ab1@gregkh
-[2] https://lore.kernel.org/r/CAHk-=wgXU50=KgZNZc1JDxsSxg9Z+DjG1_2yU-fNXpZtUe4XDw@mail.gmail.com
-[3] https://lore.kernel.org/r/861pf9xgkc.wl-maz@kernel.org
-[4] https://lore.kernel.org/r/CANn89iKErdqHOGFpQLM_MAi-LcAaR6ZR2_rhdtZzv1TJc2L4RQ@mail.gmail.com
-[5] https://lore.kernel.org/r/ab5c5ae1-1bfd-4fe4-adef-fb64b5b3dfbb@oss.qualcomm.com
-[6] https://lore.kernel.org/r/ef2eb733-4b94-4c2e-9165-0b324733a482@lunn.ch
-[7] https://lore.kernel.org/r/20261121195920.573a0727@jic23-hlaptop
-[8] https://lore.kernel.org/r/20261125125739.GA14811@unreal
-[9] https://lore.kernel.org/r/av7tY64O34gbJvH_@1wt.eu
-[10] https://lore.kernel.org/r/20261116200515.352387-1-sashal@kernel.org
-
-Sasha Levin (2):
-  docs: coding-assistants: ask for short changelogs and a cover letter
-  docs: security-bugs: ask AI-assisted fixes for their cover letter
-
+Link: https://lore.kernel.org/r/2026073057-moustache-unfixable-5ab1@gregkh [1]
+Link: https://lore.kernel.org/r/CAHk-=wgXU50=KgZNZc1JDxsSxg9Z+DjG1_2yU-fNXpZtUe4XDw@mail.gmail.com [2]
+Link: https://lore.kernel.org/r/861pf9xgkc.wl-maz@kernel.org [3]
+Link: https://lore.kernel.org/r/20261121195920.573a0727@jic23-hlaptop [4]
+Link: https://lore.kernel.org/r/20261125125739.GA14811@unreal [5]
+Link: https://lore.kernel.org/r/av7tY64O34gbJvH_@1wt.eu [6]
+Signed-off-by: Sasha Levin <sashal@kernel.org>
+---
  Documentation/process/coding-assistants.rst | 86 ++++++++++++++++++++-
- Documentation/process/security-bugs.rst     | 17 ++--
- 2 files changed, 95 insertions(+), 8 deletions(-)
+ 1 file changed, 84 insertions(+), 2 deletions(-)
 
-
-base-commit: d3b70c91af11cdf08aebbfdb166b333ada0276be
-prerequisite-patch-id: 3fe9b4033dfb06bcc2898e76439d04a11a239c33
+diff --git a/Documentation/process/coding-assistants.rst b/Documentation/process/coding-assistants.rst
+index ef01ce8d0ff91..98a72561a9c2b 100644
+--- a/Documentation/process/coding-assistants.rst
++++ b/Documentation/process/coding-assistants.rst
+@@ -40,6 +40,84 @@ is responsible for:
+ * Adding their own Signed-off-by tag to certify the DCO
+ * Taking full responsibility for the contribution
+ 
++Commit message
++==============
++
++The commit message **MUST** be to the point. "Patch formatting and changelogs"
++in Documentation/process/5.Posting.rst asks for a changelog that conveys what
++its readers need "in the most direct and concise way possible", and "Describe
++your changes" in Documentation/process/submitting-patches.rst says what that
++is. Keep the message as short as its content allows. Leave out markdown,
++labels such as "Root cause:", a restatement of the subject, lists of what was
++checked and the story of the investigation. Quote only the few lines of a log
++that identify the problem, see "Backtraces in commit messages" in
++Documentation/process/submitting-patches.rst.
++
++What reviewers need to check the work, and what does not belong in the git
++history, goes into the cover letter.
++
++Cover letter
++============
++
++Every patch or series prepared with an AI assistant **MUST** come with a cover
++letter, the "[PATCH 0/N]" mail that the patches are sent as replies to. This
++includes a single patch; tool use that
++Documentation/process/generated-content.rst puts out of scope does not count.
++The cover letter holds the evidence that reviewers need to check the work. It
++is posted with the patches and stays in the list archive.
++
++The cover letter **MUST** contain the following items, in this order. Do not
++drop an item: if there is nothing to say, write that. For a series, say which
++patch each item is about.
++
++1. The commit ID the work was done on, the architecture and configuration, and
++   everything that was added to that tree to trigger or observe the problem:
++   other patches, out-of-tree modules, fault injection, debugging code.
++2. How the problem was found: a report (give the link), a test, a tool, or
++   reading the code. Name the tools that were used, as
++   Documentation/process/generated-content.rst asks.
++3. Whether the problem was seen to happen: on the unmodified tree, only with
++   the additions from item 1, or never (found by analysis only).
++4. The reproducer, or the exact steps that trigger the problem. See below for a
++   bug that is or may be a vulnerability.
++5. How the change was tested: the commands, and the results without and with
++   the change. Leave out the output of successful builds.
++6. The complete output that shows the problem. For a runtime failure this is
++   the kernel log from boot up to and including the failure; for a build
++   failure, a failing test or a tool report it is all the output of that
++   command.
++7. What could not be done: not built, not booted, not tested, no reproducer.
++
++The output in item 6 **MUST** be what was captured, copied as is. Do not retype
++it, trim it, reorder it, or write what it would probably look like. If it is
++too large for one mail, do not cut it:
++Documentation/admin-guide/reporting-issues.rst says what to do with such
++files. If the problem was never triggered there is no such output, and item 6
++says so.
++
++Every line of output that the commit message quotes **MUST** come from the
++output in item 6.
++
++These items are the minimum. The cover letter can also hold what a cover
++letter usually holds, such as the introduction to a series (see
++Documentation/process/5.Posting.rst) and the changes since its previous
++version, placed before the items. Whatever else is in it, the items **MUST**
++be there. The story of the investigation does not belong in it either.
++
++Complete logs can contain host names, addresses, serial numbers and command
++lines. Tell the submitter, who reviews the cover letter like the rest of the
++contribution and sends it together with the patches.
++
++A bug that is or may be a vulnerability, see step 9 of the procedure below,
++gets its cover letter like any other, but a reproducer for it does not go to a
++public list. Item 4 then only says that a reproducer exists.
++Documentation/process/security-bugs.rst says what else is prepared and who
++receives it, and takes precedence wherever the two documents differ.
++
++A patch without its cover letter is not finished and must not be reported as
++done. Maintainers can expect the cover letter, and may ignore patches prepared
++with an AI assistant that arrive without one.
++
+ Procedure for finding and fixing bugs
+ =====================================
+ 
+@@ -63,10 +141,11 @@ these steps:
+    re-running a complete analysis; drop any fix that doesn't work and try
+    another one. The fix must not add build warnings and must pass the
+    checkpatch.pl checks (see submitting-patches.rst).
+-6. Commit the working fix with a detailed message describing the problem, its
++6. Commit the working fix with a message describing the problem, its
+    user-visible impact (see "Describe your changes" in
+    Documentation/process/submitting-patches.rst), the solution and a Fixes
+-   tag. Do not add a Signed-off-by tag.
++   tag. Keep it to the point, see "Commit message" above. Do not add a
++   Signed-off-by tag.
+ 7. Identify the maintainers and lists using scripts/get_maintainer.pl.
+    Documentation/process/security-bugs.rst shows how to do that.
+ 8. Indicate what could not be done. If the fix could not be built or tested, or
+@@ -77,3 +156,6 @@ these steps:
+    review (the assistant must never send anything itself). Regular bugs are
+    submitted as described in Documentation/process/submitting-patches.rst,
+    vulnerabilities as described in Documentation/process/security-bugs.rst.
++10. Write the cover letter described in "Cover letter" above from what the
++    previous steps produced. This part is not optional, not even for a single
++    patch or a one-line fix.
 -- 
 2.53.0
 
