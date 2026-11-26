@@ -1,64 +1,55 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=51.159.59.229
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795666101;
-	b=jNiQeqFUJQnNqApuR6fc0nY+qxvtPeo+IkWDVdsn+KI3h2TKjtbvNoPvNVgBzTAAysoq
-	 rYIcliH87znLScKtn41fphrguTxUrMzSZwSJIXMsWa4z3Rl5xBPfMWCOfnBAG4LNhAaSM
-	 CanehisdX2zIzYWJIq0N8g00z7KdomC/evE7cp9OeIH8U8zhvZHkk0C/LcvbgzcAEbuOT
-	 CYbHsfoB9Re92dN03aJEiYC8l4E6Wb5XEwtaCINuN5Fy+Agrscpl7dCpa5HRkGzmtoGnm
-	 JGkqfHswvUdIru1uTIYO8UcdLP9NN9FGep6gKTK+4HGuB+h96XNMxtbFCc5y9AtBCaw==
+	t=1795680735;
+	b=TmkgWM2LdZWrH29foyKpv5aB/TyhN8MwOxBKJP1OVN7FcY2jl+EvUvuc5Nw8I0WJvpw7
+	 xuu/1zZ76XlYZXGiiIAFv40gdHvRCBiVLcBAthoI6sIFz6A5WLKdCkZFYAed2UaEyCHXG
+	 6aO57G9mv1xJoAVncO+SC5RY4KSs2CNemL6NlKB9DsFTd4zFs/vt1H3vNgUQMmKW920WL
+	 IufXFm/JuyIDKz0QI023i/PwXQOuXbfgelS8Vrz7lduhP35+9NEbVxce5Hk2RWc/s0zgq
+	 /WfeYJJ0egYum8gLW2t/3bBH17zEh5j/bYCQXvODAFjsSlRwKEhHLOGkLFyfzkHvQRQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795666101;
-	h=DMARC-Filter:DKIM-Signature:Received:Date:From:To:Cc:Subject:
-	 Message-ID:References:MIME-Version:Content-Type:Content-Disposition:
-	 In-Reply-To;
-	bh=A/WCX9ns4OZzkPHZYaGtM/ZtO5KmPPP2DkCJ4DMccZY=;
-	b=tJ3R06ktKK4AYcm7riVVgnOv5ayxdKLcUO8DQiGYPTfBepBGiOdj6tSAETKqPjNGUno3
-	 mfW1NXi9t0VGLUCCU7Sa6JBEbr05+6O/+8aJbTJwnC7uETv5nQJ/204C/bZkxwnwUzl1W
-	 iBmO5YXnHdXB5JxXla+YKh0XLiA1RY/xxYiJSYWbV2h1cZD2F6OOJf99XGLZLd7Owv3Gi
-	 6075Zul67dg9BuGxQ4+49PQJdIFZpYg82o2Oh4fxKAtpD14n/1M31XA+NW0wVt/sst9Io
-	 VbFcMDui8pKvRaNFRYp97U3IEEm3DfDIyB7ZcVww6NuN3xIjarlNim7ywShecEJ2pNA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795680735;
+	h=Received:DKIM-Signature:From:To:Cc:Subject:Date:Message-ID:X-Mailer:
+	 MIME-Version:Content-Type:X-Change-ID:X-Mailer:
+	 Content-Transfer-Encoding;
+	bh=aEhyTJ8dta3Tyq6V/L5LudIzKwOEoZUem/yxKoS2X7E=;
+	b=Yv1Mx6tSMpU7EsLw/yPnF32qZbRKtPEZDXK79me5KtPUXBlOiT68BJmqSN7J33q1U4uD
+	 OqKuFUlxuBMT/yHGwgOwJuLCUQpqhHsEN8EAf3luiY9Y6Us9B6tJHrGGyKVkaDIp/8Lu6
+	 egFtGX6L78u8r+ndeuEiIK2TsB1pIXqywyWKAUJEBII35UTxoDe1YoIFVZQ6n3jao1JFj
+	 uPGd1bGcUoWRwoyg9vZ0ImQV16WXfscanE3riyVPdaDHANjdzTQWzU14nvlhjB2f62Ul5
+	 YID4UBOFC3k5i1Q+Ac3lrwLSyd33sH+DVytahOdE5B5npoJVZp1IPoP6ATzZvLFc72g==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=1wt.eu;
-	spf=pass smtp.mailfrom=1wt.eu;
-	dkim=pass header.d=1wt.eu header.i=@1wt.eu header.a=rsa-sha256 header.s=mail header.b="i/HWQKP3";
-	arc=none smtp.remote-ip=51.159.59.229
-Received: from mta1.formilux.org (mta1.formilux.org [51.159.59.229])
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=kkBRiaEA;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1C218606A31E;
-	Thu, 26 Nov 2026 04:08:19 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 1C218606A31E
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=1wt.eu
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=1wt.eu
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 85FDA606A32E;
+	Thu, 26 Nov 2026 08:12:15 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=1wt.eu header.i=@1wt.eu header.a=rsa-sha256 header.s=mail header.b=i/HWQKP3
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=1wt.eu; s=mail;
-	t=1795666097; bh=A/WCX9ns4OZzkPHZYaGtM/ZtO5KmPPP2DkCJ4DMccZY=;
-	h=From:Message-ID:From;
-	b=i/HWQKP3/5jdI5ZB82HFB6sG2u80RJo1CIDti9LAYvqH0orfywC/wFu9oni+m2ouc
-	 rCBMHf56JPGIhq3D32suPEW/wIYpatp6Ad+vcWCC7/xOQpY2s0iooXpTZ6dn7J7KQI
-	 uQ5cFnfc6DkHdHsgdHHszms038XyuYH/iKDl6A3s=
-Received: from 1wt.eu (ded1.1wt.eu [163.172.96.212])
-	by mta1.formilux.org (Postfix) with ESMTP id 7B79FC0701;
-	Thu, 26 Nov 2026 05:08:17 +0100 (CET)
-Date: Thu, 26 Nov 2026 05:08:16 +0100
-From: Willy Tarreau <w@1wt.eu>
-To: Bagas Sanjaya <bagasdotme@gmail.com>
-Cc: Jonathan Corbet <corbet@lwn.net>, skhan@linuxfoundation.org,
-        Randy Dunlap <rdunlap@infradead.org>, workflows@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        netdev@vger.kernel.org, gregkh@linuxfoundation.org,
-        Johan Hovold <johan@kernel.org>,
-        "David S. Miller" <davem@davemloft.net>,
-        Eric Dumazet <edumazet@kernel.org>, Jakub Kicinski <kuba@kernel.org>,
-        Paolo Abeni <pabeni@redhat.com>, Simon Horman <horms@kernel.org>
-Subject: Re: [PATCH v2 06/14] docs: security-bugs: do not send archives or
- binary attachments
-Message-ID: <awewsOJC0pUio_eH@1wt.eu>
-References: <20261114190014.17826-1-w@1wt.eu>
- <20261114190014.17826-7-w@1wt.eu>
- <awdsPgHF6Y0xuSQI@archie.me>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=kkBRiaEA
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6DF171F000E1;
+	Thu, 26 Nov 2026 08:12:14 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1795680735;
+	bh=aEhyTJ8dta3Tyq6V/L5LudIzKwOEoZUem/yxKoS2X7E=;
+	h=From:To:Cc:Subject:Date;
+	b=kkBRiaEAX5nr1v/77fYTVJZSJ6x/FlQeMoFTtne3qUvIB9NHZTcdzmaSPSF7k8/4j
+	 52w9QavAN9x8ZKZUBgtaSswTeq2yKwA9jIVrMKuwtwegevJuEoFSo0h0isixjPQZSh
+	 lYJOCtnpdi2QHWS0qxKxfRpGqAUImzR2+M5qbL9Fz4mumKpHAewpp73O6zGY977zBZ
+	 O22pbmX84U7wizCcL5W7JRRQ5FRmQsAhOpWNR7us7Q9CL0T/i9Fy02Ve2DiXhU991U
+	 qFijqACX6Nykwo36MUfY7Sd2e1kK1WEIJ63imUjbBY9G4R1T2/4PpsNE86R9W8UPod
+	 tkUVr74vvr9sw==
+From: Leon Romanovsky <leon@kernel.org>
+To: Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Randy Dunlap <rdunlap@infradead.org>
+Cc: workflows@vger.kernel.org,
+	linux-doc@vger.kernel.org
+Subject: [PATCH] docs: submitting-patches: Limit backtrace trimming to timestamps
+Date: Thu, 26 Nov 2026 10:12:08 +0200
+Message-ID: <20261126-backtrace-timestamps-v1-1-0a645b25e5ae@kernel.org>
+X-Mailer: git-send-email 2.56.1
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Post: <mailto:workflows@vger.kernel.org>
@@ -68,36 +59,64 @@ List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:workflows+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <awdsPgHF6Y0xuSQI@archie.me>
+Content-Type: text/plain; charset="utf-8"
+X-Change-ID: 20261125-backtrace-timestamps-29880a2f1cab
+X-Mailer: b4 0.15-dev-18f8f
+Content-Transfer-Encoding: 8bit
 
-On Thu, Nov 26, 2026 at 06:16:14AM +0700, Bagas Sanjaya wrote:
-> On Sat, Nov 14, 2026 at 08:00:06PM +0100, Willy Tarreau wrote:
-> >  Please send **plain text** emails without attachments where possible.
-> >  It is much harder to have a context-quoted discussion about a complex
-> > -issue if all the details are hidden away in attachments.  Think of it like a
-> > +issue if all the details are hidden away in attachments. Archives (zip, tar,
-> > +etc.), binary files and documents (PDF, etc.) are never acceptable: when a
-> > +reproducer is too large to be placed in the message, attach its source files
-> > +as plain text, and provide scripts that generate the required files (e.g. file
-> > +system images) instead of the files themselves. Think of it like a
-> >  :doc:`regular patch submission <../process/submitting-patches>`
-> >  (even if you don't have a patch yet): describe the problem and impact, and
-> >  list reproduction steps, all in plain text, then provide a proposed fix as
-> 
-> What if the issue can only be reproduced with specific binary files? Should I
-> send it as e.g. ASCII-armored, OpenPGP-encrypted attachment or should I put
-> it somewhere else on the Internet (as privately-accessed file) and share its
-> link instead?
+From: Leon Romanovsky <leonro@nvidia.com>
 
-In this case what happens is that reporters ask us :-)  We're documenting
-the rules to reduce the huge overload we're having due to imperfect report
-that require a lot of extra work to process them, but the team remains made
-of humans who adapt to each and every situation. We've had binary contents
-in the past and if some are strictly necessary it will continue to happen.
-The point is to avoid them as much as possible and prefer generation scripts
-rather than images (especially for file systems which are produced with a
-10-line script).
+AI tools tend to trim backtraces too far. Taint flags, module lists and
+module names disappear, which hides that an out-of-tree module was
+involved or that an in-kernel API was misused, especially a driver API
+that is not meant for general use.
 
-Willy
+Ask authors to remove only the timestamps and drop the example, which
+shows a trace reduced to bare function names. Timestamps are the one
+part of a dump that adds only noise.
+
+Signed-off-by: Leon Romanovsky <leonro@nvidia.com>
+---
+ Documentation/process/submitting-patches.rst | 20 ++++----------------
+ 1 file changed, 4 insertions(+), 16 deletions(-)
+
+diff --git a/Documentation/process/submitting-patches.rst b/Documentation/process/submitting-patches.rst
+index 85ba046d66fbf..56b1b38ac59cf 100644
+--- a/Documentation/process/submitting-patches.rst
++++ b/Documentation/process/submitting-patches.rst
+@@ -763,22 +763,10 @@ phrase``, it is important to be both succinct as well as descriptive.
+ Backtraces in commit messages
+ """""""""""""""""""""""""""""
+ 
+-Backtraces help document the call chain leading to a problem. However,
+-not all backtraces are helpful. For example, early boot call chains are
+-unique and obvious. Copying the full dmesg output verbatim, however,
+-adds distracting information like timestamps, module lists, register and
+-stack dumps.
+-
+-Therefore, the most useful backtraces should distill the relevant
+-information from the dump, which makes it easier to focus on the real
+-issue. Here is an example of a well-trimmed backtrace::
+-
+-  unchecked MSR access error: WRMSR to 0xd51 (tried to write 0x0000000000000064)
+-  at rIP: 0xffffffffae059994 (native_write_msr+0x4/0x20)
+-  Call Trace:
+-  mba_wrmsr
+-  update_domains
+-  rdtgroup_mkdir
++Backtraces help document the call chain leading to a problem. Remove
++only the timestamps and keep the rest of the dump unchanged. Taint
++flags, module lists and module names show whether an out-of-tree module
++was involved or an in-kernel API was misused.
+ 
+ Commentary
+ ^^^^^^^^^^
+
+---
+base-commit: b6a9fa34ce4187cb69d3c588a4bbffc31ce5db8f
+change-id: 20261125-backtrace-timestamps-29880a2f1cab
+
+Best regards,
+--  
+Leon Romanovsky <leon@kernel.org>
+
