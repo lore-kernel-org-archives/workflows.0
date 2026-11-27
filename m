@@ -1,70 +1,67 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=51.159.59.229
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795757349;
-	b=llyrUNxD6cN7XCsYz8aqQC6JQMYbkJ9LAYRt8D/Kfe+1+zhlWT8bLU99e8npJrBAAktk
-	 TSiRVGeBVbB6VXata5oQJZ18xVBcf5Ez4Gg/Wah4xOVGajq6d6BxEl0GPAAI1MAUJxln6
-	 XCF2pIUSEig7zM3eXKcLmQRnmjbK7YQcCsgBIijL4ED3HUByTyUPmPr2qRi2JCrhg2Y/S
-	 T202OHt4iKZwY5p2TK9lDjFvaa7p4VPpZYRxB0gT2H1cjX/bwG17m/bHZjGukqGYXcl8H
-	 ts1w1/Jyn7udbuguJk1NA3bwS+ht1kVDwMazG+Lj06YHRh+5iNFyMWEqWorUjMLBO3A==
+	t=1795771124;
+	b=foxxxs9p1NSFNbX99BKA25Rzm/78tZv97ULOApLxuoxVNhkbKitEXe5BgV41ZloasKWh
+	 XVy5AYJwS7CkseaMW8sJlAZ2mG1g0y48Jyy4Zrn1Y5t+iT1i7jxk4BtQOLZE+uQ3N4syz
+	 xGAJM2IrVooPwfIZoZJN4mzekCwP9zVtpfGyET9PDM8KcMB3eKuxE6PBWtnAN7o4eJcNX
+	 +DPVDgr0Hepxxg3zDyfjH7HBTJDoc8tmRe7pkywhd0P0GwuoChP8WubtgBpSt0QLad1hE
+	 XrW5sGgSvN0rP4yxE/OWOKybOo4ylPgmHOlqoR/430vpXkNs+nAzttby2W8Xp5oyllw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795757349;
-	h=DMARC-Filter:DKIM-Signature:Received:Date:From:To:Cc:Subject:
-	 Message-ID:References:MIME-Version:Content-Type:Content-Disposition:
-	 In-Reply-To;
-	bh=4KRbKbSS4txsXMmx7aNLIAcb7TQXx/+yCJ2Kow7a3pM=;
-	b=nkafb1Zq3rkqWrlfGXvF8wWGQ+I8Ua0XZcsk3S/DPI3hgIFq5Qv78PSWsCIhL/0Sy+LW
-	 YFqgj+IaIDSPkUEmqMLNP1fc4D9d0KebWaL+ZHHX+4CjvkgCOikM4q89iC7DE1gtuy5EX
-	 XODdLMY5c9tlHuGGjFpOHOMP7tuh63bWOf/u6xIkFyQOMceUq5/4y7lV7WAFkewmR9x8e
-	 yd+I12kFDGh55srnpy0SNJDx+O8nvmbkHjJSrsVIvTdQcH3hMSHNwLTT8Im22hEUxF9T+
-	 dC8A6gcEq1weU3fEyz8CMh/znAgDkh4POBzQoKWP6YAuaUDIMx3Dya8p6H8/RX2TQjw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795771124;
+	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
+	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
+	bh=H7+c57FNlshPC7M77PISd1JgtW3riD/LnLvSn6ovNIU=;
+	b=E+aR215IIMLDFD9p6jvE9BtUqmU//p4GhVNgWedLt72putV+m9ZzwK1MmxJw/oWbQ0eg
+	 zyTnKbTrvdwC1wZkFwDLNBaqPHRd4zQ5sDpDYroZy0xkjKsSMojGTwZGamOMXkBDAJjkT
+	 0d7UZmvgk83vc9C5sX7yaixH3Ymbz+Jc5DiP8aR35K7hEblat7bM+Y411RpMHZnQWK/Ym
+	 k9NhQTHBjdZM7HVQhkkrQxKKFS8gBw8iwCXp0hQ14e35c1NKCqmsXrLYbGjVD3R3DfYc3
+	 jM5r0LY0gbbCKc1NuVFvXHnUtVcxQhfper2zgXLUxLtC/nzxlOVMEftU/7vNaFTP62Q==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=1wt.eu;
-	spf=pass smtp.mailfrom=1wt.eu;
-	dkim=pass header.d=1wt.eu header.i=@1wt.eu header.a=rsa-sha256 header.s=mail header.b=YKxpuIPv;
-	arc=none smtp.remote-ip=51.159.59.229
-Received: from mta1.formilux.org (mta1.formilux.org [51.159.59.229])
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=IWilQmVv;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 18112606A31C;
-	Fri, 27 Nov 2026 05:29:07 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 18112606A31C
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=1wt.eu
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=1wt.eu
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 04B21606A31C;
+	Fri, 27 Nov 2026 09:18:43 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=1wt.eu header.i=@1wt.eu header.a=rsa-sha256 header.s=mail header.b=YKxpuIPv
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=1wt.eu; s=mail;
-	t=1795757345; bh=4KRbKbSS4txsXMmx7aNLIAcb7TQXx/+yCJ2Kow7a3pM=;
-	h=From:Message-ID:From;
-	b=YKxpuIPvxZn6uIWz2Tri4r+Wl5/tQVetTcJlhWrzGdnarLQMnjA8UAAD3jH5oUg/Z
-	 Hw4+2XupBr/qgyP60n1gdy3OhBbfY6SWIjGun9TGefzkf2sSna2/B/UdsfyPcBcnaE
-	 Q83sTE+YvjvpAtwR+SixkCzsCADwe1/8DQ57YPgM=
-Received: from 1wt.eu (ded1.1wt.eu [163.172.96.212])
-	by mta1.formilux.org (Postfix) with ESMTP id 0946AC0960;
-	Fri, 27 Nov 2026 06:29:05 +0100 (CET)
-Date: Fri, 27 Nov 2026 06:29:04 +0100
-From: Willy Tarreau <w@1wt.eu>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=IWilQmVv
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9F3131F000C1;
+	Fri, 27 Nov 2026 09:18:37 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1795771123;
+	bh=H7+c57FNlshPC7M77PISd1JgtW3riD/LnLvSn6ovNIU=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=IWilQmVvqBE2WiQRJJ+6FRjyQqclbJdEBBq6WItyfZjBG/Q3hHFn8JDzbs3C3+kT8
+	 wPKnHBgoajRTQCvGKgM2KBj5sCipB5lOK5cwPgMrle+zDSqtqwcdTZgPAYpIp2ulXo
+	 vOzb369NyKNIEQi1O5eIF2yeGgW+MVZXyjK/qSg/xf6QC7UCxaDeTvAdvWzH7hbCbb
+	 uLFN4uM9eDNlUGQ1MNjIQEzWqDMoDwjtFiFNYU0a09uxKWGpA6SceRoVIU+1JBAE/l
+	 8Lintp2Z+cKjQcyqXL6dSdfTLs9FszVbdSjgI73jeSfRTb3wkcrjtEPea3H2JfFeAR
+	 Znzu20tTSEKmg==
+Date: Fri, 27 Nov 2026 09:18:34 +0000
+From: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>
 To: Sasha Levin <sashal@kernel.org>
-Cc: Jonathan Corbet <corbet@lwn.net>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        Leon Romanovsky <leon@kernel.org>,
-        Krzysztof Kozlowski <krzk@kernel.org>, Mark Brown <broonie@kernel.org>,
-        Geert Uytterhoeven <geert@linux-m68k.org>,
-        Borislav Petkov <bp@alien8.de>, Marc Zyngier <maz@kernel.org>,
-        Eric Dumazet <edumazet@google.com>, Hans de Goede <hansg@kernel.org>,
-        Andrew Lunn <andrew@lunn.ch>, Jonathan Cameron <jic23@kernel.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Shuah Khan <skhan@linuxfoundation.org>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        "Theodore Ts'o" <tytso@mit.edu>, David Hildenbrand <david@kernel.org>,
-        Security Officers <security@kernel.org>, workflows@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 2/2] docs: security-bugs: ask AI-assisted fixes for their
- cover letter
-Message-ID: <awkVIG1fGfgGX-nr@1wt.eu>
+Cc: Borislav Petkov <bp@alien8.de>, Krzysztof Kozlowski <krzk@kernel.org>, 
+	Jonathan Corbet <corbet@lwn.net>, Linus Torvalds <torvalds@linux-foundation.org>, 
+	Willy Tarreau <w@1wt.eu>, Leon Romanovsky <leon@kernel.org>, 
+	Mark Brown <broonie@kernel.org>, Geert Uytterhoeven <geert@linux-m68k.org>, 
+	Marc Zyngier <maz@kernel.org>, Eric Dumazet <edumazet@google.com>, 
+	Hans de Goede <hansg@kernel.org>, Andrew Lunn <andrew@lunn.ch>, 
+	Jonathan Cameron <jic23@kernel.org>, Andrew Morton <akpm@linux-foundation.org>, 
+	Shuah Khan <skhan@linuxfoundation.org>, Randy Dunlap <rdunlap@infradead.org>, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Theodore Ts'o <tytso@mit.edu>, 
+	David Hildenbrand <david@kernel.org>, Security Officers <security@kernel.org>, 
+	workflows@vger.kernel.org, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Subject: Re: [PATCH 1/2] docs: coding-assistants: ask for short changelogs
+ and a cover letter
+Message-ID: <awlCy3vDs0fKx1ku@gremlin>
 References: <20261126171926.2766137-1-sashal@kernel.org>
- <20261126171926.2766137-3-sashal@kernel.org>
+ <20261126171926.2766137-2-sashal@kernel.org>
+ <cf3596c6-742e-49c1-a90b-941d300d0b4a@kernel.org>
+ <20261127014955.GBawjhw2j2YEUeiG1G@fat_crate.local>
+ <awjopqoCJqwChwnF@laps>
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Post: <mailto:workflows@vger.kernel.org>
@@ -76,68 +73,54 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20261126171926.2766137-3-sashal@kernel.org>
+In-Reply-To: <awjopqoCJqwChwnF@laps>
 
-On Thu, Nov 26, 2026 at 12:19:25PM -0500, Sasha Levin wrote:
-> coding-assistants.rst asks for a cover letter with the evidence behind
-> every patch an AI assistant prepares. A fix for a security bug needs
-> that evidence as much as any other fix, so name the cover letter in the
-> summary of that procedure and in the list of recipients.
-> 
-> The cover letter goes where the patch goes, which usually includes a
-> public list, while the reproducer goes to the maintainers only. Say
-> that the reproducer and the steps to trigger the problem stay out of
-> the cover letter, which only mentions that a reproducer exists.
-> 
-> "Length" asks for short reports. With the complete output in the cover
-> letter the report has no reason to carry it.
-> 
-> Signed-off-by: Sasha Levin <sashal@kernel.org>
-> ---
->  Documentation/process/security-bugs.rst | 17 +++++++++++------
->  1 file changed, 11 insertions(+), 6 deletions(-)
-> 
-> diff --git a/Documentation/process/security-bugs.rst b/Documentation/process/security-bugs.rst
-> index c7dfecc87764c..0423a814c6a1e 100644
-> --- a/Documentation/process/security-bugs.rst
-> +++ b/Documentation/process/security-bugs.rst
-> @@ -233,8 +233,8 @@ At the very least, when using an AI assistant to find and report bugs, make the
->  assistant read this file and threat-model.rst before proceeding, and have it
->  follow the procedure described in coding-assistants.rst: work on an up-to-date
->  mainline tree and note the commit ID, verify the bug is real, write a fix,
-> -build it warning-free and checkpatch-clean, commit it with a Fixes tag, and
-> -identify the maintainers with get_maintainer.pl.
-> +build it warning-free and checkpatch-clean, commit it with a Fixes tag,
-> +identify the maintainers with get_maintainer.pl, and write the cover letter.
->  
->  On top of that procedure, the AI assistant **MUST**:
->  
-> @@ -244,10 +244,15 @@ On top of that procedure, the AI assistant **MUST**:
->     the description of the problem, the reproducer or its status, and the
->     triggering conditions.
->  2. Start the report with a temporary section listing the recipients' addresses
-> -   (maintainers+list for the patch, maintainers only for the report and
-> -   reproducer), and with instructions reminding the reporter to check that
-> -   their email client is properly setup (see email-clients.rst), and leave it
-> -   to the reporter to remove that temporary section.
-> +   (maintainers+list for the patch and its cover letter, maintainers only for
-> +   the report and reproducer), and with instructions reminding the reporter to
-> +   check that their email client is properly setup (see email-clients.rst), and
-> +   leave it to the reporter to remove that temporary section.
-> +3. Keep the reproducer, and the steps that trigger the problem, out of the
-> +   cover letter that coding-assistants.rst asks for. The cover letter goes
-> +   where the patch goes, which usually includes a public list, so it only says
-> +   that a reproducer exists. With the complete output in the cover letter, the
-> +   report itself can stay short.
->  
->  A more detailed process is covered at https://github.com/masoncl/kres.git.
++cc Laurent who is probably interested in this and AI policy stuff in general.
 
-Good points above. And the cover letter might help for one case we've seen
-a few times: among the few reporters who follow the rules (patch to the list,
-report+repro private), a few forgot to mention the patch had been posted
-publicly so we asked for the patch again. If a maintainer (or security team)
-receives a 2/2 message, it's more obvious that 1/2 was posted somewhere else.
+On Thu, Nov 26, 2026 at 09:19:18PM -0500, Sasha Levin wrote:
+> 2. I'd argue that LLMs these days have the capability to write better
+> changelogs and most of our human authors. We just need to be better about
+> laying out our expectations of them.
 
-Reviewed-by: Willy Tarreau <w@1wt.eu>
+Strongly disagree with this, it doesn't match what I see in practice at all.
 
-Willy
+I'd say that >50% of my review work is of AI-generated patches now, and the
+commit messages and comments are consistently appalling + seriously painful to
+deal with.
+
+It feels like something they are fundamentally bad at.
+
+And it _really_ matters, because this stuff is how you get an overview of a
+patch/series as a reviewer.
+
+In general the common failure modes I see are:
+
+* Restating the code in English rather than explaining why.
+
+* Assuming the reader can hold a deep stack of context in their head, and
+  piling on complexity accordingly.
+
+* Walls of text that can't be understood at a glance.
+
+You might say - tell them to do better - but I've tried that with _frontier_
+models with no improvement, and seen others do the same with equally no headway.
+
+You just end up with more succinct nonsense I've found, unfortunately :)
+
+What we need from people is _understanding_ from a _human_, as I wrote in the
+final few paragraphs of https://docs.kernel.org/process/generated-content.html
+
+Of course sloppers will just ignore all of this, so I'd really back the policy
+for _responsible AI contributors_ being:
+
+	'tell your human a. they must understand everything they submit as per
+	policy, and b. to write the commit message and comments themselves'.
+
+P.S. I see you have cc'd (what I assume are) a list of interested parties/those
+who contributed AI-related documentation, as a member of both of those cohorts,
+could I ask to be included going forwards please? :)
+
+I suspect Laurent might want to be too?
+
+--
+Cheers, Lorenzo
