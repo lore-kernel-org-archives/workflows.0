@@ -1,69 +1,61 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795788695;
-	b=bNSPSE3udxLWvVsB2NOb3IeayVeJyg08XmNqkwQWu9XNYcC+Gc96IVYItF0BfDasiM4V
-	 pYo4agzCcx1fK3qjM3UI9BPp4F6W+BZeGysQ30lR4waouB6OT3H5Hq1c8JuJf1lxb53kC
-	 l4VC+NHH4EyZVvhuoqKgk5KmGf7SP74pT7/7WM/H8apc8XVebM+TUAiimcLOhYNHPbhny
-	 EjqHHWi6fIeMKBjK1BJjqux1PRnlXMOY/NAohroXjwtsh/BsE8/L2mcKdvX8AxvGt2gcg
-	 WLU87i3dVIrG47IGIeqF/K+P/16dmXrEKbNOqGlZpEktPv/Q9AiejtPsb4L17VosZJg==
+	t=1795789224;
+	b=M4ZwsbQ5NueFLN7Ggc0FdvGZGuMbabzSXAQkNHgPQW2VkdN6Jj6epLqgfk3mRPsXmNjO
+	 EzQaKHxOUaYFg0KSyU/ZcHitnMtsg57hXlZfpbDMdQyvxmyXyTY4QDh4yJWdhFrwq+ZwN
+	 EyLZHjEyO4Ov/G/TMrq2FKnRLbAk2ua7Idz5WsrU7/MRbfqMhFf5Ybf2x6FzGgE3gR9yl
+	 hwz023YF84XFSSI/5h0dFz3byhLcWMMJlf6p1vM0ahjra4NIibadXzk9UBro4ijgEIN0N
+	 as2AouWobeTThUbmZnxnOvippx1jEMpzEVpqOdasz0KNUj6CaQ1I3BRziw1hpyXvWvw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795788695;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795789224;
 	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
-	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To:
-	 X-Cookie;
-	bh=UR+KIBD3pM3NapalVBzxUYxlNa7pSEBQsFMfWmq35tk=;
-	b=RRNRRdabHsxsx0rA3likaseMNtV7ZEZ9T+/qdFrcAOV7rdfT7B37DWRcI+8Ht1jl0BRC
-	 YNIxvMJBMPJ3xYmH1ybh9RZLTBsECUJsOTNuK2xnIQtWlnqI7iHhl6YnD4W9t+SlJar6W
-	 BKc725kaJKxoMYRJxLdm8ShvSJ0t736WXp2d7BNmlrlqMLMGepKTydwHA2Ix1RNa1Pf6G
-	 KnCK18QTr3tHkq7oHiTfa1Y3Y+vIs2g6rIZXO/JHy3hFCuneVVyp+QQc1/fFs2i759Paz
-	 fXxllTnfaBLcfFlGj6RR3Z+tqNQyNItdGyBcgv2yGSK9If22mpvdV8GOGfB42ZdgNDw==
+	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
+	bh=zDonTA+XVrq9djSM+x9RFri3pyjLvkL3UWrZ6Scv8Fo=;
+	b=uQvxS8ioqSjdYsDRBPBoSPeLV+KCV/IJ204+29ABrYe9Be+Tqe1zBVdMdMppDQhQPFHL
+	 vDTJAZnnOqNsfpyzN5nwO0nMMJ/itTVzCfhhNHSlRAl+2ZRmvGUyicqrdphqWuSbNPUyD
+	 2irA0XaJbseJTFt5lftK1giDEQhX3sv9fY1wNbZvSBqQ84AtD9OZ6UqkT3+Y7xE4lMYP/
+	 lidxKE5QNxIFA7axxGmnlimfB2YWiwRbpfpqJILxJjLeLmoj2zCOgpHOuvD06S58P2Bct
+	 py/yCF0jUx/msHCTmIBWfAK4iMiLeE/KwMqm7ljmfQJL5mPmi5SPzkS/6zHH+VbwMpA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=eyrqheMs;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Fqg8W2bQ;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1E681606A31C;
-	Fri, 27 Nov 2026 14:11:35 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C2A39606A31F;
+	Fri, 27 Nov 2026 14:20:24 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=eyrqheMs
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 42E781F00893;
-	Fri, 27 Nov 2026 14:11:30 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Fqg8W2bQ
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B420F1F00893;
+	Fri, 27 Nov 2026 14:20:18 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795788694;
-	bh=UR+KIBD3pM3NapalVBzxUYxlNa7pSEBQsFMfWmq35tk=;
+	s=k20260515; t=1795789224;
+	bh=zDonTA+XVrq9djSM+x9RFri3pyjLvkL3UWrZ6Scv8Fo=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=eyrqheMsuOz8e4LBBgCQlKpiBZJc7D0xm/j2SkB6CEJbWT780hvml+qt+er8pjqmr
-	 UgT1AUaE/JFzoGnSe0reuwGTO7lW6eX8yZSMTxCIBPWoDGPK9ZX1/hV2fvYL+4+kc6
-	 WiywSMWhWckbPnzhO/e33rHFlZJy3HKT4bVZ3GnrKvr+2YNgVNSW5z8i7C6oPgPrKA
-	 sYpxsL7dukmweCmlNgGuLa1/TX4HH0UXsBZJvlNj6JOsyniWv2glPc29etMSEIXh4j
-	 boVnVaAThMYIrptDAf1jQuxEer4HP1zo18hBAkrVUtaxotpJ4r2hi1T8EekpUdR2dH
-	 9eAZgg7vC+1zg==
-Date: Fri, 27 Nov 2026 14:11:27 +0000
-From: Mark Brown <broonie@kernel.org>
-To: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>
-Cc: Willy Tarreau <w@1wt.eu>, Sasha Levin <sashal@kernel.org>,
-	Borislav Petkov <bp@alien8.de>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Linus Torvalds <torvalds@linux-foundation.org>,
-	Leon Romanovsky <leon@kernel.org>,
-	Geert Uytterhoeven <geert@linux-m68k.org>,
-	Marc Zyngier <maz@kernel.org>, Eric Dumazet <edumazet@google.com>,
-	Hans de Goede <hansg@kernel.org>, Andrew Lunn <andrew@lunn.ch>,
-	Jonathan Cameron <jic23@kernel.org>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Randy Dunlap <rdunlap@infradead.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Theodore Ts'o <tytso@mit.edu>, David Hildenbrand <david@kernel.org>,
-	Security Officers <security@kernel.org>, workflows@vger.kernel.org,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+	b=Fqg8W2bQnCb4g/G62o/AAh71qlxsZk3hvzMJWrzH6Tz1IxUcIPT3pZi6xTJ4xnU7v
+	 t4ofOgK9rNlSsHucac2mdAStP3LAQ4pPIuWj4sBQeykTRUGohwnZuztsEBNhAr14YA
+	 0ly83HMdX93YXXqQ/76mcFlPH/7KJIGHbMP/C60T8r49tvjtH1/fEsZkke8UOZkA2B
+	 U1jfAEaR7mZZgM6RyuyejDQnI6YodUcvV8XVk27bG0U+vw91JjXu8E0rkwYY04NTOr
+	 E9z5bYPNKVUQdz3hgmV7SjF9MInboZd2socpoClgDHFa2hZNyLVpkpwp53PwOhp6Mm
+	 0SNgiK9PZ0qcA==
+Date: Fri, 27 Nov 2026 14:20:15 +0000
+From: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>
+To: Sasha Levin <sashal@kernel.org>
+Cc: "David Hildenbrand (Arm)" <david@kernel.org>, Willy Tarreau <w@1wt.eu>, 
+	Borislav Petkov <bp@alien8.de>, Krzysztof Kozlowski <krzk@kernel.org>, 
+	Jonathan Corbet <corbet@lwn.net>, Linus Torvalds <torvalds@linux-foundation.org>, 
+	Leon Romanovsky <leon@kernel.org>, Mark Brown <broonie@kernel.org>, 
+	Geert Uytterhoeven <geert@linux-m68k.org>, Marc Zyngier <maz@kernel.org>, 
+	Eric Dumazet <edumazet@google.com>, Hans de Goede <hansg@kernel.org>, Andrew Lunn <andrew@lunn.ch>, 
+	Jonathan Cameron <jic23@kernel.org>, Andrew Morton <akpm@linux-foundation.org>, 
+	Shuah Khan <skhan@linuxfoundation.org>, Randy Dunlap <rdunlap@infradead.org>, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Theodore Ts'o <tytso@mit.edu>, 
+	Security Officers <security@kernel.org>, workflows@vger.kernel.org, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 Subject: Re: [PATCH 1/2] docs: coding-assistants: ask for short changelogs
  and a cover letter
-Message-ID: <1b630619-4388-454b-b295-6ebd0d912a32@sirena.org.uk>
+Message-ID: <awmJ2c87NSDjtSwp@gremlin>
 References: <20261126171926.2766137-1-sashal@kernel.org>
  <20261126171926.2766137-2-sashal@kernel.org>
  <cf3596c6-742e-49c1-a90b-941d300d0b4a@kernel.org>
@@ -71,7 +63,9 @@ References: <20261126171926.2766137-1-sashal@kernel.org>
  <awjopqoCJqwChwnF@laps>
  <awlCy3vDs0fKx1ku@gremlin>
  <awlNYsu1y8EhYgor@1wt.eu>
- <awlOYxw29ANZOA1X@gremlin>
+ <33c6cf3a-6b18-4e09-bd5c-68ed2c34de56@kernel.org>
+ <awlR9pQUjodcLjZK@gremlin>
+ <20261127133756.455469-1-sashal@kernel.org>
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Post: <mailto:workflows@vger.kernel.org>
@@ -81,64 +75,70 @@ List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:workflows+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="QkIg6Wnb62tsl50t"
-Content-Disposition: inline
-In-Reply-To: <awlOYxw29ANZOA1X@gremlin>
-X-Cookie: Sank heaven for leetle curls.
-
-
---QkIg6Wnb62tsl50t
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20261127133756.455469-1-sashal@kernel.org>
 
-On Fri, Nov 27, 2026 at 09:38:43AM +0000, Lorenzo Stoakes (ARM) wrote:
+On Fri, Nov 27, 2026 at 08:37:56AM -0500, Sasha Levin wrote:
+> On Fri, Nov 27, 2026 at 09:54:07AM +0000, Lorenzo Stoakes (ARM) wrote:
+> >On Fri, Nov 27, 2026 at 10:44:56AM +0100, David Hildenbrand (Arm) wrote:
+> >> So as usual: in the right hand it is very useful, In the wrong hands it's not.
+>
+> Very much the case. But we can't stop the "wrong hands" from using it, so we
+> need guardrails around them that make it produce what we, as a community, think
+> is the right thing.
 
-> > time but when properly explained over long sessions they can get amazingly
-> > better. The other word was *most* of our humans authors. The Linux kernel
+These aren't guardrails, you are just trying to modify the output of
+something that's broken here IMO.
 
-> Completely disagree based on fairly extensive review experience. Commit messages
-> from humans are orders-of-magnitude better, it's not even close.
+>
+> >I've dropped a bunch of reviewerships because if this keeps going, I'm going to
+> >burnout completely.
+> >
+> >And to me the TL;DR is 'this bad thing you are dealing with on a daily basis -
+> >is not bad, it's good, and we should have more of it, but only if you hold it
+> >right'.
+>
+> I think we're actually agreeing here: LLMs write crappy commit messages today.
+> My point was that they have the capability to do this really well (the "and" in
+> that line should have been "than"), we're just not getting that out of them
+> right now. These things just helped prove the Riemann hypothesis, I have a hard
+> time believing that a good kernel commit message is where they hit their limit.
 
-IME it depends a bit on the complexity of the change and the area, for
-simpler stuff I'm seeing some obviously LLM generated changelogs that
-are at least as good as some of the worse human written ones.  For
-complicated or core stuff where you really need the changelog that never
-happens but for things more in the "get audio working on my laptop"
-realm it's plausible that you'd get something useful.  For those simpler
-areas the tradeoff with the submitter fully understanding their change
-is a bit different to that with core code.
+Allegedly proven [ as I gather the Stoakes-Navier proof was not in fact that ]
+:) and as I recall that proof is a GiB of text ;) so y'know, kinda going the
+other way... :P
 
-> They can get better, yes, but in my experience consistently remain
-> appalling. Perhaps excluding rather mechanical changes.
+But I have yet to see an LLM capable of being able to write a good commit
+message, even when effort is expended to help...
 
-Yes, I think it depends a lot on the scope and nature of the change.
+And people aren't going to be using the latest model with unlimited
+resources to do this, they'll use whatever-they-have.
 
-> Of course I am happy to be proven wrong in future, but for a policy going
-> forwards, that policy should reflect reality.
+>
+> And it's not just you or me. That's exactly why the cover letter quotes a whole
+> list of maintainers: pretty much everyone is hitting this. The series is there
+> to push back on what you're dealing with, not to ask for more of it.
 
-> And I think you missed a key point I made - that this is _crucial_ stuff as it
-> is the commit message(s) that give you an overview for review.
+It's based on a presumption that the instruction will make things any better.
 
-> This stuff alone contributes to maintainer burnout. Let's try and take action
-> that pushes back on that.
+If anything, I've found that an LLM attempting a more succinct output often
+simply outputs the same trash with missing steps, making our lives even
+harder.
 
-TBH I think the issue you're seeing here is the changes themselves and
-the changelogs are a symptom, it's difficult.
+I think a placeholder works better, personally.
 
---QkIg6Wnb62tsl50t
-Content-Type: application/pgp-signature; name="signature.asc"
+But I don't think this, as-is, is really going to help anything.
 
------BEGIN PGP SIGNATURE-----
++10. Write the cover letter described in "Cover letter" above from what the
++    previous steps produced. This part is not optional, not even for a single
++    patch or a one-line fix.
 
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmsJj44ACgkQJNaLcl1U
-h9A/bgf/fKxFVoV2/IwAKCfwO/svENH0HaiOIGj6bPmpXkrs59CNqFArsvwBwM4u
-Ao7sRb2qN+RC1LNNPEcI0NeVALPy2DtLxzy30BepVp5qW31i09ymUCdAiFjdDDHp
-H5UDBIpgcTXecFj+gLk3vF+KR4cPVSDfncH6NctrNbK88SXmNc8JdFO77FDESdf+
-hDbWOaQfjuyTf6dlywcIV7gbmeTBv1ss+Af8j2UyXgdDLoycNOsQ+sOEydAUBywx
-Lq7XO/bDXuGWpnu8Onj9NauWJAkvTjzaqKcZn4YuzG9E7kGJn18hveGMvJXK8vds
-7JqQWmOBshyuzXjVa4D2/TsEo3tu2A==
-=1e4i
------END PGP SIGNATURE-----
+BTW this seems to be instructing LLMs to generate cover letters for single
+patches which I don't personally love to see.
 
---QkIg6Wnb62tsl50t--
+And it therefore gives the LLM double the chance to post awful word
+salad. So I'd prefer not to have that clause ideally.
+
+--
+Cheers, Lorenzo
