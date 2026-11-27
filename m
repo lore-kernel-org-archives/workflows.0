@@ -1,88 +1,47 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.208.47
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795724184;
-	b=sqloglg+qYIvYrLfR1X/W/ja6Kv5NiHBfqfVSGvyr+h8185h7YC+ZFRO5m9Fi8AuszdI
-	 l2d3ZeeBNW4ocpJPo/nw2LgWg7Hh9nyzW/5RZ6W5Br/prYxy6R4q0NReg37Qr6eJcsYQU
-	 /zKGgVIgH1LCp1mRiczbEfnpcud0Z4kM2O5DJF11cHzexlPpQVYwJjzWa6xLaQ7BG0s/c
-	 TXn98eNK+qVyogvkG2l1QLTZTEcHT12eZ/tIyixu6hGzzPvZdp184zRTGLIiI6DtMbiG2
-	 O9SZ1YdQd0GnGz2hjKTgwKB1KmreLSa++zXSLbTg9ryzR96EZOJNHfKDRqbIeDFIg/w==
+	t=1795743275;
+	b=OO8USXwdZz5mo0mkinjHOaWPVJZ9YNMsdXhgk5f9/Vwu4gkxDpvbq1AYkl5cMHzjxC6l
+	 jZG9YjvMKVj2FW+8c9k+WUY7wEtgdzjOJefXuHn48LfYdHPrzDGNDa2TgYzJF0aeUw8x4
+	 lIJHL+aOETFVMMTdR1HeWvgcYAPY5x5+J6P4AI1w+8LxyCAtQpP3qmH3RtY8reQx94yAP
+	 fhkR5Pwsoip3OpdjUeI35HEVZOEVEjnwqRx2O5xK5gx+wt81YgaMY35+hoScre+Yu/qGK
+	 eAryk24AD6RTUi2EWx6dkWLIyBwzFLBu70rcHFlgI45XBJU+WsrjCabk7ZpgtI69P5w==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795724184;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 Message-ID:Date:MIME-Version:User-Agent:Subject:To:Cc:References:
-	 Content-Language:From:Autocrypt:In-Reply-To:Content-Type:
-	 Content-Transfer-Encoding;
-	bh=/wsJRCHe7FIbszYgCTAc12a0vo/sbNBxQyzD5jQDveI=;
-	b=Xrxoah8hGPPddiEz89kCzXELMgDES3V7ycuXfk5PqgqvTL6cYsZw/XcpJYFAP5zotQJd
-	 goq/qFwdXiFUTEg+mZZQU6zcKdbRkmtnLQPD41aVG3jgV+ZV+ymCdY1Ri6ESjAsReIxjT
-	 eaIZwXIl+t78eUVJEXk08kL2W8XX8fjjXOWnS4FgSwqmXei/BS4YI1qpcaxXjhJXzQs+K
-	 hq78sZd99sURYb/YRC3aTf68zB1Ys4CGj6roXwOyBbeAaUmYdvazzQ6QYpniqGWpyBwlR
-	 v7B8+65gR44QW9Di3c+hEI3rl4zN0mgcueFRgMA5hVrpNT93vK3nRWs54xoVKVk+RPw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795743275;
+	h=Received:DKIM-Signature:Message-ID:Date:MIME-Version:User-Agent:
+	 Subject:To:Cc:References:From:Content-Language:Autocrypt:In-Reply-To:
+	 Content-Type:Content-Transfer-Encoding;
+	bh=3IhNLLqkV+73vjMEib8YQujCA7t2AxAqWwnAELMjvVM=;
+	b=fwuH1HEHNdz7/3e6g+aDEjH+kOFhXX5w8JZ+UDhs9ot/bNUciSRzJPa2h+33PT7TlA5W
+	 6MgQ/TQ5D2k5O5oveUKwgOPAs18L94cKV6KdUd5gBbLND30TuMVbtpDdK2ZxqJXntu7TL
+	 hX5de4ZCKknLDUbuiaq891DOkBqI6vlPHPon8DTV4Bfy1AVsljVppr8aBjN5E0ZuZqWNf
+	 aZlQyKdVAHJ45n9mTMOVIsNP4QUFfiuKsjwA7k/fIaSvf9qUawl1SrRdQ52uc/zCxgq4h
+	 yr4mdrIJEWJnfEOJ7lHe3DwCNv8eG+B2bK9//9efcX2hXxz4J+vRlCOiE2XQIP/K+tA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=suse.com;
-	spf=pass smtp.mailfrom=suse.com;
-	dkim=pass header.d=suse.com header.i=@suse.com header.a=rsa-sha256 header.s=google header.b=f5MARyQo;
-	arc=none smtp.remote-ip=209.85.208.47
-Received: from mail-ed1-f47.google.com (mail-ed1-f47.google.com [209.85.208.47])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=EEQ2v0EZ;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BC44A606A323
-	for <workflows@vger.kernel.org>; Thu, 26 Nov 2026 20:16:23 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org BC44A606A323
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 817AE606A31C;
+	Fri, 27 Nov 2026 01:34:35 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.a=rsa-sha256 header.s=google header.b=f5MARyQo
-Received: by mail-ed1-f47.google.com with SMTP id 4fb4d7f45d1cf-6b88bc47e23so9538770a12.2
-        for <workflows@vger.kernel.org>; Thu, 26 Nov 2026 12:16:23 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=suse.com; s=google; t=1795724182; x=1796328982; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:in-reply-to:autocrypt:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=/wsJRCHe7FIbszYgCTAc12a0vo/sbNBxQyzD5jQDveI=;
-        b=f5MARyQoy1BOcLepTCdlHPmbpyAtCtsGoVxFFkLBpDfFe0OysxlGSyezXwPXeGvuW/
-         uZpHCm5gtXgYObEcaMBkQQqQJ24vWi06V9WlIlVXJPGx/uwrMT7O9Kdfp4HxVk3HTHhW
-         k7EH82Qbz+3KEcUQI7PM4j7glFCEmYsF4tSqnq/KsflblIe6Z3/ZSOywIZ0KZ3UAbWP6
-         Ry6/AP0H5oiHzrMCp6QUE9cmZfn6iJPGFjg6wB0iRnxzcfFSZOHgRGGwdN9za6YXbix6
-         /eulKiWDwhMKsQ63ruvrjNvV9EYplo6NPLSx2TVic/TvAQJ3QRJzzFdv6+HmpPRXUuqj
-         WAzQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1795724182; x=1796328982;
-        h=content-transfer-encoding:content-type:in-reply-to:autocrypt:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=/wsJRCHe7FIbszYgCTAc12a0vo/sbNBxQyzD5jQDveI=;
-        b=SXpLy1h0gHWwfDblse1vTfSIkaoflxsyleZRQ4Dz+uDczR9XACINR/IY6XeKojpp3c
-         oLbyuLNeS5tHK92AgiaWn9uyoHL6D+koGY2BPlNJbpfMdDGVoxXftfwaUgupFAYf2AkU
-         UIgIKxI/iBU1Cw1wpAvcIJxCgFVb1K0vqgnptDyKz0+V89EzOOcNEe/liyXvu9g67+Ce
-         65FBZEEAEd301Xy7UGZpHXepdgvH6lhoZRfy5Dw2+ytpbAT+GYZqJ8KBHHJKRz/ZF9lf
-         f6BvH/et3elo4qBCTvC4sXC1PeS74cSDwd07Ra28DjTUTEa7CiRAwBFD2YpwBEgd3tip
-         eQKw==
-X-Forwarded-Encrypted: i=1; AL+hErGAo9EtPK/xvtN/AbgTgv3v560Xe3tiT69D8++TJgaYWLOIa3w09ND5xn/HFT8/hfqTqi7Tbk1UrFo=@vger.kernel.org
-X-Gm-Message-State: APuU4Z8QdrLNKIfw7hJO4ItUxJQzvisYcRcX62VEb8dxKKEUv4oZ6D3T
-	SubDnkfaBFAOS2L9FRjo8xfCC/7L7SqrzklH485ygq7v9QUDVrxi22pl3SshOyjp2XQ=
-X-Gm-Gg: AZFdTZfB+dYqacB/YS9uy6RBfuKlkRoU0+126W0nHi+OveKpdIu2aEeEwgczwKKvg5c
-	XKt2O6rjCgaTSUx9AfMLb15gauRsKDYEJ04Fcr6haUfgAZClqvItBPD2UwztyDbFEq/kqdBDRKt
-	U9GfbSzxvO8F+kxsUo/DXXtd3V9+7kExsJbj3lCOVo9s51x4hMVEzdyJGCGP7KSjv7RoDZPwIA7
-	1oytQdmKmajbUWCzaPRHTBUgdiMKUKfviKhxAChhLNMEUzpGaq8nZVliWDgkDgWEWbiUiakhlHf
-	wIViqoXTiiYlY9omzA6zr7ENrIn0aUpk/Fl0AY8ufIWUxwQd11lMUaIXP3Irwpxg2CU0DNRyyFd
-	zjOFkYzT/cX/cM/XlTpojiYYuU49al1oqKepan7N2g7o6hwVPtQ9uMElw6ORp89X+3Zmlmmzxl3
-	wu0WsvnMpRxAc0M4oqvaGOu8c8Coc0bM1WYLR1MVCEfDT4hK7meAYiBLWfd2s1rHEEip2vhbaa9
-	xwa0Du6qqweef0bsD9FTr2m6OViR75UzdmLAlsHVxB5wF9PaqRxik5Q24Ay++VVonmMlsRdbetB
-	9TnYqKEA6U/nBnM2BKhmsXyW1Riw+Z7x6jY9ni/6V9g=
-X-Received: by 2002:a05:6402:234d:b0:6bb:3374:42c1 with SMTP id 4fb4d7f45d1cf-6bb337448c8mr4124485a12.19.1795724182084;
-        Thu, 26 Nov 2026 12:16:22 -0800 (PST)
-Received: from [172.16.0.229] ([159.196.52.54])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3b495035339sm21329479a91.0.2026.11.26.12.16.18
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 26 Nov 2026 12:16:20 -0800 (PST)
-Message-ID: <63b8fbe7-2e01-454e-82c5-dfa5883be88e@suse.com>
-Date: Fri, 27 Nov 2026 06:46:14 +1030
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=EEQ2v0EZ
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 891AE1F000C1;
+	Fri, 27 Nov 2026 01:34:29 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1795743275;
+	bh=3IhNLLqkV+73vjMEib8YQujCA7t2AxAqWwnAELMjvVM=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To;
+	b=EEQ2v0EZog/sesY3SJAX+bM/HjpuLmXhufUH48QS0HnuEdAJUsQVrjp5CF48clkrz
+	 K5zIqKgvmWIrcFC8b5M7Iko3wNQmyUDPdPq624n8fB6NL6F86UN6WkkZ1Tqh9W8rQM
+	 ru1haA0OVxD44ZAnX0unGhYYICNpoZChiKoDZ2UWKA9BYJGfsCSTEyaVf0pqROXSwh
+	 +BdDs9nzPA0gvZbn6SdwiauPUZ7bxA7j2Jxt2vV2s05N9HCtsgiHBF6F2yiq4jOlZM
+	 ptWofBPm9nyeH5VFIiUxF8xAcF7XaUYBAPQt3g21UdP2NKfZ3VIuILaRUApyQgmFYl
+	 f8w4APxmPHaNA==
+Message-ID: <cf3596c6-742e-49c1-a90b-941d300d0b4a@kernel.org>
+Date: Fri, 27 Nov 2026 02:34:26 +0100
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Post: <mailto:workflows@vger.kernel.org>
@@ -93,75 +52,86 @@ List-Owner: <mailto:workflows+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] btrfs: add a maintainer entry profile
-To: dsterba@suse.cz
-Cc: linux-btrfs@vger.kernel.org, workflows@vger.kernel.org,
- linux-doc@vger.kernel.org
-References: <0037554862c0d9dce3ddafd1238347e4b16a5079.1795581896.git.wqu@suse.com>
- <20261126155105.GD3245297@twin.jikos.cz>
+Subject: Re: [PATCH 1/2] docs: coding-assistants: ask for short changelogs and
+ a cover letter
+To: Sasha Levin <sashal@kernel.org>, Jonathan Corbet <corbet@lwn.net>
+Cc: Linus Torvalds <torvalds@linux-foundation.org>, Willy Tarreau <w@1wt.eu>,
+ Leon Romanovsky <leon@kernel.org>, Mark Brown <broonie@kernel.org>,
+ Geert Uytterhoeven <geert@linux-m68k.org>, Borislav Petkov <bp@alien8.de>,
+ Marc Zyngier <maz@kernel.org>, Eric Dumazet <edumazet@google.com>,
+ Hans de Goede <hansg@kernel.org>, Andrew Lunn <andrew@lunn.ch>,
+ Jonathan Cameron <jic23@kernel.org>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ Shuah Khan <skhan@linuxfoundation.org>, Randy Dunlap
+ <rdunlap@infradead.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Theodore Ts'o <tytso@mit.edu>, David Hildenbrand <david@kernel.org>,
+ Security Officers <security@kernel.org>, workflows@vger.kernel.org,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20261126171926.2766137-1-sashal@kernel.org>
+ <20261126171926.2766137-2-sashal@kernel.org>
+From: Krzysztof Kozlowski <krzk@kernel.org>
 Content-Language: en-US
-From: Qu Wenruo <wqu@suse.com>
-Autocrypt: addr=wqu@suse.com; keydata=
- xsBNBFnVga8BCACyhFP3ExcTIuB73jDIBA/vSoYcTyysFQzPvez64TUSCv1SgXEByR7fju3o
- 8RfaWuHCnkkea5luuTZMqfgTXrun2dqNVYDNOV6RIVrc4YuG20yhC1epnV55fJCThqij0MRL
- 1NxPKXIlEdHvN0Kov3CtWA+R1iNN0RCeVun7rmOrrjBK573aWC5sgP7YsBOLK79H3tmUtz6b
- 9Imuj0ZyEsa76Xg9PX9Hn2myKj1hfWGS+5og9Va4hrwQC8ipjXik6NKR5GDV+hOZkktU81G5
- gkQtGB9jOAYRs86QG/b7PtIlbd3+pppT0gaS+wvwMs8cuNG+Pu6KO1oC4jgdseFLu7NpABEB
- AAHNGFF1IFdlbnJ1byA8d3F1QHN1c2UuY29tPsLAlAQTAQgAPgIbAwULCQgHAgYVCAkKCwIE
- FgIDAQIeAQIXgBYhBC3fcuWlpVuonapC4cI9kfOhJf6oBQJq3ujyBQkUpLw5AAoJEMI9kfOh
- Jf6o8OIH/0mqW+TQM4m2x3hCsnK+oB4yJH1qnGvIhFF/Lhs48wI02sGh6/4aA0hkCDfd9LHQ
- +ci4FUepZ9y4VS01+oIExbg/8ytzGYTzLtb44jK2GBOBVSJkMiha6jp22XFt7WUkT/tvbreu
- WWdGsaJIRQaZChy7xsMI8lqQ2WdmluZJ4LT0wD3l/l6QU1ZseMGySebdY9sVOQEOJNV7Qj92
- /KOAFNmeZshV/qDI8Iw1RTs6TvLqCcqmlZLCmJkYSVhT1RonWRren8xIRcFEgMe004IDnt7V
- qdQhk/nhTS9x9MBAhMRl0TTE1VKDLvVALsud3iZLrmmtYvwPApzGJk052f0m28vOwE0EWdWB
- rwEIAKpT62HgSzL9zwGe+WIUCMB+nOEjXAfvoUPUwk+YCEDcOdfkkM5FyBoJs8TCEuPXGXBO
- Cl5P5B8OYYnkHkGWutAVlUTV8KESOIm/KJIA7jJA+Ss9VhMjtePfgWexw+P8itFRSRrrwyUf
- E+0WcAevblUi45LjWWZgpg3A80tHP0iToOZ5MbdYk7YFBE29cDSleskfV80ZKxFv6koQocq0
- vXzTfHvXNDELAuH7Ms/WJcdUzmPyBf3Oq6mKBBH8J6XZc9LjjNZwNbyvsHSrV5bgmu/THX2n
- g/3be+iqf6OggCiy3I1NSMJ5KtR0q2H2Nx2Vqb1fYPOID8McMV9Ll6rh8S8AEQEAAcLAfAQY
- AQgAJgIbDBYhBC3fcuWlpVuonapC4cI9kfOhJf6oBQJq3ukKBQkUzDspAAoJEMI9kfOhJf6o
- SNsH/1ysUWOKmzY0rGS3ZdS61QgqMGhSWD/EJ4UiPw+xO4l4+GtX0fOAqxqsmBKqje3vyhBa
- Z5o/1Y+gNiN+E6RBcSz4b1TAd78sQ2bvT5DWOvBjeeVxHdiuQMIn4S8xk5ZpySBw5ifjoiuL
- 0M33UVtJOzM8yfAeL+d/Rp4leJw72SutjkLyZTG/gJIp4pJGD/kFHn24OLL0IxEcO0gOekNZ
- os5e1R6jAJ2ILk7+MDnvU8wXHcCiVzuDhJLI1tih1uUIE50muHQJWbYuVBbdJeu8WlIDDssx
- UOCxLylNG3gDXV5MhLubPTOpp9OiFc/XC37nvkgEcrlmlOFBv4/NJCbECpo=
-In-Reply-To: <20261126155105.GD3245297@twin.jikos.cz>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Autocrypt: addr=krzk@kernel.org; keydata=
+ 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
+In-Reply-To: <20261126171926.2766137-2-sashal@kernel.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
+On 26/11/2026 18:19, Sasha Levin wrote:
+> Commit messages written by AI coding assistants are too long.
+> Maintainers keep asking for them to be cut down [1][2][3][4]: they read
+> like a copy of the assistant's analysis and bury what a reader needs.
+> When an assistant does trim, the opposite problem shows. A few lines of
+> a backtrace do not tell a reviewer how the failure was produced, and
+> Leon Romanovsky showed a case where only the full log revealed that the
+> crash came from an out-of-tree module written to provoke it [5]. Willy
+> Tarreau suggested a short quote in the changelog plus the full log
+> attached [6].
 
+Shall we rather ask them not to write commit msgs at all? By writing
+commit msg we encourage - or try to encourage - at least basic
+understanding of what the patch does.
 
-在 2026/11/27 02:21, David Sterba 写道:
-> On Wed, Nov 25, 2026 at 03:16:21PM +1030, Qu Wenruo wrote:
->> This new file is mostly based on my personal preferences, focusing on
->> how to improve the human readability in the LLM era.
->>
->> The new file should also act as a guide for humans that want to be a
->> long term contributor to btrfs.
-> 
-> I understandthe motivation but I'm not sure this is the right way. I've
-> avoided adding the maintainer profile and rather created and updated the
-> pages in the web documentation,
-> https://btrfs.readthedocs.io/en/latest/dev/Developer-s-FAQ.html . It's
-> burried so we can make it more visible, but the visibility problem
-> applies to the maintainer profile too. The ones who know it exists and
-> where to find it are rare. IME it always ends up replying to mails with
-> the link.
-
-It looks like LLM will follow the existing AGENT.md and reach this 
-maintainer's profile.
-
-> 
-> I'd rather keep full contribution documentation on the RTD site, this is
-> more flexible to update. As a compromise we can add the maintainer
-> profile and add link to the page. We can eventually mention some key
-> differences from other subsystems to the maintainer file too, but as
-> Leon also noted there's an overlap and lots of General information.
-
-I can try to push the general ones, but so far I'd say the upstream RTD 
-doc is not followed by LLM/human either.
-
-So at least the profile looks one step better than the existing RTD.
-
-Thanks,
-Qu
+Best regards,
+Krzysztof
