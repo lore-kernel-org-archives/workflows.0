@@ -1,67 +1,76 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=51.159.59.229
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795771124;
-	b=foxxxs9p1NSFNbX99BKA25Rzm/78tZv97ULOApLxuoxVNhkbKitEXe5BgV41ZloasKWh
-	 XVy5AYJwS7CkseaMW8sJlAZ2mG1g0y48Jyy4Zrn1Y5t+iT1i7jxk4BtQOLZE+uQ3N4syz
-	 xGAJM2IrVooPwfIZoZJN4mzekCwP9zVtpfGyET9PDM8KcMB3eKuxE6PBWtnAN7o4eJcNX
-	 +DPVDgr0Hepxxg3zDyfjH7HBTJDoc8tmRe7pkywhd0P0GwuoChP8WubtgBpSt0QLad1hE
-	 XrW5sGgSvN0rP4yxE/OWOKybOo4ylPgmHOlqoR/430vpXkNs+nAzttby2W8Xp5oyllw==
+	t=1795771751;
+	b=FVU1WSd4Ev4bb+jcyIX2R1menAhvHiR9ZUAIt1jwVwUkrUQKE/FPJNee7qcyLGJPH9M2
+	 DbepakUufNd2xRK2Du9OJad/uQTOz2EfFxN5eoG1zy3ZbQJJ3C4J60mWRSYZ5V3lWqTXa
+	 VEpmWw3LJHJO67E8SyTV03AnoxUYhrR7Tsxo2RaaJp/PDa11/3rNBktVlNUIHEkyLlZvO
+	 VJuJk/9XkKXnv5W9NhtUbBqysB4Cx+LqH2YjO4MIKylJ4E31Oh4SwjcBnDQ8YXBIMigft
+	 OcuT2cTOBmpH8HY3F6KPh+wHgLAIJPxfWsSS6d381hYiRmbRMsG0lijBUCavUMGgzSw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795771124;
-	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
-	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
-	bh=H7+c57FNlshPC7M77PISd1JgtW3riD/LnLvSn6ovNIU=;
-	b=E+aR215IIMLDFD9p6jvE9BtUqmU//p4GhVNgWedLt72putV+m9ZzwK1MmxJw/oWbQ0eg
-	 zyTnKbTrvdwC1wZkFwDLNBaqPHRd4zQ5sDpDYroZy0xkjKsSMojGTwZGamOMXkBDAJjkT
-	 0d7UZmvgk83vc9C5sX7yaixH3Ymbz+Jc5DiP8aR35K7hEblat7bM+Y411RpMHZnQWK/Ym
-	 k9NhQTHBjdZM7HVQhkkrQxKKFS8gBw8iwCXp0hQ14e35c1NKCqmsXrLYbGjVD3R3DfYc3
-	 jM5r0LY0gbbCKc1NuVFvXHnUtVcxQhfper2zgXLUxLtC/nzxlOVMEftU/7vNaFTP62Q==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795771751;
+	h=DMARC-Filter:DKIM-Signature:Received:Date:From:To:Cc:Subject:
+	 Message-ID:References:MIME-Version:Content-Type:Content-Disposition:
+	 In-Reply-To;
+	bh=OX368Eg4KtV1PPGO1H9XOYA5FgVsuvC3JtGRi1RdJBU=;
+	b=XwtA5ljFNY+/nRiHlsmppa+twUvir6a4tPZlCMMBVNWeVNhttq1ZKyfaEPL0dWo9QU5h
+	 1PjOb/VDDT4QdlUkp+qRAdpm2o0vgPfiHYSD6qgxldslHjHi1nUIJw9GLn6VzAAB8laVD
+	 22wEGDlKfcGD/NnJElcRY5u3nPkU4ZX9UOVKJQF4lgAOmw2Cr613YXTkcZtKhRs5zjbHq
+	 l8PTJ6oFIEJdKqAHwxI8zAQ0jGxcUHmdRvibDnsNXEASHqwi6e/MPdPz6SrJFC1i6hUfi
+	 lAtG990tjp0ivCpmN6KdvF4jDCgBSByFVX1tpUxqF2ToyBx0sUeN+hZsEAfzsIxj+/Q==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=IWilQmVv;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	dmarc=pass header.from=1wt.eu;
+	spf=pass smtp.mailfrom=1wt.eu;
+	dkim=pass header.d=1wt.eu header.i=@1wt.eu header.a=rsa-sha256 header.s=mail header.b=Z00DYon0;
+	arc=none smtp.remote-ip=51.159.59.229
+Received: from mta1.formilux.org (mta1.formilux.org [51.159.59.229])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 04B21606A31C;
-	Fri, 27 Nov 2026 09:18:43 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 78F6F606A31C;
+	Fri, 27 Nov 2026 09:29:10 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 78F6F606A31C
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=1wt.eu
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=1wt.eu
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=IWilQmVv
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9F3131F000C1;
-	Fri, 27 Nov 2026 09:18:37 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795771123;
-	bh=H7+c57FNlshPC7M77PISd1JgtW3riD/LnLvSn6ovNIU=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=IWilQmVvqBE2WiQRJJ+6FRjyQqclbJdEBBq6WItyfZjBG/Q3hHFn8JDzbs3C3+kT8
-	 wPKnHBgoajRTQCvGKgM2KBj5sCipB5lOK5cwPgMrle+zDSqtqwcdTZgPAYpIp2ulXo
-	 vOzb369NyKNIEQi1O5eIF2yeGgW+MVZXyjK/qSg/xf6QC7UCxaDeTvAdvWzH7hbCbb
-	 uLFN4uM9eDNlUGQ1MNjIQEzWqDMoDwjtFiFNYU0a09uxKWGpA6SceRoVIU+1JBAE/l
-	 8Lintp2Z+cKjQcyqXL6dSdfTLs9FszVbdSjgI73jeSfRTb3wkcrjtEPea3H2JfFeAR
-	 Znzu20tTSEKmg==
-Date: Fri, 27 Nov 2026 09:18:34 +0000
-From: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>
-To: Sasha Levin <sashal@kernel.org>
-Cc: Borislav Petkov <bp@alien8.de>, Krzysztof Kozlowski <krzk@kernel.org>, 
-	Jonathan Corbet <corbet@lwn.net>, Linus Torvalds <torvalds@linux-foundation.org>, 
-	Willy Tarreau <w@1wt.eu>, Leon Romanovsky <leon@kernel.org>, 
-	Mark Brown <broonie@kernel.org>, Geert Uytterhoeven <geert@linux-m68k.org>, 
-	Marc Zyngier <maz@kernel.org>, Eric Dumazet <edumazet@google.com>, 
-	Hans de Goede <hansg@kernel.org>, Andrew Lunn <andrew@lunn.ch>, 
-	Jonathan Cameron <jic23@kernel.org>, Andrew Morton <akpm@linux-foundation.org>, 
-	Shuah Khan <skhan@linuxfoundation.org>, Randy Dunlap <rdunlap@infradead.org>, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Theodore Ts'o <tytso@mit.edu>, 
-	David Hildenbrand <david@kernel.org>, Security Officers <security@kernel.org>, 
-	workflows@vger.kernel.org, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+	dkim=pass (1024-bit key, unprotected) header.d=1wt.eu header.i=@1wt.eu header.a=rsa-sha256 header.s=mail header.b=Z00DYon0
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=1wt.eu; s=mail;
+	t=1795771747; bh=OX368Eg4KtV1PPGO1H9XOYA5FgVsuvC3JtGRi1RdJBU=;
+	h=From:Message-ID:From;
+	b=Z00DYon0yhZcBFMUXmH1Uxo7qKMaMJCL6ZNXSF7cZ2638N/Bl5Pt6kP3ExZyCI/vz
+	 jMP3oakvif2netB9N/9II7zXnWMB7sSkKXHHo5cn2wz9iOL4MupjTUGpNWz6jOdIAA
+	 +aqGNDYL3Y2RFYZrh2ZleSoOCxQ3ZHpg4THgaebU=
+Received: from 1wt.eu (ded1.1wt.eu [163.172.96.212])
+	by mta1.formilux.org (Postfix) with ESMTP id 380B3C0716;
+	Fri, 27 Nov 2026 10:29:07 +0100 (CET)
+Date: Fri, 27 Nov 2026 10:29:06 +0100
+From: Willy Tarreau <w@1wt.eu>
+To: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>
+Cc: Sasha Levin <sashal@kernel.org>, Borislav Petkov <bp@alien8.de>,
+        Krzysztof Kozlowski <krzk@kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        Leon Romanovsky <leon@kernel.org>, Mark Brown <broonie@kernel.org>,
+        Geert Uytterhoeven <geert@linux-m68k.org>,
+        Marc Zyngier <maz@kernel.org>, Eric Dumazet <edumazet@google.com>,
+        Hans de Goede <hansg@kernel.org>, Andrew Lunn <andrew@lunn.ch>,
+        Jonathan Cameron <jic23@kernel.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Shuah Khan <skhan@linuxfoundation.org>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        "Theodore Ts'o" <tytso@mit.edu>, David Hildenbrand <david@kernel.org>,
+        Security Officers <security@kernel.org>, workflows@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 Subject: Re: [PATCH 1/2] docs: coding-assistants: ask for short changelogs
  and a cover letter
-Message-ID: <awlCy3vDs0fKx1ku@gremlin>
+Message-ID: <awlNYsu1y8EhYgor@1wt.eu>
 References: <20261126171926.2766137-1-sashal@kernel.org>
  <20261126171926.2766137-2-sashal@kernel.org>
  <cf3596c6-742e-49c1-a90b-941d300d0b4a@kernel.org>
  <20261127014955.GBawjhw2j2YEUeiG1G@fat_crate.local>
  <awjopqoCJqwChwnF@laps>
+ <awlCy3vDs0fKx1ku@gremlin>
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Post: <mailto:workflows@vger.kernel.org>
@@ -73,54 +82,37 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <awjopqoCJqwChwnF@laps>
+In-Reply-To: <awlCy3vDs0fKx1ku@gremlin>
 
-+cc Laurent who is probably interested in this and AI policy stuff in general.
+On Fri, Nov 27, 2026 at 09:18:34AM +0000, Lorenzo Stoakes (ARM) wrote:
+> +cc Laurent who is probably interested in this and AI policy stuff in general.
+> 
+> On Thu, Nov 26, 2026 at 09:19:18PM -0500, Sasha Levin wrote:
+> > 2. I'd argue that LLMs these days have the capability to write better
+> > changelogs and most of our human authors. We just need to be better about
+> > laying out our expectations of them.
+> 
+> Strongly disagree with this, it doesn't match what I see in practice at all.
+> 
+> I'd say that >50% of my review work is of AI-generated patches now, and the
+> commit messages and comments are consistently appalling + seriously painful to
+> deal with.
 
-On Thu, Nov 26, 2026 at 09:19:18PM -0500, Sasha Levin wrote:
-> 2. I'd argue that LLMs these days have the capability to write better
-> changelogs and most of our human authors. We just need to be better about
-> laying out our expectations of them.
+Note that every word in Sasha's message counts. *capability* doesn't mean
+that it is commonly exploited. Commit messages are horrible most of the
+time but when properly explained over long sessions they can get amazingly
+better. The other word was *most* of our humans authors. The Linux kernel
+community isn't the largest set of commit message authors and is already
+doing very good at this. Look at many other projects to see absolute
+horrors like "update" or "rebase" for the most verbose ones, when it's
+not just "-".
 
-Strongly disagree with this, it doesn't match what I see in practice at all.
+Whenever I was given commit messages by an LLM, I had to reword them,
+but some were very close to what I could have written. And I must admit
+that a few times when I only reworded a part of the message first and
+came back to it later, I was no longer very sure where I stopped. *This*
+is a good indication that they can get better than what you usually face
+(or that mine are terrible as well, in which case we're back to first
+point and I'm part of "most").
 
-I'd say that >50% of my review work is of AI-generated patches now, and the
-commit messages and comments are consistently appalling + seriously painful to
-deal with.
-
-It feels like something they are fundamentally bad at.
-
-And it _really_ matters, because this stuff is how you get an overview of a
-patch/series as a reviewer.
-
-In general the common failure modes I see are:
-
-* Restating the code in English rather than explaining why.
-
-* Assuming the reader can hold a deep stack of context in their head, and
-  piling on complexity accordingly.
-
-* Walls of text that can't be understood at a glance.
-
-You might say - tell them to do better - but I've tried that with _frontier_
-models with no improvement, and seen others do the same with equally no headway.
-
-You just end up with more succinct nonsense I've found, unfortunately :)
-
-What we need from people is _understanding_ from a _human_, as I wrote in the
-final few paragraphs of https://docs.kernel.org/process/generated-content.html
-
-Of course sloppers will just ignore all of this, so I'd really back the policy
-for _responsible AI contributors_ being:
-
-	'tell your human a. they must understand everything they submit as per
-	policy, and b. to write the commit message and comments themselves'.
-
-P.S. I see you have cc'd (what I assume are) a list of interested parties/those
-who contributed AI-related documentation, as a member of both of those cohorts,
-could I ask to be included going forwards please? :)
-
-I suspect Laurent might want to be too?
-
---
-Cheers, Lorenzo
+Willy
