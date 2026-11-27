@@ -1,47 +1,89 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=65.109.113.108
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795743275;
-	b=OO8USXwdZz5mo0mkinjHOaWPVJZ9YNMsdXhgk5f9/Vwu4gkxDpvbq1AYkl5cMHzjxC6l
-	 jZG9YjvMKVj2FW+8c9k+WUY7wEtgdzjOJefXuHn48LfYdHPrzDGNDa2TgYzJF0aeUw8x4
-	 lIJHL+aOETFVMMTdR1HeWvgcYAPY5x5+J6P4AI1w+8LxyCAtQpP3qmH3RtY8reQx94yAP
-	 fhkR5Pwsoip3OpdjUeI35HEVZOEVEjnwqRx2O5xK5gx+wt81YgaMY35+hoScre+Yu/qGK
-	 eAryk24AD6RTUi2EWx6dkWLIyBwzFLBu70rcHFlgI45XBJU+WsrjCabk7ZpgtI69P5w==
+	t=1795744228;
+	b=M30pESNsou4njAvDdW4ghXAJUPj8EiqI2/XtbhLHXupmKCWHfesmpDbcKNxkh7T5mkwn
+	 AaF3LuYnYFuhbt/u1YdUS4BTEOedGOI072NsucxnXzdD3PznjTTVwWYtuUDyxrR6zBpcL
+	 vVzwCzcki4nXaQFTRf7zrNsQj+WOt2k9UJuYrOlyYHC01UTxQ37zSnfRVDn7u38qn1pOk
+	 GKbVa2F2CF8uWbtOucd0YEQDfNeaHggcoHl1NloYD8Pu1z0GTeKJSx+IvtHxLfqIDjnP0
+	 YjsNWaNufvlXDr1IWFUR3IV8O8BLkSvBMDZOb7NYY81W86JiA+3ItCY9ip3dQpWAFLw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795743275;
-	h=Received:DKIM-Signature:Message-ID:Date:MIME-Version:User-Agent:
-	 Subject:To:Cc:References:From:Content-Language:Autocrypt:In-Reply-To:
-	 Content-Type:Content-Transfer-Encoding;
-	bh=3IhNLLqkV+73vjMEib8YQujCA7t2AxAqWwnAELMjvVM=;
-	b=fwuH1HEHNdz7/3e6g+aDEjH+kOFhXX5w8JZ+UDhs9ot/bNUciSRzJPa2h+33PT7TlA5W
-	 6MgQ/TQ5D2k5O5oveUKwgOPAs18L94cKV6KdUd5gBbLND30TuMVbtpDdK2ZxqJXntu7TL
-	 hX5de4ZCKknLDUbuiaq891DOkBqI6vlPHPon8DTV4Bfy1AVsljVppr8aBjN5E0ZuZqWNf
-	 aZlQyKdVAHJ45n9mTMOVIsNP4QUFfiuKsjwA7k/fIaSvf9qUawl1SrRdQ52uc/zCxgq4h
-	 yr4mdrIJEWJnfEOJ7lHe3DwCNv8eG+B2bK9//9efcX2hXxz4J+vRlCOiE2XQIP/K+tA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795744228;
+	h=DMARC-Filter:Received:X-Virus-Scanned:Received:DKIM-Signature:
+	 Received:Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To;
+	bh=uUavxelTZRtFV0GBlnXp7zzHRPVbuF2ydfagKIyAC6I=;
+	b=LtGSO9UUwwinF12xqB2Fo2aj6gek7B6r5HvxKVDgHEKrpZN/02io4EXcepee5yn4A94s
+	 Tu6E1C+kedGCq2lGrHPYAEfKypWYoaRTgJSINw9LICCXCjDYr7EoNzFtTSVVi+0YDJHxB
+	 Y9fZF6Wdeop0i/WGso2ZA7jYDzqGyl5qZSBA3YgyqfjX3KwHefTKwLGl7G5C9bNUvzuI3
+	 LalgH08MSRx6m+7HRPFdw/hIuB5yGD0PKgsL7EwqLbKhOL5XYSEFoNthnsV0UsCCpIVC1
+	 QJnxpAeb+pgz/A3qJhA+WLO062xE5uys1f8QWO6+Zjox7qDbs3WBhhLks8YqSqwqiUg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=EEQ2v0EZ;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	dmarc=pass header.from=alien8.de;
+	spf=pass smtp.mailfrom=alien8.de;
+	dkim=pass header.d=alien8.de header.i=@alien8.de header.a=rsa-sha256 header.s=alien8 header.b=X4oontNW;
+	arc=none smtp.remote-ip=65.109.113.108
+Received: from mail.alien8.de (mail.alien8.de [65.109.113.108])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 817AE606A31C;
-	Fri, 27 Nov 2026 01:34:35 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9599F606A31C;
+	Fri, 27 Nov 2026 01:50:27 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 9599F606A31C
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=alien8.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=EEQ2v0EZ
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 891AE1F000C1;
-	Fri, 27 Nov 2026 01:34:29 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795743275;
-	bh=3IhNLLqkV+73vjMEib8YQujCA7t2AxAqWwnAELMjvVM=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To;
-	b=EEQ2v0EZog/sesY3SJAX+bM/HjpuLmXhufUH48QS0HnuEdAJUsQVrjp5CF48clkrz
-	 K5zIqKgvmWIrcFC8b5M7Iko3wNQmyUDPdPq624n8fB6NL6F86UN6WkkZ1Tqh9W8rQM
-	 ru1haA0OVxD44ZAnX0unGhYYICNpoZChiKoDZ2UWKA9BYJGfsCSTEyaVf0pqROXSwh
-	 +BdDs9nzPA0gvZbn6SdwiauPUZ7bxA7j2Jxt2vV2s05N9HCtsgiHBF6F2yiq4jOlZM
-	 ptWofBPm9nyeH5VFIiUxF8xAcF7XaUYBAPQt3g21UdP2NKfZ3VIuILaRUApyQgmFYl
-	 f8w4APxmPHaNA==
-Message-ID: <cf3596c6-742e-49c1-a90b-941d300d0b4a@kernel.org>
-Date: Fri, 27 Nov 2026 02:34:26 +0100
+	dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.a=rsa-sha256 header.s=alien8 header.b=X4oontNW
+Received: from localhost (localhost.localdomain [127.0.0.1])
+	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTP id 21AB640E0219;
+	Fri, 27 Nov 2026 01:50:25 +0000 (UTC)
+X-Virus-Scanned: Debian amavisd-new at mail.alien8.de
+Received: from mail.alien8.de ([127.0.0.1])
+	by localhost (mail.alien8.de [127.0.0.1]) (amavisd-new, port 10026)
+	with ESMTP id F4nSUESuFsq6; Fri, 27 Nov 2026 01:50:22 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=alien8;
+	t=1795744221; bh=uUavxelTZRtFV0GBlnXp7zzHRPVbuF2ydfagKIyAC6I=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=X4oontNWub6DK1ACbhGnPPvfWTxg+N6xqcMDviD75yX9EOkr8tU59KFI4Yhlzk5+L
+	 h2I/Lj3fJmJ206MHZ+KRKFEjB64R3PFTG73Ztt33Wqo+ug4QmVKv6mBc3iCknmJW81
+	 LqmUvJyEb/mvJNs18coEcFjuQS8D+VZO3dXL7TnCgebDHxjPVtF95ascABpPCLf/WU
+	 QeLX4m4xNB1ELRX5X2+9Drhx8Jc9HGwChSOZSrT/rdZHpqSQWeDmBCEVIeMNOUXeGe
+	 ZVOJVMLWd8q5UmJbvoC9CNW7za/kpNgugmHzQ9IY2n5LF8cryNiaF8Cq2R+XalE5eR
+	 3qBpV0IAjbTOGdfeChDe8mtomBDSskLmgTefyyPTOFSeLAebi3gtnQFhDVVZVBDX/Z
+	 +zhSKFRJ2v8+a5JCcmdj1SA+eDCszsH4ZYd7f9LCL9OCy83G6bbzDG6GHgTBJBDC4g
+	 BvlEYq6gbkao+0P3n3k8B+vT49sRO7JHBMvzcQl6kfMoNskNH9ENOZsjCsG1gwfNNy
+	 zKJzaUboJjp9HchAawT05gX45+MkRu4BB6FfAoHQedUMx4EljFfoXV98BGowihRaCZ
+	 KwuUsuo3vORov9p9wTYnHJ5Mpi4/O8T4HwhRP/8KV0iT3KsRRNXyKxfTY273DcAvbI
+	 +Szu+RaH8qccVC0ilMwkNhkM=
+Received: from stx.tnic (unknown [IPv6:2600:1700:38ca:c00::2b])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (P-256) server-signature ECDSA (P-256) server-digest SHA256)
+	(No client certificate requested)
+	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id 2ABD140E00C2;
+	Fri, 27 Nov 2026 01:49:57 +0000 (UTC)
+Date: Thu, 26 Nov 2026 17:49:55 -0800
+From: Borislav Petkov <bp@alien8.de>
+To: Krzysztof Kozlowski <krzk@kernel.org>
+Cc: Sasha Levin <sashal@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+	Linus Torvalds <torvalds@linux-foundation.org>,
+	Willy Tarreau <w@1wt.eu>, Leon Romanovsky <leon@kernel.org>,
+	Mark Brown <broonie@kernel.org>,
+	Geert Uytterhoeven <geert@linux-m68k.org>,
+	Marc Zyngier <maz@kernel.org>, Eric Dumazet <edumazet@google.com>,
+	Hans de Goede <hansg@kernel.org>, Andrew Lunn <andrew@lunn.ch>,
+	Jonathan Cameron <jic23@kernel.org>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Randy Dunlap <rdunlap@infradead.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Theodore Ts'o <tytso@mit.edu>, David Hildenbrand <david@kernel.org>,
+	Security Officers <security@kernel.org>, workflows@vger.kernel.org,
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 1/2] docs: coding-assistants: ask for short changelogs
+ and a cover letter
+Message-ID: <20261127014955.GBawjhw2j2YEUeiG1G@fat_crate.local>
+References: <20261126171926.2766137-1-sashal@kernel.org>
+ <20261126171926.2766137-2-sashal@kernel.org>
+ <cf3596c6-742e-49c1-a90b-941d300d0b4a@kernel.org>
 X-Mailing-List: workflows@vger.kernel.org
 List-Id: <workflows.vger.kernel.org>
 List-Post: <mailto:workflows@vger.kernel.org>
@@ -51,87 +93,56 @@ List-Unsubscribe: <mailto:workflows+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:workflows+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/2] docs: coding-assistants: ask for short changelogs and
- a cover letter
-To: Sasha Levin <sashal@kernel.org>, Jonathan Corbet <corbet@lwn.net>
-Cc: Linus Torvalds <torvalds@linux-foundation.org>, Willy Tarreau <w@1wt.eu>,
- Leon Romanovsky <leon@kernel.org>, Mark Brown <broonie@kernel.org>,
- Geert Uytterhoeven <geert@linux-m68k.org>, Borislav Petkov <bp@alien8.de>,
- Marc Zyngier <maz@kernel.org>, Eric Dumazet <edumazet@google.com>,
- Hans de Goede <hansg@kernel.org>, Andrew Lunn <andrew@lunn.ch>,
- Jonathan Cameron <jic23@kernel.org>,
- Andrew Morton <akpm@linux-foundation.org>,
- Shuah Khan <skhan@linuxfoundation.org>, Randy Dunlap
- <rdunlap@infradead.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Theodore Ts'o <tytso@mit.edu>, David Hildenbrand <david@kernel.org>,
- Security Officers <security@kernel.org>, workflows@vger.kernel.org,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20261126171926.2766137-1-sashal@kernel.org>
- <20261126171926.2766137-2-sashal@kernel.org>
-From: Krzysztof Kozlowski <krzk@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=krzk@kernel.org; keydata=
- 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
-In-Reply-To: <20261126171926.2766137-2-sashal@kernel.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <cf3596c6-742e-49c1-a90b-941d300d0b4a@kernel.org>
 
-On 26/11/2026 18:19, Sasha Levin wrote:
-> Commit messages written by AI coding assistants are too long.
-> Maintainers keep asking for them to be cut down [1][2][3][4]: they read
-> like a copy of the assistant's analysis and bury what a reader needs.
-> When an assistant does trim, the opposite problem shows. A few lines of
-> a backtrace do not tell a reviewer how the failure was produced, and
-> Leon Romanovsky showed a case where only the full log revealed that the
-> crash came from an out-of-tree module written to provoke it [5]. Willy
-> Tarreau suggested a short quote in the changelog plus the full log
-> attached [6].
+On Fri, Nov 27, 2026 at 02:34:26AM +0100, Krzysztof Kozlowski wrote:
+> On 26/11/2026 18:19, Sasha Levin wrote:
+> > Commit messages written by AI coding assistants are too long.
+> > Maintainers keep asking for them to be cut down [1][2][3][4]: they read
+> > like a copy of the assistant's analysis and bury what a reader needs.
+> > When an assistant does trim, the opposite problem shows. A few lines of
+> > a backtrace do not tell a reviewer how the failure was produced, and
+> > Leon Romanovsky showed a case where only the full log revealed that the
+> > crash came from an out-of-tree module written to provoke it [5]. Willy
+> > Tarreau suggested a short quote in the changelog plus the full log
+> > attached [6].
+> 
+> Shall we rather ask them not to write commit msgs at all? By writing
+> commit msg we encourage - or try to encourage - at least basic
+> understanding of what the patch does.
 
-Shall we rather ask them not to write commit msgs at all? By writing
-commit msg we encourage - or try to encourage - at least basic
-understanding of what the patch does.
+Agreed.
 
-Best regards,
-Krzysztof
+Just have the LLM write a commit message and then the human should go
+and whack most of it to the bare minimum of coincisely explaining the thing
+and cull all the bullsh*t.
+
+I constantly do that with submitters' overloaded bla nowadays. And don't even
+get me started on all those explaining what the patch does. There's not small
+amounts of text which basically spells out the code in the diff, in English.
+
+/facepalm.
+
+Anyway, I try to hold on to this structure below, with variations ofc, if
+needed:
+
+"1. Prepare the context for the explanation briefly.
+
+2. Explain the problem at hand.
+
+3. "It happens because of <...>"
+
+4. "Fix it by doing X"
+
+5. "(Potentially do Y)."
+
+And some of those above are optional depending on the issue being
+explained."
+
+-- 
+Regards/Gruss,
+    Boris.
+
+https://people.kernel.org/tglx/notes-about-netiquette
